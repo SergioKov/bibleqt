@@ -641,7 +641,7 @@ span.verse_title {
     word-break: keep-all;
     min-width: 30px;
     /* border-radius: 3px; */
-    cursor: pointer;
+    cursor: pointer !important;
     transition: 0.1s;
     color: white;
     font-size: 17px;
