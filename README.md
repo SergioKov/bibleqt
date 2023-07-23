@@ -1,2 +1,2 @@
 # bibleqt
-bible app
+bible app parecida a BibleQuote de Timofey Ha
