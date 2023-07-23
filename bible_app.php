@@ -7,7 +7,7 @@ header('Content-type: text/html; charset=utf-8');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My BibleQt</title>
+    <title>My Bible Quote</title>
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
     <link rel="stylesheet" href="bible_app.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
@@ -45,7 +45,7 @@ header('Content-type: text/html; charset=utf-8');
                 <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
 
                 <button class="btn f_r" title="Settings" onclick="">Set</button>
-                <h3>Bible App</h3>
+                <h3>My Bible Quote</h3>
             </div>
         </div>
 
