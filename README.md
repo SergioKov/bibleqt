@@ -1,0 +1,2 @@
+# bibleqt
+bible app
