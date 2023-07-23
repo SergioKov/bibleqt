@@ -1,0 +1,955 @@
+{
+    "type": "settings",
+    "BibleName": "(RU) Окрытый Перевод Новго Завета. 2013",
+    "BibleShortName": "OPNZ",
+    "Bible": "Y",
+    "OldTestament": "N",
+    "NewTestament": "Y",
+    "Apocrypha": "N",
+    "StrongNumbers": "N",
+    "StrongFirstLetter": "N",
+    "EnglishPsalms": "N",
+    "Greek": "N",
+    "BookQty": 27,
+    "Notes": "N",
+    "NoteSign": "",
+    "StartNoteSign": "",
+    "EndNoteSign": "",
+    "Titles": "N",
+    "StartTitleSign": "",
+    "EndTitleSign": "",
+    "Translation": "opnz",
+    "HTMLFilter": "Y",
+    "Books":
+        [
+            {
+                "BookNumber": 0,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 1,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 2,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 3,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 4,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 5,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 6,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 7,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 8,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 9,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 10,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 11,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 12,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 13,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 14,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 15,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 16,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 17,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 18,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 19,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 20,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 21,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 22,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 23,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 24,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 25,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 26,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 27,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 28,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 29,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 30,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 31,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 32,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 33,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 34,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 35,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 36,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 37,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 38,
+                "PathName": "no_disponible.htm",
+                "FullName": "No_disponible",
+                "ShortNames": [
+                    "No_disp"
+                ],
+                "ChapterQty": 0
+            },
+            {
+                "BookNumber": 39,
+                "PathName": "40_matthew.htm",
+                "FullName": "Матфея",
+                "ShortNames": [
+                    "Матф.",
+                    "Матф",
+                    "Мтф.",
+                    "Мтф",
+                    "Мф.",
+                    "Мф",
+                    "Мт.",
+                    "Мт",
+                    "Матфея",
+                    "Матфей",
+                    "Мат",
+                    "Мат.",
+                    "Mt.",
+                    "Mt",
+                    "Ma.",
+                    "Ma",
+                    "Matt.",
+                    "Matt",
+                    "Mat.",
+                    "Mat",
+                    "Matthew"
+                ],
+                "ChapterQty": 28
+            },
+            {
+                "BookNumber": 40,
+                "PathName": "41_mark.htm",
+                "FullName": "Марка",
+                "ShortNames": [
+                    "Мар.",
+                    "Мар",
+                    "Марк.",
+                    "Марк",
+                    "Мрк.",
+                    "Мрк",
+                    "Мр.",
+                    "Мр",
+                    "Марка",
+                    "Мк",
+                    "Мк.",
+                    "Mk.",
+                    "Mk",
+                    "Mar.",
+                    "Mar",
+                    "Mr.",
+                    "Mr",
+                    "Mrk.",
+                    "Mrk",
+                    "Mark"
+                ],
+                "ChapterQty": 16
+            },
+            {
+                "BookNumber": 41,
+                "PathName": "42_luke.htm",
+                "FullName": "Луки",
+                "ShortNames": [
+                    "Лук.",
+                    "Лук",
+                    "Лк.",
+                    "Лк",
+                    "Лукa",
+                    "Луки",
+                    "Lk.",
+                    "Lk",
+                    "Lu.",
+                    "Lu",
+                    "Luk.",
+                    "Luk",
+                    "Luke"
+                ],
+                "ChapterQty": 24
+            },
+            {
+                "BookNumber": 42,
+                "PathName": "43_john.htm",
+                "FullName": "Иоанна",
+                "ShortNames": [
+                    "Иоан.",
+                    "Иоан",
+                    "Ин.",
+                    "Ин",
+                    "Иоанн",
+                    "Иоанна",
+                    "Jn.",
+                    "Jn",
+                    "Jno.",
+                    "Jno",
+                    "Joh.",
+                    "Joh",
+                    "John"
+                ],
+                "ChapterQty": 21
+            },
+            {
+                "BookNumber": 43,
+                "PathName": "44_acts.htm",
+                "FullName": "Деяния",
+                "ShortNames": [
+                    "Деян.",
+                    "Деян",
+                    "Дея.",
+                    "Дея",
+                    "Д.А.",
+                    "Деяния",
+                    "Ac.",
+                    "Ac",
+                    "Act.",
+                    "Act",
+                    "Acts"
+                ],
+                "ChapterQty": 28
+            },
+            {
+                "BookNumber": 44,
+                "PathName": "52_romans.htm",
+                "FullName": "Римлянам",
+                "ShortNames": [
+                    "Рим.",
+                    "Рим",
+                    "Римл.",
+                    "Римл",
+                    "Римлянам",
+                    "Ro.",
+                    "Ro",
+                    "Rom.",
+                    "Rom",
+                    "Romans"
+                ],
+                "ChapterQty": 16
+            },
+            {
+                "BookNumber": 45,
+                "PathName": "53_1corinthians.htm",
+                "FullName": "1 Коринфянам",
+                "ShortNames": [
+                    "1Кор.",
+                    "1Кор",
+                    "1Коринф.",
+                    "1Коринф",
+                    "1Коринфянам",
+                    "1Коринфянам",
+                    "1Co.",
+                    "1Co",
+                    "1Cor.",
+                    "1Cor",
+                    "1Corinth.",
+                    "1Corinth",
+                    "1Corinthians"
+                ],
+                "ChapterQty": 16
+            },
+            {
+                "BookNumber": 46,
+                "PathName": "54_2corinthians.htm",
+                "FullName": "2 Коринфянам",
+                "ShortNames": [
+                    "2Кор.",
+                    "2Кор",
+                    "2Коринф.",
+                    "2Коринф",
+                    "2Коринфянам",
+                    "2Коринфянам",
+                    "2Co.",
+                    "2Co",
+                    "2Cor.",
+                    "2Cor",
+                    "2Corinth.",
+                    "2Corinth",
+                    "2Corinthians"
+                ],
+                "ChapterQty": 13
+            },
+            {
+                "BookNumber": 47,
+                "PathName": "55_galatians.htm",
+                "FullName": "Галатам",
+                "ShortNames": [
+                    "Гал.",
+                    "Гал",
+                    "Галат.",
+                    "Галат",
+                    "Галатам",
+                    "Ga.",
+                    "Ga",
+                    "Gal.",
+                    "Gal",
+                    "Galat.",
+                    "Galat",
+                    "Galatians"
+                ],
+                "ChapterQty": 6
+            },
+            {
+                "BookNumber": 48,
+                "PathName": "56_ephesians.htm",
+                "FullName": "Ефесянам",
+                "ShortNames": [
+                    "Еф.",
+                    "Еф",
+                    "Ефес.",
+                    "Ефес",
+                    "Ефесянам",
+                    "Eph.",
+                    "Eph",
+                    "Ep.",
+                    "Ep",
+                    "Ephes.",
+                    "Ephes",
+                    "Ephesians"
+                ],
+                "ChapterQty": 6
+            },
+            {
+                "BookNumber": 49,
+                "PathName": "57_philippians.htm",
+                "FullName": "Филиппийцам",
+                "ShortNames": [
+                    "Фил.",
+                    "Фил",
+                    "Флп.",
+                    "Флп",
+                    "Филип.",
+                    "Филип",
+                    "Филиппийцам",
+                    "Php.",
+                    "Php",
+                    "Ph.",
+                    "Ph",
+                    "Phil.",
+                    "Phil",
+                    "Phi.",
+                    "Phi.",
+                    "Philip.",
+                    "Philip",
+                    "Philippians"
+                ],
+                "ChapterQty": 4
+            },
+            {
+                "BookNumber": 50,
+                "PathName": "58_colossians.htm",
+                "FullName": "Колоссянам",
+                "ShortNames": [
+                    "Кол.",
+                    "Кол",
+                    "Колос.",
+                    "Колос",
+                    "Колоссянам",
+                    "Col.",
+                    "Col",
+                    "Colos.",
+                    "Colos",
+                    "Colossians"
+                ],
+                "ChapterQty": 4
+            },
+            {
+                "BookNumber": 51,
+                "PathName": "59_1thessalonians.htm",
+                "FullName": "1 Фессалоникийцам",
+                "ShortNames": [
+                    "1Фесс.",
+                    "1Фесс",
+                    "1Фес.",
+                    "1Фес",
+                    "1Фессалоникийцам",
+                    "1Сол.",
+                    "1Сол",
+                    "1Солунянам",
+                    "1Th.",
+                    "1Th",
+                    "1Thes.",
+                    "1Thes",
+                    "1Thess.",
+                    "1Thess",
+                    "1Thessalonians"
+                ],
+                "ChapterQty": 5
+            },
+            {
+                "BookNumber": 52,
+                "PathName": "60_2thessalonians.htm",
+                "FullName": "2 Фессалоникийцам",
+                "ShortNames": [
+                    "2Фесс.",
+                    "2Фесс",
+                    "2Фес.",
+                    "2Фес",
+                    "2Фессалоникийцам",
+                    "2Сол.",
+                    "2Сол",
+                    "2Солунянам",
+                    "2Th.",
+                    "2Th",
+                    "2Thes.",
+                    "2Thes",
+                    "2Thess.",
+                    "2Thess",
+                    "2Thessalonians"
+                ],
+                "ChapterQty": 3
+            },
+            {
+                "BookNumber": 53,
+                "PathName": "61_1timothy.htm",
+                "FullName": "1 Тимофею",
+                "ShortNames": [
+                    "1Тим.",
+                    "1Тим",
+                    "1Тимоф.",
+                    "1Тимоф",
+                    "1Тимофею",
+                    "1Ti.",
+                    "1Ti",
+                    "1Tim.",
+                    "1Tim",
+                    "1Timothy"
+                ],
+                "ChapterQty": 6
+            },
+            {
+                "BookNumber": 54,
+                "PathName": "62_2timothy.htm",
+                "FullName": "2 Тимофею",
+                "ShortNames": [
+                    "2Тим.",
+                    "2Тим",
+                    "2Тимоф.",
+                    "2Тимоф",
+                    "2Тимофею",
+                    "2Ti.",
+                    "2Ti",
+                    "2Tim.",
+                    "2Tim",
+                    "2Timothy"
+                ],
+                "ChapterQty": 4
+            },
+            {
+                "BookNumber": 55,
+                "PathName": "63_titus.htm",
+                "FullName": "Титу",
+                "ShortNames": [
+                    "Тит.",
+                    "Тит",
+                    "Титу",
+                    "Tit.",
+                    "Tit",
+                    "Ti.",
+                    "Ti",
+                    "Titus"
+                ],
+                "ChapterQty": 3
+            },
+            {
+                "BookNumber": 56,
+                "PathName": "64_philemon.htm",
+                "FullName": "Филимону",
+                "ShortNames": [
+                    "Флм.",
+                    "Флм",
+                    "Филимон.",
+                    "Филимон",
+                    "Филимону",
+                    "Phm.",
+                    "Phm",
+                    "Phile.",
+                    "Phile",
+                    "Phlm.",
+                    "Phlm",
+                    "Philemon"
+                ],
+                "ChapterQty": 1
+            },
+            {
+                "BookNumber": 57,
+                "PathName": "65_hebrews.htm",
+                "FullName": "Евреям",
+                "ShortNames": [
+                    "Евр.",
+                    "Евр",
+                    "Евреям",
+                    "He.",
+                    "He",
+                    "Heb.",
+                    "Heb",
+                    "Hebr.",
+                    "Hebr",
+                    "Hebrews"
+                ],
+                "ChapterQty": 13
+            },
+            {
+                "BookNumber": 58,
+                "PathName": "45_james.htm",
+                "FullName": "Иакова",
+                "ShortNames": [
+                    "Иак.",
+                    "Иак",
+                    "Ик.",
+                    "Ик",
+                    "Иаков",
+                    "Иакова",
+                    "Jas.",
+                    "Jas",
+                    "Ja.",
+                    "Ja",
+                    "Jam.",
+                    "Jam",
+                    "Jms.",
+                    "Jms",
+                    "James"
+                ],
+                "ChapterQty": 5
+            },
+            {
+                "BookNumber": 59,
+                "PathName": "46_1peter.htm",
+                "FullName": "1 Петра",
+                "ShortNames": [
+                    "1Пет.",
+                    "1Пет",
+                    "1Пт.",
+                    "1Пт",
+                    "1Птр.",
+                    "1Птр",
+                    "1Петр.",
+                    "1Петр",
+                    "1Петра",
+                    "1Pe.",
+                    "1Pe",
+                    "1Pet.",
+                    "1Pet",
+                    "1Peter"
+                ],
+                "ChapterQty": 5
+            },
+            {
+                "BookNumber": 60,
+                "PathName": "47_2peter.htm",
+                "FullName": "2 Петра",
+                "ShortNames": [
+                    "2Пет.",
+                    "2Пет",
+                    "2Пт.",
+                    "2Пт",
+                    "2Птр.",
+                    "2Птр",
+                    "2Петр.",
+                    "2Петр",
+                    "2Петра",
+                    "2Pe.",
+                    "2Pe",
+                    "2Pet.",
+                    "2Pet",
+                    "2Peter"
+                ],
+                "ChapterQty": 3
+            },
+            {
+                "BookNumber": 61,
+                "PathName": "48_1john.htm",
+                "FullName": "1 Иоанна",
+                "ShortNames": [
+                    "1Иоан.",
+                    "1Иоан",
+                    "1Ин.",
+                    "1Ин",
+                    "1Иоанн",
+                    "1Иоанна",
+                    "1Jn.",
+                    "1Jn",
+                    "1Jo.",
+                    "1Jo",
+                    "1Joh.",
+                    "1Joh",
+                    "1Jno.",
+                    "1Jno",
+                    "1John"
+                ],
+                "ChapterQty": 5
+            },
+            {
+                "BookNumber": 62,
+                "PathName": "49_2john.htm",
+                "FullName": "2 Иоанна",
+                "ShortNames": [
+                    "2Иоан.",
+                    "2Иоан",
+                    "2Ин.",
+                    "2Ин",
+                    "2Иоанн",
+                    "2Иоанна",
+                    "2Jn.",
+                    "2Jn",
+                    "2Jo.",
+                    "2Jo",
+                    "2Joh.",
+                    "2Joh",
+                    "2Jno.",
+                    "2Jno",
+                    "2John"
+                ],
+                "ChapterQty": 1
+            },
+            {
+                "BookNumber": 63,
+                "PathName": "50_3john.htm",
+                "FullName": "3 Иоанна",
+                "ShortNames": [
+                    "3Иоан.",
+                    "3Иоан",
+                    "3Ин.",
+                    "3Ин",
+                    "3Иоанн",
+                    "3Иоанна",
+                    "3Jn.",
+                    "3Jn",
+                    "3Jo.",
+                    "3Jo",
+                    "3Joh.",
+                    "3Joh",
+                    "3Jno.",
+                    "3Jno",
+                    "3John"
+                ],
+                "ChapterQty": 1
+            },
+            {
+                "BookNumber": 64,
+                "PathName": "51_jude.htm",
+                "FullName": "Иуды",
+                "ShortNames": [
+                    "Иуд.",
+                    "Иуд",
+                    "Ид.",
+                    "Ид",
+                    "Иуда",
+                    "Иуды",
+                    "Jud.",
+                    "Jud",
+                    "Jude",
+                    "Jd.",
+                    "Jd"
+                ],
+                "ChapterQty": 1
+            },
+            {
+                "BookNumber": 65,
+                "PathName": "66_revelations.htm",
+                "FullName": "Откровение",
+                "ShortNames": [
+                    "Откр.",
+                    "Откр",
+                    "Отк.",
+                    "Отк",
+                    "Откровен.",
+                    "Откровен",
+                    "Апок.",
+                    "Апок",
+                    "Откровение",
+                    "Апокалипсис",
+                    "Rev.",
+                    "Rev",
+                    "Re.",
+                    "Re",
+                    "Rv.",
+                    "Rv",
+                    "Revelation"
+                ],
+                "ChapterQty": 22
+            }
+        ]
+}

@@ -1,0 +1,1467 @@
+{
+    "type": "settings",
+    "BibleName": "(RU) Русский Синодальный текст (с номерами Стронга)",
+    "BibleShortName": "RST+",
+    "Bible": "Y",
+    "OldTestament": "Y",
+    "NewTestament": "Y",
+    "Apocrypha": "N",
+    "StrongNumbers": "Y",
+    "StrongFirstLetter": "N",
+    "EnglishPsalms": "N",
+    "Greek": "N",
+    "BookQty": "66",
+    "Notes": "N",
+    "NoteSign": "",
+    "StartNoteSign": "",
+    "EndNoteSign": "",
+    "Titles": "N",
+    "StartTitleSign": "",
+    "EndTitleSign": "",
+    "Translation": "rstStrong",
+    "HTMLFilter": "Y",
+    "Books":
+    [
+        {
+            "BookNumber": 0,
+            "PathName": "ru01.htm",
+            "FullName": "Бытие",
+            "ShortNames": [
+                "Быт.",
+                "Быт",
+                "Бт.",
+                "Бт",
+                "Бытие",
+                "Ge.",
+                "Ge",
+                "Gen.",
+                "Gen",
+                "Gn.",
+                "Gn",
+                "Genesis"
+            ],
+            "ChapterQty": 50
+        },
+        {
+            "BookNumber": 1,
+            "PathName": "ru02.htm",
+            "FullName": "Исход",
+            "ShortNames": [
+                "Исх.",
+                "Исх",
+                "Исход",
+                "Ex.",
+                "Ex",
+                "Exo.",
+                "Exo",
+                "Exod.",
+                "Exod",
+                "Exodus"
+            ],
+            "ChapterQty": 40
+        },
+        {
+            "BookNumber": 2,
+            "PathName": "ru03.htm",
+            "FullName": "Левит",
+            "ShortNames": [
+                "Лев.",
+                "Лев",
+                "Лв.",
+                "Лв",
+                "Левит",
+                "Lev.",
+                "Lev",
+                "Le.",
+                "Le",
+                "Lv.",
+                "Lv",
+                "Levit.",
+                "Levit",
+                "Leviticus"
+            ],
+            "ChapterQty": 27
+        },
+        {
+            "BookNumber": 3,
+            "PathName": "ru04.htm",
+            "FullName": "Числа",
+            "ShortNames": [
+                "Чис.",
+                "Чис",
+                "Чс.",
+                "Чс",
+                "Числ.",
+                "Числ",
+                "Числа",
+                "Nu.",
+                "Nu",
+                "Num.",
+                "Num",
+                "Nm.",
+                "Nm",
+                "Numb.",
+                "Numb",
+                "Numbers"
+            ],
+            "ChapterQty": 36
+        },
+        {
+            "BookNumber": 4,
+            "PathName": "ru05.htm",
+            "FullName": "Второзаконие",
+            "ShortNames": [
+                "Втор.",
+                "Втор",
+                "Вт.",
+                "Вт",
+                "Втрзк.",
+                "Втрзк",
+                "Второзаконие",
+                "De.",
+                "De",
+                "Deut.",
+                "Deut",
+                "Deu.",
+                "Deu",
+                "Dt.",
+                "Dt",
+                "Deuteron.",
+                "Deuteron",
+                "Deuteronomy"
+            ],
+            "ChapterQty": 34
+        },
+        {
+            "BookNumber": 5,
+            "PathName": "ru06.htm",
+            "FullName": "Иисус Навин",
+            "ShortNames": [
+                "Иис.Нав.",
+                "Иис.Нав",
+                "Нав.",
+                "Нав",
+                "Иисус",
+                "Навин",
+                "Jos.",
+                "Jos",
+                "Josh.",
+                "Josh",
+                "Joshua"
+            ],
+            "ChapterQty": 24
+        },
+        {
+            "BookNumber": 6,
+            "PathName": "ru07.htm",
+            "FullName": "Судьи",
+            "ShortNames": [
+                "Суд.",
+                "Суд",
+                "Сд.",
+                "Сд",
+                "Судьи",
+                "Jdg.",
+                "Jdg",
+                "Judg.",
+                "Judg",
+                "Judge.",
+                "Judge",
+                "Judges"
+            ],
+            "ChapterQty": 21
+        },
+        {
+            "BookNumber": 7,
+            "PathName": "ru08.htm",
+            "FullName": "Руфь",
+            "ShortNames": [
+                "Руф.",
+                "Руф",
+                "Рф.",
+                "Рф",
+                "Руфь",
+                "Ru.",
+                "Ru",
+                "Ruth",
+                "Rth.",
+                "Rth",
+                "Rt.",
+                "Rt"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 8,
+            "PathName": "ru09.htm",
+            "FullName": "1-я Царств",
+            "ShortNames": [
+                "1Цар.",
+                "1Цар",
+                "1Цр.",
+                "1Цр",
+                "1Ц",
+                "1Царств.",
+                "1Царств",
+                "1Sa.",
+                "1Sa",
+                "1S.",
+                "1S",
+                "1Sam.",
+                "1Sam",
+                "1Sm.",
+                "1Sm",
+                "1Sml.",
+                "1Sml",
+                "1Samuel"
+            ],
+            "ChapterQty": 31
+        },
+        {
+            "BookNumber": 9,
+            "PathName": "ru10.htm",
+            "FullName": "2-я Царств",
+            "ShortNames": [
+                "2Цар.",
+                "2Цар",
+                "2Цр.",
+                "2Цр",
+                "2Ц",
+                "2Царств.",
+                "2Царств",
+                "2Sa.",
+                "2Sa",
+                "2S.",
+                "2S",
+                "2Sam.",
+                "2Sam",
+                "2Sm.",
+                "2Sm",
+                "2Sml.",
+                "2Sml",
+                "2Samuel"
+            ],
+            "ChapterQty": 24
+        },
+        {
+            "BookNumber": 10,
+            "PathName": "ru11.htm",
+            "FullName": "3-я Царств",
+            "ShortNames": [
+                "3Цар.",
+                "3Цар",
+                "3Цр.",
+                "3Цр",
+                "3Ц",
+                "3Царств.",
+                "3Царств",
+                "1Ki.",
+                "1Ki",
+                "1K.",
+                "1K",
+                "1Kn.",
+                "1Kn",
+                "1Kg.",
+                "1Kg",
+                "1King.",
+                "1King",
+                "1Kng.",
+                "1Kng",
+                "1Kings"
+            ],
+            "ChapterQty": 22
+        },
+        {
+            "BookNumber": 11,
+            "PathName": "ru12.htm",
+            "FullName": "4-я Царств",
+            "ShortNames": [
+                "4Цар.",
+                "4Цар",
+                "4Цр.",
+                "4Цр",
+                "4Ц",
+                "4Царств.",
+                "4Царств",
+                "2Ki.",
+                "2Ki",
+                "2K.",
+                "2K",
+                "2Kn.",
+                "2Kn",
+                "2Kg.",
+                "2Kg",
+                "2King.",
+                "2King",
+                "2Kng.",
+                "2Kng",
+                "2Kings"
+            ],
+            "ChapterQty": 25
+        },
+        {
+            "BookNumber": 12,
+            "PathName": "ru13.htm",
+            "FullName": "1-я Паралипоменон",
+            "ShortNames": [
+                "1Пар.",
+                "1Пар",
+                "1Пр.",
+                "1Пр",
+                "1Chr.",
+                "1Chr",
+                "1Ch.",
+                "1Ch",
+                "1Chron.",
+                "1Chron"
+            ],
+            "ChapterQty": 29
+        },
+        {
+            "BookNumber": 13,
+            "PathName": "ru14.htm",
+            "FullName": "2-я Паралипоменон",
+            "ShortNames": [
+                "2Пар.",
+                "2Пар",
+                "2Пр.",
+                "2Пр",
+                "2Chr.",
+                "2Chr",
+                "2Ch.",
+                "2Ch",
+                "2Chron.",
+                "2Chron"
+            ],
+            "ChapterQty": 36
+        },
+        {
+            "BookNumber": 14,
+            "PathName": "ru15.htm",
+            "FullName": "Ездра",
+            "ShortNames": [
+                "Ездр.",
+                "Ездр",
+                "Езд.",
+                "Езд",
+                "Ез.",
+                "Ез",
+                "Ездра",
+                "Ezr.",
+                "Ezr",
+                "Ezra"
+            ],
+            "ChapterQty": 10
+        },
+        {
+            "BookNumber": 15,
+            "PathName": "ru16.htm",
+            "FullName": "Неемия",
+            "ShortNames": [
+                "Неем.",
+                "Неем",
+                "Нм.",
+                "Нм",
+                "Неемия",
+                "Ne.",
+                "Ne",
+                "Neh.",
+                "Neh",
+                "Nehem.",
+                "Nehem",
+                "Nehemiah"
+            ],
+            "ChapterQty": 13
+        },
+        {
+            "BookNumber": 16,
+            "PathName": "ru17.htm",
+            "FullName": "Есфирь",
+            "ShortNames": [
+                "Есф.",
+                "Есф",
+                "Ес.",
+                "Ес",
+                "Есфирь",
+                "Esth.",
+                "Esth",
+                "Est.",
+                "Est",
+                "Esther"
+            ],
+            "ChapterQty": 10
+        },
+        {
+            "BookNumber": 17,
+            "PathName": "ru18.htm",
+            "FullName": "Иов",
+            "ShortNames": [
+                "Иов.",
+                "Иов",
+                "Ив.",
+                "Ив",
+                "Job.",
+                "Job",
+                "Jb.",
+                "Jb"
+            ],
+            "ChapterQty": 42
+        },
+        {
+            "BookNumber": 18,
+            "PathName": "ru19.htm",
+            "FullName": "Псалтирь",
+            "ShortNames": [
+                "Пс.",
+                "Пс",
+                "Псалт.",
+                "Псалт",
+                "Псал.",
+                "Псал",
+                "Псл.",
+                "Псл",
+                "Псалом",
+                "Псалтирь",
+                "Псалмы",
+                "Ps.",
+                "Ps",
+                "Psa.",
+                "Psa",
+                "Psal.",
+                "Psal",
+                "Psalm",
+                "Psalms"
+            ],
+            "ChapterQty": 150
+        },
+        {
+            "BookNumber": 19,
+            "PathName": "ru20.htm",
+            "FullName": "Притчи",
+            "ShortNames": [
+                "Прит.",
+                "Прит",
+                "Притч.",
+                "Притч",
+                "Пр.",
+                "Пр",
+                "Притчи",
+                "Притча",
+                "Pr.",
+                "Pr",
+                "Prov.",
+                "Prov",
+                "Pro.",
+                "Pro",
+                "Proverb",
+                "Proverbs"
+            ],
+            "ChapterQty": 31
+        },
+        {
+            "BookNumber": 20,
+            "PathName": "ru21.htm",
+            "FullName": "Екклесиаст",
+            "ShortNames": [
+                "Еккл.",
+                "Еккл",
+                "Ек.",
+                "Ек",
+                "Екк.",
+                "Екк",
+                "Екклесиаст",
+                "Ec.",
+                "Ec",
+                "Eccl.",
+                "Eccl",
+                "Ecc.",
+                "Ecc",
+                "Ecclesia.",
+                "Ecclesia"
+            ],
+            "ChapterQty": 12
+        },
+        {
+            "BookNumber": 21,
+            "PathName": "ru22.htm",
+            "FullName": "Песня Песней",
+            "ShortNames": [
+                "Песн.",
+                "Песн",
+                "Пес.",
+                "Пес",
+                "Псн.",
+                "Псн",
+                "Песн.Песней",
+                "Песни",
+                "Song.",
+                "Song",
+                "Songs",
+                "SS.",
+                "SS",
+                "Sol.",
+                "Sol"
+            ],
+            "ChapterQty": 8
+        },
+        {
+            "BookNumber": 22,
+            "PathName": "ru23.htm",
+            "FullName": "Исаия",
+            "ShortNames": [
+                "Ис.",
+                "Ис",
+                "Иса.",
+                "Иса",
+                "Исаия",
+                "Исайя",
+                "Isa.",
+                "Isa",
+                "Is.",
+                "Is",
+                "Isaiah"
+            ],
+            "ChapterQty": 66
+        },
+        {
+            "BookNumber": 23,
+            "PathName": "ru24.htm",
+            "FullName": "Иеремия",
+            "ShortNames": [
+                "Иер.",
+                "Иер",
+                "Иерем.",
+                "Иерем",
+                "Иеремия",
+                "Je.",
+                "Je",
+                "Jer.",
+                "Jer",
+                "Jerem.",
+                "Jerem",
+                "Jeremiah"
+            ],
+            "ChapterQty": 52
+        },
+        {
+            "BookNumber": 24,
+            "PathName": "ru25.htm",
+            "FullName": "Плач Иеремии",
+            "ShortNames": [
+                "Плач.",
+                "Плач",
+                "Плч.",
+                "Плч",
+                "Пл.",
+                "Пл",
+                "Пл.Иер.",
+                "Пл.Иер",
+                "Плач",
+                "Иеремии",
+                "La.",
+                "La",
+                "Lam.",
+                "Lam",
+                "Lament.",
+                "Lament",
+                "Lamentation",
+                "Lamentations"
+            ],
+            "ChapterQty": 5
+        },
+        {
+            "BookNumber": 25,
+            "PathName": "ru26.htm",
+            "FullName": "Иезекииль",
+            "ShortNames": [
+                "Иез.",
+                "Иез",
+                "Из.",
+                "Из",
+                "Иезек.",
+                "Иезек",
+                "Иезекииль",
+                "Ez.",
+                "Ez",
+                "Eze.",
+                "Eze",
+                "Ezek.",
+                "Ezek",
+                "Ezekiel"
+            ],
+            "ChapterQty": 48
+        },
+        {
+            "BookNumber": 26,
+            "PathName": "ru27.htm",
+            "FullName": "Даниил",
+            "ShortNames": [
+                "Дан.",
+                "Дан",
+                "Дн.",
+                "Дн",
+                "Днл.",
+                "Днл",
+                "Даниил",
+                "Da.",
+                "Da",
+                "Dan.",
+                "Dan",
+                "Daniel"
+            ],
+            "ChapterQty": 14
+        },
+        {
+            "BookNumber": 27,
+            "PathName": "ru28.htm",
+            "FullName": "Осия",
+            "ShortNames": [
+                "Ос.",
+                "Ос",
+                "Осия",
+                "Hos.",
+                "Hos",
+                "Ho.",
+                "Ho",
+                "Hosea"
+            ],
+            "ChapterQty": 14
+        },
+        {
+            "BookNumber": 28,
+            "PathName": "ru29.htm",
+            "FullName": "Иоиль",
+            "ShortNames": [
+                "Иоил.",
+                "Иоил",
+                "Ил.",
+                "Ил",
+                "Иоиль",
+                "Joel.",
+                "Joel",
+                "Joe.",
+                "Joe"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 29,
+            "PathName": "ru30.htm",
+            "FullName": "Амос",
+            "ShortNames": [
+                "Ам.",
+                "Ам",
+                "Амс.",
+                "Амс",
+                "Амос",
+                "Am.",
+                "Am",
+                "Amos",
+                "Amo.",
+                "Amo"
+            ],
+            "ChapterQty": 9
+        },
+        {
+            "BookNumber": 30,
+            "PathName": "ru31.htm",
+            "FullName": "Авдий",
+            "ShortNames": [
+                "Авд.",
+                "Авд",
+                "Авдий",
+                "Ob.",
+                "Ob",
+                "Obad.",
+                "Obad.",
+                "Obadiah",
+                "Oba.",
+                "Oba"
+            ],
+            "ChapterQty": 1
+        },
+        {
+            "BookNumber": 31,
+            "PathName": "ru32.htm",
+            "FullName": "Иона",
+            "ShortNames": [
+                "Ион.",
+                "Ион",
+                "Иона",
+                "Jon.",
+                "Jon",
+                "Jnh.",
+                "Jnh.",
+                "Jona.",
+                "Jona",
+                "Jonah"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 32,
+            "PathName": "ru33.htm",
+            "FullName": "Михей",
+            "ShortNames": [
+                "Мих.",
+                "Мих",
+                "Мх.",
+                "Мх",
+                "Михей",
+                "Mi.",
+                "Mi",
+                "Mic.",
+                "Mic",
+                "Micah"
+            ],
+            "ChapterQty": 7
+        },
+        {
+            "BookNumber": 33,
+            "PathName": "ru34.htm",
+            "FullName": "Наум",
+            "ShortNames": [
+                "Наум.",
+                "Наум",
+                "Na.",
+                "Na",
+                "Nah.",
+                "Nah",
+                "Nahum"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 34,
+            "PathName": "ru35.htm",
+            "FullName": "Аввакум",
+            "ShortNames": [
+                "Авв.",
+                "Авв",
+                "Аввак.",
+                "Аввак",
+                "Аввакум",
+                "Hab.",
+                "Hab",
+                "Habak.",
+                "Habak",
+                "Habakkuk"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 35,
+            "PathName": "ru36.htm",
+            "FullName": "Софония",
+            "ShortNames": [
+                "Соф.",
+                "Соф",
+                "Софон.",
+                "Софон",
+                "Софония",
+                "Zeph.",
+                "Zeph",
+                "Zep.",
+                "Zep",
+                "Zephaniah"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 36,
+            "PathName": "ru37.htm",
+            "FullName": "Аггей",
+            "ShortNames": [
+                "Агг.",
+                "Агг",
+                "Аггей",
+                "Hag.",
+                "Hag",
+                "Haggai"
+            ],
+            "ChapterQty": 2
+        },
+        {
+            "BookNumber": 37,
+            "PathName": "ru38.htm",
+            "FullName": "Захария",
+            "ShortNames": [
+                "Зах.",
+                "Зах",
+                "Зхр.",
+                "Зхр",
+                "Захар.",
+                "Захар",
+                "Захария",
+                "Ze.",
+                "Ze",
+                "Zec.",
+                "Zec",
+                "Zech.",
+                "Zech",
+                "Zechariah"
+            ],
+            "ChapterQty": 14
+        },
+        {
+            "BookNumber": 38,
+            "PathName": "ru39.htm",
+            "FullName": "Малахия",
+            "ShortNames": [
+                "Мал.",
+                "Мал",
+                "Малах.",
+                "Малах",
+                "Млх.",
+                "Млх",
+                "Малахия",
+                "Mal.",
+                "Mal",
+                "Malachi"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 39,
+            "PathName": "ru40.htm",
+            "FullName": "От Матфея",
+            "ShortNames": [
+                "Матф.",
+                "Матф",
+                "Мтф.",
+                "Мтф",
+                "Мф.",
+                "Мф",
+                "Мт.",
+                "Мт",
+                "Матфея",
+                "Матфей",
+                "Мат",
+                "Мат.",
+                "Mt.",
+                "Mt",
+                "Ma.",
+                "Ma",
+                "Matt.",
+                "Matt",
+                "Mat.",
+                "Mat",
+                "Matthew"
+            ],
+            "ChapterQty": 28
+        },
+        {
+            "BookNumber": 40,
+            "PathName": "ru41.htm",
+            "FullName": "От Марка",
+            "ShortNames": [
+                "Мар.",
+                "Мар",
+                "Марк.",
+                "Марк",
+                "Мрк.",
+                "Мрк",
+                "Мр.",
+                "Мр",
+                "Марка",
+                "Мк",
+                "Мк.",
+                "Mk.",
+                "Mk",
+                "Mar.",
+                "Mar",
+                "Mr.",
+                "Mr",
+                "Mrk.",
+                "Mrk",
+                "Mark"
+            ],
+            "ChapterQty": 16
+        },
+        {
+            "BookNumber": 41,
+            "PathName": "ru42.htm",
+            "FullName": "От Луки",
+            "ShortNames": [
+                "Лук.",
+                "Лук",
+                "Лк.",
+                "Лк",
+                "Лукa",
+                "Луки",
+                "Lk.",
+                "Lk",
+                "Lu.",
+                "Lu",
+                "Luk.",
+                "Luk",
+                "Luke"
+            ],
+            "ChapterQty": 24
+        },
+        {
+            "BookNumber": 42,
+            "PathName": "ru43.htm",
+            "FullName": "От Иоанна",
+            "ShortNames": [
+                "Иоан.",
+                "Иоан",
+                "Ин.",
+                "Ин",
+                "Иоанн",
+                "Иоанна",
+                "Jn.",
+                "Jn",
+                "Jno.",
+                "Jno",
+                "Joh.",
+                "Joh",
+                "John"
+            ],
+            "ChapterQty": 21
+        },
+        {
+            "BookNumber": 43,
+            "PathName": "ru44.htm",
+            "FullName": "Деяния",
+            "ShortNames": [
+                "Деян.",
+                "Деян",
+                "Дея.",
+                "Дея",
+                "Д.А.",
+                "Деяния",
+                "Ac.",
+                "Ac",
+                "Act.",
+                "Act",
+                "Acts"
+            ],
+            "ChapterQty": 28
+        },
+
+
+
+
+
+
+
+
+        {
+            "BookNumber": 44,
+            "PathName": "ru52.htm",
+            "FullName": "К Римлянам",
+            "ShortNames": [
+                "Рим.",
+                "Рим",
+                "Римл.",
+                "Римл",
+                "Римлянам",
+                "Ro.",
+                "Ro",
+                "Rom.",
+                "Rom",
+                "Romans"
+            ],
+            "ChapterQty": 16
+        },
+        {
+            "BookNumber": 45,
+            "PathName": "ru53.htm",
+            "FullName": "1-е Коринфянам",
+            "ShortNames": [
+                "1Кор.",
+                "1Кор",
+                "1Коринф.",
+                "1Коринф",
+                "1Коринфянам",
+                "1Коринфянам",
+                "1Co.",
+                "1Co",
+                "1Cor.",
+                "1Cor",
+                "1Corinth.",
+                "1Corinth",
+                "1Corinthians"
+            ],
+            "ChapterQty": 16
+        },
+        {
+            "BookNumber": 46,
+            "PathName": "ru54.htm",
+            "FullName": "2-е Коринфянам",
+            "ShortNames": [
+                "2Кор.",
+                "2Кор",
+                "2Коринф.",
+                "2Коринф",
+                "2Коринфянам",
+                "2Коринфянам",
+                "2Co.",
+                "2Co",
+                "2Cor.",
+                "2Cor",
+                "2Corinth.",
+                "2Corinth",
+                "2Corinthians"
+            ],
+            "ChapterQty": 13
+        },
+        {
+            "BookNumber": 47,
+            "PathName": "ru55.htm",
+            "FullName": "К Галатам",
+            "ShortNames": [
+                "Гал.",
+                "Гал",
+                "Галат.",
+                "Галат",
+                "Галатам",
+                "Ga.",
+                "Ga",
+                "Gal.",
+                "Gal",
+                "Galat.",
+                "Galat",
+                "Galatians"
+            ],
+            "ChapterQty": 6
+        },
+        {
+            "BookNumber": 48,
+            "PathName": "ru56.htm",
+            "FullName": "К Ефесянам",
+            "ShortNames": [
+                "Еф.",
+                "Еф",
+                "Ефес.",
+                "Ефес",
+                "Ефесянам",
+                "Eph.",
+                "Eph",
+                "Ep.",
+                "Ep",
+                "Ephes.",
+                "Ephes",
+                "Ephesians"
+            ],
+            "ChapterQty": 6
+        },
+        {
+            "BookNumber": 49,
+            "PathName": "ru57.htm",
+            "FullName": "К Филиппийцам",
+            "ShortNames": [
+                "Фил.",
+                "Фил",
+                "Флп.",
+                "Флп",
+                "Филип.",
+                "Филип",
+                "Филиппийцам",
+                "Php.",
+                "Php",
+                "Ph.",
+                "Ph",
+                "Phil.",
+                "Phil",
+                "Phi.",
+                "Phi.",
+                "Philip.",
+                "Philip",
+                "Philippians"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 50,
+            "PathName": "ru58.htm",
+            "FullName": "К Колоссянам",
+            "ShortNames": [
+                "Кол.",
+                "Кол",
+                "Колос.",
+                "Колос",
+                "Колоссянам",
+                "Col.",
+                "Col",
+                "Colos.",
+                "Colos",
+                "Colossians"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 51,
+            "PathName": "ru59.htm",
+            "FullName": "1-е Фессалоникийцам",
+            "ShortNames": [
+                "1Фесс.",
+                "1Фесс",
+                "1Фес.",
+                "1Фес",
+                "1Фессалоникийцам",
+                "1Сол.",
+                "1Сол",
+                "1Солунянам",
+                "1Th.",
+                "1Th",
+                "1Thes.",
+                "1Thes",
+                "1Thess.",
+                "1Thess",
+                "1Thessalonians"
+            ],
+            "ChapterQty": 5
+        },
+        {
+            "BookNumber": 52,
+            "PathName": "ru60.htm",
+            "FullName": "2-е Фессалоникийцам",
+            "ShortNames": [
+                "2Фесс.",
+                "2Фесс",
+                "2Фес.",
+                "2Фес",
+                "2Фессалоникийцам",
+                "2Сол.",
+                "2Сол",
+                "2Солунянам",
+                "2Th.",
+                "2Th",
+                "2Thes.",
+                "2Thes",
+                "2Thess.",
+                "2Thess",
+                "2Thessalonians"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 53,
+            "PathName": "ru61.htm",
+            "FullName": "1-е Тимофею",
+            "ShortNames": [
+                "1Тим.",
+                "1Тим",
+                "1Тимоф.",
+                "1Тимоф",
+                "1Тимофею",
+                "1Ti.",
+                "1Ti",
+                "1Tim.",
+                "1Tim",
+                "1Timothy"
+            ],
+            "ChapterQty": 6
+        },
+        {
+            "BookNumber": 54,
+            "PathName": "ru62.htm",
+            "FullName": "2-е Тимофею",
+            "ShortNames": [
+                "2Тим.",
+                "2Тим",
+                "2Тимоф.",
+                "2Тимоф",
+                "2Тимофею",
+                "2Ti.",
+                "2Ti",
+                "2Tim.",
+                "2Tim",
+                "2Timothy"
+            ],
+            "ChapterQty": 4
+        },
+        {
+            "BookNumber": 55,
+            "PathName": "ru63.htm",
+            "FullName": "К Титу",
+            "ShortNames": [
+                "Тит.",
+                "Тит",
+                "Титу",
+                "Tit.",
+                "Tit",
+                "Ti.",
+                "Ti",
+                "Titus"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 56,
+            "PathName": "ru64.htm",
+            "FullName": "К Филимону",
+            "ShortNames": [
+                "Флм.",
+                "Флм",
+                "Филимон.",
+                "Филимон",
+                "Филимону",
+                "Phm.",
+                "Phm",
+                "Phile.",
+                "Phile",
+                "Phlm.",
+                "Phlm",
+                "Philemon"
+            ],
+            "ChapterQty": 1
+        },
+        {
+            "BookNumber": 57,
+            "PathName": "ru65.htm",
+            "FullName": "К Евреям",
+            "ShortNames": [
+                "Евр.",
+                "Евр",
+                "Евреям",
+                "He.",
+                "He",
+                "Heb.",
+                "Heb",
+                "Hebr.",
+                "Hebr",
+                "Hebrews"
+            ],
+            "ChapterQty": 13
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+            "BookNumber": 58,
+            "PathName": "ru45.htm",
+            "FullName": "Иакова",
+            "ShortNames": [
+                "Иак.",
+                "Иак",
+                "Ик.",
+                "Ик",
+                "Иаков",
+                "Иакова",
+                "Jas.",
+                "Jas",
+                "Ja.",
+                "Ja",
+                "Jam.",
+                "Jam",
+                "Jms.",
+                "Jms",
+                "James"
+            ],
+            "ChapterQty": 5
+        },
+        {
+            "BookNumber": 59,
+            "PathName": "ru46.htm",
+            "FullName": "1-е Петра",
+            "ShortNames": [
+                "1Пет.",
+                "1Пет",
+                "1Пт.",
+                "1Пт",
+                "1Птр.",
+                "1Птр",
+                "1Петр.",
+                "1Петр",
+                "1Петра",
+                "1Pe.",
+                "1Pe",
+                "1Pet.",
+                "1Pet",
+                "1Peter"
+            ],
+            "ChapterQty": 5
+        },
+        {
+            "BookNumber": 60,
+            "PathName": "ru47.htm",
+            "FullName": "2-е Петра",
+            "ShortNames": [
+                "2Пет.",
+                "2Пет",
+                "2Пт.",
+                "2Пт",
+                "2Птр.",
+                "2Птр",
+                "2Петр.",
+                "2Петр",
+                "2Петра",
+                "2Pe.",
+                "2Pe",
+                "2Pet.",
+                "2Pet",
+                "2Peter"
+            ],
+            "ChapterQty": 3
+        },
+        {
+            "BookNumber": 61,
+            "PathName": "ru48.htm",
+            "FullName": "1-е Иоанна",
+            "ShortNames": [
+                "1Иоан.",
+                "1Иоан",
+                "1Ин.",
+                "1Ин",
+                "1Иоанн",
+                "1Иоанна",
+                "1Jn.",
+                "1Jn",
+                "1Jo.",
+                "1Jo",
+                "1Joh.",
+                "1Joh",
+                "1Jno.",
+                "1Jno",
+                "1John"
+            ],
+            "ChapterQty": 5
+        },
+        {
+            "BookNumber": 62,
+            "PathName": "ru49.htm",
+            "FullName": "2-е Иоанна",
+            "ShortNames": [
+                "2Иоан.",
+                "2Иоан",
+                "2Ин.",
+                "2Ин",
+                "2Иоанн",
+                "2Иоанна",
+                "2Jn.",
+                "2Jn",
+                "2Jo.",
+                "2Jo",
+                "2Joh.",
+                "2Joh",
+                "2Jno.",
+                "2Jno",
+                "2John"
+            ],
+            "ChapterQty": 1
+        },
+        {
+            "BookNumber": 63,
+            "PathName": "ru50.htm",
+            "FullName": "3-е Иоанна",
+            "ShortNames": [
+                "3Иоан.",
+                "3Иоан",
+                "3Ин.",
+                "3Ин",
+                "3Иоанн",
+                "3Иоанна",
+                "3Jn.",
+                "3Jn",
+                "3Jo.",
+                "3Jo",
+                "3Joh.",
+                "3Joh",
+                "3Jno.",
+                "3Jno",
+                "3John"
+            ],
+            "ChapterQty": 1
+        },
+        {
+            "BookNumber": 64,
+            "PathName": "ru51.htm",
+            "FullName": "Иуды",
+            "ShortNames": [
+                "Иуд.",
+                "Иуд",
+                "Ид.",
+                "Ид",
+                "Иуда",
+                "Иуды",
+                "Jud.",
+                "Jud",
+                "Jude",
+                "Jd.",
+                "Jd"
+            ],
+            "ChapterQty": 1
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+            "BookNumber": 65,
+            "PathName": "ru66.htm",
+            "FullName": "Откровение",
+            "ShortNames": [
+                "Откр.",
+                "Откр",
+                "Отк.",
+                "Отк",
+                "Откровен.",
+                "Откровен",
+                "Апок.",
+                "Апок",
+                "Откровение",
+                "Апокалипсис",
+                "Rev.",
+                "Rev",
+                "Re.",
+                "Re",
+                "Rv.",
+                "Rv",
+                "Revelation"
+            ],
+            "ChapterQty": 22
+        }
+    ]
+}

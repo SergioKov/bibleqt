@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+	#buscar{
+		font-size: 20px;
+	}
+	#buscar b{
+		color:green;
+	}
+
+	.red{
+	color:red;
+	}
+	#demo, 
+	#demo2{
+	color: blue;
+	font-size: 20px;
+	}
+	</style>
+</head>
+<body>
+
+<h2>JavaScript Regular Expressions</h2>
+
+<p id="buscar"></p>
+
+
+<p id="demo"></p>
+<p id="result"></p>
+
+<hr>
+
+<p id="demo2"></p>
+<p id="result2"></p>
+
+
+
+
+
+
+<script type="text/javascript">
+
+let text = `Atención Rápida Aquí <br>ATENCIÓN Rápida aquí <br>RapidA <br>Atencion Rapida AQUÍ <br>Aqui RÁPIDA ATENCION AQUI <br>Atención Rapida Aquí <br>Atencion Rápida Aqui <br>atencion rapida aqui <br><br>atencional rapidamente aquible <br>miAtencion tanRapida porAQUI <br>algun texto aqui`;
+
+
+let text_sin_tags = removeTags(text);//quito los tags. OBLIGATORIO PARA FORMAR ARRAY!
+//text_sin_tags = removeAccents(text_sin_tags);//quito los acentos /tildes
+
+let arr_text = text_sin_tags.split(' ');//texto donde buscar
+let arr_text_sin_accent = removeAccents(text_sin_tags).split(' ');//texto donde buscar
+let arr_text_orig = text.split(' ');//texto donde buscar
+arr_text = arr_text.filter(elm => elm);
+arr_text_sin_accent = arr_text_sin_accent.filter(elm => elm);
+
+
+let words_input = "Atención Rapida Aquí";//input
+let words = words_input;//palabras o frase para buscar
+document.getElementById("buscar").innerHTML = `Buscar: "<b>${words}</b>"`;
+let arr_words = words.trim().split(' ');
+
+//let regex1 = new RegExp(w, 'gim');
+//new RegExp("^n", "g")
+
+
+//variables
+//modo1
+var no_part_word  = 'N';//[Y,N] - lo buscado no puede ser parte de la palabra
+var exact_match   = 'N';//[Y,N] - ocurrencia exacta 'Cristo Jesus' pero no 'Cristo Dios Jesus'
+var case_sens 	  = 'i';//['',i] - '' = revisar Mayúscula y minúscula; i = insensitive (Da igual)
+var accent_match  = 'N';//[Y,N] - en la búsqueda tener en cuenta tildes si hay. 
+
+console.log('variables:',no_part_word,exact_match,case_sens,accent_match);
+
+
+//1. no_part_word == Y //ok
+//1. no_part_word == N //ok
+//1. case_sens = 'i' //ok
+//1. case_sens = '' //ok
+
+//1. no_part_word == N && exact_match = 'N'; //ok
+//1. no_part_word == N && exact_match = 'Y'; //ok
+
+//1. no_part_word == Y && exact_match = 'N' && case_sens = 'i'; //ok
+//1. no_part_word == Y && exact_match = 'Y' && case_sens = ''; //ok
+//1. no_part_word == Y && exact_match = 'Y' && case_sens = 'i'; //ok
+//1. no_part_word == Y && exact_match = 'Y' && case_sens = ''; //ok
+
+// --- con exact_match = 'Y' case_sens siempre tiene que ser '' ya que es exact_match ---
+//1. no_part_word == Y && exact_match == 'Y' && case_sens == '' && accent_match  == 'Y'; //ok //caso: 1a(YY''Y)
+//1. no_part_word == Y && exact_match == 'Y' && case_sens == '' && accent_match  == 'N'; //ok //caso: 1b(YY''N)
+//1. no_part_word == Y && exact_match == 'Y' && case_sens == 'i' que es '' siempre && accent_match  == 'N'; //ok //caso: 1b(YY''N)
+
+//1. no_part_word == Y && exact_match == 'N' && case_sens == 'i' && accent_match  == 'Y'; //caso 1c(YNiY) --- mal
+//1. no_part_word == Y && exact_match == 'N' && case_sens == 'i' && accent_match  == 'N'; //caso 1d(YNiN) --- mal
+
+
+//=======================================================================================================//
+//Modo 1
+//=======================================================================================================//
+var arr_res = [];//resultado de busqueda
+var arr_new_text = [];//nuevo texto con rojo para mostrar las ocurrencias
+var arr_new_text_sin_accent = [];//nuevo texto sin acentos con rojo para mostrar las ocurrencias
+var arr_text_rojo = [];
+var text_show;
+var caso;
+
+//recorrer texto
+arr_text.map((el)=>{
+  //console.log(el);     
+    
+    //recorrer palabras
+    arr_words.forEach(s =>{       
+        if(no_part_word == 'Y'){
+          s = '^' + s + '$';//exact ocurrence
+        }
+
+		//if(accent_match  == 'Y'){
+			let regex_s = new RegExp(s, 'gm'+case_sens);//s = arr_words[0]//is
+			//console.log('regex_s: '+regex_s);    
+			if(el.match(regex_s)){
+				console.log('--- SI. "'+el+'" match("'+s+'")');
+				arr_res.push(el);
+				arr_new_text.push(el);				
+				//console.log(' ahora el: '+el);
+			}else{
+				//console.log('no match: "'+el+'" NO match("'+s+'")');
+				//arr_new_text.push(el);
+			}
+		//}
+        
+
+
+		if(accent_match  == 'N'){
+			let regex_sin_a = new RegExp(removeAccents(s), 'gm'+case_sens);//s = arr_words[0]//is
+			let regex_con_a = new RegExp(s, 'gm'+case_sens);//s = arr_words[0]//is
+			if(removeAccents(el).match(regex_sin_a) || el.match(regex_con_a)){
+				console.log('--- --- SI. da igual accents. "'+el+'" match("'+s+'")');
+				arr_new_text_sin_accent.push(el);
+			}
+		}else{
+
+		}
+    });    
+});
+console.log('ocurrencias: '+arr_res.length +' --- abajo --- arr_res: ');
+console.log(arr_res);
+
+console.log('ocurrencias da igual accents: '+arr_new_text_sin_accent.length +' --- abajo --- arr_new_text_sin_accent: ');
+console.log(arr_new_text_sin_accent);
+arr_new_text_sin_accent = arr_new_text_sin_accent.filter(elm => elm);
+console.log(arr_new_text_sin_accent);
+
+//let w_res = arr_res.join(' ');
+//console.log('para mostrar --- w_res: '+w_res);
+
+	//ocurrencia exacta
+	if(no_part_word == 'Y'){
+		console.log("IF");
+		console.log(" --- no_part_word == 'Y' ---");
+
+		if(exact_match == 'Y'){//ocurrencia exacta 'Cristo Jesus' pero NO 'Cristo Dios Jesus'
+			//si no_part_word == 'Y' siempre se hace comprobacion de words = 'Cristo Jesus'
+			console.log(" --- exact_match == 'Y' ---");
+			case_sens = '';//siempre '' con exact_match == 'Y' ya que se compara frase exacta 'Atención Rapida Aquí' y no 'atención rapida aquí'
+
+			if(accent_match == 'Y'){//funciona ok
+				console.log(" --- accent_match == 'Y' ---");
+				words = arr_words.join(' ');
+				var regex1 = new RegExp(words, 'gm'+case_sens);
+				var result = text.match(regex1);
+
+				text = text.replace(regex1, function(x) {
+					return '<b class="red">' + x + '</b>';
+				});
+				text_show = text;
+				caso = "1a(YY''Y)ok";
+			}else{
+				console.log(" --- accent_match == 'N' ---");
+				words = arr_words.join(' ');
+
+				let words_sin_acentos = removeAccents(words);
+				console.log(" sin acentos. words_sin_acentos: "+words_sin_acentos);
+
+				let text_sin_acentos = removeAccents(text_sin_tags);
+				console.log(" sin acentos. text_sin_acentos: "+text_sin_acentos);
+
+				//formo words con '|'
+				//words = words + '|' + words_sin_acentos;
+				var arr_posibles_words = []; 
+
+				arr_text.forEach(el=>{
+					var regex_el = RegExp(el, 'gm'+case_sens);
+					var regex_el_sin_accent = RegExp(removeAccents(el), 'gm'+case_sens);
+					if(words.match(regex_el) || words.match(regex_el_sin_accent)){
+						console.log('SI. elemento "' +el +'" está en words "'+words+'"');
+						arr_posibles_words.push(el);
+					}else{
+						//console.log('-NO. elemento "' +el +'" NO está en words "'+words+'"');
+					}
+				});
+				console.log('arr_posibles_words:');
+				console.log(arr_posibles_words);
+				const dataArr = new Set(arr_posibles_words);//elimino items repetidos
+				let arr_unicos_words = [...dataArr];
+				console.log('arr_unicos_words:');
+				console.log(arr_unicos_words);
+
+				//formo posibles combinaciones
+				var arr_posibles_comb = [];
+				var arr_tal_cual = [];
+				var arr_sin_accent = [];
+				arr_unicos_words.forEach(el=>{
+					console.log(el);
+					arr_posibles_comb.push(el);
+					arr_tal_cual.push(el);
+					let el_sin_accent = removeAccents(el);
+					console.log(el_sin_accent);
+					arr_posibles_comb.push(el_sin_accent);
+					arr_sin_accent.push(el_sin_accent);
+				});
+
+				console.log('arr_tal_cual:');
+				console.log(arr_tal_cual);
+				const dataArr_tal = new Set(arr_tal_cual);//elimino items repetidos
+				var arr_tal_unicos_comb = [...dataArr_tal];
+				console.log('arr_tal_unicos_comb:');
+				console.log(arr_tal_unicos_comb);
+
+				console.log('arr_sin_accent:');
+				console.log(arr_sin_accent);
+				const dataArr_sin = new Set(arr_sin_accent);//elimino items repetidos
+				var arr_sin_unicos_comb = [...dataArr_sin];
+				console.log('arr_sin_unicos_comb:');
+				console.log(arr_sin_unicos_comb);
+
+				console.log('arr_posibles_comb:');
+				console.log(arr_posibles_comb);
+				const dataArr2 = new Set(arr_posibles_comb);//elimino items repetidos
+				var arr_unicos_comb = [...dataArr2];
+				console.log('arr_unicos_comb:');
+				console.log(arr_unicos_comb);
+
+				//formo todos posibles combinaciones finales
+				var arr_prim = [];
+				var arr_seg = [];
+				arr_unicos_comb.forEach( (el,i) => {
+					console.log('el: '+el);
+					if(i%2 == 0 ){//cada segundo item
+						arr_seg.push(el);
+					}else{//cada primer item
+						arr_prim.push(el);
+					}
+				});
+				console.log('arr_prim:');
+				console.log(arr_prim);
+				console.log('arr_seg:');
+				console.log(arr_seg);
+
+				var arr_opt_tot = [];
+				var arr_opt = [];
+
+				//formando combinaciones
+				arr_words.forEach((el,i,arr)=>{					
+					//sin tildes empezando
+					for (let y = i; y < arr_prim.length; y++) {
+						const el_y = arr_prim[y];
+						//console.log(' - y: '+ arr_prim[y]);
+						if(y > 0){
+							for (let z = y; z < arr_seg.length && z > 0; z--) {
+								arr_opt.push(arr_seg[y-z]);//meto index anterior
+							}
+						}
+						arr_opt.push(el_y);
+						//con tildes siguiendo
+						for (let x = y+1; x < arr_seg.length; x++) {
+							const el_x = arr_seg[x];
+							//console.log(' --- x: '+arr_seg[x]);
+							arr_opt.push(el_x);
+							//console.log('arr_opt: '+arr_opt);
+						}
+						arr_opt_tot.push(arr_opt);
+						//console.log('arr_opt_tot: ');
+						//console.log(arr_opt_tot);
+						arr_opt = [];
+					}
+					//console.log('');
+					//con tildes empezando
+					for (let y = i; y < arr_seg.length; y++) {
+						const el_y = arr_seg[y];
+						//console.log(' - y: '+ arr_seg[y]);
+						if(y > 0){
+							for (let z = y; z < arr_prim.length && z > 0; z--) {
+								arr_opt.push(arr_prim[y-z]);//meto index anterior
+							}
+						}
+						arr_opt.push(el_y);					
+						//sin tildes siguiendo
+						for (let x = y+1; x < arr_prim.length; x++) {
+							const el_x = arr_prim[x];
+							//console.log(' --- x: '+arr_prim[x]);
+							arr_opt.push(el_x);
+							//console.log('arr_opt: '+arr_opt);
+						}
+						arr_opt_tot.push(arr_opt);
+						//console.log('arr_opt_tot: ');
+						//console.log(arr_opt_tot);
+						arr_opt = [];
+					}
+					console.log('arr_opt_tot: ');
+					console.log(arr_opt_tot);
+				});
+
+				var arr_prepar = [];
+				arr_prepar.push(arr_prim.join(' '));//combinación todas palabras sin tilde
+				arr_prepar.push(arr_seg.join(' '));//combinación todas palabras sin tilde
+				arr_opt_tot.forEach(el=>{//el resto
+					arr_prepar.push(el.join(' '));
+				});
+				console.log('arr_prepar: ');
+				console.log(arr_prepar);
+
+				const dataArr_prepar = new Set(arr_prepar);//elimino items repetidos
+				var arr_prepar_comb = [...dataArr_prepar];
+				console.log('arr_prepar_comb:');
+				console.log(arr_prepar_comb);
+
+				var arr_prepar_fin = arr_prepar_comb.join('|');
+
+				//words = 'Atención Rápida Aquí|Atencion Rapida Aqui|Atención Rapida Aquí|Atencion Rápida Aqui';//testing
+				words = arr_prepar_fin;
+				console.log(" mezclado con '|' words: "+words);
+				
+				var regex1 = new RegExp(words, 'gm'+case_sens);
+				var result = text.match(regex1);
+
+				text = text.replace(regex1, function(x) {
+					return '<b class="red">' + x + '</b>';
+				});
+				text_show = text;
+				caso = "1b(YY''N)ok";
+				
+				//document.getElementById("demo").innerHTML = '1.) Text to show:<br>'+text_show;
+				//document.getElementById("result").innerHTML = '1.) Ocurrencias: '+result.length+'<br> '+ result;
+			}
+			/*
+			words = arr_words.join(' ');
+			var regex1 = new RegExp(words, 'gm'+case_sens);
+			var result = text.match(regex1);
+
+			text = text.replace(regex1, function(x) {
+				return '<b class="red">' + x + '</b>';
+			});
+			text_show = text;
+			caso = 1;
+			*/
+			//document.getElementById("demo").innerHTML = '1.) Text to show:<br>'+text_show;
+			//document.getElementById("result").innerHTML = '1.) Ocurrencias: '+result.length+'<br> '+ result;
+
+		}else{//ocurrencia NO exacta. se comprueba cada palabra. 'Cristo' 'Jesus'. PERO PALABRAS NO PUEDEN SER PARTE DE PALABRA. 'Jesus' PERO NO 'Jesucristo'
+		//no_part_word == 'Y' 	
+		console.log(" --- exact_match == 'N' ---");
+			
+			if(accent_match == 'Y'){
+				console.log(" --- accent_match == 'Y' ---");
+				caso = "1c(YNiY)";
+			}else{
+				console.log(" --- accent_match == 'N' ---");
+				caso = "1d(YNiN)";
+
+				const dataArr_aaa = new Set(arr_new_text_sin_accent);//elimino items repetidos
+				var arr_aaa_comb = [...dataArr_aaa];
+				console.log('arr_aaa_comb:');
+				console.log(arr_aaa_comb);
+
+
+				arr_text_orig.map(el=>{
+					if(el.match(arr_aaa_comb.join('|'))){
+						console.log('elemento del texto. el: '+el);
+						for (let i = 0; i < arr_aaa_comb.length; i++) {
+							var regex_res = new RegExp(arr_aaa_comb[i], 'gm'+case_sens);
+							if(el.match(arr_aaa_comb[i])){
+								console.log('- elemento tiene ocurrencia. el: '+el)
+								el = el.replace(regex_res, function(x) {
+									return '<b class="red">' + x + '</b>';
+								});
+								console.log('- rojo elemento. el: '+el);
+								arr_text_rojo.push(el);
+								break;
+							}				
+						}
+					}else{
+						arr_text_rojo.push(el);
+					}
+				});
+				var text_rojo = arr_text_rojo.join(' ');
+				console.log(text_rojo);
+				text_show = text_rojo;
+			}
+
+
+
+			/*
+			let arr_res_exact = [];
+			arr_res.forEach(el=>{
+				el = '^' + el + '$';//exact ocurrence
+				arr_res_exact.push(el);
+			});	
+			var result = arr_res;//para mostrar cantidad de ocurrencias y values	
+			arr_res = arr_res_exact;	
+			
+			arr_text_orig.map(el=>{
+				if(el.match(arr_res.join('|'))){
+					console.log('elemento del texto. el: '+el);
+					for (let i = 0; i < arr_res.length; i++) {
+						var regex_res = new RegExp(arr_res[i], 'gm'+case_sens);
+						if(el.match(arr_res[i])){
+							console.log('- elemento tiene ocurrencia. el: '+el)
+							el = el.replace(regex_res, function(x) {
+								return '<b class="red">' + x + '</b>';
+							});
+							console.log('- rojo elemento. el: '+el);
+							arr_text_rojo.push(el);
+							break;
+						}				
+					}
+				}else{
+					arr_text_rojo.push(el);
+				}
+			});
+			var text_rojo = arr_text_rojo.join(' ');
+			console.log(text_rojo);
+			text_show = text_rojo;
+			//caso = 2;
+			*/
+
+			//document.getElementById("demo").innerHTML = '2.) Text to show:<br>'+text_show;
+			//document.getElementById("result").innerHTML = '2.) Ocurrencias: '+result.length+'<br> '+ result;
+		}//fin else
+
+	}else{//ocurrencias pueden ser parte de palabras
+		console.log("ELSE");
+		console.log(" --- no_part_word == 'N' ---");
+		
+		if(arr_words.length > 1){
+			if(exact_match == 'Y'){
+				console.log(" --- exact_match == 'Y' ---");
+				caso = 3;
+				words = arr_words.join(' ');
+
+				//REACER TODO.
+				//SI ES EXACTA_MATCH, NO PUEDE TENER PARTES DE PALABRAS
+				// SOLO CON TILDES Y SIN TILDES, CAS SANSITIVE E INSENSITIVE 
+
+
+
+
+
+
+			}else{
+				console.log(" --- exact_match == 'N' ---");
+				
+				if(accent_match == 'Y'){
+					console.log(" --- accent_match == 'Y' ---");
+
+					caso = "4(NNiY)";
+					words = arr_words.join('|');
+					var regex1 = new RegExp(words, 'gm'+case_sens);
+					var result = text.match(regex1);
+
+					text = text.replace(regex1, function(x) {
+						return '<b class="red">' + x + '</b>';
+					});
+					text_show = text;
+	
+				}else{
+					console.log(" --- accent_match == 'N' ---");
+					caso = "4(NNiN)";
+
+
+				}
+
+
+
+			}
+			console.log('ahora words: '+words);
+		}
+		
+		/*
+		var regex1 = new RegExp(words, 'gm'+case_sens);
+		var result = text.match(regex1);
+
+		text = text.replace(regex1, function(x) {
+			return '<b class="red">' + x + '</b>';
+		});
+		text_show = text;
+		*/
+		//document.getElementById("demo").innerHTML = '3-4.) Text to show:<br>'+text_show;
+		//document.getElementById("result").innerHTML = '3-4.) Ocurrencias: '+result.length+'<br> '+ result;
+	}
+
+	document.getElementById("demo2").innerHTML = 'TOTAL Text to show (caso: '+caso+'): <br>'+text_show;
+	if(result!= null) document.getElementById("result2").innerHTML = 'TOTAL Ocurrencias: '+result.length+'<br> '+ result;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//====================================================================================================//
+
+
+
+function prepararFraseExacto(text_marcas){
+    var arr_marcas = text_marcas.split(' ');//de aki cojo las marcas
+    var buscar_end = false;//default
+    var arr_new = [];
+
+    //reviso si en text_marcas no hay frase de checkbox3 '{Criso Jesus}' o '{Criso Dios Jesus}'
+    //para convertir en '{Criso} {Jesus}' o '{Criso} {Dios} Jesus}'
+    arr_marcas.forEach((el,y,arr)=>{
+        if(el[0] == '{' && el[el.length-1] != '}' && buscar_end == false){//start con '{'
+            el += '~';
+            buscar_end = true;
+        }
+        if(el[0] != '{' && el[el.length-1] != '}' && buscar_end == true){//dentro
+            el += '~';
+        }
+        if(el[0] != '{' && el[el.length-1] == '}' && buscar_end == true){//end con '}'
+            buscar_end = false;
+        }
+        arr_new.push(el);
+    });
+    var text_marcas_new = arr_new.join(' ').replace('~ ','');
+    console.log('text_marcas_new: ', text_marcas_new);
+    return text_marcas_new;
+}
+
+
+
+
+function removeTags(str){
+  if(str === null || str === ''){
+    return false;
+  }else{
+    str = str.toString();
+  }
+  // Regular expression to identify HTML tags in
+  // the input string. Replacing the identified
+  // HTML tag with a null string.
+  return str.replace(/(<([^>]+)>)/ig, '');
+}
+
+function removeAccents(str){
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+} 
+
+
+
+</script>
+
+</body>
+</html>

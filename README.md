@@ -1,3 +1,3 @@
 # bibleqt
-bible app parecida a BibleQuote de Timofey Ha - 2
+bible app parecida a BibleQuote de Timofey Ha - 3
 

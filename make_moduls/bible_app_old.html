@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bible_app</title>
+    <link rel="stylesheet" href="bible_app.css">
+</head>
+<body>
+
+    <header>
+
+        <div id="headerMain">
+            <div id="headerMainInner">
+                
+                <button class="btn f_l" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">H / S</button>
+
+                <button class="btn f_l ml" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
+                <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
+
+                <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
+                <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
+
+                <button class="btn f_l ml" title="History previous register" onclick="prevHist()">< H</button>
+                <button class="btn f_l" title="History next register" onclick="nextHist()">H ></button>
+
+                <button class="btn f_l ml" title="Previous chapter of the book" onclick="prevChap()">< C</button>
+                <button class="btn f_l" title="Next chapter of the book" onclick="nextChap()">C ></button>
+                
+                <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Col / Row</button>
+
+                <button class="btn f_r" title="Settings" onclick="">Set</button>
+                <h3>Bible App</h3>
+            </div>
+        </div>
+
+        <div id="headerSidebar">
+            <div id="headerSidebarInner">
+
+                <div class="wr_btns f_r">
+                    <button class="btn btn_sm f_r" title="Sidebar more wide" onclick="resizeSidebar('more')">+</button>
+                    <button class="btn btn_sm f_r" title="Sidebar less wide" onclick="resizeSidebar('less')">-</button>
+                </div>
+
+                <div class="wr_btns_scr f_l">
+                    <button class="btn btn_active" onclick="" title="Навигация">Nav</button>
+                    <button class="btn" onclick="" title="Поиск">Find</button>
+                    <button class="btn" onclick="" title="Перекрестные Ссылки">TSK</button>
+                    <button class="btn" onclick="" title="Сравнения">Comp</button>
+                    <button class="btn" onclick="" title="Комментарии">Comm</button>
+                    <button class="btn" onclick="" title="Словари">Dic</button>
+                </div>
+                
+
+
+            </div>
+        </div>
+
+        <div id="headerContainer">
+            <div id="headerContainerInner">
+                <div id="tab1" class="tabs tab_active">
+                    <span>Рим.10:17</span>
+                </div>
+                <div id="tab2" class="tabs">
+                    <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                    <span>1Кор.13:1-17</span>
+                </div>
+                <div id="tab3" class="tabs">
+                    <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                    <span>Ин.3:16</span>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+
+    
+    <div id="wrapper">
+
+        <div id="sidebar">
+            <div id="sidebarInner">
+
+                <p>Cross reference here...</p>
+
+            </div>
+        </div>
+        
+        <div id="v_line"></div>
+
+        <div id="container">
+            <div id="containerInner">
+                                
+                <div id="wrCols">
+               
+                    <div id="col1" class="cols">
+
+                        <div id="trans1" class="colsHead">
+                            <div class="colsHeadInner">
+                                <div>RST</div>
+                            </div>
+                        </div>
+
+                        <div class="colsInner">
+                            
+                            <p id="v1" style="background: red;"><a href="#v10">Пс.1:1</a> muy largo versículo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy <br>
+                                largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy <br>
+                                largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo GO TO #v10 --- Блажен муж, который не ходит на совет нечестивых и не стоит на пути грешных и не сидит в собрании развратителей,
+                            <p id="v2" style="background: blue;" onclick="ref(this.innerHTML)"><a href="#v2">Пс.1:2</a> (v2)  sh dhsdh dfh sdsh dfhsdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh но в законе Господа воля его, и о законе Его размышляет он день и ночь!
+                            <p>Пс.1:3 И будет он как дерево, посаженное при потоках вод, которое приносит плод свой во время свое, и лист которого не вянет; и во всем, что он ни делает, успеет.
+                            <p>Пс.1:4 Не так - нечестивые; .
+                            <p>Пс.1:5 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.1:6 Ибо знает Господь путь праведных, а путь нечестивых погибнет.    
+                            <p id="rst/1/1/7" style="background: red;" onclick="ref(this.innerHTML)"><a href="#v7">Пс.1:7</a> Ибо знает Господь путь праведных, а путь нечестивых погибнет.  
+                            <p>Пс.8 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.9 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.10 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.11 hw wetrh wqthweth werth wrth ewrth wrth wrth wПотому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.12 Потому не устоят нечесwrth trh wrth rth wtrh wrth тивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.13 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.14 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.15 wrt 
+
+
+                        </div>
+                    </div>
+
+                    <div id="col2" class="cols">
+                        
+                        <div id="trans2" class="colsHead">
+                            <div class="colsHeadInner">
+                                <button class="btn btn_sm f_r" onclick="closeTrans(this)">x</button>
+                                <div>Ukr_Ogi</div>
+                            </div>
+                        </div>
+
+                        <div class="colsInner" >
+
+                            <p id="v1" style="background: #0dff00;"><a href="#v10">Пс.1:1</a>mediano versículo -- OOOOOOOOOOO OOOOOOOOOOOO OOOOOOOOOOOOOOO OOOOOOOOOOOOO OOOOOOOOOOOOOO OOOOOOO Блажен муж, що за радою несправедливих не ходить, і не стоїть на дорозі грішних, і не сидить на сидінні злоріків,
+                            <p>Пс.1:2 та в Законі Господнім його насолода, і erte ertertertert ert ert ert ert ert ert ert ert ert про Закон Його вдень та вночі він роздумує!
+                            <p>Пс.1:3 І він буде, як дерево, над водним потоком посаджене, що родить свій плід своєдчасно, і що листя не в'яне його, і все, що він чинить, щаститься йому!
+                            <p style="background: #fbff00;">Пс.1:4 Не так ті безбожні, afgha afdhdfha dfh adfh dfh adfh adf adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh adfh <br> 
+                                adfh adfh adfh adfh adfh <br>
+                                adfh adfh adfh adfh adfh adfhadfhadfha dfh adfh adfh adfh adfhadfh adfh adfh adfh adfh adfh adfh adfha dfha dfh adfh adfh adfh adfh adfh <br>
+                                adfh adfh adfh adfh adfh dafhadfha dfh adfh adfhafh dfh adfh adfh adfha dfh adfha dfh adfh adfhadfh adfh adfh adfh adfhadfh adfh adfha fha dfhadfh adfh adfh adfh fhвони як полова, що вітер її розвіває!
+                            <p>Пс.1:5 Ось тому то не встоять безбожні на суді, ані грішники у зборі праведних,
+                            <p>Пс.1:6 дорогу бо праведних знає Господь, а дорога безбожних загине!    
+                            <p id="ogi/1/1/7" style="background: #0dff00;"><a href="#v1">Пс.1:7</a> aki ogienko qweqwe qwe qweqwe qwe qwe qweqwe qwe qwe qwe qwe errrrrrr uuuuuuuu дорогу бо праведних знає Господь, а дорога безбожних загине!  
+                            <p>Пс.8 Потому не устоят  праведных.
+                            <p>Пс.9 Потому не устоят нечестивые и - в собрании праведных.
+                            <p>Пс.10 Потому не устоят нечестивые  h sdfh sdh sdhs dfh sdfh sdfh sdfh на суде, и грешники - в собрании праведных.
+                            <p>Пс.11 hw wetrh wqthweth werth wrth ewrth wrth wrth wПотому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.12 Потому праведных.
+                            <p>Пс.13 Потому не sdh sdgfhs dh sdh устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.14 Потому суде, и грешники - в собрании праведных.
+                            <p>Пс.15 wrt wrt wrth wrth wrthПотому не устоят 
+                        </div>
+                    </div>
+                    
+                    <div id="col3" class="cols">
+                        
+                        <div id="trans3" class="colsHead">
+                            <div class="colsHeadInner">
+                                <button class="btn btn_sm f_r" onclick="closeTrans(this)">x</button>
+                                <div>Ukr_Hom</div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="colsInner" >
+
+                            <p style="background: #0051ff;"><a href="#v10">Пс.1:1</a> corto versículo --- vacio sdh dhsdhsdh sdh </p>  
+                            <p>Пс.1:2 та в Законі Господнім його!
+                            <p>Пс.1:3 І він буде, як дерево, над ене, що родить свій плід своєдчасно, і що листя не в'яне його, і все, що він чинить, щаститься йому!
+                            <p>Пс.1:4 Не так ті безбожні,о вітер !
+                            <p>Пс.1:5 Ось тому то не встоять ні грішники у зборі праведних,
+                            <p>Пс.1:6 дорогу бо праведних знає Господь, а дорога безбожних заг!    
+                            <p id="hom/1/1/7" style="background: #0051ff;"><a href="#v1">7.</a> otro versiculo aki... 
+                            <p>Пс.8 Потому не устоят  праведных.
+                            <p>Пс.9 Потому fsd sh dgh sdhs dfhfdне устоят нечестивые и - в собрании праведных.
+                            <p>Пс.10 Потому  sdh sdhs dfh sdfh sdfh sdfh на суде, и грешники - в собрании праведных.
+                            <p>Пс.11 hw wetrh wqthweth werth wrth ewrth wrth wrth wПотому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.12 Потому dhsdfh dfh h праведных.
+                            <p>Пс.13 Потому не sdh sdgfhs dh sdh устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.14 Потому в собрании праведных.
+                            <p>Пс.15 wrt wrt  - в собрании праведных dhadh afdh adfh adfh adfh adfh adfh adfh adf hadfhadfhadfh adfh adfh adfh adfh adfh adfhadfh adfh adfh adfh adfh adfh adfh .
+                                      
+
+                        
+                        </div>
+                    </div>
+                    
+                
+
+                    <div id="col4" class="cols">
+
+                        <div id="trans4" class="colsHead">
+                            <div class="colsHeadInner">
+                                <button class="btn btn_sm f_r" onclick="closeTrans(this)">x</button>
+                                <div>KJV</div>
+                            </div>
+                        </div>
+
+                        <div class="colsInner">
+
+                            <p id="v1" style="background: red;"><a href="#v10">Пс.1:1</a> muy largo versículo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy <br>
+                                largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo muy <br>
+                                largo versiculo muy largo versiculo muy largo versiculo muy largo versiculo GO TO #v10 --- Блажен муж, который не ходит на совет нечестивых и не стоит на пути грешных и не сидит в собрании развратителей,
+                            <p id="v2" style="background: blue;" onclick="ref(this.innerHTML)"><a href="#v2">Пс.1:2</a> (v2)  sh dhsdh dfh sdsh dfhsdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh sdfh но в законе Господа воля его, и о законе Его размышляет он день и ночь!
+                            <p>Пс.1:3 И будет он как дерево, посаженное при потоках вод, которое приносит плод свой во время свое, и лист которого не вянет; и во всем, что он ни делает, успеет.
+                            <p>Пс.1:4 Не так - нечестивые; .
+                            <p>Пс.1:5 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.1:6 Ибо знает Господь путь праведных, а путь нечестивых погибнет.    
+                            <p id="rst/1/1/7" style="background: red;" onclick="ref(this.innerHTML)"><a href="#v7">Пс.1:7</a> Ибо знает Господь путь праведных, а путь нечестивых погибнет.  
+                            <p>Пс.8 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.9 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.10 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.11 hw wetrh wqthweth werth wrth ewrth wrth wrth wПотому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.12 Потому не устоят нечесwrth trh wrth rth wtrh wrth тивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.13 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.14 Потому не устоят нечестивые на суде, и грешники - в собрании праведных.
+                            <p>Пс.15 wrt 
+
+
+                        </div>
+                    </div>
+
+                <!--
+
+                    <div id="col5" class="cols">
+                        <div class="colsInner">
+
+                            <title>Бытие</title>
+                            <h4>1</h4>
+                            <p>1 В начале сотворил Бог небо и землю.</p>
+                            <p>2 Земля же была безвидна и пуста, и тьма над бездною, и Дух Божий носился над водою.</p>
+                            <p>3 И сказал Бог: да будет свет. И стал свет.</p>
+                            <p>4 И увидел Бог свет, что он хорош, и отделил Бог свет от тьмы.</p>
+                            <p>5 И назвал Бог свет днем, а тьму ночью. И был вечер, и было утро: день один.</p>
+                            <p>6 И сказал Бог: да будет твердь посреди воды, и да отделяет она воду от воды. [И стало так.]</p>
+
+                            <h4>2</h4>
+                            <p>1 Так совершены небо и земля и все воинство их.</p>
+                        </div>
+                    </div>
+
+                    <div id="col6" class="cols">
+                        <div class="colsInner">
+                            <b>col6</b>
+                            <p>
+                                testeando algo...
+                            </p>    
+                        </div>
+                    </div>
+
+                    <div id="col7" class="cols">
+                        <div class="colsInner">
+                            <b>col7</b>
+                            <p>
+                                testeando algo...
+                            </p>    
+                        </div>
+                    </div>
+
+                    <div id="col8" class="cols">
+                        <div class="colsInner">
+                            <b>col8</b>
+                            <p>
+                                testeando algo...
+                            </p>    
+                        </div>
+                    </div>
+                -->
+
+                </div><!--/wrCols-->
+
+
+            </div>
+        </div>
+    
+    
+    </div>
+
+    <div id="footer">
+        <div id="footerInner">
+            <button class="btn btn_active" title="Русский Синодальный Текст 1876г." onclick="changeBible()">RST</button>
+            <button class="btn" onclick="changeBible()">NRT</button>
+            <button class="btn" onclick="changeBible()">RV60</button>
+            <button class="btn" onclick="changeBible()">LBLA</button>
+            <button class="btn" onclick="changeBible()">Ukr_Ogi</button>
+            <button class="btn" onclick="changeBible()">Ukr_Hom</button>
+            <button class="btn" onclick="changeBible()">Ukr_Gyz</button>
+            <button class="btn" onclick="changeBible()">Ukr_Tur</button>
+            <button class="btn" onclick="changeBible()">Ukr_Der</button>
+            <button class="btn" onclick="changeBible()">KJV</button>
+            <button class="btn" onclick="changeBible()">NKJV</button>
+        </div>
+    </div>
+
+<!-- Javascript para este html -->
+<script src="./bible_app.js"></script>
+
+</body>
+</html>
