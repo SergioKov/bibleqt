@@ -753,8 +753,10 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
             showTab(document.querySelector('#btn_find'),'find');
 
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
+                document.querySelector('#inpt_find').value = numberStrShow;
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
+                document.querySelector('#inpt_find').value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
                     findWords(numberStr);
                 }else{//rstStrong
