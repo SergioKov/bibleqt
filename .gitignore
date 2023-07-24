@@ -1,0 +1,7 @@
+# Ignora archivos del sistema Mac 
+.DS_store
+
+# Ignora las siguientes carpetas
+Moduls_for_JSON/
+Moduls_for_WORK/
+make_moduls/
