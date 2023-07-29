@@ -461,7 +461,8 @@ function convertLinkToEsp(book, chapter, verse){
                     (chapter >= 92 && chapter <= 100) || 
                     (chapter >= 102 && chapter <= 106) || 
                     (chapter >= 108 && chapter < 113) || 
-                    (chapter >= 116 && chapter <= 145)
+                    (chapter >= 116 && chapter <= 138) || //revisar!
+                    (chapter >= 140 && chapter <= 145) //revisar!
                 ){
                     chapterNumber += 1;
                     
@@ -469,6 +470,7 @@ function convertLinkToEsp(book, chapter, verse){
                 //Formula Esp => Rus //Пс.X+1:2 => Ps.X:1 //добавляю пустой стих сначала в исп перевод
                 //+1 : -1
                 if(
+                        (chapter == 11) || //revisar!
                     (chapter == 12) || 
                     (chapter >= 17 && chapter <= 21) ||
                     (chapter >= 29 && chapter <= 30) || 
@@ -486,7 +488,8 @@ function convertLinkToEsp(book, chapter, verse){
                     (chapter >= 87 && chapter < 89) || 
                     (chapter == 91) || 
                     (chapter == 101) || 
-                    (chapter == 107)
+                    (chapter == 107) ||
+                    (chapter == 139) //revisar! 
                 ){
                     chapterNumber += 1;
                     if(verse >= 2){

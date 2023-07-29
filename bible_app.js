@@ -2591,7 +2591,8 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         (chapter >= 92 && chapter <= 100) || 
                                         (chapter >= 102 && chapter <= 106) || 
                                         (chapter >= 108 && chapter < 113) || 
-                                        (chapter >= 116 && chapter <= 145)
+                                        (chapter >= 116 && chapter <= 138) ||
+                                        (chapter >= 140 && chapter <= 145)
                                     ){
                                         addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                         arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
@@ -2601,6 +2602,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     //Formula Esp => Rus //Пс.X+1:2 => Ps.X:1 //добавляю пустой стих сначала в исп перевод
                                     //+1 : -1
                                     if(
+                                        (chapter == 11) || 
                                         (chapter == 12) || 
                                         (chapter >= 17 && chapter <= 21) ||
                                         (chapter >= 29 && chapter <= 30) || 
@@ -2618,7 +2620,8 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         (chapter >= 87 && chapter < 89) || 
                                         (chapter == 91) || 
                                         (chapter == 101) || 
-                                        (chapter == 107)
+                                        (chapter == 107) ||
+                                        (chapter == 139)
                                     ){
                                         addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                         arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length-1) );
