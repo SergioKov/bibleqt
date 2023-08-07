@@ -34,11 +34,14 @@ header('Content-type: text/html; charset=utf-8');
                 <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
                 <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
 
-                <button class="btn f_l ml" title="History previous register" onclick="prevHist()">< H</button>
-                <button class="btn f_l" title="History next register" onclick="nextHist()">H ></button>
+                <button class="btn f_l ml" title="History previous register" onclick="prevHist()">&lang; H</button>
+                <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
 
-                <button class="btn f_l ml" title="Previous chapter of the book" onclick="chapterGo('prev')">< Ch</button>
-                <button class="btn f_l" title="Next chapter of the book" onclick="chapterGo('next')">Ch ></button>
+                <button class="btn f_l ml" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
+                <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
+
+                <button class="btn f_l ml" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
+                <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
                 
                 <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
 
@@ -379,8 +382,8 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="col1" class="cols">
                         <div id="trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
                             <div class="colsHeadInner">
-                                <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> < </span>
-                                <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> > </span>
+                                <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
+                                <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
                                 <div>RST</div>
                             </div>
                         </div>

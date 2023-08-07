@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //do work
     //console.log('DOMContentLoaded');
     //addListenerToPA();//listen links p > a //no hace falta ya que todavía no hay p a
+
+    //addTrans();
+    //addTrans();
+
 });
 
 //listen links p > a
@@ -2437,7 +2441,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     }
                                 break;
 
-
                             case 44: //Romanos - Римлянам
                                     //book = book + 7;// 44 + 7 = 51 //Romanos - Римлянам
                                     if(chapter == 16){// 16:25-27 => 14:24-26                                          
@@ -2460,6 +2463,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         arr_data_body.splice(col1_p_length);
                                     }
                                 break;
+                            
                             default:
                                 //console.log('default en switch');
                                 break;
@@ -2702,8 +2706,10 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
                             case 19: //Притчи
                                     if(chapter == 4){
-                                        arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-2) );
-                                        arr_data_body = [].concat(arr_vstavka, vstavka_vacio(), vstavka_vacio());
+                                        //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-2) );
+                                        arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
+                                        //arr_data_body = [].concat(arr_vstavka, vstavka_vacio(), vstavka_vacio());
+                                        arr_data_body = [].concat(arr_vstavka);
                                         arr_data_body.splice(col1_p_length);
                                     }
                                 break;
@@ -2725,7 +2731,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         new_arr.splice(1, 1);//elimino verse  (Cantar 1:2) 
                                         //console.log(new_arr);
                                         arr_vstavka = new_arr;
-                                        arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));
+                                        //arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));//mal
+                                        arr_data_body = [].concat(arr_vstavka);//ok
+                                        arr_data_body.splice(col1_p_length);
+                                    }
+                                    if(chapter == 6){//06:1-12 => 06:1-12	
                                         arr_data_body.splice(col1_p_length);
                                     }
                                     if(chapter == 7){//07:1 => 06:13	
@@ -2753,7 +2763,8 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         new_arr.splice(19, 1);//elimino verse  (Is.3:19) 
                                         //console.log(new_arr);
                                         arr_vstavka = new_arr;
-                                        arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));
+                                        //arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));
+                                        arr_data_body = [].concat(arr_vstavka);
                                         arr_data_body.splice(col1_p_length);
                                     }
                                 break;
@@ -4813,6 +4824,86 @@ function addListenerModule(){
     });
 }
 
+function bookGo(dir){
+    //console.log('bookGo dir: '+dir);    
+    var inpt_nav = document.querySelector('#inpt_nav');
+    var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
+    Translation = document.querySelector('#trans1').getAttribute('data-trans');
+
+    //reset de verse en rojo ya que hay que escojer el verse...
+    inpt_nav.setAttribute('data-id_chapter', '0');
+    inpt_nav.setAttribute('data-show_chapter', '1');
+    inpt_nav.setAttribute('data-id_verse', '');
+    inpt_nav.setAttribute('data-show_verse', '');
+    document.querySelectorAll('#v_verse .v_li').forEach(el=>{
+        el.classList.remove('li_active');
+    });
+
+
+    //saco ajustes de este modulo en json
+    url_bq = `modules/text/${Translation}/bibleqt.json`;
+
+    fetch(url_bq)
+        .then((response) => response.json())
+        .then((bq) => {
+
+            //console.log('abajo bq'); 
+            //console.log(bq); 
+
+            if(dir == 'next'){
+                var next_id_book = act_id_book;
+                var next_show_chapter = 1;//siempre      
+                
+                if(act_id_book == parseInt(bq.BookQty) - 1){//66 - 1 = 65 //Apocalipsis
+                    next_id_book = 0;//Génesis
+                }else{
+                    next_id_book = parseInt(act_id_book) + 1;
+                }            
+
+                inpt_nav.setAttribute('data-id_book', next_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+
+                inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+
+                //sel(document.querySelector('#s_book'),'b');//book
+                sel(document.querySelector('#s_chapter'),'ch');//chapter
+                showTrans(next_id_book, next_show_chapter);
+            }
+
+            if(dir == 'prev'){
+                var prev_id_book = act_id_book;
+                var prev_show_chapter = 1;
+
+                if(act_id_book == 0){//Génesis
+                    prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
+                }else{
+                    prev_id_book = parseInt(act_id_book) - 1;
+                }
+
+                inpt_nav.setAttribute('data-id_book', prev_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+
+                inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+
+                //sel(document.querySelector('#s_book'),'b');//book
+                sel(document.querySelector('#s_chapter'),'ch', prev_show_chapter);//chapter
+                showTrans(prev_id_book, prev_show_chapter);
+            }
+
+            
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            //console.log('error promesa: '+error);
+        });
+}
+
 function chapterGo(dir){
     var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
@@ -4898,7 +4989,6 @@ function chapterGo(dir){
             //console.log('error promesa: '+error);
         });
 }
-
 
 function showTab(e, param){
     document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
