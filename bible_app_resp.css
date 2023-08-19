@@ -1,0 +1,71 @@
+/* Desktop */
+@media screen and (min-width: 1024px){
+    #partMob{
+        display:none;
+    }
+
+    #sidebar,
+    #headerSidebar,
+    #partDesk
+    {
+        display:block;
+    }
+
+    .sideHide, .sideShow {
+        width: 30% !important;
+    }
+    .sideShow {
+        position: inherit;
+    }
+
+
+}
+/* end Desktop */
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px){
+
+    #partMob
+    {
+        display:none;
+    }
+
+    #partDesk
+    {
+        display:block;
+    }
+
+    .sideHide, .sideShow {
+        width: 60% !important;
+    }
+
+}
+/* end tablet */
+
+
+/* mobilka */
+@media screen and (min-width: 1px) and (max-width: 767px) {
+ 
+    #headerMain,
+    #footer,
+    #sidebar,
+    #headerSidebar,
+    #partDesk,
+    #v_line
+    {
+        display:none;
+    }
+
+    #partMob{
+        display:block;
+    }
+
+    #headerContainerInner{
+        overflow-x:hidden;
+    }
+    #sidebarInner{
+        margin:0;
+    }
+  
+}
+/* end mobilka */

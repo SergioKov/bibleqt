@@ -10,8 +10,11 @@ header('Content-type: text/html; charset=utf-8');
     <title>My Bible Quote</title>
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
     <link rel="stylesheet" href="bible_app.css">
+    <link rel="stylesheet" href="bible_app_resp.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,10 +51,11 @@ header('Content-type: text/html; charset=utf-8');
                 <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
 
                 <button class="btn f_r" title="Settings" onclick="">Set</button>
-                <h3>My Bible Quote</h3>
+                <h3>BQ</h3>
             </div>
         </div>
 
+        <!--
         <div id="headerSidebar">
             <div id="headerSidebarInner">
 
@@ -74,21 +78,34 @@ header('Content-type: text/html; charset=utf-8');
             </div>
         </div>
 
-        <div id="headerContainer">
+        <div id="headerContainer" style="display:none;">
             <div id="headerContainerInner">
-                <div id="tab1" class="tabs tab_active">
-                    <span>Рим.10:17</span>
+
+
+                <div id="partDesk">
+                    <div id="tab1" class="tabs tab_active">
+                        <span>Рим.10:17</span>
+                    </div>
+                    <div id="tab2" class="tabs">
+                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                        <span>1Кор.13:1-17</span>
+                    </div>
+                    <div id="tab3" class="tabs">
+                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                        <span>Ин.3:16</span>
+                    </div>
                 </div>
-                <div id="tab2" class="tabs">
-                    <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                    <span>1Кор.13:1-17</span>
+
+                <div id="partMob">
+                    <button id="btnMenu" class="btn btn_m f_l" onclick="hideShowSidebar(this)"><img src="image/menu_white.svg"></button>
+
+
                 </div>
-                <div id="tab3" class="tabs">
-                    <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                    <span>Ин.3:16</span>
-                </div>
+
+
             </div>
         </div>
+        -->
 
     </div>
 
@@ -99,7 +116,25 @@ header('Content-type: text/html; charset=utf-8');
 
         <div id="sidebar">
             <div id="sidebarInner">
-                
+
+                <div id="menuTabs">
+                    
+                    <div id="arrowBack">
+                        <img class="f_l" src="image/arrow_left2_white.svg" onclick="closeOpenSidebar(this)">
+                    </div>
+
+                    <div id="restoTabs" class="f_r">                    
+                        <div class="wr_btns_scr f_l">
+                            <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">Nav</button>
+                            <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">Find</button>
+                            <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="Перекрестные Ссылки">TSK</button>
+                            <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарт Стронга">Strong</button>
+                            <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
+                            <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
+                        </div>
+                    </div>
+                </div>
+                    
                 <div id="vklad_nav" style="display: block;">
                     
                     <div id="nav_head">
@@ -376,6 +411,39 @@ header('Content-type: text/html; charset=utf-8');
 
         <div id="container">
             <div id="containerInner">
+
+
+
+            <div id="headerContainer">
+            <div id="headerContainerInner">
+
+
+                <div id="partDesk">
+                    <div id="tab1" class="tabs tab_active">
+                        <span>Рим.10:17</span>
+                    </div>
+                    <div id="tab2" class="tabs">
+                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                        <span>1Кор.13:1-17</span>
+                    </div>
+                    <div id="tab3" class="tabs">
+                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
+                        <span>Ин.3:16</span>
+                    </div>
+                </div>
+
+                <div id="partMob">
+                    <button id="btnMenu" class="btn btn_m f_l" onclick="closeOpenSidebar(this)"><img src="image/menu_white.svg"></button>
+
+                    <button class="btn btn_m f_r" onclick="closeNav()"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
                                 
                 <div id="wrCols">
                

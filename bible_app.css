@@ -40,7 +40,6 @@ body {
     position: fixed;
     top: 0px;
     width: 100%;
-    min-height: 38px;
     color: white;
     overflow: hidden;
 }
@@ -77,6 +76,7 @@ body {
     overflow: hidden;
     overflow-x: scroll;
     white-space: nowrap;
+    color: white;
 }
 .tabs {
     display: inline-block;
@@ -155,10 +155,7 @@ body {
     background: linear-gradient(90deg, #373737 0%, #515151 50%, #373737 100%);
 }
 #containerInner {
-    /* background: #bdf9b9; */
-    margin: 10px;
-    /* overflow: hidden;
-    overflow-y: scroll; */
+    /* margin: 10px; */
 }
 
 #wrTrans {
@@ -611,15 +608,16 @@ span.verse_title {
     transition: 0.3s;
     padding: 5px 5px;
     flex-wrap: wrap;
-    /* float: left; */
 }
 .wr_bcv .v_bcv {
     background-color: #2196F3;
     width: 33.33%;
     text-align: center;
     color: white;
-    min-width: 50px;
-    line-height: 30px;
+    /* min-width: 50px; */
+    /* line-height: 30px; */
+    font-size: medium;
+    padding-bottom: 5px;
 }
 .wr_bcv .v_bcv:hover {
     background: #60b4f7;
@@ -1395,4 +1393,47 @@ select  optgroup option {
 }
 .p_v:hover{
     background: #33baf7 !important;
+}
+#btnMenu{
+    width:24px;
+    cursor:pointer;
+    margin-right: 10px;
+}
+#btnMenu img{
+    width:20px;
+}
+.sideHide, .sideShow{
+    transition: 0.3s;
+    display: block !important;
+    z-index: 1;
+    position: absolute;
+    width: 100%!important;
+}
+.sideHide{
+    left:-100%;
+}
+.sideShow {
+    left: 0%;
+}
+#menuTabs {
+    padding: 3px;
+    background: #2296f3;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid #2c7fc1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+}
+#arrowBack {
+    /* float: left; */
+    margin: 3px 10px 0 10px;
+    /* background: green; */
+    /* width: 13%; */
+    cursor: pointer;
+    transition: 0.3s;
+}
+#restoTabs{
+    overflow:hidden;
 }

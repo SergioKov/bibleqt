@@ -421,6 +421,7 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 
 var wrapper = document.getElementById('wrapper');
 var v_line = document.getElementById('v_line');
+var sidebar = document.querySelector('#sidebar');
 
 var isMouseDown = false;
 v_line.onmousedown = function() { isMouseDown = true  };
@@ -432,9 +433,9 @@ v_line.onmouseup   = function() {
 wrapper.onmousemove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
-        //document.querySelector('#sidebarInner').innerText = '('+e.pageX +', '+e.pageY+')';
-        document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';
-        document.querySelector('#sidebar').style.width = e.pageX - 3 + 'px';
+        //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
+        sidebar.removeAttribute('class');
+        sidebar.style.width = e.pageX - 3 + 'px';
     }
 };
 
@@ -3304,9 +3305,11 @@ window.addEventListener('resize',function(d){
 
 //Por defecto ancho de sidebar
 var wrapper = document.querySelector('#wrapper');
-var def_w = wrapper.offsetWidth * 0.5;//30%
-document.querySelector('#headerSidebar').style.width = def_w +'px';
-document.querySelector('#sidebar').style.width = def_w +'px';
+var def_w = wrapper.offsetWidth * 0.3;//30%
+if(document.querySelector('#sidebar')!= null){
+    //document.querySelector('#headerSidebar').style.width = def_w +'px';
+    document.querySelector('#sidebar').style.width = def_w +'px';
+}
 
 
 function resizeSidebar(par){
@@ -3335,8 +3338,31 @@ function resizeSidebar(par){
     mySizeVerse();
 }
 
+function closeOpenSidebar(el){
 
-function hideShowSidebar(el){
+    let sidebar = document.querySelector('#sidebar');
+    if(sidebar.classList.length == 0){//se ve, lo oculto
+         console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");//
+         sidebar.classList.add('sideHide');
+         setTimeout(()=>{
+            sidebar.classList.remove('sideHide');
+            sidebar.classList.add('sideShow');
+         },3);
+     }else if(sidebar.classList.contains('sideHide')){//no se ve, lo muestro
+         console.log("2, contains('sideHide')");
+         sidebar.classList.remove('sideHide')
+         sidebar.classList.add('sideShow');
+     }else{//se ve, lo oculto
+         console.log("3, contains('sideShow')");
+         sidebar.classList.remove('sideShow')
+         sidebar.classList.add('sideHide');  
+     }
+     
+     mySizeWindow();
+     mySizeVerse();
+}
+
+function hideShowSidebar(el){ 
     let disp = document.querySelector('#sidebar').style.display;
     if(disp != 'none'){
         disp = 'none';
@@ -3345,10 +3371,12 @@ function hideShowSidebar(el){
         disp = 'block';
         el.innerText = 'Hide';
     }
-    document.querySelector('#headerSidebar').style.display = disp;
+    //document.querySelector('#headerSidebar').style.display = disp;
     document.querySelector('#sidebar').style.display = disp;
+    
     mySizeWindow();
     mySizeVerse();
+
 }
 
 getActTrans();
@@ -3506,6 +3534,28 @@ function changePositionShow(el){//row,col, default = col
 function mySizeWindow() {
     //console.log('mySizeWindow');
 
+    var pantalla, marginSidebar;
+    if(window.innerWidth <= 767){
+        pantalla = 'mobile';
+        marginSidebar = 0;
+    }else if(window.innerWidth >= 768 && window.innerWidth <= 1023){
+        pantalla = 'tablet';
+        marginSidebar = 10;
+    }else if(window.innerWidth >= 1024){
+        pantalla = 'desktop';
+        marginSidebar = 10;
+    }
+    console.log('pantalla: '+pantalla);
+    console.log('marginSidebar: '+marginSidebar);
+
+    var arrowBack = document.querySelector('#arrowBack');
+    if(pantalla == 'desktop'){
+        arrowBack.style.display = 'none';
+    }else{
+        arrowBack.style.display = 'block';
+    }    
+    
+    
     let header = document.querySelector('#header');
     let wrapper = document.querySelector('#wrapper');
     let sidebar = document.querySelector('#sidebar');
@@ -3523,8 +3573,13 @@ function mySizeWindow() {
     //- wrTrans.offsetHeight //38
     //- 32//- total_colsHead_h //32 * 3 || 32
     - footer.offsetHeight //38
-    - 20//- (container.offsetHeight - containerInner.offsetHeight)
+    //- 20//antes cuando el margen en containerInner era 10px
+    - (marginSidebar * 2)//en desktop = 10;  en mobile y tablet = 0
+    //- (container.offsetHeight - containerInner.offsetHeight)//20
     ;//920-900=20
+    console.log('formula: window.innerHeight - + header.offsetHeight - footer.offsetHeight - 20 = wrCols_h');
+    console.log('con (20): ' + window.innerHeight +' - ' + header.offsetHeight +' - ' + footer.offsetHeight +' - (20) = ' + wrCols_h);
+    console.log('sin (20): ' + window.innerHeight +' - ' + header.offsetHeight +' - ' + footer.offsetHeight +' = ' + (wrCols_h + 20) );
 
     wrapper.style.top = header.offsetHeight + 'px';
     //containerInner.style.height = wrCols_h + 'px';
