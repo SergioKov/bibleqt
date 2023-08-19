@@ -669,7 +669,7 @@ span.verse_title {
 }
 */
 #v_book .v_li {
-    min-width: 65px;
+    min-width: 70px;
 }
 .wr_lis{
     display:none;
