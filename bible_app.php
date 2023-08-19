@@ -11,6 +11,7 @@ header('Content-type: text/html; charset=utf-8');
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
     <link rel="stylesheet" href="bible_app.css">
     <link rel="stylesheet" href="bible_app_resp.css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
@@ -55,58 +56,6 @@ header('Content-type: text/html; charset=utf-8');
             </div>
         </div>
 
-        <!--
-        <div id="headerSidebar">
-            <div id="headerSidebarInner">
-
-                <div class="wr_btns f_r">
-                    <button class="btn btn_sm f_r" title="Sidebar more wide" onclick="resizeSidebar('more')" style="display:none;">+</button>
-                    <button class="btn btn_sm f_r" title="Sidebar less wide" onclick="resizeSidebar('less')" style="display:none;">-</button>
-                </div>
-
-                <div class="wr_btns_scr f_l">
-                    <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">Nav</button>
-                    <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">Find</button>
-                    <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="Перекрестные Ссылки">TSK</button>
-                    <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарт Стронга">Strong</button>
-                    <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
-                    <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
-                </div>
-                
-
-
-            </div>
-        </div>
-
-        <div id="headerContainer" style="display:none;">
-            <div id="headerContainerInner">
-
-
-                <div id="partDesk">
-                    <div id="tab1" class="tabs tab_active">
-                        <span>Рим.10:17</span>
-                    </div>
-                    <div id="tab2" class="tabs">
-                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                        <span>1Кор.13:1-17</span>
-                    </div>
-                    <div id="tab3" class="tabs">
-                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                        <span>Ин.3:16</span>
-                    </div>
-                </div>
-
-                <div id="partMob">
-                    <button id="btnMenu" class="btn btn_m f_l" onclick="hideShowSidebar(this)"><img src="image/menu_white.svg"></button>
-
-
-                </div>
-
-
-            </div>
-        </div>
-        -->
-
     </div>
 
 
@@ -120,7 +69,7 @@ header('Content-type: text/html; charset=utf-8');
                 <div id="menuTabs">
                     
                     <div id="arrowBack">
-                        <img class="f_l" src="image/arrow_left2_white.svg" onclick="closeOpenSidebar(this)">
+                        <img class="f_l" src="image/arrow_left2_white.svg" onclick="closeSidebar(this)">
                     </div>
 
                     <div id="restoTabs" class="f_r">                    
@@ -419,25 +368,41 @@ header('Content-type: text/html; charset=utf-8');
 
 
                 <div id="partDesk">
-                    <div id="tab1" class="tabs tab_active">
-                        <span>Рим.10:17</span>
-                    </div>
-                    <div id="tab2" class="tabs">
-                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                        <span>1Кор.13:1-17</span>
-                    </div>
-                    <div id="tab3" class="tabs">
-                        <button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                        <span>Ин.3:16</span>
+                    <div id="partDeskInner">
+                    
+                        <div id="partDeskTabs">
+                            <div id="tab1" class="tabs tab_active" style="display:none;">
+                                <span>Рим.10:17</span>
+                            </div>
+                        </div>
+
+                        <div id="partDeskPlus">
+                            <button id="btnPlus" class="btn" onclick="addTab()"> + </button>
+                        </div>
+                    
                     </div>
                 </div>
 
                 <div id="partMob">
-                    <button id="btnMenu" class="btn btn_m f_l" onclick="closeOpenSidebar(this)"><img src="image/menu_white.svg"></button>
+                    <div id="partMobInner">
 
-                    <button class="btn btn_m f_r" onclick="closeNav()"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                        <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                        
+                        <div class="centralPart">
+                            <button class="btn" onclick="openModal()" title="open Modal to choose translation">
+                                <span class="mob_trans">RST+r</span>
+                            </button>
+                            <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                <span>Rom.10:17</span>
+                            </button>
+                        </div>
+                        
+                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                        <button class="btn btn_svg" onclick="openModal()" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                        <button class="btn btn_svg" onclick="openModal()" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
 
-
+                    </div>
                 </div>
 
 
@@ -456,108 +421,9 @@ header('Content-type: text/html; charset=utf-8');
                             </div>
                         </div>
                         <div class="colsInner">
-                            <p id="v1" style="background: red;"><a href="#v10">Пс.1:1</a> muy largo versículo 
+                            <p><a href="#">Пс.1:1</a> los versículos se cargan aquí...</p> 
                         </div>
-                    </div>
-                
-                <!--
-
-                    <div id="col2" class="cols">
-                        <div id="trans2" class="colsHead" oncl--ick="selectModule(this)" data-trans="rstStrong">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>Ukr_Ogi</div>
-                            </div>
-                        </div>
-                        <div class="colsInner" >
-                            <p id="v1" style="background: #0dff00;"><a href="#v10">Пс.1:1</a>Блажен муж, що за радою несправедливих не ходить, і не стоїть на дорозі грішних, і не сидить на сидінні злоріків.
-                        </div>
-                    </div>
-                    
-                
-
-                    <div id="col3" class="cols">
-                        <div id="trans3" class="colsHead" data-trans="rstStrong_rv60">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>Ukr_Hom</div>
-                            </div>
-                        </div>
-                        <div class="colsInner" >
-                            <p style="background: #0051ff;"><a href="#v10">Пс.1:1</a> corto versículo --- vacio sdh dhsdhsdh sdh </p>  
-                        </div>                       
-                    </div>
-                    
-                
-                    <div id="col4" class="cols">
-                        <div id="trans4" class="colsHead" data-trans="ukr_ogi">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>KJV</div>
-                            </div>
-                        </div>
-                        <div class="colsInner">
-                            <p id="v1" style="background: red;"><a href="#v10">Пс.1:1</a> muy largo
-                        </div>
-                    </div>
-
-
-                    <div id="col5" class="cols">
-                        <div id="trans5" class="colsHead" data-trans="ukr_gyz">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>KJV</div>
-                            </div>
-                        </div>
-                        <div class="colsInner">
-                            <title>Бытие</title>
-                            <h4>1</h4>
-                            <p>1 В начале сотворил Бог небо и землю.</p>
-                            
-                        </div>
-                    </div>
-
-
-                    <div id="col6" class="cols">
-                        <div id="trans6" class="colsHead" data-trans="ukr_tur">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>KJV</div>
-                            </div>
-                        </div>
-                        <div class="colsInner">
-                            <b>col6</b>
-                            <p>
-                                testeando algo...
-                            </p>    
-                        </div>
-                    </div>
-                    
-                    <div id="col7" class="cols">
-                        <div id="trans7" class="colsHead" data-trans="ukr_der">
-                            <div class="colsHeadInner">
-                                <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                <div>KJV</div>
-                            </div>
-                        </div>
-                        <div class="colsInner">
-                            <b>col7</b>
-                            <p>
-                                testeando algo...
-                            </p>    
-                        </div>
-                    </div>
-                    
-                
-                    <div id="col8" class="cols">
-                        <div class="colsInner">
-                            <b>col8</b>
-                            <p>
-                                testeando algo...
-                            </p>    
-                        </div>
-                    </div>
-                -->
+                    </div>                
 
                 </div><!--/wrCols-->
 
@@ -588,15 +454,56 @@ header('Content-type: text/html; charset=utf-8');
 
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="Y" value="rv60">RV60</button>
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="Y" value="lbla">LBLA</button>
-<!--
+            <!--
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="kjv">KJV</button>
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="nkjv">NKJV</button>
--->
+            -->
         </div>
+    </div>
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div id="myModalContent" class="modal-content">
+            <!-- <div class="modal-content-inner"> -->
+
+            <header>
+            <div class="inner">
+                <h1>aki modal content header <span class="close" onclick="closeModal()">&times;</span></h1>
+            </div>
+            </header>
+
+            <section>
+            <div class="inner">
+
+                <div style="display:block; display:none;">
+                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>
+                    
+                </div>
+                <div style="display:none; display:block;">
+                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>            
+                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>
+                </div>
+
+            </div>
+            </section>
+
+            <footer>
+            <div class="inner">
+                <p>aki modal content footer <span class="close" onclick="closeModal()">&times;</span></p>
+            </div>
+            </footer>
+
+            <!-- </div>/modal-content-inner -->
+
+        </div>
+    </div>
 
 <!-- Javascript para este html -->
 <script src="./bible_app.js"></script>
 <script src="./functions.js"></script>
+<script src="./modal.js"></script>
 </body>
 </html>
 

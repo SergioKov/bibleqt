@@ -74,8 +74,8 @@ body {
     background: #2b88d2;
     margin: 10px;
     overflow: hidden;
-    overflow-x: scroll;
-    white-space: nowrap;
+    /* overflow-x: scroll; */
+    /* white-space: nowrap; */
     color: white;
 }
 .tabs {
@@ -83,7 +83,7 @@ body {
     padding: 5px;
     border-radius: 3px 3px 0 0;
     background: #03a9f4;
-    margin: 0 5px 0 0;
+    margin: 0 3px 0 0;
     cursor:pointer;
 }
 .tabs:not(.tab_active):hover{
@@ -432,6 +432,7 @@ p a:hover {
 
 
 /* height */
+#partDeskTabs::-webkit-scrollbar, 
 #headerContainerInner::-webkit-scrollbar, 
 .wr_btns_scr::-webkit-scrollbar, 
 #footerInner::-webkit-scrollbar
@@ -440,6 +441,7 @@ p a:hover {
 }
   
 /* Track */
+#partDeskTabs::-webkit-scrollbar-track, 
 #headerContainerInner::-webkit-scrollbar-track, 
 .wr_btns_scr::-webkit-scrollbar-track, 
 #footerInner::-webkit-scrollbar-track 
@@ -448,6 +450,7 @@ p a:hover {
 }
    
 /* Handle */
+#partDeskTabs::-webkit-scrollbar-thumb, 
 #headerContainerInner::-webkit-scrollbar-thumb, 
 .wr_btns_scr::-webkit-scrollbar-thumb, 
 #footerInner::-webkit-scrollbar-thumb 
@@ -457,6 +460,7 @@ p a:hover {
 }
   
 /* Handle on hover */
+#partDeskTabs::-webkit-scrollbar-thumb:hover, 
 #headerContainerInner::-webkit-scrollbar-thumb:hover, 
 .wr_btns_scr::-webkit-scrollbar-thumb:hover, 
 #footerInner::-webkit-scrollbar-thumb:hover 
@@ -1397,7 +1401,7 @@ select  optgroup option {
 #btnMenu{
     width:24px;
     cursor:pointer;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 #btnMenu img{
     width:20px;
@@ -1437,3 +1441,138 @@ select  optgroup option {
 #restoTabs{
     overflow:hidden;
 }
+#partDeskInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+#partDeskPlus{
+    display: flex;
+}
+#btnPlus {
+    background: transparent;
+    font-size: 20px;
+    opacity: 0.5;
+    /* height: 36px; */
+    /* width: 15px; */
+    min-width: 24px!important;
+    position: relative;
+    top: -2px;
+}
+#btnPlus:hover {
+    background: #5eb4f9;
+    color: white;
+    opacity: 1;
+}
+#partDeskTabs{
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+#partMobInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: stretch;
+}
+#partMobInner button span{
+    font-size: large;
+}
+#partMobInner .centralPart {
+    /* background: #03a9f4; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-evenly;
+    /* width: 100%; */
+    align-items: center;
+}
+#partMobInner button.btn_svg {
+    padding: 0 2px;
+    min-width: 24px;
+}
+#partMobInner button {
+    background: transparent;
+}
+#partMobInner button:not(:last-child) {
+    /* border-right: 1px solid #227ac1; */
+}
+.mob_trans{
+    font-size: small!important;
+    color: #e0e0e0;
+}
+
+
+
+/* start modal */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 10vh; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    transition:0.3s;
+    opacity: 0;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #ff9800bd;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 80%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.modal-content section p{
+	background: white;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content header {
+    background: #4d4d4d;
+    color: white;
+}
+.modal-content section {
+    background: #ccc;
+    overflow: auto;
+}
+.modal-content footer {
+    background: #4d4d4d;
+    color: white;
+}
+.inner{
+  margin: 10px;
+}
+/* fin modal */

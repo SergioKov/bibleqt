@@ -1,6 +1,8 @@
 /* Desktop */
 @media screen and (min-width: 1024px){
-    #partMob{
+    #partMob,
+    #arrowBack
+    {
         display:none;
     }
 
@@ -25,7 +27,8 @@
 /* Tablet */
 @media screen and (min-width: 768px) and (max-width: 1023px){
 
-    #partMob
+    #partMob,
+    #arrowBack
     {
         display:none;
     }

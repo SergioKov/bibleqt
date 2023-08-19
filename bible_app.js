@@ -3338,7 +3338,7 @@ function resizeSidebar(par){
     mySizeVerse();
 }
 
-function closeOpenSidebar(el){
+function openSidebar(el){
 
     let sidebar = document.querySelector('#sidebar');
     if(sidebar.classList.length == 0){//se ve, lo oculto
@@ -3352,27 +3352,35 @@ function closeOpenSidebar(el){
          console.log("2, contains('sideHide')");
          sidebar.classList.remove('sideHide')
          sidebar.classList.add('sideShow');
-     }else{//se ve, lo oculto
-         console.log("3, contains('sideShow')");
-         sidebar.classList.remove('sideShow')
-         sidebar.classList.add('sideHide');  
      }
      
      mySizeWindow();
      mySizeVerse();
 }
 
+function closeSidebar(el){
+    let sidebar = document.querySelector('#sidebar');
+    console.log("3, contains('sideShow')");
+    sidebar.classList.remove('sideShow')
+    sidebar.classList.add('sideHide');  
+     
+     mySizeWindow();
+     mySizeVerse();
+}
+
 function hideShowSidebar(el){ 
-    let disp = document.querySelector('#sidebar').style.display;
-    if(disp != 'none'){
-        disp = 'none';
+    let sidebar = document.querySelector('#sidebar');
+    let disp = sidebar.style.display;
+    if(disp != 'none' || sidebar.offsetWidth > 0){//si se ve
+        disp = 'none';//lo oculto
         el.innerText = 'Show';
     }else{
-        disp = 'block';
+        disp = 'block';//lo muestro
         el.innerText = 'Hide';
     }
+    sidebar.removeAttribute('class');
     //document.querySelector('#headerSidebar').style.display = disp;
-    document.querySelector('#sidebar').style.display = disp;
+    sidebar.style.display = disp;
     
     mySizeWindow();
     mySizeVerse();
@@ -3533,28 +3541,6 @@ function changePositionShow(el){//row,col, default = col
 
 function mySizeWindow() {
     //console.log('mySizeWindow');
-
-    var pantalla, marginSidebar;
-    if(window.innerWidth <= 767){
-        pantalla = 'mobile';
-        marginSidebar = 0;
-    }else if(window.innerWidth >= 768 && window.innerWidth <= 1023){
-        pantalla = 'tablet';
-        marginSidebar = 10;
-    }else if(window.innerWidth >= 1024){
-        pantalla = 'desktop';
-        marginSidebar = 10;
-    }
-    console.log('pantalla: '+pantalla);
-    console.log('marginSidebar: '+marginSidebar);
-
-    var arrowBack = document.querySelector('#arrowBack');
-    if(pantalla == 'desktop'){
-        arrowBack.style.display = 'none';
-    }else{
-        arrowBack.style.display = 'block';
-    }    
-    
     
     let header = document.querySelector('#header');
     let wrapper = document.querySelector('#wrapper');
@@ -3565,6 +3551,24 @@ function mySizeWindow() {
     //let containerInner = document.querySelector('#containerInner');
     let wrCols = document.querySelector('#wrCols');
     let footer = document.querySelector('#footer');
+
+
+    var pantalla, marginSidebar;
+    if(window.innerWidth <= 767){
+        pantalla = 'mobile';
+        marginSidebar = 0;
+        sidebar.removeAttribute('style');
+    }else if(window.innerWidth >= 768 && window.innerWidth <= 1023){
+        pantalla = 'tablet';
+        marginSidebar = 10;
+        sidebar.removeAttribute('class');
+    }else if(window.innerWidth >= 1024){
+        pantalla = 'desktop';
+        marginSidebar = 10;
+        sidebar.removeAttribute('class');
+    }
+    console.log('pantalla: '+pantalla);
+    console.log('marginSidebar: '+marginSidebar);
 
 
     let wrCols_h = 
@@ -3615,13 +3619,14 @@ function mySizeWindow() {
             el.style.height =  wrCols_h / document.querySelectorAll('.colsInner').length - trans_min_h +'px';// 1/3 de height
         });
 
-        document.querySelector('#wrCols').classList.remove('wrCols_center');
-        document.querySelector('#wrCols').style.maxWidth = '';
+        wrCols.classList.remove('wrCols_center');
+        wrCols.style.maxWidth = '';
         
+        /*
         document.querySelectorAll('.cols').forEach(el=>{
-            el.classList.remove('cols_350');
+            el.classList.remove('cols_350');//no hace falta
         });
-        
+        */
         
     }else{//col
         document.querySelectorAll('.cols').forEach(function(el){
@@ -3636,12 +3641,23 @@ function mySizeWindow() {
             el.style.height =  wrCols_h - trans_max_h +'px';
         });
 
-        document.querySelector('#wrCols').classList.add('wrCols_center');;
-        document.querySelector('#wrCols').style.maxWidth = 350 * document.querySelectorAll('.colsInner').length + 'px';
+        wrCols.classList.add('wrCols_center');
 
+
+
+        if(pantalla == 'desktop' || pantalla == 'tablet'){
+            //añado anchi maximo de 350 px para comodidad de leer
+            wrCols.style.maxWidth = 350 * document.querySelectorAll('.colsInner').length + 'px';
+        }else if(pantalla == 'mobile'){
+            //width 100%
+            wrCols.style.maxWidth = '';
+        }
+
+        /*
         document.querySelectorAll('.cols').forEach(el=>{
-            el.classList.add('cols_350');
+            el.classList.add('cols_350');//no hace falta
         });
+        */
     }
 
     setTimeout(()=>{
@@ -3912,10 +3928,12 @@ function closeTrans(el,event){
     mySizeVerse();
 }
 
-function addTab(){
+addTab('Рим.10:17','act');
+
+function addTab(bibShortRef = null, act = null){
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
-    //console.log(countTabs);
+    console.log(countTabs);
     let maxTabs = 20;
 
     let arr_n = [];
@@ -3933,13 +3951,19 @@ function addTab(){
     }
 
     if(countTabs < maxTabs){
+        const spanBibShortRef = document.createElement("span");
+        spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
+
         const htmlTab = document.createElement("div");
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
-        htmlTab.innerHTML = `<button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>
-                                <span>New Tab${next_n}</span>`;
+        if(act != null) htmlTab.classList.add('tab_active');
 
-        document.querySelector('#headerContainerInner').appendChild(htmlTab);
+        if(countTabs > 1) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>';
+        htmlTab.appendChild(spanBibShortRef);
+
+        //document.querySelector('#headerContainerInner').appendChild(htmlTab);//antes
+        document.querySelector('#partDeskTabs').appendChild(htmlTab);
     }
 }
 
@@ -3948,7 +3972,8 @@ function removeTab(){
     //console.log(countTabs);
 
     if(countTabs != 1){
-        document.querySelector('#headerContainerInner').lastElementChild.remove();
+        //document.querySelector('#headerContainerInner').lastElementChild.remove();
+        document.querySelector('#partDeskTabs').lastElementChild.remove();
     }
 }
 
@@ -5130,7 +5155,12 @@ function puntosInterval(){
     }
 }
 
-
+function showTabMob(btn_id, param){
+    //1. abro menu mobile
+    openSidebar();
+    //2. llamo showTab(document.querySelector('#btn_nav'),'nav')
+    showTab(document.querySelector(btn_id), param);
+}
 
 
 
