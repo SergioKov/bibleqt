@@ -71,7 +71,7 @@ body {
     overflow: hidden;
 }
 #headerContainerInner {
-    background: #2b88d2;
+    /* background: #2b88d2; */
     margin: 10px;
     overflow: hidden;
     /* overflow-x: scroll; */
@@ -1498,6 +1498,7 @@ select  optgroup option {
 }
 #partMobInner button {
     background: transparent;
+    border: none;
 }
 #partMobInner button:not(:last-child) {
     /* border-right: 1px solid #227ac1; */

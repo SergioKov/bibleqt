@@ -3648,9 +3648,13 @@ function mySizeWindow() {
         if(pantalla == 'desktop' || pantalla == 'tablet'){
             //añado anchi maximo de 350 px para comodidad de leer
             wrCols.style.maxWidth = 350 * document.querySelectorAll('.colsInner').length + 'px';
+            document.querySelectorAll('.colsHead')[0].style.display = '';
         }else if(pantalla == 'mobile'){
             //width 100%
             wrCols.style.maxWidth = '';
+            if(document.querySelectorAll('.colsHead').length == 1){
+                document.querySelectorAll('.colsHead')[0].style.display = 'none';
+            }
         }
 
         /*
