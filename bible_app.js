@@ -426,29 +426,64 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 
 
 function autoWidthShortBook(){
-    let v_book_v_li_All = document.querySelectorAll('#v_book .v_li');
     let sidebar = document.querySelector('#sidebar');
     let s_wx = sidebar.offsetWidth;
+    console.log('autoWidthShortBook()');
     
     //Si es Tablet o Desktop
-    if(window.innerWidth >= 768){
-        if(s_wx >= 271 && s_wx <= 350){
-            v_book_v_li_All.forEach(el=>{
-                el.style.width = '25%';
-            });
+    if(window.innerWidth >= 768){       
+        let book_w, chv_w;
+
+        //width of book
+        if(s_wx >= 351){
+            book_w = '20%';
+        }else if(s_wx >= 271 && s_wx <= 350){
+            book_w = '25%';
         }else if(s_wx >= 201 && s_wx <= 270){
-            v_book_v_li_All.forEach(el=>{
-                el.style.width = '33.33%';
-            });
+            book_w = '33.33%';
         }else if(s_wx <= 200){
-            v_book_v_li_All.forEach(el=>{
-                el.style.width = '50%';
-            });
+            book_w = '50%';
+        }
+
+        //width of chapters and verses
+        if(s_wx >= 501){
+            chv_w = '10%';
+        }else if(s_wx >= 421 && s_wx <= 500){
+            chv_w = '11.11%';
+        }else if(s_wx >= 361 && s_wx <= 420){
+            chv_w = '12.5%';
+        }else if(s_wx >= 301 && s_wx <= 360){
+            chv_w = '14.28%';
+        }else if(s_wx >= 241 && s_wx <= 300){
+            chv_w = '16.66%';
+        }else if(s_wx <= 240){
+            chv_w = '20%';
+        }
+
+
+        const cssRule = `
+            #v_book .v_li {
+                width: ${book_w};
+            }        
+            #v_chapter .v_li, 
+            #v_verse .v_li { 
+                width: ${chv_w};
+            }
+            `;
+
+        if (document.querySelector('#myStyle') == null) {
+            // Create a <style> element and add the CSS rule
+            const styleElement = document.createElement('style');
+            styleElement.id = 'myStyle';
+            styleElement.innerHTML = cssRule;
+
+            // Append the <style> element to the document's head
+            document.head.appendChild(styleElement);
         }else{
-            v_book_v_li_All.forEach(el=>{
-                el.removeAttribute('style');
-            });
-        }    
+            document.querySelector('#myStyle').innerHTML = cssRule;
+        }
+        
+
     }
 }
 
