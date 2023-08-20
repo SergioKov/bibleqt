@@ -39,6 +39,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //addTrans();
     //addTrans();
 
+    setTimeout(() => {
+        autoWidthShortBook();//por defecto calculo width para ShortBook
+    }, 500);
+
+
 });
 
 //listen links p > a
@@ -419,25 +424,77 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 }
 
 
+
+function autoWidthShortBook(){
+    let v_book_v_li_All = document.querySelectorAll('#v_book .v_li');
+    let sidebar = document.querySelector('#sidebar');
+    let s_wx = sidebar.offsetWidth;
+    
+    //Si es Tablet o Desktop
+    if(window.innerWidth >= 768){
+        if(s_wx >= 271 && s_wx <= 350){
+            v_book_v_li_All.forEach(el=>{
+                el.style.width = '25%';
+            });
+        }else if(s_wx >= 201 && s_wx <= 270){
+            v_book_v_li_All.forEach(el=>{
+                el.style.width = '33.33%';
+            });
+        }else if(s_wx <= 200){
+            v_book_v_li_All.forEach(el=>{
+                el.style.width = '50%';
+            });
+        }else{
+            v_book_v_li_All.forEach(el=>{
+                el.removeAttribute('style');
+            });
+        }    
+    }
+}
+
 var wrapper = document.getElementById('wrapper');
 var v_line = document.getElementById('v_line');
 var sidebar = document.querySelector('#sidebar');
-
 var isMouseDown = false;
+
+//start - Desktop (mouse)
 v_line.onmousedown = function() { isMouseDown = true  };
-v_line.onmouseup   = function() { 
-    isMouseDown = false;
-    mySizeWindow();
-    mySizeVerse();
-};
 wrapper.onmousemove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
         //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
         sidebar.removeAttribute('class');
         sidebar.style.width = e.pageX - 3 + 'px';
+
+        autoWidthShortBook();
     }
 };
+v_line.onmouseup = function() { 
+    isMouseDown = false;
+    mySizeWindow();
+    mySizeVerse();
+};
+//end - Desktop
+
+
+//start - Mobile (touch)
+v_line.ontouchstart = function() { isMouseDown = true  };
+wrapper.ontouchmove = function(e) { 
+    if(isMouseDown) { 
+        /* do drag things */ 
+        //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
+        sidebar.removeAttribute('class');
+        sidebar.style.width = e.touches[0].pageX - 3 + 'px';
+        console.log('wrapper.ontouchmove');
+        autoWidthShortBook();
+    }
+};
+v_line.ontouchend = function() { 
+    isMouseDown = false;
+    mySizeWindow();
+    mySizeVerse();
+};
+//end - Mobile
 
 
 

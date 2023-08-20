@@ -72,3 +72,37 @@
   
 }
 /* end mobilka */
+
+
+/* mobilka XS */
+@media screen and (min-width: 1px) and (max-width: 280px) {
+    #v_book .v_li{
+        width: 33.33%;
+    }
+}
+/* mobilka S */
+@media screen and (min-width: 281px) and (max-width: 320px) {
+    #v_book .v_li{
+        width: 25%;
+    }
+}
+/* mobilka M */
+@media screen and (min-width: 321px) and (max-width: 375px) {
+    #v_book .v_li{
+        width: 20%;
+    }
+}
+/* mobilka L */
+@media screen and (min-width: 376px) and (max-width: 425px) {
+    #v_book .v_li{
+        width: 20%;
+    }
+}
+/* mobilka XL */
+@media screen and (min-width: 426px) and (max-width: 767px) {
+    #v_book .v_li{
+        width: 16.66%;
+    }
+}
+
+
