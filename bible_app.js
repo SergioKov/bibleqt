@@ -3639,7 +3639,7 @@ function mySizeWindow() {
     let sidebar = document.querySelector('#sidebar');
     let sidebarInner = document.querySelector('#sidebarInner');
     let v_line = document.querySelector('#v_line');
-    //let container = document.querySelector('#container');
+    let container = document.querySelector('#container');
     //let containerInner = document.querySelector('#containerInner');
     let headerContainer = document.querySelector('#headerContainer');
     let wrCols = document.querySelector('#wrCols');
@@ -3667,31 +3667,38 @@ function mySizeWindow() {
         marginSidebar = 10;
         sidebar.removeAttribute('class');
     }
+    let marginSidebar_h = marginSidebar * 2;//arriba y abajo
     console.log('window_w: '+window_w);
     console.log('pantalla: '+pantalla);
     console.log('marginSidebar: '+marginSidebar);
 
 
     let wrCols_h = 
-    window_h //961
-    - header_h //38
-    - footer_h //38
-    - headerContainer_h //
+    window_h //960
+    - header_h //42
+    - footer_h //46
     //- 20//antes cuando el margen en containerInner era 10px
-    - (marginSidebar * 2)//en desktop = 10;  en mobile y tablet = 0
-    ;//920-900=20
-    console.log('formula: window_h - + header_h - footer_h - 20 = wrCols_h');
-    console.log('con (20): ' + window_h +' - ' + header_h +' - ' + footer_h +' - (20) = ' + wrCols_h);
-    console.log('sin (20): ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + (wrCols_h + 20) );
+    //- marginSidebar_h//en desktop = 10*2;  en mobile y tablet = 0
+    ;
+    console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
+    console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
+
+    let sidebar_h = 
+    window_h //960
+    - header_h //42
+    - footer_h //46
+    ;
+    let container_h = sidebar_h; 
+    let v_line_h = sidebar_h; 
 
     wrapper.style.top = header_h + 'px';
-    //containerInner.style.height = wrCols_h + 'px';
 
     wrCols.style.height = wrCols_h + 'px';
-    sidebarInner.style.height = wrCols_h + 'px';
+    //sidebarInner.style.height = wrCols_h + 'px';
 
-    //Vertical line
-    v_line.style.height = sidebar.offsetHeight + 'px';
+    sidebar.style.height = sidebar_h + 'px';
+    container.style.height = container_h + 'px';
+    v_line.style.height = v_line_h + 'px';
 
 
     let colsHeadAll = document.querySelectorAll('.colsHead');
@@ -3737,7 +3744,7 @@ function mySizeWindow() {
         });
 
         document.querySelectorAll('.colsInner').forEach(function(el){
-            el.style.height =  wrCols_h - trans_max_h +'px';
+            el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
         });
 
         wrCols.classList.add('wrCols_center');

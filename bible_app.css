@@ -117,7 +117,7 @@ body {
 #wrapper {
     position: relative;
     /* top: 38px; */
-    /* background: #d1d0d0; */
+    background: #d1d0d0;
     margin: 0;
     overflow: hidden;
 }
@@ -219,7 +219,8 @@ body {
 #sidebarInner,
 #containerInner{
     min-height: 300px; 
-    max-height: 900px; 
+    max-height: 900px;
+    height: 100%; 
 }
 
 
