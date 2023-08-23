@@ -3684,6 +3684,7 @@ function mySizeWindow() {
     window_h //960
     - header_h //42
     - footer_h //46
+    - headerContainer_h
     //- 20//antes cuando el margen en containerInner era 10px
     //- marginSidebar_h//en desktop = 10*2;  en mobile y tablet = 0
     ;
@@ -3765,9 +3766,11 @@ function mySizeWindow() {
         document.querySelectorAll('.colsInner').forEach(function(el,i){
             //si se ve head con el texto de traducción...
             if(document.querySelectorAll('.colsHead')[i].offsetHeight != 0){
-                el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
+                // el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
+                el.style.height =  wrCols_h - trans_max_h +'px';
             }else{
-                el.style.height =  wrCols_h - headerContainer_h +'px';
+                // el.style.height =  wrCols_h - headerContainer_h +'px';
+                el.style.height =  wrCols_h +'px';
             }
         });
 
@@ -3807,21 +3810,32 @@ function mySizeWindow() {
 }
 
 function mySizeNav(){
-    var div_sidebarInner = document.querySelector('#sidebarInner');
-    var div_nav_head = document.querySelector('#nav_head');
-    var div_nav_body = document.querySelector('#nav_body');
-    var div_wr_bcv_uls = document.querySelector('.wr_bcv_uls');
-    var padding_nav_body = 5;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    var sidebar = document.querySelector('#sidebar');
+    var sidebarInner = document.querySelector('#sidebarInner');
+    var menuTabs = document.querySelector('#menuTabs');
+    var nav_head = document.querySelector('#nav_head');
+    var nav_body = document.querySelector('#nav_body');
 
-    //console.log('div_sidebarInner.offsetHeight: '+div_sidebarInner.offsetHeight);
-    //console.log('div_nav_head.offsetHeight: '+div_nav_head.offsetHeight);
-    //console.log('div_nav_body.offsetHeight: '+div_nav_body.offsetHeight);
-    
-    //calculo altura de div_nav_body despues de meter div_nav_head
-    let h = div_sidebarInner.offsetHeight - div_nav_head.offsetHeight - padding_nav_body;
-    //console.log('h: '+h);
-    div_nav_body.style.height = h + 'px';
-    div_wr_bcv_uls.style.height = h + 'px';
+    // Get the computed style, including margins
+    const computedStyle = window.getComputedStyle(sidebarInner);
+    // Get the height of the element, including margins
+    const sidebarInner_margins_h = 
+    parseInt(computedStyle.marginTop) + 
+    parseInt(computedStyle.marginBottom);
+
+    let sidebar_h = sidebar.offsetHeight;
+    let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    let menuTabs_h = menuTabs.offsetHeight;
+    let nav_head_h = nav_head.offsetHeight;
+
+    let nav_body_h = 
+    sidebar_h
+    - sidebarInner_margins_h
+    - menuTabs_h
+    - nav_head_h
+    ;
+    sidebarInner.style.height = sidebarInner_h + 'px';
+    nav_body.style.height = nav_body_h + 'px';
 }
 
 
