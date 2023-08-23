@@ -3743,14 +3743,6 @@ function mySizeWindow() {
             el.style.height =  trans_max_h +'px';
         });
 
-        document.querySelectorAll('.colsInner').forEach(function(el){
-            el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
-        });
-
-        wrCols.classList.add('wrCols_center');
-
-
-
         if(pantalla == 'desktop' || pantalla == 'tablet'){
             //añado anchi maximo de 350 px para comodidad de leer
             wrCols.style.maxWidth = 350 * document.querySelectorAll('.colsInner').length + 'px';
@@ -3762,6 +3754,17 @@ function mySizeWindow() {
                 document.querySelectorAll('.colsHead')[0].style.display = 'none';
             }
         }
+
+        document.querySelectorAll('.colsInner').forEach(function(el,i){
+            //si se ve head con el texto de traducción...
+            if(document.querySelectorAll('.colsHead')[i].offsetHeight != 0){
+                el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
+            }else{
+                el.style.height =  wrCols_h - headerContainer_h +'px';
+            }
+        });
+
+        wrCols.classList.add('wrCols_center');
 
         /*
         document.querySelectorAll('.cols').forEach(el=>{
