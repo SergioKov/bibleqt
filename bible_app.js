@@ -155,12 +155,19 @@ function initScroll(){
             //console.log('over i: '+i);
             enableScroll(el,i);
         }
+        el.ontouchmove = function(){//mobile
+            //console.log('over i: '+i);
+            enableScroll(el,i);
+        }
     });    
 }
 
 
 function enableScroll(el,i){
     el.onscroll = () => {
+        fnScrollCol(el,i);
+    }
+    el.ontouchmove = () => {
         fnScrollCol(el,i);
     }
     document.querySelectorAll('.colsInner').forEach( (elem,index) => {
