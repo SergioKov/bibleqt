@@ -3633,7 +3633,7 @@ function changePositionShow(el){//row,col, default = col
 
 function mySizeWindow() {
     //console.log('mySizeWindow');
-    
+
     let header = document.querySelector('#header');
     let wrapper = document.querySelector('#wrapper');
     let sidebar = document.querySelector('#sidebar');
@@ -3641,43 +3641,50 @@ function mySizeWindow() {
     let v_line = document.querySelector('#v_line');
     //let container = document.querySelector('#container');
     //let containerInner = document.querySelector('#containerInner');
+    let headerContainer = document.querySelector('#headerContainer');
     let wrCols = document.querySelector('#wrCols');
     let footer = document.querySelector('#footer');
 
-
+    
+    
+    let window_w = window.innerWidth;
+    let window_h = window.innerHeight;
+    let header_h = header.offsetHeight;
+    let footer_h = footer.offsetHeight;
+    let headerContainer_h = headerContainer.offsetHeight;
+    
     var pantalla, marginSidebar;
-    if(window.innerWidth <= 767){
+    if(window_w <= 767){
         pantalla = 'mobile';
         marginSidebar = 0;
         sidebar.removeAttribute('style');
-    }else if(window.innerWidth >= 768 && window.innerWidth <= 1023){
+    }else if(window_w >= 768 && window_w <= 1023){
         pantalla = 'tablet';
         marginSidebar = 10;
         sidebar.removeAttribute('class');
-    }else if(window.innerWidth >= 1024){
+    }else if(window_w >= 1024){
         pantalla = 'desktop';
         marginSidebar = 10;
         sidebar.removeAttribute('class');
     }
+    console.log('window_w: '+window_w);
     console.log('pantalla: '+pantalla);
     console.log('marginSidebar: '+marginSidebar);
 
 
     let wrCols_h = 
-    window.innerHeight //961
-    - header.offsetHeight //38
-    //- wrTrans.offsetHeight //38
-    //- 32//- total_colsHead_h //32 * 3 || 32
-    - footer.offsetHeight //38
+    window_h //961
+    - header_h //38
+    - footer_h //38
+    - headerContainer_h //
     //- 20//antes cuando el margen en containerInner era 10px
     - (marginSidebar * 2)//en desktop = 10;  en mobile y tablet = 0
-    //- (container.offsetHeight - containerInner.offsetHeight)//20
     ;//920-900=20
-    console.log('formula: window.innerHeight - + header.offsetHeight - footer.offsetHeight - 20 = wrCols_h');
-    console.log('con (20): ' + window.innerHeight +' - ' + header.offsetHeight +' - ' + footer.offsetHeight +' - (20) = ' + wrCols_h);
-    console.log('sin (20): ' + window.innerHeight +' - ' + header.offsetHeight +' - ' + footer.offsetHeight +' = ' + (wrCols_h + 20) );
+    console.log('formula: window_h - + header_h - footer_h - 20 = wrCols_h');
+    console.log('con (20): ' + window_h +' - ' + header_h +' - ' + footer_h +' - (20) = ' + wrCols_h);
+    console.log('sin (20): ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + (wrCols_h + 20) );
 
-    wrapper.style.top = header.offsetHeight + 'px';
+    wrapper.style.top = header_h + 'px';
     //containerInner.style.height = wrCols_h + 'px';
 
     wrCols.style.height = wrCols_h + 'px';
@@ -3768,12 +3775,12 @@ function mySizeWindow() {
 
 
     /*
-    //console.log('window.innerHeight: ' + window.innerHeight);
-    //console.log('header.offsetHeight: ' + header.offsetHeight);
-    //console.log('footer.offsetHeight: ' + footer.offsetHeight);
+    //console.log('window_h: ' + window_h);
+    //console.log('header_h: ' + header_h);
+    //console.log('footer_h: ' + footer_h);
     //console.log('container.offsetHeight: ' + container.offsetHeight);
     //console.log('containerInner.offsetHeight: ' + containerInner.offsetHeight);
-    //console.log('window.innerWidth: ' + window.innerWidth);
+    //console.log('window_w: ' + window_w);
     //console.log('body.offsetWidth: ' + body.offsetWidth);
     //console.log('body.offsetHeight: ' + body.offsetHeight);
     //console.log('wrCols_h: ' + wrCols_h);
