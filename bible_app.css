@@ -1562,10 +1562,10 @@ select  optgroup option {
 
 /* Modal Content */
 .modal-content {
-    background-color: #ff9800bd;
+    background-color: #2196f3b0;
     margin: auto;
     padding: 10px;
-    border: 1px solid #888;
+    border: 1px solid #2196f3;
     width: 80%;
     height: 80%;
     overflow: hidden;
@@ -1631,4 +1631,38 @@ span.prim_tsk {
     font-size: medium;
     display: block;
     margin-right: -3px;
+}
+.modalContentTop {
+    width: 100%;
+    height: 50%;
+    justify-content: flex-start;
+    padding: 0;
+}
+.modal-content h4 {
+    color: white;
+    font-size: large;
+    border: none;
+    /* background: green; */
+}
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    top: -7px;
+}
+div#bl_modalTopInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+div#bl_modalTopInner .btn{
+    margin: 2px 2px;
+    width: 60px;
+    padding: 10px;
 }

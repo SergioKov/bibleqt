@@ -3756,7 +3756,7 @@ function mySizeWindow() {
             //width 100%
             wrCols.style.maxWidth = '';
             if(document.querySelectorAll('.colsHead').length == 1){
-                document.querySelectorAll('.colsHead')[0].style.display = 'none';
+                //document.querySelectorAll('.colsHead')[0].style.display = 'none';//comento temporalmente
             }
         }
 
