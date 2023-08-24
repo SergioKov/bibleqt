@@ -85,7 +85,6 @@ header('Content-type: text/html; charset=utf-8');
                 </div>
                     
                 <div id="vklad_nav" style="display: block;">
-                    
                     <div id="nav_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
@@ -94,7 +93,6 @@ header('Content-type: text/html; charset=utf-8');
                             </div>
                             <button id="btn_ok" class="btn f_r" onclick="getRef()">OK</button>
                         </div>
-                        
                         <div class="wr_bcv">
                             <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b')">
                                 <div>Книга</div>
@@ -121,233 +119,235 @@ header('Content-type: text/html; charset=utf-8');
                                 <li class="v_li">1</li> 
                             </ul>
                             <ul id="v_verse" class="wr_lis">
-                                <li class="v_li">1</li> 
+                                <span class="prim_verse">Antes de seleccionar el versículo, selecciona el capítulo por favor.</span> 
                             </ul>
                         </div>
                     </div>
-
-
-                    
-
                 </div><!--/vklad_nav-->
 
                 <div id="vklad_find" style="display: none;">
-                    <div class="wr_nav">
-                        <div class="wr_inpt_x">
-                            <input id="inpt_find" value="В начале сотворил Бог небо и землю">
-                            <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
+                    <div id="wr_find_head">
+                        <div class="wr_nav">
+                            <div class="wr_inpt_x">
+                                <input id="inpt_find" value="В начале сотворил Бог небо и землю">
+                                <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
+                            </div>
+                            <div id="hist_find" onclick="hideShowHistFind()">
+                                <img src="image/icon_razvernut.png">
+                            </div>
+                            <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
+                            <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
                         </div>
-                        <div id="hist_find" onclick="hideShowHistFind()">
-                            <img src="image/icon_razvernut.png">
-                        </div>
-                        <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
-                        <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
-                    </div>
-                    <div id="find_head">
-                        <div class="wr_hist_find" style="display:none;">
-                            ...
-                        </div>                       
+                        <div id="find_head">
+                            <div class="wr_hist_find" style="display:none;">
+                                ...
+                            </div>                       
 
-                        <div class="wr_op">
-                            <div class="bl_trig title_par" onclick="hideShowFindParams()">Параметры поиска:</div>
+                            <div class="wr_op">
+                                <div class="bl_trig title_par" onclick="hideShowFindParams()">Параметры поиска:</div>
 
-                            <div class="bl_trig bl_par" style="display:none;">
+                                <div class="bl_trig bl_par" style="display:none;">
 
-                                <div class="wr_sel">
-                                    <select id="gde">
-                                        <option value="TB">ВСЯ БИБЛИЯ</option>
-                                        <option value="AT">ВЕТХИЙ ЗАВЕТ</option>
-                                        <option value="NT">НОВЫЙ ЗАВЕТ</option>
-                                        <option disabled></option>
-
-                                        <optgroup label="Категории">
-                                            <option value="M">#Пятикнижье</option>
-                                            <option value="Hist">#Исторические книги</option>
-                                            <option value="Poet">#Поэтические книги</option>
-                                            <option value="Prof">#Пророки</option>
-                                            <option value="EvActs">#Евангелия и Деяния</option>
-                                            <option value="EpPablo">#Послания Павла</option>
-                                            <option value="EpSoborn">#Соборные Послания</option>
-                                            <option value="Apocrif">#Неканонические книги</option>
-                                        </optgroup>
-                                        <option disabled></option>
-                                        
-                                        <optgroup label="Пятикнижье">
-                                            <option value="0" sel-ected>Бытие</option>
-                                            <option value="1">Исход</option>
-                                            <option value="2">Левит</option>
-                                            <option value="3">Числа</option>
-                                            <option value="4">Второзаконие</option>
-                                        </optgroup>
-                                        <option disabled></option>
-                                        
-                                        <optgroup label="Исторические книги">
-                                            <option value="5">Иисус Навин</option>
-                                            <option value="6">Судьи</option>
-                                            <option value="7">Руфь</option>
-                                            <option value="8">1 Царств</option>
-                                            <option value="9">2 Царств</option>
-                                            <option value="10">3 Царств</option>
-                                            <option value="11">4 Царств</option>
-                                            <option value="12">1 Паралипоменон</option>
-                                            <option value="13">2 Паралипоменон</option>
-                                            <option value="14">Ездра</option>
-                                            <option value="15">Неемия</option>
-                                            <option value="16">Есфирь</option>
-                                        </optgroup>
-                                        <option disabled></option>
-                                        
-                                        <optgroup label="Поэтические книги">
-                                            <option value="17">Иов</option>
-                                            <option value="18">Псалтирь</option>
-                                            <option value="19">Притчи</option>
-                                            <option value="20">Екклесиаст</option>
-                                            <option value="21">Песни Песней</option>
-                                        </optgroup>
-                                        <option disabled></option>
-                                        
-                                        <optgroup label="Пророки">
-                                            <option value="22">Исаия</option>
-                                            <option value="23">Иеремия</option>
-                                            <option value="24">Плач Иеремии</option>
-                                            <option value="25">Иезекииль</option>
-                                            <option value="26">Даниил</option>
-                                            <option value="27">Осия</option>
-                                            <option value="28">Иоиль</option>
-                                            <option value="29">Амос</option>
-                                            <option value="30">Авдий</option>
-                                            <option value="31">Иона</option>
-                                            <option value="32">Михей</option>
-                                            <option value="33">Наум</option>
-                                            <option value="34">Аввакум</option>
-                                            <option value="35">Софония</option>
-                                            <option value="36">Аггей</option>
-                                            <option value="37">Захария</option>
-                                            <option value="38">Малахия</option>
-                                        </optgroup>
-                                        <option disabled></option>
-                                        
-                                        <optgroup label="Евангелия и Деяния">
-                                            <option value="39">Матфея</option>
-                                            <option value="40">Марка</option>
-                                            <option value="41">Луки</option>
-                                            <option value="42">Иоанна</option>
-                                            <option value="43">Деяния</option>
-                                        </optgroup>
-                                        <option disabled></option>
-
-                                        <optgroup label="Послания и Откровение">
-                                            <option value="44">Римлянам</option>
-                                            <option value="45">1 Коринфянам</option>
-                                            <option value="46">2 Коринфянам</option>
-                                            <option value="47">Галатам</option>
-                                            <option value="48">Ефесянам</option>
-                                            <option value="49">Филиппийцам</option>
-                                            <option value="50">Колоссянам</option>
-                                            <option value="51">1 Фессалоникийцам</option>
-                                            <option value="52">2 Фессалоникийцам</option>
-                                            <option value="53">1 Тимофею</option>
-                                            <option value="54">2 Тимофею</option>
-                                            <option value="55">Титу</option>
-                                            <option value="56">Филимону</option>
-                                            <option value="57">Евреям</option>
-                                                <option disabled></option>
-                                            <option value="58">Иакова</option>
-                                            <option value="59">1 Петра</option>
-                                            <option value="60">2 Петра</option>
-                                            <option value="61">1 Иоанна</option>
-                                            <option value="62">2 Иоанна</option>
-                                            <option value="63">3 Иоанна</option>
-                                            <option value="64">Иуды</option>
-                                                <option disabled></option>
-                                            <option value="65">Откровение</option>
+                                    <div class="wr_sel">
+                                        <select id="gde">
+                                            <option value="TB">ВСЯ БИБЛИЯ</option>
+                                            <option value="AT">ВЕТХИЙ ЗАВЕТ</option>
+                                            <option value="NT">НОВЫЙ ЗАВЕТ</option>
                                             <option disabled></option>
-                                        </optgroup>
-                                    </select>
-                                    <select id="limit">
-                                        <!-- <option value="5">5</option> -->
-                                        <!-- <option value="10">10</option> -->
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                        <option value="200">200</option>
-                                        <option value="300">300</option>
-                                        <option value="*">*</option>
-                                    </select>
+
+                                            <optgroup label="Категории">
+                                                <option value="M">#Пятикнижье</option>
+                                                <option value="Hist">#Исторические книги</option>
+                                                <option value="Poet">#Поэтические книги</option>
+                                                <option value="Prof">#Пророки</option>
+                                                <option value="EvActs">#Евангелия и Деяния</option>
+                                                <option value="EpPablo">#Послания Павла</option>
+                                                <option value="EpSoborn">#Соборные Послания</option>
+                                                <option value="Apocrif">#Неканонические книги</option>
+                                            </optgroup>
+                                            <option disabled></option>
+                                            
+                                            <optgroup label="Пятикнижье">
+                                                <option value="0" sel-ected>Бытие</option>
+                                                <option value="1">Исход</option>
+                                                <option value="2">Левит</option>
+                                                <option value="3">Числа</option>
+                                                <option value="4">Второзаконие</option>
+                                            </optgroup>
+                                            <option disabled></option>
+                                            
+                                            <optgroup label="Исторические книги">
+                                                <option value="5">Иисус Навин</option>
+                                                <option value="6">Судьи</option>
+                                                <option value="7">Руфь</option>
+                                                <option value="8">1 Царств</option>
+                                                <option value="9">2 Царств</option>
+                                                <option value="10">3 Царств</option>
+                                                <option value="11">4 Царств</option>
+                                                <option value="12">1 Паралипоменон</option>
+                                                <option value="13">2 Паралипоменон</option>
+                                                <option value="14">Ездра</option>
+                                                <option value="15">Неемия</option>
+                                                <option value="16">Есфирь</option>
+                                            </optgroup>
+                                            <option disabled></option>
+                                            
+                                            <optgroup label="Поэтические книги">
+                                                <option value="17">Иов</option>
+                                                <option value="18">Псалтирь</option>
+                                                <option value="19">Притчи</option>
+                                                <option value="20">Екклесиаст</option>
+                                                <option value="21">Песни Песней</option>
+                                            </optgroup>
+                                            <option disabled></option>
+                                            
+                                            <optgroup label="Пророки">
+                                                <option value="22">Исаия</option>
+                                                <option value="23">Иеремия</option>
+                                                <option value="24">Плач Иеремии</option>
+                                                <option value="25">Иезекииль</option>
+                                                <option value="26">Даниил</option>
+                                                <option value="27">Осия</option>
+                                                <option value="28">Иоиль</option>
+                                                <option value="29">Амос</option>
+                                                <option value="30">Авдий</option>
+                                                <option value="31">Иона</option>
+                                                <option value="32">Михей</option>
+                                                <option value="33">Наум</option>
+                                                <option value="34">Аввакум</option>
+                                                <option value="35">Софония</option>
+                                                <option value="36">Аггей</option>
+                                                <option value="37">Захария</option>
+                                                <option value="38">Малахия</option>
+                                            </optgroup>
+                                            <option disabled></option>
+                                            
+                                            <optgroup label="Евангелия и Деяния">
+                                                <option value="39">Матфея</option>
+                                                <option value="40">Марка</option>
+                                                <option value="41">Луки</option>
+                                                <option value="42">Иоанна</option>
+                                                <option value="43">Деяния</option>
+                                            </optgroup>
+                                            <option disabled></option>
+
+                                            <optgroup label="Послания и Откровение">
+                                                <option value="44">Римлянам</option>
+                                                <option value="45">1 Коринфянам</option>
+                                                <option value="46">2 Коринфянам</option>
+                                                <option value="47">Галатам</option>
+                                                <option value="48">Ефесянам</option>
+                                                <option value="49">Филиппийцам</option>
+                                                <option value="50">Колоссянам</option>
+                                                <option value="51">1 Фессалоникийцам</option>
+                                                <option value="52">2 Фессалоникийцам</option>
+                                                <option value="53">1 Тимофею</option>
+                                                <option value="54">2 Тимофею</option>
+                                                <option value="55">Титу</option>
+                                                <option value="56">Филимону</option>
+                                                <option value="57">Евреям</option>
+                                                    <option disabled></option>
+                                                <option value="58">Иакова</option>
+                                                <option value="59">1 Петра</option>
+                                                <option value="60">2 Петра</option>
+                                                <option value="61">1 Иоанна</option>
+                                                <option value="62">2 Иоанна</option>
+                                                <option value="63">3 Иоанна</option>
+                                                <option value="64">Иуды</option>
+                                                    <option disabled></option>
+                                                <option value="65">Откровение</option>
+                                                <option disabled></option>
+                                            </optgroup>
+                                        </select>
+                                        <select id="limit">
+                                            <!-- <option value="5">5</option> -->
+                                            <!-- <option value="10">10</option> -->
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="*">*</option>
+                                        </select>
+                                    </div>
+
+                                    <p>
+                                        <label>
+                                            <input id="cbox1" type="checkbox" onclick="cboxChange(this)"> 
+                                            <span>1. искомое содержит хотя бы одно слово</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox2" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>2. cлова идут в заданном порядке</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox3" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>3. искать точную фразу</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox4" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>4. выражения не могут быть частями слов</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox5" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>5. различать прописные и ЗАГЛАВНЫЕ буквы</span>
+                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>6. различать буквы с ударениями (если есть)</span>
+                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+
+                                        </label>
+                                    </p>
                                 </div>
-
-                                <p>
-                                    <label>
-                                        <input id="cbox1" type="checkbox" onclick="cboxChange(this)"> 
-                                        <span>1. искомое содержит хотя бы одно слово</span>
-                                        <span class="tooltip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <input id="cbox2" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                        <span>2. cлова идут в заданном порядке</span>
-                                        <span class="tooltip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <input id="cbox3" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                        <span>3. искать точную фразу</span>
-                                        <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <input id="cbox4" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                        <span>4. выражения не могут быть частями слов</span>
-                                        <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <input id="cbox5" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                        <span>5. различать прописные и ЗАГЛАВНЫЕ буквы</span>
-                                        <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                        <span>6. различать буквы с ударениями (если есть)</span>
-                                        <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-
-                                    </label>
-                                </p>
                             </div>
                         </div>
+                        <div id="find_result"></div>
                     </div>
-                    <div id="find_result"></div>
                     <div id="find_body">
-                        
+                        <span class="prim_tsk">Introduce el texto para buscar y si quieres aplica los parámetros del filtro.</span>
                     </div>
                 </div><!--/vklad_find-->
 
-                <div id="vklad_tsk">
+                <div id="vklad_tsk" style="display: none;">
                     <div id="tsk_head">
-                        Verse of reference here...
+                        <h4>Pasajes paralelos</h4>
                     </div>
                     <div id="tsk_body">
-                        Cross reference here...
+                        <span class="prim_tsk">Para ver pasajes paralelos del versículo, presiona la referencia. Por ejemplo: Gen.1:1</span>
                     </div>
                 </div><!--/vklad_tsk-->
 
-                <div id="vklad_strong">
-                    <div class="wr_nav">
-                        <div class="wr_inpt_x">
-                            <input id="inpt_strong" value="00776">
-                            <div id="clear_inpt" onclick="clear_inpt('strong')">&times;</div>
+                <div id="vklad_strong" style="display: none;">
+                    
+                    <div id="wr_strong_head">
+                        <div class="wr_nav">
+                            <div class="wr_inpt_x">
+                                <input id="inpt_strong" value="00776">
+                                <div id="clear_inpt" onclick="clear_inpt('strong')">&times;</div>
+                            </div>
+                            <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">Strong</button>
                         </div>
-                        <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">Strong</button>
+                        <div id="strong_head"></div>
                     </div>
-                    <div id="strong_head"></div>
+
                     <div id="strong_body">
-                        Strong text here...
+                        <span class="prim_tsk">Introduce el número de Strong para ver su significado y dónde se encuenta.</span>
                     </div>
                 </div><!--/vklad_strong-->
 

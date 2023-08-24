@@ -794,12 +794,12 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
                 });    
             });
         }
+        mySizeStrong();//altura de div_strong_body despues de meter div_strong_head
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
         //console.log('error promesa strong: '+error);
     });
-    mySizeStrong();//altura de div_strong_body despues de meter div_strong_head
 }
 
 
@@ -875,14 +875,14 @@ function guardWordsFind(words){
         .then(data => {
             //console.log(data);
             if(data){
-                getGuardWordsFind();
+                //getGuardWordsFind();
             }
         })
         .catch(error => console.log('error de guard: '+ error));    
     }
 }
 
-getGuardWordsFind();//al cargar la web para mostrar
+//getGuardWordsFind();//al cargar la web para mostrar
 
 function getGuardWordsFind(){
     var inpt_find = document.querySelector('#inpt_find');
@@ -1031,7 +1031,7 @@ function findWords(words_input){
         return false;
     }
     //meto words en el history
-    guardWordsFind(words_input);
+    //guardWordsFind(words_input);
     close_hist_find();
 
     var words = words_input;

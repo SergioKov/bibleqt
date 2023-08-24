@@ -3043,9 +3043,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                             });
                         }
                     }                
-
-                    //scroll to verseView
-                    //scrollToVerseView(verseView);
                 }
             })
             .then(() => {
@@ -3526,8 +3523,8 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
     Array.from(document.querySelectorAll('.colsInner')[0].children).forEach(el=>{
         if(isInViewport(el)){
-            //console.log('element is in ViewPort');
-            //console.log(el);
+            console.log('element is in ViewPort');
+            console.log(el);
             arr_verseView.push(el.getAttribute('data-verse'));
         }else{
             //console.log('element NO is in ViewPort');
@@ -3793,7 +3790,6 @@ function mySizeWindow() {
     mySizeTsk();
     mySizeStrong();
 
-
     /*
     //console.log('window_h: ' + window_h);
     //console.log('header_h: ' + header_h);
@@ -3805,8 +3801,7 @@ function mySizeWindow() {
     //console.log('body.offsetHeight: ' + body.offsetHeight);
     //console.log('wrCols_h: ' + wrCols_h);
     //console.log('---');
-    */
-    
+    */  
 }
 
 function mySizeNav(){
@@ -3829,17 +3824,52 @@ function mySizeNav(){
     let nav_head_h = nav_head.offsetHeight;
 
     let nav_body_h = 
-    sidebar_h
+      sidebar_h
     - sidebarInner_margins_h
     - menuTabs_h
     - nav_head_h
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     nav_body.style.height = nav_body_h + 'px';
+    console.log('nav_body_h: '+nav_body_h);
+
 }
 
-
 function mySizeFind(){
+    var sidebar = document.querySelector('#sidebar');
+    var sidebarInner = document.querySelector('#sidebarInner');
+    var menuTabs = document.querySelector('#menuTabs');
+    var wr_find_head = document.querySelector('#wr_find_head');
+    var find_body = document.querySelector('#find_body');
+    var padding_find_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+
+
+    // Get the computed style, including margins
+    const computedStyle = window.getComputedStyle(sidebarInner);
+    // Get the height of the element, including margins
+    const sidebarInner_margins_h = 
+    parseInt(computedStyle.marginTop) + 
+    parseInt(computedStyle.marginBottom);
+
+    var sidebar_h = sidebar.offsetHeight;
+    var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    var menuTabs_h = menuTabs.offsetHeight;
+    var wr_find_head_h = wr_find_head.offsetHeight;
+
+    var find_body_h = 
+      sidebar_h
+    - sidebarInner_margins_h
+    - menuTabs_h
+    - wr_find_head_h
+    - padding_find_body
+    ;
+    sidebarInner.style.height = sidebarInner_h + 'px';
+    find_body.style.height = find_body_h + 'px';
+    console.log('find_body_h: '+find_body_h);
+}
+
+/*
+function old_mySizeFind(){
     var div_sidebarInner = document.querySelector('#sidebarInner');
     var div_find_nav = document.querySelector('#vklad_find .wr_nav');
     var div_find_head = document.querySelector('#find_head');
@@ -3850,9 +3880,42 @@ function mySizeFind(){
     //calculo altura de div_tsk_body despues de meter div_tsk_head
     div_find_body.style.height = div_sidebarInner.offsetHeight - div_find_nav.offsetHeight - div_find_head.offsetHeight - div_find_result.offsetHeight - padding_find_body + 'px';
 }
-
+*/
 
 function mySizeTsk(){
+    var sidebar = document.querySelector('#sidebar');
+    var sidebarInner = document.querySelector('#sidebarInner');
+    var menuTabs = document.querySelector('#menuTabs');
+    var tsk_head = document.querySelector('#tsk_head');
+    var tsk_body = document.querySelector('#tsk_body');
+    var padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+
+    // Get the computed style, including margins
+    const computedStyle = window.getComputedStyle(sidebarInner);
+    // Get the height of the element, including margins
+    const sidebarInner_margins_h = 
+    parseInt(computedStyle.marginTop) + 
+    parseInt(computedStyle.marginBottom);
+
+    let sidebar_h = sidebar.offsetHeight;
+    let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    let menuTabs_h = menuTabs.offsetHeight;
+    let tsk_head_h = tsk_head.offsetHeight;
+
+    let tsk_body_h = 
+      sidebar_h
+    - sidebarInner_margins_h
+    - menuTabs_h
+    - tsk_head_h
+    - padding_tsk_body
+    ;
+    sidebarInner.style.height = sidebarInner_h + 'px';
+    tsk_body.style.height = tsk_body_h + 'px';
+    console.log('tsk_body_h: '+tsk_body_h);
+}
+
+/*
+function old_mySizeTsk(){
     var div_sidebarInner = document.querySelector('#sidebarInner');
     var div_tsk_head = document.querySelector('#tsk_head');
     var div_tsk_body = document.querySelector('#tsk_body');
@@ -3861,8 +3924,57 @@ function mySizeTsk(){
     //calculo altura de div_tsk_body despues de meter div_tsk_head
     div_tsk_body.style.height = div_sidebarInner.offsetHeight - div_tsk_head.offsetHeight - padding_tsk_body + 'px';
 }
+*/
 
 function mySizeStrong(){
+    var sidebar = document.querySelector('#sidebar');
+    var sidebarInner = document.querySelector('#sidebarInner');
+    var menuTabs = document.querySelector('#menuTabs');
+    var wr_strong_head = document.querySelector('#wr_strong_head');
+    var strong_body = document.querySelector('#strong_body');
+    var padding_strong_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+
+    // Get the computed style, including margins
+    const computedStyle = window.getComputedStyle(sidebarInner);
+    // Get the height of the element, including margins
+    const sidebarInner_margins_h = 
+    parseInt(computedStyle.marginTop) + 
+    parseInt(computedStyle.marginBottom);
+
+    var sidebar_h = sidebar.offsetHeight;
+    var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    var menuTabs_h = menuTabs.offsetHeight;
+    var wr_strong_head_h = wr_strong_head.offsetHeight;
+
+    //si hay una card con el numero strong dentro
+    let hasStrongCard = false;    
+    for (let i = 0; i < strong_body.children.length; i++) {
+        const childElement = strong_body.children[i];
+
+        if(childElement.classList.contains('p_v')) {
+            hasStrongCard = true;
+            break; // Exit the loop once a matching child is found
+        }
+    }
+    // let padding_StrongCard = (hasStrongCard) ? 2 : 2 ;
+    let padding_StrongCard = 2;//siempre 2px por el border
+    console.log('hasStrongCard: '+hasStrongCard);
+    console.log('padding_StrongCard: '+padding_StrongCard);
+
+    var strong_body_h = 
+      sidebar_h
+    - sidebarInner_margins_h
+    - menuTabs_h
+    - wr_strong_head_h
+    - padding_strong_body
+    - padding_StrongCard //2px de border
+    ;
+    sidebarInner.style.height = sidebarInner_h + 'px';
+    strong_body.style.height = strong_body_h + 'px';
+    console.log('strong_body_h: '+strong_body_h);    
+}
+
+/*function old_mySizeStrong(){
     var div_sidebarInner = document.querySelector('#sidebarInner');
     var div_strong_nav = document.querySelector('#vklad_strong .wr_nav');
     var div_strong_head = document.querySelector('#strong_head');
@@ -3872,6 +3984,7 @@ function mySizeStrong(){
     //calculo altura de div_tsk_body despues de meter div_tsk_head
     div_strong_body.style.height = div_sidebarInner.offsetHeight - div_strong_nav.offsetHeight - div_strong_head.offsetHeight - padding_strong_body + 'px';
 }
+*/
 
 
 
@@ -4169,6 +4282,10 @@ function selVerse(e){
 
     //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));
+    if(window.innerWidth < 768){
+        console.log('func selVerse(). mobile.');
+        closeSidebar();
+    }
 }
 
 

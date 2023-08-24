@@ -218,8 +218,8 @@ body {
 
 #sidebarInner,
 #containerInner{
-    min-height: 300px; 
-    max-height: 900px;
+    /* min-height: 300px;  */
+    /* max-height: 900px; */
     height: 100%; 
 }
 
@@ -713,7 +713,7 @@ span.verse_title {
     border-bottom: 3px solid white !important;
 }
 #vklad_nav {
-    height: 796px;
+    /* height: 796px; */
     overflow: hidden;
     background: #795548;
     border: 1px solid #2c7fc1;
@@ -981,6 +981,11 @@ h4, span.h4_ch {
     max-height: 150px;
     overflow-y: scroll;
     margin-bottom: 5px;
+    color: white;
+}
+#tsk_head h4 {
+    color: white;
+    padding: 0 5px;
 }
 #find_head {
     min-height: 10px;
@@ -1111,7 +1116,7 @@ button#btn_ok_strong {
 #vklad_find,
 #vklad_strong
 {
-    height: 796px;
+    /* height: 796px; */
     overflow: hidden;
     background: #373737;
     border: 1px solid #2c7fc1;
@@ -1604,3 +1609,26 @@ select  optgroup option {
   margin: 10px;
 }
 /* fin modal */
+
+span.prim_verse {
+    color: #d8d8d8;
+    background: black;
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 3px;
+    text-align: center;
+    border: 1px solid #5a5a5a;
+    font-size: medium;
+}
+span.prim_tsk {
+    color: #d8d8d8;
+    background: black;
+    padding: 10px;
+    border-radius: 3px;
+    text-align: center;
+    border: 1px solid #5a5a5a;
+    font-size: medium;
+    display: block;
+    margin-right: -3px;
+}
