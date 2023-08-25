@@ -3618,17 +3618,20 @@ function changeModule(thisDiv,trans,BibleShortName){
 }
 
 
-function changePositionShow(el){//row,col, default = col
+function changePositionShow(el){//row,col, default = col   
     if(positionShow == 'row'){
         positionShow = 'col';
-        el.innerText = 'Row';
+        // el.innerText = 'Row';
+        //si element tiene dentro un div, es el boton del modalTop
+        el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Row</span>' : 'Row';
         //hago scroll to top en columna para todos cols
         document.querySelectorAll('.colsInner').forEach(el=>{
             el.scrollTop = 0;
         });
     }else{
         positionShow = 'row';
-        el.innerText = 'Col';
+        // el.innerText = 'Col';
+        el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Col</span>' : 'Col';
     }
     mySizeWindow();
     mySizeVerse();

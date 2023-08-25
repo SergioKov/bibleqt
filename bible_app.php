@@ -480,26 +480,71 @@ header('Content-type: text/html; charset=utf-8');
                 <div id="bl_modalTop" style="display:none;">
                     <div id="bl_modalTopInner">
 
-                        <button class="btn f_l ml" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
+                    <div class="dbtn" onclick="removeTrans()">
+                        <div>Tr -</div>
+                    </div>
+                    <div class="dbtn" onclick="addTrans()">
+                        <div>Tr +</div>
+                    </div>
+
+                    <div class="dbtn" onclick="removeTab()">
+                        <div>Vk -</div>
+                    </div>
+                    <div class="dbtn" onclick="addTab()">
+                        <div>Vk +</div>
+                    </div>
+
+
+                    <div class="dbtn" onclick="bookGo('prev')">
+                        <div>&#9668;</div>
+                    </div>
+                    <div class="dbtn" onclick="bookGo('next')">
+                        <div>&#9658;</div>
+                    </div>
+
+                    <div class="dbtn" onclick="chapterGo('prev')">
+                        <div>&#9668;&#9668;</div>
+                    </div>
+                    <div class="dbtn" onclick="chapterGo('next')">
+                        <div>&#9658;&#9658;</div>
+                    </div>
+
+                    <div class="dbtn" onclick="prevHist()">
+                        <div>< H</div>
+                    </div>
+                    <div class="dbtn" onclick="nextHist()">
+                        <div>H ></div>
+                    </div>
+                    
+
+                    <div class="dbtn" onclick="changePositionShow(this)">
+                        <div>Row</div>
+                    </div>
+                    <div class="dbtn" onclick="showHideStrongNumbers()">
+                        <div>S#</div>
+                    </div>
+                    
+<!--
+                        <button class="btn f_l" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
                         <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
 
-                        <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
+                        <button class="btn f_l" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
                         <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
 
-                        <button class="btn f_l ml" title="History previous register" onclick="prevHist()">&lang; H</button>
+                        <button class="btn f_l" title="History previous register" onclick="prevHist()">&lang; H</button>
                         <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
 
-                        <button class="btn f_l ml" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
+                        <button class="btn f_l" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
                         <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
 
-                        <button class="btn f_l ml" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
+                        <button class="btn f_l" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
                         <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
 
-                        <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
+                        <button class="btn f_l" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
 
-                        <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
+                        <button id="btnStrong" class="btn f_l" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
+-->
 
-                        <button class="btn f_r" title="Settings" onclick="">Set</button>
                         
                     </div>
                 </div>

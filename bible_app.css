@@ -1666,3 +1666,31 @@ div#bl_modalTopInner .btn{
     width: 60px;
     padding: 10px;
 }
+
+div#bl_modalTopInner .dbtn {
+    margin: 0px;
+    width: 25%;
+    padding: 15px 0px;
+    font-size: 18px;
+    border-radius: 0;
+    outline: 1px solid #373737;
+    background: #000000;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}
+div#bl_modalTopInner .dbtn:hover {
+    background: #424242;
+}
+.dbtn span {
+    margin: 10px;
+    /* background: red; */
+    padding: 10px;
+}
