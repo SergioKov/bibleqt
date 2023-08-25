@@ -53,6 +53,14 @@ body {
     margin: 10px;
     overflow: hidden;
 }
+.headerFlex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: center;
+}
 
 #headerSidebar {
     background: #1b89e1;
@@ -1652,7 +1660,16 @@ span.prim_tsk {
     position: relative;
     top: -7px;
 }
-div#bl_modalTopInner {
+div#bl_modalTopInner
+ {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+div#bl_headerBtns {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -1667,7 +1684,7 @@ div#bl_modalTopInner .btn{
     padding: 10px;
 }
 
-div#bl_modalTopInner .dbtn {
+div#bl_modalTopInner .dbtn{
     margin: 0px;
     width: 25%;
     padding: 15px 0px;
@@ -1686,11 +1703,50 @@ div#bl_modalTopInner .dbtn {
     transition: 0.3s;
     cursor: pointer;
 }
-div#bl_modalTopInner .dbtn:hover {
+div#bl_modalTopInner .dbtn:hover, 
+div#bl_headerBtns .dbtn:hover 
+{
     background: #424242;
 }
 .dbtn span {
     margin: 10px;
     /* background: red; */
     padding: 10px;
+}
+div#headerMainInner button {
+    height: 28px;
+    width: 50px;
+}
+
+div#bl_headerBtns .dbtn {
+    margin: 0px;
+    /* width: 25%; */
+    /* padding: 15px 0px; */
+    font-size: 18px;
+    border-radius: 0;
+    outline: 1px solid #373737;
+    background: #000000;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    min-width: 50px;
+    min-height: 30px;
+}
+.tres_puntos_menu{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;    
 }

@@ -5158,6 +5158,15 @@ function addListenerModule(){
     });
 }
 
+function prevHist(){
+    console.log('prevHist() clicked');
+}
+
+function nextHist(){
+    console.log('nextHist() clicked');
+}
+
+
 function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
     var inpt_nav = document.querySelector('#inpt_nav');

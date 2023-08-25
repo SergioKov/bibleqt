@@ -28,31 +28,100 @@ header('Content-type: text/html; charset=utf-8');
     <div id="header">
 
         <div id="headerMain">
-            <div id="headerMainInner">
+            <div id="headerMainInner" class="headerFlex">               
                 
-                <button class="btn f_l" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">H / S</button>
-
-                <button class="btn f_l ml" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
-                <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
-
-                <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
-                <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
-
-                <button class="btn f_l ml" title="History previous register" onclick="prevHist()">&lang; H</button>
-                <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
-
-                <button class="btn f_l ml" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
-                <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
-
-                <button class="btn f_l ml" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
-                <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
                 
-                <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
+                <div style="display:none;">
+                    <button class="btn f_l" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">H / S</button>
 
-                <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
+                    <button class="btn f_l ml" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
+                    <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
 
-                <button class="btn f_r" title="Settings" onclick="">Set</button>
-                <h3>BQ</h3>
+                    <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
+                    <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
+
+                    <button class="btn f_l ml" title="History previous register" onclick="prevHist()">&lang; H</button>
+                    <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
+
+                    <button class="btn f_l ml" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
+                    <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
+
+                    <button class="btn f_l ml" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
+                    <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
+                    
+                    <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
+
+                    <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
+
+                    <button class="btn f_r" title="Settings" style="display:none;">Set</button>
+
+                    <button class="btn" title="menu modal. ajustes de la app" onclick="openModal('modalTop')" >
+                        <img src="image/tres_puntos2_white.svg" style="height: 20px;">
+                    </button>
+            
+                </div>
+
+                <div id="bl_headerBtns">
+
+                    <div class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">
+                        <div>Hide</div>
+                    </div>
+
+                    <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+                        <div>Tr -</div>
+                    </div>
+                    <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
+                        <div>Tr +</div>
+                    </div>
+
+                    <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+                        <div>Vk -</div>
+                    </div>
+                    <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
+                        <div>Vk +</div>
+                    </div>
+
+                    <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+                        <img src="image/arrow_backward_white.svg">
+                    </div>
+                    <div class="dbtn" title="Next book"onclick="bookGo('next')">
+                        <img src="image/arrow_forward_white.svg">
+                    </div>
+
+                    <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+                        <img src="image/arrow_chevron_left_white.svg">                            
+                    </div>
+                    <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+                        <img src="image/arrow_chevron_right_white.svg">
+                    </div>
+
+                    <div class="dbtn" title="History previous register" onclick="prevHist()">
+                        <div>< H</div>
+                    </div>
+                    <div class="dbtn" title="History next register" onclick="nextHist()">
+                        <div>H ></div>
+                    </div>                        
+
+                    <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                        <div>Row</div>
+                    </div>
+                    <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                        <div>S#</div>
+                    </div>
+
+                    <h3>BQ</h3>
+
+
+                    
+                </div>
+
+                <div class="tres_puntos_menu" title="menu..." onclick="openModal('modalTop')">
+                    <img src="image/tres_puntos2_white.svg" style="width:24px;">
+                </div>
+
+
+
+
             </div>
         </div>
 
@@ -480,71 +549,48 @@ header('Content-type: text/html; charset=utf-8');
                 <div id="bl_modalTop" style="display:none;">
                     <div id="bl_modalTopInner">
 
-                    <div class="dbtn" onclick="removeTrans()">
-                        <div>Tr -</div>
-                    </div>
-                    <div class="dbtn" onclick="addTrans()">
-                        <div>Tr +</div>
-                    </div>
+                        <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+                            <div>Tr -</div>
+                        </div>
+                        <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
+                            <div>Tr +</div>
+                        </div>
 
-                    <div class="dbtn" onclick="removeTab()">
-                        <div>Vk -</div>
-                    </div>
-                    <div class="dbtn" onclick="addTab()">
-                        <div>Vk +</div>
-                    </div>
+                        <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+                            <div>Vk -</div>
+                        </div>
+                        <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
+                            <div>Vk +</div>
+                        </div>
 
 
-                    <div class="dbtn" onclick="bookGo('prev')">
-                        <div>&#9668;</div>
-                    </div>
-                    <div class="dbtn" onclick="bookGo('next')">
-                        <div>&#9658;</div>
-                    </div>
+                        <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+                            <img src="image/arrow_backward_white.svg">
+                        </div>
+                        <div class="dbtn" title="Next book"onclick="bookGo('next')">
+                            <img src="image/arrow_forward_white.svg">
+                        </div>
 
-                    <div class="dbtn" onclick="chapterGo('prev')">
-                        <div>&#9668;&#9668;</div>
-                    </div>
-                    <div class="dbtn" onclick="chapterGo('next')">
-                        <div>&#9658;&#9658;</div>
-                    </div>
+                        <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+                            <img src="image/arrow_chevron_left_white.svg">                            
+                        </div>
+                        <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+                            <img src="image/arrow_chevron_right_white.svg">
+                        </div>
 
-                    <div class="dbtn" onclick="prevHist()">
-                        <div>< H</div>
-                    </div>
-                    <div class="dbtn" onclick="nextHist()">
-                        <div>H ></div>
-                    </div>
-                    
+                        <div class="dbtn" title="History previous register" onclick="prevHist()">
+                            <div>< H</div>
+                        </div>
+                        <div class="dbtn" title="History next register" onclick="nextHist()">
+                            <div>H ></div>
+                        </div>                        
 
-                    <div class="dbtn" onclick="changePositionShow(this)">
-                        <div>Row</div>
-                    </div>
-                    <div class="dbtn" onclick="showHideStrongNumbers()">
-                        <div>S#</div>
-                    </div>
-                    
-<!--
-                        <button class="btn f_l" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
-                        <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
-
-                        <button class="btn f_l" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
-                        <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
-
-                        <button class="btn f_l" title="History previous register" onclick="prevHist()">&lang; H</button>
-                        <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
-
-                        <button class="btn f_l" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
-                        <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
-
-                        <button class="btn f_l" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
-                        <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
-
-                        <button class="btn f_l" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
-
-                        <button id="btnStrong" class="btn f_l" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
--->
-
+                        <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                            <div>Row</div>
+                        </div>
+                        <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                            <div>S#</div>
+                        </div>
                         
                     </div>
                 </div>
