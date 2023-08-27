@@ -3615,6 +3615,18 @@ function changeModule(thisDiv,trans,BibleShortName){
     });
     var verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
+
+    //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
+    if(thisDiv.id == 'trans1'){
+        var trans_buttons = document.querySelectorAll('#footerInner button');
+        trans_buttons.forEach(el=>{
+            el.classList.remove('btn_active');
+            if(el.value == thisDiv.dataset.trans){
+                el.classList.add('btn_active');
+                el.scrollIntoView();
+            }
+        });
+    }
  
     //howTrans(trans1_id_book, trans1_chapter, /*verseNumber, to_verseNumber*/);//no hace falta!!!
     showChapterText3(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
@@ -5112,17 +5124,6 @@ function selectModule2(htmlTrans){
 
         bl_modalFullInner.appendChild(p);
     });
-
-    //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
-    if(thisDiv.id == 'trans1'){
-        var trans_buttons = document.querySelectorAll('#footerInner button');
-        trans_buttons.forEach(el=>{
-            el.classList.remove('btn_active');
-            if(el.value == thisDiv.dataset.trans){
-                el.classList.add('btn_active');
-            }
-        });
-    }
 }
 
 function selectModule(e){
