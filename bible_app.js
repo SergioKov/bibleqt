@@ -3466,6 +3466,7 @@ function closeSidebar(el){
 
 function hideShowSidebar(el){ 
     let sidebar = document.querySelector('#sidebar');
+    let v_line = document.querySelector('#v_line');
     let disp = sidebar.style.display;
     if(disp != 'none' || sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
@@ -3477,6 +3478,7 @@ function hideShowSidebar(el){
     sidebar.removeAttribute('class');
     //document.querySelector('#headerSidebar').style.display = disp;
     sidebar.style.display = disp;
+    v_line.style.display = disp;
     
     mySizeWindow();
     mySizeVerse();
@@ -3581,7 +3583,13 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 function changeModule(thisDiv,trans,BibleShortName){
    
     thisDiv.setAttribute('data-trans',trans);
-    thisDiv.children[0].children[1].innerHTML = BibleShortName;
+    if(thisDiv.id == 'trans1'){
+        //meto BibleShortName en el primer div, ya que este no tiene 'x' close
+        thisDiv.children[0].children[0].innerHTML = BibleShortName;
+    }else{
+        //meto BibleShortName en el segundo div, ya que el primero es 'x' close
+        thisDiv.children[0].children[1].innerHTML = BibleShortName;
+    }
 
     //en navegación
     let inpt_nav = document.querySelector('#inpt_nav');
@@ -4128,6 +4136,9 @@ function addTrans(){
                                     <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
                                     <div>+</div>
                                 </div>`;
+        htmlTrans.onclick = function(){
+            openModal('full',htmlTrans);//contiene dentro selectModule2()
+        }
 
 
         const htmlBody = document.createElement("div");//Text of Bible
@@ -4153,8 +4164,12 @@ function addTrans(){
             mySizeVerse();
             //console.log('en addTrans() mySize...');
         }
-        addListenerModule();
+        //addListenerModule();//antes
+        
+        //propongo selección del modulo
+        openModal('full',htmlTrans);//contiene dentro selectModule2()
     }
+    
 }
 
 function removeTrans(){
@@ -5072,12 +5087,16 @@ function isInViewport(el) {
     );
 }
 
-function selectModule2(){
+function selectModule2(htmlTrans){
     console.log(arrFavTransObj);
     const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
     bl_modalFullInner.innerHTML = '';//reset
 
-    let thisDiv = document.querySelector('#trans2.colsHead');//test
+    // let thisDiv = document.querySelector('#trans2.colsHead');//test
+    let thisDiv = htmlTrans;//test
+    console.log('abajo htmlTrans: ');
+    console.log(htmlTrans);
+
 
     arrFavTransObj.forEach((el,i)=>{
 
@@ -5175,7 +5194,8 @@ addListenerModule();
 function addListenerModule(){
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
         if(i>0){
-            el.addEventListener('click',selectModule);
+            el.addEventListener('click',selectModule);//antes
+            //el.addEventListener('click',selectModule2);//new
         }
     });
 }

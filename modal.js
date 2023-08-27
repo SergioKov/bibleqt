@@ -1,6 +1,9 @@
 // Get the modal
 var modal = document.querySelector("#myModal");
 var modalContent = document.querySelector("#myModalContent");
+var modalContent_header = document.querySelector("#myModalContent header");
+var modalContent_section = document.querySelector("#myModalContent section");
+var modalContent_footer = document.querySelector("#myModalContent footer");
 var bl_modalTop = document.querySelector("#bl_modalTop");
 var bl_modalBottom = document.querySelector("#bl_modalBottom");
 var bl_modalCenter = document.querySelector("#bl_modalCenter");
@@ -12,7 +15,7 @@ var bl_modalFull = document.querySelector("#bl_modalFull");
 // When the user clicks the button, open the modal 
 //btn.onclick = openModal;
 
-function openModal(param = null) {
+function openModal(param = null, htmlTrans = null) {
   
   let header_h4_text = modalContent.querySelector('header .h4_text');
   
@@ -37,7 +40,8 @@ function openModal(param = null) {
 
   if(param == 'top'){
     header_h4_text.innerHTML = 'Навигация. Переводы';
-    modal.style.paddingTop = headerContainer.offsetHeight + 'px';
+    // modal.style.paddingTop = headerContainer.offsetHeight + 'px';
+    modal.style.paddingTop = '0px';
     modalContent.classList.add('modalContentTop');
     bl_modalTop.style.display = 'block';
   }else if(param == 'center'){
@@ -48,13 +52,14 @@ function openModal(param = null) {
     modal.style.paddingTop = '50vh';
     modalContent.classList.add('modalContentBottom');
     bl_modalBottom.style.display = 'block';
-  }else{
+  }else if(param == 'full'){
     header_h4_text.innerHTML = 'Выбор модуля Библии';
     modal.style.paddingTop = '0vh';
     modalContent.classList.add('modalContentFull');
     bl_modalFull.style.display = 'block';
-    selectModule2();
-
+    selectModule2(htmlTrans);
+  }else{
+    console.log('---es else---');
   }
 }
 
@@ -73,3 +78,22 @@ window.onclick = function(event) {
     closeModal();
   }
 }
+
+
+modal.addEventListener('click', function(e){
+  console.log('modal. div 2 exterior');
+  closeModal();
+});
+
+modalContent_header.addEventListener('click', function(e){
+  console.log('-- modalContent_header. div 1 interior');
+  e.stopPropagation();
+});
+modalContent_section.addEventListener('click', function(e){
+  console.log('-- modalContent_section. div 1 interior');
+  e.stopPropagation();
+});
+modalContent_footer.addEventListener('click', function(e){
+  console.log('-- modalContent_footer. div 1 interior');
+  e.stopPropagation();
+});

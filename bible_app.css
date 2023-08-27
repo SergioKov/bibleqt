@@ -1590,8 +1590,15 @@ select  optgroup option {
 .close {
     color: #aaaaaa;
     float: right;
-    font-size: 28px;
+    font-size: 23px;
     font-weight: bold;
+    position: relative;
+    top: -6px;
+    right: -5px;
+    /* background: #ec6e6e; */
+    padding: 0px 8px;
+    /* outline: 1px solid white; */
+    transition: 0.3s;
 }
 
 .close:hover,
@@ -1676,14 +1683,7 @@ span.prim_tsk {
     border: none;
     /* background: green; */
 }
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: relative;
-    top: -7px;
-}
+
 div#bl_modalTopInner
  {
     display: flex;

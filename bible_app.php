@@ -115,7 +115,7 @@ header('Content-type: text/html; charset=utf-8');
                     
                 </div>
 
-                <div class="tres_puntos_menu" title="menu..." onclick="openModal('modalTop')">
+                <div class="tres_puntos_menu" title="menu..." onclick="openModal('top')">
                     <img src="image/tres_puntos2_white.svg" style="width:24px;">
                 </div>
 
@@ -459,7 +459,7 @@ header('Content-type: text/html; charset=utf-8');
                         <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
                         
                         <div class="centralPart">
-                            <button class="btn" onclick="openModal('full')" title="open Modal to choose translation">
+                            <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
                                 <span class="mob_trans">RST+r</span>
                             </button>
                             <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
@@ -488,8 +488,10 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="col1" class="cols">
                         <div id="trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
                             <div class="colsHeadInner">
-                                <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
+<!--
+                            <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
                                 <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
+-->
                                 <div>RST</div>
                             </div>
                         </div>
@@ -543,7 +545,10 @@ header('Content-type: text/html; charset=utf-8');
 
             <header>
                 <div class="inner">
-                <h4><span class="close" onclick="closeModal()">&times;</span> <span class="h4_text">aki modal content header</span></h4>
+                <h4>
+                    <span class="close" onclick="closeModal()">&#10005;</span><!-- x --> 
+                    <span class="h4_text">aki modal content header</span>
+                </h4>
             </div>
             </header>
 
@@ -641,9 +646,12 @@ header('Content-type: text/html; charset=utf-8');
                 </div>
             </section>
 
-            <footer>
+            <footer style="display:none;">
                 <div class="inner">
-                    <p><span class="close" onclick="closeModal()">&times;</span>aki modal content footer </p>
+                    <p>
+                        <span class="close" onclick="closeModal()">&#10005;</span> 
+                        aki modal content footer 
+                    </p>
                 </div>
             </footer>
 
