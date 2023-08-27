@@ -5072,6 +5072,28 @@ function isInViewport(el) {
     );
 }
 
+function selectModule2(){
+    console.log(arrFavTransObj);
+    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
+    bl_modalFullInner.innerHTML = '';//reset
+
+    let thisDiv = document.querySelector('#trans2.colsHead');//test
+
+    arrFavTransObj.forEach((el,i)=>{
+
+        const p = document.createElement('p');
+        p.className = 'cl_trans';
+        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
+        p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+        p.onclick = function(){
+            changeModule(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName);
+            console.log('p.onclick ok ');
+            closeModal();
+        }        
+
+        bl_modalFullInner.appendChild(p);
+    });
+}
 
 function selectModule(e){
     var thisDiv = e.currentTarget;
@@ -5424,6 +5446,89 @@ function showTabMob(btn_id, param){
     //2. llamo showTab(document.querySelector('#btn_nav'),'nav')
     showTab(document.querySelector(btn_id), param);
 }
+
+
+"rstStrongRed">
+"rstStrong"
+"rstt"
+"rsti2"
+"rstm"
+"nrt"
+"rstStrong_rv60"
+"opnz"
+
+"ukr_fil"
+"ukr_ogi"
+"ukr_hom"
+"ukr_gyz"
+"ukr_tur"
+"ukr_der"
+
+"rv60"
+"lbla"
+
+
+
+
+function makeTransObj(){
+    var arrTrans = [
+        "rstStrongRed",
+        "rstStrong",
+        "rstt",
+        "rsti2",
+        "rstm",
+        "nrt",
+        "rstStrong_rv60",
+        "opnz",
+        
+        "ukr_fil",
+        "ukr_ogi",
+        "ukr_hom",
+        "ukr_gyz",
+        "ukr_tur",
+        "ukr_der",
+        
+        "rv60",
+        "lbla"
+
+        //"kjv",
+        //"nkjv",
+    ];
+
+    var arrTransObj = [];
+    //var arrTransObj = {};
+    //let y = 0;
+
+    for (let i = 0; i < arrTrans.length; i++) {
+        const el = arrTrans[i];
+        console.log(i);
+        console.log(el);
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${el}/bibleqt.json`;
+        console.log(url_bq);
+
+        fetch(url_bq)
+        .then((response) => response.json())
+        .then((bq) => {
+            arrTransObj[i] = bq;
+            //arrTransObj[el] = bq;
+            //arrTransObj['t'+y] = bq;
+            console.log(arrTransObj);
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.log('makeTransObj. error promesa: '+error);
+        });        
+    }
+
+    //return arrTrans;
+    return arrTransObj;
+}
+
+const arrFavTransObj = makeTransObj();
+console.log('arrFavTransObj');
+console.log(arrFavTransObj);
 
 
 

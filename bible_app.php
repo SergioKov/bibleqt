@@ -459,7 +459,7 @@ header('Content-type: text/html; charset=utf-8');
                         <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
                         
                         <div class="centralPart">
-                            <button class="btn" onclick="openModal()" title="open Modal to choose translation">
+                            <button class="btn" onclick="openModal('full')" title="open Modal to choose translation">
                                 <span class="mob_trans">RST+r</span>
                             </button>
                             <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
@@ -468,8 +468,12 @@ header('Content-type: text/html; charset=utf-8');
                         </div>
                         
                         <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
-                        <button class="btn btn_svg" onclick="openModal()" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
-                        <button class="btn btn_svg" onclick="openModal('modalTop')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+<!--
+                        <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                        <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+-->
+
+                        <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
 
                     </div>
                 </div>
@@ -538,83 +542,109 @@ header('Content-type: text/html; charset=utf-8');
             <!-- <div class="modal-content-inner"> -->
 
             <header>
-            <div class="inner">
-                <h4><span class="close" onclick="closeModal()">&times;</span>aki modal content header</h4>
+                <div class="inner">
+                <h4><span class="close" onclick="closeModal()">&times;</span> <span class="h4_text">aki modal content header</span></h4>
             </div>
             </header>
 
             <section>
-            <div class="inner">
+                <div class="inner">
 
-                <div id="bl_modalTop" style="display:none;">
-                    <div id="bl_modalTopInner">
+                    <div id="bl_modalTop" style="display:none;">
+                        <div id="bl_modalTopInner">
 
-                        <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
-                            <div>Tr -</div>
-                        </div>
-                        <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
-                            <div>Tr +</div>
-                        </div>
+                            <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+                                <div>Tr -</div>
+                            </div>
+                            <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
+                                <div>Tr +</div>
+                            </div>
 
-                        <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
-                            <div>Vk -</div>
-                        </div>
-                        <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
-                            <div>Vk +</div>
-                        </div>
+                            <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+                                <div>Vk -</div>
+                            </div>
+                            <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
+                                <div>Vk +</div>
+                            </div>
 
 
-                        <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
-                            <img src="image/arrow_backward_white.svg">
-                        </div>
-                        <div class="dbtn" title="Next book"onclick="bookGo('next')">
-                            <img src="image/arrow_forward_white.svg">
-                        </div>
+                            <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+                                <img src="image/arrow_backward_white.svg">
+                            </div>
+                            <div class="dbtn" title="Next book"onclick="bookGo('next')">
+                                <img src="image/arrow_forward_white.svg">
+                            </div>
 
-                        <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
-                            <img src="image/arrow_chevron_left_white.svg">                            
-                        </div>
-                        <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
-                            <img src="image/arrow_chevron_right_white.svg">
-                        </div>
+                            <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+                                <img src="image/arrow_chevron_left_white.svg">                            
+                            </div>
+                            <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+                                <img src="image/arrow_chevron_right_white.svg">
+                            </div>
 
-                        <div class="dbtn" title="History previous register" onclick="prevHist()">
-                            <div>< H</div>
-                        </div>
-                        <div class="dbtn" title="History next register" onclick="nextHist()">
-                            <div>H ></div>
-                        </div>                        
+                            <div class="dbtn" title="History previous register" onclick="prevHist()">
+                                <div>< H</div>
+                            </div>
+                            <div class="dbtn" title="History next register" onclick="nextHist()">
+                                <div>H ></div>
+                            </div>                        
 
-                        <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
-                            <div>Row</div>
+                            <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                                <div>Row</div>
+                            </div>
+                            <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                                <div>S#</div>
+                            </div>
+                            
                         </div>
-                        <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
-                            <div>S#</div>
-                        </div>
-                        
                     </div>
+
+
+
+                    <div id="bl_modalCenter" style="display:none;">
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>bl_modalCenter</p>
+                        <p>Some text in the Modal..</p><p>Some text in the Modal..</p>            
+                        <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>
+                    </div>
+
+                    <div id="bl_modalBottom" style="display:none;">
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>bl_modalBottom</p>
+                        <p>Some text in the Modal..</p><p>Some text in the Modal..</p>            
+                        <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>
+                    </div>
+
+                    <div id="bl_modalFull" style="display:none;">
+                        <div id="bl_modalFullInner" class="vyb_trans">
+                            
+                        </div>
+                    </div>
+
+
+
                 </div>
-
-
-
-                <div id="bl_modalFull" style="display:none;">
-                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>            
-                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>
-                </div>
-
-                <div id="bl_modalBottom" style="display:none;">
-                    <p>Some bottom text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p>            
-                    <p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><p>Some text in the Modal..</p><
-                </div>
-
-
-            </div>
             </section>
 
             <footer>
-            <div class="inner">
-                <p><span class="close" onclick="closeModal()">&times;</span>aki modal content footer </p>
-            </div>
+                <div class="inner">
+                    <p><span class="close" onclick="closeModal()">&times;</span>aki modal content footer </p>
+                </div>
             </footer>
 
             <!-- </div>/modal-content-inner -->

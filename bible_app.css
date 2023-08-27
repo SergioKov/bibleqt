@@ -1570,10 +1570,10 @@ select  optgroup option {
 
 /* Modal Content */
 .modal-content {
-    background-color: #2196f3b0;
+    /* background-color: #00000054; */
     margin: auto;
     padding: 10px;
-    border: 1px solid #2196f3;
+    /* outline: 1px solid #3e3e3e; */
     width: 80%;
     height: 80%;
     overflow: hidden;
@@ -1582,8 +1582,8 @@ select  optgroup option {
     flex-wrap: nowrap;
     justify-content: center;
 }
-.modal-content section p{
-	background: white;
+.modal-content section p {
+    /* background: white; */
 }
 
 /* The Close Button */
@@ -1642,9 +1642,33 @@ span.prim_tsk {
 }
 .modalContentTop {
     width: 100%;
-    height: 50%;
+    height: 100%;
     justify-content: flex-start;
     padding: 0;
+    max-width: 425px;
+}
+.modalContentCenter {
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    padding: 0;
+    max-width: 425px;
+}
+.modalContentBottom {
+    width: 100%;
+    height: 50vh;
+    justify-content: flex-end;
+    padding: 0;
+    max-width: 425px;
+}
+.modalContentFull {
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    padding: 0;
+}
+.modalContentFull section {
+    background-color: black;
 }
 .modal-content h4 {
     color: white;
@@ -1749,4 +1773,38 @@ div#bl_headerBtns .dbtn {
     color: white;
     transition: 0.3s;
     cursor: pointer;    
+}
+.vyb_trans{
+    background: black;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+}
+.cl_trans {
+    color: #dddddd;
+    padding: 5px;
+    font-size: medium;
+    font-family: 'Muli',Verdana,Arial;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
+    text-align: left;
+    justify-content: flex-start;
+}
+.cl_trans:not(:last-child) {
+    border-bottom: 1px solid #404040;
+}
+.cl_trans .sh_n {
+    margin-right: 15px;
+    /* background: #755905; */
+    width: 117px;
+}
+.cl_trans .la_n {
+    /* background: #5a0211; */
+    width: 100%;
 }
