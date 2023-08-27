@@ -1673,6 +1673,7 @@ span.prim_tsk {
     height: 100%;
     justify-content: flex-start;
     padding: 0;
+    max-width: 768px;
 }
 .modalContentFull section {
     background-color: black;
@@ -1774,12 +1775,12 @@ div#bl_headerBtns .dbtn {
     transition: 0.3s;
     cursor: pointer;    
 }
-.vyb_trans{
+.vyb_trans {
     background: black;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: flex-start;
+    align-content: inherit;
     justify-content: center;
 }
 .cl_trans {
@@ -1795,9 +1796,13 @@ div#bl_headerBtns .dbtn {
     align-content: center;
     text-align: left;
     justify-content: flex-start;
+    transition: 0.3;
 }
 .cl_trans:not(:last-child) {
     border-bottom: 1px solid #404040;
+}
+p.cl_trans:hover {
+    background: #414141;
 }
 .cl_trans .sh_n {
     margin-right: 15px;

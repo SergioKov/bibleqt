@@ -5112,6 +5112,17 @@ function selectModule2(htmlTrans){
 
         bl_modalFullInner.appendChild(p);
     });
+
+    //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
+    if(thisDiv.id == 'trans1'){
+        var trans_buttons = document.querySelectorAll('#footerInner button');
+        trans_buttons.forEach(el=>{
+            el.classList.remove('btn_active');
+            if(el.value == thisDiv.dataset.trans){
+                el.classList.add('btn_active');
+            }
+        });
+    }
 }
 
 function selectModule(e){
