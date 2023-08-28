@@ -435,7 +435,7 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 function autoWidthShortBook(){
     let sidebar = document.querySelector('#sidebar');
     let s_wx = sidebar.offsetWidth;
-    console.log('autoWidthShortBook()');
+    //console.log('autoWidthShortBook()');
     
     //Si es Tablet o Desktop
     if(window.innerWidth >= 768){       
@@ -696,8 +696,12 @@ setTimeout(function(){
 
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    var arr_trans = [];
-    var arr_divShow = [];
+    //var arr_trans = [];
+    //var arr_divShow = [];
+
+    window.arr_trans = [];
+    window.arr_divShow = [];
+    
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
         arr_trans.push(el.getAttribute('data-trans'));
         arr_divShow.push(el.parentElement.getAttribute('id'));
@@ -712,6 +716,8 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
         'ukr_ogi',
     ];
     */
+
+    /*
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         //console.log(el.parentElement.getAttribute('id'))
         showChapterText3(arr_trans[i],'#'+arr_divShow[i], book, chapter, verseNumber, to_verseNumber, verseView);
@@ -721,6 +727,12 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
             setBaseEnglishPsalms();//grabo en trans1 su valor de EnglishPsalms 'Y' o 'N'
         }
     });
+    */
+
+    //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
+    window.iter_i = 0;
+    showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+    //console.log('iter_i: ' + iter_i + ' --- start en showTrans()');
 }
 
 
@@ -1917,7 +1929,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
     window.arr_data_head = [];//incluye h2 y h4
     window.arr_data_body = [];//incluye p
     window.arr_data_all = [];//incluye todo: h2 y h4 y p
-    
+        
     //saco ajustes de este modulo en json
     url_bq = `modules/text/${Translation}/bibleqt.json`;
 
@@ -1978,9 +1990,24 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                 if(typeof nb[chapter] !== 'undefined'){
                     var ChapterId = chapter;
 
+                    var nb_chapter_verses = nb[chapter].split('<p>');
+                    //console.log(nb_chapter_verses);
+
+                    var only_verses_length = nb_chapter_verses.length - 1;
+                    //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
+                    // console.log('only_ divId: '+divId);
+
+                    if(divId == '#col1'){
+                        window.col1_p_length = only_verses_length;
+                        //console.log('only_ col1_p_length: '+window.col1_p_length);
+                    }else{
+                        //console.log('no es col1. only_ col1_p_length: '+window.col1_p_length);
+                    }
+
+
 
                     //Chapter, Verse
-                    nb[chapter].split('<p>').forEach( (el,i) => {
+                    nb_chapter_verses.forEach( (el,i) => {
                         //console.log(el);
         
                         //Chapter
@@ -2246,7 +2273,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                     //=====================================================//
                     if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                         //console.log('Numeración base es Española - y cols es Rusa');
-                        var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;
+                        //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                         var arr_vstavka = [];
                         var vstavka2 = [];
                         
@@ -2579,7 +2606,8 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                     //=====================================================//
                     if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                         //console.log('Numeración base Rusa - y cols Española');
-                        var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;
+                        //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
+                        //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
                         var arr_vstavka = [];
                         var vstavka2 = [];
                         
@@ -2970,6 +2998,13 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                     arr_data_head = [];
                     arr_data_body = [];
                     arr_data_all = [];
+
+                    
+                    window.iter_i++;
+                    if(window.iter_i < window.arr_trans.length){
+                        //console.log('iter_i: '+iter_i);
+                        showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    }
 
                 }else{
                     //console.log(' no existe capítulo '+chapter+' del módulo '+book);
@@ -3438,14 +3473,14 @@ function openSidebar(el){
 
     let sidebar = document.querySelector('#sidebar');
     if(sidebar.classList.length == 0){//se ve, lo oculto
-         console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");//
+         //console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");//
          sidebar.classList.add('sideHide');
          setTimeout(()=>{
             sidebar.classList.remove('sideHide');
             sidebar.classList.add('sideShow');
          },3);
      }else if(sidebar.classList.contains('sideHide')){//no se ve, lo muestro
-         console.log("2, contains('sideHide')");
+         //console.log("2, contains('sideHide')");
          sidebar.classList.remove('sideHide')
          sidebar.classList.add('sideShow');
      }
@@ -3456,7 +3491,7 @@ function openSidebar(el){
 
 function closeSidebar(el){
     let sidebar = document.querySelector('#sidebar');
-    console.log("3, contains('sideShow')");
+    //console.log("3, contains('sideShow')");
     sidebar.classList.remove('sideShow')
     sidebar.classList.add('sideHide');  
      
@@ -3637,6 +3672,66 @@ function changeModule(thisDiv,trans,BibleShortName){
     }, 300);
 }
 
+function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
+   //console.log('function changeModule2. abajo thisDiv: ');
+   //console.log(thisDiv);
+
+    thisDiv.setAttribute('data-trans',trans);
+    thisDiv.setAttribute('data-base_ep',EnglishPsalms);
+    if(thisDiv.id == 'trans1'){
+        //meto BibleShortName en el primer div, ya que este no tiene 'x' close
+        thisDiv.children[0].children[0].innerHTML = BibleShortName;
+    }else{
+        //meto BibleShortName en el segundo div, ya que el primero es 'x' close
+        thisDiv.children[0].children[1].innerHTML = BibleShortName;
+    }
+
+    //en navegación
+    let inpt_nav = document.querySelector('#inpt_nav');
+    let id_book = inpt_nav.getAttribute('data-id_book');
+    let chapter = inpt_nav.getAttribute('data-show_chapter');
+    let verseNumber = inpt_nav.getAttribute('data-show_verse');
+    let to_verseNumber = inpt_nav.getAttribute('data-show_to_verse');
+
+    chapter = (chapter != '') ? chapter : 1;//default si no hay
+    var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
+
+    Array.from(thisDiv.parentElement.children[1].children).forEach(el=>{
+        if(isInViewport(el)){
+            //console.log('element is in ViewPort');
+            //console.log(el);
+            if(el.hasAttribute('data-verse')){
+                arr_verseView.push(el.getAttribute('data-verse'));
+            }
+        }else{
+            //console.log('element NO is in ViewPort');
+            //console.log(el);
+        }
+    });
+    var verseView = arr_verseView[0];
+    //console.log('verseView: '+verseView);
+
+    //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
+    if(thisDiv.id == 'trans1'){
+        var trans_buttons = document.querySelectorAll('#footerInner button');
+        trans_buttons.forEach(el=>{
+            el.classList.remove('btn_active');
+            if(el.value == thisDiv.dataset.trans){
+                el.classList.add('btn_active');
+                el.scrollIntoView();
+            }
+        });
+    }
+ 
+    //howTrans(trans1_id_book, trans1_chapter, /*verseNumber, to_verseNumber*/);//no hace falta!!!
+    showChapterText3(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
+
+    setTimeout(() => {
+        mySizeWindow();
+        mySizeVerse();
+    }, 300);
+}
+
 
 function changePositionShow(el){//row,col, default = col   
     if(positionShow == 'row'){
@@ -3695,9 +3790,9 @@ function mySizeWindow() {
         sidebar.removeAttribute('class');
     }
     let marginSidebar_h = marginSidebar * 2;//arriba y abajo
-    console.log('window_w: '+window_w);
-    console.log('pantalla: '+pantalla);
-    console.log('marginSidebar: '+marginSidebar);
+    // console.log('window_w: '+window_w);
+    // console.log('pantalla: '+pantalla);
+    // console.log('marginSidebar: '+marginSidebar);
 
 
     let wrCols_h = 
@@ -3708,8 +3803,8 @@ function mySizeWindow() {
     //- 20//antes cuando el margen en containerInner era 10px
     //- marginSidebar_h//en desktop = 10*2;  en mobile y tablet = 0
     ;
-    console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
-    console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
+    // console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
+    // console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
 
     let sidebar_h = 
     window_h //960
@@ -3854,7 +3949,7 @@ function mySizeNav(){
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     nav_body.style.height = nav_body_h + 'px';
-    console.log('nav_body_h: '+nav_body_h);
+    // console.log('nav_body_h: '+nav_body_h);
 
 }
 
@@ -3888,7 +3983,7 @@ function mySizeFind(){
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     find_body.style.height = find_body_h + 'px';
-    console.log('find_body_h: '+find_body_h);
+    //console.log('find_body_h: '+find_body_h);
 }
 
 /*
@@ -3934,7 +4029,7 @@ function mySizeTsk(){
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     tsk_body.style.height = tsk_body_h + 'px';
-    console.log('tsk_body_h: '+tsk_body_h);
+    //console.log('tsk_body_h: '+tsk_body_h);
 }
 
 /*
@@ -3981,8 +4076,8 @@ function mySizeStrong(){
     }
     // let padding_StrongCard = (hasStrongCard) ? 2 : 2 ;
     let padding_StrongCard = 2;//siempre 2px por el border
-    console.log('hasStrongCard: '+hasStrongCard);
-    console.log('padding_StrongCard: '+padding_StrongCard);
+    // console.log('hasStrongCard: '+hasStrongCard);
+    // console.log('padding_StrongCard: '+padding_StrongCard);
 
     var strong_body_h = 
       sidebar_h
@@ -3994,7 +4089,7 @@ function mySizeStrong(){
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     strong_body.style.height = strong_body_h + 'px';
-    console.log('strong_body_h: '+strong_body_h);    
+    //console.log('strong_body_h: '+strong_body_h);    
 }
 
 /*function old_mySizeStrong(){
@@ -4210,7 +4305,7 @@ addTab('Рим.10:17','act');
 function addTab(bibShortRef = null, act = null){
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
-    console.log(countTabs);
+    //console.log(countTabs);
     let maxTabs = 20;
 
     let arr_n = [];
@@ -4313,7 +4408,7 @@ function selVerse(e){
     //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));
     if(window.innerWidth < 768){
-        console.log('func selVerse(). mobile.');
+        //console.log('func selVerse(). mobile.');
         closeSidebar();
     }
 }
@@ -5100,14 +5195,14 @@ function isInViewport(el) {
 }
 
 function selectModule2(htmlTrans){
-    console.log(arrFavTransObj);
+    //console.log(arrFavTransObj);
     const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
     bl_modalFullInner.innerHTML = '';//reset
 
     // let thisDiv = document.querySelector('#trans2.colsHead');//test
     let thisDiv = htmlTrans;//test
-    console.log('abajo htmlTrans: ');
-    console.log(htmlTrans);
+    //console.log('abajo htmlTrans: ');
+    //console.log(htmlTrans);
 
 
     arrFavTransObj.forEach((el,i)=>{
@@ -5117,8 +5212,8 @@ function selectModule2(htmlTrans){
         p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
         p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
         p.onclick = function(){
-            changeModule(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName);
-            console.log('p.onclick ok ');
+            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName,arrFavTransObj[i].EnglishPsalms);
+            console.log('p.onclick llamando changeModule2 ');
             closeModal();
         }        
 
@@ -5128,6 +5223,11 @@ function selectModule2(htmlTrans){
 
 function selectModule(e){
     var thisDiv = e.currentTarget;
+
+    let sk_test = true;//test...
+    if(sk_test){
+        thisDiv = e;
+    }
     //console.log(thisDiv);
     
     Swal.fire({
@@ -5533,20 +5633,18 @@ function makeTransObj(){
 
     for (let i = 0; i < arrTrans.length; i++) {
         const el = arrTrans[i];
-        console.log(i);
-        console.log(el);
+        //console.log(i);
+        //console.log(el);
 
         //saco ajustes de este modulo en json
         url_bq = `modules/text/${el}/bibleqt.json`;
-        console.log(url_bq);
+        //console.log(url_bq);
 
         fetch(url_bq)
         .then((response) => response.json())
         .then((bq) => {
             arrTransObj[i] = bq;
-            //arrTransObj[el] = bq;
-            //arrTransObj['t'+y] = bq;
-            console.log(arrTransObj);
+            //console.log(arrTransObj);
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
@@ -5559,7 +5657,7 @@ function makeTransObj(){
 }
 
 const arrFavTransObj = makeTransObj();
-console.log('arrFavTransObj');
+console.log('abajo arrFavTransObj:');
 console.log(arrFavTransObj);
 
 

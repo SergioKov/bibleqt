@@ -57,7 +57,8 @@ function openModal(param = null, htmlTrans = null) {
     modal.style.paddingTop = '0vh';
     modalContent.classList.add('modalContentFull');
     bl_modalFull.style.display = 'block';
-    selectModule2(htmlTrans);
+    //selectModule(htmlTrans);//antes
+    selectModule2(htmlTrans);//new
   }else{
     console.log('---es else---');
   }
@@ -73,7 +74,7 @@ function closeModal() {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    console.log('window.onclick on modal');
+    // console.log('window.onclick on modal');
   if (event.target == modal || event.target == modalContent) {
     closeModal();
   }
@@ -81,19 +82,19 @@ window.onclick = function(event) {
 
 
 modal.addEventListener('click', function(e){
-  console.log('modal. div 2 exterior');
+  //console.log('modal. div 2 exterior');
   closeModal();
 });
 
 modalContent_header.addEventListener('click', function(e){
-  console.log('-- modalContent_header. div 1 interior');
+  //console.log('-- modalContent_header. div 1 interior');
   e.stopPropagation();
 });
 modalContent_section.addEventListener('click', function(e){
-  console.log('-- modalContent_section. div 1 interior');
+  //console.log('-- modalContent_section. div 1 interior');
   e.stopPropagation();
 });
 modalContent_footer.addEventListener('click', function(e){
-  console.log('-- modalContent_footer. div 1 interior');
+  //console.log('-- modalContent_footer. div 1 interior');
   e.stopPropagation();
 });
