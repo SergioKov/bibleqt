@@ -3307,6 +3307,21 @@ function resizeSidebar(par){
 }
 
 function openSidebar(el){
+    let transClicked;
+    if(el.dataset.typebtn == 'transMenu'){//menu hamburguesa en mobile
+        //saco la trans desde su padre de id="trans2.." accediendo a data-trans 4 niveles arriba
+        //para saber en qué traducción se he dado el click
+        transClicked = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
+        console.log('clicked menu of transClicked: '+transClicked);
+    }else if(el.dataset.typebtn == 'transRef'){//ref o link Rom.10:17 en mobile
+        //saco la trans desde su padre de id="trans2.." accediendo a data-trans 5 niveles arriba
+        //para saber en qué traducción se he dado el click
+        transClicked = el.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.trans;
+        console.log('clicked ref of transClicked: '+transClicked);
+    }
+
+    //cambio trans en la navegación del sidebar
+    changeTransNav(transClicked);
 
     let sidebar = document.querySelector('#sidebar');
     if(sidebar.classList.length == 0){//se ve, lo oculto
@@ -3369,6 +3384,46 @@ function getActTrans(){
     });
 }
 
+function changeTransNav(trans){
+    console.log('trans to change en nav. trans: '+trans);
+
+    //en navegación
+    var inpt_nav = document.querySelector('#inpt_nav');
+    var id_book = inpt_nav.getAttribute('data-id_book');
+    var chapter = inpt_nav.getAttribute('data-show_chapter');
+    var verseNumber = inpt_nav.getAttribute('data-show_verse');
+    var to_verseNumber = (inpt_nav.getAttribute('data-show_to_verse') != '') ? inpt_nav.getAttribute('data-show_to_verse') : null ;
+
+    chapter = (chapter != '') ? chapter : 1;//default si no hay
+
+    var Translation = trans;
+    url_bq = `modules/text/${Translation}/bibleqt.json`;
+
+    fetch(url_bq)
+        .then((response) => response.json())
+        .then((bq) => {
+
+            inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+            inpt_nav.value = bq.Books[id_book].ShortNames[0];
+            if(chapter > 0){
+                inpt_nav.value += ' ' + chapter;
+            }
+            if(parseInt(verseNumber) > 0){
+                inpt_nav.value += ':' + verseNumber;
+            }
+            if(parseInt(to_verseNumber) > parseInt(verseNumber)){
+                inpt_nav.value += '-' + to_verseNumber;
+            }
+            //modifico los nombres de libros de la biblia en nav.
+            sel(document.querySelector('#s_book'),'b',null,trans);
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            //console.log('error promesa: '+error);
+        });
+
+}
+
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     var trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
@@ -3382,7 +3437,9 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     div_trans1.setAttribute('data-trans',trans);
     div_trans1.setAttribute('data-base_ep',EnglishPsalms);
     
-    document.querySelector('#trans1 .colsHeadInner div').innerHTML = BibleShortName;
+    // document.querySelector('#trans1 .colsHeadInner div').innerHTML = BibleShortName;//antes
+    document.querySelector('#trans1 .colsHeadInner .partDesk .desk_trans').innerHTML = BibleShortName;
+    document.querySelector('#trans1 .colsHeadInner .partMob .mob_trans').innerHTML = BibleShortName;
     document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля. 
 
     //en navegación
@@ -4097,7 +4154,7 @@ function addTrans(){
                                     <div class="partMob">
                                         <div class="partMobInner">
 
-                                            <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                            <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
                                             <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
                                             
                                             <div class="centralPart">
@@ -4105,7 +4162,7 @@ function addTrans(){
                                                     <span class="mob_trans">RST+r</span>
                                                 </button>
                                                 <div class="separ_line"></div>
-                                                <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                                <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
                                                     <span class="mob_sh_link">Jn.3:16</span>
                                                 </button>
                                             </div>
@@ -4295,8 +4352,9 @@ function selVerse(e){
 
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
-function sel(e, par, show_chapter = null){
-    var trans = document.querySelector('#trans1').getAttribute('data-trans');
+function sel(e, par, show_chapter = null, trans = null){
+    // var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
+    var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;
 
     document.querySelectorAll('.v_bcv').forEach(el=>{
         el.classList.remove('bcv_active');
@@ -4797,6 +4855,12 @@ function getRef(trans = null){
                         document.querySelector('#v_book li[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
 
                         chapter = (chapter != null) ? chapter : 1;//default si no hay
+
+                        //si es mobile, cierro menu
+                        if(window.innerWidth < 768){
+                            console.log(' btn ok. cierro menu en mobile.');
+                            closeSidebar();
+                        }
 
                         showTrans(n_book, chapter, verse, to_verse);
                         //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
@@ -5451,34 +5515,12 @@ function puntosInterval(){
     }
 }
 
-function showTabMob(btn_id, param){
+function showTabMob(btn_id, param, el){
     //1. abro menu mobile
-    openSidebar();
+    openSidebar(el);
     //2. llamo showTab(document.querySelector('#btn_nav'),'nav')
     showTab(document.querySelector(btn_id), param);
 }
-
-
-"rstStrongRed">
-"rstStrong"
-"rstt"
-"rsti2"
-"rstm"
-"nrt"
-"rstStrong_rv60"
-"opnz"
-
-"ukr_fil"
-"ukr_ogi"
-"ukr_hom"
-"ukr_gyz"
-"ukr_tur"
-"ukr_der"
-
-"rv60"
-"lbla"
-
-
 
 
 function makeTransObj(){

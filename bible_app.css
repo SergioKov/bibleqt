@@ -1438,14 +1438,14 @@ select  optgroup option {
 .p_v:hover{
     background: #33baf7 !important;
 }
-#btnMenu {
+.btnMenu {
     width: 30px;
     cursor: pointer;
     /* margin-right: 10px; */
     margin-left: 3px;
     /* background: black; */
 }
-#btnMenu img{
+.btnMenu img{
     width:20px;
 }
 .sideHide, .sideShow{

@@ -7,7 +7,7 @@ header('Content-type: text/html; charset=utf-8');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bible Quote</title>
+    <title>BQ</title>
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
     <link rel="stylesheet" href="bible_app.css">
     <link rel="stylesheet" href="bible_app_resp.css">
@@ -455,7 +455,7 @@ header('Content-type: text/html; charset=utf-8');
                         <div class="partMob" style="display:none;">
                             <div class="partMobInner">
 
-                                <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
                                 <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
                                 
                                 <div class="centralPart">
@@ -463,7 +463,7 @@ header('Content-type: text/html; charset=utf-8');
                                         <span class="mob_trans">RST+r</span>
                                     </button>
                                     <div class="separ_line"></div>
-                                    <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                    <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
                                         <span>Rom.10:17</span>
                                     </button>
                                 </div>
@@ -501,7 +501,7 @@ header('Content-type: text/html; charset=utf-8');
                                 <div class="partMob">
                                     <div class="partMobInner">
 
-                                        <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                        <button class="btnMenu btn btn_svg" data-typebtn="transMenu"  onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
                                         <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
                                         
                                         <div class="centralPart">
@@ -509,7 +509,7 @@ header('Content-type: text/html; charset=utf-8');
                                                 <span class="mob_trans">RST+r</span>
                                             </button>
                                             <div class="separ_line"></div>
-                                            <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                            <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
                                                 <span class="mob_sh_link">Rom.10:17</span>
                                             </button>
                                         </div>
