@@ -1438,10 +1438,12 @@ select  optgroup option {
 .p_v:hover{
     background: #33baf7 !important;
 }
-#btnMenu{
-    width:24px;
-    cursor:pointer;
+#btnMenu {
+    width: 30px;
+    cursor: pointer;
     /* margin-right: 10px; */
+    margin-left: 3px;
+    /* background: black; */
 }
 #btnMenu img{
     width:20px;
@@ -1481,7 +1483,7 @@ select  optgroup option {
 #restoTabs{
     overflow:hidden;
 }
-#partDeskInner {
+.partDeskInner {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -1511,7 +1513,7 @@ select  optgroup option {
     white-space: nowrap;
 }
 
-#partMobInner {
+.partMobInner {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -1519,10 +1521,10 @@ select  optgroup option {
     justify-content: space-between;
     align-items: stretch;
 }
-#partMobInner button span{
+.partMobInner button span{
     font-size: large;
 }
-#partMobInner .centralPart {
+.partMobInner .centralPart {
     /* background: #03a9f4; */
     display: flex;
     flex-direction: row;
@@ -1532,15 +1534,15 @@ select  optgroup option {
     /* width: 100%; */
     align-items: center;
 }
-#partMobInner button.btn_svg {
-    padding: 0 2px;
+.partMobInner button.btn_svg {
+    padding: 3px 4px 0;
     min-width: 24px;
 }
-#partMobInner button {
+.partMobInner button {
     background: transparent;
     border: none;
 }
-#partMobInner button:not(:last-child) {
+.partMobInner button:not(:last-child) {
     /* border-right: 1px solid #227ac1; */
 }
 .mob_trans{
@@ -1812,4 +1814,10 @@ p.cl_trans:hover {
 .cl_trans .la_n {
     /* background: #5a0211; */
     width: 100%;
+}
+.separ_line {
+    width: 1px;
+    height: 80%;
+    background: #afcfe9;
+    margin: 0 5px;
 }

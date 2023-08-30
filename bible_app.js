@@ -914,174 +914,6 @@ function showChapter(Translation, divId, book, chapter, verseNumber = null, to_v
         });
 }
 
-
-//showChapterText2('nrt','#col1', 0, 1);
-
-/*
-function showChapterText(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null){
-    let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
-    let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
-    var divShow = document.querySelector(divId+' .colsInner');
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');
-    divShow.innerHTML = '';
-    
-
-    //getShortBookName();
-
-    if(Translation == 'prueba'){
-        url = 'http://localhost/bibleapp/Moduls_for_JSON/NRT/nrt_01.htm';
-    }
-
-
-    fetch(url)
-        .then((response) => response.text())
-        .then((biblia) => {
-            
-            //console.log(biblia);
-            //divShow.innerHTML = biblia;
-        
-
-            var nb = biblia.split('\r\n');
-            var nb = biblia.split('<h4>');
-            //console.log(nb);
-            
-            nb = nb.filter(elm => elm);
-            //console.log(nb);
-
-            let arr_h2 = biblia.split('<h2>');
-            if(arr_h2[1].includes('</h2>')){
-                let arr_h2_text = arr_h2[1].split('</h2>');
-                let bookName = arr_h2_text[0];
-                //console.log('bookName: '+bookName);
-            }
-
-            let arr_h4 = biblia.split('<h4>');
-            if(arr_h4[1].includes('</h4>')){
-                let arr_h4_text = arr_h4[1].split('</h4>');
-                let chapterName = arr_h4_text[0];
-                //console.log('chapterName: '+chapterName);
-            }
-
-            let arr_p = biblia.split('<p>');
-            if(arr_p[1].includes('</p>')){
-                let arr_p_text = arr_p[1].split('</p>');
-                let p_text = arr_p_text[0];
-                //console.log('tag p cerrado: '+p_text);
-            }else{
-
-            }
-
-            var i_b = 0;
-            var i_ch = 0;
-            var i_v = 0;
-            var ChapterId = 0;
-
-            //Book, Chapter, Verse
-            nb.forEach( (el,i) => {
-                //console.log(el);
-
-                //Book
-                if(el.includes('<h2>')){
-                    //console.log('nombre de book: '+el);
-                    i_b++;
-                    var arr_h2 = el.split('<h2>');
-
-                    if(el.includes('</h2>')){
-                        var arr_h2_text = arr_h2[1].split('</h2>');
-                        var BookName = arr_h2_text[0];
-                    }else{
-                        var BookName = arr_h2[1];
-                    }
-                    //console.log('BookName: '+BookName); 
-                    //Book
-                    var h2 = document.createElement('h2');
-                    h2.append(BookName);
-                    divShow.append(h2); 
-                }
-
-                //Chapter
-                if(el.includes('<h4>')){
-                    //console.log('nombre de chapter: '+el);
-                    i_ch++;
-                    ChapterId = i_ch;
-                    var arr_h4 = el.split('<h4>');
-
-                    if(arr_h4[1].includes('</h4>')){
-                        var arr_h4_text = arr_h4[1].split('</h4>');
-                        var ChapterText = arr_h4_text[0];
-                    }else{
-                        var ChapterText = arr_h4[1];
-                    }
-                    //console.log('ChapterText: '+ChapterText); 
-
-                    //Chapter
-                    var h4 = document.createElement('h4');
-                    h4.append(ChapterText);
-                    divShow.append(h4); 
-                }
-
-                //Verse
-                if(el.includes('<p>')){
-                    //console.log('es verse: '+el);
-                    i_v++;
-                    var arr_p = el.split('<p>');
-
-                    if(arr_p[1].includes('</p>')){
-                        var arr_p_text = arr_p[1].split('</p>');
-                        var p_Text = arr_p_text[0];
-                    }else{
-                        var p_Text = arr_p[1];
-                    }
-                    //console.log('p_Text: '+p_Text); 
-
-                    arr_p = p_Text.split(' ');
-                    var VerseId = arr_p[0];
-                    var VerseText = '';
-                    for (let index = 1; index < arr_p.length; index++) {
-                        VerseText += arr_p[index] + ' ';
-                        
-                    }
-                    //console.log('VerseText: '+VerseText);
-
-
-                    var p = document.createElement('p');
-                    p.id = 'prueba_nrt'+'__'+book + '__' + chapter + '__' + VerseId;
-                    p.setAttribute('data-verse',VerseId);
-    
-                    var a = document.createElement('a');
-                    a.href = '#';
-                    a.classList.add = 'blink';
-                    a.innerHTML = 'NRT_p.' + ChapterId + ':' + VerseId;
-                    p.append(a);
-                    p.append(' '); 
-                    
-                    //console.log('VerseId: '+VerseId);
-                    //console.log('VerseText: '+VerseText);
-                    p.append(VerseText);
-                    divShow.append(p);
-                }
-
-
-            });
-            //console.log('i_b: '+i_b);
-            //console.log('i_ch: '+i_ch);
-            //console.log('i_v: '+i_v);
-
-            
-        })
-        .then(() => {
-            mySizeWindow();
-            mySizeVerse();
-        })
-        .then(() => {
-            if(verseNumber != null){
-                //console.log('verseNumber != null. verseNumber: '+verseNumber);
-                scrollToVerse(verseNumber, to_verseNumber);
-            }
-        });
-}
-*/
-
 function decode_html_2(str) {
     let txt = new DOMParser().parseFromString(str, "text/html");
     return txt.documentElement.textContent;
@@ -1913,8 +1745,11 @@ function getTsk(e){
 function showChapterText3(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
     let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
     let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
-    var divShow = document.querySelector(divId+' .colsInner');
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');
+    //var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');//ej: RST+//antes
+    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');//ej: RST+
+    var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
+    var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
+    var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
     divShow.innerHTML = '';
 
     var btnStrong = document.querySelector('#btnStrong');
@@ -1941,7 +1776,9 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
             //window.bq = bq;
             if(divTrans != null){
-                divTrans.innerHTML = bq.BibleShortName;
+                // divTrans.innerHTML = bq.BibleShortName;
+                divTransDesk.innerHTML = bq.BibleShortName;
+                divTransMob.innerHTML = bq.BibleShortName;
             }
 
             //url del libro necesario
@@ -3680,10 +3517,14 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     thisDiv.setAttribute('data-base_ep',EnglishPsalms);
     if(thisDiv.id == 'trans1'){
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
-        thisDiv.children[0].children[0].innerHTML = BibleShortName;
+        //thisDiv.children[0].children[0].innerHTML = BibleShortName;//antes
+        thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
+        thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
     }else{
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
-        thisDiv.children[0].children[1].innerHTML = BibleShortName;
+        //thisDiv.children[0].children[1].innerHTML = BibleShortName; antes
+        thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
+        thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
     }
 
     //en navegación
@@ -4239,13 +4080,51 @@ function addTrans(){
         const htmlTrans = document.createElement("div");//Translation of Bible
         htmlTrans.id = 'trans' + next_n;
         htmlTrans.className = 'colsHead';
+
+
+
+        //htmlTrans.innerHTML =  `<div class="colsHeadInner">
+        //                            <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
+        //                            <div>+</div>
+        //                        </div>`;
+
         htmlTrans.innerHTML =  `<div class="colsHeadInner">
-                                    <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>
-                                    <div>+</div>
+
+                                    <div class="partDesk">
+                                        <div class="desk_trans" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">RST</div>
+                                    </div>
+
+                                    <div class="partMob">
+                                        <div class="partMobInner">
+
+                                            <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                            <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                            
+                                            <div class="centralPart">
+                                                <button class="btn" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))" title="open Modal to choose translation">
+                                                    <span class="mob_trans">RST+r</span>
+                                                </button>
+                                                <div class="separ_line"></div>
+                                                <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                                    <span class="mob_sh_link">Jn.3:16</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+
+                                            <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                                            
+                                        </div>
+                                    </div> 
+
                                 </div>`;
-        htmlTrans.onclick = function(){
-            openModal('full',htmlTrans);//contiene dentro selectModule2()
-        }
+
+
+
+        //htmlTrans.onclick = function(){
+        //    openModal('full',htmlTrans);//contiene dentro selectModule2()
+        //}
+        
 
 
         const htmlBody = document.createElement("div");//Text of Bible
@@ -5041,8 +4920,8 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
 }
 
 
-function getRefByCodeFoкFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
-    //console.log('=== function getRefByCodeFoкFind() ===');
+function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+    //console.log('=== function getRefByCodeForFind() ===');
     var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
 

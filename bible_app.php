@@ -432,55 +432,56 @@ header('Content-type: text/html; charset=utf-8');
 
 
 
-            <div id="headerContainer">
-            <div id="headerContainerInner">
+                <div id="headerContainer">
+                    <div id="headerContainerInner">
 
 
-                <div id="partDesk">
-                    <div id="partDeskInner">
-                    
-                        <div id="partDeskTabs">
-                            <div id="tab1" class="tabs tab_active" style="display:none;">
-                                <span>Рим.10:17</span>
+                        <div class="partDesk">
+                            <div class="partDeskInner">
+                            
+                                <div id="partDeskTabs">
+                                    <div id="tab1" class="tabs tab_active" style="display:none;">
+                                        <span>Рим.10:17</span>
+                                    </div>
+                                </div>
+
+                                <div id="partDeskPlus">
+                                    <button id="btnPlus" class="btn" onclick="addTab()"> + </button>
+                                </div>
+                            
                             </div>
                         </div>
 
-                        <div id="partDeskPlus">
-                            <button id="btnPlus" class="btn" onclick="addTab()"> + </button>
+                        <div class="partMob" style="display:none;">
+                            <div class="partMobInner">
+
+                                <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                
+                                <div class="centralPart">
+                                    <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
+                                        <span class="mob_trans">RST+r</span>
+                                    </button>
+                                    <div class="separ_line"></div>
+                                    <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                        <span>Rom.10:17</span>
+                                    </button>
+                                </div>
+                                
+                                <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                                <!--
+                                <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                                <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                                -->
+
+                                <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+
+                            </div>
                         </div>
-                    
+
+
                     </div>
                 </div>
-
-                <div id="partMob">
-                    <div id="partMobInner">
-
-                        <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
-                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
-                        
-                        <div class="centralPart">
-                            <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
-                                <span class="mob_trans">RST+r</span>
-                            </button>
-                            <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
-                                <span>Rom.10:17</span>
-                            </button>
-                        </div>
-                        
-                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
-<!--
-                        <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
-                        <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
--->
-
-                        <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
 
                                 
                 <div id="wrCols">
@@ -488,13 +489,44 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="col1" class="cols">
                         <div id="trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
                             <div class="colsHeadInner">
-<!--
-                            <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
-                                <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
--->
-                                <div>RST</div>
-                            </div>
-                        </div>
+
+                                <div class="partDesk">
+                                    <!--
+                                    <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
+                                        <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
+                                    -->
+                                    <div class="desk_trans">RST</div>
+                                </div>
+
+                                <div class="partMob">
+                                    <div class="partMobInner">
+
+                                        <button id="btnMenu" class="btn btn_svg" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                        
+                                        <div class="centralPart">
+                                            <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
+                                                <span class="mob_trans">RST+r</span>
+                                            </button>
+                                            <div class="separ_line"></div>
+                                            <button class="btn" onclick="showTabMob('#btn_nav','nav')" title="Навигация. Выбор книги, главы, стиха">
+                                                <span class="mob_sh_link">Rom.10:17</span>
+                                            </button>
+                                        </div>
+                                        
+                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                                        <!--
+                                        <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                                        -->
+
+                                        <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                                        
+                                    </div>
+                                </div>
+                            
+                            </div><!--/colsHeadInner-->
+                        </div><!--/colsHead-->
                         <div class="colsInner">
                             <p><a href="#">Пс.1:1</a> los versículos se cargan aquí...</p> 
                         </div>
