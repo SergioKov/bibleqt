@@ -1334,11 +1334,11 @@ function getTsk(e){
 
 
 
-    //si clico ps 118:63 ruso tiene que convertirse en Sal. 119:63 español
+    //si clico Psa 118:63 ruso tiene que convertirse en Sal. 119:63 español
     //ya que tsk está en español(ingles);
     if(verseEnglishPsalms == 'N'){
         //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-        var res = convertLinkToEsp(book, chapter, verse);
+        var res = convertLinkFromRusToEsp(book, chapter, verse);
         
         //console.log('link el: '+el);
         //console.log('res: '+res);
@@ -1479,11 +1479,8 @@ function getTsk(e){
 
                                         if(bq_EnglishPsalms == 'N'){
                                             //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                            var new_result = checkLink(el, bookNumber, chapterNumber, verseNumber, to_verseNumber);
-                                            
-                                            //console.log('link el: '+el);
-                                            //console.log('new_result: '+new_result);
-                                            
+                                            var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                                                        
                                             //asigno nuevo valor
                                             bookNumber = new_result[0];
                                             chapterNumber = new_result[1];
@@ -4825,6 +4822,7 @@ function getRef(trans = null){
                                 const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
                                 const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans);
                                 
+                                //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
                                 if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
                                     //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
 
@@ -4834,11 +4832,8 @@ function getRef(trans = null){
                                     let to_verseNumber = (to_verse != null) ? to_verse : null ;
 
 
-                                    //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                    var new_result = checkLink(null, bookNumber, chapterNumber, verseNumber, to_verseNumber);
-
-                                    //console.log('link el: '+el);
-                                    //console.log('new_result: '+new_result);
+                                    //Modifico sólo los links de español a ruso
+                                    var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
                                     
                                     //asigno nuevo valor
                                     bookNumber = new_result[0];
@@ -4854,9 +4849,40 @@ function getRef(trans = null){
                                     book = bookNumber;
                                     chapter = chapterNumber;
                                     verse = verseNumber;
-                                    to_verse = to_verseNumber;               
-
+                                    to_verse = to_verseNumber; 
                                 }
+
+                                //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
+                                if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
+                                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+
+                                    let bookNumber = (book != null) ? n_book : 0 ;
+                                    let chapterNumber = (chapter != null) ? chapter : 1 ;
+                                    let verseNumber = (verse != null) ? verse : 1 ;
+                                    let to_verseNumber = (to_verse != null) ? to_verse : null ;
+
+
+                                    //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
+                                    var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                    
+                                    //asigno nuevo valor
+                                    bookNumber = new_result[0];
+                                    chapterNumber = new_result[1];
+                                    verseNumber = new_result[2];
+                                    to_verseNumber = new_result[3];
+
+                                    console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                    console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                    console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                    console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+
+                                    book = bookNumber;
+                                    chapter = chapterNumber;
+                                    verse = verseNumber;
+                                    to_verse = to_verseNumber; 
+                                }
+
+
                             }
                         } 
 
