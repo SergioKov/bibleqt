@@ -698,15 +698,14 @@ setTimeout(function(){
 
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    //var arr_trans = [];
-    //var arr_divShow = [];
-
     window.arr_trans = [];
     window.arr_divShow = [];
     
+    //var startDivTrans = document.querySelector('#inpt_nav').dataset.divtrans;
+
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
-        arr_trans.push(el.getAttribute('data-trans'));
-        arr_divShow.push(el.parentElement.getAttribute('id'));
+        arr_trans.push(el.getAttribute('data-trans'));//antes
+        arr_divShow.push(el.parentElement.getAttribute('id'));//antes
         //console.log('el trans: ' + el.getAttribute('data-trans') );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
@@ -4305,7 +4304,9 @@ function selBook(e){
     let inpt_nav = document.querySelector('#inpt_nav');
     console.log(e.srcElement.innerText);
     
+    window.sel_trans = inpt_nav.dataset.trans;
     window.sel_id_book = e.srcElement.getAttribute('data-id_book');
+    window.sel_show_book = e.srcElement.getAttribute('data-show_book');
     window.sel_show_chapter = '';
     window.sel_show_verse = '';
 

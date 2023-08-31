@@ -495,7 +495,7 @@ header('Content-type: text/html; charset=utf-8');
                                     <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
                                         <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
                                     -->
-                                    <div class="desk_trans">RST</div>
+                                    <div class="desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">RST</div>
                                 </div>
 
                                 <div class="partMob">
