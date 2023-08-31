@@ -163,13 +163,13 @@ header('Content-type: text/html; charset=utf-8');
                             <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">OK</button>
                         </div>
                         <div class="wr_bcv">
-                            <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b')">
+                            <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b',document.querySelector('#inpt_nav').dataset.trans)">
                                 <div>Книга</div>
                             </div> 
-                            <div id="s_chapter" class="v_bcv" onclick="sel(this,'ch')">
+                            <div id="s_chapter" class="v_bcv" onclick="sel(this,'ch',document.querySelector('#inpt_nav').dataset.trans)">
                                 <div>Глава</div>
                             </div> 
-                            <div id="s_verse" class="v_bcv" onclick="sel(this,'v')">
+                            <div id="s_verse" class="v_bcv" onclick="sel(this,'v',document.querySelector('#inpt_nav').dataset.trans)">
                                 <div>Стих</div>
                             </div>
                             <div class="break"></div>
@@ -695,6 +695,7 @@ header('Content-type: text/html; charset=utf-8');
 <!-- Javascript para este html -->
 <script src="./bible_app.js"></script>
 <script src="./functions.js"></script>
+<script src="./functions2.js"></script>
 <script src="./modal.js"></script>
 </body>
 </html>

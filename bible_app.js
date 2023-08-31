@@ -28,7 +28,9 @@ const obj_ep = {
     'kjv': 'Y',
     'nkjv': 'Y',
 }  
-
+window.sel_id_book = '';
+window.sel_show_chapter = '';
+window.sel_show_verse = '';
 
 
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -3386,7 +3388,9 @@ function getActTrans(){
 }
 
 function changeTransNav(trans, idCol_trans){
+    console.log('=== function changeTransNav ===');
     console.log('trans to change en nav. trans: '+trans);
+    console.log('trans to change en nav. idCol_trans: '+idCol_trans);
 
     //en navegación
     var inpt_nav = document.querySelector('#inpt_nav');
@@ -4296,47 +4300,59 @@ function closeTab(el){
 sel(document.querySelector('.bcv_active'),'b');//por defecto
 
 
-//Click sobre el libro de la biblia en navegación
+//Click sobre el libro de la Biblia en navegación
 function selBook(e){
     let inpt_nav = document.querySelector('#inpt_nav');
-    //console.log(e.srcElement.innerText);
-    inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));
-    inpt_nav.setAttribute('data-show_book',e.srcElement.getAttribute('data-show_book'));
+    console.log(e.srcElement.innerText);
+    
+    window.sel_id_book = e.srcElement.getAttribute('data-id_book');
+    window.sel_show_chapter = '';
+    window.sel_show_verse = '';
+
+
+    inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
+    inpt_nav.setAttribute('data-show_book',e.srcElement.getAttribute('data-show_book'));//Gen. Ex. Lev.
 
     inpt_nav.setAttribute('data-id_chapter','');
     inpt_nav.setAttribute('data-show_chapter','');
 
     inpt_nav.setAttribute('data-id_verse','');
     inpt_nav.setAttribute('data-show_verse','');
-
-    //inpt_nav.value = inpt_nav.getAttribute('data-show_book') + inpt_nav.getAttribute('data-show_chapter') + ':' +inpt_nav.getAttribute('data-show_verse');
+    
     inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ';
+
     e.srcElement.classList.add('active');
     document.querySelector('#s_chapter').click();
-    showTrans(e.srcElement.getAttribute('data-id_book'), 1);//chapter def 1
+    showTrans(e.srcElement.getAttribute('data-id_book'), 1);//chapter def 1    
 }
 
-//Click sobre el capítulo del libro de la biblia en navegación
+//Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e){
     let inpt_nav = document.querySelector('#inpt_nav');
-    //console.log(e.srcElement.innerText);   
+    //console.log(e.srcElement.innerText); 
+    window.sel_show_chapter = e.srcElement.getAttribute('data-show_chapter');
+    window.sel_show_verse = '';
+
+    
     inpt_nav.setAttribute('data-id_chapter',e.srcElement.getAttribute('data-id_chapter'));
     inpt_nav.setAttribute('data-show_chapter',e.srcElement.getAttribute('data-show_chapter'));
     
     inpt_nav.setAttribute('data-id_verse','');
     inpt_nav.setAttribute('data-show_verse','');
 
-    //inpt_nav.value = inpt_nav.getAttribute('data-show_book') + inpt_nav.getAttribute('data-show_chapter') + ':' +inpt_nav.getAttribute('data-show_verse');
-    inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ' + inpt_nav.getAttribute('data-show_chapter');
+    inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ' + inpt_nav.getAttribute('data-show_chapter'); 
+
     e.srcElement.classList.add('active');
     document.querySelector('#s_verse').click();
-    showTrans(inpt_nav.getAttribute('data-id_book'), e.srcElement.getAttribute('data-show_chapter'));//chapter def 1
+    showTrans(inpt_nav.getAttribute('data-id_book'), e.srcElement.getAttribute('data-show_chapter'));//chapter def 1    
 }
 
-//Click sobre el versículo del capítulo del libro de la biblia en navegación
+//Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
     let inpt_nav = document.querySelector('#inpt_nav');
     //console.log(e.srcElement.innerText);
+    window.sel_show_verse = e.srcElement.getAttribute('data-show_verse');
+
     inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
     inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));
     inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ' + inpt_nav.getAttribute('data-show_chapter') + ':' +inpt_nav.getAttribute('data-show_verse');
@@ -4347,6 +4363,7 @@ function selVerse(e){
 
     //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));
+
     if(window.innerWidth < 768){
         //console.log('func selVerse(). mobile.');
         closeSidebar();
@@ -4357,8 +4374,15 @@ function selVerse(e){
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
+    var inpt_nav = document.querySelector('#inpt_nav');
     // var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
-    var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;
+    //var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;//antes
+    var trans_base = document.querySelector('#trans1').dataset.trans;
+    var trans = (trans != null) ? trans : trans_base ;//new
+
+    console.log(' === en function sel(). trans1 (trans_base): '+trans_base);
+    console.log(' === en function sel(). param trans: '+trans);
+    console.log(' === en function sel(). trans2 (inpt): '+inpt_nav.dataset.trans);
 
     document.querySelectorAll('.v_bcv').forEach(el=>{
         el.classList.remove('bcv_active');
@@ -4378,7 +4402,7 @@ function sel(e, par, show_chapter = null, trans = null){
         bcv_line.classList.remove('v_line');
         bcv_line.classList.add('b_line');
 
-        var id_book = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_book'));
+        var id_book = parseInt(inpt_nav.getAttribute('data-id_book'));
         //console.log(id_book);
 
         let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
@@ -4455,8 +4479,8 @@ function sel(e, par, show_chapter = null, trans = null){
                 const li = document.createElement('li');
                 li.id = 'li' + arr_b[i_b].BookNumber;
                 li.title = arr_b[i_b].BookNumber;
-                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);
-                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);
+                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
+                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
                 li.className = 'v_li b_li '+ el_b.cl_book;
                 if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
                     li.classList.add('li_active');
@@ -4489,8 +4513,9 @@ function sel(e, par, show_chapter = null, trans = null){
         bcv_line.classList.remove('v_line');
         bcv_line.classList.add('c_line');
 
-        var id_book = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_book'));
-        var id_chapter = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_chapter'));
+        var id_book = parseInt(inpt_nav.getAttribute('data-id_book'));
+        var id_chapter = parseInt(inpt_nav.getAttribute('data-id_chapter'));//antes
+        
 
         let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
         fetch(url_bq)
@@ -4508,7 +4533,28 @@ function sel(e, par, show_chapter = null, trans = null){
             
                     window.arr_chapters = data.split('<h4>');
 
-                    document.querySelector('#v_chapter').innerHTML = '';
+                    document.querySelector('#v_chapter').innerHTML = '';//reset todos los botones de chapter
+
+                    /*if(document.querySelectorAll('.cols').length > 1){
+                        var chapter,verse = NaN; 
+                        var to_verse = null;//todavia no está seleccionado
+                        
+                        var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+            
+                        //asigno nuevo valor
+                        let bookNumber = res_new_link[0];
+                        let chapterNumber = res_new_link[1];
+                        let verseNumber = res_new_link[2];
+                        let to_verseNumber = res_new_link[3];
+                        
+                        console.log('---despues---');
+                        console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                        console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                        console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                        console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                    }*/
+                    
+                                
 
                     for(let index = 1; index <= arr_chapters.length - 1; index++) {
                         const li_ch = document.createElement('li');
@@ -4541,9 +4587,9 @@ function sel(e, par, show_chapter = null, trans = null){
         bcv_line.classList.remove('c_line');
         bcv_line.classList.add('v_line');
 
-        var id_book = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_book'));
-        var id_chapter = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_chapter'));
-        var id_verse = parseInt(document.querySelector('#inpt_nav').getAttribute('data-id_verse'));
+        var id_book = parseInt(inpt_nav.getAttribute('data-id_book'));
+        var id_chapter = parseInt(inpt_nav.getAttribute('data-id_chapter'));
+        var id_verse = parseInt(inpt_nav.getAttribute('data-id_verse'));
 
         let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
         fetch(url_bq)
@@ -4803,92 +4849,10 @@ function getRef(trans = null){
                         var n_book = dataBooksBtnOk[i].BookNumber;
                         var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
 
-
-
-
-
                         //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
                         if(window.innerWidth < 768){//mobile
-                            var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
-                            var trans_inpt = inpt.dataset.divtrans;// trans desde input
-                            var divtrans_inpt = inpt.dataset.divtrans;// trans desde input
-                        
-                            if(divtrans_inpt != 'trans1'){
-                                
-                                console.log('divtrans_inpt: '+divtrans_inpt);
-                            
-                                // preparo le ref
-                                // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-                                const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-                                const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans);
-                                
-                                //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
-                                if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-                                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-
-                                    let bookNumber = (book != null) ? n_book : 0 ;
-                                    let chapterNumber = (chapter != null) ? chapter : 1 ;
-                                    let verseNumber = (verse != null) ? verse : 1 ;
-                                    let to_verseNumber = (to_verse != null) ? to_verse : null ;
-
-
-                                    //Modifico sólo los links de español a ruso
-                                    var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
-                                    
-                                    //asigno nuevo valor
-                                    bookNumber = new_result[0];
-                                    chapterNumber = new_result[1];
-                                    verseNumber = new_result[2];
-                                    to_verseNumber = new_result[3];
-
-                                    console.log('ahora bookNumber: '+bookNumber);//empezando de 1
-                                    console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                    console.log('ahora verseNumber: '+verseNumber);//empezando de 1
-                                    console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-
-                                    book = bookNumber;
-                                    chapter = chapterNumber;
-                                    verse = verseNumber;
-                                    to_verse = to_verseNumber; 
-                                }
-
-                                //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
-                                if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-                                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-
-                                    let bookNumber = (book != null) ? n_book : 0 ;
-                                    let chapterNumber = (chapter != null) ? chapter : 1 ;
-                                    let verseNumber = (verse != null) ? verse : 1 ;
-                                    let to_verseNumber = (to_verse != null) ? to_verse : null ;
-
-
-                                    //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-                                    var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);
-                                    
-                                    //asigno nuevo valor
-                                    bookNumber = new_result[0];
-                                    chapterNumber = new_result[1];
-                                    verseNumber = new_result[2];
-                                    to_verseNumber = new_result[3];
-
-                                    console.log('ahora bookNumber: '+bookNumber);//empezando de 1
-                                    console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                    console.log('ahora verseNumber: '+verseNumber);//empezando de 1
-                                    console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-
-                                    book = bookNumber;
-                                    chapter = chapterNumber;
-                                    verse = verseNumber;
-                                    to_verse = to_verseNumber; 
-                                }
-
-
-                            }
+                            //checkRefNav(n_book, chapter, verse, to_verse);
                         } 
-
-
-
-
 
                         let inpt_nav = document.querySelector('#inpt_nav');
                     
@@ -4902,14 +4866,16 @@ function getRef(trans = null){
                         inpt_nav.setAttribute('data-show_verse',verse);
 
                         inpt_nav.value = short_name ;
-
+                        
+                        //chapter
                         if(chapter != null && parseInt(chapter) > 0){
                             inpt_nav.value += ' ' + chapter;
                             document.querySelector('#v_chapter').innerHTML = '';
                         }else{
                             document.querySelector('#v_chapter').innerHTML = 'selecciona el capítulo';
                         }
-
+                        
+                        //verse
                         if(verse != null && parseInt(verse) > 0){
                             inpt_nav.value += ':' + verse;
                             document.querySelector('#v_verse').innerHTML = '';

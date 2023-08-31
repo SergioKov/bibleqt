@@ -7,7 +7,7 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
     console.log('Convierto Psalmo 119:63 en Псалом 118:63 para menu u otras cosas.');
 
     var book = parseInt(book);
-    var chapter = parseInt(chapter);
+    var chapter = (chapter != null) ? parseInt(chapter) : null;
     var verse = parseInt(verse);
     var to_verse = parseInt(to_verse);
 
