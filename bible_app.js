@@ -3307,21 +3307,25 @@ function resizeSidebar(par){
 }
 
 function openSidebar(el){
-    let transClicked;
+    let transClicked,idCol_transClicked;
     if(el.dataset.typebtn == 'transMenu'){//menu hamburguesa en mobile
         //saco la trans desde su padre de id="trans2.." accediendo a data-trans 4 niveles arriba
         //para saber en qué traducción se he dado el click
         transClicked = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
-        console.log('clicked menu of transClicked: '+transClicked);
+        idCol_transClicked = el.parentElement.parentElement.parentElement.parentElement.id;
+        console.log('clicked MENU of transClicked: '+transClicked);
+        console.log('clicked MENU of idCol_transClicked: '+idCol_transClicked);
     }else if(el.dataset.typebtn == 'transRef'){//ref o link Rom.10:17 en mobile
         //saco la trans desde su padre de id="trans2.." accediendo a data-trans 5 niveles arriba
         //para saber en qué traducción se he dado el click
         transClicked = el.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.trans;
-        console.log('clicked ref of transClicked: '+transClicked);
+        idCol_transClicked = el.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+        console.log('clicked REF of transClicked: '+transClicked);
+        console.log('clicked REF of idCol_transClicked: '+idCol_transClicked);
     }
 
     //cambio trans en la navegación del sidebar
-    changeTransNav(transClicked);
+    changeTransNav(transClicked,idCol_transClicked);
 
     let sidebar = document.querySelector('#sidebar');
     if(sidebar.classList.length == 0){//se ve, lo oculto
@@ -3384,7 +3388,7 @@ function getActTrans(){
     });
 }
 
-function changeTransNav(trans){
+function changeTransNav(trans, idCol_trans){
     console.log('trans to change en nav. trans: '+trans);
 
     //en navegación
@@ -3393,6 +3397,8 @@ function changeTransNav(trans){
     var chapter = inpt_nav.getAttribute('data-show_chapter');
     var verseNumber = inpt_nav.getAttribute('data-show_verse');
     var to_verseNumber = (inpt_nav.getAttribute('data-show_to_verse') != '') ? inpt_nav.getAttribute('data-show_to_verse') : null ;
+    inpt_nav.dataset.divtrans = idCol_trans;
+    inpt_nav.dataset.trans = trans;
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
@@ -3590,6 +3596,7 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     let chapter = inpt_nav.getAttribute('data-show_chapter');
     let verseNumber = inpt_nav.getAttribute('data-show_verse');
     let to_verseNumber = inpt_nav.getAttribute('data-show_to_verse');
+    inpt_nav.dataset.trans = trans;
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
     var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
@@ -4640,11 +4647,11 @@ function getRef(trans = null){
     //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
 
     //Si no viene trans, lo cojo del div #trans1
-    if(trans == null){
+    if(trans == null || trans == ''){
         var trans = act_trans;
     }else{//si viene trans...        
-        //si trans es distinto del actual
-        if(trans != act_trans){
+        //si trans es distinto del actual y es en tablet o desktop
+        if(trans != act_trans && window.innerWidth >= 768){
             //lo cojo del parametro y grabo en div #trans1
             var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
             var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
@@ -4774,13 +4781,12 @@ function getRef(trans = null){
             book = arr_v[0];
         }
 
-        //console.log('book: '+book);
-        //console.log('chapter: '+chapter);
-        //console.log('verse: '+verse);
-        //console.log('to_verse: '+to_verse);
+        console.log('book: '+book);
+        console.log('chapter: '+chapter);
+        console.log('verse: '+verse);
+        console.log('to_verse: '+to_verse);
     }
 
-    
 
     if(book != null){
         let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
@@ -4799,6 +4805,63 @@ function getRef(trans = null){
                     if(book.toLowerCase() == el.toLowerCase()){
                         var n_book = dataBooksBtnOk[i].BookNumber;
                         var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
+
+
+
+
+
+                        //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
+                        if(window.innerWidth < 768){//mobile
+                            var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
+                            var trans_inpt = inpt.dataset.divtrans;// trans desde input
+                            var divtrans_inpt = inpt.dataset.divtrans;// trans desde input
+                        
+                            if(divtrans_inpt != 'trans1'){
+                                
+                                console.log('divtrans_inpt: '+divtrans_inpt);
+                            
+                                // preparo le ref
+                                // Usa el método find para buscar el objeto que contiene 'rst' como nombre
+                                const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
+                                const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans);
+                                
+                                if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
+                                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+
+                                    let bookNumber = (book != null) ? n_book : 0 ;
+                                    let chapterNumber = (chapter != null) ? chapter : 1 ;
+                                    let verseNumber = (verse != null) ? verse : 1 ;
+                                    let to_verseNumber = (to_verse != null) ? to_verse : null ;
+
+
+                                    //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+                                    var new_result = checkLink(null, bookNumber, chapterNumber, verseNumber, to_verseNumber);
+
+                                    //console.log('link el: '+el);
+                                    //console.log('new_result: '+new_result);
+                                    
+                                    //asigno nuevo valor
+                                    bookNumber = new_result[0];
+                                    chapterNumber = new_result[1];
+                                    verseNumber = new_result[2];
+                                    to_verseNumber = new_result[3];
+
+                                    console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                    console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                    console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                    console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+
+                                    book = bookNumber;
+                                    chapter = chapterNumber;
+                                    verse = verseNumber;
+                                    to_verse = to_verseNumber;               
+
+                                }
+                            }
+                        } 
+
+
+
 
 
                         let inpt_nav = document.querySelector('#inpt_nav');

@@ -157,10 +157,10 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="nav_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
-                                <input id="inpt_nav" data-id_book="0" data-show_book="Быт." data-id_chapter="" data-show_chapter="" data-id_verse="" data-show_verse="" data-show_to_verse="" value="Быт.">
+                                <input id="inpt_nav" data-divtrans="" data-trans="" data-id_book="0" data-show_book="Быт." data-id_chapter="" data-show_chapter="" data-id_verse="" data-show_verse="" data-show_to_verse="" value="Быт.">
                                 <div id="clear_inpt" onclick="clear_inpt('nav')">&times;</div>
                             </div>
-                            <button id="btn_ok" class="btn f_r" onclick="getRef()">OK</button>
+                            <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">OK</button>
                         </div>
                         <div class="wr_bcv">
                             <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b')">
