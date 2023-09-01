@@ -67,7 +67,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
             break; 
         
         case 17: //Job 
-                if(chapter == 39){//39:31-35 => 40:1-5  | 40:6-24 =>	40: -5
+                if(chapter == 39){//39:31-35 => 40:1-5 | 40:6-24 => 40: -5
                     if(verse >= 31){
                         chapterNumber = 40;
                         verseNumber -= 30;
@@ -88,7 +88,8 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
             break; 
 
         case 18: //Psalmos 
-                if(chapter >= 3 && chapter <= 8){//3:1 - 9:20 =>	Х : +1 *
+                //Formula Rus => Esp //Пс.3:1 - 9:20 =>	Х : +1 *
+                if(chapter >= 3 && chapter <= 8){
                     if(verse > 1){
                         verseNumber -= 1;
                     }
@@ -102,7 +103,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                         verseNumber -= 21;
                     }
                 }
-                //Formula Esp => Rus //Пс.X:1 => Ps.X+1:1 
+                //Formula Rus => Esp  //Пс.X:1 => Ps.X+1:1 
                 //+1 : Х
                 if(
                     (chapter == 10) || 
@@ -126,10 +127,10 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                     (chapter >= 116 && chapter <= 138) || //revisar!
                     (chapter >= 140 && chapter <= 145) //revisar!
                 ){
-                    chapterNumber += 1;
+                    chapterNumber += 1;//Psalom 22:2 ruso => Salmo 23:2 español
                     
                 }
-                //Formula Esp => Rus //Пс.X+1:2 => Ps.X:1 //добавляю пустой стих сначала в исп перевод
+                //Formula Rus => Esp //Пс.X+1:2 => Ps.X:1 //добавляю пустой стих сначала в исп перевод
                 //+1 : -1
                 if(
                         (chapter == 11) || //revisar!
@@ -158,7 +159,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                         verseNumber -= 1;
                     }
                 }
-                //Formula
+                //Formula Rus => Esp
                 //+1 : -2 | Ej.:  50:0 => 51:1 | 50:1 => 51:2
                 if(
                     (chapter >= 50 && chapter <= 51) ||
@@ -173,7 +174,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                         verseNumber -= 2;
                     }
                 }
-                //Formula
+                //Formula Rus => Esp
                 //2en1
                 if(chapter == 89){//89:6 => 90:5-6 
                     chapterNumber += 1;
@@ -181,7 +182,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                         verseNumber -= 1;
                     }
                 }
-                //Formula
+                //Formula Rus => Esp
                 //+2: -8
                 if(chapter == 113){//113: +8 => 115:1-18 | Пс.113:9 => Sal.115:1
                     if(verse <= 8){
@@ -192,7 +193,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
                         verseNumber -= 8;
                     }
                 }
-                //Formula
+                //Formula Rus => Esp
                 //-2: X
                 if(chapter == 114){// Пс. 114:1-9 => Sal.116:1-9 
                     chapterNumber += 2;
@@ -347,15 +348,18 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
+        var trans_BookShortName = obj_trans_inpt.Books[book].ShortNames[0];
         
         //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
             //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
 
-            alert('entro aki 1. trans1 = Rus --- trans2 = Esp. convertir Esp->Rus');
+            console.log('--- entro aki 1. trans1 = Rus --- trans2 = Esp. --- convertir Link Rus => Esp');
 
-            //Modifico sólo los links de español a ruso
-            var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+            //Modifico sólo los links de ruso a español
+            //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
+            //trans2 = rv60 clicked
+            var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);
             
             //asigno nuevo valor
             bookNumber = new_result[0];
@@ -367,6 +371,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
             console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
             console.log('1. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
+            console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
         }
 
         //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
@@ -387,13 +392,14 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
             console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
             console.log('2. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+            console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
         }
 
     }else{
         return false;
     }
 
-    var result = [bookNumber, chapterNumber, verseNumber, to_verseNumber];
+    var result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
 
     return result;
 }
