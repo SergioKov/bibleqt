@@ -908,7 +908,7 @@ li.active {
     color: white !important;
 }
 .no_disp {
-    display: none;
+    display: none !important;
 }
 .prim {
     color: grey;
@@ -929,11 +929,11 @@ li.active {
     color: navy;
     border: 1px solid #2196F3;
 }
-.cols:not(:first-child) .colsHead {
+.cols .colsHead {
     cursor:pointer;
     transition: 0.2s;
 }
-.cols:not(:first-child) .colsHead:hover {
+.cols .colsHead:hover {
     background: #2f88cf!important;
     cursor:pointer;
 }

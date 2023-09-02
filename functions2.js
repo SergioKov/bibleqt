@@ -359,7 +359,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             //Modifico sólo los links de ruso a español
             //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
             //trans2 = rv60 clicked
-            var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+            var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante RusToEsp
             
             //asigno nuevo valor
             bookNumber = new_result[0];
@@ -377,10 +377,10 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
         //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
         if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
             //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-            alert('entro aki 2. trans1 = Esp --- trans2 = Rus. convertir Rus->Esp');
+            console.log('entro aki 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
 
             //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-            var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+            var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante EspToRus
             
             //asigno nuevo valor
             bookNumber = new_result[0];
