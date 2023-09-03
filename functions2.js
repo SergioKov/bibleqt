@@ -567,7 +567,7 @@ function pintRefOnScroll(id_divCol){
           console.log('Si --- primerElementoVisible');
         }else{
           elemento.classList.remove('elementoVisible');
-          //console.log('--- NO --- primerElementoVisible');
+          console.log('--- NO --- primerElementoVisible');
         }
       });
     
