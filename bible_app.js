@@ -4169,7 +4169,7 @@ function addTrans(){
     });
     //console.log(arr_n);
 
-    for (let i = 1; i <= 8; i++) {
+    for(let i = 1; i <= 8; i++) {
         if(!arr_n.includes(i)){
             var next_n = i;
             break;
@@ -4201,6 +4201,7 @@ function addTrans(){
         htmlTrans.innerHTML =  `<div class="colsHeadInner">
 
                                     <div class="partDesk">
+                                        <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>    
                                         <div class="desk_trans" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">RST</div>
                                     </div>
 
@@ -4262,6 +4263,10 @@ function addTrans(){
         }
         //addListenerModule();//antes
         
+        //listener on scroll para añadir versiculo en colsHead en mobile
+        pintRefOnScroll('#' + htmlCol.id);//'#col2'
+
+        
         //propongo selección del modulo
         openModal('full',htmlTrans);//contiene dentro selectModule2()
     }
@@ -4279,7 +4284,7 @@ function removeTrans(){
 }
 
 function closeTrans(el,event){
-    let n = el.parentElement.parentElement.getAttribute('id').slice(-1);
+    let n = el.parentElement.parentElement.parentElement.getAttribute('id').slice(-1);
     //console.log(n);
     event.stopPropagation();
     
@@ -4399,7 +4404,7 @@ function selChapter(e){
 
     var is_changedChapter = false;
 
-    if(divtrans_inpt != 'trans1'){
+    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
@@ -4529,7 +4534,7 @@ function selVerse(e){
 
     var is_changedVerse = false;
 
-    if(divtrans_inpt != 'trans1'){
+    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
@@ -5262,7 +5267,7 @@ function getRef(trans = null){
                                 var trans_inpt = inpt_nav.dataset.trans;// trans desde input
                                 var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
-                                if(divtrans_inpt != 'trans1'){
+                                if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
                                     const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
                                     const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
@@ -5760,7 +5765,7 @@ function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
     var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    Translation = document.querySelector('#trans1').getAttribute('data-trans');
+    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
 
     //reset de verse en rojo ya que hay que escojer el verse...
     inpt_nav.setAttribute('data-id_chapter', '0');
@@ -5771,6 +5776,10 @@ function bookGo(dir){
         el.classList.remove('li_active');
     });
 
+    obj_nav.id_chapter = 0;
+    obj_nav.show_chapter = 1;
+    obj_nav.id_verse = '';
+    obj_nav.show_verse = '';
 
     //saco ajustes de este modulo en json
     url_bq = `modules/text/${Translation}/bibleqt.json`;
@@ -5800,8 +5809,14 @@ function bookGo(dir){
 
                 inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
-                //sel(document.querySelector('#s_book'),'b');//book
-                sel(document.querySelector('#s_chapter'),'ch');//chapter
+                obj_nav.id_book = next_id_book;
+                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.show_chapter = next_show_chapter;
+
+
+                sel(document.querySelector('#s_chapter'),'ch',next_show_chapter);//chapter
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -5823,12 +5838,15 @@ function bookGo(dir){
 
                 inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
 
-                //sel(document.querySelector('#s_book'),'b');//book
-                sel(document.querySelector('#s_chapter'),'ch', prev_show_chapter);//chapter
-                showTrans(prev_id_book, prev_show_chapter);
-            }
+                obj_nav.id_book = prev_id_book;
+                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
 
-            
+                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.show_chapter = prev_show_chapter;
+
+                sel(document.querySelector('#s_chapter'),'ch',prev_show_chapter);//chapter
+                showTrans(prev_id_book, prev_show_chapter);
+            }            
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
@@ -5840,7 +5858,7 @@ function chapterGo(dir){
     var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     var act_show_chapter = (inpt_nav.getAttribute('data-show_chapter') != '') ? inpt_nav.getAttribute('data-show_chapter') : 1 ;
-    Translation = document.querySelector('#trans1').getAttribute('data-trans');
+    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
 
     //reset de verse en rojo ya que hay que escojer el verse...
     inpt_nav.setAttribute('data-id_verse', '');
@@ -5848,6 +5866,9 @@ function chapterGo(dir){
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
     });
+
+    obj_nav.id_verse = '';
+    obj_nav.show_verse = '';
 
 
     //saco ajustes de este modulo en json
@@ -5882,8 +5903,13 @@ function chapterGo(dir){
 
                 inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
-                //sel(document.querySelector('#s_chapter'),'ch');//chapter
-                sel(document.querySelector('#s_verse'),'v');//verse
+                obj_nav.id_book = next_id_book;
+                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.show_chapter = next_show_chapter;
+
+                sel(document.querySelector('#s_verse'),'v',Translation);//verse
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -5909,8 +5935,13 @@ function chapterGo(dir){
 
                 inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
 
-                //sel(document.querySelector('#s_chapter'),'ch', prev_show_chapter);//chapter
-                sel(document.querySelector('#s_verse'),'v');//verse
+                obj_nav.id_book = prev_id_book;
+                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.show_chapter = prev_show_chapter;
+
+                sel(document.querySelector('#s_verse'),'v',Translation);//verse
                 showTrans(prev_id_book, prev_show_chapter);
             }
 

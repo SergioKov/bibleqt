@@ -340,7 +340,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     console.log('0. antes to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
 
 
-    if(divtrans_inpt != 'trans1'){
+    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         
         console.log('divtrans_inpt: '+divtrans_inpt);
     
@@ -403,3 +403,238 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
 
     return result;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+const div1 = document.querySelector('#col1 .colsInner');
+
+div1.addEventListener('scroll', function() {
+    const elementos = div1.children;
+
+    for (let i = 0; i < elementos.length; i++) {
+        const elemento = elementos[i];
+        const offsetTop = elemento.offsetTop;
+        const offsetHeight = elemento.offsetHeight;
+        const scrollTop = div1.scrollTop;
+
+        console.log(" ");
+        console.log("abajo elemento");
+        console.log(elemento);
+        console.log("elemento.offsetTop: " + offsetTop);
+        console.log("elemento.offsetHeight: " + offsetHeight);
+        console.log("div1 scrollTop: " + scrollTop);
+        console.log(" ");
+
+        if (offsetTop >= scrollTop && offsetTop + offsetHeight <= scrollTop + div1.clientHeight) {
+            // El elemento es visible en el div1
+            console.log("Elemento visible. elemento.id: " + elemento.id);
+            //console.log("elemento: " + elemento.querySelector('a').innerHTML);
+            //document.querySelector('#col1 .colsInner .mob_sh_link').innerHTML = elemento.querySelector('a').innerHTML;
+            break; // Termina el bucle al encontrar el primer elemento visible
+        }
+    }
+});
+*/
+
+/*
+// Obtén referencias a los elementos
+const contenedor = document.querySelector('#col1 .colsInner');
+const interno = document.querySelector('#rstStrongRed__0__1__2');
+
+// Obtén las coordenadas del contenedor y el interno
+const contenedorRect = contenedor.getBoundingClientRect();
+const internoRect = interno.getBoundingClientRect();
+
+// Verifica si el interno está completamente dentro del contenedor
+const estaDentro = (
+  internoRect.top >= contenedorRect.top &&
+  internoRect.bottom <= contenedorRect.bottom &&
+  internoRect.left >= contenedorRect.left &&
+  internoRect.right <= contenedorRect.right
+);
+
+// Muestra el resultado
+if (estaDentro) {
+  console.log('El div interno está completamente visible dentro del contenedor.');
+} else {
+  console.log('El div interno no está completamente visible dentro del contenedor.');
+}
+*/
+
+
+
+/*
+const contenedor = document.querySelector('#col1 .colsInner');
+// Obtén las coordenadas del contenedor y el interno
+const contenedorRect = contenedor.getBoundingClientRect();
+
+contenedor.addEventListener('scroll', function() {
+    const elementos = contenedor.children;
+    const elemento = document.querySelectorAll('#col1 .colsInner p')[0];
+
+    for (let i = 0; i < elementos.length; i++) {
+        //const elemento = elementos[i];
+        const interno = elemento;
+        const internoRect = interno.getBoundingClientRect();
+        // Verifica si el interno está completamente dentro del contenedor
+        const estaDentro = (
+            internoRect.top >= contenedorRect.top &&
+            internoRect.bottom <= contenedorRect.bottom &&
+            internoRect.left >= contenedorRect.left &&
+            internoRect.right <= contenedorRect.right
+        );
+        // Muestra el resultado
+        if (estaDentro) {
+            console.log(`El div interno ${interno.id} está completamente visible dentro del contenedor ${contenedor.id} .`);
+            break;
+        } else {
+            console.log(`El div interno ${interno.id} no está completamente visible dentro del contenedor ${contenedor.id} .`);
+        }
+
+
+    }
+});
+*/
+
+pintRefOnScroll('#col1');//por defecto
+
+function pintRefOnScroll(id_divCol){
+
+    const divContenedor = document.querySelector(id_divCol).querySelector('.colsInner');
+    let divContenedor_rect = divContenedor.getBoundingClientRect();
+        
+    divContenedor.addEventListener('scroll', function() {
+      const elementos = divContenedor.querySelectorAll('p');
+      let primerElementoVisible = null;
+      const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
+    
+      elementos.forEach(elemento => {
+        const el_rect = elemento.getBoundingClientRect();
+    
+        console.log(" ");
+        console.log("id_divCol: "+id_divCol);
+        console.log("divContenedor_rect.top: "+divContenedor_rect.top);
+
+        console.log("abajo elemento: ");
+        console.log("abajo elemento.id: " +elemento.id);
+        console.log(elemento);
+        console.log("abajo el_rect: ");
+        console.log(el_rect);
+        console.log("el_rect.top: " + el_rect.top);
+        console.log("el_rect.bottom: " + el_rect.bottom);
+        console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
+        console.log("window.innerHeight: " + window.innerHeight);
+
+        let sumarTop = 0;
+        /*if(positionShow == 'row'){
+            let countCols = document.querySelectorAll('.colsInner').length;
+            if(countCols > 1){
+                sumarTop = window.innerHeight / countCols;//942 / 2 = 471 ; 942 / 3 = 314
+                console.log("sumarTop: " + sumarTop);
+            }
+        }
+        */
+
+
+    
+        if(
+          el_rect.top >= 0 && 
+          el_rect.top <= (divContenedor_rect.top + sumarTop) &&
+          el_rect.bottom <= ( (divContenedor.clientHeight + sumarTop) || window.innerHeight) &&
+          !primerElementoVisible
+        ){
+          primerElementoVisible = elemento;
+          console.log('Si --- primerElementoVisible');
+        }else{
+          elemento.classList.remove('elementoVisible');
+          //console.log('--- NO --- primerElementoVisible');
+        }
+      });
+    
+      if(primerElementoVisible){
+        primerElementoVisible.classList.add('elementoVisible');
+        console.log('añado class elementoVisible');
+        //primerElementoVisible.style.background = 'pink';//test
+    
+        let firstRefvisible = primerElementoVisible.querySelector('a').innerHTML;
+        mob_sh_link.innerHTML = firstRefvisible;
+        console.log(primerElementoVisible.querySelector('a').innerHTML);    
+      }
+    });
+}
+
+
+
+
+
+
+/*
+const divContenedor = document.querySelector('#col1 .colsInner');
+let divContenedor_rect = divContenedor.getBoundingClientRect();
+    
+divContenedor.addEventListener('scroll', function() {
+  const elementos = divContenedor.querySelectorAll('#col1 .colsInner p');
+  let primerElementoVisible = null;
+  const mob_sh_link = document.querySelector('#col1 .mob_sh_link');
+
+  elementos.forEach(elemento => {
+    const el_rect = elemento.getBoundingClientRect();
+
+    console.log(" ");
+    console.log("abajo elemento: ");
+    console.log(elemento);
+    console.log("abajo el_rect: ");
+    console.log(el_rect);
+    console.log("el_rect.top: " + el_rect.top);
+    console.log("el_rect.bottom: " + el_rect.bottom);
+    console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
+    console.log("window.innerHeight: " + window.innerHeight);
+
+
+
+    if(
+      el_rect.top >= 0 && el_rect.top <= divContenedor_rect.top &&
+      el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
+      !primerElementoVisible
+    ){
+      primerElementoVisible = elemento;
+      console.log('Si --- primerElementoVisible');
+    }else{
+      elemento.classList.remove('elementoVisible');
+      console.log('--- NO --- primerElementoVisible');
+    }
+  });
+
+  if (primerElementoVisible) {
+    primerElementoVisible.classList.add('elementoVisible');
+    console.log('añado class elementoVisible');
+    primerElementoVisible.style.background = 'pink';
+
+    let firstRefvisible = primerElementoVisible.querySelector('a').innerHTML;
+    mob_sh_link.innerHTML = firstRefvisible;
+    console.log(primerElementoVisible.querySelector('a').innerHTML);
+
+  }
+});
+*/
+

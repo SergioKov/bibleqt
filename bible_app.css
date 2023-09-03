@@ -1502,6 +1502,7 @@ select  optgroup option {
     min-width: 24px!important;
     position: relative;
     top: -2px;
+    border: none;
 }
 #btnPlus:hover {
     background: #5eb4f9;
@@ -1679,6 +1680,7 @@ span.prim_tsk {
 }
 .modalContentFull section {
     background-color: black;
+    border: 1px solid #4d4d4d;
 }
 .modal-content h4 {
     color: white;
