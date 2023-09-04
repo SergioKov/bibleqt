@@ -368,7 +368,7 @@ document.querySelector('#rstStrong_b1_c3_v9a').scrollIntoView();
 document.documentElement.scrollTop = 0;
 */
 
-function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'center'){
+function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
     //let arr = idVerse.split('/');
     //let verseNumber = arr[2];
 
@@ -4264,7 +4264,7 @@ function addTrans(){
         //addListenerModule();//antes
         
         //listener on scroll para añadir versiculo en colsHead en mobile
-        pintRefOnScroll('#' + htmlCol.id);//'#col2'
+        //pintRefOnScroll('#' + htmlCol.id);//'#col2' no funciona correctamente
 
         
         //propongo selección del modulo
@@ -5088,13 +5088,15 @@ function getRefForTsk(Translation, bookShortName){
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
     var inpt = document.querySelector('#inpt_nav');
+    var inpt_nav = document.querySelector('#inpt_nav');
     var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
     //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
+    var trans_inpt = inpt_nav.dataset.trans;
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
-        var trans = act_trans;
+        var trans = (trans_input != '') ? trans_input : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= 768){
@@ -5307,11 +5309,14 @@ function getRef(trans = null){
                         inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
                         inpt_nav.setAttribute('data-show_verse',verse);
 
-                        inpt_nav.value = short_name ;
+                        inpt_nav.value = short_name;
+                        obj_nav.show_book = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
                             inpt_nav.value += ' ' + chapter;
+                            obj_nav.id_chapter += ' ' + parseInt(chapter) - 1;
+                            obj_nav.show_chapter += ' ' + chapter;
                             document.querySelector('#v_chapter').innerHTML = '';
                         }else{
                             document.querySelector('#v_chapter').innerHTML = 'selecciona el capítulo';
@@ -5320,6 +5325,8 @@ function getRef(trans = null){
                         //verse
                         if(verse != null && parseInt(verse) > 0){
                             inpt_nav.value += ':' + verse;
+                            obj_nav.id_verse += ' ' + parseInt(verse) - 1;
+                            obj_nav.show_verse += ' ' + verse;
                             document.querySelector('#v_verse').innerHTML = '';
                         }else{
                             document.querySelector('#v_verse').innerHTML = 'antes de seleccionar el versículo selecciona antes un capítulo';
@@ -5327,6 +5334,7 @@ function getRef(trans = null){
                         //hay to_verse
                         if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
                             inpt_nav.value += '-' + to_verse;
+                            obj_nav.show_to_verse += ' ' + to_verse;
                             inpt_nav.setAttribute('data-show_to_verse',to_verse);
                         }else{
                             inpt_nav.setAttribute('data-show_to_verse','');
@@ -5809,6 +5817,11 @@ function bookGo(dir){
 
                 inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                });
+
                 obj_nav.id_book = next_id_book;
                 obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
 
@@ -5837,6 +5850,11 @@ function bookGo(dir){
                 inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
                 inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                });
 
                 obj_nav.id_book = prev_id_book;
                 obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
@@ -5902,6 +5920,11 @@ function chapterGo(dir){
                 inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
 
                 inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                });
 
                 obj_nav.id_book = next_id_book;
                 obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
@@ -5934,6 +5957,11 @@ function chapterGo(dir){
                 inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
                 inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                });
 
                 obj_nav.id_book = prev_id_book;
                 obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
