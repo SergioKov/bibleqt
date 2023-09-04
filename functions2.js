@@ -606,69 +606,67 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
     let colsAll = document.querySelectorAll('.cols');
         //console.log(' hay mas que 1 col');        
 
-        colsAll.forEach((el,i)=>{
-            //console.log(el);
+    colsAll.forEach((el,i)=>{
+        //console.log(el);
 
-            //si no es #col1
-            if(i >= startingFromIndexCol){
+        //si no es #col1
+        if(i >= startingFromIndexCol){
 
-                let trans_head = el.querySelector('.colsHead').dataset.trans;
+            let trans_head = el.querySelector('.colsHead').dataset.trans;
 
-                // preparo le ref
-                // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-                const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-                const obj_trans_head = arrFavTransObj.find(p => p.Translation === trans_head);
-                var trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
+            // preparo le ref
+            // Usa el método find para buscar el objeto que contiene 'rst' como nombre
+            const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
+            const obj_trans_head = arrFavTransObj.find(p => p.Translation === trans_head);
+            var trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
+            
+            //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
+            if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_head.EnglishPsalms == 'Y'){
+                //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+
+                console.log('--- ref head 1. trans1 = Rus --- trans2 = Esp. --- convertir Link Rus => Esp');
+
+                //Modifico sólo los links de ruso a español
+                //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
+                //trans2 = rv60 clicked
+                var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
                 
-                //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
-                if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_head.EnglishPsalms == 'Y'){
-                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+                //asigno nuevo valor
+                bookNumber = new_result[0];
+                chapterNumber = new_result[1];
+                verseNumber = new_result[2];
 
-                    console.log('--- ref head 1. trans1 = Rus --- trans2 = Esp. --- convertir Link Rus => Esp');
-
-                    //Modifico sólo los links de ruso a español
-                    //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
-                    //trans2 = rv60 clicked
-                    var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
-                    
-                    //asigno nuevo valor
-                    bookNumber = new_result[0];
-                    chapterNumber = new_result[1];
-                    verseNumber = new_result[2];
-
-                    console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
-                    console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
-                    console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
-                }
-
-                //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
-                if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_head.EnglishPsalms == 'N'){
-                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-                    console.log('head 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
-
-                    //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-                    var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
-                    
-                    //asigno nuevo valor
-                    bookNumber = new_result[0];
-                    chapterNumber = new_result[1];
-                    verseNumber = new_result[2];
-
-                    console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
-                    console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
-                    console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
-                }
-
-                console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
-                var new_ref = trans_BookShortName + ''+chapterNumber +':'+verseNumber;
-
-                el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+                console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
+                console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
+                console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
+                console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
             }
 
-        });
+            //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
+            if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_head.EnglishPsalms == 'N'){
+                //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+                console.log('head 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
 
+                //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
+                var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
+                
+                //asigno nuevo valor
+                bookNumber = new_result[0];
+                chapterNumber = new_result[1];
+                verseNumber = new_result[2];
+
+                console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
+                console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
+                console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
+                console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
+            }
+
+            console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
+            var new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
+
+            el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+        }
+    });
 }
 
 

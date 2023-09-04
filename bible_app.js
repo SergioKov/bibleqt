@@ -752,7 +752,7 @@ function showChapter(Translation, divId, book, chapter, verseNumber = null, to_v
     //var divShow = document.querySelector('#col3 .colsInner');
     //var divShow = document.querySelector(div);
     var divShow = document.querySelector(divId+' .colsInner');
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');
+    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');
     divShow.innerHTML = '';
     
 
@@ -957,7 +957,7 @@ function showChapterText2(Translation, divId, book, chapter, verseNumber = null,
     let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
     let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
     var divShow = document.querySelector(divId+' .colsInner');
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');
+    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');
     //if(divShow != null){
         divShow.innerHTML = '';
     //}
@@ -1400,7 +1400,7 @@ function getTsk(e){
                 //Siempre muestro el verse clickeado en tsk
                 const span_sm_trans = document.createElement('span');
                 span_sm_trans.id = 'sm_trans';
-                span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner div').innerHTML;
+                span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
 
                 const p = document.createElement('p');
                 p.id = el.id;
@@ -1753,7 +1753,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
     let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
     let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
     //var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');//ej: RST+//antes
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');//ej: RST+
+    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
@@ -5105,7 +5105,7 @@ function getRef(trans = null){
             var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
             div_trans1.setAttribute('data-trans',trans);
             div_trans1.setAttribute('data-base_ep',EnglishPsalms);
-            div_trans1.querySelector('.colsHeadInner div').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
+            div_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
             document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
             var trans_buttons = document.querySelectorAll('#footerInner button');
@@ -5250,7 +5250,7 @@ function getRef(trans = null){
             for (let i = 0; i < dataBooksBtnOk.length; i++) {
                 for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
                     const el = dataBooksBtnOk[i].ShortNames[j];
-                    if(book.toLowerCase() == el.toLowerCase()){
+                    if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
                         var n_book = dataBooksBtnOk[i].BookNumber;
                         var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
 
@@ -5315,8 +5315,8 @@ function getRef(trans = null){
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
                             inpt_nav.value += ' ' + chapter;
-                            obj_nav.id_chapter += ' ' + parseInt(chapter) - 1;
-                            obj_nav.show_chapter += ' ' + chapter;
+                            obj_nav.id_chapter = parseInt(chapter) - 1;
+                            obj_nav.show_chapter = chapter;
                             document.querySelector('#v_chapter').innerHTML = '';
                         }else{
                             document.querySelector('#v_chapter').innerHTML = 'selecciona el capítulo';
@@ -5325,8 +5325,8 @@ function getRef(trans = null){
                         //verse
                         if(verse != null && parseInt(verse) > 0){
                             inpt_nav.value += ':' + verse;
-                            obj_nav.id_verse += ' ' + parseInt(verse) - 1;
-                            obj_nav.show_verse += ' ' + verse;
+                            obj_nav.id_verse = parseInt(verse) - 1;
+                            obj_nav.show_verse = verse;
                             document.querySelector('#v_verse').innerHTML = '';
                         }else{
                             document.querySelector('#v_verse').innerHTML = 'antes de seleccionar el versículo selecciona antes un capítulo';
@@ -5334,10 +5334,11 @@ function getRef(trans = null){
                         //hay to_verse
                         if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
                             inpt_nav.value += '-' + to_verse;
-                            obj_nav.show_to_verse += ' ' + to_verse;
                             inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                            obj_nav.show_to_verse = to_verse;
                         }else{
                             inpt_nav.setAttribute('data-show_to_verse','');
+                            obj_nav.show_to_verse = '';
                         }
 
 
@@ -5366,6 +5367,14 @@ function getRef(trans = null){
                             console.log(' btn ok. cierro menu en mobile.');
                             closeSidebar();
                         }
+
+
+                        //meto Gen.1:1 en los head de cada trans
+                        document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                            let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
+                            putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                        });
+
 
                         showTrans(n_book, chapter, verse, to_verse);
                         //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
@@ -5416,7 +5425,7 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
         div_trans1.setAttribute('data-trans',trans);
         div_trans1.setAttribute('data-base_ep',EnglishPsalms);
-        div_trans1.querySelector('.colsHeadInner div').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
+        div_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
         var trans_buttons = document.querySelectorAll('#footerInner button');
@@ -5519,7 +5528,7 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
         div_trans1.setAttribute('data-trans',trans);
         div_trans1.setAttribute('data-base_ep',EnglishPsalms);
-        div_trans1.querySelector('.colsHeadInner div').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
+        div_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
         var trans_buttons = document.querySelectorAll('#footerInner button');
