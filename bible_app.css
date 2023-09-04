@@ -1823,3 +1823,28 @@ p.cl_trans:hover {
     background: #afcfe9;
     margin: 0 5px;
 }
+.d_bot {
+    background: red;
+    color: white;
+    display: flex;
+    flex-flow: wrap;
+    place-content: flex-end;
+    align-items: stretch;
+    /* height: 308px; */
+}
+.d_bot .d_btn {
+    width: 50%;
+    background: orange;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3;
+    cursor:pointer;
+}
+.d_bot .d_btn:hover{
+    background: grey;
+}

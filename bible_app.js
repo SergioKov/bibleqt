@@ -2858,6 +2858,14 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
             .then(() => {
                 mySizeWindow();
                 mySizeVerse();
+                /*
+                //si es ultimo elemento, añado padding-bottom
+                let p_last = divShow.querySelector('p:last-child');
+                let mb_h = divShow.offsetHeight - p_last.offsetHeight;
+                console.log('mb_h: '+mb_h)
+                p_last.style.marginBottom = mb_h + 'px';
+                p_last.style.background = 'lightgreen';
+                */
             })
             .then(() => {
                 
@@ -4146,11 +4154,43 @@ function mySizeVerse(){
         //console.log('------------------------------');
     }
     setTimeout(()=>{
+        addMarginTolastP();
         initScroll();
         getArrSumLineH();
     },100);
 
 }//end mySizeVerse()
+
+
+function addMarginTolastP(){
+    let colsInnerAll = document.querySelectorAll('.colsInner');
+
+    colsInnerAll.forEach(col=>{
+        //si es ultimo elemento, añado padding-bottom
+        let p_last = col.querySelector('p:last-child');
+        
+        if(p_last != null){
+        
+            let mb_h = col.offsetHeight - p_last.offsetHeight;
+            console.log('mb_h: '+mb_h);
+
+            /*
+            const d = document.createElement('div');
+            d.className = 'd_bot';
+            d.style.background = 'pink';
+            d.innerHTML = `<div class="d_btn">prev chapter</div>
+                           <div class="d_btn">next chapter</div>
+                          `;
+            p_last.insertAdjacentElement('afterend', d);
+            //d.style.height = mb_h + 'px';
+            */
+
+            p_last.style.marginBottom = mb_h /*- d.offsetHeight*/ + 'px';
+            //p_last.style.background = 'lightgreen';
+
+        }
+    });
+}
 
 
 function ref(string){
