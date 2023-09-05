@@ -102,7 +102,7 @@ header('Content-type: text/html; charset=utf-8');
                         <div>H ></div>
                     </div>                        
 
-                    <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                    <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
                         <div>Row</div>
                     </div>
                     <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
@@ -440,9 +440,11 @@ header('Content-type: text/html; charset=utf-8');
                             <div class="partDeskInner">
                             
                                 <div id="partDeskTabs">
+                                    <!--
                                     <div id="tab1" class="tabs tab_active" style="display:none;">
                                         <span>Рим.10:17</span>
                                     </div>
+                                    -->
                                 </div>
 
                                 <div id="partDeskPlus">
@@ -469,6 +471,7 @@ header('Content-type: text/html; charset=utf-8');
                                 </div>
                                 
                                 <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                                
                                 <!--
                                 <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
                                 <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
@@ -569,6 +572,9 @@ header('Content-type: text/html; charset=utf-8');
     </div>
 
 
+    <button id="btn_pageUp" onclick="pageUp()"><img src="image/arrow_chevron_down_white.svg"></button>
+    <button id="btn_pageDown" onclick="pageDown()"><img src="image/arrow_chevron_down_white.svg"></button>
+
     <!-- The Modal -->
     <div id="myModal" class="modal">
         <!-- Modal content -->
@@ -626,7 +632,7 @@ header('Content-type: text/html; charset=utf-8');
                                 <div>H ></div>
                             </div>                        
 
-                            <div class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                            <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
                                 <div>Row</div>
                             </div>
                             <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">

@@ -42,6 +42,23 @@
     .sideHide, .sideShow {
         width: 60% !important;
     }
+    
+    #btn_pageUp, #btn_pageDown {
+        height: 50px;
+        width: 50px;
+    }
+    /* width */
+    #tsk_head::-webkit-scrollbar, 
+    #tsk_body::-webkit-scrollbar, 
+    #find_head::-webkit-scrollbar, 
+    #find_body::-webkit-scrollbar, 
+    #strong_head::-webkit-scrollbar, 
+    #strong_body::-webkit-scrollbar, 
+    .wr_bcv_uls::-webkit-scrollbar, 
+    .colsInner::-webkit-scrollbar 
+    {
+        width: 2px;
+    }  
 
 }
 /* end tablet */
@@ -71,7 +88,29 @@
     #sidebarInner{
         margin:0;
     }
-  
+
+    #btn_pageUp, #btn_pageDown {
+        height: 50px;
+        width: 50px;
+    }
+    #btn_pageUp {
+        top: 50px;
+    }
+    #btn_pageDown {
+        bottom: 10px;    
+    }
+    /* width */
+    #tsk_head::-webkit-scrollbar, 
+    #tsk_body::-webkit-scrollbar, 
+    #find_head::-webkit-scrollbar, 
+    #find_body::-webkit-scrollbar, 
+    #strong_head::-webkit-scrollbar, 
+    #strong_body::-webkit-scrollbar, 
+    .wr_bcv_uls::-webkit-scrollbar, 
+    .colsInner::-webkit-scrollbar 
+    {
+        width: 0px;
+    }  
 }
 /* end mobilka */
 

@@ -318,8 +318,6 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
 }
 
 
-
-
 function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     console.log('=== function checkRefNav() ===');
     
@@ -482,114 +480,152 @@ if (estaDentro) {
 */
 
 
-
-/*
-const contenedor = document.querySelector('#col1 .colsInner');
-// Obtén las coordenadas del contenedor y el interno
-const contenedorRect = contenedor.getBoundingClientRect();
-
-contenedor.addEventListener('scroll', function() {
-    const elementos = contenedor.children;
-    const elemento = document.querySelectorAll('#col1 .colsInner p')[0];
-
-    for (let i = 0; i < elementos.length; i++) {
-        //const elemento = elementos[i];
-        const interno = elemento;
-        const internoRect = interno.getBoundingClientRect();
-        // Verifica si el interno está completamente dentro del contenedor
-        const estaDentro = (
-            internoRect.top >= contenedorRect.top &&
-            internoRect.bottom <= contenedorRect.bottom &&
-            internoRect.left >= contenedorRect.left &&
-            internoRect.right <= contenedorRect.right
-        );
-        // Muestra el resultado
-        if (estaDentro) {
-            console.log(`El div interno ${interno.id} está completamente visible dentro del contenedor ${contenedor.id} .`);
-            break;
-        } else {
-            console.log(`El div interno ${interno.id} no está completamente visible dentro del contenedor ${contenedor.id} .`);
-        }
-
-
-    }
-});
-*/
-
 pintRefOnScroll('#col1');//por defecto
 
 function pintRefOnScroll(id_divCol){
 
     const divContenedor = document.querySelector(id_divCol).querySelector('.colsInner');
     let divContenedor_rect = divContenedor.getBoundingClientRect();
-
-
-
         
-    divContenedor.addEventListener('scroll', function() {
-        const elementos = divContenedor.querySelectorAll('p');
+    divContenedor.addEventListener('scroll', function(){
+        // const elementos = divContenedor.querySelectorAll('p');//antes
+        const elementos = divContenedor.children;
         let primerElementoVisible = null;
         const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
         let colsAll_length = document.querySelectorAll('.cols').length;
 
-    
-        elementos.forEach(elemento => {
-        const el_rect = elemento.getBoundingClientRect();
+        Array.from(elementos).forEach(elemento => {            
+            
+            const el_rect = elemento.getBoundingClientRect();
 
-        //console.log(" ");
-        //console.log("id_divCol: "+id_divCol);
-        //console.log("divContenedor_rect.top: "+divContenedor_rect.top);
+            //console.log(" ");
+            //console.log("id_divCol: "+id_divCol);
+            //console.log("divContenedor_rect.top: "+divContenedor_rect.top);
 
-        //console.log("abajo elemento: ");
-        //console.log("abajo elemento.id: " +elemento.id);
-        //console.log(elemento);
-        //console.log("abajo el_rect: ");
-        //console.log(el_rect);
-        //console.log("el_rect.top: " + el_rect.top);
-        //console.log("el_rect.bottom: " + el_rect.bottom);
-        //console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
-        //console.log("window.innerHeight: " + window.innerHeight);
+            //console.log("abajo elemento: ");
+            //console.log("abajo elemento.id: " +elemento.id);
+            //console.log(elemento);
+            //console.log("abajo el_rect: ");
+            //console.log(el_rect);
+            //console.log("el_rect.top: " + el_rect.top);
+            //console.log("el_rect.bottom: " + el_rect.bottom);
+            //console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
+            //console.log("window.innerHeight: " + window.innerHeight);
 
-        let sumarTop = 0;
-        /*if(positionShow == 'row'){
-            let countCols = document.querySelectorAll('.colsInner').length;
-            if(countCols > 1){
-                sumarTop = window.innerHeight / countCols;//942 / 2 = 471 ; 942 / 3 = 314
-                console.log("sumarTop: " + sumarTop);
+            if(
+                el_rect.top >= 0 && 
+                el_rect.top <= divContenedor_rect.top &&
+                el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
+                !primerElementoVisible
+            ){
+                primerElementoVisible = elemento;
+                //console.log('Si --- primerElementoVisible');
+            }else{
+                elemento.classList.remove('elementoVisible');
+                //console.log('--- NO --- primerElementoVisible');
             }
-        }
-        */
-
-
-
-        if(
-            el_rect.top >= 0 && 
-            el_rect.top <= (divContenedor_rect.top + sumarTop) &&
-            el_rect.bottom <= ( (divContenedor.clientHeight + sumarTop) || window.innerHeight) &&
-            !primerElementoVisible
-        ){
-            primerElementoVisible = elemento;
-            //console.log('Si --- primerElementoVisible');
-        }else{
-            elemento.classList.remove('elementoVisible');
-            //console.log('--- NO --- primerElementoVisible');
-        }
         });
 
         if(primerElementoVisible){
-        primerElementoVisible.classList.add('elementoVisible');
-        //console.log('añado class elementoVisible');
-        //primerElementoVisible.style.background = 'pink';//test
+            primerElementoVisible.classList.add('elementoVisible');
+            //console.log('añado class elementoVisible');
+            //primerElementoVisible.style.background = 'pink';//test
 
-        let firstRefvisible = primerElementoVisible.querySelector('a').innerHTML;
-        mob_sh_link.innerHTML = firstRefvisible;//en #col1
-        if(colsAll_length > 1){
-            putRefvisibleToHead(primerElementoVisible.id,1);//añado ref de otros cols en el header de trans
-        }
-        //console.log(primerElementoVisible.querySelector('a').innerHTML);    
+            if(primerElementoVisible.tagName === 'P'){
+                //console.log("primerElementoVisible.tagName: " + primerElementoVisible.tagName);
+                let firstRefvisible = primerElementoVisible.querySelector('a').innerHTML;
+                //mob_sh_link.innerHTML = firstRefvisible;//en #col1
+                if(colsAll_length > 0){
+                    putRefvisibleToHead(primerElementoVisible.id,0);//añado ref de todos cols en el header de trans
+                }
+                //console.log(primerElementoVisible.querySelector('a').innerHTML);
+            }else if(primerElementoVisible.tagName === 'H4' || primerElementoVisible.tagName === 'H2'){
+                //console.log("else if --- primerElementoVisible.tagName: " + primerElementoVisible.tagName);
+                let p_first = document.querySelector(id_divCol).querySelector('.colsInner p');
+                if(colsAll_length > 0){
+                    putRefvisibleToHead(p_first.id,0);
+                }    
+            }  
         }
     });
 }
+
+
+function calcElementoVisible(id_divCol){//'#col1'
+    console.log(" === function calcElementoVisible(id_divCol) ===");
+    setTimeout(()=>{
+        console.log(" --- setTimeout() funcionando ... ");
+
+
+        const divContenedor = document.querySelector(id_divCol).querySelector('.colsInner');
+        let divContenedor_rect = divContenedor.getBoundingClientRect();
+    
+    
+        // const elementos = divContenedor.querySelectorAll('p');//antes
+        const elementos = divContenedor.children;
+
+        let primerElementoVisiblePage = null;
+        const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
+        let colsAll_length = document.querySelectorAll('.cols').length;
+    
+    
+        Array.from(elementos).forEach(elemento => {            
+            const el_rect = elemento.getBoundingClientRect();
+    
+            console.log(" ");
+            console.log("id_divCol: "+id_divCol);
+            //console.log("divContenedor_rect.top: "+divContenedor_rect.top);
+    
+            //console.log("abajo elemento: ");
+            //console.log("abajo elemento.id: " +elemento.id);
+            //console.log(elemento);
+            //console.log("abajo el_rect: ");
+            //console.log(el_rect);
+            //console.log("el_rect.top: " + el_rect.top);
+            //console.log("el_rect.bottom: " + el_rect.bottom);
+            //console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
+            //console.log("window.innerHeight: " + window.innerHeight);
+    
+            if(
+                el_rect.top >= 0 && 
+                el_rect.top <= divContenedor_rect.top &&
+                el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
+                !primerElementoVisiblePage
+            ){
+                primerElementoVisiblePage = elemento;
+                //console.log('Si --- primerElementoVisiblePage');
+            }else{
+                elemento.classList.remove('elementoVisiblePage');
+                //console.log('--- NO --- primerElementoVisiblePage');
+            }
+        });
+
+        if(primerElementoVisiblePage){
+            primerElementoVisiblePage.classList.add('elementoVisiblePage');
+            //console.log('añado class elementoVisiblePage');
+            //primerElementoVisiblePage.style.background = 'pink';//test
+
+            if(primerElementoVisiblePage.tagName === 'P'){
+                //console.log("primerElementoVisiblePage.tagName: " + primerElementoVisiblePage.tagName);
+                let firstRefvisible = primerElementoVisiblePage.querySelector('a').innerHTML;
+                //mob_sh_link.innerHTML = firstRefvisible;//en #col1
+                if(colsAll_length > 0){
+                    putRefvisibleToHead(primerElementoVisiblePage.id,0);//añado ref de todos cols en el header de trans
+                }
+                //console.log(primerElementoVisiblePage.querySelector('a').innerHTML);
+            }else if(primerElementoVisiblePage.tagName === 'H4' || primerElementoVisiblePage.tagName === 'H2'){
+                //console.log("else if --- primerElementoVisiblePage.tagName: " + primerElementoVisiblePage.tagName);
+                let p_first = document.querySelector(id_divCol).querySelector('.colsInner p');
+                if(colsAll_length > 0){
+                    putRefvisibleToHead(p_first.id,0);
+                }    
+            }  
+        }
+
+
+    },3000);
+}
+
 
 //si startingFromIndexCol es 0 se actualizan todos los heads, si es 1 -> todos menos cols[0] que es #col1
 function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0__1__1 // trans__book__chapter__verse
@@ -670,54 +706,59 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 }
 
 
+function pageUp() {    
+    var colsAll = document.querySelectorAll('.colsInner');
+    colsAll.forEach(el=>{
+        let scrollHeight = el.scrollHeight;
+        let clientHeight = el.clientHeight;
+      
+        // Calcula la cantidad de desplazamiento necesario para una página
+        let pageHeight = clientHeight;
+      
+        // Calcula la nueva posición de desplazamiento
+        let newScrollTop = el.scrollTop - pageHeight;
+      
+        // Asegúrate de que no te desplaces más allá del final del contenido
+        if(newScrollTop < 0) {
+            el.scrollTop = 0;//mover al top
+        }
+        else if(newScrollTop >= 0) {
+            el.scrollTop = newScrollTop;
+        }
+        else{
+            // Si ya estás en la parte superior del contenido, no hagas nada
+            console.log('Estás en la parte superior del contenido.');
+        }
+    });
 
-/*
-const divContenedor = document.querySelector('#col1 .colsInner');
-let divContenedor_rect = divContenedor.getBoundingClientRect();
-    
-divContenedor.addEventListener('scroll', function() {
-  const elementos = divContenedor.querySelectorAll('#col1 .colsInner p');
-  let primerElementoVisible = null;
-  const mob_sh_link = document.querySelector('#col1 .mob_sh_link');
 
-  elementos.forEach(elemento => {
-    const el_rect = elemento.getBoundingClientRect();
-
-    console.log(" ");
-    console.log("abajo elemento: ");
-    console.log(elemento);
-    console.log("abajo el_rect: ");
-    console.log(el_rect);
-    console.log("el_rect.top: " + el_rect.top);
-    console.log("el_rect.bottom: " + el_rect.bottom);
-    console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
-    console.log("window.innerHeight: " + window.innerHeight);
+    //calcElementoVisible('#col1');//no funciona
+}
 
 
-
-    if(
-      el_rect.top >= 0 && el_rect.top <= divContenedor_rect.top &&
-      el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
-      !primerElementoVisible
-    ){
-      primerElementoVisible = elemento;
-      console.log('Si --- primerElementoVisible');
-    }else{
-      elemento.classList.remove('elementoVisible');
-      console.log('--- NO --- primerElementoVisible');
-    }
-  });
-
-  if (primerElementoVisible) {
-    primerElementoVisible.classList.add('elementoVisible');
-    console.log('añado class elementoVisible');
-    primerElementoVisible.style.background = 'pink';
-
-    let firstRefvisible = primerElementoVisible.querySelector('a').innerHTML;
-    mob_sh_link.innerHTML = firstRefvisible;
-    console.log(primerElementoVisible.querySelector('a').innerHTML);
-
-  }
-});
-*/
-
+function pageDown() {
+    var colsAll = document.querySelectorAll('.colsInner');
+    colsAll.forEach(el=>{
+        let scrollHeight = el.scrollHeight;
+        let clientHeight = el.clientHeight;
+      
+        // Calcula la cantidad de desplazamiento necesario para una página
+        let pageHeight = clientHeight;
+      
+        // Calcula la nueva posición de desplazamiento
+        let newScrollTop = el.scrollTop + pageHeight;
+      
+        // Asegúrate de que no te desplaces más allá del final del contenido
+        if(newScrollTop > scrollHeight) {
+            el.scrollTop = scrollHeight;//mover al bottom
+        }
+        else if(newScrollTop < scrollHeight) {
+            el.scrollTop = newScrollTop;
+        }
+        else{
+            // Si ya estás en la parte superior del contenido, no hagas nada
+            console.log('Estás en la parte superior del contenido.');
+        }
+    });
+    //calcElementoVisible('#col1');//no funciona
+}

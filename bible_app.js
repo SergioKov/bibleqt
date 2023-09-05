@@ -3681,6 +3681,12 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
             }
         });
     }
+
+    //si es mobile, pongo 'row'
+    if(window.innerWidth < 768){
+        positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
+        changePositionShow(document.querySelector('#btn_changePositionShowModal'));
+    }
  
     //howTrans(trans1_id_book, trans1_chapter, /*verseNumber, to_verseNumber*/);//no hace falta!!!
     showChapterText3(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
@@ -4241,7 +4247,7 @@ function addTrans(){
         htmlTrans.innerHTML =  `<div class="colsHeadInner">
 
                                     <div class="partDesk">
-                                        <button class="btn btn_sm f_r" onclick="closeTrans(this,event)">x</button>    
+                                        <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button><!--X-->    
                                         <div class="desk_trans" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">RST</div>
                                     </div>
 
@@ -4261,9 +4267,8 @@ function addTrans(){
                                                 </button>
                                             </div>
                                             
-                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
-
-                                            <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>                                            
+                                            <button class="btn btn_x" onclick="closeTrans(this,event,'mob')" title="close Translation">&#10005;</button><!--x-->
                                             
                                         </div>
                                     </div> 
@@ -4323,9 +4328,13 @@ function removeTrans(){
     }
 }
 
-function closeTrans(el,event){
-    let n = el.parentElement.parentElement.parentElement.getAttribute('id').slice(-1);
-    //console.log(n);
+function closeTrans(el,event, param = null){
+    if(param == 'mob'){//mobile
+        var n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);
+    }else{//desktop
+        var n = el.parentElement.parentElement.parentElement.id.slice(-1);
+    }
+    console.log(n);
     event.stopPropagation();
     
     document.querySelector('#col'+n).remove();
@@ -4365,7 +4374,7 @@ function addTab(bibShortRef = null, act = null){
         htmlTab.className = 'tabs';
         if(act != null) htmlTab.classList.add('tab_active');
 
-        if(countTabs > 1) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">x</button>';
+        if(countTabs > 0) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
         //document.querySelector('#headerContainerInner').appendChild(htmlTab);//antes
@@ -5136,7 +5145,7 @@ function getRef(trans = null){
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
-        var trans = (trans_input != '') ? trans_input : act_trans;
+        var trans = (trans_inpt != '') ? trans_inpt : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= 768){
