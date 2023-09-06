@@ -1540,6 +1540,78 @@ select  optgroup option {
     white-space: nowrap;
 }
 
+
+
+.colsHeadInner .partDeskInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: stretch;
+}
+.colsHeadInner .partDeskInner button span{
+    font-size: large;
+}
+.colsHeadInner .partDeskInner .centralPart {
+    /* background: #03a9f4; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-evenly;
+    /* width: 100%; */
+    align-items: stretch;
+}
+.colsHeadInner .partDeskInner button.btn_svg {
+    padding: 0;
+    min-width: 30px;
+    opacity: 0.4;
+}
+.colsHeadInner .partDeskInner button.btn_svg:hover{
+    opacity: 1;
+}
+.colsHeadInner .partDeskInner button {
+    background: transparent;
+    border: none;
+}
+.colsHeadInner .partDeskInner button:not(:last-child) {
+    /* border-right: 1px solid #227ac1; */
+}
+
+
+
+
+.wr_desk_trans {
+    /* background: #00BCD4; */
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+.desk_trans {
+    color: #bae0ff;
+    font-family: 'Arial narrow', arial, tahoma;
+    min-width:90px;
+    text-align: right;
+}
+
+.wr_desk_trans .separ_line {
+    width: 1px;
+    background: #56a2c2!important;
+    margin: 0px 10px;
+    display: block;
+    padding: 0;
+    height: 24px;
+}
+.desk_sh_link{
+    min-width:90px;
+    /* background: #00c208; */
+    text-align: left;
+}
+
+
 .partMobInner {
     display: flex;
     flex-direction: row;

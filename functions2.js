@@ -479,50 +479,71 @@ if (estaDentro) {
 }
 */
 
-
-pintRefOnScroll('#col1');//por defecto
+setTimeout(()=>{
+    
+    pintRefOnScroll('#col1');//por defecto
+},100);
 
 function pintRefOnScroll(id_divCol){
 
-    const divContenedor = document.querySelector(id_divCol).querySelector('.colsInner');
+    // const divContenedor = document.querySelector(id_divCol).querySelector('.colsInner');
+    const divContenedor = document.querySelector('#col1 .colsInner');
     let divContenedor_rect = divContenedor.getBoundingClientRect();
-        
-    divContenedor.addEventListener('scroll', function(){
+    console.log(" ANTES de listener --- divContenedor_rect.top: " +divContenedor_rect.top);
+    
+    divContenedor.addEventListener('scroll', function(){        
+
+        let divContenedor_rect = document.querySelector('#col1 .colsInner').getBoundingClientRect();
+        let divContenedor_colsHead_rect = document.querySelector('#col1 .colsHead').getBoundingClientRect();
         // const elementos = divContenedor.querySelectorAll('p');//antes
         const elementos = divContenedor.children;
         let primerElementoVisible = null;
-        const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
+        //const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
+        const mob_sh_link = document.querySelector('#col1 .mob_sh_link');
         let colsAll_length = document.querySelectorAll('.cols').length;
 
         Array.from(elementos).forEach(elemento => {            
             
             const el_rect = elemento.getBoundingClientRect();
 
-            //console.log(" ");
+            console.log(" ");
             //console.log("id_divCol: "+id_divCol);
-            //console.log("divContenedor_rect.top: "+divContenedor_rect.top);
+            console.log("divContenedor_rect.top: "+divContenedor_rect.top);
 
-            //console.log("abajo elemento: ");
-            //console.log("abajo elemento.id: " +elemento.id);
-            //console.log(elemento);
-            //console.log("abajo el_rect: ");
-            //console.log(el_rect);
-            //console.log("el_rect.top: " + el_rect.top);
-            //console.log("el_rect.bottom: " + el_rect.bottom);
-            //console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
-            //console.log("window.innerHeight: " + window.innerHeight);
+            console.log("abajo elemento: ");
+            console.log("abajo elemento.id: " +elemento.id);
+            console.log(elemento);
+            console.log("abajo el_rect: ");
+            console.log(el_rect);
+            console.log("el_rect.top: " + el_rect.top);
+            console.log("el_rect.bottom: " + el_rect.bottom);
+            console.log("divContenedor.clientHeight: " + divContenedor.clientHeight);
+            console.log("window.innerHeight: " + window.innerHeight);
+
+            console.log("--- cond 1: el_rect.top >= 0: " + (el_rect.top >= 0) );
+            console.log("--- cond 2: el_rect.top <= divContenedor_rect.top: " + (el_rect.top <= (divContenedor_rect.top)) );
+            console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
             if(
                 el_rect.top >= 0 && 
-                el_rect.top <= divContenedor_rect.top &&
+                el_rect.top <= (divContenedor_rect.top) &&
                 el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
                 !primerElementoVisible
             ){
                 primerElementoVisible = elemento;
-                //console.log('Si --- primerElementoVisible');
+                console.log('Si --- primerElementoVisible');
             }else{
                 elemento.classList.remove('elementoVisible');
-                //console.log('--- NO --- primerElementoVisible');
+                console.log('--- NO --- primerElementoVisible');
+            }
+
+
+            if(
+                el_rect.top >= 0 &&
+                el_rect.top <= divContenedor_rect.top &&
+                el_rect.bottom >= divContenedor_rect.top                 
+            ){
+                //alert(`element parcialmente está visto. elemento.tagName: ${elemento.tagName} --- elemento.id: ${elemento.id}`);
             }
         });
 
@@ -541,7 +562,8 @@ function pintRefOnScroll(id_divCol){
                 //console.log(primerElementoVisible.querySelector('a').innerHTML);
             }else if(primerElementoVisible.tagName === 'H4' || primerElementoVisible.tagName === 'H2'){
                 //console.log("else if --- primerElementoVisible.tagName: " + primerElementoVisible.tagName);
-                let p_first = document.querySelector(id_divCol).querySelector('.colsInner p');
+                // let p_first = document.querySelector(id_divCol).querySelector('.colsInner p');
+                let p_first = document.querySelector('#col1 .colsInner p');
                 if(colsAll_length > 0){
                     putRefvisibleToHead(p_first.id,0);
                 }    
@@ -701,6 +723,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
             var new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
 
             el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+            el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
         }
     });
 }
@@ -709,51 +732,129 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 function pageUp() {    
     var colsAll = document.querySelectorAll('.colsInner');
     colsAll.forEach(el=>{
+        var el_rect = el.getBoundingClientRect();
         let scrollHeight = el.scrollHeight;
         let clientHeight = el.clientHeight;
+        console.log('el.parentElement.id :'+el.parentElement.id);
+        console.log('scrollHeight: '+scrollHeight);
+        console.log('el.scrollTop: '+el.scrollTop);
+        console.log('clientHeight: '+clientHeight);
       
         // Calcula la cantidad de desplazamiento necesario para una página
         let pageHeight = clientHeight;
       
         // Calcula la nueva posición de desplazamiento
         let newScrollTop = el.scrollTop - pageHeight;
-      
+        console.log('newScrollTop: '+newScrollTop);
+
+        var newScrollTop_toVerse = false;
+        var arr_elps = [];
+
+        el.querySelectorAll('p').forEach(elp=>{
+            let elp_rect = elp.getBoundingClientRect();
+            console.log('elp.id: '+elp.id + ' --- elp_rect.top: '+elp_rect.top +' --- elp_rect.bottom: '+elp_rect.bottom);
+
+            //busco primer elemento que se ve entero en la pantalla para moverme alli
+            if(elp_rect.top > -clientHeight){
+                //console.log(' -------------- el elemento elp.id: '+elp.id + 
+                //' --- elp_rect.top: '+elp_rect.top + 
+                //' --- elp_rect.bottom: '+elp_rect.bottom  
+                //);
+                arr_elps.push(elp);
+            }
+
+
+        });
+        //console.log('arr_elps: ');
+        //console.log(arr_elps);
+        //console.log('arp_elps[0].top: '+arr_elps[0].getBoundingClientRect().top);
+        //console.log('arp_elps[0].bottom: '+arr_elps[0].getBoundingClientRect().bottom);
+
+        if(arr_elps.length > 1){
+            var first_p_rect = arr_elps[0].getBoundingClientRect();
+            newScrollTop_toVerse = newScrollTop + (clientHeight - el_rect.top + first_p_rect.top);
+            console.log('newScrollTop_toVerse: ' + newScrollTop + ' + ('+ clientHeight + ' - '+ el_rect.top + ' + ' +  first_p_rect +') = '+newScrollTop_toVerse);
+        }
+
         // Asegúrate de que no te desplaces más allá del final del contenido
         if(newScrollTop < 0) {
             el.scrollTop = 0;//mover al top
         }
         else if(newScrollTop >= 0) {
-            el.scrollTop = newScrollTop;
+            //el.scrollTop = newScrollTop;//antes
+            if(newScrollTop_toVerse){
+                el.scrollTop = newScrollTop_toVerse;
+                console.log('--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+            }else{
+                el.scrollTop = newScrollTop;
+                console.log('ago newScrollTop: ' + newScrollTop);
+            }
         }
         else{
             // Si ya estás en la parte superior del contenido, no hagas nada
             console.log('Estás en la parte superior del contenido.');
         }
     });
-
-
     //calcElementoVisible('#col1');//no funciona
 }
 
 
 function pageDown() {
-    var colsAll = document.querySelectorAll('.colsInner');
+    var colsAll = document.querySelectorAll('.colsInner');   
     colsAll.forEach(el=>{
+        var el_rect = el.getBoundingClientRect();
         let scrollHeight = el.scrollHeight;
         let clientHeight = el.clientHeight;
-      
+        console.log('el.parentElement.id :'+el.parentElement.id);
+        console.log('scrollHeight: '+scrollHeight);
+        console.log('el.scrollTop: '+el.scrollTop);
+        console.log('clientHeight: '+clientHeight);
+     
         // Calcula la cantidad de desplazamiento necesario para una página
         let pageHeight = clientHeight;
       
         // Calcula la nueva posición de desplazamiento
         let newScrollTop = el.scrollTop + pageHeight;
+        console.log('newScrollTop: '+newScrollTop);
+
+        var newScrollTop_toVerse = false;
+
+        el.querySelectorAll('p').forEach(elp=>{
+            let elp_rect =elp.getBoundingClientRect();
+            console.log('elp.id: '+elp.id + ' --- elp_rect.top: '+elp_rect.top + ' --- elp_rect.bottom: '+elp_rect.bottom);
+
+            //busco qué elp cual top es menos que newScrollTop (920) y su bottom es mas que newScrollTop (920)
+            //primer click on pageDown
+            if(clientHeight == newScrollTop){
+                if(elp_rect.top <= newScrollTop + el_rect.top && elp_rect.bottom > newScrollTop + el_rect.top){
+                    newScrollTop_toVerse = elp_rect.top - el_rect.top;
+                    //console.log('---if------ newScrollTop_toVerse: '+elp_rect.top + ' - '+ el_rect.top +' = '+newScrollTop_toVerse);
+                    //console.log('------ elp.id: '+elp.id)
+                }
+            }else{//segundo y posteriores clicks on pageDown
+                var el_rect_bottom = el.getBoundingClientRect().bottom;
+                if(elp_rect.top <= el_rect_bottom && elp_rect.bottom > el_rect_bottom){
+                    newScrollTop_toVerse = newScrollTop - (el_rect_bottom - elp_rect.top) ;
+                    //console.log('---else------ newScrollTop_toVerse: '+newScrollTop + ' - ('+ el_rect_bottom + ' - '+ elp_rect.top +') = '+newScrollTop_toVerse);
+                    //console.log('------ elp.id: '+elp.id)
+                }
+            }
+        });
+
       
         // Asegúrate de que no te desplaces más allá del final del contenido
         if(newScrollTop > scrollHeight) {
             el.scrollTop = scrollHeight;//mover al bottom
         }
         else if(newScrollTop < scrollHeight) {
-            el.scrollTop = newScrollTop;
+            // el.scrollTop = newScrollTop;//antes
+            if(newScrollTop_toVerse){
+                el.scrollTop = newScrollTop_toVerse;
+                console.log('--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+            }else{
+                el.scrollTop = newScrollTop;
+                console.log('ago newScrollTop: ' + newScrollTop);
+            }
         }
         else{
             // Si ya estás en la parte superior del contenido, no hagas nada
@@ -762,3 +863,19 @@ function pageDown() {
     });
     //calcElementoVisible('#col1');//no funciona
 }
+
+
+/*
+function bbb(n){
+
+    document.querySelectorAll('.colsInner').forEach(el=>{
+        console.log('voy al :nth-child: '+n);
+
+            el.querySelector(`:nth-child(${n})`)
+            //.scrollIntoView();
+            .scrollIntoView({behavior: "smooth",block: "start",inline: "nearest"});
+            console.log('end -- voy al :nth-child: '+n);
+    });
+ return n;
+}
+*/

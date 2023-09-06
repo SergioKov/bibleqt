@@ -494,11 +494,13 @@ header('Content-type: text/html; charset=utf-8');
                             <div class="colsHeadInner">
 
                                 <div class="partDesk">
-                                    <!--
-                                    <span id="ch_dir_l" class="ch_dir f_l" onclick="chapterGo('prev')" title="Previous Chapter"> &lang; </span>
-                                        <span id="ch_dir_r" class="ch_dir f_r" onclick="chapterGo('next')" title="Next Chapter"> &rang; </span>
-                                    -->
-                                    <div class="desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">RST</div>
+
+                                    <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">
+                                        <div class="desk_trans">RST</div>
+                                        <div class="separ_line"></div>
+                                        <div class="desk_sh_link">Gn .1:1</div>
+                                    </div>
+
                                 </div>
 
                                 <div class="partMob">

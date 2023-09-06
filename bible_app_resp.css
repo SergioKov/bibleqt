@@ -57,7 +57,7 @@
     .wr_bcv_uls::-webkit-scrollbar, 
     .colsInner::-webkit-scrollbar 
     {
-        width: 2px;
+        width: 3px;
     }  
 
 }
