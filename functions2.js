@@ -498,10 +498,12 @@ function pintRefOnScroll(id_divCol){
         // const elementos = divContenedor.querySelectorAll('p');//antes
         const elementos = divContenedor.children;
         let primerElementoVisible = null;
+        let prim_elem = null;
         //const mob_sh_link = document.querySelector(id_divCol).querySelector('.mob_sh_link');
         const mob_sh_link = document.querySelector('#col1 .mob_sh_link');
         let colsAll_length = document.querySelectorAll('.cols').length;
 
+        //recorrer elementos de '.colsInner'
         Array.from(elementos).forEach(elemento => {            
             
             const el_rect = elemento.getBoundingClientRect();
@@ -511,8 +513,8 @@ function pintRefOnScroll(id_divCol){
             console.log("divContenedor_rect.top: "+divContenedor_rect.top);
 
             console.log("abajo elemento: ");
-            console.log("abajo elemento.id: " +elemento.id);
             console.log(elemento);
+            console.log("abajo elemento.id: " +elemento.id);
             console.log("abajo el_rect: ");
             console.log(el_rect);
             console.log("el_rect.top: " + el_rect.top);
@@ -524,31 +526,61 @@ function pintRefOnScroll(id_divCol){
             console.log("--- cond 2: el_rect.top <= divContenedor_rect.top: " + (el_rect.top <= (divContenedor_rect.top)) );
             console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
-            if(
-                el_rect.top >= 0 && 
-                el_rect.top <= (divContenedor_rect.top) &&
-                el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
-                !primerElementoVisible
-            ){
-                primerElementoVisible = elemento;
-                console.log('Si --- primerElementoVisible');
-            }else{
-                elemento.classList.remove('elementoVisible');
-                console.log('--- NO --- primerElementoVisible');
+
+            if(window.innerWidth < 768){//mobile
+                //en mobile
+                if(
+                    el_rect.top >= 0 && 
+                    el_rect.top <= divContenedor_rect.top &&
+                    el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
+                    !primerElementoVisible
+                ){
+                    primerElementoVisible = elemento;
+                    console.log('--- MOBILE --- Si --- primerElementoVisible');
+                    console.log(
+                        `--- si --- element parcialmente está visto. 
+                         --- elemento.tagName: ${elemento.tagName} 
+                         --- elemento.id: ${elemento.id}
+                         --- el_rect.top: ${el_rect.top}
+                         --- el_rect.bottom: ${el_rect.bottom}
+                        `);
+                }else{
+                    elemento.classList.remove('elementoVisible');
+                    console.log('--- MOBILE --- NO --- primerElementoVisible');
+                }
+            }else{//desktop
+                //en desktop
+                if(
+                    el_rect.top >= 0 &&
+                    el_rect.top <= divContenedor_rect.top + 1 &&
+                    el_rect.bottom >= divContenedor_rect.top + 1 &&
+                    !primerElementoVisible               
+                ){
+                    primerElementoVisible = elemento;
+                    console.log('--- DESKTOP --- Si --- primerElementoVisible');
+                    console.log(
+                        `--- si --- element parcialmente está visto. 
+                        --- elemento.tagName: ${elemento.tagName} 
+                        --- elemento.id: ${elemento.id}
+                        --- el_rect.top: ${el_rect.top}
+                        --- el_rect.bottom: ${el_rect.bottom}
+                        `);
+                }else{
+                    elemento.classList.remove('elementoVisible');
+                    console.log('--- DESKTOP --- NO --- primerElementoVisible');
+                }
             }
 
 
-            if(
-                el_rect.top >= 0 &&
-                el_rect.top <= divContenedor_rect.top &&
-                el_rect.bottom >= divContenedor_rect.top                 
-            ){
-                //alert(`element parcialmente está visto. elemento.tagName: ${elemento.tagName} --- elemento.id: ${elemento.id}`);
-            }
         });
+        console.log('primerElementoVisible: ');
+        console.log(primerElementoVisible);
 
         if(primerElementoVisible){
             primerElementoVisible.classList.add('elementoVisible');
+            console.log(primerElementoVisible.getBoundingClientRect().top);
+            console.log(primerElementoVisible.getBoundingClientRect().bottom);    
+
             //console.log('añado class elementoVisible');
             //primerElementoVisible.style.background = 'pink';//test
 

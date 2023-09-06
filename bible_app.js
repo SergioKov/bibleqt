@@ -4247,8 +4247,28 @@ function addTrans(){
         htmlTrans.innerHTML =  `<div class="colsHeadInner">
 
                                     <div class="partDesk">
-                                        <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button><!--X-->    
+
+
+
+                                        <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">
+                                        
+                                            <div style="width:20px;">&nbsp;</div>
+
+                                            <div class="desk_trans">RST</div>
+                                            <div class="separ_line"></div>
+                                            <div class="desk_sh_link">Gn .1:1</div>
+                                            
+                                            <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button><!--X-->    
+
+                                        </div>
+
+
+
+
+                                        <!--
+                                        <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button>    
                                         <div class="desk_trans" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">RST</div>
+                                        -->
                                     </div>
 
                                     <div class="partMob">

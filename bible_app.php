@@ -495,10 +495,19 @@ header('Content-type: text/html; charset=utf-8');
 
                                 <div class="partDesk">
 
-                                    <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">
-                                        <div class="desk_trans">RST</div>
-                                        <div class="separ_line"></div>
-                                        <div class="desk_sh_link">Gn .1:1</div>
+                                    <div class="wr_desk_trans">
+
+                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+
+                                        <div class="centralPart" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">
+                                            <div class="desk_trans">RST</div>
+                                            <div class="separ_line"></div>
+                                            <div class="desk_sh_link">Gn .1:1</div>
+                                        </div>
+
+
+                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+
                                     </div>
 
                                 </div>
