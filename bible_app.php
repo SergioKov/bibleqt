@@ -153,7 +153,7 @@ header('Content-type: text/html; charset=utf-8');
                     </div>
 
                     <div id="closeBack" onclick="closeSidebar(this)">
-                        &#10005;<!--X-->
+                        <div>&#10005;</div><!--X-->
                     </div>
 
                 </div>

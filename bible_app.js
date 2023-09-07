@@ -3529,8 +3529,8 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
     Array.from(document.querySelectorAll('.colsInner')[0].children).forEach(el=>{
         if(isInViewport(el)){
-            console.log('element is in ViewPort');
-            console.log(el);
+            //console.log('element is in ViewPort');
+            //console.log(el);
             arr_verseView.push(el.getAttribute('data-verse'));
         }else{
             //console.log('element NO is in ViewPort');

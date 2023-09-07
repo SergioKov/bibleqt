@@ -574,6 +574,7 @@ p a:hover {
     position: relative;
     display: inline-block;
     color:grey;
+    cursor: pointer;
 }
 .tooltiptext .trik{
       display:block;
@@ -1513,20 +1514,25 @@ select  optgroup option {
 }
 #closeBack {
     color: white;
-    float: right;
-    position: relative;
     width: 32px;
     height: 24px;
-    /* background: red; */
-    padding: 0px 0px 6px 6px;
     font-size: 22px;
-    /* margin: 0 5px 0px 0px; */
-    /* position: relative; */
-    /* top: 0px; */
-    /* right: 1px; */
+    margin-right: 2px;
+}
+#closeBack span {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    /* background: red; */
+    margin-top: 0px;
+    color: white;
     transition: 0.3s;
 }
-#closeBack:hover{
+
+#closeBack span:hover{
     background: #5eb4f9;;
 }
 #restoTabs {
