@@ -1954,7 +1954,8 @@ div#bl_headerBtns .dbtn {
     align-content: center;
     text-align: left;
     justify-content: flex-start;
-    transition: 0.3;
+    transition: 0.3s;
+    cursor: pointer;
 }
 .cl_trans:not(:last-child) {
     border-bottom: 1px solid #404040;
@@ -2060,4 +2061,13 @@ span.mob_sh_link {
 }
 .centralPart button {
     padding: 0;
+}
+.sp_plus_trans {
+    /* background: #03A9F4; */
+    font-size: 20px;
+    padding: 0 7px 2px;
+    color: white;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
 }
