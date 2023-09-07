@@ -137,8 +137,8 @@ header('Content-type: text/html; charset=utf-8');
 
                 <div id="menuTabs">
                     
-                    <div id="arrowBack">
-                        <img class="f_l" src="image/arrow_left2_white.svg" onclick="closeSidebar(this)">
+                    <div id="arrowBack" onclick="closeSidebar(this)">
+                        <img class="f_l" src="image/arrow_left2_white.svg">
                     </div>
 
                     <div id="restoTabs" class="f_r">                    
@@ -151,6 +151,11 @@ header('Content-type: text/html; charset=utf-8');
                             <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
                         </div>
                     </div>
+
+                    <div id="closeBack" onclick="closeSidebar(this)">
+                        &#10005;<!--X-->
+                    </div>
+
                 </div>
                     
                 <div id="vklad_nav" style="display: block;">

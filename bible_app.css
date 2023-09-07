@@ -1505,14 +1505,35 @@ select  optgroup option {
 }
 #arrowBack {
     /* float: left; */
-    margin: 3px 10px 0 10px;
+    margin: 4px 10px 0 10px;
     /* background: green; */
     /* width: 13%; */
     cursor: pointer;
     transition: 0.3s;
 }
-#restoTabs{
-    overflow:hidden;
+#closeBack {
+    color: white;
+    float: right;
+    position: relative;
+    width: 32px;
+    height: 24px;
+    /* background: red; */
+    padding: 0px 0px 6px 6px;
+    font-size: 22px;
+    /* margin: 0 5px 0px 0px; */
+    /* position: relative; */
+    /* top: 0px; */
+    /* right: 1px; */
+    transition: 0.3s;
+}
+#closeBack:hover{
+    background: #5eb4f9;;
+}
+#restoTabs {
+    overflow: hidden;
+    margin-right: 5px;
+    /* background: green; */
+    width: 100%;
 }
 .partDeskInner {
     display: flex;
