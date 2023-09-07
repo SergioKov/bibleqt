@@ -4170,16 +4170,13 @@ function mySizeVerse(){
 
 function addMarginTolastP(){
     let colsInnerAll = document.querySelectorAll('.colsInner');
-
     colsInnerAll.forEach(col=>{
         //si es ultimo elemento, añado padding-bottom
         let p_last = col.querySelector('p:last-child');
         
         if(p_last != null){
-        
             let mb_h = col.offsetHeight - p_last.offsetHeight;
-            console.log('mb_h: '+mb_h);
-
+            //console.log('mb_h: '+mb_h);
             /*
             const d = document.createElement('div');
             d.className = 'd_bot';
@@ -4193,7 +4190,6 @@ function addMarginTolastP(){
 
             p_last.style.marginBottom = mb_h /*- d.offsetHeight*/ + 'px';
             //p_last.style.background = 'lightgreen';
-
         }
     });
 }
@@ -4245,30 +4241,21 @@ function addTrans(){
         //                        </div>`;
 
         htmlTrans.innerHTML =  `<div class="colsHeadInner">
-
+                                    
                                     <div class="partDesk">
-
-
 
                                         <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">
                                         
-                                            <div style="width:20px;">&nbsp;</div>
-
-                                            <div class="desk_trans">RST</div>
-                                            <div class="separ_line"></div>
-                                            <div class="desk_sh_link">Gn .1:1</div>
-                                            
+                                            <div class="vstavka_left">&nbsp;</div>
+                                            <div class="centralPart">
+                                                <div class="desk_trans">RST</div>
+                                                <div class="separ_line"></div>
+                                                <div class="desk_sh_link">Gn. 1:1</div>
+                                            </div>
                                             <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button><!--X-->    
 
                                         </div>
-
-
-
-
-                                        <!--
-                                        <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button>    
-                                        <div class="desk_trans" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">RST</div>
-                                        -->
+                                    
                                     </div>
 
                                     <div class="partMob">
@@ -4349,12 +4336,8 @@ function removeTrans(){
 }
 
 function closeTrans(el,event, param = null){
-    if(param == 'mob'){//mobile
-        var n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);
-    }else{//desktop
-        var n = el.parentElement.parentElement.parentElement.id.slice(-1);
-    }
-    console.log(n);
+    var n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);
+    //console.log(n);
     event.stopPropagation();
     
     document.querySelector('#col'+n).remove();
@@ -4378,7 +4361,7 @@ function addTab(bibShortRef = null, act = null){
     });
     //console.log(arr_n);
 
-    for (let i = 1; i <= maxTabs; i++) {
+    for(let i = 1; i <= maxTabs; i++){
         if(!arr_n.includes(i)){
             var next_n = i;
             break;
@@ -4386,13 +4369,14 @@ function addTab(bibShortRef = null, act = null){
     }
 
     if(countTabs < maxTabs){
-        const spanBibShortRef = document.createElement("span");
-        spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
-
         const htmlTab = document.createElement("div");
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
         if(act != null) htmlTab.classList.add('tab_active');
+
+        const spanBibShortRef = document.createElement("span");
+        spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
+        spanBibShortRef.title = 'Ejemplo: RST';
 
         if(countTabs > 0) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);

@@ -265,7 +265,8 @@ body {
     color: #bae0ff;
 }
 .colsHeadInner{
-    margin: 5px;  
+    /* margin: 5px;   */
+    margin: 0px;  
 }
 .colsInner {
     word-break: break-word;
@@ -367,12 +368,16 @@ button{
     color: #ffffff;
 }
 .btn_xsm {
-    min-width: 20px!important;
+    min-width: 29px!important;
     background: none;
     border: none;
-    font-size: 15px;
-    padding: 1px;
-    opacity:0.4;
+    font-size: 18px;
+    padding-left: 6px;
+    opacity: 0.4;
+    /* background: red; */
+    border-radius: 0;
+    height: 29px;
+    overflow: hidden;
 }
 .btn_xsm:hover {
     background: #03a9f4;
@@ -960,8 +965,8 @@ li.active {
     transition: 0.2s;
 }
 .cols .colsHead:hover {
-    background: #2f88cf!important;
-    cursor:pointer;
+    /* background: #2f88cf!important; */
+    /* cursor:pointer; */
 }
 .wr_lang {
     /* text-align: center!important; */
@@ -1567,14 +1572,15 @@ select  optgroup option {
 
 
 .wr_desk_trans {
-    /* background: #00BCD4; */
+    /* background: #FF9800; */
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
     align-content: center;
     justify-content: space-between;
-    /* align-items: center; */
-    align-items: stretch;
+    align-items: center;
+    cursor: default;
+    transition: 0.2s;
 }
 .desk_trans {
     color: #bae0ff;
@@ -1586,9 +1592,14 @@ select  optgroup option {
     padding-left: 20px;
 }
 .wr_desk_trans button.btn_svg {
-    padding: 0;
-    min-width: 30px;
-    opacity: 0.4;
+    padding: 2px 0 0;
+    min-width: 29px;
+    opacity: 0.6;
+    border-radius: 0px;
+    transition: 0.2s;
+}
+.wr_desk_trans button.btn_svg:hover{
+    opacity: 1;
 }
 .wr_desk_trans button {
     background: transparent;
@@ -1603,6 +1614,16 @@ select  optgroup option {
     justify-content: space-evenly;
     /* width: 100%; */
     align-items: stretch;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.wr_desk_trans:hover {
+    background: #2f88cf!important;
+}
+.vstavka_left {
+    /* background: red; */
+    width: 29px;
+    height: 29px;
 }
 
 .wr_desk_trans .separ_line {
@@ -1965,18 +1986,28 @@ p.cl_trans:hover {
     color:white;
 }
 #btn_pageUp {
-    top: 142px;
+    top: 140px;
     transform: rotate(180deg);
+}
+#btn_pageUp img {
+    position: relative;
+    top: 2px;
+    left: -1px;
+}
+#btn_pageDown img {
+    position: relative;
+    top: 2px;
+    left: 1px;
 }
 #btn_pageDown {
     bottom: 50px;
 }
 #btn_pageUp, #btn_pageDown {
-    opacity: 0.2;
+    opacity: 0.1;
     transition: 0.3s;
     position: fixed;
-    height: 36px;
-    width: 36px;
+    height: 35px;
+    width: 35px;
     right: 10px;
     border: 1px solid #0761a8;
     background: #1875bf;

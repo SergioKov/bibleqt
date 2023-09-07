@@ -20,6 +20,9 @@
     .sideShow {
         position: inherit;
     }
+    #btn_pageDown img {
+        left: 0px;
+    }
 
 
 }
@@ -94,7 +97,7 @@
         width: 50px;
     }
     #btn_pageUp {
-        top: 50px;
+        top: 44px;
     }
     #btn_pageDown {
         bottom: 10px;    
@@ -110,6 +113,9 @@
     .colsInner::-webkit-scrollbar 
     {
         width: 0px;
+    }
+    .colsHeadInner {
+        margin: 2px;
     }  
 }
 /* end mobilka */

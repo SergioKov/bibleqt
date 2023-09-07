@@ -502,7 +502,7 @@ header('Content-type: text/html; charset=utf-8');
                                         <div class="centralPart" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">
                                             <div class="desk_trans">RST</div>
                                             <div class="separ_line"></div>
-                                            <div class="desk_sh_link">Gn .1:1</div>
+                                            <div class="desk_sh_link">Gn. 1:1</div>
                                         </div>
 
 
