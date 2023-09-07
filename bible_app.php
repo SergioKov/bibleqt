@@ -466,7 +466,7 @@ header('Content-type: text/html; charset=utf-8');
                                     </button>
                                     <div class="separ_line"></div>
                                     <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
-                                        <span>Rom.10:17</span>
+                                        <span>Быт. 1:1</span>
                                     </button>
                                 </div>
                                 
@@ -524,7 +524,7 @@ header('Content-type: text/html; charset=utf-8');
                                             </button>
                                             <div class="separ_line"></div>
                                             <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
-                                                <span class="mob_sh_link">Rom.10:17</span>
+                                                <span class="mob_sh_link">Быт. 1:1</span>
                                             </button>
                                         </div>
                                         

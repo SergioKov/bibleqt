@@ -4,7 +4,7 @@
 //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
 //convertir links de Español a Ruso //antes checkLink()
 function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
-    console.log('Convierto Psalmo 119:63 en Псалом 118:63 para menu u otras cosas.');
+    //console.log('Convierto Psalmo 119:63 en Псалом 118:63 para menu u otras cosas.');
 
     var book = parseInt(book);
     var chapter = (chapter != null) ? parseInt(chapter) : null;
@@ -348,6 +348,10 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
     let div_strong_head = document.querySelector('#strong_head');
     let div_strong_body = document.querySelector('#strong_body');
     var numberInt, numberStrShow, strongFile;
+
+    if(window.innerWidth < 768){//si es mobile
+        openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+    }
 
     //H7225 or G6225
     if(numberStr.includes('H') || numberStr.includes('G')){
@@ -1480,8 +1484,8 @@ function findWords(words_input){
                                             if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                                 p.querySelectorAll('.strongActive').forEach((el)=>{
                                                     el.addEventListener('click', ()=>{
-                                                        console.log('2. book: '+book);
-                                                        console.log('2. el.innerHTML: '+el.innerHTML);
+                                                        //console.log('2. book: '+book);
+                                                        //console.log('2. el.innerHTML: '+el.innerHTML);
                                                         if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                             getStrongNumber(el.innerHTML);
                                                         }else{//rstStrong
