@@ -114,7 +114,7 @@
     .wr_bcv_uls::-webkit-scrollbar, 
     .colsInner::-webkit-scrollbar 
     {
-        width: 0px;
+        width: 2px;
     }
     .colsHeadInner {
         margin: 2px;

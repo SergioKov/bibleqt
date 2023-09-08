@@ -2848,8 +2848,26 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         arr_data_head = [];
                         arr_data_body = [];
                         arr_data_all = [];
-
                         
+
+                        //lo dejo para luego...
+                        if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
+                            console.log('voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
+                            
+                            setTimeout(()=>{
+                                console.log(' setTimeout: ');
+                                
+                                let colsAll = document.querySelectorAll('.colsInner');
+                                colsAll.forEach(col=>{
+                                    col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});
+                                });
+
+                            },3000);
+                            window.go_to_utl_verse = false;
+
+                        }
+
+
                         window.iter_i++;
                         if(window.iter_i < window.arr_trans.length){
                             //console.log('iter_i: '+iter_i);
@@ -2976,9 +2994,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         //alert(' no vacio');
                     }
                 });
-            }
-
-            
+            }            
         });
 
     }//end --- typeof Translation
