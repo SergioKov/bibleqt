@@ -30,37 +30,6 @@ header('Content-type: text/html; charset=utf-8');
         <div id="headerMain">
             <div id="headerMainInner" class="headerFlex">               
                 
-                
-                <div style="display:none;">
-                    <button class="btn f_l" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">H / S</button>
-
-                    <button class="btn f_l ml" title="Remove Bible Translation" onclick="removeTrans()">Tr -</button>
-                    <button class="btn f_l" title="Add Bible Translation" onclick="addTrans()">Tr +</button>
-
-                    <button class="btn f_l ml" title="Quitar Pestaña" onclick="removeTab()">Vk -</button>
-                    <button class="btn f_l" title="Añadir Pestaña" onclick="addTab()">Vk +</button>
-
-                    <button class="btn f_l ml" title="History previous register" onclick="prevHist()">&lang; H</button>
-                    <button class="btn f_l" title="History next register" onclick="nextHist()">H &rang;</button>
-
-                    <button class="btn f_l ml" title="Previous book" onclick="bookGo('prev')">&#9668;</button>
-                    <button class="btn f_l" title="Next book" onclick="bookGo('next')">&#9658;</button>
-
-                    <button class="btn f_l ml" title="Previous chapter" onclick="chapterGo('prev')">&lang;</button>
-                    <button class="btn f_l" title="Next chapter" onclick="chapterGo('next')">&rang;</button>
-                    
-                    <button class="btn f_l ml" title="Change position: Columns or Rows" onclick="changePositionShow(this)">Row</button>
-
-                    <button id="btnStrong" class="btn f_l ml" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">S#</button>
-
-                    <button class="btn f_r" title="Settings" style="display:none;">Set</button>
-
-                    <button class="btn" title="menu modal. ajustes de la app" onclick="openModal('modalTop')" >
-                        <img src="image/tres_puntos2_white.svg" style="height: 20px;">
-                    </button>
-            
-                </div>
-
                 <div id="bl_headerBtns">
 
                     <div class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">
@@ -88,10 +57,10 @@ header('Content-type: text/html; charset=utf-8');
                         <img src="image/arrow_forward_white.svg">
                     </div>
 
-                    <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+                    <div id="btn_chapterGoPrev" class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
                         <img src="image/arrow_chevron_left_white.svg">                            
                     </div>
-                    <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+                    <div id="btn_chapterGoNext" class="dbtn" title="Next chapter" onclick="chapterGo('next')">
                         <img src="image/arrow_chevron_right_white.svg">
                     </div>
 
@@ -105,7 +74,7 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
                         <div>Row</div>
                     </div>
-                    <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                    <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
                     </div>
 

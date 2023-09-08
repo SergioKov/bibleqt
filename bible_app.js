@@ -953,6 +953,7 @@ function setBaseEnglishPsalms(){
         });
 }
 
+/*
 function showChapterText2(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
     let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
     let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
@@ -1317,6 +1318,7 @@ function showChapterText2(Translation, divId, book, chapter, verseNumber = null,
             });
         });
 }
+*/
 
 function getTsk(e){
     var div_tsk_head = document.querySelector('#tsk_head');
@@ -1829,8 +1831,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         arr_data_head.push(h2);
                         //console.log(h2);
 
-                        //divShow.append(h2); 
-
                         if(bq.HTMLFilter == 'Y'){
                             h2.innerHTML = htmlEntities(h2.innerHTML)
                         }
@@ -1992,9 +1992,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
                                     arr_data_body.push(p);
                                     //console.log(p);
-                                    
-                                    //добавляю стих в див
-                                    //divShow.append(p);
                                 }
 
 
@@ -2053,9 +2050,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
                                     arr_data_body.push(p);
                                     //console.log(p);
-                                    
-                                    //добавляю стих в див
-                                    //divShow.append(p);
                                 }
 
 
@@ -2084,9 +2078,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     arr_data_body.push(p);
                                     //console.log(p);
 
-                                    //добавляю стих в див
-                                    //divShow.append(p);
-
                                     if(bq.HTMLFilter == 'Y'){
                                         p.innerHTML = htmlEntities(p.innerHTML);
                                     }
@@ -2101,16 +2092,10 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     arr_data_body.push(p);
                                     //console.log(p);
                                     
-                                    //добавляю стих в див
-                                    //divShow.append(p);
-
                                     if(bq.HTMLFilter == 'Y'){
                                         p.innerHTML = htmlEntities(p.innerHTML);
                                     }
-                                }
-                                
-                                //добавляю стих в див                                                
-                                //divShow.append(p);        
+                                }        
                                 
                             }
             
@@ -2851,6 +2836,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         
 
                         //lo dejo para luego...
+                        /*
                         if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
                             console.log('voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
                             
@@ -2859,13 +2845,17 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                 
                                 let colsAll = document.querySelectorAll('.colsInner');
                                 colsAll.forEach(col=>{
-                                    col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});
+                                    let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
+                                    console.log('p_last_top: '+p_last_top);
+                                    col.scrollTop = p_last_top;
+
                                 });
 
-                            },3000);
+                            },1000);
                             window.go_to_utl_verse = false;
 
                         }
+                        */
 
 
                         window.iter_i++;

@@ -672,8 +672,9 @@ function pageUp() {
             if(newScrollTop < 0 && newScrollTop == -el.clientHeight){//if( newScrollTop: -926 y newScrollTop: -926 = -clientHeight: -926)
                 console.log(`1.b me muevo al cpítulo anterior. y al ultimo versículo.`);
                 console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
-                chapterGo('prev');
-                window.go_to_utl_verse = true;
+                //chapterGo('prev');//da error
+                //document.querySelector('#btn_chapterGoPrev').click();//simulo click sobre boton (div) '>'//no funciona
+                //window.go_to_utl_verse = true;
             }
         }
         else if(newScrollTop >= 0) {
@@ -754,7 +755,8 @@ function pageDown() {
         else{
             // Si ya estás en la parte superior del contenido, no hagas nada
             console.log('4. Estoy en la parte de abajo del contenido. voy al siguiente capítulo.');
-            chapterGo('next');
+            //chapterGo('next');//da error
+            //document.querySelector('#btn_chapterGoNext').click();//simulo click sobre boton (div) '<' //no funciona
         }
     });
 }
