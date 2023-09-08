@@ -1804,6 +1804,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                 .then((bookModule) => {
                     
                     //console.log(bookModule);
+                    divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
                     var nb = bookModule.split('<h4>');//делю файл на главы
                     //console.log(nb);
@@ -2836,26 +2837,60 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         
 
                         //lo dejo para luego...
-                        /*
+                        
                         if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
                             console.log('voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
                             
-                            setTimeout(()=>{
-                                console.log(' setTimeout: ');
+                            var colsAll = document.querySelectorAll('.colsInner');
+                            let start_delay = 300;//carga de un module aprox...
+                            let delay;
+                            switch (colsAll.length) {
+                                case 1:
+                                    delay = start_delay * 1;
+                                    break;
+                                case 2:
+                                    delay = start_delay * 2;
+                                    break;
+                                case 3:
+                                    delay = start_delay * 3;
+                                    break;
+                                case 4:
+                                    delay = start_delay * 4;
+                                    break;
+                                case 5:
+                                    delay = start_delay * 5;
+                                    break;
+                                case 6:
+                                    delay = start_delay * 6 + 250;
+                                    break;
+                                case 7:
+                                    delay = start_delay * 7 + 500;
+                                    break;
+                                case 8:
+                                    delay = start_delay * 8 + 1000;
+                                    break;
                                 
-                                let colsAll = document.querySelectorAll('.colsInner');
+                                default:
+                                    delay = 1000;
+                                    break;
+                            }
+                            
+                            setTimeout(()=>{
+                                console.log(' setTimeout: ');                                
+                                console.log(' start_delay: '+start_delay);                                
+                                console.log(' delay: '+delay);                                
+                                
                                 colsAll.forEach(col=>{
                                     let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
                                     console.log('p_last_top: '+p_last_top);
                                     col.scrollTop = p_last_top;
-
+                                    //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
                                 });
 
-                            },1000);
+                            },delay);
                             window.go_to_utl_verse = false;
-
                         }
-                        */
+                        
 
 
                         window.iter_i++;
