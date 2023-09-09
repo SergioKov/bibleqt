@@ -2836,8 +2836,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         arr_data_all = [];
                         
 
-                        //lo dejo para luego...
-                        
+                        //если это последняя колонка, то в цикле перехожу к последнему параграфу...
                         if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
                             console.log('voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
                             
