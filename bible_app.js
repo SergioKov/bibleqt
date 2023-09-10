@@ -5885,12 +5885,10 @@ function addListenerModule(){
     });
 }
 
-function prevHist(){
-    console.log('prevHist() clicked');
-}
 
-function nextHist(){
-    console.log('nextHist() clicked');
+
+function hist(param){
+    console.log('funcion en desarrollo. param: '+param);
 }
 
 

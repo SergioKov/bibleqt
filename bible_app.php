@@ -64,10 +64,10 @@ header('Content-type: text/html; charset=utf-8');
                         <img src="image/arrow_chevron_right_white.svg">
                     </div>
 
-                    <div class="dbtn" title="History previous register" onclick="prevHist()">
+                    <div class="dbtn" title="History previous register. function in development..." onclick="hist('prev')">
                         <div>< H</div>
                     </div>
-                    <div class="dbtn" title="History next register" onclick="nextHist()">
+                    <div class="dbtn" title="History next register. function in development..." onclick="hist('next')">
                         <div>H ></div>
                     </div>                        
 
