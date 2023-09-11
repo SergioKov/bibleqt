@@ -774,3 +774,31 @@ function bbb(n){
  return n;
 }
 */
+
+
+
+async function obtenerDatosDeAPI() {
+    try {
+      // Realiza una solicitud GET a una API
+      const respuesta = await fetch('http://localhost/bibleqt/modules/text/rv60/01_genesis.htm');
+      
+      // Verifica si la solicitud fue exitosa
+      if (!respuesta.ok) {
+        throw new Error('Error al obtener datos de la API');
+      }
+      
+      // Convierte la respuesta a formato JSON
+      const datos = await respuesta.text();
+  
+      // Haz algo con los datos, por ejemplo, imprímelos en la consola
+      console.log(datos);
+  
+      // Puedes realizar más acciones aquí con los datos obtenidos
+  
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  // Llama a la función para obtener los datos
+  //obtenerDatosDeAPI();
