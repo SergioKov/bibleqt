@@ -1605,7 +1605,8 @@ select  optgroup option {
     flex-direction: row;
     align-content: center;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
+    align-items: stretch;
     cursor: default;
     transition: 0.2s;
 }
@@ -1640,7 +1641,8 @@ select  optgroup option {
     align-content: center;
     justify-content: space-evenly;
     /* width: 100%; */
-    align-items: stretch;
+    /* align-items: stretch; */
+    align-items: center;
     cursor: pointer;
     transition: 0.2s;
 }
