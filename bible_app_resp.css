@@ -134,23 +134,38 @@
     #v_book .v_li{
         width: 25%;
     }
+    .partMob .mob_trans, .partMob .mob_sh_link{
+        min-width: inherit; 
+    }
+
 }
 /* mobilka M */
 @media screen and (min-width: 321px) and (max-width: 375px) {
     #v_book .v_li{
         width: 20%;
     }
+    .partMob .mob_trans, .partMob .mob_sh_link{
+        min-width: 70px; 
+    }
+
 }
 /* mobilka L */
 @media screen and (min-width: 376px) and (max-width: 425px) {
     #v_book .v_li{
         width: 20%;
     }
+    .partMob .mob_trans, .partMob .mob_sh_link{
+        min-width: 90px; 
+    }
+
 }
 /* mobilka XL */
 @media screen and (min-width: 426px) and (max-width: 767px) {
     #v_book .v_li{
         width: 16.66%;
+    }
+    .partMob .mob_trans, .partMob .mob_sh_link{
+        min-width: 120px; 
     }
 }
 
