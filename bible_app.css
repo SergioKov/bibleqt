@@ -1613,11 +1613,13 @@ select  optgroup option {
 .desk_trans {
     color: #bae0ff;
     font-family: 'Arial narrow', arial, tahoma;
-    min-width:90px;
     text-align: right;
 }
 .desk_trans:not(:first-child) {
     padding-left: 20px;
+}
+.mw-90{
+    min-width:90px;
 }
 .wr_desk_trans button.btn_svg {
     padding: 2px 0 0;
@@ -1664,7 +1666,6 @@ select  optgroup option {
     height: 24px;
 }
 .desk_sh_link{
-    min-width:90px;
     /* background: #00c208; */
     text-align: left;
 }

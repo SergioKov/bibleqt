@@ -1,13 +1,11 @@
 window.addEventListener('load',function(d){
     //console.log('load - window.innerWidth: '+window.innerWidth);
     mySizeWindow();
-    //mySizeVerse();
 });
 
 window.addEventListener('resize',function(d){
     //console.log('resize - window.innerWidth: '+window.innerWidth);
     mySizeWindow();
-    //mySizeVerse();
 });  
 
 document.querySelector("#myNav").addEventListener('click', function(e){

@@ -112,7 +112,7 @@ function obtenerTamanioObjeto(objeto) {
 
 function mostrarTamanioObjeto(objeto){
     const tamanio = obtenerTamanioObjeto(objeto);
-    console.log(`El tamaño del objeto es: ${tamanio} bytes.`);
+    //console.log(`El tamaño del objeto es: ${tamanio} bytes.`);
 }
 
 
@@ -1233,7 +1233,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
             }
             
             //si el id de book está entre numero de books del modulo, lo muestro
-            if(book < bq.BookQty){//0-65 < 66
+            if(parseInt(book) < bq.BookQty){//0-65 < 66
                 
                 //url del libro necesario
                 url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
@@ -2274,62 +2274,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         arr_data_body = [];
                         arr_data_all = [];
                         
-                        //text3
-                        //если это последняя колонка, то в цикле перехожу к последнему параграфу...
-                        if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
-                            console.log('text3 --- voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
-                            
-                            var colsAll = document.querySelectorAll('.colsInner');
-                            let start_delay = 300;//carga de un module aprox...
-                            let delay;
-                            switch (colsAll.length) {
-                                case 1:
-                                    delay = start_delay * 1;
-                                    break;
-                                case 2:
-                                    delay = start_delay * 2;
-                                    break;
-                                case 3:
-                                    delay = start_delay * 3;
-                                    break;
-                                case 4:
-                                    delay = start_delay * 4;
-                                    break;
-                                case 5:
-                                    delay = start_delay * 5;
-                                    break;
-                                case 6:
-                                    delay = start_delay * 6 + 250;
-                                    break;
-                                case 7:
-                                    delay = start_delay * 7 + 500;
-                                    break;
-                                case 8:
-                                    delay = start_delay * 8 + 1000;
-                                    break;
-                                
-                                default:
-                                    delay = 1000;
-                                    break;
-                            }
-                            
-                            setTimeout(()=>{
-                                console.log(' setTimeout: ');                                
-                                console.log(' start_delay: '+start_delay);                                
-                                console.log(' delay: '+delay);                                
-                                
-                                colsAll.forEach(col=>{
-                                    let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                    console.log('p_last_top: '+p_last_top);
-                                    col.scrollTop = p_last_top;
-                                    //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                });
-
-                            },delay);
-                            window.go_to_utl_verse = false;
-                        }
-                        
-
 
                         window.iter_i++;
                         if(window.iter_i < window.arr_trans.length){
@@ -2451,7 +2395,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                     if(el.childElementCount == 0 || el.textContent == ''){
                         var p = document.createElement('p');
                         p.className = 'prim';
-                        p.innerHTML = `En este módulo no existe el libro indicado.`;
+                        p.innerHTML = `1. En este módulo no existe el libro indicado.`;
                         el.append(p);
                         //alert(' vacio');
                     }else{
@@ -2499,15 +2443,14 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
-            console.log('objTrans está creado. abajo objTrans: ');
-            console.log(objTrans);
+            //console.log('objTrans está creado. abajo objTrans: ');
+            //console.log(objTrans);
 
 
             //saco ajustes de este modulo en json               
             var bq = objTrans;
-            
-            console.log(' abajo bq:');
-            console.log(bq);
+            //console.log(' abajo bq:');
+            //console.log(bq);
 
             //window.bq = bq;
             if(divTrans != null){
@@ -2517,7 +2460,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             }
             
             //si el id de book está entre numero de books del modulo, lo muestro
-            if(book < bq.BookQty){//0-65 < 66
+            if(parseInt(book) < bq.BookQty){//0-65 < 66
                 
                 //url del libro necesario
                 url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
@@ -2534,11 +2477,11 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         if(typeof obj_o[Translation].Books[book] != 'undefined'){
 
                             if(obj_o[Translation].Books[book].fileName == bq.Books[book].PathName && obj_o[Translation].Books[book].fileContent != ''){
-                                console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
+                                //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                 
                                 // Registra el tiempo de inicio
                                 const tiempoInicio = new Date().getTime();
-                                console.log('obj_o --- tiempoInicio: '+tiempoInicio);
+                                //console.log('obj_o --- tiempoInicio: '+tiempoInicio);
 
                                 var myPromise = new Promise(function(resolve, reject){
                                     resolve('ok');
@@ -2599,11 +2542,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             
                                         if(divId == '#col1'){
                                             window.col1_p_length = only_verses_length;
-                                            //console.log('only_ col1_p_length: '+window.col1_p_length);
-                                        }else{
-                                            //console.log('no es col1. only_ col1_p_length: '+window.col1_p_length);
-                                        }
-            
+                                        }           
             
             
                                         //Chapter, Verse
@@ -3584,160 +3523,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                         arr_data_body = [];
                                         arr_data_all = [];
                                         
-                                        
-                                        //если это последняя колонка, то в цикле перехожу к последнему параграфу...
-                                        if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
-                                            console.log('--- myPromise --- voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
-                                            
-                                            var colsAll = document.querySelectorAll('.colsInner');
-                                            let start_delay = 300;//carga de un module aprox...
-                                            let delay;
-                                            switch (colsAll.length) {
-                                                case 1:
-                                                    delay = start_delay * 1;
-                                                    break;
-                                                case 2:
-                                                    delay = start_delay * 2;
-                                                    break;
-                                                case 3:
-                                                    delay = start_delay * 3;
-                                                    break;
-                                                case 4:
-                                                    delay = start_delay * 4;
-                                                    break;
-                                                case 5:
-                                                    delay = start_delay * 5;
-                                                    break;
-                                                case 6:
-                                                    delay = start_delay * 6 + 250;
-                                                    break;
-                                                case 7:
-                                                    delay = start_delay * 7 + 500;
-                                                    break;
-                                                case 8:
-                                                    delay = start_delay * 8 + 1000;
-                                                    break;
-                                                
-                                                default:
-                                                    delay = 1000;
-                                                    break;
-                                            }
-                                            
-                                            setTimeout(()=>{
-                                                console.log(' setTimeout: ');                                
-                                                console.log(' start_delay: '+start_delay);                                
-                                                console.log(' delay: '+delay);                                
-                                                
-                                                colsAll.forEach(col=>{
-                                                    let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                                    console.log('p_last_top: '+p_last_top);
-                                                    col.scrollTop = p_last_top;
-                                                    //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                                });
-            
-                                            },delay);
-                                            window.go_to_utl_verse = false;
-                                        }
-                                        
-
-                                        /*
-                                        //test
-                                        if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
-                                            console.log(' test --- hay obj_o --- 2. voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
-                                            
-                                            var colsAll = document.querySelectorAll('.colsInner');
-                                            let start_delay = 900;//carga de un module aprox...
-                                            let delay;
-                                            switch (colsAll.length) {
-                                                case 1:
-                                                    delay = start_delay * 1;
-                                                    break;
-                                                case 2:
-                                                    delay = start_delay * 2;
-                                                    break;
-                                                case 3:
-                                                    delay = start_delay * 3;
-                                                    break;
-                                                case 4:
-                                                    delay = start_delay * 4;
-                                                    break;
-                                                case 5:
-                                                    delay = start_delay * 5;
-                                                    break;
-                                                case 6:
-                                                    delay = start_delay * 6 + 250;
-                                                    break;
-                                                case 7:
-                                                    delay = start_delay * 7 + 500;
-                                                    break;
-                                                case 8:
-                                                    delay = start_delay * 8 + 1000;
-                                                    break;
-                                                
-                                                default:
-                                                    delay = 1000;
-                                                    break;
-                                            }
-    
-                                            const myInterval = setInterval(()=>{
-                                                buscarP_last(window.iter_i);
-                                            }, 100);
-    
-                                            function buscarP_last(win_iter_i){
-                                                const fechaActual = new Date();
-                                                const hora = fechaActual.getHours().toString().padStart(2, '0');
-                                                const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
-                                                const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
-                                                const milliSegundos = fechaActual.getMilliseconds().toString().padStart(2, '0');
-                                                console.log(`hora actual: ${hora}:${minutos}:${segundos}:${milliSegundos}`);
-                                            
-                                                let ult_col_p_last = document.querySelectorAll('.colsInner p:last-child')[win_iter_i - 1];
-                                            
-                                                if(ult_col_p_last.getAttribute('style').includes('margin-bottom') && parseInt(ult_col_p_last.style.marginBottom) > 0 ){
-                                                    console.log('p:last-child incluye margin-bottom: ' + ult_col_p_last.style.marginBottom);
-                                                    console.log('hago clearInterval()');
-                                                    clearInterval(myInterval);
-                                            
-                                                    var colsAll = document.querySelectorAll('.colsInner'); 
-                                                    let arr_top_h = [];                                               
-                                                    colsAll.forEach(col=>{
-                                                        let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                                        console.log('p_last_top: '+p_last_top);
-                                                        col.scrollTop = p_last_top;
-                                                        arr_top_h.push(p_last_top);
-                                                        //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                                    });
-                                                    
-                                                    //const max_top_h = Math.max(...arr_top_h);
-                                                    //colsAll.forEach((el,i)=>{
-                                                    //        console.log('al ultimo col pongo scrollTop máximo. max_top_h: '+max_top_h);
-                                                    //        el.scrollTop = max_top_h;
-                                                    });
-                                                    
-                                            
-                                                }else{
-                                                    console.log('p:last-child NO incluye margin-bottom. sigo adelante... ');
-                                                }
-                                            }
-                                            
-    
-    
-                                            //setTimeout(()=>{
-                                            //    console.log(' setTimeout: ');                                
-                                            //    console.log(' start_delay: '+start_delay);                                
-                                            //    console.log(' delay: '+delay);                                
-                                            //    colsAll.forEach(col=>{
-                                            //        let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                            //        console.log('p_last_top: '+p_last_top);
-                                            //        col.scrollTop = p_last_top;
-                                            //        //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                            //    });
-                                            //},delay);
-                                            window.go_to_utl_verse = false;
-                                        }
-                                        */
-    
-            
             
                                         window.iter_i++;
                                         if(window.iter_i < window.arr_trans.length){
@@ -3853,20 +3638,16 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                     mySizeVerse();
                                     addListenerToPA();//listen links p > a
 
-                                    console.log('compruebo si llega window.iter_i: '+window.iter_i);
-                                    //если это последняя колонка, то в цикле перехожу к последнему параграфу...                                 
-
-
-                                    console.log(`--- --- ending myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
-
-
+                                    //console.log('compruebo si llega window.iter_i: '+window.iter_i);
+                                    //если это последняя колонка, то в цикле перехожу к последнему параграфу... 
+                                    //console.log(`--- --- ending myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                     // Registra el tiempo de finalización
-                                    const tiempoFin = new Date().getTime();
+                                    //const tiempoFin = new Date().getTime();
                                     // Calcula el tiempo de ejecución en milisegundos
-                                    const tiempoEjecucion = (tiempoFin - tiempoInicio) / 1000;//
+                                    //const tiempoEjecucion = (tiempoFin - tiempoInicio) / 1000;//
                                     //console.log('obj_o --- tiempoFin: '+tiempoFin);
-                                    console.log('obj_o --- tiempoEjecucion: '+tiempoEjecucion+' sec.');
-                                    mostrarTamanioObjeto(obj_o);
+                                    //console.log('obj_o --- tiempoEjecucion: '+tiempoEjecucion+' sec.');
+                                    //mostrarTamanioObjeto(obj_o);
 
                                 })
                                 .catch((error) => {
@@ -3879,8 +3660,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             }
 
                         }else{
-                            //no esxiste obj_o book
-                            console.log('no esxiste obj_o book');
+                            //console.log('no esxiste obj_o book');
                         }
                     }
                 }
@@ -3890,7 +3670,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                     //start de tiempo para calcular cuanto tarda
                     const tiempoInicioFetch = new Date().getTime();
-                    console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
 
                     //url del libro necesario
                     url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
@@ -3900,8 +3680,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     .then((bookModule) => {
 
                         obj_o[Translation].Books[book] = {'fileName': bq.Books[book].PathName, 'fileContent': bookModule};
-                        console.log('abajo obj_o:');
-                        console.log(obj_o);
+                        //console.log('abajo obj_o:');
+                        //console.log(obj_o);
 
                         
                         //console.log(bookModule);
@@ -4937,63 +4717,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             arr_data_all = [];
                             
 
-                            
-                            //если это последняя колонка, то в цикле перехожу к последнему параграфу...
-                            if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
-                                console.log('--- text4 --- fetch() --- voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
-                                
-                                var colsAll = document.querySelectorAll('.colsInner');
-                                let start_delay = 300;//carga de un module aprox...
-                                let delay;
-                                switch (colsAll.length) {
-                                    case 1:
-                                        delay = start_delay * 1;
-                                        break;
-                                    case 2:
-                                        delay = start_delay * 2;
-                                        break;
-                                    case 3:
-                                        delay = start_delay * 3;
-                                        break;
-                                    case 4:
-                                        delay = start_delay * 4;
-                                        break;
-                                    case 5:
-                                        delay = start_delay * 5;
-                                        break;
-                                    case 6:
-                                        delay = start_delay * 6 + 250;
-                                        break;
-                                    case 7:
-                                        delay = start_delay * 7 + 500;
-                                        break;
-                                    case 8:
-                                        delay = start_delay * 8 + 1000;
-                                        break;
-                                    
-                                    default:
-                                        delay = 1000;
-                                        break;
-                                }
-                                
-                                setTimeout(()=>{
-                                    console.log(' setTimeout: ');                                
-                                    console.log(' start_delay: '+start_delay);                                
-                                    console.log(' delay: '+delay);                                
-                                    
-                                    colsAll.forEach(col=>{
-                                        let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                        console.log('p_last_top: '+p_last_top);
-                                        col.scrollTop = p_last_top;
-                                        //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                    });
-
-                                },delay);
-                                window.go_to_utl_verse = false;
-                            }
-                                                        
-
-
                             window.iter_i++;
                             if(window.iter_i < window.arr_trans.length){
                                 //console.log('iter_i: '+iter_i);
@@ -5108,14 +4831,14 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
 
-                        console.log('2. ending fetch()');
-
+                        
+                        //console.log('2. ending fetch()');
                         // Registra el tiempo de finalización
-                        const tiempoFinFetch = new Date().getTime();
+                        //const tiempoFinFetch = new Date().getTime();
                         // Calcula el tiempo de ejecución en milisegundos
-                        const tiempoEjecucionFetch = (tiempoFinFetch - tiempoInicioFetch) / 1000;//
+                        //const tiempoEjecucionFetch = (tiempoFinFetch - tiempoInicioFetch) / 1000;//
                         //console.log('fetch() --- tiempoFinFetch: '+tiempoFinFetch);
-                        console.log('fetch() --- tiempoEjecucionFetch: '+tiempoEjecucionFetch+' sec.');
+                        //console.log('fetch() --- tiempoEjecucionFetch: '+tiempoEjecucionFetch+' sec.');
 
                     })
                     .catch(error => { 
@@ -5123,8 +4846,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         console.log('error promesa en fetch() con obj_o. error: '+error);
                     });                    
                 }
-                console.log('despues de fetch --- abajo obj_o:');
-                console.log(obj_o);               
+                //console.log('despues de fetch --- abajo obj_o:');
+                //console.log(obj_o);               
 
 
 
@@ -5133,7 +4856,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     if(el.childElementCount == 0 || el.textContent == ''){
                         var p = document.createElement('p');
                         p.className = 'prim';
-                        p.innerHTML = `En este módulo no existe el libro indicado.`;
+                        p.innerHTML = `2. En este módulo no existe el libro indicado.`;
                         el.append(p);
                         //alert(' vacio');
                     }else{
@@ -5161,7 +4884,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                 }
                 
                 //si el id de book está entre numero de books del modulo, lo muestro
-                if(book < bq.BookQty){//0-65 < 66
+                if(parseInt(book) < bq.BookQty){//0-65 < 66
                     
                     //url del libro necesario
                     url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
@@ -6203,62 +5926,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             arr_data_all = [];
                             
 
-                            //если это последняя колонка, то в цикле перехожу к последнему параграфу...
-                            if(window.go_to_utl_verse && window.iter_i == window.arr_trans.length - 1){
-                                console.log('--- modo old --- fetch() --- voy al ultimo verse: parseInt(iter_i): '+parseInt(iter_i));
-                                
-                                var colsAll = document.querySelectorAll('.colsInner');
-                                let start_delay = 300;//carga de un module aprox...
-                                let delay;
-                                switch (colsAll.length) {
-                                    case 1:
-                                        delay = start_delay * 1;
-                                        break;
-                                    case 2:
-                                        delay = start_delay * 2;
-                                        break;
-                                    case 3:
-                                        delay = start_delay * 3;
-                                        break;
-                                    case 4:
-                                        delay = start_delay * 4;
-                                        break;
-                                    case 5:
-                                        delay = start_delay * 5;
-                                        break;
-                                    case 6:
-                                        delay = start_delay * 6 + 250;
-                                        break;
-                                    case 7:
-                                        delay = start_delay * 7 + 500;
-                                        break;
-                                    case 8:
-                                        delay = start_delay * 8 + 1000;
-                                        break;
-                                    
-                                    default:
-                                        delay = 1000;
-                                        break;
-                                }
-                                
-                                setTimeout(()=>{
-                                    console.log(' setTimeout: ');                                
-                                    console.log(' start_delay: '+start_delay);                                
-                                    console.log(' delay: '+delay);                                
-                                    
-                                    colsAll.forEach(col=>{
-                                        let p_last_top = col.querySelector('p:last-child').getBoundingClientRect().top;
-                                        console.log('p_last_top: '+p_last_top);
-                                        col.scrollTop = p_last_top;
-                                        //col.querySelector('p:last-child').scrollIntoView({behavior:'smooth'});//no funciona
-                                    });
-
-                                },delay);
-                                window.go_to_utl_verse = false;
-                            }
-                            
-
-
                             window.iter_i++;
                             if(window.iter_i < window.arr_trans.length){
                                 //console.log('iter_i: '+iter_i);
@@ -6383,7 +6050,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         if(el.childElementCount == 0 || el.textContent == ''){
                             var p = document.createElement('p');
                             p.className = 'prim';
-                            p.innerHTML = `En este módulo no existe el libro indicado.`;
+                            p.innerHTML = `3. En este módulo no existe el libro indicado.`;
                             el.append(p);
                             //alert(' vacio');
                         }else{
@@ -7186,7 +6853,7 @@ function mySizeWindow() {
     let header = document.querySelector('#header');
     let wrapper = document.querySelector('#wrapper');
     let sidebar = document.querySelector('#sidebar');
-    let sidebarInner = document.querySelector('#sidebarInner');
+    //let sidebarInner = document.querySelector('#sidebarInner');
     let v_line = document.querySelector('#v_line');
     let container = document.querySelector('#container');
     //let containerInner = document.querySelector('#containerInner');
@@ -7250,8 +6917,10 @@ function mySizeWindow() {
     container.style.height = container_h + 'px';
     v_line.style.height = v_line_h + 'px';
 
-
+    let colsAll = document.querySelectorAll('.cols');
     let colsHeadAll = document.querySelectorAll('.colsHead');
+    let colsInnerAll = document.querySelectorAll('.colsInner');
+
     let arr_th = [];
     let sum_trans_h = 0; 
     colsHeadAll.forEach(el => { 
@@ -7262,67 +6931,58 @@ function mySizeWindow() {
     let trans_min_h = Math.min(...arr_th);
     let trans_max_h = Math.max(...arr_th);
 
+
     if(positionShow == 'row'){
-        document.querySelectorAll('.cols').forEach(function(el){
+        colsAll.forEach(el=>{
             el.style.width = 100 + '%';//100%
         });
 
-        document.querySelectorAll('.colsHead').forEach(function(el){
+        colsHeadAll.forEach(el=>{
             el.style.height =  trans_min_h +'px';
         });
         
-        document.querySelectorAll('.colsInner').forEach(function(el){
-            el.style.height =  wrCols_h / document.querySelectorAll('.colsInner').length - trans_min_h +'px';// 1/3 de height
+        colsInnerAll.forEach(el=>{
+            el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height
         });
 
         wrCols.classList.remove('wrCols_center');
         wrCols.style.maxWidth = '';
         
-        /*
-        document.querySelectorAll('.cols').forEach(el=>{
-            el.classList.remove('cols_350');//no hace falta
-        });
-        */
-        
     }else{//col
-        document.querySelectorAll('.cols').forEach(function(el){
-            el.style.width = 100 / document.querySelectorAll('.colsInner').length +'%';//33%
+        colsAll.forEach(el=>{
+            el.style.width = 100 / colsInnerAll.length +'%';//33%
         });
 
-        document.querySelectorAll('.colsHead').forEach(function(el){
+        colsHeadAll.forEach((el,i)=>{
             el.style.height =  trans_max_h +'px';
         });
 
         if(pantalla == 'desktop' || pantalla == 'tablet'){
             //añado anchi maximo de 350 px para comodidad de leer
-            wrCols.style.maxWidth = 350 * document.querySelectorAll('.colsInner').length + 'px';
-            document.querySelectorAll('.colsHead')[0].style.display = '';
+            wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
+            colsHeadAll[0].style.display = '';
         }else if(pantalla == 'mobile'){
             //width 100%
             wrCols.style.maxWidth = '';
-            if(document.querySelectorAll('.colsHead').length == 1){
+            if(colsHeadAll.length == 1){
                 //document.querySelectorAll('.colsHead')[0].style.display = 'none';//comento temporalmente
             }
         }
 
-        document.querySelectorAll('.colsInner').forEach(function(el,i){
+        colsInnerAll.forEach((el,i)=>{
             //si se ve head con el texto de traducción...
-            if(document.querySelectorAll('.colsHead')[i].offsetHeight != 0){
-                // el.style.height =  wrCols_h - headerContainer_h - trans_max_h +'px';
+            if(colsHeadAll[i].offsetHeight != 0){
                 el.style.height =  wrCols_h - trans_max_h +'px';
             }else{
-                // el.style.height =  wrCols_h - headerContainer_h +'px';
                 el.style.height =  wrCols_h +'px';
             }
         });
+        //pongo top para boton pageUp()
+        let top_h = colsInnerAll[colsInnerAll.length-1].getBoundingClientRect().top;
+        document.querySelector('#btn_pageUp').style.top = top_h + 10 + 'px';
+
 
         wrCols.classList.add('wrCols_center');
-
-        /*
-        document.querySelectorAll('.cols').forEach(el=>{
-            el.classList.add('cols_350');//no hace falta
-        });
-        */
     }
 
     setTimeout(()=>{
@@ -7539,7 +7199,19 @@ function mySizeVerse(){
     window.arr_h = [];
     window.arr_sum_line_h = [];
     var arr_p_len = [];
+    var colsHeadAll = document.querySelectorAll('.colsHead');
     var colsInnerAll = document.querySelectorAll('.colsInner');
+
+    colsHeadAll.forEach(el=>{
+        //si el ancho de una col es menos de 350, quito min-width:90px
+        if(el.offsetWidth < 350){
+            el.querySelector('.partDesk .desk_trans').classList.remove('mw-90');
+            el.querySelector('.partDesk .desk_sh_link').classList.remove('mw-90');
+        }else{
+            el.querySelector('.partDesk .desk_trans').classList.add('mw-90');
+            el.querySelector('.partDesk .desk_sh_link').classList.add('mw-90');
+        }
+    });
 
     colsInnerAll.forEach(function(el,index){
         //console.log(el);
@@ -7637,7 +7309,8 @@ function addMarginTolastP(){
         let p_last = col.querySelector('p:last-child');
         
         if(p_last != null){
-            let mb_h = col.offsetHeight - p_last.offsetHeight;
+            // let mb_h = col.offsetHeight - p_last.offsetHeight;//antes
+            let mb_h = col.offsetHeight;
             //console.log('mb_h: '+mb_h);
             /*
             const d = document.createElement('div');
@@ -8137,7 +7810,7 @@ function selVerse(e){
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
     var inpt_nav = document.querySelector('#inpt_nav');
-    // var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
+    //var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
     //var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;//antes
     var trans_base = document.querySelector('#trans1').dataset.trans;
     var trans_inpt = inpt_nav.dataset.trans;
@@ -8151,13 +7824,12 @@ function sel(e, par, show_chapter = null, trans = null){
             var trans = trans_base;
         }
     }
-    //var trans = (trans != null) ? trans :   (trans_inpt != null) ? trans_inpt : trans_base ;//new
 
     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
         //creo objeto de esta trans
         var this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
-        console.log('abajo  this_trans_obj: ');
-        console.log(this_trans_obj);
+        //console.log('abajo  this_trans_obj: ');
+        //console.log(this_trans_obj);
     }
 
     var v_book = document.querySelector('#v_book')
@@ -8308,9 +7980,9 @@ function sel(e, par, show_chapter = null, trans = null){
                 }
 
                 // Registra el tiempo de finalización
-                const tiempoFin_b = new Date().getTime();
-                const tiempoEjecucion_b = (tiempoFin_b - tiempoInicio_b) / 1000;//
-                console.log('myPromise_b --- tiempoEjecucion_b: '+tiempoEjecucion_b+' sec.');
+                //const tiempoFin_b = new Date().getTime();
+                //const tiempoEjecucion_b = (tiempoFin_b - tiempoInicio_b) / 1000;//
+                //console.log('myPromise_b --- tiempoEjecucion_b: '+tiempoEjecucion_b+' sec.');
 
             })
             .catch(error => { 
@@ -8459,7 +8131,7 @@ function sel(e, par, show_chapter = null, trans = null){
             .then(res => {
                 
                 if(res == 'ok'){//siempre ok
-                    console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
+                    //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
                 }
                 
                 var inpt_nav = document.querySelector('#inpt_nav');//test
@@ -8676,7 +8348,7 @@ function sel(e, par, show_chapter = null, trans = null){
             .then(res => {
 
                 if(res == 'ok'){//siempre ok
-                    console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
+                    //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
                 }
 
                 //si existe objeto con Translation. Saco datos del objeto
@@ -9211,10 +8883,10 @@ function getRef(trans = null){
             book = arr_v[0];
         }
 
-        console.log('book: '+book);
-        console.log('chapter: '+chapter);
-        console.log('verse: '+verse);
-        console.log('to_verse: '+to_verse);
+        //console.log('book: '+book);
+        //console.log('chapter: '+chapter);
+        //console.log('verse: '+verse);
+        //console.log('to_verse: '+to_verse);
     }
 
 
@@ -9860,6 +9532,13 @@ function bookGo(dir){
         });
 }
 
+function scrollTopCero(){
+    document.querySelectorAll('.colsInner').forEach(el=>{
+        el.scrollTop = 0;
+    });
+}
+
+
 function chapterGo(dir){
     var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
@@ -9876,11 +9555,129 @@ function chapterGo(dir){
     obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
+    //por defecto muevo el scroll al top
+    scrollTopCero();
 
-    //saco ajustes de este modulo en json
-    url_bq = `modules/text/${Translation}/bibleqt.json`;
 
-    fetch(url_bq)
+
+    var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+    
+    //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
+    if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
+        //alert('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
+        console.log('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
+        //console.log(objTrans);
+
+        var myPromise_ch_go = new Promise(function(resolve, reject){
+            resolve('ok');
+        });
+
+
+        myPromise_ch_go
+        .then((res) => {
+
+            if(res == 'ok'){//siempre ok
+                var bq = objTrans;
+            }            
+            //console.log('abajo bq'); 
+            //console.log(bq); 
+
+            //if(act_id_book >= bq.BookQty){//REVISAR!!!
+            //    alert('No es posible pasar a siguiente capítulo ya que todos los módulos no tienen la misma cantidad de libros.Esto sucede cuando se quiere leer los librós apócrifos.');
+            //    return false;
+            //}
+
+
+            if(dir == 'next'){
+                var next_id_book = act_id_book;
+                var next_show_chapter = act_show_chapter; 
+
+                if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
+                    if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
+                        next_id_book = 0;//Génesis
+                    }else{
+                        next_id_book = parseInt(act_id_book) + 1;
+                    }
+                    next_show_chapter = 1;
+                }else{
+                    next_show_chapter = parseInt(act_show_chapter) + 1;
+                }
+                inpt_nav.setAttribute('data-id_book', next_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+
+                inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                });
+
+                obj_nav.id_book = next_id_book;
+                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.show_chapter = next_show_chapter;
+
+                sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                showTrans(next_id_book, next_show_chapter); 
+            }
+
+            if(dir == 'prev'){
+                var prev_id_book = act_id_book;
+                var prev_show_chapter = act_show_chapter;
+
+                if(act_show_chapter == 1){
+                    if(act_id_book == 0){//Génesis
+                        prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
+                    }else{
+                        prev_id_book = parseInt(act_id_book) - 1;
+                    }
+                    prev_show_chapter = parseInt(bq.Books[prev_id_book].ChapterQty);
+                }else{
+                    prev_show_chapter = parseInt(act_show_chapter) - 1;
+                }
+                inpt_nav.setAttribute('data-id_book', prev_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+
+                inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                });
+
+                obj_nav.id_book = prev_id_book;
+                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.show_chapter = prev_show_chapter;
+
+                sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                showTrans(prev_id_book, prev_show_chapter);
+            }
+
+            
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            //console.log('error promesa: '+error);
+        });
+
+
+
+
+    }else{//MODO OLD.
+        alert('chapterGo(dir) --- modo old. fetch()');
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${Translation}/bibleqt.json`;
+        fetch(url_bq)
         .then((response) => response.json())
         .then((bq) => {
 
@@ -9973,6 +9770,10 @@ function chapterGo(dir){
             // Código a realizar cuando se rechaza la promesa
             //console.log('error promesa: '+error);
         });
+
+    }
+
+
 }
 
 function showTab(e, param){
