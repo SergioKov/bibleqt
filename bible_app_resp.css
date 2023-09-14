@@ -128,6 +128,10 @@
     #v_book .v_li{
         width: 33.33%;
     }
+    .partMob .mob_trans, .partMob .mob_sh_link{
+        min-width: inherit; 
+    }
+
 }
 /* mobilka S */
 @media screen and (min-width: 281px) and (max-width: 320px) {
@@ -135,7 +139,7 @@
         width: 25%;
     }
     .partMob .mob_trans, .partMob .mob_sh_link{
-        min-width: inherit; 
+        min-width: 70px; 
     }
 
 }
@@ -145,7 +149,7 @@
         width: 20%;
     }
     .partMob .mob_trans, .partMob .mob_sh_link{
-        min-width: 70px; 
+        min-width: 80px; 
     }
 
 }
