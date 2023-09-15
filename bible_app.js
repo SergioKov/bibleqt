@@ -9672,8 +9672,10 @@ function chapterGo(dir){
 
 
 
-    }else{//MODO OLD.
-        alert('chapterGo(dir) --- modo old. fetch()');
+    }else{//MODO OLD. haace falta!
+        
+        //alert('chapterGo(dir) --- modo old. fetch()');
+        //console.log('chapterGo(dir) --- modo old. fetch()');
 
         //saco ajustes de este modulo en json
         url_bq = `modules/text/${Translation}/bibleqt.json`;

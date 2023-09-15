@@ -814,9 +814,10 @@ function doPageDownOnScroll(){
         if(scrollTop > colsInner_h && scrollTop + colsInner_h >= scrollHeight) {
             // Si llegamos al final de la sección actual, pasa a la siguiente
             //console.log(`paso a la sig page. (scrollTop + colsInner_h >= scrollHeight): (${scrollTop} + ${colsInner_h} >= ${scrollHeight}) `);
+            alert('test mobile. estoy abajo. hago chapterGo().');
             chapterGo('next');
         }
-        //console.log('el.target.scrollTop: '+el.target.scrollTop);        
+        console.log('el.target.scrollTop: '+el.target.scrollTop);        
     });
 } 
  
