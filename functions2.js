@@ -811,7 +811,7 @@ function doPageDownOnScroll(){
         const colsInner_h = colsInner.offsetHeight;
         const scrollHeight = colsInner.scrollHeight;      
         //PageDown
-        if(scrollTop > colsInner_h && scrollTop + colsInner_h >= scrollHeight) {
+        if(scrollTop > colsInner_h && scrollTop + colsInner_h >= (scrollHeight - 10) ) {
             // Si llegamos al final de la sección actual, pasa a la siguiente
             //console.log(`paso a la sig page. (scrollTop + colsInner_h >= scrollHeight): (${scrollTop} + ${colsInner_h} >= ${scrollHeight}) `);
             alert('test mobile. estoy abajo. hago chapterGo().');
