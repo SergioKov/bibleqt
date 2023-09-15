@@ -9449,10 +9449,110 @@ function bookGo(dir){
     obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
-    //saco ajustes de este modulo en json
-    url_bq = `modules/text/${Translation}/bibleqt.json`;
+    var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
 
-    fetch(url_bq)
+    //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
+    if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
+        //alert('bookGo(dir) --- objTrans está creado. abajo objTrans: ');
+        //console.log('bookGo(dir) --- objTrans está creado. abajo objTrans: ');
+        //console.log(objTrans);
+
+        var myPromise_b_go = new Promise(function(resolve, reject){
+            resolve('ok');
+        });
+
+        myPromise_b_go
+        .then((res) => {
+
+            if(res == 'ok'){//siempre ok
+                var bq = objTrans;
+            }            
+            //console.log('abajo bq'); 
+            //console.log(bq); 
+
+            //console.log('abajo bq'); 
+            //console.log(bq); 
+
+            if(dir == 'next'){
+                var next_id_book = act_id_book;
+                var next_show_chapter = 1;//siempre      
+                
+                if(act_id_book == parseInt(bq.BookQty) - 1){//66 - 1 = 65 //Apocalipsis
+                    next_id_book = 0;//Génesis
+                }else{
+                    next_id_book = parseInt(act_id_book) + 1;
+                }            
+
+                inpt_nav.setAttribute('data-id_book', next_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+
+                inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                });
+
+                obj_nav.id_book = next_id_book;
+                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.show_chapter = next_show_chapter;
+
+
+                sel(document.querySelector('#s_chapter'),'ch',next_show_chapter);//chapter
+                showTrans(next_id_book, next_show_chapter);
+            }
+
+            if(dir == 'prev'){
+                var prev_id_book = act_id_book;
+                var prev_show_chapter = 1;
+
+                if(act_id_book == 0){//Génesis
+                    prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
+                }else{
+                    prev_id_book = parseInt(act_id_book) - 1;
+                }
+
+                inpt_nav.setAttribute('data-id_book', prev_id_book);
+                inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+
+                inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+
+                inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                
+                //meto Gen.1:1 en los head de cada trans
+                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                });
+
+                obj_nav.id_book = prev_id_book;
+                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+
+                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.show_chapter = prev_show_chapter;
+
+                sel(document.querySelector('#s_chapter'),'ch',prev_show_chapter);//chapter
+                showTrans(prev_id_book, prev_show_chapter);
+            }            
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            //console.log('error promesa: '+error);
+        });
+
+    }else{//MODO OLD. si hace falta!
+
+        //alert('bookGo(dir) --- modo old. fetch()');
+        //console.log('chapterGo(dir) --- modo old. fetch()');
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${Translation}/bibleqt.json`;
+        fetch(url_bq)
         .then((response) => response.json())
         .then((bq) => {
 
@@ -9530,6 +9630,9 @@ function bookGo(dir){
             // Código a realizar cuando se rechaza la promesa
             //console.log('error promesa: '+error);
         });
+
+    }
+
 }
 
 function scrollTopCero(){
@@ -9565,7 +9668,7 @@ function chapterGo(dir){
     //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
     if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
         //alert('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
-        console.log('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
+        //console.log('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log(objTrans);
 
         var myPromise_ch_go = new Promise(function(resolve, reject){
@@ -9669,10 +9772,7 @@ function chapterGo(dir){
             //console.log('error promesa: '+error);
         });
 
-
-
-
-    }else{//MODO OLD. haace falta!
+    }else{//MODO OLD. si hace falta!
         
         //alert('chapterGo(dir) --- modo old. fetch()');
         //console.log('chapterGo(dir) --- modo old. fetch()');

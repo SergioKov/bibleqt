@@ -668,10 +668,10 @@ function pageUp() {
         // Asegúrate de que no te desplaces más allá del final del contenido
         if(newScrollTop < 0) {
             el.scrollTop = 0;//mover al top
-            console.log(`1. me muevo al top --- el.scrollTop: ${el.scrollTop} `);
+            //console.log(`1. me muevo al top --- el.scrollTop: ${el.scrollTop} `);
             if(newScrollTop < 0 && newScrollTop == -el.clientHeight){//if( newScrollTop: -926 y newScrollTop: -926 = -clientHeight: -926)
-                console.log(`1.b --- me muevo al cpítulo anterior. y al ultimo versículo.`);
-                console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
+                //console.log(`1.b --- me muevo al cpítulo anterior. y al ultimo versículo.`);
+                //console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
                 chapterGo('prev');//OK    
             }
         }
@@ -679,15 +679,15 @@ function pageUp() {
             //el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;
-                console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+                //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
                 el.scrollTop = newScrollTop;
-                console.log('3.--- ago newScrollTop: ' + newScrollTop);
+                //console.log('3.--- ago newScrollTop: ' + newScrollTop);
             }
         }
         else{
             // Si ya estás en la parte superior del contenido, no hagas nada
-            console.log('4.--- Estoy en la parte superior del contenido.');
+            //console.log('4.--- Estoy en la parte superior del contenido.');
         }
     });
 }
@@ -738,21 +738,21 @@ function pageDown() {
         // Asegúrate de que no te desplaces más allá del final del contenido
         if(newScrollTop > scrollHeight) {
             el.scrollTop = scrollHeight;//mover al bottom
-            console.log('1. --- me muevo al bottom --- el.scrollTop: ' + el.scrollTop);
+            //console.log('1. --- me muevo al bottom --- el.scrollTop: ' + el.scrollTop);
         }
         else if(newScrollTop < scrollHeight) {
             // el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;
-                console.log('2. --- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+                //console.log('2. --- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
                 el.scrollTop = newScrollTop;
-                console.log('3. --- ago newScrollTop: ' + newScrollTop);
+                //console.log('3. --- ago newScrollTop: ' + newScrollTop);
             }
         }
         else{
             // Si ya estás en la parte superior del contenido, no hagas nada
-            console.log('4. --- Estoy en la parte de abajo del contenido. voy al siguiente capítulo.');
+            //console.log('4. --- Estoy en la parte de abajo del contenido. voy al siguiente capítulo.');
             chapterGo('next');//OK 
         }
     });
