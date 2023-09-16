@@ -7335,7 +7335,7 @@ function ref(string){
 }
 
 
-function addTrans(){
+function addTrans(addMode = null){
     let countCols = document.querySelectorAll('.cols').length;
     //console.log(countCols);
 
@@ -7439,9 +7439,12 @@ function addTrans(){
         //listener on scroll para añadir versiculo en colsHead en mobile
         //pintRefOnScroll('#' + htmlCol.id);//'#col2' no funciona correctamente
 
-        
-        //propongo selección del modulo
-        openModal('full',htmlTrans);//contiene dentro selectModule2()
+        if(addMode == 'askForTrans'){
+            //propongo selección del modulo
+            openModal('full',htmlTrans);//contiene dentro selectModule2()
+        }else{
+            //no hago nada. añado col vacio
+        }
     }
     
 }
@@ -7467,9 +7470,67 @@ function closeTrans(el,event, param = null){
     mySizeVerse();
 }
 
-addTab('Рим.10:17','act');
 
-function addTab(bibShortRef = null, act = null){
+
+function getRefOfTab(ref, str_trans = null){
+    //alert(str_trans);
+    let inpt_nav = document.querySelector('#inpt_nav');
+    let colsAll = document.querySelectorAll('.cols');
+    inpt_nav.value = ref;
+
+    str_trans = (str_trans != null) ? str_trans : inpt_nav.dataset.trans;
+    arr_trans = str_trans.split(',');
+
+    //удаляю лишние колоны
+    if(colsAll.length > arr_trans.length){
+        let counDiff = colsAll.length - arr_trans.length;
+        for (let index = 0; index < counDiff; index++) {
+            removeTrans();
+        }
+    }
+
+    arr_trans.forEach((el,i)=>{
+        el = el.trim();
+        console.log(el);
+
+        var obj_el_trans = arrFavTransObj.find(v => v.Translation === el);
+
+        if(typeof obj_el_trans != 'undefined'){
+            if(colsAll[i] != null){//existe una columna
+                colsAll[i].querySelector('.colsHead').dataset.trans = obj_el_trans.Translation;
+                colsAll[i].querySelector('.colsHead').dataset.base_ep = obj_el_trans.EnglishPsalms;
+            }else{//no existe columna. añado una trans 
+                addTrans();//trans vacia
+                let ult_col = document.querySelectorAll('.cols')[document.querySelectorAll('.cols').length - 1];
+                ult_col.querySelector('.colsHead').dataset.trans = obj_el_trans.Translation;
+                ult_col.querySelector('.colsHead').dataset.base_ep = obj_el_trans.EnglishPsalms;
+            }
+        }        
+
+        //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
+        if(i == 0 && colsAll[i].querySelector('.colsHead').id == 'trans1'){
+            var trans_buttons = document.querySelectorAll('#footerInner button');
+            trans_buttons.forEach(el=>{
+                el.classList.remove('btn_active');
+                if(el.value == colsAll[i].querySelector('.colsHead').dataset.trans){
+                    el.classList.add('btn_active');
+                    el.scrollIntoView();
+                }
+            });
+        }
+
+    });
+    //ejecuto click sobre el boton ok en inpt_nav
+    document.querySelector('#btn_ok').click();
+}
+
+
+
+addTab('Быт. 1:1','act', null);
+addTab('Рим. 10:17',null, 'rstStrong, rv60 ,lbla');
+addTab('Лук. 3:16',null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+
+function addTab(bibShortRef = null, act = null, str_trans = null){
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
     //console.log(countTabs);
@@ -7493,6 +7554,10 @@ function addTab(bibShortRef = null, act = null){
         const htmlTab = document.createElement("div");
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
+        htmlTab.dataset.str_trans = str_trans;
+        htmlTab.onclick = function(){
+            getRefOfTab(htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+        };
         if(act != null) htmlTab.classList.add('tab_active');
 
         const spanBibShortRef = document.createElement("span");

@@ -7,7 +7,7 @@ header('Content-type: text/html; charset=utf-8');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BQ++</title>
+    <title>BQ+1</title>
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
     <link rel="stylesheet" href="bible_app.css">
     <link rel="stylesheet" href="bible_app_resp.css">
@@ -39,7 +39,7 @@ header('Content-type: text/html; charset=utf-8');
                     <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
                         <div>Tr -</div>
                     </div>
-                    <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
+                    <div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
                         <div>Tr +</div>
                     </div>
 
@@ -584,7 +584,7 @@ header('Content-type: text/html; charset=utf-8');
                             <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
                                 <div>Tr -</div>
                             </div>
-                            <div class="dbtn" title="Add Bible Translation" onclick="addTrans()">
+                            <div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
                                 <div>Tr +</div>
                             </div>
 
