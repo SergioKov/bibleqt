@@ -7472,8 +7472,16 @@ function closeTrans(el,event, param = null){
 
 
 
-function getRefOfTab(ref, str_trans = null){
+function getRefOfTab(e, ref, str_trans = null){
     //alert(str_trans);
+    console.log(e.target);
+    let tabsAll = document.querySelectorAll('.tabs');
+    let this_tab = e.target.parentElement;
+    tabsAll.forEach(el=>{
+        el.classList.remove('tab_active');
+    });
+    this_tab.classList.add('tab_active');
+
     let inpt_nav = document.querySelector('#inpt_nav');
     let colsAll = document.querySelectorAll('.cols');
     inpt_nav.value = ref;
@@ -7555,8 +7563,8 @@ function addTab(bibShortRef = null, act = null, str_trans = null){
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
         htmlTab.dataset.str_trans = str_trans;
-        htmlTab.onclick = function(){
-            getRefOfTab(htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+        htmlTab.onclick = function(e,){
+            getRefOfTab(e,htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
         };
         if(act != null) htmlTab.classList.add('tab_active');
 
