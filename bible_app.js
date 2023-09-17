@@ -52,6 +52,9 @@ window.obj_nav = {
 //objeto de ficheros
 const obj_o = {};
 
+var arrTabs = [];//array de objetos de tabs (Vkladki)
+
+
 // Definición de la clase Persona
 class Translation {
     constructor(trans, Books) {
@@ -7472,15 +7475,16 @@ function closeTrans(el,event, param = null){
 
 
 
-function getRefOfTab(e, ref, str_trans = null){
+function getRefOfTab(tab_id, ref, str_trans = null){
     //alert(str_trans);
-    console.log(e.target);
+    let this_tab = document.querySelector('#'+tab_id);
+    console.log(this_tab);
+    
     let tabsAll = document.querySelectorAll('.tabs');
-    let this_tab = e.target.parentElement;
     tabsAll.forEach(el=>{
         el.classList.remove('tab_active');
     });
-    this_tab.classList.add('tab_active');
+    if(this_tab != null) this_tab.classList.add('tab_active');
 
     let inpt_nav = document.querySelector('#inpt_nav');
     let colsAll = document.querySelectorAll('.cols');
@@ -7503,7 +7507,7 @@ function getRefOfTab(e, ref, str_trans = null){
 
         var obj_el_trans = arrFavTransObj.find(v => v.Translation === el);
 
-        if(typeof obj_el_trans != 'undefined'){
+        if(typeof obj_el_trans != 'undefined'){            
             if(colsAll[i] != null){//existe una columna
                 colsAll[i].querySelector('.colsHead').dataset.trans = obj_el_trans.Translation;
                 colsAll[i].querySelector('.colsHead').dataset.base_ep = obj_el_trans.EnglishPsalms;
@@ -7525,6 +7529,10 @@ function getRefOfTab(e, ref, str_trans = null){
                     el.scrollIntoView();
                 }
             });
+            if(typeof obj_el_trans != 'undefined'){
+                //cambio trans del inpt_nav
+                inpt_nav.dataset.trans = obj_el_trans.Translation;
+            }
         }
 
     });
@@ -7534,11 +7542,11 @@ function getRefOfTab(e, ref, str_trans = null){
 
 
 
-addTab('Быт. 1:1','act', null);
-addTab('Рим. 10:17',null, 'rstStrong, rv60 ,lbla');
-addTab('Лук. 3:16',null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+addTab('Быт. 1:1', 'act', null,'rstStrongRed');
+addTab('Рим. 10:17', null, null, 'rstStrong, rv60 ,lbla');
+addTab('Лук. 3:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
 
-function addTab(bibShortRef = null, act = null, str_trans = null){
+function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null){
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
     //console.log(countTabs);
@@ -7558,27 +7566,80 @@ function addTab(bibShortRef = null, act = null, str_trans = null){
         }
     }
 
+    let div_trans1 = document.querySelector('#trans1');
+    bibShortRef = (bibShortRef != null) ? bibShortRef : div_trans1.querySelector('.desk_sh_link').innerHTML ;
+
+    //si se añade nueva tab 
+    if(str_trans == null){
+        let colsHeadAll = document.querySelectorAll('.colsHead');
+        let arr_str_trans = []; 
+        colsHeadAll.forEach(el => {
+            arr_str_trans.push(el.dataset.trans); 
+        });
+        str_trans = arr_str_trans.join();
+        console.log('new str_trans: '+str_trans);
+    }
+
     if(countTabs < maxTabs){
         const htmlTab = document.createElement("div");
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
         htmlTab.dataset.str_trans = str_trans;
-        htmlTab.onclick = function(e,){
-            getRefOfTab(e,htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+        htmlTab.onclick = function(e){
+            getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
         };
-        if(act != null) htmlTab.classList.add('tab_active');
+        if(act != null) htmlTab.classList.add('tab_active');//antes
+
+        
+        if(tab_new == 'tab_new'){
+            let tabsAll = document.querySelectorAll('.tabs');
+            tabsAll.forEach(el=>{
+                el.classList.remove('tab_active');
+            });
+            htmlTab.classList.add('tab_active');
+        }
+
 
         const spanBibShortRef = document.createElement("span");
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
-        spanBibShortRef.title = 'Ejemplo: RST';
+        spanBibShortRef.title = str_trans;
 
         if(countTabs > 0) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
         //document.querySelector('#headerContainerInner').appendChild(htmlTab);//antes
         document.querySelector('#partDeskTabs').appendChild(htmlTab);
+
+        updateArrTabs();
     }
 }
+
+function updateArrTabs(){
+    arrTabs = [];//reset
+
+    let tabsAll = document.querySelectorAll('.tabs');
+    tabsAll.forEach(el=>{
+        console.log(`el.id: ${el.id} --- el.classList: ${el.classList}`);
+        let has_btn_close = (el.querySelector(':scope > button') !== null) ? true : false ;
+
+        const el_obj = {
+            id: el.id,
+            className: el.getAttribute('class'),
+            str_trans: el.dataset.str_trans,
+            title: el.dataset.str_trans,
+            btn_close: has_btn_close,
+            ref: el.querySelector('span').innerHTML
+        };
+        console.log(el_obj);
+        arrTabs.push(el_obj);
+    });
+    console.log(arrTabs);
+}
+
+function showTabs(){
+    console.log('pendiente de desarrollo...')
+}
+
 
 function removeTab(){
     let countTabs = document.querySelectorAll('.tabs').length;
@@ -7588,10 +7649,12 @@ function removeTab(){
         //document.querySelector('#headerContainerInner').lastElementChild.remove();
         document.querySelector('#partDeskTabs').lastElementChild.remove();
     }
+    updateArrTabs();
 }
 
 function closeTab(el){       
     el.parentElement.remove();
+    updateArrTabs();
 }
 
 sel(document.querySelector('.bcv_active'),'b');//por defecto

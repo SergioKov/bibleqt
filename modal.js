@@ -30,9 +30,9 @@ function openModal(param = null, htmlTrans = null) {
     modalContent.classList.add('modal-content');
  
     Array.from(document.querySelectorAll('#myModalContent section .inner > div')).forEach((el,i)=>{
-    el.style.display = 'none';
-    //el.removeAttribute('class');
-    //el.classList.add('modal-content');//default
+        el.style.display = 'none';
+        //el.removeAttribute('class');
+        //el.classList.add('modal-content');//default
     });
 
 
@@ -42,22 +42,25 @@ function openModal(param = null, htmlTrans = null) {
         modal.style.paddingTop = '0px';
         modalContent.classList.add('modalContentTop');
         bl_modalTop.style.display = 'block';
-    }else if(param == 'center'){
+    }
+    else if(param == 'center'){
         modal.style.paddingTop = '25vh';
         modalContent.classList.add('modalContentCenter');
         bl_modalCenter.style.display = 'block';
-    }else if(param == 'bottom'){
+    }
+    else if(param == 'bottom'){
         modal.style.paddingTop = '50vh';
         modalContent.classList.add('modalContentBottom');
         bl_modalBottom.style.display = 'block';
-    }else if(param == 'full'){
+    }
+    else if(param == 'full'){
         header_h4_text.innerHTML = 'Выбор модуля Библии';
         modal.style.paddingTop = '0vh';
         modalContent.classList.add('modalContentFull');
         bl_modalFull.style.display = 'block';
-        //selectModule(htmlTrans);//antes
-        selectModule2(htmlTrans);//new
-    }else{
+        selectModule2(htmlTrans);
+    }
+    else{
         console.log('---es else---');
     }
 }

@@ -46,7 +46,7 @@ header('Content-type: text/html; charset=utf-8');
                     <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
                         <div>Vk -</div>
                     </div>
-                    <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
+                    <div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,'tab_new')">
                         <div>Vk +</div>
                     </div>
 
@@ -422,7 +422,7 @@ header('Content-type: text/html; charset=utf-8');
                                 </div>
 
                                 <div id="partDeskPlus">
-                                    <button id="btnPlus" class="btn" onclick="addTab()"> + </button>
+                                    <button id="btnPlus" class="btn" onclick="addTab(null,null,'tab_new')"> + </button>
                                 </div>
                             
                             </div>
@@ -591,7 +591,7 @@ header('Content-type: text/html; charset=utf-8');
                             <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
                                 <div>Vk -</div>
                             </div>
-                            <div class="dbtn" title="Añadir Pestaña" onclick="addTab()">
+                            <div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,'tab_new')">
                                 <div>Vk +</div>
                             </div>
 
@@ -623,6 +623,11 @@ header('Content-type: text/html; charset=utf-8');
                             <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                                 <div>S#</div>
                             </div>
+
+                            <div class="dbtn" title="ver vkladki" onclick="showTabs()">
+                                <div>Vk <img src="image/menu_white.svg"></div>
+                            </div>
+
                             
                         </div>
                     </div>
