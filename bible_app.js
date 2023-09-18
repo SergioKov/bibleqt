@@ -1151,6 +1151,12 @@ function getTsk(e){
                                             showTab(document.querySelector('#btn_tsk'),'tsk');//Se abre tab TSK
                                             if(window.innerWidth < 768){//si es mobile
                                                 openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+                                            }else{//si es desktop o tablet
+                                                //comprebo si está oculto sidebar
+                                                let sidebar = document.querySelector('#sidebar');
+                                                if(sidebar.style.display == 'none'){
+                                                    document.querySelector('#btn_hideShowSidebar').click();//mostrar sidebar con tsk
+                                                }
                                             }
                                             div_tsk_body.append(p);
                                             div_tsk_body.scrollTop = 0;
@@ -2442,7 +2448,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     if(Translation != null){
 
                 
-        var objTrans = arrFavTransObj.find(p => p.Translation === Translation);
+        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
@@ -2463,7 +2469,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             }
             
             //si el id de book está entre numero de books del modulo, lo muestro
-            if(parseInt(book) < bq.BookQty){//0-65 < 66
+            if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
                 
                 //url del libro necesario
                 url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
@@ -4850,8 +4856,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     });                    
                 }
                 //console.log('despues de fetch --- abajo obj_o:');
-                //console.log(obj_o);               
-
+                //console.log(obj_o); 
 
 
             }else{//si no está el id de book en el modulo...
@@ -7587,6 +7592,7 @@ function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null
         htmlTab.dataset.str_trans = str_trans;
         htmlTab.onclick = function(e){
             getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+            updateArrTabs();
         };
         if(act != null) htmlTab.classList.add('tab_active');//antes
 
@@ -7602,15 +7608,21 @@ function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null
 
         const spanBibShortRef = document.createElement("span");
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
-        spanBibShortRef.title = str_trans;
+        //spanBibShortRef.title = str_trans;
 
-        if(countTabs > 0) htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
+        //a todos los tabs añado span close x
+        htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
         //document.querySelector('#headerContainerInner').appendChild(htmlTab);//antes
         document.querySelector('#partDeskTabs').appendChild(htmlTab);
+        htmlTab.scrollIntoView();
 
-        updateArrTabs();
+        //actualizo despues de 1 sec para que llegue a cargarse objeto de trans
+        setTimeout(()=>{
+            updateArrTabs();
+        },1000);
+        
     }
 }
 
@@ -7619,25 +7631,42 @@ function updateArrTabs(){
 
     let tabsAll = document.querySelectorAll('.tabs');
     tabsAll.forEach(el=>{
-        console.log(`el.id: ${el.id} --- el.classList: ${el.classList}`);
+        //console.log(`el.id: ${el.id} --- el.classList: ${el.classList}`);
         let has_btn_close = (el.querySelector(':scope > button') !== null) ? true : false ;
+
+        //saco BibleShortName por Translation desde string
+        let arr_trans_names = [];
+        let arr_el_trans = el.dataset.str_trans.split(','); 
+        arr_el_trans.forEach(el_tr => {
+            el_tr = el_tr.trim();
+            //console.log('el_tr: '+el_tr);
+            
+            const el_tr_obj = getObjTransByName(el_tr);
+            //console.log(el_tr_obj);
+            if(typeof el_tr_obj != 'undefined') arr_trans_names.push(el_tr_obj.BibleShortName);
+        });
+        let str_trans_names = arr_trans_names.join(', ');
+        //console.log('end --- str_trans_names: '+str_trans_names); 
+        
+        el.title = str_trans_names;
 
         const el_obj = {
             id: el.id,
             className: el.getAttribute('class'),
             str_trans: el.dataset.str_trans,
-            title: el.dataset.str_trans,
+            title: str_trans_names,
             btn_close: has_btn_close,
             ref: el.querySelector('span').innerHTML
         };
-        console.log(el_obj);
+        //console.log(el_obj);
         arrTabs.push(el_obj);
     });
-    console.log(arrTabs);
+    //console.log(arrTabs);
 }
 
 function showTabs(){
-    console.log('pendiente de desarrollo...')
+    //console.log('function showTabs()');
+    openModal('tabsList',null);//contiene dentro selectTab()
 }
 
 
@@ -7716,8 +7745,8 @@ function selChapter(e){
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-        const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-        const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
+        const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+        const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
             var new_res = convertLinkFromEspToRus(inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante EspToRus
@@ -7843,8 +7872,8 @@ function selVerse(e){
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-        const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-        const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
+        const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+        const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
             var new_res = convertLinkFromEspToRus(inpt_nav.dataset.id_book, inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante EspToRus
@@ -9061,8 +9090,8 @@ function getRef(trans = null){
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-                                    const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-                                    const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
+                                    const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+                                    const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
                                     if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
                                         var new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
@@ -9440,33 +9469,6 @@ function isInViewport(el) {
     );
 }
 
-function selectModule2(htmlTrans){
-    //console.log(arrFavTransObj);
-    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
-    bl_modalFullInner.innerHTML = '';//reset
-
-    // let thisDiv = document.querySelector('#trans2.colsHead');//test
-    let thisDiv = htmlTrans;//test
-    //console.log('abajo htmlTrans: ');
-    //console.log(htmlTrans);
-
-
-    arrFavTransObj.forEach((el,i)=>{
-
-        const p = document.createElement('p');
-        p.className = 'cl_trans';
-        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
-        p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
-        p.onclick = function(){
-            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName,arrFavTransObj[i].EnglishPsalms);
-            //console.log('p.onclick llamando changeModule2 ');
-            closeModal();
-        }        
-
-        bl_modalFullInner.appendChild(p);
-    });
-}
-
 function selectModule(e){
     var thisDiv = e.currentTarget;
 
@@ -9545,6 +9547,92 @@ function selectModule(e){
           Swal.fire('Changes are not saved', '', 'info')
         }
       })
+}
+
+
+function selectModule2(htmlTrans){
+    //console.log(arrFavTransObj);
+    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
+    bl_modalFullInner.innerHTML = '';//reset
+
+    // let thisDiv = document.querySelector('#trans2.colsHead');//test
+    let thisDiv = htmlTrans;//test
+    //console.log('abajo htmlTrans: ');
+    //console.log(htmlTrans);
+
+
+    arrFavTransObj.forEach((el,i)=>{
+
+        const p = document.createElement('p');
+        p.className = 'cl_trans';
+        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
+        p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+        p.onclick = function(){
+            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName,arrFavTransObj[i].EnglishPsalms);
+            //console.log('p.onclick llamando changeModule2 ');
+            closeModal();
+        }        
+
+        bl_modalFullInner.appendChild(p);
+    });
+}
+
+
+function getObjTransByName(trans){
+    return arrFavTransObj.find(v => v.Translation === trans );
+}
+
+
+
+function selectTab(){//Vkladki
+    //console.log('function selectTab()');
+    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
+    bl_modalFullInner.innerHTML = '';//reset
+
+    arrTabs.forEach((el,i)=>{
+
+        //busco nombres de trans para mostrar
+        let arr_el_trans = el.str_trans.split(',');
+        //console.log('arr_el_trans: '+arr_el_trans);
+
+        //saco BibleShortName por Translation desde string 
+        let arr_trans_names = [];
+        arr_el_trans.forEach(el_tr => {
+            el_tr = el_tr.trim();
+            //console.log('el_tr: '+el_tr);
+            
+            const el_tr_obj = arrFavTransObj.find(v => v.Translation === el_tr );
+            //console.log(el_tr_obj);
+            arr_trans_names.push(el_tr_obj.BibleShortName);
+        });
+        let str_trans_names = arr_trans_names.join(', ');
+        //console.log('end --- str_trans_names: '+str_trans_names);
+
+        const p = document.createElement('p');
+        p.className = 'cl_tab';
+        if(arrTabs[i].className.includes('tab_active')) p.className += ' cl_tab_active'; 
+        p.innerHTML = `<span class="sh_nl">${i+1}) </span> `;
+        p.innerHTML += `<span class="sh_n">${arrTabs[i].ref}</span> `;
+        p.innerHTML += `<span class="sh_cuant" title="Translations to compare: ${arr_trans_names.length}">(${arr_trans_names.length})</span>`;
+        p.innerHTML += `<span class="la_n">${str_trans_names}</span>`;
+        p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.querySelector('#${arrTabs[i].id} button'))">&#10005;</span>`;// <!--X--> 
+        p.onclick = function(){
+            if(window.innerWidth < 768){
+                positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
+                document.querySelector('#btn_changePositionShowModal').click();               
+            }
+            if(typeof arrTabs[i] != 'undefined'){
+                //simulo click sobre vkladka correspondiente
+                let this_tab = document.querySelector('#'+arrTabs[i].id);
+                this_tab.click();
+                this_tab.scrollIntoView();
+            }
+            //console.log('p.onclick llamando changeModule2 ');
+            closeModal();
+            updateArrTabs();
+        }
+        bl_modalFullInner.appendChild(p);
+    });
 }
 
 addListenerModule();

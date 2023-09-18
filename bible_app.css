@@ -1940,9 +1940,10 @@ div#bl_headerBtns .dbtn {
     background: black;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-content: inherit;
+    flex-wrap: nowrap;
+    align-content: center;
     justify-content: center;
+    align-items: stretch;
 }
 .cl_trans {
     color: #dddddd;
@@ -1975,6 +1976,60 @@ p.cl_trans:hover {
     /* background: #5a0211; */
     width: 100%;
 }
+
+.cl_tab {
+    color: #dddddd;
+    padding: 5px;
+    font-size: medium;
+    font-family: 'Muli',Verdana,Arial;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
+    text-align: left;
+    justify-content: flex-start;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.cl_tab:not(:last-child) {
+    border-bottom: 1px solid #404040;
+}
+p.cl_tab:hover {
+    background: #414141;
+}
+.cl_tab .sh_n {
+    margin-right: 15px;
+    /* background: #755905; */
+    min-width: 90px;
+}
+.cl_tab .la_n {
+    /* background: #5a0211; */
+    width: 100%;
+}
+.cl_tab .sh_nl {
+    margin-right: 5px;
+    color: #737373;
+    min-width: 30px;
+    /* background: yellow; */
+    text-align: center;
+}
+.cl_tab_active {
+    background: red;
+    color: white;
+    transition: 0.3s;
+}
+.cl_tab_active .sh_nl{
+    color: white !important;
+}
+.cl_tab_active:hover{
+    background: #ff3636 !important;
+}
+.cl_tab_active .btn_tab_x:hover{
+    background: black;
+}
+
 .separ_line {
     width: 0px;
     height: 80%;
@@ -2073,4 +2128,15 @@ span.mob_sh_link {
     width: 100%;
     display: inline-block;
     text-align: center;
+}
+.btn_tab_x {
+    padding: 0px 4px 1px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn_tab_x:hover{
+    background: red;
+}
+.sh_cuant{
+    margin-right: 10px;
 }

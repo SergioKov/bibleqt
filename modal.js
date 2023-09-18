@@ -54,11 +54,18 @@ function openModal(param = null, htmlTrans = null) {
         bl_modalBottom.style.display = 'block';
     }
     else if(param == 'full'){
-        header_h4_text.innerHTML = 'Выбор модуля Библии';
+        header_h4_text.innerHTML = 'Выбор модуля Библии iz Izbrannyj';
         modal.style.paddingTop = '0vh';
         modalContent.classList.add('modalContentFull');
         bl_modalFull.style.display = 'block';
         selectModule2(htmlTrans);
+    }
+    else if(param == 'tabsList'){//Vkladki
+        header_h4_text.innerHTML = 'Выбор Tabs - Vkladki';
+        modal.style.paddingTop = '0vh';
+        modalContent.classList.add('modalContentFull');
+        bl_modalFull.style.display = 'block';
+        selectTab();
     }
     else{
         console.log('---es else---');

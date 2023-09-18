@@ -344,8 +344,8 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     
         // preparo le ref
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-        const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-        const obj_trans_inpt = arrFavTransObj.find(p => p.Translation === trans_inpt);
+        const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+        const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
         var trans_BookShortName = obj_trans_inpt.Books[book].ShortNames[0];
         
         //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
@@ -560,8 +560,8 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 
             // preparo le ref
             // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-            const obj_trans_base = arrFavTransObj.find(p => p.Translation === trans_base);
-            const obj_trans_head = arrFavTransObj.find(p => p.Translation === trans_head);
+            const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+            const obj_trans_head = arrFavTransObj.find(v => v.Translation === trans_head);
 
             //si está seleccionado traducción
             if(typeof trans_head != 'undefined'){

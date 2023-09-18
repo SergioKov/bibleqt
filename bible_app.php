@@ -32,7 +32,7 @@ header('Content-type: text/html; charset=utf-8');
                 
                 <div id="bl_headerBtns">
 
-                    <div class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">
+                    <div id="btn_hideShowSidebar" class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">
                         <div>Hide</div>
                     </div>
 
@@ -624,8 +624,8 @@ header('Content-type: text/html; charset=utf-8');
                                 <div>S#</div>
                             </div>
 
-                            <div class="dbtn" title="ver vkladki" onclick="showTabs()">
-                                <div>Vk <img src="image/menu_white.svg"></div>
+                            <div class="dbtn" title="View of all tabs" onclick="showTabs()" style="width:100%;">
+                                <div>Vk ... (Tabs - Vkladki)</div>
                             </div>
 
                             
