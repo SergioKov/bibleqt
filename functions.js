@@ -450,13 +450,16 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
 
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                 document.querySelector('#inpt_find').value = numberStrShow;
+                document.querySelector('#cbox7').checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
                 document.querySelector('#inpt_find').value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
+                    document.querySelector('#cbox7').checked = true;//si hace falta
                     findWords(numberStr);
                 }else{//rstStrong
-                    document.querySelector('#cbox4').checked = true;//si hace falta
+                    document.querySelector('#cbox7').checked = true;//si hace falta
+                    //document.querySelector('#cbox4').checked = true;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
             }
@@ -624,6 +627,7 @@ function findWords(words_input){
     var cbox4 = document.querySelector('#cbox4');//выражения не могут быть частями слов
     var cbox5 = document.querySelector('#cbox5');//различать прописные и Заглавные буквы
     var cbox6 = document.querySelector('#cbox6');//6. различать буквы с ударениями (если есть)
+    var cbox7 = document.querySelector('#cbox7');//7. Номер Стронга (если есть)
 
     //console.log('cbox1.checked: '+cbox1.checked);
     //console.log('cbox2.checked: '+cbox2.checked);
@@ -738,16 +742,15 @@ function findWords(words_input){
 
     //antes de buscar, muestro esto...
     if(document.querySelector('.res_f') == null){
-        const p_book = document.createElement('p');
-        p_book.className = 'f_book';
+        const f_book = document.createElement('p');
+        f_book.className = 'f_book';
+        f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;
+        div_find_head.append(f_book);
+
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
         p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
-        //добавляю стих в див 
-        div_find_head.append(p_book);
         div_find_head.append(p_i);
-
-        
     }  
     mySizeFind();//altura de div_find_body
 
@@ -794,6 +797,14 @@ function findWords(words_input){
         btnStrongIsActive = true;
     }
 
+    //7. Номер Стронга StrongNumber
+    if(cbox7.checked){
+        var find_only_in_text_without_tags = false;
+    }else{//por defecto se busca solo en el texto sin buscar en los tags
+        //buscar solo en text o tambien en los tags de strong
+        var find_only_in_text_without_tags = true;//test
+    }
+
     var result_finded = [];
     var result_show = [];
     var count_f = 0;//cantidad de versiculos con frases encontradas
@@ -812,11 +823,15 @@ function findWords(words_input){
             console.log('findWords() --- objTrans está creado. abajo objTrans: ');
             //console.log(objTrans);
 
-
+            
+            
             //saco ajustes de este modulo en json               
             var bq = objTrans;
             //console.log(' abajo bq:');
             //console.log(bq);
+
+            //muestro trans en result de busqueda
+            document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;
         
             if(book_start != null && book_end != null){
     
@@ -861,7 +876,7 @@ function findWords(words_input){
                         
                                             //console.log(bookModule);
                                             //показываю в каких книгах ищу
-                                            document.querySelector(".f_book").innerHTML = bq.Books[book].FullName;
+                                            document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
                     
                                             var nb = bookModule.split('<h4>');//делю файл на главы
                                             //console.log(nb);
@@ -903,9 +918,10 @@ function findWords(words_input){
                                                         }
                                                         //console.log('VerseText: '+VerseText);
                                                         
-                                                        if(VerseText != ''){
+                                                        if(VerseText != '' && find_only_in_text_without_tags){
                                                             //VerseText = removeTags(VerseText);
                                                             //console.log('sin tags --- VerseText: '+VerseText);
+                                                            VerseText = removeTagsWithContentFromString(VerseText);
                                                         }
                     
                     
@@ -1723,7 +1739,7 @@ function findWords(words_input){
             
                                 //console.log(bookModule);
                                 //показываю в каких книгах ищу
-                                document.querySelector(".f_book").innerHTML = bq.Books[book].FullName;
+                                document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
         
                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
@@ -1765,9 +1781,13 @@ function findWords(words_input){
                                             }
                                             //console.log('VerseText: '+VerseText);
                                             
-                                            if(VerseText != ''){
-                                                //VerseText = removeTags(VerseText);
+                                            if(VerseText != '' && find_only_in_text_without_tags){
+                                                //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
                                                 //console.log('sin tags --- VerseText: '+VerseText);
+
+                                                //console.log('antes VerseText: '+VerseText);
+                                                VerseText = removeTagsWithContentFromString(VerseText);
+                                                //console.log('sin tags VerseText: '+VerseText);
                                             }
         
         
@@ -2576,6 +2596,9 @@ function findWords(words_input){
             .then((response) => response.json())
             .then((bq) => {
                 //console.log(bq);
+
+                //muestro trans en result de busqueda
+                document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;                
         
                 if(book_start != null && book_end != null){
         
@@ -2598,7 +2621,7 @@ function findWords(words_input){
             
                                 //console.log(bookModule);
                                 //показываю в каких книгах ищу
-                                document.querySelector(".f_book").innerHTML = bq.Books[book].FullName;
+                                document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
         
                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
@@ -2640,9 +2663,10 @@ function findWords(words_input){
                                             }
                                             //console.log('VerseText: '+VerseText);
                                             
-                                            if(VerseText != ''){
+                                            if(VerseText != '' && find_only_in_text_without_tags){
                                                 //VerseText = removeTags(VerseText);
                                                 //console.log('sin tags --- VerseText: '+VerseText);
+                                                VerseText = removeTagsWithContentFromString(VerseText);
                                             }
         
         
@@ -3565,6 +3589,20 @@ function removeTags(str){
     // the input string. Replacing the identified
     // HTML tag with a null string.
     return str.replace(/(<([^>]+)>)/ig, '');
+}
+
+function removeTagsWithContentFromString(str){
+    let arr_str = str.split(' ');
+    for(let i = 0; i < arr_str.length; i++) {
+        if(arr_str[i].includes('<') && arr_str[i].includes('>')){
+            //console.log(`inluyye tag`);
+            arr_str.splice(i, 1);
+          i--; // Ajustar el índice para evitar omitir elementos después de eliminar uno
+        }
+    }
+    //console.log('arr_str: '+arr_str);
+    let str_new = arr_str.join(' ');
+    return str_new;
 }
   
 function removeAccents(str){

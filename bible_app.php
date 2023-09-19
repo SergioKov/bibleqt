@@ -357,6 +357,14 @@ header('Content-type: text/html; charset=utf-8');
 
                                         </label>
                                     </p>
+                                    <p>
+                                        <label>
+                                            <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
+                                            <span>7. Номер Стронга (если есть)</span>
+                                            <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга (в модуляй, где он есть)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+
+                                        </label>
+                                    </p>
                                 </div>
                             </div>
                         </div>

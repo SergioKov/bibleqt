@@ -34,6 +34,10 @@ console.log('abajo arrFavTransObj:');
 console.log(arrFavTransObj);
 mostrarTamanioObjeto(arrFavTransObj);
 
+const arrFavTskObj = makeTskObj();
+//console.log('abajo arrFavTskObj:');
+//console.log(arrFavTskObj);
+
 var positionShow = 'col';//por defecto posicion de columnas
 //mySizeVerse();
 
@@ -804,9 +808,8 @@ function getTsk(e){
         //console.log('res --- verse: '+verse);//empezando de 1
     }
 
-
+    
     url = `modules/text/tsk/bibleqt.json`;//tsk'; 
-
     fetch(url)
     .then((response) => response.json())
     .then((tsk) => {
@@ -10246,6 +10249,39 @@ function makeTransObj(){
 
     //return arrTrans;
     return arrTransObj;
+}
+
+function makeTskObj(){
+    var arrTsk = [
+        "tsk"
+        //"tsk_gromov",
+        //"tsk_otro",
+    ];
+
+    var arrTskObj = [];
+
+    for (let i = 0; i < arrTsk.length; i++) {
+        const el = arrTsk[i];
+        //console.log(i);
+        //console.log(el);
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${el}/bibleqt.json`;
+        //console.log(url_bq);
+
+        fetch(url_bq)
+        .then((response) => response.json())
+        .then((bq) => {
+            arrTskObj[i] = bq;
+            //console.log(arrTskObj);
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.log('makeTskObj. error promesa: '+error);
+        });        
+    }
+
+    return arrTskObj;
 }
 
 

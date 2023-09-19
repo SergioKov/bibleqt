@@ -1359,6 +1359,15 @@ select  optgroup option {
     padding: 0;
     margin: 3px 0px -5px;
 }
+.f_book span.trans_name {
+    color: white;
+    margin-right: 5px;
+    /* float: right; */
+    background: #1b89e1;
+    padding: 2px 5px 2px;
+    border-radius: 2px;
+    display: inline-block;
+}
 
 
 /* start loader while searching */
