@@ -518,7 +518,7 @@ header('Content-type: text/html; charset=utf-8');
                             </div><!--/colsHeadInner-->
                         </div><!--/colsHead-->
                         <div class="colsInner">
-                            <p> no hay conexión a internet... </p> 
+                            <p>No hay conexión a internet. No es posible mostrar las traducciones de la Biblia... </p> 
                         </div>
                     </div>                
 
