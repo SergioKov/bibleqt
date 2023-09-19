@@ -799,10 +799,10 @@ function findWords(words_input){
 
     //7. Номер Стронга StrongNumber
     if(cbox7.checked){
-        var find_only_in_text_without_tags = false;
+        var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
     }else{//por defecto se busca solo en el texto sin buscar en los tags
         //buscar solo en text o tambien en los tags de strong
-        var find_only_in_text_without_tags = true;//test
+        var search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
     }
 
     var result_finded = [];
@@ -918,12 +918,17 @@ function findWords(words_input){
                                                         }
                                                         //console.log('VerseText: '+VerseText);
                                                         
-                                                        if(VerseText != '' && find_only_in_text_without_tags){
-                                                            //VerseText = removeTags(VerseText);
+                                                        if(VerseText != ''){
+                                                            //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
                                                             //console.log('sin tags --- VerseText: '+VerseText);
-                                                            VerseText = removeTagsWithContentFromString(VerseText);
+            
+                                                            if(search_only_in_text_without_StrongTags){
+                                                                if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                                    VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                                }
+                                                            }
                                                         }
-                    
+                                
                     
                                                         //Si hay palabras para buscar...
                                                         if(arr_words.length > 0){
@@ -1781,14 +1786,18 @@ function findWords(words_input){
                                             }
                                             //console.log('VerseText: '+VerseText);
                                             
-                                            if(VerseText != '' && find_only_in_text_without_tags){
+
+                                            if(VerseText != ''){
                                                 //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
                                                 //console.log('sin tags --- VerseText: '+VerseText);
 
-                                                //console.log('antes VerseText: '+VerseText);
-                                                VerseText = removeTagsWithContentFromString(VerseText);
-                                                //console.log('sin tags VerseText: '+VerseText);
+                                                if(search_only_in_text_without_StrongTags){
+                                                    if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                        VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                    }
+                                                }
                                             }
+
         
         
                                             //Si hay palabras para buscar...
@@ -2663,10 +2672,15 @@ function findWords(words_input){
                                             }
                                             //console.log('VerseText: '+VerseText);
                                             
-                                            if(VerseText != '' && find_only_in_text_without_tags){
-                                                //VerseText = removeTags(VerseText);
+                                            if(VerseText != ''){
+                                                //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
                                                 //console.log('sin tags --- VerseText: '+VerseText);
-                                                VerseText = removeTagsWithContentFromString(VerseText);
+
+                                                if(search_only_in_text_without_StrongTags){
+                                                    if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                        VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                    }
+                                                }
                                             }
         
         
@@ -3591,18 +3605,22 @@ function removeTags(str){
     return str.replace(/(<([^>]+)>)/ig, '');
 }
 
-function removeTagsWithContentFromString(str){
-    let arr_str = str.split(' ');
-    for(let i = 0; i < arr_str.length; i++) {
-        if(arr_str[i].includes('<') && arr_str[i].includes('>')){
-            //console.log(`inluyye tag`);
-            arr_str.splice(i, 1);
-          i--; // Ajustar el índice para evitar omitir elementos después de eliminar uno
+function removeTagsWithStrongNumber(str, tagStart = null, tagEnd = null){
+    if(tagStart != null && tagStart != '' && tagEnd != null && tagEnd != ''){
+        let arr_str = str.split(' ');
+        for(let i = 0; i < arr_str.length; i++) {
+            if(arr_str[i].includes(tagStart) && arr_str[i].includes(tagEnd)){
+                //console.log(`inluyye tag`);
+                arr_str.splice(i, 1);
+              i--; // Ajustar el índice para evitar omitir elementos después de eliminar uno
+            }
         }
+        //console.log('arr_str: '+arr_str);
+        let str_new = arr_str.join(' ');
+        return str_new;    
+    }else{
+        return str;
     }
-    //console.log('arr_str: '+arr_str);
-    let str_new = arr_str.join(' ');
-    return str_new;
 }
   
 function removeAccents(str){

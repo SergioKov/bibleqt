@@ -389,7 +389,7 @@ header('Content-type: text/html; charset=utf-8');
                     <div id="wr_strong_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
-                                <input id="inpt_strong" value="00776">
+                                <input id="inpt_strong" value="G3056">
                                 <div id="clear_inpt" onclick="clear_inpt('strong')">&times;</div>
                             </div>
                             <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">Strong</button>
