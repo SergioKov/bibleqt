@@ -2417,7 +2417,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
     }//end --- typeof Translation
     else{
         console.log('la traducción no está seleccionada. Translation: '+Translation); 
-        alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
+        //alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
     }
 
 
@@ -6074,7 +6074,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     }//end --- typeof Translation
     else{
         console.log('la traducción no está seleccionada. Translation: '+Translation); 
-        alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
+        //alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
     }
 
 
@@ -6474,8 +6474,7 @@ function openSidebar(el){
 
     let sidebar = document.querySelector('#sidebar');
     if(sidebar.classList.length == 0){//se ve, lo oculto
-         //console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");//
-         console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");
+         //console.log("1) sidebar no tiene classe. se ve. Lo muestro de left a right");
          sidebar.classList.add('sideHide');
          setTimeout(()=>{
             sidebar.classList.remove('sideHide');

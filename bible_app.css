@@ -1515,9 +1515,10 @@ select  optgroup option {
 #closeBack {
     color: white;
     width: 32px;
-    height: 24px;
+    /* height: 24px; */
     font-size: 22px;
     margin-right: 2px;
+    cursor: pointer;
 }
 #closeBack span {
     display: flex;
