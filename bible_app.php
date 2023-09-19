@@ -453,12 +453,6 @@ header('Content-type: text/html; charset=utf-8');
                                 </div>
                                 
                                 <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
-                                
-                                <!--
-                                <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
-                                <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
-                                -->
-
                                 <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
 
                             </div>
@@ -524,7 +518,7 @@ header('Content-type: text/html; charset=utf-8');
                             </div><!--/colsHeadInner-->
                         </div><!--/colsHead-->
                         <div class="colsInner">
-                            <p><a href="#">Пс.1:1</a> los versículos se cargan aquí...</p> 
+                            <p> no hay conexión a internet... </p> 
                         </div>
                     </div>                
 
