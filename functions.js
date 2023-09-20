@@ -1389,6 +1389,11 @@ function findWords(words_input){
                                                                             }
                                                                             if(index_first_w < index_next_w && arr_matches_w.includes(1)){
                                                                                 //console.log('VerseText: '+VerseText);
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                });
+                                                                                //console.log(' con red --- VerseText: '+VerseText);
                                                                                 //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
                                                                                 //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
                                                                                 is_match = true;
@@ -1396,7 +1401,26 @@ function findWords(words_input){
                                                                                 is_match = false;
                                                                             }
                                                                         }
-                                                                    }                                            
+                                                                    }//end for
+                                                                    //quito tag's sobrantes de las coincidencias con for
+                                                                    if(is_match){
+                                                                        let tag_f_red_start = '';
+                                                                        let tag_f_red_end = '';
+                                                                        //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                                        //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                                        for (let index = 0; index < arr_words.length; index++) {
+                                                                            tag_f_red_start += '<b class="f_red">';
+                                                                            tag_f_red_end += '</b>';
+                                                                            //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                            //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                            if(index > 0){
+                                                                                VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                                VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                                //console.log(' en for --- VerseText: '+VerseText);
+                                                                            }                                                                        
+                                                                        }
+                                                                        //console.log(' despues de for --- VerseText: '+VerseText);
+                                                                    }                                           
                                                                 }else{
                                                                     is_match = false;
                                                                 }
@@ -2228,7 +2252,9 @@ function findWords(words_input){
                                                                             var text_original = VerseText;
                                                                             var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                             VerseText = markRed(text_original, text_marcas);//FUNCIONA
-                                                                            //console.log('VerseText: '+VerseText); 
+                                                                            //console.log('text_original: '+text_original); 
+                                                                            //console.log('text_marcas: '+text_marcas); 
+                                                                            //console.log('con markRed --- VerseText: '+VerseText); 
                                                                         }else{
                                                                             arr_matches.push(0);
                                                                         }
@@ -2259,6 +2285,10 @@ function findWords(words_input){
                                                                 }
                                                                 if(index_first_w < index_next_w && arr_matches_w.includes(1)){
                                                                     //console.log('VerseText: '+VerseText);
+                                                                    VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    });
+                                                                    //console.log(' con red --- VerseText: '+VerseText);
                                                                     //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
                                                                     //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
                                                                     is_match = true;
@@ -2266,7 +2296,26 @@ function findWords(words_input){
                                                                     is_match = false;
                                                                 }
                                                             }
-                                                        }                                            
+                                                        }//end for
+                                                        //quito tag's sobrantes de las coincidencias con for
+                                                        if(is_match){
+                                                            let tag_f_red_start = '';
+                                                            let tag_f_red_end = '';
+                                                            //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                            //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                            for (let index = 0; index < arr_words.length; index++) {
+                                                                tag_f_red_start += '<b class="f_red">';
+                                                                tag_f_red_end += '</b>';
+                                                                //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                if(index > 0){
+                                                                    VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                    VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                    //console.log(' en for --- VerseText: '+VerseText);
+                                                                }                                                                        
+                                                            }
+                                                            //console.log(' despues de for --- VerseText: '+VerseText);
+                                                        }                                           
                                                     }else{
                                                         is_match = false;
                                                     }
@@ -3143,6 +3192,11 @@ function findWords(words_input){
                                                                 }
                                                                 if(index_first_w < index_next_w && arr_matches_w.includes(1)){
                                                                     //console.log('VerseText: '+VerseText);
+                                                                    //console.log('VerseText: '+VerseText);
+                                                                    VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    });
+                                                                    //console.log(' con red --- VerseText: '+VerseText);
                                                                     //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
                                                                     //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
                                                                     is_match = true;
@@ -3150,7 +3204,26 @@ function findWords(words_input){
                                                                     is_match = false;
                                                                 }
                                                             }
-                                                        }                                            
+                                                        }//end for
+                                                        //quito tag's sobrantes de las coincidencias con for
+                                                        if(is_match){
+                                                            let tag_f_red_start = '';
+                                                            let tag_f_red_end = '';
+                                                            //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                            //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                            for (let index = 0; index < arr_words.length; index++) {
+                                                                tag_f_red_start += '<b class="f_red">';
+                                                                tag_f_red_end += '</b>';
+                                                                //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                if(index > 0){
+                                                                    VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                    VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                    //console.log(' en for --- VerseText: '+VerseText);
+                                                                }                                                                        
+                                                            }
+                                                            //console.log(' despues de for --- VerseText: '+VerseText);
+                                                        }                                           
                                                     }else{
                                                         is_match = false;
                                                     }
