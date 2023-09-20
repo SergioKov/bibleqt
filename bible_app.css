@@ -1368,6 +1368,9 @@ select  optgroup option {
     border-radius: 3px;
     display: inline-block;
 }
+.title_par span.trans_name{
+    float: right !important;  
+}
 
 
 /* start loader while searching */
@@ -1452,14 +1455,30 @@ select  optgroup option {
     background: #5eb4f9;
 }
 #hist_find img {
-    width: 100%;
+    width: 10px;
     transition: 0.3s;
-}
-#hist_find img.razv {
     transform: rotate(90deg);
+}
+#hist_find img.razv, 
+.title_par img.razv 
+{
+    /*transform: rotate(90deg);*/
+    transform: rotate(0deg);
 }
 #hist_find:focus-visible {
     outline: 1px solid #1b89e1;
+}
+
+.title_par img {
+    width: 10px;
+    float: right;
+    top: 2px;
+    position: relative;
+    transform: rotate(90deg);
+    right: 2px;
+    margin-left: 10px;
+    /* transform: rotate(0deg); */
+    transition: 0.3s;
 }
 .pf {
     cursor: pointer;

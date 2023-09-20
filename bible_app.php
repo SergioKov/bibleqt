@@ -187,7 +187,11 @@ header('Content-type: text/html; charset=utf-8');
                             </div>                       
 
                             <div class="wr_op">
-                                <div class="bl_trig title_par" onclick="hideShowFindParams()">Параметры поиска:</div>
+                                <div class="bl_trig title_par" onclick="hideShowFindParams()">
+                                    Параметры поиска:
+                                    <img src="images/icon_razvernut.png">
+                                    <span class="trans_name"></span>
+                                </div>
 
                                 <div class="bl_trig bl_par" style="display:none;">
 

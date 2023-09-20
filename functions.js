@@ -744,7 +744,8 @@ function findWords(words_input){
     if(document.querySelector('.res_f') == null){
         const f_book = document.createElement('p');
         f_book.className = 'f_book';
-        f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;
+        // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
+        f_book.innerHTML = `<span class="book_name"></span>`;
         div_find_head.append(f_book);
 
         const p_i = document.createElement('p');
@@ -831,7 +832,8 @@ function findWords(words_input){
             //console.log(bq);
 
             //muestro trans en result de busqueda
-            document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;
+            //document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;//antes
+            document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;
         
             if(book_start != null && book_end != null){
     
@@ -2656,7 +2658,8 @@ function findWords(words_input){
                 //console.log(bq);
 
                 //muestro trans en result de busqueda
-                document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;                
+                //document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;//antes 
+                document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;               
         
                 if(book_start != null && book_end != null){
         
@@ -3657,14 +3660,18 @@ function hideShowHistFind(){
 
 function hideShowFindParams(){
     let bl_par = document.querySelector('.bl_par');
+    let title_par_img = document.querySelector('.title_par img');
 
     if(bl_par.style.display == 'none'){
         bl_par.style.display = 'block';
+        title_par_img.classList.add('razv');
     }else{
         bl_par.style.display = 'none';
+        title_par_img.classList.remove('razv');
     }
     mySizeFind();//altura de div_find_body
 }
+
 
 function removeTags(str){
     if(str === null || str === ''){
