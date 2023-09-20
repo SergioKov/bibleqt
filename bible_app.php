@@ -51,17 +51,17 @@ header('Content-type: text/html; charset=utf-8');
                     </div>
 
                     <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
-                        <img src="image/arrow_backward_white.svg">
+                        <img src="images/arrow_backward_white.svg">
                     </div>
                     <div class="dbtn" title="Next book"onclick="bookGo('next')">
-                        <img src="image/arrow_forward_white.svg">
+                        <img src="images/arrow_forward_white.svg">
                     </div>
 
                     <div id="btn_chapterGoPrev" class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
-                        <img src="image/arrow_chevron_left_white.svg">                            
+                        <img src="images/arrow_chevron_left_white.svg">                            
                     </div>
                     <div id="btn_chapterGoNext" class="dbtn" title="Next chapter" onclick="chapterGo('next')">
-                        <img src="image/arrow_chevron_right_white.svg">
+                        <img src="images/arrow_chevron_right_white.svg">
                     </div>
 
                     <div class="dbtn" title="History previous register. function in development..." onclick="hist('prev')">
@@ -85,7 +85,7 @@ header('Content-type: text/html; charset=utf-8');
                 </div>
 
                 <div class="tres_puntos_menu" title="menu..." onclick="openModal('top')">
-                    <img src="image/tres_puntos2_white.svg" style="width:24px;">
+                    <img src="images/tres_puntos2_white.svg" style="width:24px;">
                 </div>
 
 
@@ -107,7 +107,7 @@ header('Content-type: text/html; charset=utf-8');
                 <div id="menuTabs">
                     
                     <div id="arrowBack" onclick="closeSidebar(this)">
-                        <img class="f_l" src="image/arrow_left2_white.svg">
+                        <img class="f_l" src="images/arrow_left2_white.svg">
                     </div>
 
                     <div id="restoTabs" class="f_r">                    
@@ -176,7 +176,7 @@ header('Content-type: text/html; charset=utf-8');
                                 <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
                             </div>
                             <div id="hist_find" onclick="hideShowHistFind()">
-                                <img src="image/icon_razvernut.png">
+                                <img src="images/icon_razvernut.png">
                             </div>
                             <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
                             <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
@@ -439,8 +439,8 @@ header('Content-type: text/html; charset=utf-8');
                         <div class="partMob" style="display:none;">
                             <div class="partMobInner">
 
-                                <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
-                                <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="images/menu_white.svg"></button>
+                                <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="images/arrow_chevron_left_white.svg"></button>
                                 
                                 <div class="centralPart">
                                     <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
@@ -452,8 +452,8 @@ header('Content-type: text/html; charset=utf-8');
                                     </button>
                                 </div>
                                 
-                                <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
-                                <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                                <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>
+                                <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
 
                             </div>
                         </div>
@@ -473,7 +473,7 @@ header('Content-type: text/html; charset=utf-8');
 
                                     <div class="wr_desk_trans">
 
-                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="images/arrow_chevron_left_white.svg"></button>
 
                                         <div class="centralPart" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#trans1.colsHead'))">
                                             <div class="desk_trans">RST</div>
@@ -482,7 +482,7 @@ header('Content-type: text/html; charset=utf-8');
                                         </div>
 
 
-                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>
 
                                     </div>
 
@@ -491,8 +491,8 @@ header('Content-type: text/html; charset=utf-8');
                                 <div class="partMob">
                                     <div class="partMobInner">
 
-                                        <button class="btnMenu btn btn_svg" data-typebtn="transMenu"  onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
-                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                        <button class="btnMenu btn btn_svg" data-typebtn="transMenu"  onclick="openSidebar(this)"><img src="images/menu_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="images/arrow_chevron_left_white.svg"></button>
                                         
                                         <div class="centralPart">
                                             <button class="btn" onclick="openModal('full',document.querySelector('#trans1.colsHead'))" title="open Modal to choose translation">
@@ -504,13 +504,13 @@ header('Content-type: text/html; charset=utf-8');
                                             </button>
                                         </div>
                                         
-                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>
                                         <!--
-                                        <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
-                                        <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="image/arrow_chevron_down_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="openModal('bottom')" title="'menu abajo. navegación. historial."><img src="images/arrow_chevron_down_white.svg"></button>
+                                        <button class="btn btn_svg" onclick="openModal('center')" title="'menu abajo. navegación. historial."><img src="images/arrow_chevron_down_white.svg"></button>
                                         -->
 
-                                        <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+                                        <button class="btn btn_svg" onclick="openModal('top')" title="menu modal. ajustes de la app"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
                                         
                                     </div>
                                 </div>
@@ -559,8 +559,8 @@ header('Content-type: text/html; charset=utf-8');
     </div>
 
 
-    <button id="btn_pageUp" onclick="pageUp()"><img src="image/arrow_chevron_down_white.svg"></button>
-    <button id="btn_pageDown" onclick="pageDown()"><img src="image/arrow_chevron_down_white.svg"></button>
+    <button id="btn_pageUp" onclick="pageUp()"><img src="images/arrow_chevron_down_white.svg"></button>
+    <button id="btn_pageDown" onclick="pageDown()"><img src="images/arrow_chevron_down_white.svg"></button>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -599,17 +599,17 @@ header('Content-type: text/html; charset=utf-8');
 
 
                             <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
-                                <img src="image/arrow_backward_white.svg">
+                                <img src="images/arrow_backward_white.svg">
                             </div>
                             <div class="dbtn" title="Next book"onclick="bookGo('next')">
-                                <img src="image/arrow_forward_white.svg">
+                                <img src="images/arrow_forward_white.svg">
                             </div>
 
                             <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
-                                <img src="image/arrow_chevron_left_white.svg">                            
+                                <img src="images/arrow_chevron_left_white.svg">                            
                             </div>
                             <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
-                                <img src="image/arrow_chevron_right_white.svg">
+                                <img src="images/arrow_chevron_right_white.svg">
                             </div>
 
                             <div class="dbtn" title="History previous register" onclick="prevHist()">

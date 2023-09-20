@@ -7399,8 +7399,8 @@ function addTrans(addMode = null){
                                     <div class="partMob">
                                         <div class="partMobInner">
 
-                                            <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="image/menu_white.svg"></button>
-                                            <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="image/arrow_chevron_left_white.svg"></button>
+                                            <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)"><img src="images/menu_white.svg"></button>
+                                            <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="images/arrow_chevron_left_white.svg"></button>
                                             
                                             <div class="centralPart">
                                                 <button class="btn" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))" title="open Modal to choose translation">
@@ -7412,7 +7412,7 @@ function addTrans(addMode = null){
                                                 </button>
                                             </div>
                                             
-                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="image/arrow_chevron_right_white.svg"></button>                                            
+                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>                                            
                                             <button class="btn btn_x" onclick="closeTrans(this,event,'mob')" title="close Translation">&#10005;</button><!--x-->
                                             
                                         </div>

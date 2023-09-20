@@ -24,7 +24,7 @@
     <div id="nav_header">
       <div class="inner">
                 
-        <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_left2_white.svg"></button>
+        <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_left2_white.svg"></button>
 
         <div id="sidebarBtns">
             <div id="sidebarBtnsInner">
@@ -59,30 +59,30 @@
                 <button class="btn btn_m f_l" onclick="closeNav()">Strong</button>
             </div>
 
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_right2_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_right2_white.svg"></button>
             <button class="btn btn_m f_r" onclick="closeNav()">&#10005;</button><!-- x -->
 
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_right_white.svg"></button>
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_left_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_right_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_left_white.svg"></button>
 
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_backward_white.svg"></button>
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_forward_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_backward_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_forward_white.svg"></button>
             
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_down_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_down_white.svg"></button>
 
             <button class="btn btn_m f_l utf8">&#10148;</button>
             <button class="btn btn_m f_l utf8">►</button>
 
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_forward_white.svg"></button>
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_backward_white.svg"></button>
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_right2_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_forward_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_backward_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_right2_white.svg"></button>
             
             
             
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/tres_puntos2_white.svg" style="width:24px;"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
 
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_down_white.svg"></button>
-            <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/lupa_white.svg" style="width:20px;"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_down_white.svg"></button>
+            <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/lupa_white.svg" style="width:20px;"></button>
             <button class="btn btn_m f_l utf8">&#10148;</button>
             <button class="btn btn_m f_l utf8">►</button>    
         
@@ -140,7 +140,7 @@
                     <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
                 </div>
                 <div id="hist_find" onclick="hideShowHistFind()">
-                    <img src="image/icon_razvernut.png">
+                    <img src="images/icon_razvernut.png">
                 </div>
                 <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
                 <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
@@ -372,16 +372,16 @@
 
 <header>
   <div id="headerInner">
-    <button class="btn btn_m f_l" onclick="openNav()"><img src="image/menu_white.svg" style="width:20px;"></button>
+    <button class="btn btn_m f_l" onclick="openNav()"><img src="images/menu_white.svg" style="width:20px;"></button>
   
     <button class="btn btn_m f_l" onclick="closeNav()" style="font-size:12px;">RST+</button>
     
     <div>
-      <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_left_white.svg"></button>
+      <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_left_white.svg"></button>
       <button class="btn btn_m f_l" onclick="closeNav()">Jn 3:16</button>
-      <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/arrow_chevron_right_white.svg"></button>
+      <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/arrow_chevron_right_white.svg"></button>
     </div>
-    <button class="btn btn_m f_l" onclick="closeNav()"><img src="image/lupa_white.svg" style="width:20px;"></button>
+    <button class="btn btn_m f_l" onclick="closeNav()"><img src="images/lupa_white.svg" style="width:20px;"></button>
     
     <button class="btn btn_m f_l" onclick="closeNav()"><i class="fas fa-star icon"></i></button>
     
