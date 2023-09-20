@@ -118,7 +118,10 @@
     }
     .colsHeadInner {
         margin: 2px;
-    }  
+    } 
+    .wr_op, p.res_f{
+       margin-right: -3px; 
+    } 
 }
 /* end mobilka */
 
