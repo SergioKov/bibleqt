@@ -2,76 +2,113 @@
     margin:0;
     padding:0;
 }
-/* hebrew */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew&display=swap');
 
-/* use Ezra SIL - Regular in .woff format */
-@font-face {
-    font-family: EzraSILW;
-    src: url(fonts/SILEOT.woff);
-}
+/* hebrew + greek */
+/*@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&family=Noto+Serif+Hebrew:wght@400;500;600;700&display=swap');*/
 
-/* use Ezra SIL SR - Regular in .woff format */
-@font-face {
-    font-family: EzraSILSRW;
-    src: url(fonts/SILEOTSR.woff);
-}
+@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&family=GFS+Neohellenic:wght@400;700&family=Noto+Serif+Hebrew:wght@400;500;600;700&display=swap');
 
 
 
-@font-face {
-	font-family: EzraSILW;
-	/* src: url(SILEOT.woff); */
-    src:
-    local("EzraSILW"),
-    url("/fonts/SILEOT.woff") format("woff"),
-    url("/fonts/SILEOT.ttf") format("truetype");    
-	unicode-range: U+0590-05FF;
-}
 
 
-@font-face {
-	font-family: GentiumPlusW;
-	font-style: italic;
-	src: url(GentiumPlus-I.woff);
-	unicode-range: U+0370-03FF, U+1F00-1FFF;
-}
 
+
+
+
+
+/*
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   src:
     local("Open Sans"),
-    url("/fonts/opensans.woff2") format("woff2"),
-    url("/fonts/opensans.woff") format("woff"),
-    url("/fonts/opensans.ttf") format("truetype");
+    url("fonts/opensans.woff2") format("woff2"),
+    url("fonts/opensans.woff") format("woff"),
+    url("fonts/opensans.ttf") format("truetype");
 }
+*/
+
 
 
 
 @font-face {
-	font-family: SILEOT;
-	/* src: url(SILEOT.woff); */
+	font-family: EzraSILW;
     src:
-    local("SILEOT"),
-    url("/fonts/SILEOT.woff") format("woff"),
-    url("/fonts/SILEOT.ttf") format("truetype");    
+    local("EzraSILW"),
+    url("fonts/hebrew/SILEOT.woff") format("woff"),
+    url("fonts/hebrew/SILEOT.ttf") format("truetype");    
 	unicode-range: U+0590-05FF;
 }
 
+@font-face {
+	font-family: SILEOT;
+    src:
+    local("SILEOT"),
+    url("fonts/hebrew/SILEOT.woff") format("woff"),
+    url("fonts/hebrew/SILEOT.ttf") format("truetype");    
+	unicode-range: U+0590-05FF;
+}
+
+/* old Strong */
+@font-face {
+	font-family: BQTHeb;
+    src:
+    local("BQTHeb"),
+    url("fonts/hebrew/Heb.ttf") format("truetype");    
+}
+
+/* old Strong */
+@font-face {
+	font-family: BQTGrk;
+    src:
+    local("BQTGrk"),
+    url("fonts/greek/Grk.ttf") format("truetype");    
+}
+
+/* greek */
+@font-face {
+	font-family: 'GFS Didot';
+    src:
+    local("GFSDidot-Regular.ttf"),
+    url("fonts/greek/GFSDidot-Regular.ttf") format("truetype");    
+}
+@font-face {
+	font-family: 'GFS Neohellenic Bold';
+    src:
+    local("GFSNeohellenic-Bold.ttf"),
+    url("fonts/greek/GFSNeohellenic-Bold.ttf") format("truetype");    
+}
+@font-face {
+	font-family: 'GFS Neohellenic';
+    src:
+    local("GFSNeohellenic-Regular.ttf"),
+    url("fonts/greek/GFSNeohellenic-Regular.ttf") format("truetype");    
+}
+
+/*-----------------------------------------------------------------------*/
+
+
+
+
 
 .test_font_hebrew{
-    font-family: EzraSILW, sans-serif; 
-    font-size: 100%; 
+    font-family: 'Noto Serif Hebrew', EzraSILW, sans-serif; 
+    font-family: 'BQTHeb'; 
+    font-size: 200%; 
     direction: rtl; 
     text-align: right;
     color: lightgreen;
+    font-weight: 400;
     /* fall back to sans-serif so that it's really obvious if the fonts don't load */
 }
+
 .test_font_greek{
-    font-family: 'Noto Serif Hebrew', serif; 
-    font-size: 100%; 
+    font-family: 'GFS Didot';
+    font-family: 'GFS Neohellenic';
+    font-family: 'GFSDidot-Regular';
+    font-size: 200%; 
     direction: rtl; 
     text-align: right;
     color: purple;
@@ -1241,10 +1278,11 @@ span.num_strong {
 
 span.text_strong font[face='BQTHeb'] {
     color: #009688;
-    font-family: 'Noto Serif Hebrew', serif;
+    font-family: 'BQTHeb', serif;
 }
 span.text_strong font[face='BQTGrk'] {
     color: #e21dff;
+    font-family: 'BQTGrk', serif;
 }
 span.sp_strong {
     color: blue;
