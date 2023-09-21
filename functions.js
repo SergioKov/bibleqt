@@ -349,6 +349,12 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
     let div_strong_body = document.querySelector('#strong_body');
     var numberInt, numberStrShow, strongFile;
 
+    //si numero strong es clecked desde findWords y viene rojo... 
+    if(numberStr.includes('<b class="f_red">') || numberStr.includes('</b>')){
+        numberStr = numberStr.replace('<b class="f_red">','');
+        numberStr = numberStr.replace('</b>','');
+    }
+
     if(window.innerWidth < 768){//si es mobile
         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
     }
@@ -750,7 +756,9 @@ function findWords(words_input){
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
-        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
+        //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
+        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
+        
         div_find_head.append(p_i);
     }  
     mySizeFind();//altura de div_find_body
@@ -1697,7 +1705,8 @@ function findWords(words_input){
                                             }                    
                     
                                             //inserto resultado de búsqueda                        
-                                            document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                            //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                            document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                             mySizeFind();//altura de div_find_body
                     
                                             var arr_l = [];
@@ -2592,7 +2601,8 @@ function findWords(words_input){
                                 }                    
         
                                 //inserto resultado de búsqueda                        
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                 mySizeFind();//altura de div_find_body
         
                                 var arr_l = [];
@@ -3501,7 +3511,8 @@ function findWords(words_input){
                                 }                    
         
                                 //inserto resultado de búsqueda                        
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
+                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                 mySizeFind();//altura de div_find_body
         
                                 var arr_l = [];
@@ -3620,6 +3631,10 @@ function mostrar_no_res(){
 
         document.querySelector(".res_f b").innerHTML = `${inpt_find.value.trim()}`;
         document.querySelector(".res_f span").innerHTML = '(0)';
+        document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0`);
+        document.querySelector(".res_f span.tooltip").setAttribute('onmouseenter',`showTooltip(this)`);
+        document.querySelector(".res_f span.tooltip").setAttribute('onmouseleave',`hideTooltip(this)`);
+        document.querySelector(".res_f span.tooltip").innerHTML = '*';
         document.querySelector(".res_m").innerHTML = '[0]';
 
         div_find_body.innerHTML = '';//reset

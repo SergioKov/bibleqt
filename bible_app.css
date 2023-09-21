@@ -2,21 +2,41 @@
     margin:0;
     padding:0;
 }
-body{
-    overflow:hidden;
+/* hebrew */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew&display=swap');
+
+/* use Ezra SIL - Regular in .woff format */
+@font-face {
+    font-family: EzraSILW;
+    src: url(fonts/SILEOT.woff);
 }
+
+/* use Ezra SIL SR - Regular in .woff format */
+@font-face {
+    font-family: EzraSILSRW;
+    src: url(fonts/SILEOTSR.woff);
+}
+
+
 
 @font-face {
 	font-family: EzraSILW;
-	src: url(SILEOT.woff);
+	/* src: url(SILEOT.woff); */
+    src:
+    local("EzraSILW"),
+    url("/fonts/SILEOT.woff") format("woff"),
+    url("/fonts/SILEOT.ttf") format("truetype");    
 	unicode-range: U+0590-05FF;
 }
+
+
 @font-face {
 	font-family: GentiumPlusW;
 	font-style: italic;
 	src: url(GentiumPlus-I.woff);
 	unicode-range: U+0370-03FF, U+1F00-1FFF;
 }
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -28,12 +48,39 @@ body{
     url("/fonts/opensans.ttf") format("truetype");
 }
 
-body {
-	font-family: EzraSILW, GentiumPlusW, Arial;
+
+
+@font-face {
+	font-family: SILEOT;
+	/* src: url(SILEOT.woff); */
+    src:
+    local("SILEOT"),
+    url("/fonts/SILEOT.woff") format("woff"),
+    url("/fonts/SILEOT.ttf") format("truetype");    
+	unicode-range: U+0590-05FF;
 }
 
 
+.test_font_hebrew{
+    font-family: EzraSILW, sans-serif; 
+    font-size: 100%; 
+    direction: rtl; 
+    text-align: right;
+    color: lightgreen;
+    /* fall back to sans-serif so that it's really obvious if the fonts don't load */
+}
+.test_font_greek{
+    font-family: 'Noto Serif Hebrew', serif; 
+    font-size: 100%; 
+    direction: rtl; 
+    text-align: right;
+    color: purple;
+}
 
+body{
+    overflow:hidden;
+    font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
+}
 
 #header {
     background: #03a9f4;
@@ -599,7 +646,7 @@ p a:hover {
     max-height: fit-content;
     color: #ffffff;
     text-align: left;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 5px 10px;
     position: absolute;
     z-index: 1;
@@ -1194,6 +1241,7 @@ span.num_strong {
 
 span.text_strong font[face='BQTHeb'] {
     color: #009688;
+    font-family: 'Noto Serif Hebrew', serif;
 }
 span.text_strong font[face='BQTGrk'] {
     color: #e21dff;

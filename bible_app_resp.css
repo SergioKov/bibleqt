@@ -119,7 +119,10 @@
     .colsHeadInner {
         margin: 2px;
     } 
-    .wr_op, p.res_f{
+    .wr_op, 
+    p.res_f,
+    .wr_hist_find
+    {
        margin-right: -3px; 
     } 
 }

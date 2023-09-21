@@ -9,6 +9,12 @@ header('Content-type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BQ test</title>
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
+     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew&display=swap" rel="stylesheet">
+    
+
     <link rel="stylesheet" href="bible_app.css">
     <link rel="stylesheet" href="bible_app_resp.css">
 
@@ -22,6 +28,8 @@ header('Content-type: text/html; charset=utf-8');
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Open+Sans:wght@300&family=Raleway:wght@100&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
 
@@ -78,7 +86,10 @@ header('Content-type: text/html; charset=utf-8');
                         <div>S#</div>
                     </div>
 
-                    <h3>BQ</h3>
+                    <h3>BQ 
+                        (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
+                        (<span class="test_font_greek">λόγος</span>)
+                    </h3>
 
 
                     
@@ -320,21 +331,21 @@ header('Content-type: text/html; charset=utf-8');
                                     <p>
                                         <label>
                                             <input id="cbox1" type="checkbox" onclick="cboxChange(this)"> 
-                                            <span>1. искомое содержит хотя бы одно слово</span>
+                                            <span>1. Искомое содержит хотя бы одно слово</span>
                                             <span class="tooltip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox2" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>2. cлова идут в заданном порядке</span>
+                                            <span>2. Cлова идут в заданном порядке</span>
                                             <span class="tooltip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox3" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>3. искать точную фразу</span>
+                                            <span>3. Искать точную фразу</span>
                                             <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
 
                                         </label>
@@ -342,21 +353,21 @@ header('Content-type: text/html; charset=utf-8');
                                     <p>
                                         <label>
                                             <input id="cbox4" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>4. выражения не могут быть частями слов</span>
+                                            <span>4. Выражения не могут быть частями слов</span>
                                             <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox5" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>5. различать прописные и ЗАГЛАВНЫЕ буквы</span>
+                                            <span>5. Различать прописные и ЗАГЛАВНЫЕ буквы</span>
                                             <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>6. различать буквы с ударениями (если есть)</span>
+                                            <span>6. Различать буквы с ударениями (если есть)</span>
                                             <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
 
                                         </label>
@@ -364,7 +375,7 @@ header('Content-type: text/html; charset=utf-8');
                                     <p>
                                         <label>
                                             <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>7. Номер Стронга (если есть)</span>
+                                            <span>7. Искать номер Стронга (если есть)</span>
                                             <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга (в модуляй, где он есть)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
 
                                         </label>

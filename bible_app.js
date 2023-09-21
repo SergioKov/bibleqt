@@ -9581,7 +9581,11 @@ function selectModule2(htmlTrans){
 
 
 function getObjTransByName(trans){
-    return arrFavTransObj.find(v => v.Translation === trans );
+    if(typeof arrFavTransObj != 'undefined'){
+        return arrFavTransObj.find(v => v.Translation === trans );
+    }else{
+        return false;
+    }
 }
 
 
