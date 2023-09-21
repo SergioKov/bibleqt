@@ -94,8 +94,7 @@
 
 
 .test_font_hebrew{
-    font-family: 'Noto Serif Hebrew', EzraSILW, sans-serif; 
-    font-family: 'BQTHeb'; 
+    font-family: 'Noto Serif Hebrew', EzraSILW, 'BQTHeb', sans-serif; 
     font-size: 200%; 
     direction: rtl; 
     text-align: right;
@@ -105,9 +104,7 @@
 }
 
 .test_font_greek{
-    font-family: 'GFS Didot';
-    font-family: 'GFS Neohellenic';
-    font-family: 'GFSDidot-Regular';
+    font-family: 'GFS Didot', 'GFS Neohellenic','BQTGrk', sans-serif;
     font-size: 200%; 
     direction: rtl; 
     text-align: right;
