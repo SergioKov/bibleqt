@@ -2252,3 +2252,37 @@ span.mob_sh_link {
 .sh_cuant{
     margin-right: 10px;
 }
+.wr_strong_btns{
+    margin-right: -5px;
+}
+.wr_strong_btns_inner {
+    /* background: #88f2ff; */
+    overflow: hidden;
+    margin: 5px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: stretch;
+}
+.wr_strong_btns_inner .btn {
+    width: 49%;
+    background: #1b89e1;
+    border: 1px solid #2c7fc1;
+    padding: 5px;
+    transition: 0.3s;
+    color: white;
+}
+.wr_strong_btns_inner .btn:hover{
+    background: #329bf0;
+    border: 1px solid #2c7fc1;
+    color: white;
+}
+.s_active {
+    background: red!important;
+    border: 1px solid brown!important;
+}
+.s_active:hover {
+    background: #fd2b2b !important;
+}

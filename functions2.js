@@ -820,4 +820,55 @@ function doPageDownOnScroll(){
         //console.log('el.target.scrollTop: '+el.target.scrollTop);        
     });
 } 
- 
+
+
+
+function markarStrongNumberFinded(){
+    document.querySelectorAll('#find_body p s').forEach(el=>{
+        //console.log(el); 
+        if(el.innerHTML.includes('<b class="f_red">')){
+            //console.log(' contiene b ');
+            el.classList.add('finded_strongActive');
+            //console.log(el);
+        }else{
+            el.classList.add('other_strongActive');
+        }                                          
+    });
+}
+
+function showOnlyStrongNumberFinded_3Actions(){
+    markarStrongNumberFinded();
+    showOnlyStrongNumberFinded();
+}
+
+function showOnlyStrongNumberFinded(){
+    //console.log('=== function showOnlyStrongNumberFinded() ===');
+    let btn_finded_s = document.querySelector('#btn_finded_s');
+    let btn_all_s = document.querySelector('#btn_all_s');
+    btn_finded_s.classList.add('s_active');
+    btn_all_s.classList.remove('s_active');
+    markarStrongNumberFinded();
+    document.querySelectorAll('#find_body p s').forEach(el=>{
+        if(el.classList.contains('finded_strongActive')){
+            el.style.display = 'inline-block';
+        }else{
+            el.style.display = 'none';
+        }
+    });
+}
+
+function showAllStrongNumberInFind_3Actions(){
+    markarStrongNumberFinded();
+    showAllStrongNumberInFind();
+}
+
+function showAllStrongNumberInFind(){
+    //console.log('=== function showAllStrongNumberInFind() ===');
+    let btn_finded_s = document.querySelector('#btn_finded_s');
+    let btn_all_s = document.querySelector('#btn_all_s');
+    btn_finded_s.classList.remove('s_active');
+    btn_all_s.classList.add('s_active');
+    document.querySelectorAll('#find_body p s').forEach(el=>{
+        el.style.display = 'inline-block';
+    });
+}

@@ -453,18 +453,16 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
         p_v.innerHTML = `Найти стихи с этим номером.`;
         p_v.onclick = function(){
             showTab(document.querySelector('#btn_find'),'find');
+            document.querySelector('#cbox7').checked = true;//si hace falta
 
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                 document.querySelector('#inpt_find').value = numberStrShow;
-                document.querySelector('#cbox7').checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
                 document.querySelector('#inpt_find').value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                    document.querySelector('#cbox7').checked = true;//si hace falta
                     findWords(numberStr);
                 }else{//rstStrong
-                    document.querySelector('#cbox7').checked = true;//si hace falta
                     //document.querySelector('#cbox4').checked = true;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
@@ -509,12 +507,13 @@ function cboxChange(e){
     //console.log('=== function cboxChange() ===');
     //console.log('e.id: '+e.id);
     
-    var cbox1 = document.querySelector('#cbox1');//1. искомое содержит хотя бы одно слово
-    var cbox2 = document.querySelector('#cbox2');//2. cлова идут в заданном порядке
-    var cbox3 = document.querySelector('#cbox3');//3. искать точную фразу
-    var cbox4 = document.querySelector('#cbox4');//4. выражения не могут быть частями слов
-    var cbox5 = document.querySelector('#cbox5');//5. различать прописные и заглавные буквы
-    var cbox6 = document.querySelector('#cbox6');//6. различать буквы с ударениями (если есть)
+    var cbox1 = document.querySelector('#cbox1');//1. Искомое содержит хотя бы одно слово
+    var cbox2 = document.querySelector('#cbox2');//2. Cлова идут в заданном порядке
+    var cbox3 = document.querySelector('#cbox3');//3. Искать точную фразу
+    var cbox4 = document.querySelector('#cbox4');//4. Выражения не могут быть частями слов
+    var cbox5 = document.querySelector('#cbox5');//5. Различать прописные и заглавные буквы
+    var cbox6 = document.querySelector('#cbox6');//6. Различать буквы с ударениями (если есть)
+    var cbox7 = document.querySelector('#cbox7');//7. Искать номер Стронга (если есть) *
 
     if(e.id == 'cbox1'){
         if(cbox1.checked){
@@ -539,6 +538,16 @@ function cboxChange(e){
     if(e.id == 'cbox4'){
         if(cbox3.checked){
             cbox3.checked = false;
+        }
+    }
+    if(e.id == 'cbox7'){        
+        if(cbox7.checked){
+            cbox1.checked = false;
+            cbox2.checked = false;
+            cbox3.checked = false;
+            cbox4.checked = false;
+            cbox5.checked = false;
+            cbox6.checked = false;
         }
     }
 }
@@ -829,7 +838,7 @@ function findWords(words_input){
 
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
-            console.log('findWords() --- objTrans está creado. abajo objTrans: ');
+            //console.log('findWords() --- objTrans está creado. abajo objTrans: ');
             //console.log(objTrans);
 
             
@@ -950,7 +959,7 @@ function findWords(words_input){
                                                             //=======================================================================//  
                                                             //0. por defecto - nada marcado //ok
                                                             //=======================================================================//  
-                                                            if(!cbox1.checked && !cbox2.checked && !cbox3.checked){
+                                                            if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
                                                                 let arr_matches = [];  
                                                                 //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                                 arr_words.forEach(w => {
@@ -1474,12 +1483,11 @@ function findWords(words_input){
                                                                         var arr_frases = prepararFrases(text_original,text_marcas);
                                                                         var frase_original = arr_frases[0];
                                                                         var frase_exacta = arr_frases[1];
-                                                                        //console.log('frase_original: '+frase_original);
-                                                                        //console.log('frase_exacta: '+frase_exacta);
-                                                                        text_marcas = prepararTextMarcas(frase_exacta);
-                                                                        
+                                                                        console.log('frase_original: '+frase_original);
+                                                                        console.log('frase_exacta: '+frase_exacta);
+                                                                        text_marcas = prepararTextMarcas(frase_exacta);                                                                        
                                                                         VerseText = markRed(frase_original, text_marcas);//FUNCIONA
-                                                                        //console.log('VerseText: '+VerseText);
+                                                                        console.log('VerseText: '+VerseText);
                                                                         VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
                                                                         is_match = true;
                                                                         count_m_total += count_m;
@@ -1492,7 +1500,57 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                             //=======================================================================//
-                    
+
+
+                                                            //=======================================================================//
+                                                            //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //=======================================================================//
+                                                            if(cbox7.checked){
+                                                                var words = arr_words.join(' ');
+                                                                VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                                var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                                VerseText = arr_VerseText_or.join(' ');
+                                                                var regex_w = RegExp(words, tipo);
+                                                                var arr_VerseText_con_sn = [];
+                                                                var arr_sn = [];//arr de strong numbers finded
+                                                                arr_VerseText_or.forEach(el=>{  
+                                                                    if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                                        //console.log('el: '+el);
+                                                                        let sNumber_sin_tags = removeTags(el); 
+                                                                        //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                                        if(sNumber_sin_tags == words){
+                                                                            //console.log('sNumber_sin_tags == words');
+                                                                            arr_sn.push(sNumber_sin_tags);
+                                                                            let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            }); 
+                                                                            el = sNumber_con_tags;
+                                                                            //console.log('nuevo el: '+el);
+                                                                            arr_VerseText_con_sn.push(el);//con sn red
+                                                                        }else{
+                                                                            arr_VerseText_con_sn.push(el);
+                                                                        }
+                                                                    }else{
+                                                                        arr_VerseText_con_sn.push(el);
+                                                                    }
+                                                                });
+                                                                //console.log('arr_sn: '+arr_sn);
+                                                                VerseText = arr_VerseText_con_sn.join(' ');
+                                                                //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                                arr_result_m = arr_sn;
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //=======================================================================//
+
                     
                                                         }//end //if(arr_words.length > 0)
                     
@@ -1845,7 +1903,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked){
+                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -2344,6 +2402,7 @@ function findWords(words_input){
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                     VerseText = arr_VerseText_or.join(' ');
+                                                    //console.log('------------- 2347 --- VerseText: '+VerseText);
                                                     if(accent_match == 'Y'){
                                                         var regex_w = RegExp(words, tipo);
                                                         arr_result_m = VerseText.match(regex_w);
@@ -2372,8 +2431,7 @@ function findWords(words_input){
                                                             var frase_exacta = arr_frases[1];
                                                             //console.log('frase_original: '+frase_original);
                                                             //console.log('frase_exacta: '+frase_exacta);
-                                                            text_marcas = prepararTextMarcas(frase_exacta);
-                                                            
+                                                            text_marcas = prepararTextMarcas(frase_exacta);                                                            
                                                             VerseText = markRed(frase_original, text_marcas);//FUNCIONA
                                                             //console.log('VerseText: '+VerseText);
                                                             VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
@@ -2383,12 +2441,61 @@ function findWords(words_input){
                                                         }else{
                                                             is_match = false;
                                                         }
-                                                    }
+                                                    }                                                    
                                                 }
                                                 //=======================================================================//
                                                 //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-        
+
+
+                                                //=======================================================================//
+                                                //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
+                                                if(cbox7.checked){
+                                                    var words = arr_words.join(' ');
+                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    VerseText = arr_VerseText_or.join(' ');
+                                                    var regex_w = RegExp(words, tipo);
+                                                    var arr_VerseText_con_sn = [];
+                                                    var arr_sn = [];//arr de strong numbers finded
+                                                    arr_VerseText_or.forEach(el=>{  
+                                                        if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                            //console.log('el: '+el);
+                                                            let sNumber_sin_tags = removeTags(el); 
+                                                            //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                            if(sNumber_sin_tags == words){
+                                                                //console.log('sNumber_sin_tags == words');
+                                                                arr_sn.push(sNumber_sin_tags);
+                                                                let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                }); 
+                                                                el = sNumber_con_tags;
+                                                                //console.log('nuevo el: '+el);
+                                                                arr_VerseText_con_sn.push(el);//con sn red
+                                                            }else{
+                                                                arr_VerseText_con_sn.push(el);
+                                                            }
+                                                        }else{
+                                                            arr_VerseText_con_sn.push(el);
+                                                        }
+                                                    });
+                                                    //console.log('arr_sn: '+arr_sn);
+                                                    VerseText = arr_VerseText_con_sn.join(' ');
+                                                    //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                    arr_result_m = arr_sn;
+                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                    if(count_m > 0){
+                                                        is_match = true;
+                                                        count_m_total += count_m;
+                                                        arr_result_m_total.push(arr_result_m);
+                                                    }else{
+                                                        is_match = false;
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
         
                                             }//end //if(arr_words.length > 0)
         
@@ -2756,7 +2863,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked){
+                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -3282,8 +3389,7 @@ function findWords(words_input){
                                                             var frase_exacta = arr_frases[1];
                                                             //console.log('frase_original: '+frase_original);
                                                             //console.log('frase_exacta: '+frase_exacta);
-                                                            text_marcas = prepararTextMarcas(frase_exacta);
-                                                            
+                                                            text_marcas = prepararTextMarcas(frase_exacta);                                                            
                                                             VerseText = markRed(frase_original, text_marcas);//FUNCIONA
                                                             //console.log('VerseText: '+VerseText);
                                                             VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
@@ -3298,7 +3404,56 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-        
+                                                
+                                                
+                                                //=======================================================================//
+                                                //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
+                                                if(cbox7.checked){
+                                                    var words = arr_words.join(' ');
+                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    VerseText = arr_VerseText_or.join(' ');
+                                                    var regex_w = RegExp(words, tipo);
+                                                    var arr_VerseText_con_sn = [];
+                                                    var arr_sn = [];//arr de strong numbers finded
+                                                    arr_VerseText_or.forEach(el=>{  
+                                                        if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                            //console.log('el: '+el);
+                                                            let sNumber_sin_tags = removeTags(el); 
+                                                            //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                            if(sNumber_sin_tags == words){
+                                                                //console.log('sNumber_sin_tags == words');
+                                                                arr_sn.push(sNumber_sin_tags);
+                                                                let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                }); 
+                                                                el = sNumber_con_tags;
+                                                                //console.log('nuevo el: '+el);
+                                                                arr_VerseText_con_sn.push(el);//con sn red
+                                                            }else{
+                                                                arr_VerseText_con_sn.push(el);
+                                                            }
+                                                        }else{
+                                                            arr_VerseText_con_sn.push(el);
+                                                        }
+                                                    });
+                                                    //console.log('arr_sn: '+arr_sn);
+                                                    VerseText = arr_VerseText_con_sn.join(' ');
+                                                    //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                    arr_result_m = arr_sn;
+                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                    if(count_m > 0){
+                                                        is_match = true;
+                                                        count_m_total += count_m;
+                                                        arr_result_m_total.push(arr_result_m);
+                                                    }else{
+                                                        is_match = false;
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
         
                                             }//end //if(arr_words.length > 0)
         
@@ -3587,7 +3742,7 @@ function findWords(words_input){
     
 }//end - findWords()
 
-
+let ejecutada_finded_s = false;
 
 function mostrar_res_show(index){
     //console.log('=== function mostrar_res_show() ===');
@@ -3603,7 +3758,7 @@ function mostrar_res_show(index){
     for (let index = 0; index < res_show.length; index++) {
         const res_link = document.createElement('span');
         res_link.className = 'res_link';
-        res_link.setAttribute('onclick', `mostrar_res_show(${index})`);
+        res_link.setAttribute('onclick', `mostrar_res_show(${index});sss();`);
         res_link.innerHTML = res_show[index][0].querySelector('.sp_f').innerText + '-' + res_show[index][res_show[index].length-1].querySelector('.sp_f').innerText ;
         p_footer.append(res_link);                            
     }
@@ -3615,10 +3770,51 @@ function mostrar_res_show(index){
         
     }
 
+    
+    //solo ejecuto 1 vez
+    if(!ejecutada_finded_s){
+        let inpt_nav = document.querySelector('#inpt_nav');
+        let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').dataset.trans ;
+        let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
+        if(typeof trans_find_obj.StrongNumbers !== 'undefined' && trans_find_obj.StrongNumbers == 'Y'){
+            
+            const wr_strong_btns = document.createElement('div');
+            wr_strong_btns.className = 'wr_strong_btns';
+            wr_strong_btns.innerHTML = `<span class="wr_strong_btns_inner">
+                                            <button id="btn_finded_s" class="btn s_active" onclick="showOnlyStrongNumberFinded_3Actions()">Finded S#</button>
+                                            <button id="btn_all_s" class="btn" onclick="showAllStrongNumberInFind_3Actions()">All S#</button>
+                                        </span>
+                                        `;
+            document.querySelector('#find_head').append(wr_strong_btns);
+
+            //muestro block de botones finded_s y all_s
+            document.querySelector('.wr_strong_btns').style.display = 'block';
+            showOnlyStrongNumberFinded();//por defecto muestro solo finded_s solo una vez para primera pagina de abajo
+        } 
+        ejecutada_finded_s = true;   
+    }
+
     div_find_body.append(p_footer); 
     document.querySelectorAll('.res_link')[index].classList.add('active');
     document.querySelector('#find_body').scrollTop = 0;
 
+}
+
+function sss(){
+    //si es visible block de finded_s 
+    var wr_strong_btns = document.querySelector('.wr_strong_btns');
+    if(wr_strong_btns.offsetHeight > 0){
+        
+        markarStrongNumberFinded();
+
+        if(wr_strong_btns.querySelector('#btn_finded_s').classList.contains('s_active')){
+            showOnlyStrongNumberFinded();
+        }
+        
+        if(wr_strong_btns.querySelector('#btn_all_s').classList.contains('s_active')){
+            showAllStrongNumberInFind();
+        }
+    }    
 }
 
 function mostrar_no_res(){

@@ -377,6 +377,12 @@ header('Content-type: text/html; charset=utf-8');
 
                                         </label>
                                     </p>
+                                    <!--<div class="wr_strong_btns" style="display:none;">
+                                            <span class="wr_strong_btns_inner">
+                                                <button id="btn_finded_s" class="btn" onclick="showOnlyStrongNumberFinded_3Actions()">Finded S#</button>
+                                                <button id="btn_all_s" class="btn" onclick="showAllStrongNumberInFind_3Actions()">All S#</button>
+                                            </span>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
