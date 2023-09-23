@@ -366,7 +366,6 @@ header('Content-type: text/html; charset=utf-8');
                                             <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>6. Различать буквы с ударениями (если есть)</span>
                                             <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
-
                                         </label>
                                     </p>
                                     <p>
