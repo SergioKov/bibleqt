@@ -8,9 +8,7 @@ header('Content-type: text/html; charset=utf-8');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BQ test</title>
-    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
-
-    
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
 
     <link rel="stylesheet" href="bible_app.css">
     <link rel="stylesheet" href="bible_app_resp.css">
@@ -83,10 +81,12 @@ header('Content-type: text/html; charset=utf-8');
                         <div>S#</div>
                     </div>
 
-                    <h3>BQ 
+                    <h3>BQ test</h3>
+
+                    <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
                         (<span class="test_font_greek">λόγος</span>)
-                    </h3>
+                    </div>
 
 
                     
@@ -372,22 +372,16 @@ header('Content-type: text/html; charset=utf-8');
                                     <p>
                                         <label>
                                             <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
-                                            <span>7. Искать номер Стронга (если есть)</span>
-                                            <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга (в модуляй, где он есть)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span>7. Искать только номер Стронга (если есть)</span>
+                                            <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
 
                                         </label>
-                                    </p>
-                                    <!--<div class="wr_strong_btns" style="display:none;">
-                                            <span class="wr_strong_btns_inner">
-                                                <button id="btn_finded_s" class="btn" onclick="showOnlyStrongNumberFinded_3Actions()">Finded S#</button>
-                                                <button id="btn_all_s" class="btn" onclick="showAllStrongNumberInFind_3Actions()">All S#</button>
-                                            </span>
-                                    </div>-->
-                                </div>
-                            </div>
-                        </div>
+                                    </p>                                    
+                                </div>                                
+                            </div><!--/wr_op-->
+                        </div><!--/find_head-->
                         <div id="find_result"></div>
-                    </div>
+                    </div><!--/wr_find_head-->
                     <div id="find_body">
                         <span class="prim_tsk">Introduce el texto para buscar y si quieres aplica los parámetros del filtro.</span>
                     </div>
@@ -552,7 +546,7 @@ header('Content-type: text/html; charset=utf-8');
     <div id="footer">
         <div id="footerInner">
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrongRed">RST+r</button>
-            <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrong">RST+</button>
+            <!--<button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrong">RST+</button>-->
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstt">RSTt</button>
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rsti2">RSTi2*</button>
             <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstm">RSTm*</button>

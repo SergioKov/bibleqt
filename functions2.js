@@ -836,7 +836,7 @@ function markarStrongNumberFinded(){
     });
 }
 
-function showOnlyStrongNumberFinded_3Actions(){
+function showOnlyStrongNumberFinded_2Actions(){
     markarStrongNumberFinded();
     showOnlyStrongNumberFinded();
 }
@@ -857,13 +857,13 @@ function showOnlyStrongNumberFinded(){
     });
 }
 
-function showAllStrongNumberInFind_3Actions(){
+function showAllStrongNumber_2Actions(){
     markarStrongNumberFinded();
-    showAllStrongNumberInFind();
+    showAllStrongNumber();
 }
 
-function showAllStrongNumberInFind(){
-    //console.log('=== function showAllStrongNumberInFind() ===');
+function showAllStrongNumber(){
+    //console.log('=== function showAllStrongNumber() ===');
     let btn_finded_s = document.querySelector('#btn_finded_s');
     let btn_all_s = document.querySelector('#btn_all_s');
     btn_finded_s.classList.remove('s_active');

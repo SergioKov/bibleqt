@@ -22,7 +22,7 @@ function openModal(param = null, htmlTrans = null) {
     modal.style.display = "block";
     modal.style.opacity = 0;//start efecto fade
     setTimeout(()=>{
-    modal.style.opacity = 1;//end efecto fade
+        modal.style.opacity = 1;//end efecto fade
     },10);
 
     //reset

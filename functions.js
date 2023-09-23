@@ -453,17 +453,20 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
         p_v.innerHTML = `Найти стихи с этим номером.`;
         p_v.onclick = function(){
             showTab(document.querySelector('#btn_find'),'find');
-            document.querySelector('#cbox7').checked = true;//si hace falta
+            
 
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                 document.querySelector('#inpt_find').value = numberStrShow;
+                document.querySelector('#cbox7').checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
                 document.querySelector('#inpt_find').value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
+                    document.querySelector('#cbox7').checked = true;//si hace falta
                     findWords(numberStr);
-                }else{//rstStrong
-                    //document.querySelector('#cbox4').checked = true;//si hace falta
+                }else{//rstStrong (старый)
+                    document.querySelector('#cbox4').checked = true;//si hace falta
+                    document.querySelector('#cbox7').checked = false;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
             }
@@ -513,7 +516,7 @@ function cboxChange(e){
     var cbox4 = document.querySelector('#cbox4');//4. Выражения не могут быть частями слов
     var cbox5 = document.querySelector('#cbox5');//5. Различать прописные и заглавные буквы
     var cbox6 = document.querySelector('#cbox6');//6. Различать буквы с ударениями (если есть)
-    var cbox7 = document.querySelector('#cbox7');//7. Искать номер Стронга (если есть) *
+    var cbox7 = document.querySelector('#cbox7');//7. Искать только номер Стронга (если есть) *
 
     if(e.id == 'cbox1'){
         if(cbox1.checked){
@@ -755,33 +758,6 @@ function findWords(words_input){
     arr_words = arr_words.filter(elm => elm);
     //console.log(arr_words);
 
-    //antes de buscar, muestro esto...
-    if(document.querySelector('.res_f') == null){
-        const f_book = document.createElement('p');
-        f_book.className = 'f_book';
-        // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
-        f_book.innerHTML = `<span class="book_name"></span>`;
-        div_find_head.append(f_book);
-
-        const p_i = document.createElement('p');
-        p_i.className = 'res_f';
-        //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
-        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
-        
-        div_find_head.append(p_i);
-    }  
-    mySizeFind();//altura de div_find_body
-
-    const d_loader = document.createElement('div');
-    d_loader.className = 'loader';
-    d_loader.innerHTML = `<span class="loader__element"></span>
-                          <span class="loader__element"></span>
-                          <span class="loader__element"></span>`;
-    div_find_body.append(d_loader);
-    //puntosInterval();
-
-    
-
 
     //TIPOS DE BÚSQUEDA   
     //0. - por defecto. nada marcado //ok
@@ -802,7 +778,13 @@ function findWords(words_input){
     //6. различать буквы с ударениями (если есть)
     //Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю).
     var accent_match = (cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
-
+    //7. Номер Стронга StrongNumber
+    if(cbox7.checked){
+        var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
+    }else{//por defecto se busca solo en el texto sin buscar en los tags
+        //buscar solo en text o tambien en los tags de strong
+        var search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
+    }
 
     var tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
 
@@ -815,13 +797,52 @@ function findWords(words_input){
         btnStrongIsActive = true;
     }
 
-    //7. Номер Стронга StrongNumber
-    if(cbox7.checked){
-        var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
-    }else{//por defecto se busca solo en el texto sin buscar en los tags
-        //buscar solo en text o tambien en los tags de strong
-        var search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
+    //Antes de buscar, muestro esto...
+    if(document.querySelector('.res_f') == null){
+        const f_book = document.createElement('p');
+        f_book.className = 'f_book';
+        // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
+        f_book.innerHTML = `<span class="book_name"></span>`;
+        div_find_head.append(f_book);
+
+        const p_i = document.createElement('p');
+        p_i.className = 'res_f';
+        //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
+        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
+        div_find_head.append(p_i);
     }
+
+    let trans_find_obj = arrFavTransObj.find(v => v.Translation === Translation);
+    if(typeof trans_find_obj.StrongNumbers !== 'undefined' && 
+        trans_find_obj.StrongNumbers == 'Y' &&
+        trans_find_obj.StrongNumberTagStart == '<S>' &&
+        trans_find_obj.StrongNumberTagEnd == '</S>' 
+        ){
+        const wr_strong_btns = document.createElement('div');
+        wr_strong_btns.className = 'wr_strong_btns';
+        wr_strong_btns.style.display = 'none';//no lo muestro porque todavía no hay resultado
+        wr_strong_btns.innerHTML = `<span class="wr_strong_btns_inner">
+                                        <button id="btn_finded_s" class="btn s_active" onclick="showOnlyStrongNumberFinded_2Actions()">Finded S#</button>
+                                        <button id="btn_all_s" class="btn" onclick="showAllStrongNumber_2Actions()">All S#</button>
+                                    </span>
+                                    `;
+        div_find_head.append(wr_strong_btns);
+    }else{
+        //si están botones finded_s y all_s en la trans sin strong lo quito
+        if(document.querySelector('.wr_strong_btns') != null){
+            document.querySelector('.wr_strong_btns').remove();
+        }
+    }
+    mySizeFind();//altura de div_find_body
+
+    //Muestro loader tres puntos (...)
+    const d_loader = document.createElement('div');
+    d_loader.className = 'loader';
+    d_loader.innerHTML = `<span class="loader__element"></span>
+                          <span class="loader__element"></span>
+                          <span class="loader__element"></span>`;
+    div_find_body.append(d_loader);
+
 
     var result_finded = [];
     var result_show = [];
@@ -839,9 +860,7 @@ function findWords(words_input){
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
             //console.log('findWords() --- objTrans está creado. abajo objTrans: ');
-            //console.log(objTrans);
-
-            
+            //console.log(objTrans);            
             
             //saco ajustes de este modulo en json               
             var bq = objTrans;
@@ -1503,7 +1522,7 @@ function findWords(words_input){
 
 
                                                             //=======================================================================//
-                                                            //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                             //=======================================================================//
                                                             if(cbox7.checked){
                                                                 var words = arr_words.join(' ');
@@ -1548,7 +1567,7 @@ function findWords(words_input){
                                                                 }
                                                             }
                                                             //=======================================================================//
-                                                            //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                             //=======================================================================//
 
                     
@@ -1790,7 +1809,10 @@ function findWords(words_input){
                                             //console.log(res_show);
                     
                                             if(result_show != null){
-                                                mostrar_res_show(0);//por defecto los primeros 5 
+                                                if(index == book_end){
+                                                    //console.log('1. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                                    mostrar_res_show(0);//por defecto los primeros 50
+                                                }
                                             }
                                             result_show = [];
                     
@@ -1823,6 +1845,9 @@ function findWords(words_input){
 
                     //si no existe objeto con Translation. hago fetch()
                     if(typeof obj_o[Translation].Books[book] == 'undefined'){
+
+                        //console.log(' --- 1849 --- abajo bq: ');
+                        //console.log(bq);
 
                         //url del libro necesario
                         url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
@@ -2449,7 +2474,7 @@ function findWords(words_input){
 
 
                                                 //=======================================================================//
-                                                //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
                                                 if(cbox7.checked){
                                                     var words = arr_words.join(' ');
@@ -2494,7 +2519,7 @@ function findWords(words_input){
                                                     }
                                                 }
                                                 //=======================================================================//
-                                                //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
         
                                             }//end //if(arr_words.length > 0)
@@ -2735,7 +2760,10 @@ function findWords(words_input){
                                 //console.log(res_show);
         
                                 if(result_show != null){
-                                    mostrar_res_show(0);//por defecto los primeros 5 
+                                    if(index == book_end){
+                                        //console.log('2. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                        mostrar_res_show(0);//por defecto los primeros 50
+                                    }
                                 }
                                 result_show = [];
         
@@ -3407,7 +3435,7 @@ function findWords(words_input){
                                                 
                                                 
                                                 //=======================================================================//
-                                                //7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
                                                 if(cbox7.checked){
                                                     var words = arr_words.join(' ');
@@ -3452,7 +3480,7 @@ function findWords(words_input){
                                                     }
                                                 }
                                                 //=======================================================================//
-                                                //end 7. - //Искать номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
         
                                             }//end //if(arr_words.length > 0)
@@ -3693,7 +3721,10 @@ function findWords(words_input){
                                 //console.log(res_show);
         
                                 if(result_show != null){
-                                    mostrar_res_show(0);//por defecto los primeros 5 
+                                    if(index == book_end){
+                                        //console.log('3. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                        mostrar_res_show(0);//por defecto los primeros 50
+                                    } 
                                 }
                                 result_show = [];
         
@@ -3742,7 +3773,6 @@ function findWords(words_input){
     
 }//end - findWords()
 
-let ejecutada_finded_s = false;
 
 function mostrar_res_show(index){
     //console.log('=== function mostrar_res_show() ===');
@@ -3755,55 +3785,61 @@ function mostrar_res_show(index){
     const p_footer = document.createElement('p');
     p_footer.className = 'wr_res_link';
 
-    for (let index = 0; index < res_show.length; index++) {
+    for(let index = 0; index < res_show.length; index++){
         const res_link = document.createElement('span');
         res_link.className = 'res_link';
-        res_link.setAttribute('onclick', `mostrar_res_show(${index});sss();`);
+        res_link.setAttribute('onclick', `mostrar_res_show(${index}); show_sn_finded();`);
         res_link.innerHTML = res_show[index][0].querySelector('.sp_f').innerText + '-' + res_show[index][res_show[index].length-1].querySelector('.sp_f').innerText ;
-        p_footer.append(res_link);                            
+        p_footer.append(res_link); 
+        
+        //para ejecutar 1 vez
+        if(index == 0){
+            var ejecutar_1vez = true; 
+        }
     }
-    
-    for (let i = 0;  i < res_show[index].length; i++) {
+
+    //añado los versiculos encontrados en la 1-ra pagina de redultados encontrados abajo en div_find_body
+    for(let i = 0;  i < res_show[index].length; i++){
         const el = res_show[index][i];
         //добавляю стих в див 
-        div_find_body.append(el);
-        
-    }
-
-    
-    //solo ejecuto 1 vez
-    if(!ejecutada_finded_s){
-        let inpt_nav = document.querySelector('#inpt_nav');
-        let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').dataset.trans ;
-        let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
-        if(typeof trans_find_obj.StrongNumbers !== 'undefined' && trans_find_obj.StrongNumbers == 'Y'){
-            
-            const wr_strong_btns = document.createElement('div');
-            wr_strong_btns.className = 'wr_strong_btns';
-            wr_strong_btns.innerHTML = `<span class="wr_strong_btns_inner">
-                                            <button id="btn_finded_s" class="btn s_active" onclick="showOnlyStrongNumberFinded_3Actions()">Finded S#</button>
-                                            <button id="btn_all_s" class="btn" onclick="showAllStrongNumberInFind_3Actions()">All S#</button>
-                                        </span>
-                                        `;
-            document.querySelector('#find_head').append(wr_strong_btns);
-
-            //muestro block de botones finded_s y all_s
-            document.querySelector('.wr_strong_btns').style.display = 'block';
-            showOnlyStrongNumberFinded();//por defecto muestro solo finded_s solo una vez para primera pagina de abajo
-        } 
-        ejecutada_finded_s = true;   
+        div_find_body.append(el);        
     }
 
     div_find_body.append(p_footer); 
     document.querySelectorAll('.res_link')[index].classList.add('active');
     document.querySelector('#find_body').scrollTop = 0;
 
+    //cuando todo está añadido en div_find_body, hago esto...
+    if(ejecutar_1vez == true){//solo ejecuto 1 vez
+        let inpt_nav = document.querySelector('#inpt_nav');
+        let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').dataset.trans ;
+        let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
+        if(typeof trans_find_obj.StrongNumbers !== 'undefined' && 
+            trans_find_obj.StrongNumbers == 'Y' && 
+            trans_find_obj.StrongNumberTagStart == '<S>' && 
+            trans_find_obj.StrongNumberTagEnd == '</S>' 
+            ){
+            //muestro block de botones finded_s y all_s
+            let wr_strong_btns = document.querySelector('.wr_strong_btns');
+            wr_strong_btns.style.display = 'block';
+            mySizeFind();//altura de div_find_body
+            if(wr_strong_btns.querySelector('.s_active').id == 'btn_finded_s'){
+                //console.log('llamo showOnlyStrongNumberFinded() desde mostrar_res_show()');
+                showOnlyStrongNumberFinded();
+            }else{//btn_all_s
+                //console.log('llamo showAllStrongNumber() desde mostrar_res_show()');
+                showAllStrongNumber();
+            }
+        }
+        var ejecutar_1vez = false; 
+    }
 }
 
-function sss(){
+//Strong Numbers in findWords()
+function show_sn_finded(){
     //si es visible block de finded_s 
-    var wr_strong_btns = document.querySelector('.wr_strong_btns');
-    if(wr_strong_btns.offsetHeight > 0){
+    let wr_strong_btns = document.querySelector('.wr_strong_btns');
+    if(wr_strong_btns!= null && wr_strong_btns.offsetHeight > 0){
         
         markarStrongNumberFinded();
 
@@ -3812,8 +3848,10 @@ function sss(){
         }
         
         if(wr_strong_btns.querySelector('#btn_all_s').classList.contains('s_active')){
-            showAllStrongNumberInFind();
+            showAllStrongNumber();
         }
+    }else{
+        return false;
     }    
 }
 
@@ -4138,6 +4176,24 @@ for (let index = 3251; index < 3304; index++) {
 }
 //console.log(a);
 */
+
+updateTransFromActiveCol();
+
+function updateTransFromActiveCol(){
+    let inpt_nav = document.querySelector('#inpt_nav');
+    document.querySelectorAll('.colsInner').forEach(el=>{
+        el.onclick = ()=>{
+            let trans_of_col = el.parentElement.querySelector('.colsHead').dataset.trans;
+            let id_of_col = el.parentElement.querySelector('.colsHead').id;
+            //console.log('trans_of_col: '+trans_of_col+' --- id_of_col: '+id_of_col);
+            if(typeof trans_of_col != 'undefined'){
+                inpt_nav.dataset.divtrans = id_of_col;
+                inpt_nav.dataset.trans = trans_of_col;
+                document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+            }
+        }
+    });
+}
 
 
 
