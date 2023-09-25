@@ -2339,6 +2339,54 @@ el{
     font-weight: bolder;
     font-size: 20px;
 }
-.sn2:nth-child(2){
-    margin-bottom: 10px;
+
+.sn_w_trad{
+   /* */  
+}
+.sn_oryg,
+.sn_syn
+{
+    margin-top: 10px; 
+}
+.sn_oryg,
+.sn_translit,
+.sn_proizn,
+.sn_chast_r,
+.sn_etim,
+.sn_syn
+{
+    font-size: medium; 
+
+}
+.btn_dvor {
+    display: block;
+    padding: 5px 5px 5px;
+    border-radius: 3px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.btn_dvor:hover{
+    color:white;
+}
+.sn_dvor{
+   /* background: #ccc;*/
+}
+.dvor_block {
+    background: #e9f8ff;
+    margin-top: -3px;
+    border: 1px solid #1b89e1;
+    padding: 8px 5px 5px;
+    border-radius: 0 0 3px 3px;
+}
+.btn_dvor img {
+    width: 10px;
+    float: right;
+    position: relative;
+    top: 7px;
+    right: 5px;
+    transform: rotate(90deg);
+    transition: 0.3s;
+}
+.btn_dvor img.razv{
+    transform: rotate(0deg);
 }

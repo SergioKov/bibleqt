@@ -3,6 +3,7 @@
 //====================================================================//
 
 getStrongNumber2('H430');
+setTimeout(()=>{getStrongNumber2('G3056')},5000);
 
 function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
     
@@ -39,22 +40,13 @@ function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
     }
     //console.log('numberInt: '+numberInt);
     //console.log('numberStrShow: '+numberStrShow);
-    //console.log('strongFile: '+strongFile);    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    //console.log('strongFile: '+strongFile);  
     
     //if(typeof numberStr == 'undefined' || numberStr == null) return false;
     //var strongFile = 'hebrew_short.json';
     
-    url_strong = `modules/text/strongs/${strongFile}`;
-    console.log('url_strong: '+url_strong);
+    let url_strong = `modules/text/strongs/${strongFile}`;
+    //console.log('url_strong: '+url_strong);
 
 
     fetch(`modules/text/strongs/${strongFile}`)
@@ -64,16 +56,14 @@ function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
 
         //let arr_strong = strong.split('<h4>')[numberInt + 1].split('</h4>');//una linea 
         let obj_strong = strong.find(v =>v.t === numberStr); 
-        console.log('abajo obj_strong: ');
-        console.log(obj_strong);
-
-
+        //console.log('abajo obj_strong: ');
+        //console.log(obj_strong);
 
         let strongIndex = obj_strong.t;//topic
         let strongText = obj_strong.d;//definition
 
-        console.log('strongIndex: '+strongIndex);
-        console.log('strongText: '+strongText);
+        //console.log('strongIndex: '+strongIndex);
+        //console.log('strongText: '+strongText);
 
         //strong_head.innerHTML = strongIndex;
         //strong_body.innerHTML = strongText;
@@ -107,22 +97,26 @@ function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
 
         let arr_w = strongText.split('<br/>');
         let arr_new = [];
-        console.log('abajo arr_w: ');
-        console.log(arr_w);
+        //console.log('abajo arr_w: ');
+        //console.log(arr_w);
 
         arr_w = arr_w.filter(elm => elm);
 
         arr_w.forEach((el,i,arr)=>{   
             
+            //Links
             if(el.includes('<a href=') && el.includes('</a>')){
                 el = el.replaceAll(`<a href='S:`,`<S class='show strongActive' data-strong='`);
                 el = el.replaceAll(`</a>`,`</S>`);
             }
-
-            if(el.includes('<b>отсутствует</b>')){
-                el = '';//no muestro lo está vacío
+            
+            //
+            if( (el.includes('<he>') && el.includes('</he>')) || (el.includes('<el>') && el.includes('</el>'))){
+                el = '<span class="sn2 sn_w_trad">'+el +'</span>';
             }
 
+            
+            //Оригинал:
             if(el.includes('<df>Оригинал:</df>')){
                 if(arr[0].includes('<he>') && arr[0].includes('</he>')){
                     el = el.replaceAll('<b>','<he class="hel_sm">');
@@ -130,25 +124,71 @@ function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
                 }else if(arr[0].includes('<el>') && arr[0].includes('</el>')){
                     el = el.replaceAll('<b>','<el class="hel_sm">');
                     el = el.replaceAll('</b>','</el>');
+                }
+                el = '<span class="sn2 sn_oryg">'+el +'</span>';
+            }
+
+            //Транслитерация:
+            if(el.includes('<df>Транслитерация:</df>') ){
+                if(el.includes('<b>отсутствует</b>')){
+                    el = '';//no muestro lo que está vacio vacío
+                }else{
+                    el = '<span class="sn2 sn_translit">'+el +'</span>';
                 }                
             }
 
+            //Произношение:
+            if(el.includes('<df>Произношение:</df>') ){
+                el = '<span class="sn2 sn_proizn">'+el +'</span>';
+            }
+
+            //Часть речи:
+            if(el.includes('<df>Часть речи:</df>') ){
+                el = '<span class="sn2 sn_chast_r">'+el +'</span>';
+            }
+
+            //Этимология:
+            if(el.includes('<df>Этимология:</df>') ){
+                el = '<span class="sn2 sn_etim">'+el +'</span>';
+            }
+
+            //Синонимы:
+            if(el.includes('<df>Синонимы:</df>')){
+                el = '<span class="sn2 sn_syn">'+el +'</span>';
+            }
+
+            //Словарь Дворецкого:
             if(el.includes('<df>Словарь Дворецкого:</df>')){
+                el = el.replace('<df>Словарь Дворецкого:</df>','');//quito esta palabra ya que la añado luego en botón
+                
                 var regex = /\s(\d+)\)\s/gi;
                 var resultado = el.match(regex);
 
                 if(resultado){
-                    console.log(`resultado: ${resultado} --- y resultado.length: ${resultado.length}`);
+                    //console.log('abajo resultado:');
+                    //console.log(resultado);
+                    //console.log(`resultado.length: ${resultado.length}`);
+                    for (let index = 0; index < resultado.length; index++) {
+                        const element = resultado[index];
+                        //console.log('antes el: '+el);
+    
+                        if(index == 0){
+                            el = '<span class="dvor_block" style="display:none;">' + el;
+                        }
+                        
+                        el = el.replace(element, ' <br> ' +element);
+                        //console.log('despues el: '+el);
+    
+                        if(index == resultado.length - 1){
+                            el = el + '</span>';
+                        }                    
+                    }
+                
                 }else{
-                    console.log("No se encontró un dígito entre espacio al principio y paréntesis con espacio al final.");
+                    console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
                 }
 
-
-
-            }
-
-            if(el != ''){
-                el = '<span class="sn2">'+el +'</span>';            
+                el = '<span class="btn btn_dvor" onclick="showHideDvor()">Словарь Дворецкого: <img src="images/icon_razvernut.png"></span>' + '<span class="sn2 sn_dvor">'+el +'</span>';
             }
             
             //console.log(el);
@@ -221,7 +261,17 @@ function getStrongNumber2(numberStr, lang = null, paramfirstLetter = null){
 
 
 
-
+function showHideDvor(){
+    let dvor_block = document.querySelector('.dvor_block');
+    let btn_dvor_img = document.querySelector('.btn_dvor img');
+    if(dvor_block.style.display == 'none'){
+        dvor_block.style.display = 'block';
+        btn_dvor_img.classList.add('razv');
+    }else{
+        dvor_block.style.display = 'none';
+        btn_dvor_img.classList.remove('razv');
+    }
+}
 
 
 
@@ -244,18 +294,5 @@ for (let index = 3251; index < 3304; index++) {
 */
 
 
-var w = " " +d +") ";//entera palabra del array, no parte
-var regex_w = RegExp(w, tipo);
-
-
-let texto2 = "Este 1) es un ejemplo 22) sdfgsdfg 3333) sdgdfgdsf de 4) expresión 5) regular.";
-const regex = /\s(\d+)\)\s/gi;
-const resultado = texto2.match(regex);
-
-if (resultado) {
-  console.log(`resultado: ${resultado} --- y resultado.length: ${resultado.length}`);
-} else {
-  console.log("No se encontró un dígito entre espacio al principio y paréntesis con espacio al final.");
-}
 
 
