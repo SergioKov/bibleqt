@@ -2314,3 +2314,31 @@ span.mob_sh_link {
 .s_active:hover {
     background: #fd2b2b !important;
 }
+.sn2 {
+    display: block;
+}
+he{
+    font-family: EzraSILW, Arial, sans-serif;
+    color: green;
+    font-size: 150%;
+}
+df {
+    color: #9a9a9a;
+}
+
+el{
+    font-family: 'GFS Didot', Arial, sans-serif;
+    color: #e21dff;
+    font-size: 150%;
+}
+.hel_sm{
+    font-size: 100%;
+
+}
+.sn2 S{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.sn2:nth-child(2){
+    margin-bottom: 10px;
+}
