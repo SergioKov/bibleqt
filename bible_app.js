@@ -588,7 +588,8 @@ function addListenStrong(el){
     }
     //console.log('lang: '+lang);
 
-    getStrongNumber(el.innerHTML, lang);
+    //getStrongNumber(el.innerHTML, lang);//ANTES
+    getStrongNumber(el.innerText);//new
 }
 
 //number dentro de <S>H3615</S>
@@ -596,8 +597,19 @@ function addListenStrongS(el){
     getStrongNumber(el.innerHTML);
 }
 
+function makeStrongNumbersActiveFind(){
+    let strongAllActiveFind = document.querySelectorAll('#find_body .strongActive');
+    setTimeout(()=>{
+        strongAllActiveFind.forEach(el=>{
+            el.addEventListener('click', ()=>{
+                addListenStrong(el);
+            });
+        });
+    },500);
+}
+
 function showHideStrongNumbers(){
-    let strongAll = document.querySelectorAll('.strong, p S');
+    let strongAll = document.querySelectorAll('.strong, .colsInner p S');
     let btnStrong = document.querySelector('#btnStrong');
     let strongAction = null;
 
@@ -619,7 +631,7 @@ function showHideStrongNumbers(){
             }
         });
 
-        let strongAllActive = document.querySelectorAll('.strongActive');
+        let strongAllActive = document.querySelectorAll('.strongActive:not(#find_body .strongActive)');
 
         strongAllActive.forEach(el=>{
             if(strongAction == 'hide'){
@@ -10642,9 +10654,8 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 }
 
 
-
-
-function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
+function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
+    
     let div_strong_head = document.querySelector('#strong_head');
     let div_strong_body = document.querySelector('#strong_body');
     var numberInt, numberStrShow, strongFile;
@@ -10658,7 +10669,7 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
     if(window.innerWidth < 768){//si es mobile
         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
     }
-
+    
     //H7225 or G6225
     if(numberStr.includes('H') || numberStr.includes('G')){
         let firstLetter = numberStr.substr(0,1);
@@ -10803,6 +10814,15 @@ function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
         // Código a realizar cuando se rechaza la promesa
         //console.log('error promesa strong: '+error);
     });
+}
+
+//general
+function getStrongNumber(numberStr, lang = null, paramfirstLetter = null){
+    numberStr = numberStr.toUpperCase();
+
+    //getStrongNumberVersion1(numberStr, lang, paramfirstLetter);//old
+    getStrongNumberVersion2(numberStr, lang, paramfirstLetter);//new
+
 }
 
 
@@ -11956,10 +11976,12 @@ function findWords(words_input){
                                                                             //console.log('2. book: '+book);
                                                                             //console.log('2. el.innerHTML: '+el.innerHTML);
                                                                             if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                                                getStrongNumber(el.innerHTML);
+                                                                                //getStrongNumber(el.innerHTML);//antes
+                                                                                getStrongNumber(el.innerText);
                                                                             }else{//rstStrong
                                                                                 lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                                                getStrongNumber(el.innerHTML, lang);
+                                                                                //getStrongNumber(el.innerHTML, lang);//antes
+                                                                                getStrongNumber(el.innerText, lang);
                                                                             }
                                                                         });
                                                                     }); 
@@ -12907,10 +12929,12 @@ function findWords(words_input){
                                                                 //console.log('2. book: '+book);
                                                                 //console.log('2. el.innerHTML: '+el.innerHTML);
                                                                 if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                                    getStrongNumber(el.innerHTML);
+                                                                    //getStrongNumber(el.innerHTML);
+                                                                    getStrongNumber(el.innerText);
                                                                 }else{//rstStrong
                                                                     lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                                    getStrongNumber(el.innerHTML, lang);
+                                                                    //getStrongNumber(el.innerHTML, lang);
+                                                                    getStrongNumber(el.innerText, lang);
                                                                 }
                                                             });
                                                         }); 
@@ -13868,10 +13892,12 @@ function findWords(words_input){
                                                                 //console.log('2. book: '+book);
                                                                 //console.log('2. el.innerHTML: '+el.innerHTML);
                                                                 if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                                    getStrongNumber(el.innerHTML);
+                                                                    //getStrongNumber(el.innerHTML);
+                                                                    getStrongNumber(el.innerText);
                                                                 }else{//rstStrong
                                                                     lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                                    getStrongNumber(el.innerHTML, lang);
+                                                                    //getStrongNumber(el.innerHTML, lang);
+                                                                    getStrongNumber(el.innerText, lang);
                                                                 }
                                                             });
                                                         }); 
@@ -14133,6 +14159,7 @@ function mostrar_res_show(index){
         }
         var ejecutar_1vez = false; 
     }
+    makeStrongNumbersActiveFind();
 }
 
 //Strong Numbers in findWords()
@@ -15326,10 +15353,10 @@ function markarStrongNumberFinded(){
         //console.log(el); 
         if(el.innerHTML.includes('<b class="f_red">')){
             //console.log(' contiene b ');
-            el.classList.add('finded_strongActive');
+            el.classList.add('show', 'strongActive', 'finded_strongActive');
             //console.log(el);
         }else{
-            el.classList.add('other_strongActive');
+            el.classList.add('show', 'strongActive', 'other_strongActive');
         }                                          
     });
 }
@@ -15353,6 +15380,7 @@ function showOnlyStrongNumberFinded(){
             el.style.display = 'none';
         }
     });
+    makeStrongNumbersActiveFind();
 }
 
 function showAllStrongNumber_2Actions(){
@@ -15369,6 +15397,7 @@ function showAllStrongNumber(){
     document.querySelectorAll('#find_body p s').forEach(el=>{
         el.style.display = 'inline-block';
     });
+    makeStrongNumbersActiveFind();
 }
 
 
