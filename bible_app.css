@@ -1415,7 +1415,7 @@ span.res_link {
     cursor: pointer;
     transition: 0.2s;
     display: inline-block;
-    min-width: 85px;
+    min-width: 80px;
     text-align: center;
     box-sizing: border-box;
     margin-bottom: 5px;
