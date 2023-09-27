@@ -56,6 +56,9 @@ window.obj_nav = {
 //objeto de ficheros
 const obj_o = {};
 
+//objeto de ficheros de Strong
+const obj_s = {};
+
 var arrTabs = [];//array de objetos de tabs (Vkladki)
 
 

@@ -1399,6 +1399,30 @@ p.wr_res_link {
     font-size: 14px;
     background: #8eccff !important;
 }
+.wr_res_link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+span.res_link {
+    border: 1px solid #1588e4;
+    border-radius: 3px;
+    background: #2196F3;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-block;
+    min-width: 75px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    padding: 1px 0;
+}
+
+/*
 span.res_link {
     border: 1px solid #1588e4;
     padding: 0px 5px;
@@ -1411,6 +1435,7 @@ span.res_link {
     margin: 1px 2px;
     display: inline-block;
 }
+*/
 span.res_link:hover{
     background: #55aaf0;  
 }
