@@ -224,7 +224,7 @@ body{
 
 #sidebar {
     background: #87c3f2;
-    min-width: 200px;
+    min-width: 250px;
 }
 #sidebarInner {
     /* background: #e2b7e9; */
@@ -1415,7 +1415,7 @@ span.res_link {
     cursor: pointer;
     transition: 0.2s;
     display: inline-block;
-    min-width: 75px;
+    min-width: 85px;
     text-align: center;
     box-sizing: border-box;
     margin-bottom: 5px;
