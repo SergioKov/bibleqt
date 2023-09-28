@@ -218,7 +218,7 @@ body{
     /* top: 38px; */
     background: #d1d0d0;
     margin: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 
@@ -1658,7 +1658,7 @@ select  optgroup option {
     background: #2296f3;
     overflow: hidden;
     border-radius: 3px;
-    border: 1px solid #2c7fc1;
+    border: 1px solid #2c7fc1 !important;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
