@@ -653,8 +653,6 @@ p a:hover:not(.a_sn) {
     /* background: yellow; */
     overflow-x: scroll;
     white-space: nowrap;
-    position: relative;
-    top: 3px;
 }
 .wr_btns_scr button:last-child {
     margin-right: 50px;
@@ -1665,7 +1663,7 @@ select  optgroup option {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-content: center;
+    margin-top: 2px;
 }
 #arrowBack {
     /* float: left; */

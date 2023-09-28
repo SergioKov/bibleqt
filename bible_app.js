@@ -7034,6 +7034,16 @@ function mySizeWindow() {
     */  
 }
 
+
+function add2pixelTo_menuTabs(){//no funciona
+    let menuTabs = document.querySelector('#menuTabs');
+    //menuTabs.style.marginTop = 0 + 'px';
+    setTimeout(()=>{
+        //menuTabs.style.marginTop = 2 + 'px';
+    },10);
+}
+
+
 function mySizeNav(){
     var sidebar = document.querySelector('#sidebar');
     var sidebarInner = document.querySelector('#sidebarInner');
@@ -7062,7 +7072,8 @@ function mySizeNav(){
     sidebarInner.style.height = sidebarInner_h + 'px';
     nav_body.style.height = nav_body_h + 'px';
     // console.log('nav_body_h: '+nav_body_h);
-
+    
+    add2pixelTo_menuTabs();
 }
 
 function mySizeFind(){
@@ -7072,7 +7083,6 @@ function mySizeFind(){
     var wr_find_head = document.querySelector('#wr_find_head');
     var find_body = document.querySelector('#find_body');
     var padding_find_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-
 
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
@@ -7094,21 +7104,10 @@ function mySizeFind(){
     sidebarInner.style.height = sidebarInner_h + 'px';
     find_body.style.height = find_body_h + 'px';
     //console.log('find_body_h: '+find_body_h);
+    
+    add2pixelTo_menuTabs();
 }
 
-/*
-function old_mySizeFind(){
-    var div_sidebarInner = document.querySelector('#sidebarInner');
-    var div_find_nav = document.querySelector('#vklad_find .wr_nav');
-    var div_find_head = document.querySelector('#find_head');
-    var div_find_result = document.querySelector('#find_result');
-    var div_find_body = document.querySelector('#find_body');
-    var padding_find_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-    
-    //calculo altura de div_tsk_body despues de meter div_tsk_head
-    div_find_body.style.height = div_sidebarInner.offsetHeight - div_find_nav.offsetHeight - div_find_head.offsetHeight - div_find_result.offsetHeight - padding_find_body + 'px';
-}
-*/
 
 function mySizeTsk(){
     var sidebar = document.querySelector('#sidebar');
@@ -7117,6 +7116,7 @@ function mySizeTsk(){
     var tsk_head = document.querySelector('#tsk_head');
     var tsk_body = document.querySelector('#tsk_body');
     var padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    
 
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
@@ -7138,6 +7138,8 @@ function mySizeTsk(){
     sidebarInner.style.height = sidebarInner_h + 'px';
     tsk_body.style.height = tsk_body_h + 'px';
     //console.log('tsk_body_h: '+tsk_body_h);
+
+    add2pixelTo_menuTabs();
 }
 
 /*
