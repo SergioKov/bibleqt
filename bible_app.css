@@ -229,8 +229,6 @@ body{
 #sidebarInner {
     /* background: #e2b7e9; */
     margin: 10px;
-    overflow: hidden;
-    /* overflow-y: scroll; */
 }
 #sidebarInner p{
     /* margin: 5px; */
@@ -650,17 +648,20 @@ p a:hover:not(.a_sn) {
 }
 .wr_btns_scr {
     display: inline;
-    position: relative;
     float: left;
     width: 100%;
     /* background: yellow; */
     overflow-x: scroll;
     white-space: nowrap;
+    position: relative;
+    top: 3px;
 }
 .wr_btns_scr button:last-child {
     margin-right: 50px;
 }
-
+.wr_btns_scr .btn {
+    padding: 5px 5px;
+}
 .tooltip {
     position: relative;
     display: inline-block;
@@ -2443,4 +2444,19 @@ nm {
 .other_strongActive:hover
 {
     transition: 0.1s;
+}
+pr {
+    color: #03a9f4;
+    display: inline-block;
+    margin-left: 15px;
+}
+.dvor_block b {
+    color: #e21dff;
+
+}
+.dvor_block nm {
+    color: #0027fc;
+    font-weight: bold;
+    display: inline-block;
+    margin: 8px 8px 0 0;
 }

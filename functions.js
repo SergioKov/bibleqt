@@ -210,26 +210,32 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         if(el.includes('<df>Словарь Дворецкого:</df>')){
                             el = el.replace('<df>Словарь Дворецкого:</df>','');//quito esta palabra ya que la añado luego en botón
                             
-                            var regex = /\s(\d+)\)\s/gi;
+                            var regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
                             var resultado = el.match(regex);
             
                             if(resultado){
                                 //console.log('abajo resultado:');
                                 //console.log(resultado);
                                 //console.log(`resultado.length: ${resultado.length}`);
-                                for (let index = 0; index < resultado.length; index++) {
-                                    const element = resultado[index];
+                                for (let i = 0; i < resultado.length; i++) {
+                                    const element = resultado[i];
+                                    //console.log(' ');
                                     //console.log('antes el: '+el);
-                
-                                    if(index == 0){
+                                    
+                                    if(i == 0){
                                         el = '<span class="dvor_block" style="display:none;">' + el;
+                                        //console.log(' ');
+                                        //console.log('start for. el: '+el);
                                     }
                                     
-                                    el = el.replace(element, ' <br> ' +element);
+                                    el = el.replace(element, ' <br> <nm>' + element +'</nm>');//solo un element . ' 1) ' => ' <br> 1) ' , luego ' 2) ' => ' <br> 2) '...
+                                    //console.log(' ');
                                     //console.log('despues el: '+el);
-                
-                                    if(index == resultado.length - 1){
+                                    
+                                    if(i == resultado.length - 1){
                                         el = el + '</span>';
+                                        //console.log(' ');
+                                        //console.log('end for. el: '+el);
                                     }                    
                                 }
                             
@@ -238,7 +244,8 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             }
             
                             el = '<span class="btn btn_dvor" onclick="showHideDvor()">Словарь Дворецкого: <img src="images/icon_razvernut.png"></span>' + '<span class="sn2 sn_dvor">'+el +'</span>';
-                            el = el.replaceAll('<br>','');
+                            el = el.replace('<br>','');//replace() no replaceAll(). elimino 1-er br
+                            el = el.replaceAll(' Пр.: ',' <pr>Пр.:</pr> ');//                            
                         }
             
             
@@ -380,7 +387,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             arr_w = arr_w.filter(elm => elm);
     
             arr_w.forEach((el,i,arr)=>{   
-                
+                        
                 //Links Strong
                 if(el.includes(`<a href='S:`) && el.includes('</a>')){
                     //el = el.replaceAll(`<a href='S:`,`<S class='sn2_s show' data-strong='`);
@@ -474,26 +481,32 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 if(el.includes('<df>Словарь Дворецкого:</df>')){
                     el = el.replace('<df>Словарь Дворецкого:</df>','');//quito esta palabra ya que la añado luego en botón
                     
-                    var regex = /\s(\d+)\)\s/gi;
+                    var regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
                     var resultado = el.match(regex);
     
                     if(resultado){
                         //console.log('abajo resultado:');
                         //console.log(resultado);
                         //console.log(`resultado.length: ${resultado.length}`);
-                        for (let index = 0; index < resultado.length; index++) {
-                            const element = resultado[index];
+                        for (let i = 0; i < resultado.length; i++) {
+                            const element = resultado[i];
+                            //console.log(' ');
                             //console.log('antes el: '+el);
-        
-                            if(index == 0){
+                            
+                            if(i == 0){
                                 el = '<span class="dvor_block" style="display:none;">' + el;
+                                //console.log(' ');
+                                //console.log('start for. el: '+el);
                             }
                             
-                            el = el.replace(element, ' <br> ' +element);
+                            el = el.replace(element, ' <br> <nm>' + element +'</nm>');//solo un element . ' 1) ' => ' <br> 1) ' , luego ' 2) ' => ' <br> 2) '...
+                            //console.log(' ');
                             //console.log('despues el: '+el);
-        
-                            if(index == resultado.length - 1){
+                            
+                            if(i == resultado.length - 1){
                                 el = el + '</span>';
+                                //console.log(' ');
+                                //console.log('end for. el: '+el);
                             }                    
                         }
                     
@@ -502,7 +515,8 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     }
     
                     el = '<span class="btn btn_dvor" onclick="showHideDvor()">Словарь Дворецкого: <img src="images/icon_razvernut.png"></span>' + '<span class="sn2 sn_dvor">'+el +'</span>';
-                    el = el.replaceAll('<br>','');
+                    el = el.replace('<br>','');//replace() no replaceAll(). elimino 1-er br
+                    el = el.replaceAll(' Пр.: ',' <pr>Пр.:</pr> ');//                            
                 }
     
     
@@ -523,7 +537,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 arr_new.push(el);
             });
             var new_strongText = arr_new.join(' ');
-    
+
             const span_text_strong = document.createElement('span');
             span_text_strong.className = 'text_strong';
             span_text_strong.innerHTML = new_strongText;            

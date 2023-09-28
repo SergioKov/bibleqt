@@ -7077,9 +7077,7 @@ function mySizeFind(){
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
-    const sidebarInner_margins_h = 
-    parseInt(computedStyle.marginTop) + 
-    parseInt(computedStyle.marginBottom);
+    const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
     var sidebar_h = sidebar.offsetHeight;
     var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
@@ -7123,9 +7121,7 @@ function mySizeTsk(){
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
-    const sidebarInner_margins_h = 
-    parseInt(computedStyle.marginTop) + 
-    parseInt(computedStyle.marginBottom);
+    const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
     let sidebar_h = sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
@@ -7167,9 +7163,7 @@ function mySizeStrong(){
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
-    const sidebarInner_margins_h = 
-    parseInt(computedStyle.marginTop) + 
-    parseInt(computedStyle.marginBottom);
+    const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
     var sidebar_h = sidebar.offsetHeight;
     var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
@@ -8538,6 +8532,8 @@ function sel(e, par, show_chapter = null, trans = null){
                 if(res == 'ok'){//siempre ok
                     //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
                 }
+                //console.log('trans: '+trans)
+                //console.log('id_book: '+id_book)
 
                 //si existe objeto con Translation. Saco datos del objeto
                 if(typeof obj_o[trans] != 'undefined'){
@@ -8627,20 +8623,20 @@ function sel(e, par, show_chapter = null, trans = null){
                 }
 
                 //si no existe objeto con Translation. hago fetch(). es necesario!
-                if(typeof obj_o[trans].Books[id_book] == 'undefined'){
+                if(typeof obj_o[trans] == 'undefined'){
 
                     //alert('no existe objeto con Translation. hago fetch()'); 
                     //console.log('no existe objeto con Translation. hago fetch()');
 
                     window.chapter_PathName = this_trans_obj.Books[id_book].PathName;
-                    //console.log(chapter_PathName);
+                    //console.log('chapter_PathName: '+chapter_PathName);
     
 
                     let url = './modules/text/'+trans+'/' + chapter_PathName;//rsti2
                     fetch(url)
                     .then(response => response.text())
                     .then(data => {
-                        //console.log('abajo chapter_PathName');
+                        //console.log('abajo data');
                         //console.log(data);
         
                         var inpt_nav = document.querySelector('#inpt_nav');
@@ -8732,18 +8728,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         //console.log('error promesa: '+error);
                     });
 
-                }                
-
-
-
-
-
-
-
-
-
-
-
+                } 
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
