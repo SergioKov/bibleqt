@@ -218,7 +218,7 @@ body{
     /* top: 38px; */
     background: #d1d0d0;
     margin: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 
@@ -926,14 +926,14 @@ button.btn_ok_active{
     text-align: center;
     font-size: 22px;
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.2;
     transition: 0.3s;
     font-family: muli;
     /* background: #8BC34A; */
     /* font-weight: bold; */
 }
 #clear_inpt:hover {
-    opacity: 1;
+    opacity: 0.5;
     /* background: #d5d5d5; */
 }
 .wr_inpt_x {
@@ -1113,6 +1113,7 @@ h4, span.h4_ch {
   {
     background: #2196F3;
     border-radius: 3px;
+    border: 1px solid #2c7fc1;
 }
 #tsk_head, 
 #strong_head 
@@ -1252,7 +1253,7 @@ button#btn_ok_stop:hover{
 button#btn_ok_strong {
     height: 29px;
     cursor: pointer;
-    width: 100px;
+    width: 70px;
 }
 #vklad_find,
 #vklad_strong
@@ -1571,13 +1572,19 @@ select  optgroup option {
 #hist_find {
     border-radius: 3px;
     border: 1px solid #1b89e1;
-    padding: 1px 5px 4px 6px;
+    /* padding: 0px 5px 4px 6px; */
     margin: 0 5px 0 2px;
     width: 10px;
     color: #000000;
     background: #03a9f4;
     transition: 0.3s;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 27px;
+    width: 24px;
 }
 #hist_find:hover{
     background: #5eb4f9;
@@ -1654,7 +1661,7 @@ select  optgroup option {
     background: #2296f3;
     overflow: hidden;
     border-radius: 3px;
-    border: 1px solid #2c7fc1;
+    border: 1px solid #2c7fc1 !important;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -1680,7 +1687,7 @@ select  optgroup option {
 #closeBack {
     color: white;
     width: 32px;
-    /* height: 24px; */
+    height: 28px;
     font-size: 24px;
     margin-right: 2px;
     cursor: pointer;
@@ -1715,6 +1722,11 @@ select  optgroup option {
     margin-right: 5px;
     /* background: green; */
     width: 100%;
+    position: relative;
+    top: 2px;
+}
+.wr_btns_scr .btn {
+    padding: 5px 5px;
 }
 .partDeskInner {
     display: flex;
