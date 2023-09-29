@@ -476,7 +476,7 @@ function autoWidthShortBook(){
     //console.log('autoWidthShortBook()');
     
     //Si es Tablet o Desktop
-    if(window.innerWidth >= 768){       
+    if(false /*window.innerWidth >= 768*/){       
         let book_w, chv_w;
 
         //width of book
@@ -8124,7 +8124,95 @@ function sel(e, par, show_chapter = null, trans = null){
                     arr_booksBible = arr_booksBible.concat(arr_genesis_hechos, arr_ep_pablo, arr_ep_saniago, arr_apo, arr_apocrif);
                 }
                 //console.log(arr_booksBible);
+
+
+                //=== start con grid =========================================================================//
+                var arr_block_AT = [];
+                var arr_block_NT = [];
+                var arr_block_APO = [];
+
+                //new - con grid
+                arr_booksBible.forEach((el_b,i_b,arr_b) =>{                    
+                    
+                    const li = document.createElement('div');
+                    li.id = 'li' + arr_b[i_b].BookNumber;
+                    li.title = arr_b[i_b].BookNumber;
+                    li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
+                    li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                    li.className = 'v_li b_li '+ el_b.cl_book;
+                    if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
+                        li.classList.add('li_active');                    
+                    }
+                    if(arr_books[arr_b[i_b].BookNumber].ChapterQty == 0){
+                        li.classList.add('no_disp');
+                    }
+                    li.innerHTML = arr_b[i_b].ShortNames[0];
+                    li.addEventListener('click',selBook);//click sobre li boton Gen. Lev.
+
+
+                    //Meto en Antiguo Testamento
+                    if(i_b >= 0 && i_b <= 38){//Genesis - Малахия
+                        arr_block_AT.push(li);
+                        //console.log(arr_block_AT);
+                        //console.log(v_book);
+                    }                    
+                    //Meto en Nuevo Testamento
+                    if(i_b >= 39 && i_b <= 65){//Mateo - Apocalipsis
+                        arr_block_NT.push(li);
+                        //console.log(arr_block_NT);
+                        //console.log(v_book);
+                    }
+                    //Meto en Apocrifos
+                    if(i_b >= 66){//Makaveos - Tobit
+                        arr_block_APO.push(li);
+                        //console.log(arr_block_APO);
+                        //console.log(v_book);
+                    }
+                });
+
+                //meto los blocks en v_book
+                //Creo Antiguo Testamento
+                if(arr_block_AT.length != 0){
+                    const block_AT = document.createElement('div');
+                    block_AT.className = 'grid-container block_AT';
+                    //console.log(block_AT);
+                    arr_block_AT.forEach(el=>{
+                        //console.log(el);
+                        block_AT.append(el);
+                        //console.log(block_AT);
+                    });
+                    v_book.append(block_AT);
+                }
+                //Creo Nuevo Testamento
+                if(arr_block_NT.length != 0){
+                    const block_NT = document.createElement('div');
+                    block_NT.className = 'grid-container block_NT';
+                    //console.log(block_NT);
+                    arr_block_NT.forEach(el=>{
+                        //console.log(el);
+                        block_NT.append(el);
+                        //console.log(block_NT);
+                    });
+                    v_book.append(block_NT);
+                }
+                //Creo Apocrifos
+                if(arr_block_APO.length != 0){
+                    const block_APO = document.createElement('div');
+                    block_APO.className = 'grid-container block_APO';
+                    //console.log(block_APO);
+                    arr_block_APO.forEach(el=>{
+                        //console.log(el);
+                        block_APO.append(el);
+                        //console.log(block_APO);
+                    });
+                    v_book.append(block_APO);
+                }
+                //console.log(v_book);                
+                //=== end con grid =========================================================================//
+
     
+                /*
+                // antes con flex
                 arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
                     const li = document.createElement('li');
                     li.id = 'li' + arr_b[i_b].BookNumber;
@@ -8150,6 +8238,14 @@ function sel(e, par, show_chapter = null, trans = null){
                     }
                     //console.log(el_b);
                 });
+                */
+
+
+
+
+
+
+
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
@@ -8247,7 +8343,94 @@ function sel(e, par, show_chapter = null, trans = null){
                     arr_booksBible = arr_booksBible.concat(arr_genesis_hechos, arr_ep_pablo, arr_ep_saniago, arr_apo, arr_apocrif);
                 }
                 //console.log(arr_booksBible);
+
+                //=== start con grid =========================================================================//
+                var arr_block_AT = [];
+                var arr_block_NT = [];
+                var arr_block_APO = [];
+
+                //new - con grid
+                arr_booksBible.forEach((el_b,i_b,arr_b) =>{                    
+                    
+                    const li = document.createElement('div');
+                    li.id = 'li' + arr_b[i_b].BookNumber;
+                    li.title = arr_b[i_b].BookNumber;
+                    li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
+                    li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                    li.className = 'v_li b_li '+ el_b.cl_book;
+                    if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
+                        li.classList.add('li_active');                    
+                    }
+                    if(arr_books[arr_b[i_b].BookNumber].ChapterQty == 0){
+                        li.classList.add('no_disp');
+                    }
+                    li.innerHTML = arr_b[i_b].ShortNames[0];
+                    li.addEventListener('click',selBook);//click sobre li boton Gen. Lev.
+
+
+                    //Meto en Antiguo Testamento
+                    if(i_b >= 0 && i_b <= 38){//Genesis - Малахия
+                        arr_block_AT.push(li);
+                        //console.log(arr_block_AT);
+                        //console.log(v_book);
+                    }                    
+                    //Meto en Nuevo Testamento
+                    if(i_b >= 39 && i_b <= 65){//Mateo - Apocalipsis
+                        arr_block_NT.push(li);
+                        //console.log(arr_block_NT);
+                        //console.log(v_book);
+                    }
+                    //Meto en Apocrifos
+                    if(i_b >= 66){//Makaveos - Tobit
+                        arr_block_APO.push(li);
+                        //console.log(arr_block_APO);
+                        //console.log(v_book);
+                    }
+                });
+
+                //meto los blocks en v_book
+                //Creo Antiguo Testamento
+                if(arr_block_AT.length != 0){
+                    const block_AT = document.createElement('div');
+                    block_AT.className = 'grid-container block_AT';
+                    //console.log(block_AT);
+                    arr_block_AT.forEach(el=>{
+                        //console.log(el);
+                        block_AT.append(el);
+                        //console.log(block_AT);
+                    });
+                    v_book.append(block_AT);
+                }
+                //Creo Nuevo Testamento
+                if(arr_block_NT.length != 0){
+                    const block_NT = document.createElement('div');
+                    block_NT.className = 'grid-container block_NT';
+                    //console.log(block_NT);
+                    arr_block_NT.forEach(el=>{
+                        //console.log(el);
+                        block_NT.append(el);
+                        //console.log(block_NT);
+                    });
+                    v_book.append(block_NT);
+                }
+                //Creo Apocrifos
+                if(arr_block_APO.length != 0){
+                    const block_APO = document.createElement('div');
+                    block_APO.className = 'grid-container block_APO';
+                    //console.log(block_APO);
+                    arr_block_APO.forEach(el=>{
+                        //console.log(el);
+                        block_APO.append(el);
+                        //console.log(block_APO);
+                    });
+                    v_book.append(block_APO);
+                }
+                //console.log(v_book);                
+                //=== end con grid =========================================================================//
+
     
+                /*
+                //antes
                 arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
                     const li = document.createElement('li');
                     li.id = 'li' + arr_b[i_b].BookNumber;
@@ -8273,6 +8456,7 @@ function sel(e, par, show_chapter = null, trans = null){
                     }
                     //console.log(el_b);
                 });
+                */
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
@@ -8351,8 +8535,10 @@ function sel(e, par, show_chapter = null, trans = null){
                     }
                 } 
 
-                v_chapter.innerHTML = '';//reset todos los botones de chapter                            
-
+                v_chapter.innerHTML = '';//reset todos los botones de chapter  
+                const wr_grid_ch = document.createElement('div');
+                wr_grid_ch.className = 'wr_grid_ch';
+                
                 for(let index = 1; index <= this_trans_obj.Books[id_book].ChapterQty; index++) {
                     const li_ch = document.createElement('li');
                     li_ch.id = 'li_ch' + index;
@@ -8375,10 +8561,12 @@ function sel(e, par, show_chapter = null, trans = null){
                             li_ch.classList.add('li_active');
                         }    
                     }
-                    li_ch.innerHTML = index;
+                    //li_ch.innerHTML = index;
+                    li_ch.innerHTML = index + '<span class="ch_count_v">26</span>';
                     li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
-                    v_chapter.append(li_ch);           
+                    wr_grid_ch.append(li_ch);
                 }
+                v_chapter.append(wr_grid_ch);
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
@@ -8453,7 +8641,9 @@ function sel(e, par, show_chapter = null, trans = null){
                     //console.log(arr_chapters);
     
                     v_chapter.innerHTML = '';//reset todos los botones de chapter                            
-    
+                    const wr_grid_ch = document.createElement('div');
+                    wr_grid_ch.className = 'wr_grid_ch';
+        
                     for(let index = 1; index <= arr_chapters.length - 1; index++) {
                         const li_ch = document.createElement('li');
                         li_ch.id = 'li_ch' + index;
@@ -8476,13 +8666,13 @@ function sel(e, par, show_chapter = null, trans = null){
                                 li_ch.classList.add('li_active');
                             }    
                         }
-                        //if(index == id_chapter + 1){
-                        //    li_ch.classList.add('li_active');
-                        //}
-                        li_ch.innerHTML = index;
+                        // li_ch.innerHTML = index;
+                        li_ch.innerHTML = index + '<span class="ch_count_v">26</span>';
                         li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
-                        v_chapter.append(li_ch);           
+                        //v_chapter.append(li_ch);
+                        wr_grid_ch.append(li_ch);
                     }
+                    v_chapter.append(wr_grid_ch);
                 })
                 .then(()=>{
                     //si hay un boton li activo me muevo alli
@@ -8589,7 +8779,9 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log(arr_verses);
                 
                                 v_verse.innerHTML = '';//reset botones de versiculos
-                                
+                                const wr_grid_v = document.createElement('div');
+                                wr_grid_v.className = 'wr_grid_v';
+                                            
                                 for(let index = 1; index <= window.arr_verses.length - 1; index++) {
                                     const li_v = document.createElement('li');
                                     li_v.id = 'li_v' + index;
@@ -8613,8 +8805,10 @@ function sel(e, par, show_chapter = null, trans = null){
                 
                                     li_v.innerHTML = index;
                                     li_v.addEventListener('click',selVerse);//al click sobre boton de verse
-                                    v_verse.append(li_v);
+                                    //v_verse.append(li_v);
+                                    wr_grid_v.append(li_v);
                                 }
+                                v_verse.append(wr_grid_v);
 
                             }else{
                                 console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -8686,7 +8880,9 @@ function sel(e, par, show_chapter = null, trans = null){
                         //console.log(arr_verses);
         
                         v_verse.innerHTML = '';//reset botones de versiculos
-                        
+                        const wr_grid_v = document.createElement('div');
+                        wr_grid_v.className = 'wr_grid_v';
+                
                         for(let index = 1; index <= window.arr_verses.length - 1; index++) {
                             const li_v = document.createElement('li');
                             li_v.id = 'li_v' + index;
@@ -8710,8 +8906,11 @@ function sel(e, par, show_chapter = null, trans = null){
         
                             li_v.innerHTML = index;
                             li_v.addEventListener('click',selVerse);//al click sobre boton de verse
-                            v_verse.append(li_v);
+                            //v_verse.append(li_v);
+                            wr_grid_v.append(li_v);
                         }
+                        v_verse.append(wr_grid_v);
+
                     })
                     .then(()=>{
                         //si hay un boton li activo me muevo alli
@@ -8813,6 +9012,8 @@ function sel(e, par, show_chapter = null, trans = null){
                     //console.log(arr_verses);
     
                     v_verse.innerHTML = '';//reset botones de versiculos
+                    const wr_grid_v = document.createElement('div');
+                    wr_grid_v.className = 'wr_grid_v';
                     
                     for(let index = 1; index <= window.arr_verses.length - 1; index++) {
                         const li_v = document.createElement('li');
@@ -8840,8 +9041,11 @@ function sel(e, par, show_chapter = null, trans = null){
                         //}
                         li_v.innerHTML = index;
                         li_v.addEventListener('click',selVerse);//al click sobre boton de verse
-                        v_verse.append(li_v);
+                        // v_verse.append(li_v);
+                        wr_grid_v.append(li_v);
                     }
+                    v_verse.append(wr_grid_v);
+
                 })
                 .then(()=>{
                     //si hay un boton li activo me muevo alli

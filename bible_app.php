@@ -81,7 +81,7 @@ header('Content-type: text/html; charset=utf-8');
                         <div>S#</div>
                     </div>
 
-                    <h3>BQ test</h3>
+                    <h3>BQ test (beta)</h3>
 
                     <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
