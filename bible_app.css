@@ -2502,7 +2502,7 @@ pr {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
     /* background-color: #2196F3; */
     padding: 0 0 5px;
     gap: 1px;
