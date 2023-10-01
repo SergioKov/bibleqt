@@ -7736,7 +7736,7 @@ function selBook(e){
     inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
-    //v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            
+    v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            
 
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
@@ -8125,7 +8125,6 @@ function sel(e, par, show_chapter = null, trans = null){
                 }
                 //console.log(arr_booksBible);
 
-
                 //=== start con grid =========================================================================//
                 var arr_block_AT = [];
                 var arr_block_NT = [];
@@ -8210,7 +8209,6 @@ function sel(e, par, show_chapter = null, trans = null){
                 //console.log(v_book);                
                 //=== end con grid =========================================================================//
 
-    
                 /*
                 // antes con flex
                 arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
@@ -8239,13 +8237,6 @@ function sel(e, par, show_chapter = null, trans = null){
                     //console.log(el_b);
                 });
                 */
-
-
-
-
-
-
-
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
@@ -8562,7 +8553,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         }    
                     }
                     //li_ch.innerHTML = index;
-                    li_ch.innerHTML = index + '<span class="ch_count_v">26</span>';
+                    li_ch.innerHTML = index + '<span class="ch_count_v"></span>';//por ahora vacio. luego 20
                     li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                     wr_grid_ch.append(li_ch);
                 }
@@ -8587,7 +8578,7 @@ function sel(e, par, show_chapter = null, trans = null){
 
         }else{//modo old
 
-            alert('chapter modo old');
+            alert('chapter modo old. no salta nunca...');
 
             let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
             fetch(url_bq)
@@ -8667,7 +8658,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             }    
                         }
                         // li_ch.innerHTML = index;
-                        li_ch.innerHTML = index + '<span class="ch_count_v">26</span>';
+                        li_ch.innerHTML = index + '<span class="ch_count_v">22</span>';
                         li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                         //v_chapter.append(li_ch);
                         wr_grid_ch.append(li_ch);
@@ -8814,12 +8805,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                 console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
 
-                        }                
+                        }
                     }
                 }
 
                 //si no existe objeto con Translation. hago fetch(). es necesario!
-                if(typeof obj_o[trans] == 'undefined'){
+                if(/*typeof obj_o[trans].Books[id_book]  == 'undefined' */ typeof obj_o[trans] == 'undefined'){
 
                     //alert('no existe objeto con Translation. hago fetch()'); 
                     //console.log('no existe objeto con Translation. hago fetch()');
@@ -8875,8 +8866,10 @@ function sel(e, par, show_chapter = null, trans = null){
                         }
                 
                         //window.arr_verses = data.split('<h4>')[id_chapter + 1].split('<p>');//antes
+                        console.log('antes---');
                         window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
-                        //console.log('abajo arr_verses');
+                        console.log('despues---');
+                        // console.log('abajo arr_verses');
                         //console.log(arr_verses);
         
                         v_verse.innerHTML = '';//reset botones de versiculos
@@ -8929,7 +8922,8 @@ function sel(e, par, show_chapter = null, trans = null){
                         //console.log('error promesa: '+error);
                     });
 
-                } 
+                }
+
             })
             .then(()=>{
                 //si hay un boton li activo me muevo alli
@@ -8950,7 +8944,7 @@ function sel(e, par, show_chapter = null, trans = null){
 
         }else{//modo old
 
-            alert('modo old verse');
+            alert('modo old verse. no salta nunca...');
             
             let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
             fetch(url_bq)
