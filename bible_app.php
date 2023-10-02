@@ -633,7 +633,7 @@ header('Content-type: text/html; charset=utf-8');
                             <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
                                 <div>Row</div>
                             </div>
-                            <div class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                            <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                                 <div>S#</div>
                             </div>
 

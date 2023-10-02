@@ -614,6 +614,7 @@ function makeStrongNumbersActiveFind(){
 function showHideStrongNumbers(){
     let strongAll = document.querySelectorAll('.strong, .colsInner p S');
     let btnStrong = document.querySelector('#btnStrong');
+    let m_btnStrong = document.querySelector('#m_btnStrong');//menu tres puntos en mobile
     let strongAction = null;
 
     if(strongAll.length != 0){
@@ -621,9 +622,11 @@ function showHideStrongNumbers(){
         if(strongAll[0].classList.contains('show')){
             strongAction = 'hide';
             btnStrong.classList.remove('btn_active');
+            m_btnStrong.classList.remove('btn_active');
         }else{
             strongAction = 'show';
             btnStrong.classList.add('btn_active');
+            m_btnStrong.classList.add('btn_active');
         }
 
         strongAll.forEach(el=>{
@@ -7558,23 +7561,24 @@ function getRefOfTab(tab_id, ref, str_trans = null){
         }
 
     });
-    //ejecuto click sobre el boton ok en inpt_nav
+    //ejecuto click sobre el boton ok en inpt_nav para que se muestren botones de verses
     document.querySelector('#btn_ok').click();
     setTimeout(()=>{
         document.querySelector('#s_verse').click();
-    },500);
+    },100);
 }
 
 
 
 addTab('Быт. 1:1', 'act', null,'rstStrongRed');
-addTab('Быт. 2:2', null, null,'rstStrongRed,rv60');
-addTab('Быт. 3:3', null, null,'rstStrongRed,rv60,ukr_ogi');
+addTab('Ex. 2:2', null, null,'rstStrongRed,rv60');
+addTab('Lev. 3:3', null, null,'rstStrongRed,rv60,ukr_ogi');
 addTab('Прит. 4:23', null, null,'rstStrongRed,ukr_ogi,rv60,lbla');
 addTab('Матф. 5:8', null, null,'rstStrongRed,ukr_ogi,ukr_hom,rv60,lbla');
-addTab('Рим. 10:17', null, null, 'rstStrongRed, rv60 ,lbla');
-addTab('Лук. 3:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
-addTab('Быт. 10:10', null, null,'rstStrongRed');
+addTab('Рим. 6:10', null, null, 'rstStrongRed, rv60 ,lbla, ukr_gyz, ukr_fil, ukr_tur');
+addTab('Лук. 7:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
+addTab('Is. 8:9', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+//addTab('Быт. 10:10', null, null,'rstStrongRed');
 
 function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null){
     let tabsAll = document.querySelectorAll('.tabs');
@@ -8584,7 +8588,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     }    
                                 }
                                 //li_ch.innerHTML = index;
-                                li_ch.innerHTML = index + '<span class="ch_count_v"></span>';//por ahora vacio. luego 20
+                                li_ch.innerHTML = index + '<span class="ch_count_v"></span><span class="ch_count_v chv2"></span>';//por ahora vacio. luego 20
                                 li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                                 wr_grid_ch.append(li_ch);
                             }
