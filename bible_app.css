@@ -883,6 +883,7 @@ span.verse_title {
 }
 .wr_bcv_uls ul {
     padding-bottom: 50px;
+    padding: 0 5px;
 }
 .wr_nav {
     background: #2196f3;
