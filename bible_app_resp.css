@@ -129,9 +129,10 @@
     span.res_link{
         padding: 5px 0;
     }
-    #menuTabsInner{
+    #menuTabsInner {
         border: 1px solid #2c7fc1;
         padding: 3px;
+        padding-bottom: 5px;
     }
 }
 /* end mobilka */
