@@ -7076,7 +7076,7 @@ function mySizeNav(){
     nav_body.style.height = nav_body_h + 'px';
     // console.log('nav_body_h: '+nav_body_h);
     
-    add2pixelTo_menuTabs();
+    //add2pixelTo_menuTabs();
 }
 
 function mySizeFind(){
@@ -7085,7 +7085,7 @@ function mySizeFind(){
     var menuTabs = document.querySelector('#menuTabs');
     var wr_find_head = document.querySelector('#wr_find_head');
     var find_body = document.querySelector('#find_body');
-    var padding_find_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    var padding_find_body = 10;//antes 10// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
 
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
@@ -7163,7 +7163,7 @@ function mySizeStrong(){
     var menuTabs = document.querySelector('#menuTabs');
     var wr_strong_head = document.querySelector('#wr_strong_head');
     var strong_body = document.querySelector('#strong_body');
-    var padding_strong_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    var padding_strong_body = 10;//antes 15 // 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
 
     // Get the computed style, including margins
     const computedStyle = window.getComputedStyle(sidebarInner);
@@ -8276,12 +8276,13 @@ function sel(e, par, show_chapter = null, trans = null){
                             //si hay un boton li activo me muevo alli
                             if(v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
+                                    console.log('hago v_book.querySelector(li_active).scrollIntoView');
                                     v_book.querySelector('.li_active').scrollIntoView({
                                         behavior: "smooth",
                                         block: "start",
                                         inline: "nearest"
                                     });
-                                },100);
+                                },100);//100
                             }
 
                             // Registra el tiempo de finalización
@@ -9152,6 +9153,7 @@ function getRef(trans = null){
     var act_trans = div_trans1.getAttribute('data-trans');
     //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
     var trans_inpt = inpt_nav.dataset.trans;
+    const s_book = document.querySelector('#s_book');
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
@@ -9167,7 +9169,8 @@ function getRef(trans = null){
             //div_trans1.setAttribute('data-base_ep',EnglishPsalms);//antes
             //div_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);//antes
 
-            document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+            //document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+            s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
             var trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
@@ -9296,16 +9299,20 @@ function getRef(trans = null){
         //console.log('to_verse: '+to_verse);
     }
 
-
+    //Si exisate book busco chapter y verse/to_verse si hay
     if(book != null){
+        //console.log('getRef() --- book != null');
+
+        var Translation = trans;
+        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         
-        
-        let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
-        fetch(url)
-        .then(response => {
-          return response.json(); // Devuelve una promesa
-        })
-        .then(data => {
+        //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
+        if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
+            //console.log('getRef() --- objTrans está creado. abajo objTrans: ');
+            //console.log(objTrans);
+
+            //saco ajustes de este modulo en json               
+            var data = objTrans;
             //console.log(data);
     
             window.dataBooksBtnOk = data.Books;
@@ -9371,31 +9378,6 @@ function getRef(trans = null){
                         inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
                         inpt_nav.setAttribute('data-show_chapter',chapter);
 
-                        //inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                        //inpt_nav.setAttribute('data-show_verse',verse);
-
-                        if(verse != null){
-                            inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                            inpt_nav.setAttribute('data-show_verse',verse);
-                        }else{//por defecto 1
-                            //inpt_nav.setAttribute('data-id_verse',0);
-                            //inpt_nav.setAttribute('data-show_verse', 1);
-
-                            //creo virtual e
-                            const e_virtual = document.createElement('li');
-                            e_virtual.id = 'lll';
-                            e_virtual.setAttribute('data-id_chapter',0);
-                            e_virtual.setAttribute('data-show_chapter',1);
-                            //e_virtual.onclick = function(){
-                                //selChapter(e_virtual,1);
-                            //};
-                            setTimeout(()=>{
-                                //e_virtual.click();
-                                selChapter(e_virtual, chapter);                           
-                            },50);
-                            
-                        }
-
                         inpt_nav.value = short_name;
                         obj_nav.show_book = short_name;
                         
@@ -9416,10 +9398,25 @@ function getRef(trans = null){
                             inpt_nav.value += ':' + verse;
                             obj_nav.id_verse = parseInt(verse) - 1;
                             obj_nav.show_verse = verse;
+                            inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                            inpt_nav.setAttribute('data-show_verse',verse);
                             document.querySelector('#v_verse').innerHTML = '';
                         }else{
                             //document.querySelector('#v_verse').innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                            //creo virtual e
+                            const e_virtual = document.createElement('li');
+                            e_virtual.id = 'e_virt';
+                            e_virtual.setAttribute('data-id_chapter',0);
+                            e_virtual.setAttribute('data-show_chapter',1);
+                            //e_virtual.onclick = function(){
+                                //selChapter(e_virtual,1);
+                            //};
+                            setTimeout(()=>{
+                                //e_virtual.click();
+                                selChapter(e_virtual, chapter);                           
+                            },50);
                         }
+
                         //hay to_verse
                         if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
                             inpt_nav.value += '-' + to_verse;
@@ -9467,12 +9464,180 @@ function getRef(trans = null){
                         //console.log('no hay coincidencia en el nombre corto de la Biblia... ');
                     }
                 }//end for                
-            }//end for   
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
-        });
+            }//end for
+
+        }else{//modo old por fetch()
+            
+            alert(0);//no entra nunca
+            console.log('modo old --- en getRef() ');
+
+            let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
+            console.log('modo old --- en getRef() --- url: '+ url);
+            fetch(url)
+            .then(response => {
+              return response.json(); // Devuelve una promesa
+            })
+            .then(data => {
+                //console.log(data);
+        
+                window.dataBooksBtnOk = data.Books;
+    
+                for (let i = 0; i < dataBooksBtnOk.length; i++) {
+                    for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
+                        const el = dataBooksBtnOk[i].ShortNames[j];
+                        if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
+                            var n_book = dataBooksBtnOk[i].BookNumber;
+                            var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
+    
+                            var inpt_nav = document.querySelector('#inpt_nav');
+    
+                            //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
+                            if(window.innerWidth < 768){//mobile
+                                //checkRefNav(n_book, chapter, verse, to_verse);                        
+                            
+                                if(document.querySelectorAll('.cols').length > 1){
+    
+                                    //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
+                                    //console.log('clickeado trans: '+inpt_nav.dataset.trans);
+                                    
+                                    var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+                                    var trans_inpt = inpt_nav.dataset.trans;// trans desde input
+                                    var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
+    
+                                    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
+                                        // Usa el método find para buscar el objeto que contiene 'rst' como nombre
+                                        const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+                                        const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
+    
+                                        if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
+                                            var new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
+                                            chapter = new_res[1];
+                                            verse = new_res[2];
+                                            to_verse = new_res[3];
+                                            //console.log('en getRef() --- convertido chapter: '+chapter);//empezando de 1
+                                            //console.log('en getRef() --- convertido verse: '+verse);//empezando de 1
+                                            //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
+                                        }
+                                        else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
+                                            var new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
+                                            chapter = new_res[1];
+                                            verse = new_res[2];
+                                            to_verse = new_res[3];
+                                            //console.log('en getRef() --- convertido chapter: '+chapter);//empezando de 1
+                                            //console.log('en getRef() --- convertido verse: '+verse);//empezando de 1
+                                            //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
+                                        }else{
+                                            //console.log('en getRef() --- no hago nada. chapter verse to_verse se quedan igual como en input.');
+                                        }
+    
+                                    }
+                                }                        
+                            
+                            } 
+    
+                            chapter = (chapter != null) ? chapter : 1;//default si no hay
+                        
+                            inpt_nav.setAttribute('data-id_book',n_book);
+                            inpt_nav.setAttribute('data-show_book',short_name);
+    
+                            inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                            inpt_nav.setAttribute('data-show_chapter',chapter);
+    
+                            inpt_nav.value = short_name;
+                            obj_nav.show_book = short_name;
+                            
+                            //chapter
+                            if(chapter != null && parseInt(chapter) > 0){
+                                inpt_nav.value += ' ' + chapter;
+                                obj_nav.id_chapter = parseInt(chapter) - 1;
+                                obj_nav.show_chapter = chapter;
+                                document.querySelector('#v_chapter').innerHTML = '';
+                            }else{
+                                document.querySelector('#v_chapter').innerHTML = 'selecciona el capítulo';
+                                obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
+                                obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
+                            }
+                            
+                            //verse
+                            if(verse != null && parseInt(verse) > 0){
+                                inpt_nav.value += ':' + verse;
+                                obj_nav.id_verse = parseInt(verse) - 1;
+                                obj_nav.show_verse = verse;
+                                inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                                inpt_nav.setAttribute('data-show_verse',verse);
+                                document.querySelector('#v_verse').innerHTML = '';
+                            }else{
+                                //document.querySelector('#v_verse').innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //creo virtual e
+                                const e_virtual = document.createElement('li');
+                                e_virtual.id = 'e_virt';
+                                e_virtual.setAttribute('data-id_chapter',0);
+                                e_virtual.setAttribute('data-show_chapter',1);
+                                //e_virtual.onclick = function(){
+                                    //selChapter(e_virtual,1);
+                                //};
+                                setTimeout(()=>{
+                                    //e_virtual.click();
+                                    selChapter(e_virtual, chapter);                           
+                                },50);
+                            }
+    
+                            //hay to_verse
+                            if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
+                                inpt_nav.value += '-' + to_verse;
+                                inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                                obj_nav.show_to_verse = to_verse;
+                            }else{
+                                inpt_nav.setAttribute('data-show_to_verse','');
+                                obj_nav.show_to_verse = '';
+                            }
+    
+                            
+                            //no hay chapter, no hay verse
+                            if(chapter == null && verse == null){
+                                document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
+                            }
+                            //hay chapter, no hay verse
+                            if(chapter != null && parseInt(chapter) > 0 && verse == null){
+                                document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
+                            }
+                            //hay chapter, hay verse
+                            if(parseInt(chapter) > 0 && parseInt(verse) > 0){
+                                document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                            }
+    
+                            document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
+                            document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+    
+                            //si es mobile, cierro menu
+                            if(window.innerWidth < 768){
+                                //console.log(' btn ok. cierro menu en mobile.');
+                                closeSidebar();
+                            }
+    
+                            //meto Gen.1:1 en los head de cada trans
+                            document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                                let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
+                                putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                            });
+    
+                            showTrans(n_book, chapter, verse, to_verse);
+                            //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
+                            break;
+                        }else{
+                            //console.log('no hay coincidencia en el nombre corto de la Biblia... ');
+                        }
+                    }//end for                
+                }//end for   
+            })
+            .catch(error => { 
+                // Código a realizar cuando se rechaza la promesa
+                //console.log('error promesa: '+error);
+            });
+
+        }
+
+
     }else{
         //console.log('no existe book');
     }

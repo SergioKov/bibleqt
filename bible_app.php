@@ -113,26 +113,28 @@ header('Content-type: text/html; charset=utf-8');
             <div id="sidebarInner">
 
                 <div id="menuTabs">
-                    
-                    <div id="arrowBack" onclick="closeSidebar(this)">
-                        <img class="f_l" src="images/arrow_left2_white.svg">
-                    </div>
-
-                    <div id="restoTabs" class="f_r">                    
-                        <div class="wr_btns_scr f_l">
-                            <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">Nav</button>
-                            <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">Find</button>
-                            <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="Перекрестные Ссылки">TSK</button>
-                            <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарт Стронга">Strong</button>
-                            <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
-                            <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
+                    <div id="menuTabsInner">
+                        
+                        <div id="arrowBack" onclick="closeSidebar(this)">
+                            <img class="f_l" src="images/arrow_left2_white.svg">
                         </div>
-                    </div>
 
-                    <div id="closeBack" onclick="closeSidebar(this)">
-                        <div>&#10005;</div><!--X-->
-                    </div>
+                        <div id="restoTabs" class="f_r">                    
+                            <div class="wr_btns_scr f_l">
+                                <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">Nav</button>
+                                <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">Find</button>
+                                <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="Перекрестные Ссылки">TSK</button>
+                                <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарт Стронга">Strong</button>
+                                <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
+                                <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
+                            </div>
+                        </div>
 
+                        <div id="closeBack" onclick="closeSidebar(this)">
+                            <div>&#10005;</div><!--X-->
+                        </div>
+
+                    </div>
                 </div>
                     
                 <div id="vklad_nav" style="display: block;">

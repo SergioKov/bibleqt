@@ -650,12 +650,19 @@ p a:hover:not(.a_sn) {
     z-index: 1;
 }
 .wr_btns_scr {
+    /* background: yellow; */
+    /*
     display: inline;
     float: left;
     width: 100%;
-    /* background: yellow; */
     overflow-x: scroll;
     white-space: nowrap;
+    */
+    
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 5px
 }
 .wr_btns_scr button:last-child {
     margin-right: 50px;
@@ -867,13 +874,7 @@ span.verse_title {
     background: red !important;
     border-bottom: 3px solid white !important;
 }
-#vklad_nav {
-    /* height: 796px; */
-    overflow: hidden;
-    background: #795548;
-    border: 1px solid #2c7fc1;
-    border-radius: 3px;
-}
+
 .wr_bcv_uls {
     background: #373737;
     padding: 0px;/*5px*/
@@ -1116,18 +1117,19 @@ span.h4_ch {
     display: block;
     font-weight: bold;
 }
-h4, span.h4_ch {
+#container h4, span.h4_ch {
     color: red;
     border-bottom: 1px solid #008dff;
 }
 
+#vklad_nav,
 #vklad_find,
 #vklad_tsk,
 #vklad_strong
   {
     background: #2196F3;
     border-radius: 3px;
-    border: 1px solid #2c7fc1;
+    outline: 1px solid #2c7fc1;
 }
 #tsk_head, 
 #strong_head 
@@ -1147,7 +1149,7 @@ h4, span.h4_ch {
     min-height: 10px;
     padding: 5px 5px 0;
     overflow-y: scroll;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 #find_body,
 #tsk_body,
@@ -1158,6 +1160,15 @@ h4, span.h4_ch {
     min-height: 200px;
     overflow-y: scroll;
 }
+
+#vklad_strong{
+    background: #373737;
+}
+#strong_body {
+    padding: 0 5px 5px;
+}
+
+
 div#find_body p:not(:last-child) ,
 div#tsk_body p:not(:last-child) ,
 div#strong_body p:not(:last-child) 
@@ -1269,15 +1280,6 @@ button#btn_ok_strong {
     cursor: pointer;
     width: 70px;
 }
-#vklad_find,
-#vklad_strong
-{
-    /* height: 796px; */
-    overflow: hidden;
-    background: #373737;
-    border: 1px solid #2c7fc1;
-    border-radius: 3px;
-}
 
 #vklad_strong p
 {
@@ -1300,12 +1302,13 @@ span.num_strong {
 .hist_strong:hover{
     color:red;
 }
-#find_head,
-#strong_head
+#find_head, 
+#strong_head 
 {
     background: #d4ebfe;
     color: white;
     padding-bottom: 5px;
+    border: 1px solid #2c7fc1;
 }
 
 span.text_strong font[face='BQTHeb'] {
@@ -1675,22 +1678,18 @@ select  optgroup option {
 .sideShow {
     left: 0%;
 }
-#menuTabs {
-    padding: 3px;
+#menuTabsInner {
+    padding: 3px 3px 9px 3px;
     background: #2296f3;
-    overflow: hidden;
     border-radius: 3px;
-    border: 1px solid #2c7fc1 !important;
+    outline: 1px solid #2c7fc1 !important;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin-top: 2px;
 }
 #arrowBack {
-    /* float: left; */
-    margin: 4px 10px 0 10px;
+    margin: 4px 8px 0 8px;
     /* background: green; */
-    /* width: 13%; */
     cursor: pointer;
     transition: 0.3s;
 }
@@ -1708,16 +1707,19 @@ select  optgroup option {
     width: 32px;
     height: 28px;
     font-size: 24px;
-    margin-right: 2px;
+    margin-right: 4px;
     cursor: pointer;
     /* background: red; */
-    padding: 1px 1px;
+    padding: 1px 3px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: center;
     align-items: center;
+    margin-left: 4px;
+    position: relative;
+    top: -1px;
 }
 
 #closeBack_old span {
