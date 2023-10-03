@@ -887,7 +887,7 @@ span.verse_title {
 }
 .wr_nav {
     background: #2196f3;
-    padding: 3px;
+    padding: 5px;
     display: flex;
     flex-direction: row;
     justify-items: legacy;
@@ -2543,4 +2543,8 @@ pr {
 }
 .li_active .ch_count_v{
     /* color: yellow; */
+}
+#nav_head {
+    padding-bottom: 5px;
+    background: #373737;
 }
