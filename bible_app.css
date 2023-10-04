@@ -798,6 +798,7 @@ span.verse_title {
     transition: 0.1s;
     color: white;
     font-size: 17px;
+    font-weight: bold;
 }
 .wr_lis .v_li:hover {
     background: #424242;
