@@ -134,6 +134,14 @@
         padding: 3px;
         padding-bottom: 4px;
     }
+    #menuTabsInner,
+    #vklad_nav,
+    #vklad_find,
+    #vklad_tsk,
+    #vklad_strong
+    {
+        outline: none;
+    }
 }
 /* end mobilka */
 

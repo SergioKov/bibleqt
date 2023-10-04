@@ -1,6 +1,45 @@
 //====================================================================//
 //  J A V A S C R I P T
 //====================================================================//
+
+const header = document.getElementById('header');
+const wrapper = document.getElementById('wrapper');
+const sidebar = document.getElementById('sidebar');
+const sidebarInner = document.getElementById('sidebarInner');
+const v_line = document.getElementById('v_line');
+const container = document.getElementById('container');
+const containerInner = document.getElementById('containerInner');
+const headerContainer = document.getElementById('headerContainer');
+const wrCols = document.getElementById('wrCols');
+const footer = document.getElementById('footer');
+
+const btn_pageUp = document.getElementById('btn_pageUp');
+const btn_pageDown = document.getElementById('btn_pageDown');
+
+const menuTabs = document.getElementById('menuTabs');
+const nav_head = document.getElementById('nav_head');
+const nav_body = document.getElementById('nav_body');
+
+// Get the computed style, including margins
+const computedStyle = window.getComputedStyle(sidebarInner);
+
+const wr_find_head = document.getElementById('wr_find_head');
+const find_body = document.getElementById('find_body');
+
+const tsk_head = document.getElementById('tsk_head');
+const tsk_body = document.getElementById('tsk_body');
+
+const wr_strong_head = document.getElementById('wr_strong_head');
+const strong_body = document.getElementById('strong_body');
+
+
+
+
+
+
+
+
+
 const obj_ep = {
     //ruso
     'rstStrongRed': 'N',
@@ -532,9 +571,6 @@ function autoWidthShortBook(){
     }
 }
 
-var wrapper = document.getElementById('wrapper');
-var v_line = document.getElementById('v_line');
-var sidebar = document.querySelector('#sidebar');
 var isMouseDown = false;
 
 //start - Desktop (mouse)
@@ -6427,7 +6463,7 @@ window.addEventListener('resize',function(d){
 });
 
 //Por defecto ancho de sidebar
-var wrapper = document.querySelector('#wrapper');
+//var wrapper = document.querySelector('#wrapper');
 var def_w = wrapper.offsetWidth * 0.3;//30%
 if(document.querySelector('#sidebar')!= null){
     //document.querySelector('#headerSidebar').style.width = def_w +'px';
@@ -6876,20 +6912,7 @@ function changePositionShow(el){//row,col, default = col
 
 
 function mySizeWindow() {
-    //console.log('mySizeWindow');
-
-    let header = document.querySelector('#header');
-    let wrapper = document.querySelector('#wrapper');
-    let sidebar = document.querySelector('#sidebar');
-    //let sidebarInner = document.querySelector('#sidebarInner');
-    let v_line = document.querySelector('#v_line');
-    let container = document.querySelector('#container');
-    //let containerInner = document.querySelector('#containerInner');
-    let headerContainer = document.querySelector('#headerContainer');
-    let wrCols = document.querySelector('#wrCols');
-    let footer = document.querySelector('#footer');
-
-    
+    //console.log('mySizeWindow');   
     
     let window_w = window.innerWidth;
     let window_h = window.innerHeight;
@@ -6918,18 +6941,16 @@ function mySizeWindow() {
 
 
     let wrCols_h = 
-    window_h //960
+      window_h //960
     - header_h //42
     - footer_h //46
     - headerContainer_h
-    //- 20//antes cuando el margen en containerInner era 10px
-    //- marginSidebar_h//en desktop = 10*2;  en mobile y tablet = 0
     ;
     // console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
     // console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
 
     let sidebar_h = 
-    window_h //960
+      window_h //960
     - header_h //42
     - footer_h //46
     ;
@@ -6937,9 +6958,7 @@ function mySizeWindow() {
     let v_line_h = sidebar_h; 
 
     wrapper.style.top = header_h + 'px';
-
     wrCols.style.height = wrCols_h + 'px';
-    //sidebarInner.style.height = wrCols_h + 'px';
 
     sidebar.style.height = sidebar_h + 'px';
     container.style.height = container_h + 'px';
@@ -6990,7 +7009,6 @@ function mySizeWindow() {
             wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'mobile'){
-            //width 100%
             wrCols.style.maxWidth = '';
             if(colsHeadAll.length == 1){
                 //document.querySelectorAll('.colsHead')[0].style.display = 'none';//comento temporalmente
@@ -7007,8 +7025,7 @@ function mySizeWindow() {
         });
         //pongo top para boton pageUp()
         let top_h = colsInnerAll[colsInnerAll.length-1].getBoundingClientRect().top;
-        document.querySelector('#btn_pageUp').style.top = top_h + 10 + 'px';
-
+        btn_pageUp.style.top = top_h + 10 + 'px';
 
         wrCols.classList.add('wrCols_center');
     }
@@ -7037,25 +7054,7 @@ function mySizeWindow() {
     */  
 }
 
-
-function add2pixelTo_menuTabs(){//no funciona
-    let menuTabs = document.querySelector('#menuTabs');
-    //menuTabs.style.marginTop = 0 + 'px';
-    setTimeout(()=>{
-        //menuTabs.style.marginTop = 2 + 'px';
-    },10);
-}
-
-
 function mySizeNav(){
-    var sidebar = document.querySelector('#sidebar');
-    var sidebarInner = document.querySelector('#sidebarInner');
-    var menuTabs = document.querySelector('#menuTabs');
-    var nav_head = document.querySelector('#nav_head');
-    var nav_body = document.querySelector('#nav_body');
-
-    // Get the computed style, including margins
-    const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
     const sidebarInner_margins_h = 
     parseInt(computedStyle.marginTop) + 
@@ -7074,30 +7073,21 @@ function mySizeNav(){
     ;
     sidebarInner.style.height = sidebarInner_h + 'px';
     nav_body.style.height = nav_body_h + 'px';
-    // console.log('nav_body_h: '+nav_body_h);
-    
-    //add2pixelTo_menuTabs();
+    // console.log('nav_body_h: '+nav_body_h);    
 }
 
 function mySizeFind(){
-    var sidebar = document.querySelector('#sidebar');
-    var sidebarInner = document.querySelector('#sidebarInner');
-    var menuTabs = document.querySelector('#menuTabs');
-    var wr_find_head = document.querySelector('#wr_find_head');
-    var find_body = document.querySelector('#find_body');
-    var padding_find_body = 10;//antes 10// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    let padding_find_body = 10;//antes 10// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
 
-    // Get the computed style, including margins
-    const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
-    var sidebar_h = sidebar.offsetHeight;
-    var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    var menuTabs_h = menuTabs.offsetHeight;
-    var wr_find_head_h = wr_find_head.offsetHeight;
+    let sidebar_h = sidebar.offsetHeight;
+    let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    let menuTabs_h = menuTabs.offsetHeight;
+    let wr_find_head_h = wr_find_head.offsetHeight;
 
-    var find_body_h = 
+    let find_body_h = 
       sidebar_h
     - sidebarInner_margins_h
     - menuTabs_h
@@ -7107,22 +7097,12 @@ function mySizeFind(){
     sidebarInner.style.height = sidebarInner_h + 'px';
     find_body.style.height = find_body_h + 'px';
     //console.log('find_body_h: '+find_body_h);
-    
-    add2pixelTo_menuTabs();
 }
 
 
 function mySizeTsk(){
-    var sidebar = document.querySelector('#sidebar');
-    var sidebarInner = document.querySelector('#sidebarInner');
-    var menuTabs = document.querySelector('#menuTabs');
-    var tsk_head = document.querySelector('#tsk_head');
-    var tsk_body = document.querySelector('#tsk_body');
-    var padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    let padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
     
-
-    // Get the computed style, including margins
-    const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
@@ -7141,39 +7121,18 @@ function mySizeTsk(){
     sidebarInner.style.height = sidebarInner_h + 'px';
     tsk_body.style.height = tsk_body_h + 'px';
     //console.log('tsk_body_h: '+tsk_body_h);
-
-    add2pixelTo_menuTabs();
 }
-
-/*
-function old_mySizeTsk(){
-    var div_sidebarInner = document.querySelector('#sidebarInner');
-    var div_tsk_head = document.querySelector('#tsk_head');
-    var div_tsk_body = document.querySelector('#tsk_body');
-    var padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-    
-    //calculo altura de div_tsk_body despues de meter div_tsk_head
-    div_tsk_body.style.height = div_sidebarInner.offsetHeight - div_tsk_head.offsetHeight - padding_tsk_body + 'px';
-}
-*/
 
 function mySizeStrong(){
-    var sidebar = document.querySelector('#sidebar');
-    var sidebarInner = document.querySelector('#sidebarInner');
-    var menuTabs = document.querySelector('#menuTabs');
-    var wr_strong_head = document.querySelector('#wr_strong_head');
-    var strong_body = document.querySelector('#strong_body');
-    var padding_strong_body = 10;//antes 15 // 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    let padding_strong_body = 10;//antes 15 // 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
 
-    // Get the computed style, including margins
-    const computedStyle = window.getComputedStyle(sidebarInner);
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
-    var sidebar_h = sidebar.offsetHeight;
-    var sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    var menuTabs_h = menuTabs.offsetHeight;
-    var wr_strong_head_h = wr_strong_head.offsetHeight;
+    let sidebar_h = sidebar.offsetHeight;
+    let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    let menuTabs_h = menuTabs.offsetHeight;
+    let wr_strong_head_h = wr_strong_head.offsetHeight;
 
     //si hay una card con el numero strong dentro
     let hasStrongCard = false;    
@@ -7185,12 +7144,11 @@ function mySizeStrong(){
             break; // Exit the loop once a matching child is found
         }
     }
-    // let padding_StrongCard = (hasStrongCard) ? 2 : 2 ;
     let padding_StrongCard = 2;//siempre 2px por el border
     // console.log('hasStrongCard: '+hasStrongCard);
     // console.log('padding_StrongCard: '+padding_StrongCard);
 
-    var strong_body_h = 
+    let strong_body_h = 
       sidebar_h
     - sidebarInner_margins_h
     - menuTabs_h
@@ -7202,19 +7160,6 @@ function mySizeStrong(){
     strong_body.style.height = strong_body_h + 'px';
     //console.log('strong_body_h: '+strong_body_h);    
 }
-
-/*function old_mySizeStrong(){
-    var div_sidebarInner = document.querySelector('#sidebarInner');
-    var div_strong_nav = document.querySelector('#vklad_strong .wr_nav');
-    var div_strong_head = document.querySelector('#strong_head');
-    var div_strong_body = document.querySelector('#strong_body');
-    var padding_strong_body = 5;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-    
-    //calculo altura de div_tsk_body despues de meter div_tsk_head
-    div_strong_body.style.height = div_sidebarInner.offsetHeight - div_strong_nav.offsetHeight - div_strong_head.offsetHeight - padding_strong_body + 'px';
-}
-*/
-
 
 
 function mySizeVerse(){
@@ -8276,7 +8221,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             //si hay un boton li activo me muevo alli
                             if(v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
-                                    console.log('hago v_book.querySelector(li_active).scrollIntoView');
+                                    //console.log('hago v_book.querySelector(li_active).scrollIntoView');
                                     v_book.querySelector('.li_active').scrollIntoView({
                                         behavior: "smooth",
                                         block: "start",
@@ -8734,7 +8679,7 @@ function sel(e, par, show_chapter = null, trans = null){
                     bcv_line.classList.add('v_line');
             
                     var id_book = parseInt(inpt_nav.getAttribute('data-id_book'));
-                    var id_chapter = parseInt(inpt_nav.getAttribute('data-id_chapter'));
+                    var id_chapter = (inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(inpt_nav.getAttribute('data-id_chapter')) : 0 ;
                     var id_verse = parseInt(inpt_nav.getAttribute('data-id_verse'));
             
             
