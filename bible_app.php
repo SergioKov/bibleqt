@@ -173,7 +173,7 @@ header('Content-type: text/html; charset=utf-8');
                                 <li class="v_li">1</li> 
                             </ul>
                             <ul id="v_verse" class="wr_lis">
-                                <span class="prim_verse">Antes de seleccionar el versículo, selecciona el capítulo por favor.</span> 
+                                <span class="prim_verse">html: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span> 
                             </ul>
                         </div>
                     </div>

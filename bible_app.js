@@ -7865,6 +7865,12 @@ function selVerse(e){
     var trans_inpt = inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
+    //asigno chapter por defecto si no hay cha`ter y se selecciona verse
+    if(inpt_nav.getAttribute('data-id_chapter') == '' && inpt_nav.getAttribute('data-show_chapter') == ''){
+        inpt_nav.setAttribute('data-id_chapter', 0);
+        inpt_nav.setAttribute('data-show_chapter', 1);
+    }
+
     var is_changedVerse = false;
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
@@ -10325,7 +10331,10 @@ function chapterGo(dir){
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
 
-                sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                //sel(document.querySelector('#s_chapter'),'ch',Translation);//test
+                setTimeout(()=>{
+                    sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                },50);
                 showTrans(next_id_book, next_show_chapter); 
             }
 
@@ -10362,7 +10371,9 @@ function chapterGo(dir){
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
 
-                sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                setTimeout(()=>{
+                    sel(document.querySelector('#s_verse'),'v',Translation);//verse
+                },50);
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
