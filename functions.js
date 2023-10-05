@@ -632,6 +632,87 @@ for (let index = 3251; index < 3304; index++) {
 //console.log(a);
 */
 
+async function obtenerDatos(url) {
+    try {
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+        console.log("retorno datos de la url: ", url);
+        console.log("datos: ", datos);
+        const d = new Date();
+        console.log(d.getMilliseconds());
+        
+        return datos;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+
+
+const ejecutar1 = (url) => {
+    console.log(new Date);
+    
+    obtenerDatos(url)
+    .then(datos => {
+        console.log(datos);
+    });
+}
+//ejecutar1('./modules/text/nrt/bibleqt.json');//'./modules/text/nrt/bibleqt.json'
+
+
+
+
+
+
+function obtenerDatos1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('Datos obtenidos');
+        }, 5000);
+    });
+}
+
+async function ejecutar() {
+    console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos1() ...' + new Date().getSeconds());
+    const resultado = await obtenerDatos1();
+    console.log('tengo el resultado del obtenerDatos1(). abajo resultado: ' + new Date().getSeconds());
+    console.log(resultado);
+}
+//ejecutar();
+
+//-------------------------------------------------------------------------------------//
+
+async function obtenerDatos2(url,tipo) {
+    const respuesta = await fetch(url);
+    const datos = (tipo == 'json') ? await respuesta.json() : await respuesta.text();
+    return datos;
+}
+
+const ejecutar2 = (url,tipo) => {
+    console.log(`inicio func ejecutar2(${url}). Espero resultado del obtenerDatos2(${url},${tipo}) ...`);
+    
+    const inicio = performance.now();
+    console.log(`--- start ejecutar2(${url}): ${inicio}`);
+
+    obtenerDatos2(url,tipo)
+        .then(datos => {
+            const fin = performance.now();
+            const tiempo = fin - inicio;
+            console.log(`--- fin ejecutar2(${url}): ${fin}`);
+            console.log(`--- tiempo de ejecusion de ejecutar2(${url}): ${tiempo} milisec.`);
+            console.log(datos);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+ejecutar2('./modules/text/nrt/bibleqt.json','json');
+
+setTimeout(()=>{
+    ejecutar2('./modules/text/nrt/nrt_01.htm','text');
+
+},10000)
+
 
 
 
