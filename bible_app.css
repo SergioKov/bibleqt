@@ -1474,6 +1474,8 @@ span.res_link.active {
 .prim16 {
     font-size: 16px;
     color: #6b6b6b!important;
+    border-radius: 3px !important;
+    margin-top: 2px;
 }
 .mr-5{
     margin-right:-5px;
@@ -2546,4 +2548,12 @@ pr {
 #nav_head {
     padding-bottom: 5px;
     background: #373737;
+}
+.trans_in_find {
+    background: #1b89e1;
+    display: block;
+    color: white;
+    margin: -7px -5px 5px;
+    border-radius: 3px 3px 0 0;
+    padding: 5px;
 }

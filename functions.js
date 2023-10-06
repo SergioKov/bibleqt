@@ -706,10 +706,10 @@ const ejecutar2 = (url,tipo) => {
             console.error('Error:', error);
         });
 }
-ejecutar2('./modules/text/nrt/bibleqt.json','json');
+//ejecutar2('./modules/text/nrt/bibleqt.json','json');
 
 setTimeout(()=>{
-    ejecutar2('./modules/text/nrt/nrt_01.htm','text');
+    //ejecutar2('./modules/text/nrt/nrt_01.htm','text');
 
 },10000)
 
