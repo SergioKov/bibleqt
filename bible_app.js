@@ -14572,7 +14572,7 @@ function mostrar_no_res(){
         const p_f = document.createElement('p');
         p_f.className = 'prim16 mr-5';
         p_f.innerHTML = `<span class="trans_in_find">Поиск в переводе: <b>${trans_busqueda}</b> </span>`;
-        p_f.innerHTML += `По запросу "<b class="f_red">${inpt_find.value.trim()}</b>" ничего не найдено. Проверьте ${words_show} или попробуйте изменить параметры.`;
+        p_f.innerHTML += `По запросу "<b class="f_red">${inpt_find.value.trim()}</b>" ничего не найдено. Проверьте выбранный для поиска перевод Библии, ${words_show} или попробуйте изменить параметры.`;
         //добавляю стих в див 
         div_find_body.append(p_f);    
 }
