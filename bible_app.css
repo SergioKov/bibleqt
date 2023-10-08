@@ -175,9 +175,10 @@ body{
 .tab_active{
     background: red;
 }
-.tabs span{
+.tabs span {
     margin-top: 3px;
     display: inline-block;
+    margin-left: 5px;
 }
 .tabs button {
     margin-left: 5px;
@@ -427,6 +428,7 @@ button{
     /* width: 50px; */
     min-width: 40px;
     transition: 0.3s all;
+    text-wrap: nowrap;
 }
 .btn:hover {
     background: #5eb4f9;
