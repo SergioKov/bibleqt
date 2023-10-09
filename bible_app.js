@@ -908,11 +908,7 @@ function getTsk(e){
                 //Si hay links para el verse
                 if(tb_arr_links != ''){
                     //console.log('antes de forEach. tb_arr_links: ');
-                    //console.log(tb_arr_links);
-
-                    count_tsk = 0;//contador de versiculos tsk
-
-                   
+                    //console.log(tb_arr_links);                  
 
                     tb_arr_links.forEach((el,i)=>{
                         //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
@@ -1061,8 +1057,7 @@ function getTsk(e){
 
                                             const span_num_tsk = document.createElement('span');
                                             span_num_tsk.className = 'sp_f';
-                                            count_tsk++;
-                                            span_num_tsk.innerText = count_tsk;
+                                            span_num_tsk.innerText = tb_iter + 1;
 
                                             p.append(span_num_tsk);
                             
@@ -1213,7 +1208,6 @@ function getTsk(e){
 
                                             arr_tsk_p[tb_iter] = p;
                                             //console.log(`--- tb_iter: ${tb_iter}`);
-
 
                                             //si es ultimo elemento del array...
                                             if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
