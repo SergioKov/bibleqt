@@ -34,7 +34,7 @@ const strong_body = document.getElementById('strong_body');
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
-const pantallaTabletMinPx = 576;//768
+const pantallaTabletMinPx = 768;
 
 //const pantallaTabletMaxPx = 991;
 //const pantallaDesktopSmallMinPx = 992;
