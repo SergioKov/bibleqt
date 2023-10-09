@@ -32,6 +32,19 @@ const tsk_body = document.getElementById('tsk_body');
 const wr_strong_head = document.getElementById('wr_strong_head');
 const strong_body = document.getElementById('strong_body');
 
+//Medidas de pantallas para Media Queries
+const pantallaMobileMaxPx = 575;
+const pantallaTabletMinPx = 576;//768
+
+//const pantallaTabletMaxPx = 991;
+//const pantallaDesktopSmallMinPx = 992;
+
+const pantallaTabletMaxPx = 1023;
+const pantallaDesktopSmallMinPx = 1024;
+
+//const pantallaDesktopSmallMaxPx = 1999;
+//const pantallaDesktopBigMinPx = 1200;
+
 
 
 
@@ -120,10 +133,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //addTrans();
     //addTrans();
-
-    setTimeout(() => {
-        autoWidthShortBook();//por defecto calculo width para ShortBook
-    }, 500);
 
 });
 
@@ -507,70 +516,6 @@ function scrollToVerseView(verseView, userBlock = 'start'){
     },300);
 }
 
-
-
-function autoWidthShortBook(){
-    let sidebar = document.querySelector('#sidebar');
-    let s_wx = sidebar.offsetWidth;
-    //console.log('autoWidthShortBook()');
-    
-    //Si es Tablet o Desktop
-    if(false /*window.innerWidth >= 768*/){       
-        let book_w, chv_w;
-
-        //width of book
-        if(s_wx >= 351){
-            book_w = '20%';
-        }else if(s_wx >= 271 && s_wx <= 350){
-            book_w = '25%';
-        }else if(s_wx >= 201 && s_wx <= 270){
-            book_w = '33.33%';
-        }else if(s_wx <= 200){
-            book_w = '50%';
-        }
-
-        //width of chapters and verses
-        if(s_wx >= 501){
-            chv_w = '10%';
-        }else if(s_wx >= 421 && s_wx <= 500){
-            chv_w = '11.11%';
-        }else if(s_wx >= 361 && s_wx <= 420){
-            chv_w = '12.5%';
-        }else if(s_wx >= 301 && s_wx <= 360){
-            chv_w = '14.28%';
-        }else if(s_wx >= 241 && s_wx <= 300){
-            chv_w = '16.66%';
-        }else if(s_wx <= 240){
-            chv_w = '20%';
-        }
-
-
-        const cssRule = `
-            #v_book .v_li {
-                width: ${book_w};
-            }        
-            #v_chapter .v_li, 
-            #v_verse .v_li { 
-                width: ${chv_w};
-            }
-            `;
-
-        if (document.querySelector('#myStyle') == null) {
-            // Create a <style> element and add the CSS rule
-            const styleElement = document.createElement('style');
-            styleElement.id = 'myStyle';
-            styleElement.innerHTML = cssRule;
-
-            // Append the <style> element to the document's head
-            document.head.appendChild(styleElement);
-        }else{
-            document.querySelector('#myStyle').innerHTML = cssRule;
-        }
-        
-
-    }
-}
-
 var isMouseDown = false;
 
 //start - Desktop (mouse)
@@ -581,8 +526,6 @@ wrapper.onmousemove = function(e) {
         //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
         sidebar.removeAttribute('class');
         sidebar.style.width = e.pageX - 3 + 'px';
-
-        autoWidthShortBook();
     }
 };
 v_line.onmouseup = function() { 
@@ -602,7 +545,6 @@ wrapper.ontouchmove = function(e) {
         sidebar.removeAttribute('class');
         sidebar.style.width = e.touches[0].pageX - 3 + 'px';
         console.log('wrapper.ontouchmove');
-        autoWidthShortBook();
     }
 };
 v_line.ontouchend = function() { 
@@ -1206,7 +1148,7 @@ function getTsk(e){
                                             }
 
                                             showTab(document.querySelector('#btn_tsk'),'tsk');//Se abre tab TSK
-                                            if(window.innerWidth < 768){//si es mobile
+                                            if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                                                 openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                                             }else{//si es desktop o tablet
                                                 //comprebo si está oculto sidebar
@@ -6548,7 +6490,6 @@ function openSidebar(el){
 }
 
 function closeSidebar(el){
-    let sidebar = document.querySelector('#sidebar');
     //console.log("3, contains('sideShow')");
     sidebar.classList.remove('sideShow')
     sidebar.classList.add('sideHide');  
@@ -6558,8 +6499,8 @@ function closeSidebar(el){
 }
 
 function hideShowSidebar(el){ 
-    let sidebar = document.querySelector('#sidebar');
-    let v_line = document.querySelector('#v_line');
+    //let sidebar = document.querySelector('#sidebar');
+    //let v_line = document.querySelector('#v_line');
     let disp = sidebar.style.display;
     if(disp != 'none' || sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
@@ -6876,7 +6817,7 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     }
 
     //si es mobile, pongo 'row'
-    if(window.innerWidth < 768){
+    if(window.innerWidth < pantallaTabletMinPx){
         positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
         changePositionShow(document.querySelector('#btn_changePositionShowModal'));
     }
@@ -6921,11 +6862,11 @@ function mySizeWindow() {
     let headerContainer_h = headerContainer.offsetHeight;
     
     var pantalla, marginSidebar;
-    if(window_w <= 767){
+    if(window_w < pantallaTabletMinPx){
         pantalla = 'mobile';
         marginSidebar = 0;
         sidebar.removeAttribute('style');
-    }else if(window_w >= 768 && window_w <= 1023){
+    }else if(window_w >= pantallaTabletMinPx /*768*/ && window_w <= pantallaTabletMaxPx /*1023*/){
         pantalla = 'tablet';
         marginSidebar = 10;
         sidebar.removeAttribute('class');
@@ -7004,9 +6945,14 @@ function mySizeWindow() {
             el.style.height =  trans_max_h +'px';
         });
 
-        if(pantalla == 'desktop' || pantalla == 'tablet'){
+        if(pantalla == 'desktop'){
             //añado anchi maximo de 350 px para comodidad de leer
             wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
+            colsHeadAll[0].style.display = '';
+        }else if(pantalla == 'tablet'){
+            //añado anchi maximo de 350 px para comodidad de leer
+            //wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';//antes
+            wrCols.style.maxWidth = '';
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'mobile'){
             wrCols.style.maxWidth = '';
@@ -7967,7 +7913,7 @@ function selVerse(e){
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
 
     //si es mobile, ciero menu
-    if(window.innerWidth < 768){
+    if(window.innerWidth < pantallaTabletMinPx){
         //console.log('func selVerse(). mobile.');
         closeSidebar();
     }
@@ -9111,7 +9057,7 @@ function getRef(trans = null){
         var trans = (trans_inpt != '') ? trans_inpt : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
-        if(trans != act_trans && window.innerWidth >= 768){
+        if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
             var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
             var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
@@ -9278,7 +9224,7 @@ function getRef(trans = null){
                         var inpt_nav = document.querySelector('#inpt_nav');
 
                         //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
-                        if(window.innerWidth < 768){//mobile
+                        if(window.innerWidth < pantallaTabletMinPx){//mobile
                             //checkRefNav(n_book, chapter, verse, to_verse);                        
                         
                             if(document.querySelectorAll('.cols').length > 1){
@@ -9397,7 +9343,7 @@ function getRef(trans = null){
                         document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
 
                         //si es mobile, cierro menu
-                        if(window.innerWidth < 768){
+                        if(window.innerWidth < pantallaTabletMinPx){
                             //console.log(' btn ok. cierro menu en mobile.');
                             closeSidebar();
                         }
@@ -9443,7 +9389,7 @@ function getRef(trans = null){
                             var inpt_nav = document.querySelector('#inpt_nav');
     
                             //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
-                            if(window.innerWidth < 768){//mobile
+                            if(window.innerWidth < pantallaTabletMinPx){//mobile
                                 //checkRefNav(n_book, chapter, verse, to_verse);                        
                             
                                 if(document.querySelectorAll('.cols').length > 1){
@@ -9561,7 +9507,7 @@ function getRef(trans = null){
                             document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
     
                             //si es mobile, cierro menu
-                            if(window.innerWidth < 768){
+                            if(window.innerWidth < pantallaTabletMinPx){
                                 //console.log(' btn ok. cierro menu en mobile.');
                                 closeSidebar();
                             }
@@ -10000,7 +9946,7 @@ function selectTab(){//Vkladki
         p.innerHTML += `<span class="la_n">${str_trans_names}</span>`;
         p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.querySelector('#${arrTabs[i].id} button'))">&#10005;</span>`;// <!--X--> 
         p.onclick = function(){
-            if(window.innerWidth < 768){
+            if(window.innerWidth < pantallaTabletMinPx){
                 positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
                 document.querySelector('#btn_changePositionShowModal').click();               
             }
@@ -11031,7 +10977,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         numberStr = numberStr.replace('</b>','');
     }
 
-    if(window.innerWidth < 768){//si es mobile
+    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
     }
     
@@ -15356,7 +15302,7 @@ function pintRefOnScroll(){
             //console.log("--- cond 2: el_rect.top <= divContenedor_rect.top: " + (el_rect.top <= (divContenedor_rect.top)) );
             //console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
-            if(window.innerWidth < 768){//mobile
+            if(window.innerWidth < pantallaTabletMinPx){//mobile
                 //en mobile
                 if(
                     el_rect.top >= 0 && 

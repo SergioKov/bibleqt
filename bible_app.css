@@ -800,7 +800,7 @@ span.verse_title {
     transition: 0.1s;
     color: white;
     font-size: 17px;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .wr_lis .v_li:hover {
     background: #424242;
@@ -1082,7 +1082,7 @@ li.active {
     border: 1px solid #2196F3;
 }
 .cols .colsHead {
-    cursor:pointer;
+    /* cursor:pointer; */
     transition: 0.2s;
 }
 .cols .colsHead:hover {
@@ -1673,7 +1673,7 @@ select  optgroup option {
     width:20px;
 }
 .sideHide, .sideShow{
-    transition: 0.3s;
+    transition: 0.2s;
     display: block !important;
     z-index: 1;
     position: absolute;
@@ -1918,6 +1918,10 @@ select  optgroup option {
 .mob_trans {
     font-size: small!important;
     color: #74c1ff;
+    transition: 0.3s;
+}
+.mob_trans:hover{
+    color: white;
 }
 
 
