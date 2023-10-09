@@ -800,7 +800,7 @@ span.verse_title {
     transition: 0.1s;
     color: white;
     font-size: 17px;
-    /* font-weight: bold; */
+    font-weight: bold;
 }
 .wr_lis .v_li:hover {
     background: #424242;
@@ -1415,6 +1415,8 @@ p i {
     border: 1px solid #242525;
     border-radius: 3px;
     margin-right: 5px;
+    position: relative;
+    top: -4px;
 }
 .f_red{
     color:red;
@@ -1673,7 +1675,7 @@ select  optgroup option {
     width:20px;
 }
 .sideHide, .sideShow{
-    transition: 0.2s;
+    transition: 0.3s;
     display: block !important;
     z-index: 1;
     position: absolute;
@@ -2562,4 +2564,11 @@ pr {
     margin: -7px -5px 5px;
     border-radius: 3px 3px 0 0;
     padding: 5px;
+}
+#count_tsk {
+    background: black;
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 7px;
 }

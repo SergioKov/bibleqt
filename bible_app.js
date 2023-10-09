@@ -23,8 +23,19 @@ const nav_body = document.getElementById('nav_body');
 // Get the computed style, including margins
 const computedStyle = window.getComputedStyle(sidebarInner);
 
+const inpt_nav = document.getElementById('inpt_nav');
+
 const wr_find_head = document.getElementById('wr_find_head');
 const find_body = document.getElementById('find_body');
+
+const gde = document.getElementById('gde');//select donde buscar
+const cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
+const cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
+const cbox3 = document.getElementById('cbox3');//3. искать точную фразу
+const cbox4 = document.getElementById('cbox4');//4. выражения не могут быть частями слов
+const cbox5 = document.getElementById('cbox5');//5. различать прописные и Заглавные буквы
+const cbox6 = document.getElementById('cbox6');//6. различать буквы с ударениями (если есть)
+const cbox7 = document.getElementById('cbox7');//7. Номер Стронга (если есть)
 
 const tsk_head = document.getElementById('tsk_head');
 const tsk_body = document.getElementById('tsk_body');
@@ -44,6 +55,8 @@ const pantallaDesktopSmallMinPx = 1024;
 
 //const pantallaDesktopSmallMaxPx = 1999;
 //const pantallaDesktopBigMinPx = 1200;
+
+const btnStrong = document.getElementById('btnStrong');
 
 
 
@@ -115,12 +128,14 @@ var arrTabs = [];//array de objetos de tabs (Vkladki)
 
 
 // Definición de la clase Persona
+/*
 class Translation {
     constructor(trans, Books) {
         this.trans = trans;
         this.Books = Books; 
     }
 }
+*/
 
 
 
@@ -141,14 +156,27 @@ function addListenerToPA(){
     setTimeout(()=>{
         //console.log('=== function addListenerToPA()');
 
+        /*
         Array.from(document.querySelectorAll('.colsInner p a')).forEach(el=>{
-            el.addEventListener('click',getTsk);
+            el.addEventListener('click',(e)=>{
+                getTsk(e);//antes
+            });
         });
+        */
+
+        document.querySelectorAll('.colsInner').forEach(event =>{ 
+            event.addEventListener('click', (e)=>{
+                //console.log(e);
+                //console.log(e.target.parentElement);
+                getTsk(e);//ok new
+            });    
+        });
+
     },1000);  
 }
 
 //listen links p > a en Tsk block
-function addListenerToPATsk(){
+function addListenerToPATsk(){//no se llama en ninguna parte
     setTimeout(()=>{
         //console.log('=== function addListenerToPATsk()');
         var trans = document.querySelector('#tsk_head p').getAttribute('data-trans'); 
@@ -158,6 +186,9 @@ function addListenerToPATsk(){
                 goToLink(trans, el.innerHTML);
             });
         });
+
+
+
     },1000);  
 }
 
@@ -523,7 +554,6 @@ v_line.onmousedown = function() { isMouseDown = true  };
 wrapper.onmousemove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
-        //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
         sidebar.removeAttribute('class');
         sidebar.style.width = e.pageX - 3 + 'px';
     }
@@ -541,7 +571,6 @@ v_line.ontouchstart = function() { isMouseDown = true  };
 wrapper.ontouchmove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
-        //document.querySelector('#headerSidebar').style.width = e.pageX - 3 + 'px';//lo comento por ahora ya que elimino sidebarHeader desde header
         sidebar.removeAttribute('class');
         sidebar.style.width = e.touches[0].pageX - 3 + 'px';
         console.log('wrapper.ontouchmove');
@@ -804,6 +833,8 @@ function getTsk(e){
         //console.log('res --- verse: '+verse);//empezando de 1
     }
 
+    var arr_tsk_p = [];
+
     
     url = `modules/text/tsk/bibleqt.json`;//tsk'; 
     fetch(url)
@@ -840,7 +871,13 @@ function getTsk(e){
                 //Siempre muestro el verse clickeado en tsk
                 const span_sm_trans = document.createElement('span');
                 span_sm_trans.id = 'sm_trans';
-                span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+
+                const span_trans_tsk = document.createElement('span');
+                span_trans_tsk.className = 'trans_tsk';
+                span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                span_sm_trans.append(span_trans_tsk);
+                
 
                 const p = document.createElement('p');
                 p.id = el.id;
@@ -848,19 +885,38 @@ function getTsk(e){
                 p.setAttribute('data-verse',el.getAttribute('data-verse'));
                 p.setAttribute('data-trans',Translation);
                 p.innerHTML = el.innerHTML;
-                p.querySelector('a').setAttribute('onclick',`goToLink('${Translation}', '${this.innerHTML}')`);//funciona
+                //p.querySelector('a').setAttribute('onclick',`goToLink('${Translation}', '${this.innerHTML}')`);//funciona//antes
+                p.querySelector('a').addEventListener('click',()=>{
+                    //console.log('click on tsk a');
+                    goToLink(Translation, p.querySelector('a').innerHTML);
+                });
 
                 div_tsk_head.append(span_sm_trans);
                 div_tsk_head.append(p);
                 div_tsk_head.scrollTop = 0;
                 
                 mySizeTsk();//altura de div_tsk_body despues de meter div_tsk_head
+                
+                //Muestro loader tres puntos (...)
+                const d_loader = document.createElement('div');
+                d_loader.className = 'loader';
+                d_loader.innerHTML = `<span class="loader__element"></span>
+                                    <span class="loader__element"></span>
+                                    <span class="loader__element"></span>`;
+                div_tsk_body.append(d_loader);
 
                 //Si hay links para el verse
                 if(tb_arr_links != ''){
-                    //console.log('tb_arr_links: '+tb_arr_links);
+                    //console.log('antes de forEach. tb_arr_links: ');
+                    //console.log(tb_arr_links);
+
+                    count_tsk = 0;//contador de versiculos tsk
+
+                   
 
                     tb_arr_links.forEach((el,i)=>{
+                        //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                        let tb_iter = i;
 
                         var bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
                         var chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
@@ -996,30 +1052,38 @@ function getTsk(e){
                                             }
 
 
-                                            var p = document.createElement('p');
-                                            var idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                            const p = document.createElement('p');
+                                            let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
                                             if(to_verseNumber != null) idLink += '-' + to_verseNumber;
                                             p.id = idLink;
                                             p.className = 'tsk tsk_link';
                                             p.setAttribute('data-verse',verseNumber);
+
+                                            const span_num_tsk = document.createElement('span');
+                                            span_num_tsk.className = 'sp_f';
+                                            count_tsk++;
+                                            span_num_tsk.innerText = count_tsk;
+
+                                            p.append(span_num_tsk);
                             
-                                            var a = document.createElement('a');
+                                            const a = document.createElement('a');
                                             //a.id = 'goto_' + idLink;
                                             a.href = '#';
                                             a.classList.add = 'blink';
 
-                                            var refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                            let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                             if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
                                             //console.log('===> refLink: '+refLink);
 
                                             //-----------------------------------------------------------------//
-                                            //Evento on click. NO BORRAR !!!
-                                            a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//funciona
+                                            //Evento on click. NO BORRAR !!! añado listener después de for!
+                                            a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
                                             //-----------------------------------------------------------------//
                                             
                                             a.innerHTML = refLink;
                                             p.append(a);
                                             p.append(' ');
+
 
                                             const span_vt = document.createElement('span');
                                             span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
@@ -1147,18 +1211,18 @@ function getTsk(e){
                                                 }
                                             }
 
-                                            showTab(document.querySelector('#btn_tsk'),'tsk');//Se abre tab TSK
-                                            if(window.innerWidth < pantallaTabletMinPx){//si es mobile
-                                                openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
-                                            }else{//si es desktop o tablet
-                                                //comprebo si está oculto sidebar
-                                                let sidebar = document.querySelector('#sidebar');
-                                                if(sidebar.style.display == 'none'){
-                                                    document.querySelector('#btn_hideShowSidebar').click();//mostrar sidebar con tsk
-                                                }
+                                            arr_tsk_p[tb_iter] = p;
+                                            //console.log(`--- tb_iter: ${tb_iter}`);
+
+
+                                            //si es ultimo elemento del array...
+                                            if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                //console.log('--- llamo buildVersesTsk() ---')
+                                                buildVersesTsk(arr_tsk_p);
                                             }
-                                            div_tsk_body.append(p);
-                                            div_tsk_body.scrollTop = 0;
+
+                                            //div_tsk_body.append(p);//antes
+                                            //div_tsk_body.scrollTop = 0;//antes
                                         })
                                         .catch(error => { 
                                             // Código a realizar cuando se rechaza la promesa
@@ -1170,7 +1234,7 @@ function getTsk(e){
                                 if(bookNumber != null){
                                     break;
                                 }                                    
-                            }                           
+                            }//end for inner
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
@@ -1179,22 +1243,51 @@ function getTsk(e){
     
                     });//fin forEach de tb_arr_links
 
+
+                    //Después de formar todos los links de tsk añado listener on click//No funciona correctamente!
+                    /*
+                    tsk_body.addEventListener('click', (ev)=>  {
+                        //console.log(ev);
+                        //console.log(ev.target);
+
+                        if(ev.target.tagName === 'A') {
+                            //console.log(ev.target)
+                            goToLink(Translation, ev.target.innerHTML);
+                        }else{
+                            //console.log('no hago nada . no es link a ');
+                        }                               
+                    });
+                    */
+
                 }else{//no hay links
+                    tsk_body.innerHTML = '';//reset
                     const p = document.createElement('p');
                     p.className = 'tsk tsk_nolink';
-                    p.innerHTML = 'no hay tsk verses...';
+                    p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                     //console.log(p);
                     div_tsk_body.append(p);
                 }
+
+                //Abro Sidebar pata mostrar TSK
+                showTab(document.querySelector('#btn_tsk'),'tsk');//Se abre tab TSK
+                if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+                    openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+                }else{//si es desktop o tablet
+                    //comprebo si está oculto sidebar
+                    if(sidebar.style.display == 'none'){
+                        document.querySelector('#btn_hideShowSidebar').click();//mostrar sidebar con tsk
+                    }
+                }
+
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                //console.log('2. error promesa: '+error);
+                console.log('2. error promesa: '+error);
             });
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
-        //console.log('1. error promesa: '+error);
+        console.log('1. error promesa: '+error);
     });
 }
 
@@ -6408,7 +6501,6 @@ window.addEventListener('resize',function(d){
 //var wrapper = document.querySelector('#wrapper');
 var def_w = wrapper.offsetWidth * 0.3;//30%
 if(document.querySelector('#sidebar')!= null){
-    //document.querySelector('#headerSidebar').style.width = def_w +'px';
     document.querySelector('#sidebar').style.width = def_w +'px';
 }
 
@@ -6416,8 +6508,8 @@ if(document.querySelector('#sidebar')!= null){
 function resizeSidebar(par){
     //console.log('function resizeSidebar(par)');
 
-    var sidebar_w = (!isNaN(parseInt(document.querySelector('#sidebar').style.width)))
-        ? parseInt(document.querySelector('#sidebar').style.width)
+    let sidebar_w = (!isNaN(parseInt(sidebar.style.width)))
+        ? parseInt(sidebar.style.width)
         : def_w ;
 
     min_w = wrapper.offsetWidth * 0.05;//5%
@@ -6428,13 +6520,12 @@ function resizeSidebar(par){
             sidebar_w -= wrapper.offsetWidth * 0.05;
         }
     }else{
-        if( sidebar_w < wrapper.offsetWidth * 0.5 ){
+        if( sidebar_w < wrapper.offsetWidth * 0.7 ){
             sidebar_w += wrapper.offsetWidth * 0.05;
         }
     }
     //console.log(sidebar_w);
-    document.querySelector('#headerSidebar').style.width = sidebar_w +'px';
-    document.querySelector('#sidebar').style.width = sidebar_w +'px';
+    sidebar.style.width = sidebar_w +'px';
     mySizeWindow();
     mySizeVerse();
 }
@@ -6459,7 +6550,7 @@ function openSidebar(el){
     }
 
     if(typeof transClicked == 'undefined'){
-        let inpt_nav = document.querySelector('#inpt_nav');
+        //let inpt_nav = document.querySelector('#inpt_nav');
         if(inpt_nav.dataset.trans != ''){
             transClicked = inpt_nav.dataset.trans;
         }else{//default de #trans1
@@ -6499,8 +6590,6 @@ function closeSidebar(el){
 }
 
 function hideShowSidebar(el){ 
-    //let sidebar = document.querySelector('#sidebar');
-    //let v_line = document.querySelector('#v_line');
     let disp = sidebar.style.display;
     if(disp != 'none' || sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
@@ -6510,13 +6599,11 @@ function hideShowSidebar(el){
         el.innerText = 'Hide';
     }
     sidebar.removeAttribute('class');
-    //document.querySelector('#headerSidebar').style.display = disp;
     sidebar.style.display = disp;
     v_line.style.display = disp;
     
     mySizeWindow();
     mySizeVerse();
-
 }
 
 getActTrans();
@@ -6541,7 +6628,7 @@ function changeTransNav(trans, idCol_trans){
     }
 
     //en navegación
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     var id_book = inpt_nav.getAttribute('data-id_book');
     var chapter = inpt_nav.getAttribute('data-show_chapter');
     var verseNumber = inpt_nav.getAttribute('data-show_verse');
@@ -6585,7 +6672,8 @@ function changeTransNav(trans, idCol_trans){
                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                    document.querySelector('#inpt_nav').value = new_ref_text;
+                    // document.querySelector('#inpt_nav').value = new_ref_text;//antes
+                    inpt_nav.value = new_ref_text;
                 }
             }else{// un trans1
                 inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
@@ -6631,7 +6719,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     document.querySelector('#s_book').click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля. 
 
     //en navegación
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     var id_book = inpt_nav.getAttribute('data-id_book');
     var chapter = inpt_nav.getAttribute('data-show_chapter');
     var verseNumber = inpt_nav.getAttribute('data-show_verse');
@@ -6714,7 +6802,7 @@ function changeModule(thisDiv,trans,BibleShortName){
     }
 
     //en navegación
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     let id_book = inpt_nav.getAttribute('data-id_book');
     let chapter = inpt_nav.getAttribute('data-show_chapter');
     let verseNumber = inpt_nav.getAttribute('data-show_verse');
@@ -6778,7 +6866,7 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     }
 
     //en navegación
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     let id_book = inpt_nav.getAttribute('data-id_book');
     let chapter = inpt_nav.getAttribute('data-show_chapter');
     let verseNumber = inpt_nav.getAttribute('data-show_verse');
@@ -7402,7 +7490,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
     });
     if(this_tab != null) this_tab.classList.add('tab_active');
 
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     let colsAll = document.querySelectorAll('.cols');
     inpt_nav.value = ref;
 
@@ -7621,7 +7709,7 @@ sel(document.querySelector('.bcv_active'),'b');//por defecto
 
 //Click sobre el boton li del libro de la Biblia en navegación
 function selBook(e){
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     let v_verse = document.querySelector('#v_verse');
     //console.log(e.srcElement.innerText);
     
@@ -7660,7 +7748,7 @@ function selBook(e){
 
 //Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e, show_chapter = null){
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
@@ -7748,7 +7836,8 @@ function selChapter(e, show_chapter = null){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                document.querySelector('#inpt_nav').value = new_ref_text;
+                //document.querySelector('#inpt_nav').value = new_ref_text;//antes
+                inpt_nav.value = new_ref_text;
 
                 inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);//REVISAR!!!
                 inpt_nav.setAttribute('data-show_chapter',chapterNumber); //REVISAR!!!
@@ -7800,7 +7889,7 @@ function selChapter(e, show_chapter = null){
 
 //Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     //console.log(e.srcElement.innerText);
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
@@ -7886,7 +7975,8 @@ function selVerse(e){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                document.querySelector('#inpt_nav').value = new_ref_text;
+                //document.querySelector('#inpt_nav').value = new_ref_text;//antes
+                inpt_nav.value = new_ref_text;
 
                 inpt_nav.setAttribute('data-id_verse',verseNumber - 1);//REVISAR!!!
                 inpt_nav.setAttribute('data-show_verse',verseNumber); //REVISAR!!!
@@ -7923,7 +8013,7 @@ function selVerse(e){
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     //var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
     //var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;//antes
     var trans_base = document.querySelector('#trans1').dataset.trans;
@@ -8426,7 +8516,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
                             }
                             
-                            var inpt_nav = document.querySelector('#inpt_nav');//test
+                            //var inpt_nav = document.querySelector('#inpt_nav');//test
                 
                             if(document.querySelectorAll('.cols').length > 1){
                                 var chapter = obj_nav.show_chapter;
@@ -8527,7 +8617,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log('abajo chapter_PathName');
                                 //console.log(data);        
                 
-                                var inpt_nav = document.querySelector('#inpt_nav');//test
+                                //var inpt_nav = document.querySelector('#inpt_nav');//test
                 
                                 if(document.querySelectorAll('.cols').length > 1){
                                     var chapter = obj_nav.show_chapter;
@@ -8659,7 +8749,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         if(obj_o[trans].Books[id_book].fileName == this_trans_obj.Books[id_book].PathName && obj_o[trans].Books[id_book].fileContent != ''){
                                             //console.log('existen datos del modulo para sacar numero de versiculos');
             
-                                            var inpt_nav = document.querySelector('#inpt_nav');
+                                            //var inpt_nav = document.querySelector('#inpt_nav');
                                 
                                             if(document.querySelectorAll('.cols').length > 1){
                                                 var chapter = obj_nav.show_chapter;
@@ -8757,7 +8847,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     //console.log('abajo data');
                                     //console.log(data);
                     
-                                    var inpt_nav = document.querySelector('#inpt_nav');
+                                    //var inpt_nav = document.querySelector('#inpt_nav');
                     
                                     if(document.querySelectorAll('.cols').length > 1){
                                         var chapter = obj_nav.show_chapter;
@@ -8894,7 +8984,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log('abajo chapter_PathName');
                                 //console.log(data);
                 
-                                var inpt_nav = document.querySelector('#inpt_nav');
+                                //var inpt_nav = document.querySelector('#inpt_nav');
                 
                                 if(document.querySelectorAll('.cols').length > 1){
                                     var chapter = obj_nav.show_chapter;
@@ -9044,8 +9134,7 @@ function getRefForTsk(Translation, bookShortName){
 
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
-    var inpt = document.querySelector('#inpt_nav');
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
     //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
@@ -9079,7 +9168,8 @@ function getRef(trans = null){
     }
 
 
-    var inpt_v = inpt.value.trim();
+    //var inpt_v = inpt.value.trim();//antes
+    var inpt_v = inpt_nav.value.trim();
     var book = null;//por defecto
     var chapter = null;//por defecto
     var verse = null;//por defecto
@@ -9221,7 +9311,7 @@ function getRef(trans = null){
                         var n_book = dataBooksBtnOk[i].BookNumber;
                         var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
 
-                        var inpt_nav = document.querySelector('#inpt_nav');
+                        //var inpt_nav = document.querySelector('#inpt_nav');
 
                         //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
                         if(window.innerWidth < pantallaTabletMinPx){//mobile
@@ -9386,7 +9476,7 @@ function getRef(trans = null){
                             var n_book = dataBooksBtnOk[i].BookNumber;
                             var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
     
-                            var inpt_nav = document.querySelector('#inpt_nav');
+                            //var inpt_nav = document.querySelector('#inpt_nav');
     
                             //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
                             if(window.innerWidth < pantallaTabletMinPx){//mobile
@@ -9593,7 +9683,7 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
             //console.log(data);
     
             let short_name = data.Books[book].ShortNames[0];
-            let inpt_nav = document.querySelector('#inpt_nav');
+            //let inpt_nav = document.querySelector('#inpt_nav');
                     
             inpt_nav.setAttribute('data-id_book',book);
             inpt_nav.setAttribute('data-show_book',short_name);
@@ -9696,7 +9786,7 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
             //console.log(data);
     
             let short_name = data.Books[book].ShortNames[0];
-            let inpt_nav = document.querySelector('#inpt_nav');
+            //let inpt_nav = document.querySelector('#inpt_nav');
                     
             inpt_nav.setAttribute('data-id_book',book);
             inpt_nav.setAttribute('data-show_book',short_name);
@@ -9984,7 +10074,7 @@ function hist(param){
 
 function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
 
@@ -10196,7 +10286,7 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     var act_show_chapter = (inpt_nav.getAttribute('data-show_chapter') != '') ? inpt_nav.getAttribute('data-show_chapter') : 1 ;
     Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
@@ -10476,7 +10566,8 @@ function showTab(e, param){
 
 function goToLink(trans, refLink){
     //console.log('=== function goToLink(refLink). refLink: '+refLink);
-    document.querySelector('#inpt_nav').value = refLink;
+    //document.querySelector('#inpt_nav').value = refLink;
+    inpt_nav.value = refLink;
     
     //console.log('llamo getRef()...');
     getRef(trans);
@@ -10496,7 +10587,8 @@ function goToLink(trans, refLink){
 
 function goToLinkFromFind(trans, refLink){
     //console.log('=== function goToLinkFromFind(refLink). refLink: '+refLink);
-    document.querySelector('#inpt_nav').value = refLink;
+    //document.querySelector('#inpt_nav').value = refLink;
+    inpt_nav.value = refLink;
 
     //para que no aparezca TSK
     //showTab(document.querySelector('#btn_find'),'find');
@@ -11141,13 +11233,13 @@ function cboxChange(e){
     //console.log('=== function cboxChange() ===');
     //console.log('e.id: '+e.id);
     
-    var cbox1 = document.querySelector('#cbox1');//1. Искомое содержит хотя бы одно слово
-    var cbox2 = document.querySelector('#cbox2');//2. Cлова идут в заданном порядке
-    var cbox3 = document.querySelector('#cbox3');//3. Искать точную фразу
-    var cbox4 = document.querySelector('#cbox4');//4. Выражения не могут быть частями слов
-    var cbox5 = document.querySelector('#cbox5');//5. Различать прописные и заглавные буквы
-    var cbox6 = document.querySelector('#cbox6');//6. Различать буквы с ударениями (если есть)
-    var cbox7 = document.querySelector('#cbox7');//7. Искать только номер Стронга (если есть) *
+    //var cbox1 = document.querySelector('#cbox1');//1. Искомое содержит хотя бы одно слово
+    //var cbox2 = document.querySelector('#cbox2');//2. Cлова идут в заданном порядке
+    //var cbox3 = document.querySelector('#cbox3');//3. Искать точную фразу
+    //var cbox4 = document.querySelector('#cbox4');//4. Выражения не могут быть частями слов
+    //var cbox5 = document.querySelector('#cbox5');//5. Различать прописные и заглавные буквы
+    //var cbox6 = document.querySelector('#cbox6');//6. Различать буквы с ударениями (если есть)
+    //var cbox7 = document.querySelector('#cbox7');//7. Искать только номер Стронга (если есть) *
 
     if(e.id == 'cbox1'){
         if(cbox1.checked){
@@ -11269,14 +11361,14 @@ function findWords(words_input){
     btn_ok_stop.classList.add('d-block');
     window.doFind = true;
 
-    var gde = document.querySelector('#gde');
-    var cbox1 = document.querySelector('#cbox1');//искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
-    var cbox2 = document.querySelector('#cbox2');//cлова идут в заданном порядке
-    var cbox3 = document.querySelector('#cbox3');//искать точную фразу
-    var cbox4 = document.querySelector('#cbox4');//выражения не могут быть частями слов
-    var cbox5 = document.querySelector('#cbox5');//различать прописные и Заглавные буквы
-    var cbox6 = document.querySelector('#cbox6');//6. различать буквы с ударениями (если есть)
-    var cbox7 = document.querySelector('#cbox7');//7. Номер Стронга (если есть)
+    //var gde = document.querySelector('#gde');//select donde buscar
+    //var cbox1 = document.querySelector('#cbox1');//искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
+    //var cbox2 = document.querySelector('#cbox2');//cлова идут в заданном порядке
+    //var cbox3 = document.querySelector('#cbox3');//искать точную фразу
+    //var cbox4 = document.querySelector('#cbox4');//выражения не могут быть частями слов
+    //var cbox5 = document.querySelector('#cbox5');//различать прописные и Заглавные буквы
+    //var cbox6 = document.querySelector('#cbox6');//6. различать буквы с ударениями (если есть)
+    //var cbox7 = document.querySelector('#cbox7');//7. Номер Стронга (если есть)
 
     //console.log('cbox1.checked: '+cbox1.checked);
     //console.log('cbox2.checked: '+cbox2.checked);
@@ -11284,6 +11376,7 @@ function findWords(words_input){
     //console.log('cbox4.checked: '+cbox4.checked);
     //console.log('cbox5.checked: '+cbox5.checked);
     //console.log('cbox6.checked: '+cbox6.checked);
+    //console.log('cbox7.checked: '+cbox7.checked);
 
     var limit = document.querySelector('#limit').value;
     limit = (limit != '*') ? parseInt(limit) : '*' ;
@@ -11419,10 +11512,10 @@ function findWords(words_input){
 
     var tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
 
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
 
     let Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
-    var btnStrong = document.querySelector('#btnStrong');
+    //var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
     if(btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
@@ -11444,7 +11537,9 @@ function findWords(words_input){
     }
 
     let trans_find_obj = arrFavTransObj.find(v => v.Translation === Translation);
-    if(typeof trans_find_obj.StrongNumbers !== 'undefined' && 
+    if(cbox7.checked && 
+        btnStrong.classList.contains('btn_active') && 
+        typeof trans_find_obj.StrongNumbers !== 'undefined' && 
         trans_find_obj.StrongNumbers == 'Y' &&
         trans_find_obj.StrongNumberTagStart == '<S>' &&
         trans_find_obj.StrongNumberTagEnd == '</S>' 
@@ -14448,10 +14543,12 @@ function mostrar_res_show(index){
 
     //cuando todo está añadido en div_find_body, hago esto...
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
-        let inpt_nav = document.querySelector('#inpt_nav');
+        //let inpt_nav = document.querySelector('#inpt_nav');
         let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').dataset.trans ;
         let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
-        if(typeof trans_find_obj.StrongNumbers !== 'undefined' && 
+        if(cbox7.checked &&
+            btnStrong.classList.contains('btn_active') &&    
+            typeof trans_find_obj.StrongNumbers !== 'undefined' && 
             trans_find_obj.StrongNumbers == 'Y' && 
             trans_find_obj.StrongNumberTagStart == '<S>' && 
             trans_find_obj.StrongNumberTagEnd == '</S>' 
@@ -14813,7 +14910,7 @@ function markRed(text_original, text_marcas){
 updateTransFromActiveCol();
 
 function updateTransFromActiveCol(){
-    let inpt_nav = document.querySelector('#inpt_nav');
+    //let inpt_nav = document.querySelector('#inpt_nav');
     document.querySelectorAll('.colsInner').forEach(el=>{
         el.onclick = ()=>{
             let trans_of_col = el.parentElement.querySelector('.colsHead').dataset.trans;
@@ -15160,7 +15257,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
 function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     //console.log('=== function checkRefNav() ===');
     
-    var inpt_nav = document.querySelector('#inpt_nav');
+    //var inpt_nav = document.querySelector('#inpt_nav');
     
     var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
     var trans_inpt = inpt_nav.dataset.trans;// trans desde input

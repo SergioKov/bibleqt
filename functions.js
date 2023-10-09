@@ -714,5 +714,37 @@ setTimeout(()=>{
 },10000)
 
 
+const buildVersesTsk = (arr_tsk_p) => {
+    const count_tsk = document.getElementById('count_tsk');
+    tsk_body.innerHTML = '';//reset 
+    //console.log(arr_tsk_p);
+
+    if(arr_tsk_p.length == 0) return;
+
+    arr_tsk_p.forEach(el=>{
+        //console.log('build tsk. abajo el: ');
+        //console.log(el);
+        tsk_body.append(el);
+    });
+    tsk_body.scrollTop = 0;
+
+    if(count_tsk === null){
+        const span_count_tsk = document.createElement('span');
+        span_count_tsk.id = 'count_tsk';
+        span_count_tsk.textContent = arr_tsk_p.length;
+        document.getElementById('sm_trans').append(span_count_tsk);
+    }else{
+        count_tsk.textContent = arr_tsk_p.length;
+    }
+}
+
+const countElementsInArray = arr => {   
+    if(arr.length == 0) return 0;
+    const countElements = arr.reduce(function (contador) {
+        return contador + 1;
+      }, 0);
+    return countElements;    
+}
+
 
 
