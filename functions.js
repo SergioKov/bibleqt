@@ -714,7 +714,7 @@ setTimeout(()=>{
 },10000)
 
 
-const buildVersesTsk = (arr_tsk_p) => {
+const buildVersesTsk = (arr_tsk_p, Translation) => {
     const count_tsk = document.getElementById('count_tsk');
     tsk_body.innerHTML = '';//reset 
     //console.log(arr_tsk_p);
@@ -728,6 +728,20 @@ const buildVersesTsk = (arr_tsk_p) => {
     });
     tsk_body.scrollTop = 0;
 
+    //Después de formar todos los links de tsk añado listener on click//No funciona correctamente!
+    
+    tsk_body.addEventListener('click', (ev) => {
+        //console.log(ev);
+        //console.log(ev.target);
+
+        if(ev.target.tagName === 'A'){
+            //console.log(ev.target);
+            //console.log(ev.target.innerHTML);
+            goToLink(Translation, ev.target.innerHTML);
+        }                              
+    });
+    
+
     if(count_tsk === null){
         const span_count_tsk = document.createElement('span');
         span_count_tsk.id = 'count_tsk';
@@ -737,6 +751,7 @@ const buildVersesTsk = (arr_tsk_p) => {
         count_tsk.textContent = arr_tsk_p.length;
     }
 }
+
 
 const countElementsInArray = arr => {   
     if(arr.length == 0) return 0;
