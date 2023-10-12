@@ -718,10 +718,11 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
     const count_tsk = document.getElementById('count_tsk');
     tsk_body.innerHTML = '';//reset 
     //console.log(arr_tsk_p);
+    arr_tsk_p_filtered = arr_tsk_p.filter(elm => elm);
 
-    if(arr_tsk_p.length == 0) return;
+    if(arr_tsk_p_filtered.length == 0) return;
 
-    arr_tsk_p.forEach(el=>{
+    arr_tsk_p_filtered.forEach(el=>{
         //console.log('build tsk. abajo el: ');
         //console.log(el);
         tsk_body.append(el);
@@ -745,10 +746,10 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
     if(count_tsk === null){
         const span_count_tsk = document.createElement('span');
         span_count_tsk.id = 'count_tsk';
-        span_count_tsk.textContent = arr_tsk_p.length;
+        span_count_tsk.textContent = arr_tsk_p_filtered.length;
         document.getElementById('sm_trans').append(span_count_tsk);
     }else{
-        count_tsk.textContent = arr_tsk_p.length;
+        count_tsk.textContent = arr_tsk_p_filtered.length;
     }
 }
 
