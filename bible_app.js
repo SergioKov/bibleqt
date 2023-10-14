@@ -1063,7 +1063,14 @@ function getTsk(e){
                 
                                                         var VerseTextFull = '';
 
-                                                        to_verseNumber = (to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)) ? null : to_verseNumber ;
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`3. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
                                 
                                                         //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
                                                         if(to_verseNumber != null){                                                    
@@ -1324,7 +1331,14 @@ function getTsk(e){
                     
                                                             var VerseTextFull = '';
 
-                                                            to_verseNumber = (to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)) ? null : to_verseNumber ;
+                                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                                let new_verseNumber = to_verseNumber;
+                                                                let new_to_verseNumber = verseNumber;
+                                                                verseNumber = new_verseNumber;
+                                                                to_verseNumber = new_to_verseNumber;
+                                                                //console.log(`4. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                            }
                                     
                                                             //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
                                                             if(to_verseNumber != null){                                                    
@@ -1781,7 +1795,14 @@ function getTsk(e){
     
                                             var VerseTextFull = '';
 
-                                            to_verseNumber = (to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)) ? null : to_verseNumber ;
+                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                let new_verseNumber = to_verseNumber;
+                                                let new_to_verseNumber = verseNumber;
+                                                verseNumber = new_verseNumber;
+                                                to_verseNumber = new_to_verseNumber;
+                                                //console.log(`1. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                            }
     
                                             //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
                                             if(to_verseNumber != null){  
@@ -2043,7 +2064,14 @@ function getTsk(e){
     
                                                 var VerseTextFull = '';
 
-                                                to_verseNumber = (to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)) ? null : to_verseNumber ;
+                                                // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                    let new_verseNumber = to_verseNumber;
+                                                    let new_to_verseNumber = verseNumber;
+                                                    verseNumber = new_verseNumber;
+                                                    to_verseNumber = new_to_verseNumber;
+                                                    //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                }
     
                                                 //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
                                                 if(to_verseNumber != null){                                                    
