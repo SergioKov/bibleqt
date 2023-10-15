@@ -845,7 +845,7 @@ function getTsk(e){
     //console.log('abajo objTsk: ');
     //console.log(objTsk);
 
-    //const tsk = objTsk;//HAGO TEST Y LO COMENTO!
+    const tsk = objTsk;//para modo old - COMENTAR!
     //console.log('abajo tsk: ');
     //console.log(tsk);
 
