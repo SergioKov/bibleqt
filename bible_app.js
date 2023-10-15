@@ -845,7 +845,7 @@ function getTsk(e){
     //console.log('abajo objTsk: ');
     //console.log(objTsk);
 
-    const tsk = objTsk;
+    //const tsk = objTsk;//HAGO TEST Y LO COMENTO!
     //console.log('abajo tsk: ');
     //console.log(tsk);
 
@@ -860,7 +860,7 @@ function getTsk(e){
             obj_tsk[tskName].Books = [];
         }        
 
-        //si existe objeto con Translation. Saco datos del objeto
+        //si existe objeto con tskName. Saco datos del objeto
         if(typeof obj_tsk[tskName] != 'undefined'){
             if(typeof obj_tsk[tskName].Books != 'undefined'){
                 if(typeof obj_tsk[tskName].Books[book] != 'undefined'){
@@ -2332,8 +2332,8 @@ function getTsk(e){
 
     }else{//modo old
 
-        alert('tsk modo old');
-        //console.log('tsk modo old');
+        //alert('tsk modo old');
+        console.log('tsk modo old');
 
         url = `modules/text/tsk/bibleqt.json`;//tsk'; 
         fetch(url)
