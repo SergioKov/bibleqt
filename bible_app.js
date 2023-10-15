@@ -853,6 +853,7 @@ function getTsk(e){
 
     //modo new
     if(typeof tsk != 'undefined'){//en este caso: true
+        console.log('tsk modo new');
 
         //si no existe objeto obj_tsk lo creo
         if(typeof obj_tsk[tskName] == 'undefined'){
