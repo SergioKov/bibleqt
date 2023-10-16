@@ -868,7 +868,7 @@ function getTsk(e){
 
     //modo new
     if(typeof tsk != 'undefined'){//en este caso: true
-        console.log('tsk modo new. contador_llamada_tsk: '+contador_llamada_tsk);
+        //console.log('tsk modo new. contador_llamada_tsk: '+contador_llamada_tsk);
 
         //si no existe objeto obj_tsk lo creo
         if(typeof obj_tsk[tskName] == 'undefined'){
@@ -1320,7 +1320,7 @@ function getTsk(e){
                                                         //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                                         if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
                                                             obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
-                                                            console.log('1. obj_o');
+                                                            //console.log('1. obj_o');
                                                             //console.log(obj_o);
                                                         }
 
@@ -2056,7 +2056,7 @@ function getTsk(e){
                                             //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                             if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
                                                 obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
-                                                console.log('2. obj_o');
+                                                //console.log('2. obj_o');
                                                 //console.log(obj_o);
                                             }
                                             
