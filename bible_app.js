@@ -167,18 +167,33 @@ function addListenerToPA(){
         });
         */
 
-        document.querySelectorAll('.colsInner').forEach(event =>{ 
-            event.addEventListener('click', (e)=>{
-                //console.log(e);
-                //console.log(e.target.parentElement);
-                //si es un click sobre el link 'a'
-                if(e.target.tagName == 'A'){
-                    getTsk(e);//ok new
-                }
-            });    
+       
+       document.querySelectorAll('.colsInner').forEach(event =>{ 
+           //event.addEventListener('click', (e)=>{
+               //    //console.log(e);
+               //    //console.log(e.target.parentElement);
+               //    //si es un click sobre el link 'a'
+               //    if(e.target.tagName == 'A'){
+                //        getTsk(e);//ok new
+                //    }
+                //});  
+
+            event.removeEventListener("click", handlerListenColsInnerAClick);
+            event.addEventListener('click', handlerListenColsInnerAClick);    
         });
 
-    },1000);  
+    },100);  
+}
+let contador_llamada_tsk = 0;
+
+const handlerListenColsInnerAClick = (e) => {
+    //console.log(e);
+    //console.log(e.target.parentElement);
+    if(e.target.tagName == 'A'){
+        contador_llamada_tsk++;
+        console.log(`--- contador_llamada_tsk: ${contador_llamada_tsk}`);
+        getTsk(e);//ok new
+    }
 }
 
 //listen links p > a en Tsk block
@@ -851,12 +866,9 @@ function getTsk(e){
 
     let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
 
-    let contador_tsk = 0;
-
     //modo new
     if(typeof tsk != 'undefined'){//en este caso: true
-        contador_tsk++;
-        console.log('tsk modo new. contador_tsk: '+contador_tsk);
+        console.log('tsk modo new. contador_llamada_tsk: '+contador_llamada_tsk);
 
         //si no existe objeto obj_tsk lo creo
         if(typeof obj_tsk[tskName] == 'undefined'){
@@ -1299,7 +1311,7 @@ function getTsk(e){
 
                                                         //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                         //console.log(bookModule);
-                                                                                                    //si no existe objeto de ficheros de la Biblia, lo creo
+                                                        //si no existe objeto de ficheros de la Biblia, lo creo
                                                         if(typeof obj_o[Translation] == 'undefined'){
                                                             obj_o[Translation] = {};
                                                             obj_o[Translation].Books = [];
@@ -1307,7 +1319,7 @@ function getTsk(e){
 
                                                         //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                                         if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
-                                                            //obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
+                                                            obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
                                                             console.log('1. obj_o');
                                                             //console.log(obj_o);
                                                         }
@@ -2043,7 +2055,7 @@ function getTsk(e){
 
                                             //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                             if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
-                                                //obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
+                                                obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
                                                 console.log('2. obj_o');
                                                 //console.log(obj_o);
                                             }
