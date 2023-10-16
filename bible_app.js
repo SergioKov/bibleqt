@@ -880,14 +880,15 @@ function getTsk(e){
                                 var tskModule = obj_tsk[tskName].Books[book].fileContent;
                             }
                             //console.log('abajo tskModule: ');
-                            //console.log(tskModule); 
-
+                            //console.log(tskModule);
+                            
+                            tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
     
                             var tb = tskModule.split('[');//divido en chapters
-                            var tb_chapter = tb[chapter].split(']\r\n');//arr de un chapter indicado en el link divido en 2
+                            var tb_chapter = tb[chapter].split(']\n');//new //arr de un chapter indicado en el link divido en 2
                             var tb_chapterNumber = tb_chapter[0];//numero de chapter
                             var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                            var tb_lines = tb_chapter_vlinks.split('\r\n');
+                            var tb_lines = tb_chapter_vlinks.split('\n');
                             var tb_verseNumber = tb_chapter_vlinks[0];
                             
                             var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
@@ -1617,12 +1618,14 @@ function getTsk(e){
                 obj_tsk[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule};
                 //console.log('abajo obj_tsk:');
                 //console.log(obj_tsk);
+
+                tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
                 
                 var tb = tskModule.split('[');//divido en chapters
-                var tb_chapter = tb[chapter].split(']\r\n');//arr de un chapter indicado en el link divido en 2
+                var tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
                 var tb_chapterNumber = tb_chapter[0];//numero de chapter
                 var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                var tb_lines = tb_chapter_vlinks.split('\r\n');
+                var tb_lines = tb_chapter_vlinks.split('\n');
                 var tb_verseNumber = tb_chapter_vlinks[0];
                 
                 var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
@@ -2348,13 +2351,15 @@ function getTsk(e){
                 url = `modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference
                 fetch(url)
                 .then((response) => response.text())
-                .then((tskModule) => {                
+                .then((tskModule) => {  
+                    
+                    tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
     
                     var tb = tskModule.split('[');//divido en chapters
-                    var tb_chapter = tb[chapter].split(']\r\n');//arr de un chapter indicado en el link divido en 2
+                    var tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
                     var tb_chapterNumber = tb_chapter[0];//numero de chapter
                     var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                    var tb_lines = tb_chapter_vlinks.split('\r\n');
+                    var tb_lines = tb_chapter_vlinks.split('\n');
                     var tb_verseNumber = tb_chapter_vlinks[0];
                     
                     var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
