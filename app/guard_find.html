@@ -190,7 +190,56 @@ function guard(){
 
 }
 
-getGuard();//al cargar la web para mostrar
+
+readFile('nrt_01.htm',1);
+setTimeout(()=>{
+    //readFile('nrt_01.htm',3);
+
+},2000);
+
+function readFile(url, chapter){
+    //console.log('===readFile()===');
+
+    let formData = new FormData();
+    formData.append('url', url );
+    formData.append('chapter', chapter );
+
+    fetch('read_file.php',{
+        method: 'POST',
+        body: formData                            
+    })
+    .then(response => response.text())//aki .text()
+    .then(data=>{
+
+        console.log(data);
+        //if(data){
+        //    getGuard();
+        //}
+    })
+    .catch(error => console.log('error de guard: '+ error));
+
+}
+
+//readAllFile('nrt_01.htm');
+
+function readAllFile(url){
+    //console.log('===readAllFile()===');
+
+    fetch(url)
+    .then(response => response.text())//aki .text()
+    .then(data=>{
+
+        console.log(data);
+        //if(data){
+        //    getGuard();
+        //}
+    })
+    .catch(error => console.log('error de guard: '+ error));
+
+}
+
+
+//getGuard();//al cargar la web para mostrar
 
 function getGuard(){
     fetch('guard_file.json')
