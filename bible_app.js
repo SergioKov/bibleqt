@@ -7906,7 +7906,6 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
             //divShow.append(p);
         }
 
-
         //Примечания редактора в стихах (RSTi2)
         if(bq.Notes == 'Y'){
             let t = VerseText;
@@ -7966,7 +7965,6 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
             //добавляю стих в див
             //divShow.append(p);
         }
-
 
         //Оглавления в стихах (NRT)
         if(bq.Titles == 'Y'){

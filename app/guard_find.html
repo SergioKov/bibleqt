@@ -191,18 +191,22 @@ function guard(){
 }
 
 
-readFile('nrt_01.htm',1);
+readFile('nrt_01.htm', 1, 5, 8);
 setTimeout(()=>{
-    //readFile('nrt_01.htm',3);
+    readFile('nrt_01.htm',3,6);
 
 },2000);
 
-function readFile(url, chapter){
+
+function readFile(url, chapter, verse = null, to_verse = null){
     //console.log('===readFile()===');
 
     let formData = new FormData();
     formData.append('url', url );
-    formData.append('chapter', chapter );
+    //if(book != null) formData.append('book', book);
+    formData.append('chapter', chapter);
+    if(verse != null) formData.append('verse', verse);
+    if(to_verse != null) formData.append('to_verse', to_verse);
 
     fetch('read_file.php',{
         method: 'POST',
@@ -216,9 +220,9 @@ function readFile(url, chapter){
         //    getGuard();
         //}
     })
-    .catch(error => console.log('error de guard: '+ error));
-
+    .catch(error => console.log('error de readFile: '+ error));
 }
+
 
 //readAllFile('nrt_01.htm');
 
@@ -234,8 +238,7 @@ function readAllFile(url){
         //    getGuard();
         //}
     })
-    .catch(error => console.log('error de guard: '+ error));
-
+    .catch(error => console.log('error de readAllFile: '+ error));
 }
 
 

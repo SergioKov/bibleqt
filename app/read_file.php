@@ -1,11 +1,34 @@
 <?php
-//GET - para test
-//$url = (isset($_GET['url']) and !empty($_GET['url'])) ? $_GET['url'] : false ;
-//$chapter = (isset($_GET['chapter']) and !empty($_GET['chapter'])) ? $_GET['chapter'] : 1 ;
+$isGet = false;
+//$isGet = true;
+if($isGet){
+    //GET - para test
+    echo"<pre>";
+    print_r($_GET);
+    echo"</pre>";
 
-//POST
-$url = (isset($_POST['url']) and !empty($_POST['url'])) ? $_POST['url'] : false ;
-$chapter = (isset($_POST['chapter']) and !empty($_POST['chapter'])) ? $_POST['chapter'] : 1 ;
+    $url = (isset($_GET['url']) and !empty($_GET['url'])) ? $_GET['url'] : false ;
+    $book = (isset($_GET['book']) and !empty($_GET['book'])) ? $_GET['book'] : null ;
+    $chapter = (isset($_GET['chapter']) and !empty($_GET['chapter'])) ? $_GET['chapter'] : 1 ;
+    $verse = (isset($_GET['verse']) and !empty($_GET['verse'])) ? $_GET['verse'] : null ;
+    $to_verse = (isset($_GET['to_verse']) and !empty($_GET['to_verse'])) ? $_GET['to_verse'] : null ;
+print<<<HERE
+    <h1>isGet (test)</h1>
+    <br>$ url: <b>$url</b>
+    <br>$ book: <b>$book</b>
+    <br>$ chapter: <b>$chapter</b>
+    <br>$ verse: <b>$verse</b>
+    <br>$ to_verse: <b>$to_verse</b>
+    <hr>
+HERE;
+}else{   
+    //POST
+    $url = (isset($_POST['url']) and !empty($_POST['url'])) ? $_POST['url'] : false ;
+    $book = (isset($_POST['book']) and !empty($_POST['book'])) ? $_POST['book'] : null ;
+    $chapter = (isset($_POST['chapter']) and !empty($_POST['chapter'])) ? $_POST['chapter'] : 1 ;
+    $verse = (isset($_POST['verse']) and !empty($_POST['verse'])) ? $_POST['verse'] : null ;
+    $to_verse = (isset($_POST['to_verse']) and !empty($_POST['to_verse'])) ? $_POST['to_verse'] : null ;
+}
 
 
 if($url && $chapter){
@@ -47,6 +70,11 @@ if($url && $chapter){
     //print_r($arr_h4);
     //echo"</pre>";
     
+    $chapter_max = count($arr_h4) - 1;
+    //echo "<p>$ chapter_max: $chapter_max</p><hr>";
+
+    if($chapter < 1) $chapter = 1;
+    if($chapter > $chapter_max) $chapter = $chapter_max;    
     
     if(strpos($arr_h4[$chapter], "</h4>") !== false){
         $arr_h4_text = explode("</h4>", $arr_h4[$chapter]);
@@ -77,19 +105,68 @@ if($url && $chapter){
     //die();
 
 
-    $chapter_max = count($arr_h4) - 1;
-    //echo "<p>$ chapter_max: $chapter_max</p><hr>";
 
-    if($chapter > $chapter_max) $chapter = $chapter_max;
 
     //devuelvo chapter
-    echo '<h4>' . $arr_h4[$chapter];
+    if($chapter && !$verse){
+        echo '<h4>' . $arr_h4[$chapter];
+    }
+
+
+    //devuelvo chapter y verse
+    if($chapter && $verse){
+        $arr_p = explode("<p>", $arr_h4[$chapter]);
+
+        $verse_max = count($arr_p) - 1;
+        //echo "<p>$ verse_max: $verse_max</p><hr>";
+
+        if($verse < 1) $verse = 1;
+        if($verse > $verse_max) $verse = $verse_max;
+        if($to_verse < 1 || $verse == $to_verse) $to_verse = null;
+        //echo "<p>$ to_verse: $to_verse</p>";
+
+
+        if($to_verse){
+            if($to_verse > $verse_max) $to_verse = $verse_max;
+            if($to_verse < $verse){
+                $new_verse = $to_verse;
+                $new_to_verse = $verse;
+                //echo "<p>$ ahora $ new_verse: $new_verse</p>";
+                //echo "<p>$ ahora $ new_to_verse: $new_to_verse</p>";
+                $verse = $new_verse;
+                $to_verse = $new_to_verse;
+                //echo "<p>$ ahora $ verse: $verse</p>";
+                //echo "<p>$ ahora $ to_verse: $to_verse</p>";
+            }
+        }
+
+        
+
+        //echo"<h1>$ arr_p</h1><pre>";
+        //print_r($arr_p);
+        //echo"</pre>";
+
+        //varios verses
+        if($verse && $to_verse){ 
+            //echo"<br> if";
+            for ($i = $verse; $i <= $to_verse; $i++) { 
+                //echo '<p>' . $i;
+                echo '<p>' . $arr_p[$i];
+            }            
+        }else{//1 verse
+            //echo"<br> else";
+            echo '<p>' . $arr_p[$verse];
+        }
+
+    }
+
+
 
     // Cerramos el archivo después de usarlo
     fclose($myfile);
 
 }else{
-    echo "Error. No está indicado el parametro de la url.";
+    echo "Error. No está indicado el parametro de la url o chapter.";
 }
 //echo "<p>$ chapter: $chapter</p>";
 

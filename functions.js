@@ -632,7 +632,7 @@ for (let index = 3251; index < 3304; index++) {
 //console.log(a);
 */
 
-async function obtenerDatos(url) {
+async function obtenerDatos0(url) {
     try {
         const respuesta = await fetch(url);
         const datos = await respuesta.json();
@@ -649,15 +649,15 @@ async function obtenerDatos(url) {
 
 
 
-const ejecutar1 = (url) => {
+const ejecutar0 = (url) => {
     console.log(new Date);
     
-    obtenerDatos(url)
+    obtenerDatos0(url)
     .then(datos => {
         console.log(datos);
     });
 }
-//ejecutar1('./modules/text/nrt/bibleqt.json');//'./modules/text/nrt/bibleqt.json'
+//ejecutar0('./modules/text/nrt/bibleqt.json');//'./modules/text/nrt/bibleqt.json'
 
 
 
@@ -672,13 +672,13 @@ function obtenerDatos1() {
     });
 }
 
-async function ejecutar() {
+async function ejecutar1() {
     console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos1() ...' + new Date().getSeconds());
     const resultado = await obtenerDatos1();
     console.log('tengo el resultado del obtenerDatos1(). abajo resultado: ' + new Date().getSeconds());
     console.log(resultado);
 }
-//ejecutar();
+//ejecutar1();
 
 //-------------------------------------------------------------------------------------//
 
@@ -695,16 +695,16 @@ const ejecutar2 = (url,tipo) => {
     console.log(`--- start ejecutar2(${url}): ${inicio}`);
 
     obtenerDatos2(url,tipo)
-        .then(datos => {
-            const fin = performance.now();
-            const tiempo = fin - inicio;
-            console.log(`--- fin ejecutar2(${url}): ${fin}`);
-            console.log(`--- tiempo de ejecusion de ejecutar2(${url}): ${tiempo} milisec.`);
-            console.log(datos);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .then(datos => {
+        const fin = performance.now();
+        const tiempo = fin - inicio;
+        console.log(`--- fin ejecutar2(${url}): ${fin}`);
+        console.log(`--- tiempo de ejecusion de ejecutar2(${url}): ${tiempo} milisec.`);
+        console.log(datos);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 //ejecutar2('./modules/text/nrt/bibleqt.json','json');
 
@@ -712,6 +712,10 @@ setTimeout(()=>{
     //ejecutar2('./modules/text/nrt/nrt_01.htm','text');
 
 },10000)
+
+
+
+
 
 
 const buildVersesTsk = (arr_tsk_p, Translation) => {
