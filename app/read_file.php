@@ -24,11 +24,22 @@ HERE;
 }else{   
     //POST
     $url = (isset($_POST['url']) and !empty($_POST['url'])) ? $_POST['url'] : false ;
+
+    //$BookQty = (isset($_POST['BookQty']) and !empty($_POST['BookQty'])) ? $_POST['BookQty'] : false ;
+    //$OldTestament = (isset($_POST['OldTestament']) and !empty($_POST['OldTestament'])) ? $_POST['OldTestament'] : false ;
+    //$NewTestament = (isset($_POST['NewTestament']) and !empty($_POST['NewTestament'])) ? $_POST['NewTestament'] : false ;
+    //$Apocrypha = (isset($_POST['Apocrypha']) and !empty($_POST['Apocrypha'])) ? $_POST['Apocrypha'] : false ;
+    
     $book = (isset($_POST['book']) and !empty($_POST['book'])) ? $_POST['book'] : null ;
     $chapter = (isset($_POST['chapter']) and !empty($_POST['chapter'])) ? $_POST['chapter'] : 1 ;
     $verse = (isset($_POST['verse']) and !empty($_POST['verse'])) ? $_POST['verse'] : null ;
     $to_verse = (isset($_POST['to_verse']) and !empty($_POST['to_verse'])) ? $_POST['to_verse'] : null ;
 }
+
+//if($OldTestament == 'N' && $NewTestament == 'Y'){
+    //$book = $book - 39;
+    //echo"NT book: $book";
+//}
 
 
 if($url && $chapter){
@@ -45,6 +56,10 @@ if($url && $chapter){
     //echo count($myfile_read);
     //echo $myfile_read;
 
+    if(strpos($myfile_read, "<h2>") == false){
+        //exit('vacio');
+    } 
+
     //Nombre book  
     $arr_h2 = explode("<h2>", $myfile_read);
     //echo"<pre>";
@@ -55,10 +70,12 @@ if($url && $chapter){
         $arr_h2_text = explode("</h2>", $arr_h2[1]);
         $BookName = $arr_h2_text[0];
         //echo"<p>if --- $ BookName: $BookName</p>";
+        echo"<h2>$BookName</h2>";
     }else{
         $arr_h2_text = explode("<h4>", $arr_h2[1]);
         $BookName = $arr_h2_text[0];
         //echo"<p>else --- $ BookName: $BookName</p>";
+        echo"<h2>$BookName</h2>";
     }
     
     
