@@ -94,7 +94,7 @@ const obj_ep = {
     'nkjv': 'Y',
 }  
 
-const arrFavTransObj = makeTransObj();
+const arrFavTransObj = makeTransObj_new();//dentro llamo showTrans() para mostrar texto de Gn 1:1 por defecto
 //console.log('abajo arrFavTransObj:');
 //console.log(arrFavTransObj);
 mostrarTamanioObjeto(arrFavTransObj);
@@ -4053,13 +4053,15 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
 }
 
+window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
     var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
-    divShow.innerHTML = '';
+    divShow.innerHTML = '';//antes
+    console.log('1. lo reseteo en buildDivShow');
 
     var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
@@ -6512,10 +6514,13 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             //test php read_file
             isTestPhp = true;
             if(typeof isTestPhp != 'undefined' && isTestPhp){
-                console.log('isTestPhp = true');
-
+                console.log('isTestPhp = true. hago TEST');
+                
                 var objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
-                if(typeof objTrans == 'undefined') return false;//test
+                if(typeof objTrans == 'undefined'){
+                    console.log('objTrans todavia no existe. return false.');
+                    return false;//test
+                }
 
 
                     //saco ajustes de este modulo en json               
@@ -6535,7 +6540,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     if(typeof bq.Books[book] != 'undefined'){//0-65 < 66    
                         
                         //url del libro necesario
-                        //url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //antes 
                         url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
 
                         if(url.includes('no_disponible.htm')){
@@ -6566,8 +6570,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             
                             //console.log(bookModule);
 
-                            divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
-
+                            //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
+                            console.log('lo reseteo en buildDivShow');
                             
 
                             
@@ -6609,43 +6613,9 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                                 var nb = (bookModule.includes('<h4>')) ? bookModule.split('<h4>') : console.error('no includes(<h4>)');//делю файл на главы
                                 nb = nb.filter(elm => elm);//удаляю пустые елементы массива
-                                //console.log(nb);
-                            
+                                //console.log(nb);                            
                             }
-                                
-                            
-                            
-                            
-                            
-                            /*
-                            //Book //si no viene h2
-                            if(!bookModule.includes('<h2>')){
-                                var BookName = bq.Books[book].FullName ;
-                                
-                                //Book
-                                var h2 = document.createElement('h2');
-                                h2.append(BookName);
-
-                                arr_data_head.push(h2);
-                                //console.log(h2);
-                            }else{
-                                //si tiene h2
-                                var arr_h2 = bookModule.split('<h2>');
-                                if(arr_h2[1].includes('</h2>')){
-                                    var BookName = arr_h2[1].split('</h2>')[0];
-                                }else{
-                                    var BookName = arr_h2[1].split('<h4>')[0];
-                                }
-
-                                if(BookName == '') BookName = bq.Books[book].FullName;
-                                //Book
-                                var h2 = document.createElement('h2');
-                                h2.append(BookName);
-
-                                arr_data_head.push(h2);
-                            }
-                            */
-
+            
 
                             //si existe el capitulo
                             if(typeof nb[0] !== 'undefined'){//si existe texto devuelto pot php
@@ -7635,11 +7605,16 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                 });
 
                                 arr_data_all = arr_data_head.concat(arr_data_body);
+                                arrDataDivShow.push(arr_data_all);
+                                console.log('arrDataDivShow:');
+                                console.log(arrDataDivShow);
+
 
                                 arr_data_all.forEach((el,i)=>{
                                     //document.querySelector('#col1 .colsInner').append(el);
                                     //console.log(el);
-                                    divShow.append(el);
+
+                                    //divShow.append(el);//antes
                                 });
                                 arr_data_head = [];
                                 arr_data_body = [];
@@ -7651,6 +7626,12 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                     //console.log('iter_i: '+iter_i);
                                     //showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                                     showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                                }
+
+                                //si es ultimo elemento del array...
+                                if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                    console.log('--- llamo buildDivShow() ---');
+                                    buildDivShow(arrDataDivShow);
                                 }
 
                             }else{
@@ -13434,7 +13415,7 @@ function showTabMob(btn_id, param, el){
 }
 
 
-function makeTransObj(){
+function makeTransObj_old(){
     var arrTrans = [
         "rstStrongRed",
         //"rstStrong", desconecto por ser inecesario
@@ -13487,6 +13468,76 @@ function makeTransObj(){
     //return arrTrans;
     return arrTransObj;
 }
+
+
+async function obtenerDatosTrans(url_bq) {
+    const respuesta = await fetch(url_bq);
+    const datos = await respuesta.json();
+    return datos;
+}
+
+function makeTransObj_new(){
+    var arrTrans = [
+        "rstStrongRed",
+        //"rstStrong", desconecto por ser inecesario
+        "rstt",
+        "rsti2",
+        "rstm",
+        "nrt",
+        "rstStrong_rv60",
+        "opnz",
+        
+        "ukr_fil",
+        "ukr_ogi",
+        "ukr_hom",
+        "ukr_gyz",
+        "ukr_tur",
+        "ukr_der",
+        
+        "rv60",
+        "lbla"
+
+        //"kjv",
+        //"nkjv",
+    ];
+
+    var arrTransObj = [];
+
+    for (let i = 0; i < arrTrans.length; i++) {
+        const el = arrTrans[i];
+        //console.log(i);
+        //console.log(el);
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${el}/bibleqt.json`;
+        //console.log(url_bq);
+
+        obtenerDatosTrans(url_bq)
+        .then((bq) => {
+            arrTransObj[i] = bq;
+            //console.log(arrTransObj);
+            //cuando es el ultimo elemento lanzo showTrans(0,1)
+            if(i == arrTrans.length - 1){
+                //console.log('es ultimo elemento. llamo showTrans(0,1)');
+                showTrans(0,1);
+            }
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.log('makeTransObj2. error promesa: '+error);
+        });        
+    }
+    //console.log('1. abajo arrTransObj:');
+    //console.log(arrTransObj);
+
+    return arrTransObj;
+}
+
+
+
+
+
+
 
 function makeTskObj(){
     var arrTsk = [
