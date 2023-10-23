@@ -4053,6 +4053,12 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
 }
 
+function clearAllDivShow(){
+    Array.from(wrCols.children).forEach((el)=>{
+        el.querySelector('.colsInner').innerHTML = '';
+    });
+}
+
 window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
@@ -4060,8 +4066,10 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
-    divShow.innerHTML = '';//antes
+    //divShow.innerHTML = '';//antes
+    clearAllDivShow();
     console.log('1. lo reseteo en buildDivShow');
+
 
     var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
@@ -6570,7 +6578,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             
                             //console.log(bookModule);
 
-                            //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
+                            divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
+                            //divShow.innerHTML = '<div style="background:red;"></div>';//TEST. IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
                             console.log('lo reseteo en buildDivShow');
                             
 
