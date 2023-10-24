@@ -4070,7 +4070,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     clearAllDivShow();
     console.log('1. lo reseteo en buildDivShow');
 
-
     var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
     if(btnStrong.classList.contains('btn_active')){
@@ -4086,7 +4085,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
         
     
     if(Translation != null){
-
                 
         //var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         console.log(' comento objTrans para isTestPhp');
@@ -6569,6 +6567,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         if(typeof verse != 'undefined' && verse != null) formData.append('verse', verse);
                         if(typeof to_verse != 'undefined' && to_verse != null) formData.append('to_verse', to_verse);
 
+                        //if(typeof to_verse != 'undefined' && to_verse != null) formData.append('to_verse', to_verse);
+
                         fetch('app/read_file.php',{
                             method: 'POST',
                             body: formData                            
@@ -6576,12 +6576,11 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         .then((response) => response.text())
                         .then((bookModule) => {
                             
-                            //console.log(bookModule);
+                            console.log('6577. abajo bookModule:');
+                            console.log(bookModule);
 
                             divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
-                            //divShow.innerHTML = '<div style="background:red;"></div>';//TEST. IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
-                            console.log('lo reseteo en buildDivShow');
-                            
+                            console.log('lo reseteo en buildDivShow');                            
 
                             
                             //Book //si viene h2
@@ -6658,7 +6657,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                             var arr_h4_text = (el.includes('</h4>')) ? el.split('</h4>') : console.error('no includes(</h4>)') ;
                                             var ChapterText = arr_h4_text[0];
                                         }else{
-                                            var ChapterText = el;
+                                            var ChapterText = el;//ya que el indice es 0, el siguiente es '<p>'
                                         }
                                         //console.log('ChapterText: '+ChapterText);
 
@@ -6686,7 +6685,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                             var arr_p_text = (el.includes('</p>')) ? el.split('</p>') : console.error('no includes </p>') ;
                                             var p_Text = arr_p_text[0];
                                         }else{
-                                            var p_Text = el;
+                                            var p_Text = el;//ya que fue hecho el .split('<p>')
                                         }
                                         //console.log('p_Text: '+p_Text); 
                                         
@@ -7633,7 +7632,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                 window.iter_i++;
                                 if(window.iter_i < window.arr_trans.length){
                                     //console.log('iter_i: '+iter_i);
-                                    //showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                                     showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                                 }
 

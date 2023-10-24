@@ -193,8 +193,7 @@ function guard(){
 
 readFile('nrt_01.htm', 1, 5, 8);
 setTimeout(()=>{
-    readFile('nrt_01.htm',3,6);
-
+    //readFile('nrt_01.htm',3,6);
 },2000);
 
 
@@ -221,6 +220,43 @@ function readFile(url, chapter, verse = null, to_verse = null){
         //}
     })
     .catch(error => console.log('error de readFile: '+ error));
+}
+
+
+
+
+setTimeout(()=>{
+    readFileToJson('nrt_01.htm', null, 1, 5, 8);
+},2000);
+
+setTimeout(()=>{
+    readFileToJson('nrt_01.htm', null, 1, 5, 8);
+},2000);
+
+function readFileToJson(url, book, chapter, verse = null, to_verse = null){
+    //console.log('===readFile()===');
+
+    let formData = new FormData();
+    formData.append('url', url );
+    if(book != null) formData.append('book', book);
+    formData.append('chapter', chapter);
+    if(verse != null) formData.append('verse', verse);
+    if(to_verse != null) formData.append('to_verse', to_verse);
+
+    fetch('read_file_to_json.php',{
+        method: 'POST',
+        body: formData                            
+    })
+    .then(response => response.json())
+    .then(data=>{
+
+        console.log('abajo data:');
+        console.log(data);
+        //if(data){
+        //    getGuard();
+        //}
+    })
+    .catch(error => console.log('error de readFileToJson: '+ error));
 }
 
 
