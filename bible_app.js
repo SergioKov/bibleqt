@@ -6557,10 +6557,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                         let formData = new FormData();
                         formData.append('url', '../'+url );
-                        //formData.append('BookQty', bq.BookQty);
-                        //formData.append('OldTestament', bq.OldTestament);
-                        //formData.append('NewTestament', bq.NewTestament);
-                        //formData.append('Apocrypha', bq.Apocrypha);
+                        formData.append('base_ep', base_ep);
+                        formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
 
                         if(book != null) formData.append('book', book);
                         formData.append('chapter', chapter);
@@ -7221,7 +7219,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                     }//fin switch
                                 }
                                 //=====================================================//
-                                // fin - Numeración base Española - y col's Rusa
+                                // 1. fin - Numeración base Española - y col's Rusa
                                 //=====================================================//
                                 
                                 
@@ -7598,7 +7596,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                     }//fin switch
                                 }
                                 //=====================================================//
-                                // inicio - Numeración base Rusa - y col's Española
+                                // 2. fin - Numeración base Rusa - y col's Española
                                 //=====================================================//
                                 
 
