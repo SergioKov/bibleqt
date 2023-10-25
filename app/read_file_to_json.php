@@ -17,6 +17,7 @@ if($isGet){
 
     $base_ep = (isset($_GET['base_ep']) and $_GET['base_ep'] == 'Y') ? 'Y' : 'N' ;
     $bq_EnglishPsalms = (isset($_GET['bq_EnglishPsalms']) and $_GET['bq_EnglishPsalms'] == 'Y') ? 'Y' : 'N' ;
+    $col1_p_length = (isset($_GET['col1_p_length']) and $_GET['col1_p_length'] > 0) ? $_GET['col1_p_length'] : null ;
     
     $url = (isset($_GET['url']) and !empty($_GET['url'])) ? $_GET['url'] : false ;
     $book = (isset($_GET['book']) and !empty($_GET['book'])) ? $_GET['book'] : null ;
@@ -25,6 +26,7 @@ if($isGet){
     $to_verse = (isset($_GET['to_verse']) and !empty($_GET['to_verse'])) ? $_GET['to_verse'] : null ;
 print<<<HERE
     <h1>isGet (test)</h1>
+    <br>$ col1_p_length: <b>$col1_p_length</b>
     <br>$ url: <b>$url</b>
     <br>$ _GET['book']: <b>$_GET[book]</b>
     <br>$ book: <b>$book</b>
@@ -36,7 +38,8 @@ HERE;
 }else{   
     //POST
     $base_ep = (isset($_POST['base_ep']) and $_POST['base_ep'] == 'Y') ? 'Y' : 'N' ;
-    $bq_EnglishPsalms = (isset($_POST['bq_EnglishPsalms']) and $_POST['bq_EnglishPsalms'] == 'Y') ? 'Y' : 'N' ;    
+    $bq_EnglishPsalms = (isset($_POST['bq_EnglishPsalms']) and $_POST['bq_EnglishPsalms'] == 'Y') ? 'Y' : 'N' ;  
+    $col1_p_length = (isset($_POST['col1_p_length']) and $_POST['col1_p_length'] > 0) ? $_POST['col1_p_length'] : null ;
     
     $url = (isset($_POST['url']) and !empty($_POST['url'])) ? $_POST['url'] : false ;
     $book = (isset($_POST['book']) and !empty($_POST['book'])) ? $_POST['book'] : null ;
@@ -136,19 +139,42 @@ if($url && $chapter){
 
                                         case 3: //Числа
                                                 if($chapter == 12){//12:X => 12:X (quito ultimo verse)
-                                                    //verificar!
+                                                    //nada
                                                 }
                                                 if($chapter == 13){//Числа 13:1 => Num.12:16 
-                                                    //addChapterToHead(bq, book, 12);//si el verse vstavka es primero
                                                     //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 12, 16);
                                                     $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 12, 16);
-
-                                                    //addChapterToVerse(arr_data_body, bq, book, 13, 2);//result Num.13:1 => Números 13 Num.13:1
-                                                    //arr_data_body.splice(col1_p_length);
-
-                                                    //$arr_data_for_json['chapterData'] = getDataFromArr($arr_data, $arr_h4, $chapter, $verse, $to_verse);
                                                 }
                                             break;
+
+                                        case 5: //Иисус Навин
+                                            if($chapter == 5){//Иис.Нав.5:16 => Jos.6:1                                    
+                                                // arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 6, 1);
+                                                $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 6, 1);
+                                            }
+                                            if($chapter == 6){//Иис.Нав.6:1 => Jos.6:2 ... Иис.Нав.6:26 => Jos.6:27
+                                                //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1+1, col1_p_length+1));
+                                                $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 6, 2, $col1_p_length+1);
+                                            }
+                                        break; 
+
+                                        case 8: //1Samuel (1Царств) 
+                                            if($chapter == 20){//1Цар.20:42-43 => 1Sam 20:42
+                                                //1 verse contiene 2 en ruso
+                                                //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-1) );
+                                                $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 20, 1, $col1_p_length-1);
+                                            }
+                                            if($chapter == 23){//
+                                                //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
+                                                $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 23, 1, $col1_p_length);
+                                            }
+                                            if($chapter == 24){//1Цар.24:1 => 1S.23:29
+                                                //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 23, 29 );//cojo último verse del capitulo anterior
+                                                $arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 23, 29);
+                                            }
+                                        break; 
+
+                                        
 
 
                                         default:
@@ -352,6 +378,17 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     return $arr_data;
 
 }//end function
+
+/*
+function form_list_verses($from_verse, $to_verse){
+    $lista_verses = [];
+    for ($i = $from_verse; $i <= $to_verse; $i++) {
+        array_push($lista_verses, $i);                                                   
+        //echo "<p>$ lista_verses: $ lista_verses</p>";
+    }
+    return $lista_verses;
+}
+*/
 
 
 
