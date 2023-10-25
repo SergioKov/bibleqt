@@ -224,14 +224,18 @@ function readFile(url, chapter, verse = null, to_verse = null){
 
 
 
+setTimeout(()=>{
+    readFileToJson('nrt_01.htm', 0, 2);//numbers 13
+},1000);
 
 setTimeout(()=>{
     readFileToJson('../modules/text/rstt/04_numbers.htm', 3, 13);
-},2000);
+},3000);
 
 setTimeout(()=>{
-    readFileToJson('../modules/text/rstt/04_numbers.htm', 3, 13);//numbers 13
-},2000);
+    //readFileToJson('../modules/text/rstt/04_numbers.htm', 3, 13);//numbers 13
+},3000);
+
 
 function readFileToJson(url, book, chapter, verse = null, to_verse = null){
     //console.log('===readFile()===');

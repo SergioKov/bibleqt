@@ -1,9 +1,9 @@
 <?php
 
-if(isset($_POST)){
-    $isGet = false;
-}else{
+if(isset($_GET) and !empty($_GET['url'])){
     $isGet = true;//comentar para conseguir datos por js
+}else{
+    $isGet = false;
 }
 
 //$isGet = true;//comentar para conseguir datos por js
@@ -94,7 +94,7 @@ if($url && $chapter){
         // echo"<h2>$BookName</h2>";
         $allastext .= "<h2>$BookName</h2>";
     }
-    $arr_data['h2_text'] = "<h2>$BookName</h2>";
+    $arr_data['h2_text'] = $BookName;
     
     
 
@@ -223,6 +223,8 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     
     //echo"<p>=== function getDataFromArr() ===</p>";
     $allastext = '';
+    $arr_p_verses = [];
+
 
     if(strpos($arr_h4[$chapter], "</h4>") !== false){
         $arr_h4_text = explode("</h4>", $arr_h4[$chapter]);
@@ -240,8 +242,8 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
         //echo"<p> else --- $ ChapterNameText: $ChapterNameText</p>";
         //echo"<p> else --- $ ChapterPText: $ChapterPText</p>";
     }
-    $arr_data['h4_text'] = "<h4>$ChapterNameText</h4>";
-    $arr_data['p_text'] = $ChapterPText;
+    $arr_data['h4_text'] = $ChapterNameText;
+    $arr_data['p_text_all'] = $ChapterPText;
 
     //echo"<br>ChapterNameText <pre>" . $ChapterNameText ."</pre>";
     //echo"<br>ChapterPText <pre>" . $ChapterPText ."</pre>";
@@ -256,8 +258,19 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
 
     //devuelvo chapter
     if($chapter && !$verse){
+        //echo '<p> if($chapter && !$verse)';
+
         // echo '<h4>' . $arr_h4[$chapter];
         $allastext .= '<h4>' . $arr_h4[$chapter];
+
+        $arr_verses_from_ChapterPText = explode("<p>", $ChapterPText);
+        for ($i = 0; $i <= count($arr_verses_from_ChapterPText) - 1; $i++) { 
+            //echo '<p>' . $i;
+            // echo '<p>' . $arr_p[$i];
+            $arr_p_verses[$i] = $arr_verses_from_ChapterPText[$i];
+        }
+        $arr_data['arr_p_verses'] = $arr_p_verses;
+
     }
 
 
@@ -265,7 +278,23 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     if($chapter && $verse){
         $arr_p = explode("<p>", $arr_h4[$chapter]);
 
-        $arr_data['h4_text'] = '<h4>' . $arr_p[0];
+
+
+
+        if(strpos($arr_p[0], "</h4>") !== false){
+            $arr_h4_text = explode("</h4>", $arr_p[0]);
+            
+            $ChapterNameText = $arr_h4_text[0];
+            //echo"<p> if --- $ ChapterNameText: $ChapterNameText</p>";
+            //echo"<p> if --- $ ChapterPText: $ChapterPText</p>";
+        }else{
+            $ChapterNameText = $chapter;
+            //echo"<p> else --- $ ChapterNameText: $ChapterNameText</p>";
+            //echo"<p> else --- $ ChapterPText: $ChapterPText</p>";
+        }
+        $arr_data['h4_text'] = $ChapterNameText;
+
+
 
         $verse_max = count($arr_p) - 1;
         //echo "<p>$ verse_max: $verse_max</p><hr>";
@@ -296,7 +325,7 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
         //print_r($arr_p);
         //echo"</pre>";
 
-        $p_text = '';
+        $p_text_all = '';
 
         //varios verses
         if($verse && $to_verse){ 
@@ -305,15 +334,18 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
                 //echo '<p>' . $i;
                 // echo '<p>' . $arr_p[$i];
                 $allastext .= '<p>' . $arr_p[$i];
-                $p_text .= '<p>' . $arr_p[$i];
+                $p_text_all .= '<p>' . $arr_p[$i];
+                $arr_p_verses[$i] = $arr_p[$i];
             }            
         }else{//1 verse
             //echo"<br> else";
             // echo '<p>' . $arr_p[$verse];
             $allastext .= '<p>' . $arr_p[$verse];
-            $p_text .= '<p>' . $arr_p[$verse];
+            $p_text_all .= '<p>' . $arr_p[$verse];
+            $arr_p_verses[$verse] = $arr_p[$verse];
         }
-        $arr_data['p_text'] = $p_text;
+        $arr_data['p_text_all'] = $p_text_all;
+        $arr_data['arr_p_verses'] = $arr_p_verses;
 
     }
 
