@@ -7667,14 +7667,14 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                             
                             //modo 2 - por .json()
                             if(modo_read == 'por_json'){
+                                console.log('7670. modo_read por_json');
                                 
                                 var bookModule = dataRead.chapterData.p_text_all;
-                                console.log('6577. abajo bookModule:');
-                                console.log(bookModule);
+                                // console.log('6577. abajo bookModule:');
+                                // console.log(bookModule);
 
                                 divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
-                                console.log('lo reseteo en buildDivShow'); 
-
+                                // console.log('lo reseteo en buildDivShow'); 
 
                                 var BookName = dataRead.chapterData.h2_text;
                                 if(BookName == '') BookName = bq.Books[book].FullName;
@@ -7684,13 +7684,12 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                                 arr_data_head.push(h2);
 
-
                                 var nb = dataRead.chapterData.p_text_all;
-                                console.log('abajo dataRead.chapterData.p_text_all:');
-                                console.log(dataRead.chapterData.p_text_all);
+                                //console.log('abajo dataRead.chapterData.p_text_all:');
+                                //console.log(dataRead.chapterData.p_text_all);
 
-                                console.log('abajo dataRead.chapterData.arr_p_verses:');
-                                console.log(dataRead.chapterData.arr_p_verses);
+                                //console.log('abajo dataRead.chapterData.arr_p_verses:');
+                                //console.log(dataRead.chapterData.arr_p_verses);
 
                                 var arr_p_verses = (typeof dataRead.vstavkaData != 'undefined') ? dataRead.vstavkaData.arr_p_verses : [] ;
                                 var arr_p_verses2 = (typeof dataRead.vstavkaData2 != 'undefined') ? dataRead.vstavkaData2.arr_p_verses : [] ;
@@ -7708,7 +7707,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                                     //var nb_chapter_verses = (nb.includes('<p>')) ? nb.split('<p>') : console.error('no includes(<p>)');//as text
                                     var nb_chapter_verses = (dataRead.chapterData.arr_p_verses.length != 0) ? dataRead.chapterData.arr_p_verses : console.error('dataRead.chapterData.arr_p_verses.length = 0');//as json
-                                    console.log(nb_chapter_verses);
+                                    //console.log(nb_chapter_verses);
 
                                     var only_verses_length = nb_chapter_verses.length - 1;
                                     //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
@@ -8747,9 +8746,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                                     arr_data_all = arr_data_head.concat(arr_data_body);
                                     arrDataDivShow.push(arr_data_all);
-                                    console.log('arrDataDivShow:');
-                                    console.log(arrDataDivShow);
-
+                                    //console.log('arrDataDivShow:');
+                                    //console.log(arrDataDivShow);
 
                                     //arr_data_all.forEach((el,i)=>{
                                     //    //document.querySelector('#col1 .colsInner').append(el);
@@ -8779,11 +8777,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                                 } 
 
                             }// end por_json
-
-
-                            
-            
-
 
                         })
                         .then(() => {
@@ -11737,6 +11730,7 @@ addTab('Матф. 5:8', null, null,'rstStrongRed,ukr_ogi,ukr_hom,rv60,lbla');
 addTab('Рим. 6:10', null, null, 'rstStrongRed, rv60 ,lbla, ukr_gyz, ukr_fil, ukr_tur');
 addTab('Лук. 7:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
 addTab('Is. 8:9', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+addTab('Psa. 118:1', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
 //addTab('Быт. 10:10', null, null,'rstStrongRed');
 
 function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null){
@@ -12411,32 +12405,32 @@ function sel(e, par, show_chapter = null, trans = null){
                             //=== end con grid =========================================================================//
 
                             /*
-                            // antes con flex
-                            arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
-                                const li = document.createElement('li');
-                                li.id = 'li' + arr_b[i_b].BookNumber;
-                                li.title = arr_b[i_b].BookNumber;
-                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
-                                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
-                                li.className = 'v_li b_li '+ el_b.cl_book;
-                                if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
-                                    li.classList.add('li_active');                    
-                                }
-                                if(arr_books[arr_b[i_b].BookNumber].ChapterQty == 0){
-                                    li.classList.add('no_disp');
-                                }
-                                li.innerHTML = arr_b[i_b].ShortNames[0];
-                                li.addEventListener('click',selBook);//click sobre li boton Gen. Lev.
-                                v_book.append(li);
-                
-                                //si es último libro del Antiguo Testamento o Apocalipsis, meto razdelitel
-                                if(i_b == 38 || i_b == 65){//Малахия //Откровение
-                                    const li_break = document.createElement('li');
-                                    li_break.className = 'break_book';
-                                    v_book.append(li_break);
-                                }
-                                //console.log(el_b);
-                            });
+                                // antes con flex
+                                arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
+                                    const li = document.createElement('li');
+                                    li.id = 'li' + arr_b[i_b].BookNumber;
+                                    li.title = arr_b[i_b].BookNumber;
+                                    li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
+                                    li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                                    li.className = 'v_li b_li '+ el_b.cl_book;
+                                    if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
+                                        li.classList.add('li_active');                    
+                                    }
+                                    if(arr_books[arr_b[i_b].BookNumber].ChapterQty == 0){
+                                        li.classList.add('no_disp');
+                                    }
+                                    li.innerHTML = arr_b[i_b].ShortNames[0];
+                                    li.addEventListener('click',selBook);//click sobre li boton Gen. Lev.
+                                    v_book.append(li);
+                    
+                                    //si es último libro del Antiguo Testamento o Apocalipsis, meto razdelitel
+                                    if(i_b == 38 || i_b == 65){//Малахия //Откровение
+                                        const li_break = document.createElement('li');
+                                        li_break.className = 'break_book';
+                                        v_book.append(li_break);
+                                    }
+                                    //console.log(el_b);
+                                });
                             */
                         })
                         .then(()=>{
@@ -12463,7 +12457,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             console.log('error promesa myPromise_b: '+error);
                         });
 
-                    }else{//modo old
+                    }else{//modo old. no existe arrFavTransObj
 
                         //alert('modo old');//al iniciar...
 
@@ -12620,36 +12614,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             }
                             //console.log(v_book);                
                             //=== end con grid =========================================================================//
-
                 
-                            /*
-                            //antes
-                            arr_booksBible.forEach((el_b,i_b,arr_b) =>{              
-                                const li = document.createElement('li');
-                                li.id = 'li' + arr_b[i_b].BookNumber;
-                                li.title = arr_b[i_b].BookNumber;
-                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
-                                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
-                                li.className = 'v_li b_li '+ el_b.cl_book;
-                                if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
-                                    li.classList.add('li_active');                    
-                                }
-                                if(arr_books[arr_b[i_b].BookNumber].ChapterQty == 0){
-                                    li.classList.add('no_disp');
-                                }
-                                li.innerHTML = arr_b[i_b].ShortNames[0];
-                                li.addEventListener('click',selBook);//click sobre li boton Gen. Lev.
-                                v_book.append(li);
-                
-                                //si es último libro del Antiguo Testamento o Apocalipsis, meto razdelitel
-                                if(i_b == 38 || i_b == 65){//Малахия //Откровение
-                                    const li_break = document.createElement('li');
-                                    li_break.className = 'break_book';
-                                    v_book.append(li_break);
-                                }
-                                //console.log(el_b);
-                            });
-                            */
                         })
                         .then(()=>{
                             //si hay un boton li activo me muevo alli
@@ -12695,9 +12660,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(res == 'ok'){//siempre ok
                                 //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
                             }
-                            
-                            //var inpt_nav = document.querySelector('#inpt_nav');//test
-                
+                                            
                             if(document.querySelectorAll('.cols').length > 1){
                                 var chapter = obj_nav.show_chapter;
                                 var verse = obj_nav.show_verse; 
@@ -12779,7 +12742,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             console.log('error promesa chapter. error: '+error);
                         });
             
-                    }else{//modo old
+                    }else{//modo old. no existe arrFavTransObj
             
                         alert('chapter modo old. no salta nunca...');
             
@@ -12787,6 +12750,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         fetch(url_bq)
                         .then(response => response.json())
                         .then(data => {
+                            
                             window.chapter_PathName = data.Books[id_book].PathName;
                             //console.log(chapter_PathName);
                 
@@ -12796,9 +12760,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             .then(data => {
                                 //console.log('abajo chapter_PathName');
                                 //console.log(data);        
-                
-                                //var inpt_nav = document.querySelector('#inpt_nav');//test
-                
+                                
                                 if(document.querySelectorAll('.cols').length > 1){
                                     var chapter = obj_nav.show_chapter;
                                     var verse = obj_nav.show_verse; 
@@ -12884,6 +12846,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 // Código a realizar cuando se rechaza la promesa
                                 //console.log('error promesa module: '+error);
                             });
+
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
@@ -13011,7 +12974,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             }
             
                             //si no existe objeto con Translation. hago fetch(). es necesario!
-                            if(/*typeof obj_o[trans].Books[id_book]  == 'undefined' */ typeof obj_o[trans] == 'undefined'){
+                            if(typeof obj_o[trans] == 'undefined'){
             
                                 //alert('no existe objeto con Translation. hago fetch()'); 
                                 //console.log('no existe objeto con Translation. hago fetch()');
@@ -13145,7 +13108,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             console.log('error promesa: '+error);
                         });//end myPromise_v
             
-                    }else{//modo old
+                    }else{//modo old. no existe arrFavTransObj
             
                         alert('modo old verse. no salta nunca...');
                         
@@ -13163,9 +13126,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             .then(data => {
                                 //console.log('abajo chapter_PathName');
                                 //console.log(data);
-                
-                                //var inpt_nav = document.querySelector('#inpt_nav');
-                
+                                
                                 if(document.querySelectorAll('.cols').length > 1){
                                     var chapter = obj_nav.show_chapter;
                                     var verse = obj_nav.show_verse; 
@@ -13255,6 +13216,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 // Código a realizar cuando se rechaza la promesa
                                 //console.log('error promesa: '+error);
                             });
+
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
