@@ -630,16 +630,8 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
 
     //Después de formar todos los links de tsk añado listener on click//No funciona correctamente!
     
-    tsk_body.addEventListener('click', (ev) => {
-        //console.log(ev);
-        //console.log(ev.target);
-
-        if(ev.target.tagName === 'A'){
-            //console.log(ev.target);
-            //console.log(ev.target.innerHTML);
-            goToLink(Translation, ev.target.innerHTML);
-        }                              
-    });
+    tsk_body.removeEventListener('click', handlerListenTsk);
+    tsk_body.addEventListener('click', handlerListenTsk);
     
 
     if(count_tsk === null){
@@ -652,16 +644,23 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
     }
 }
 
+const handlerListenTsk = (ev, Translation ) => {
+    //console.log(ev);
+    //console.log(ev.target);
 
-const buildDivShow = (arrData, obj_Data, arr_trans) => {
-    console.log('function buildDivShow');
+    if(ev.target.tagName === 'A'){
+        //console.log(ev.target);
+        //console.log(ev.target.innerHTML);
+        goToLink(Translation, ev.target.innerHTML);
+    } 
+}
 
-    console.log('arrData: ', arrData);
-    console.log('obj_Data: ', obj_Data);
-    console.log('arr_trans: ', arr_trans);
-    console.log('wrCols: ', wrCols);
-    //const wrCols = document.getElementById('wrCols');
 
+const buildDivShow = (arrData) => {
+    //console.log('function buildDivShow');
+    //console.log('arrData: ', arrData);
+    
+    //wrCols es constanta y está declarada al inicio
     Array.from(wrCols.children).forEach((el,i)=>{
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
@@ -670,15 +669,12 @@ const buildDivShow = (arrData, obj_Data, arr_trans) => {
             const element = arrData[i][index];            
             //console.log('añado element con append. abajo element:');
             //console.log(element);
-            el_colsInner.append(element);
-            
+            el_colsInner.append(element);            
         }        
         //console.log('build. wrCols: ');
         //console.log(wrCols);
     });
     arrDataDivShow = [];//reset despues de build
-
-
 }
 
 

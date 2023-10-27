@@ -165,7 +165,7 @@ async function obtenerDatosTrans(url_bq) {
 }
 
 function makeTransObj_new(arrTrans){
-    console.log('===function makeTransObj_new(arrTrans)===');
+    //console.log('===function makeTransObj_new(arrTrans)===');
 
     let arrTransObj = [];
 
@@ -201,9 +201,8 @@ function makeTransObj_new(arrTrans){
 }
 
 function loadDefaultFunctions() {
-    console.log('function loadDefaultFunctions()');
-
-    console.log(' --- empiezo a llamar funcciones por defecto ---');    
+    //console.log('function loadDefaultFunctions()');
+    //console.log(' --- empiezo a llamar funcciones por defecto ---');    
 
     //cargo book 0 (Genesis) chapter (1) en el primer div
     showTrans(0, 1);
@@ -283,6 +282,7 @@ function addListenerToPA(){
 
     },100);  
 }
+
 let contador_llamada_tsk = 0;
 
 const handlerListenColsInnerAClick = (e) => {
@@ -290,7 +290,7 @@ const handlerListenColsInnerAClick = (e) => {
     //console.log(e.target.parentElement);
     if(e.target.tagName == 'A'){
         contador_llamada_tsk++;
-        console.log(`--- contador_llamada_tsk: ${contador_llamada_tsk}`);
+        //console.log(`--- contador_llamada_tsk: ${contador_llamada_tsk}`);
         getTsk(e);//ok new
     }
 }
@@ -4123,6 +4123,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 }
 
 function clearAllDivShow(){
+    //console.log('===function clearAllDivShow()===');
     Array.from(wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = '';
     });
@@ -10176,16 +10177,17 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
 }
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
-    console.log('');
-    console.log('=== function showChapterText5() === divId: ' + divId);
+    //console.log('');
+    //console.log('=== function showChapterText5() === divId: ' + divId);
     
     var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
     //divShow.innerHTML = '';//antes
+    //reseteo todas las columnas con sig. func
     clearAllDivShow();
-    console.log('1. lo reseteo en buildDivShow');
+    
 
     var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
@@ -10203,7 +10205,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     
     if(Translation != null){
 
-        console.log('saco datos por como json por fetch()');
+        //console.log('saco datos por json por fetch()');
         
         var objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
         if(typeof objTrans == 'undefined'){
@@ -10254,8 +10256,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             .then((response) => response.json())
             .then((dataRead) => {
 
-                console.log('10197. abajo dataRead');
-                console.log(dataRead);
+                //console.log('10197. abajo dataRead');
+                //console.log(dataRead);
                 
                 //var bookModule = dataRead.chapterData.p_text_all;//NO HACE FALTA AQUI!!!
                 // console.log('6577. abajo bookModule:');
@@ -11328,21 +11330,12 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     });
 
                     arr_data_all = arr_data_head.concat(arr_data_body);
-                    console.log('11335. arr_data_all: ',arr_data_all);
-
-
-
+                    //console.log('11335. arr_data_all: ',arr_data_all);
+                    
                     arrDataDivShow.push(arr_data_all);                   
-                
-                    //arrDataDivShow[window.iter_i] = arr_data_all;
-                    obj_DataDivShow[Translation] = {"divId": divId, "Translation": Translation, "data": arr_data_all};
-                    console.log('11335. arrDataDivShow:',arrDataDivShow);
+                    //obj_DataDivShow[Translation] = {"divId": divId, "Translation": Translation, "data": arr_data_all};
+                    //console.log('11335. arrDataDivShow:',arrDataDivShow);
 
-                    //arr_data_all.forEach((el,i)=>{
-                    //    //document.querySelector('#col1 .colsInner').append(el);
-                    //    //console.log(el);
-                    //    //divShow.append(el);//antes
-                    //});
                     arr_data_head = [];
                     arr_data_body = [];
                     arr_data_all = [];
@@ -11350,19 +11343,15 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                     window.iter_i++;
                     if(window.iter_i < window.arr_trans.length){
-                        console.log('iter_i: '+iter_i);
+                        //console.log('iter_i: '+iter_i);
                         showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                     }
 
                     //si es ultimo elemento del array...
                     if(countElementsInArray(arrDataDivShow) == arr_trans.length){
-                        console.log('--- llamo buildDivShow() ---');
-                        console.log('11357. arrDataDivShow:',arrDataDivShow);
-                        console.log('11357. obj_DataDivShow:',obj_DataDivShow);
-                        buildDivShow(arrDataDivShow, obj_DataDivShow, arr_trans);
-                        console.log('--- Text5 --- despues de llamar buildDivShow() ---');
+                        //console.log('--- llamo buildDivShow() ---');
+                        buildDivShow(arrDataDivShow);
                     }
-
 
                 }else{
                     //console.log(' no existe capítulo '+chapter+' del módulo '+book);
@@ -13608,11 +13597,11 @@ function sel(e, par, show_chapter = null, trans = null){
                     var id_book = parseInt(inpt_nav.getAttribute('data-id_book'));
                     //console.log(id_book);
 
-                    //modo new
+                    //modo new. Siempre salta este ya que cargo book despues de crear const arrFavTransObj
                     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
                         
                         //alert('function sel() --- case: b (book) --- modo new. existe arrFavTransObj');
-                        console.log('function sel() --- case: b (book) --- modo new. existe arrFavTransObj');
+                        //console.log('function sel() --- case: b (book) --- modo new. existe arrFavTransObj');
 
                         // Registra el tiempo de inicio
                         //const tiempoInicio_b = new Date().getTime();
@@ -13830,7 +13819,7 @@ function sel(e, par, show_chapter = null, trans = null){
 
                     }else{//modo old. no existe arrFavTransObj
 
-                        //alert('modo old al iniciar... ES NECESARIO!');
+                        alert('modo old al iniciar... ES NECESARIO!');
                         //console.log('modo old al iniciar... ES NECESARIO!');
 
                         let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
@@ -14353,7 +14342,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(typeof obj_o[trans] == 'undefined'){
             
                                 //alert('no existe objeto con Translation obj_o[trans]. hago fetch()'); 
-                                console.log('no existe objeto con Translation obj_o[trans]. hago fetch()');
+                                //console.log('no existe objeto con Translation obj_o[trans]. hago fetch()');
             
                                 window.chapter_PathName = this_trans_obj.Books[id_book].PathName;
                                 //console.log('chapter_PathName: '+chapter_PathName);
@@ -14362,7 +14351,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 let modo_get_VerseQty = 'por_json';
                                 if(typeof modo_get_VerseQty != 'undefined' && modo_get_VerseQty == 'por_json'){
                                     
-                                    console.log('modo_get_VerseQty: por_json');
+                                    //console.log('modo_get_VerseQty: por_json');
                                     
                                     let url = './modules/text/'+trans+'/' + chapter_PathName;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
@@ -14378,8 +14367,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     .then(response => response.json())
                                     .then(data => {
                                         
-                                        console.log('abajo data');
-                                        console.log(data);
+                                        //console.log('data: ',data);
                                                 
                                         if(document.querySelectorAll('.cols').length > 1){
                                             var chapter = obj_nav.show_chapter;
@@ -14417,10 +14405,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             var chapterNumber = id_chapter + 1;
                                             var verseNumber = id_verse + 1;
                                         }
-                                
-                                        console.log('data.h4_text: '+data.h4_text);
-                                        console.log('data.VerseQty: '+data.VerseQty);
-                        
+                                                        
                                         v_verse.innerHTML = '';//reset botones de versiculos
                                         const wr_grid_v = document.createElement('div');
                                         wr_grid_v.className = 'wr_grid_v';
