@@ -53,10 +53,6 @@ HERE;
 //creo un arr de datos de texto
 $arr_data = [];
 $arr_data_for_json = [];
-$allastext = '';
-
-
-
 
 
 
@@ -88,14 +84,10 @@ if($url && $chapter){
         $arr_h2_text = explode("</h2>", $arr_h2[1]);
         $BookName = $arr_h2_text[0];
         //echo"<p>if --- $ BookName: $BookName</p>";
-        // echo"<h2>$BookName</h2>";
-        $allastext .= "<h2>$BookName</h2>";
     }else{
         $arr_h2_text = explode("<h4>", $arr_h2[1]);
         $BookName = $arr_h2_text[0];
         //echo"<p>else --- $ BookName: $BookName</p>";
-        // echo"<h2>$BookName</h2>";
-        $allastext .= "<h2>$BookName</h2>";
     }
     $arr_data['h2_text'] = $BookName;
     
@@ -118,7 +110,7 @@ if($url && $chapter){
     //$arr_data_for_json['vstavkaData'] = getDataFromArr($arr_data, $arr_h4, 12, 16);
     //$arr_data_for_json['vstavkaData'] = null;
     $arr_data_for_json['chapterData'] = getDataFromArr($arr_data, $arr_h4, $chapter, $verse, $to_verse);
-
+    
 
 
 
@@ -677,17 +669,6 @@ if($url && $chapter){
     $json_data = json_encode($arr_data_for_json);
     echo $json_data;
     
-    //$json_allastext = json_encode($allastext);
-    //echo $json_allastext;
-
-    //echo"<h1>$ arr_data</h1><pre>";
-    //print_r($arr_data);
-    //echo"</pre>";
-
-    //echo"<hr>";
-
-
-
 
     // Cerramos el archivo después de usarlo
     fclose($myfile);
@@ -707,7 +688,6 @@ if($url && $chapter){
 function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse = null){
     
     //echo"<p>=== function getDataFromArr() ===</p>";
-    $allastext = '';
     $arr_p_verses = [];
 
 
@@ -728,7 +708,7 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
         //echo"<p> else --- $ ChapterPText: $ChapterPText</p>";
     }
     $arr_data['h4_text'] = $ChapterNameText;
-    $arr_data['p_text_all'] = $ChapterPText;
+    //$arr_data['p_text_all'] = $ChapterPText;//COMENTO YA QUE NO HACE FALTA PARA JS YA QUE ESCOJO SOLO JSON
 
     //echo"<br>ChapterNameText <pre>" . $ChapterNameText ."</pre>";
     //echo"<br>ChapterPText <pre>" . $ChapterPText ."</pre>";
@@ -738,33 +718,27 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     //print_r($arr_h4[$chapter]);
     //echo"</pre>";
     
-    //echo "<hr>";
-    //die();
 
     //devuelvo chapter
     if($chapter && !$verse){
         //echo '<p> if($chapter && !$verse)';
-
         // echo '<h4>' . $arr_h4[$chapter];
-        $allastext .= '<h4>' . $arr_h4[$chapter];
 
         $arr_verses_from_ChapterPText = explode("<p>", $ChapterPText);
-        for ($i = 0; $i <= count($arr_verses_from_ChapterPText) - 1; $i++) { 
+        $VerseQty = count($arr_verses_from_ChapterPText) - 1;
+        $arr_data['VerseQty'] = $VerseQty;
+        for ($i = 0; $i <= $VerseQty; $i++) { 
             //echo '<p>' . $i;
             // echo '<p>' . $arr_p[$i];
             $arr_p_verses[$i] = $arr_verses_from_ChapterPText[$i];
         }
         $arr_data['arr_p_verses'] = $arr_p_verses;
-
     }
 
 
     //devuelvo chapter y verse
     if($chapter && $verse){
         $arr_p = explode("<p>", $arr_h4[$chapter]);
-
-
-
 
         if(strpos($arr_p[0], "</h4>") !== false){
             $arr_h4_text = explode("</h4>", $arr_p[0]);
@@ -781,17 +755,17 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
 
 
 
-        $verse_max = count($arr_p) - 1;
-        //echo "<p>$ verse_max: $verse_max</p><hr>";
+        $VerseQty = count($arr_p) - 1;
+        $arr_data['VerseQty'] = $VerseQty;
+        //echo "<p>$ VerseQty: $VerseQty</p><hr>";
 
         if($verse < 1) $verse = 1;
-        if($verse > $verse_max) $verse = $verse_max;
+        if($verse > $VerseQty) $verse = $VerseQty;
         if($to_verse < 1 || $verse == $to_verse) $to_verse = null;
         //echo "<p>$ to_verse: $to_verse</p>";
 
-
         if($to_verse){
-            if($to_verse > $verse_max) $to_verse = $verse_max;
+            if($to_verse > $VerseQty) $to_verse = $VerseQty;
             if($to_verse < $verse){
                 $new_verse = $to_verse;
                 $new_to_verse = $verse;
@@ -802,15 +776,13 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
                 //echo "<p>$ ahora $ verse: $verse</p>";
                 //echo "<p>$ ahora $ to_verse: $to_verse</p>";
             }
-        }
-
-        
+        }        
 
         //echo"<h1>$ arr_p</h1><pre>";
         //print_r($arr_p);
         //echo"</pre>";
 
-        $p_text_all = '';
+        //$p_text_all = '';
 
         //varios verses
         if($verse && $to_verse){ 
@@ -818,18 +790,16 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
             for ($i = $verse; $i <= $to_verse; $i++) { 
                 //echo '<p>' . $i;
                 // echo '<p>' . $arr_p[$i];
-                $allastext .= '<p>' . $arr_p[$i];
-                $p_text_all .= '<p>' . $arr_p[$i];
+                //$p_text_all .= '<p>' . $arr_p[$i];
                 $arr_p_verses[$i] = $arr_p[$i];
             }            
         }else{//1 verse
             //echo"<br> else";
             // echo '<p>' . $arr_p[$verse];
-            $allastext .= '<p>' . $arr_p[$verse];
-            $p_text_all .= '<p>' . $arr_p[$verse];
+            //$p_text_all .= '<p>' . $arr_p[$verse];
             $arr_p_verses[$verse] = $arr_p[$verse];
         }
-        $arr_data['p_text_all'] = $p_text_all;
+        //$arr_data['p_text_all'] = $p_text_all;
         $arr_data['arr_p_verses'] = $arr_p_verses;
 
     }
@@ -837,6 +807,8 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     return $arr_data;
 
 }//end function
+
+
 
 /*
 function form_list_verses($from_verse, $to_verse){

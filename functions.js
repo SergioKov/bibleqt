@@ -653,10 +653,13 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
 }
 
 
-const buildDivShow = (arrData) => {
+const buildDivShow = (arrData, obj_Data, arr_trans) => {
     console.log('function buildDivShow');
 
-    //console.log(arr_tsk_p);
+    console.log('arrData: ', arrData);
+    console.log('obj_Data: ', obj_Data);
+    console.log('arr_trans: ', arr_trans);
+    console.log('wrCols: ', wrCols);
     //const wrCols = document.getElementById('wrCols');
 
     Array.from(wrCols.children).forEach((el,i)=>{
@@ -674,6 +677,8 @@ const buildDivShow = (arrData) => {
         //console.log(wrCols);
     });
     arrDataDivShow = [];//reset despues de build
+
+
 }
 
 
