@@ -134,10 +134,11 @@ const obj_s = {};
 //objeto de ficheros de Tsk
 const obj_tsk = {};
 
-var positionShow = 'col';//por defecto posicion de columnas
+let positionShow = 'col';//por defecto posicion de columnas
 //mySizeVerse();
 
-window.obj_nav = {
+// window.obj_nav = {//antes
+let obj_nav = {
     divtrans: '',
     trans: '',
     id_book: '',
@@ -241,7 +242,7 @@ function loadDefaultFunctions() {
 
 
 
-
+/*
 document.addEventListener("DOMContentLoaded", function(event) { 
     //do work
     //console.log('DOMContentLoaded');
@@ -249,33 +250,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //addTrans();
     //addTrans();
-
 });
+*/
 
 //listen links p > a
 function addListenerToPA(){
     setTimeout(()=>{
-        //console.log('=== function addListenerToPA()');
-
-        /*
-        Array.from(document.querySelectorAll('.colsInner p a')).forEach(el=>{
-            el.addEventListener('click',(e)=>{
-                getTsk(e);//antes
-            });
-        });
-        */
-
-       
+        //console.log('=== function addListenerToPA()');       
        document.querySelectorAll('.colsInner').forEach(event =>{ 
-           //event.addEventListener('click', (e)=>{
-               //    //console.log(e);
-               //    //console.log(e.target.parentElement);
-               //    //si es un click sobre el link 'a'
-               //    if(e.target.tagName == 'A'){
-                //        getTsk(e);//ok new
-                //    }
-                //});  
-
             event.removeEventListener("click", handlerListenColsInnerAClick);
             event.addEventListener('click', handlerListenColsInnerAClick);    
         });
@@ -299,16 +281,12 @@ const handlerListenColsInnerAClick = (e) => {
 function addListenerToPATsk(){//no se llama en ninguna parte
     setTimeout(()=>{
         //console.log('=== function addListenerToPATsk()');
-        var trans = document.querySelector('#tsk_head p').getAttribute('data-trans'); 
-
+        let trans = document.querySelector('#tsk_head p').getAttribute('data-trans'); 
         Array.from(document.querySelectorAll('#vklad_tsk p a')).forEach(el=>{
             el.addEventListener('click',()=>{
                 goToLink(trans, el.innerHTML);
             });
         });
-
-
-
     },1000);  
 }
 
@@ -357,7 +335,6 @@ function showTooltip(el){
     //tooltip (cuerpo)
     el.children[0].style.position = 'fixed';
     el.children[0].style.top = elPosTop + elH + 'px';
-    //el.children[0].style.left = elPosLeft + (elW / 2) + 'px';//antes con margin-left: -65px
     el.children[0].style.left = elPosLeft - ttW/2 + elW/2+ 'px';
     
     //trikutnyk
@@ -422,9 +399,11 @@ function enableScroll(el,i){
 function getArrSumLineH(){
     //console.log('getArrSumLineH()');
 
-    window.arr2_sum_line_h = [];
-    window.arr1_line_h = [];
-    var colsInnerAll = document.querySelectorAll('.colsInner');
+    //window.arr2_sum_line_h = [];
+    let arr2_sum_line_h = [];
+    //window.arr1_line_h = [];
+    let arr1_line_h = [];
+    let colsInnerAll = document.querySelectorAll('.colsInner');
 
     colsInnerAll.forEach(function(el,index){
 
@@ -435,9 +414,9 @@ function getArrSumLineH(){
         });
 
         let colsInnerAll_ch = document.querySelectorAll('.colsInner')[index].children;
-        var arr_sum_p_h2 = [];
-        var arr_p_h2 = [];
-        var sum_p_h = 0;
+        let arr_sum_p_h2 = [];
+        let arr_p_h2 = [];
+        let sum_p_h = 0;
 
         Array.from(colsInnerAll_ch).forEach(function(el2, index2, arr2){
             sum_p_h += arr2[index2].offsetHeight;
@@ -460,8 +439,9 @@ function getArrSumLineH(){
 
 
     //nuevo array
-    window.arr2_line_h = [];       
-    var colsInnerAll = document.querySelectorAll('.colsInner');
+    // window.arr2_line_h = [];//antes
+    let arr2_line_h = [];       
+    //var colsInnerAll = document.querySelectorAll('.colsInner');//antes
 
     colsInnerAll.forEach(e => {
         Array.from(e.children).forEach(e => {
@@ -469,13 +449,13 @@ function getArrSumLineH(){
         });
     });
 
-    for(var p = 0; p < colsInnerAll[0].children.length; p++){
+    for(let p = 0; p < colsInnerAll[0].children.length; p++){
         //console.log(p);
 
         let max_h = 0;
-        var arr2_line_h2 = [];
+        let arr2_line_h2 = [];
         
-        for(var c = 0; c < colsInnerAll.length; c++){
+        for(let c = 0; c < colsInnerAll.length; c++){
             
             let act_h = (typeof arr_h[c][p] !== 'undefined') ? arr_h[c][p] : 0 ;            
             arr2_line_h2.push(act_h);
@@ -493,22 +473,20 @@ function getArrSumLineH(){
         }
         arr2_line_h.push(arr2_line_h2);
         //console.log('abajo arr2_line_h');
-        //console.log(arr2_line_h);
-        
+        //console.log(arr2_line_h);        
         
         max_h = Math.max(...arr2_line_h2);
         //console.log('pongo max_h: '+max_h);
         
         //para cada versiculo 'p' de cada columpa 'ch' pongo la misma altura 'max_h' si es positionShow 'col'
         if(positionShow == 'col'){
-            for(var ch = 0; ch < colsInnerAll.length; ch++){
+            for(let ch = 0; ch < colsInnerAll.length; ch++){
                 if(typeof document.querySelectorAll('.colsInner')[ch].children[p] !== 'undefined'){
                     document.querySelectorAll('.colsInner')[ch].children[p].style.height = max_h + 'px';
                 }
             }
         }        
     }
-
 }
 
 
@@ -533,8 +511,7 @@ function fnScrollCol(el,i){
     }
 
     //HORIZONTAL
-    if(positionShow == 'row'){
-        
+    if(positionShow == 'row'){  
         //getArrSumLineH();
     
         //iv -> index de versiculo.
@@ -810,7 +787,6 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
     window.arr_trans = [];
     window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
     window.obj_DataDivShow = {};//objeto de los p de cada div de trans para hacer build luego
-
     window.arr_divShow = [];
     
     //var startDivTrans = document.querySelector('#inpt_nav').dataset.divtrans;
@@ -821,26 +797,6 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
         //console.log('el trans: ' + el.getAttribute('data-trans') );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
-    /*
-    var arr_trans = [
-        'rsti2',
-        'rstStrong',
-        'nrt',
-        'ukr_ogi',
-    ];
-    */
-
-    /*
-    document.querySelectorAll('.colsInner').forEach( (el,i) => {
-        //console.log(el.parentElement.getAttribute('id'))
-        showChapterText3(arr_trans[i],'#'+arr_divShow[i], book, chapter, verseNumber, to_verseNumber, verseView);
-        
-        //si se cargan más que 1 modulo, miro su base _ep
-        if(i > 0){
-            setBaseEnglishPsalms();//grabo en trans1 su valor de EnglishPsalms 'Y' o 'N'
-        }
-    });
-    */
 
     //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
     window.iter_i = 0;
@@ -12804,7 +12760,7 @@ function mySizeVerse(){
         let max_h = 0;
         var arr_line_h2 = [];
         
-        for(var c = 0; c < colsInnerAll.length; c++){
+        for(let c = 0; c < colsInnerAll.length; c++){
             
             let act_h = (typeof arr_h[c][p] !== 'undefined') ? arr_h[c][p] : 0 ;            
             arr_line_h2.push(act_h);
@@ -12836,7 +12792,6 @@ function mySizeVerse(){
                 }
             }
         }
-        //console.log('------------------------------');
     }
     setTimeout(()=>{
         addMarginTolastP();
