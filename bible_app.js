@@ -488,7 +488,7 @@ function getArrSumLineH(){
 
 
 function fnScrollCol(el,i){
-    console.log('===function fnScrollCol()===');
+    //console.log('===function fnScrollCol()===');
    
     //console.log('scrolling: '+ i);
     //console.log('abajo arr2_sum_line_h: ');
@@ -500,7 +500,7 @@ function fnScrollCol(el,i){
 
     //VERTICAL
     if(positionShow == 'col'){
-        console.log('positionShow == col');
+        //console.log('positionShow == col');
         Array.from(document.querySelectorAll('.colsInner')).forEach( (elementCol, indexCol, arrCol) => {
             if(el.parentElement.id != arrCol[indexCol].parentElement.id){
                 arrCol[indexCol].scrollTop = h;
@@ -511,7 +511,7 @@ function fnScrollCol(el,i){
 
     //HORIZONTAL
     if(positionShow == 'row'){  
-        console.log('positionShow == row');
+        //console.log('positionShow == row');
         
         //getArrSumLineH();
     
