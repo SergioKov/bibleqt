@@ -399,10 +399,8 @@ function enableScroll(el,i){
 function getArrSumLineH(){
     //console.log('getArrSumLineH()');
 
-    //window.arr2_sum_line_h = [];
-    let arr2_sum_line_h = [];
-    //window.arr1_line_h = [];
-    let arr1_line_h = [];
+    window.arr2_sum_line_h = [];//window importante!
+    window.arr1_line_h = [];//window importante!
     let colsInnerAll = document.querySelectorAll('.colsInner');
 
     colsInnerAll.forEach(function(el,index){
@@ -439,8 +437,7 @@ function getArrSumLineH(){
 
 
     //nuevo array
-    // window.arr2_line_h = [];//antes
-    let arr2_line_h = [];       
+    window.arr2_line_h = [];//window importante!
     //var colsInnerAll = document.querySelectorAll('.colsInner');//antes
 
     colsInnerAll.forEach(e => {
@@ -491,6 +488,7 @@ function getArrSumLineH(){
 
 
 function fnScrollCol(el,i){
+    console.log('===function fnScrollCol()===');
    
     //console.log('scrolling: '+ i);
     //console.log('abajo arr2_sum_line_h: ');
@@ -502,6 +500,7 @@ function fnScrollCol(el,i){
 
     //VERTICAL
     if(positionShow == 'col'){
+        console.log('positionShow == col');
         Array.from(document.querySelectorAll('.colsInner')).forEach( (elementCol, indexCol, arrCol) => {
             if(el.parentElement.id != arrCol[indexCol].parentElement.id){
                 arrCol[indexCol].scrollTop = h;
@@ -512,6 +511,8 @@ function fnScrollCol(el,i){
 
     //HORIZONTAL
     if(positionShow == 'row'){  
+        console.log('positionShow == row');
+        
         //getArrSumLineH();
     
         //iv -> index de versiculo.
@@ -563,13 +564,6 @@ function fnScrollCol(el,i){
 
 }//end fnScrollCol
 
-/*
-//IMPORTANTE!!!
-document.querySelector('#rstStrong_b1_c3_v9').scrollIntoView(); 
-document.querySelector('#rsti2_b1_c3_v9').scrollIntoView(); 
-document.querySelector('#rstStrong_b1_c3_v9a').scrollIntoView(); 
-document.documentElement.scrollTop = 0;
-*/
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
     //let arr = idVerse.split('/');
