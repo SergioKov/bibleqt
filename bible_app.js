@@ -434,11 +434,8 @@ function getArrSumLineH(){
         //console.log(arr1_line_h);    
     });
 
-
-
     //nuevo array
     window.arr2_line_h = [];//window importante!
-    //var colsInnerAll = document.querySelectorAll('.colsInner');//antes
 
     colsInnerAll.forEach(e => {
         Array.from(e.children).forEach(e => {
@@ -512,9 +509,7 @@ function fnScrollCol(el,i){
     //HORIZONTAL
     if(positionShow == 'row'){  
         //console.log('positionShow == row');
-        
-        //getArrSumLineH();
-    
+            
         //iv -> index de versiculo.
         //arr2_sum_line_h[0] -> versiculos de la primera columna: col1
         for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
@@ -530,13 +525,13 @@ function fnScrollCol(el,i){
     
             //saco el coeficient de scroll para aplicar para otras columnas. //0.75
             let h_rest = h_max - h;
-            var coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
+            let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
             //console.log('coef_h: '+coef_h);
     
             if(h >= h_min && h <= h_max){
                 //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
                 
-                var colsInnerAll = document.querySelectorAll('.colsInner');
+                let colsInnerAll = document.querySelectorAll('.colsInner');
                 //ic -> index de columna colsInner.
                 //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
                 for (let ic = 0; ic < colsInnerAll.length; ic++) {
@@ -590,18 +585,18 @@ function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*
     //styles of other verses
     if(to_verseNumber != null && to_verseNumber != ''){//hay otros verses
         if(parseInt(verseNumber) < parseInt(to_verseNumber)){
-         for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-             Array.from(document.querySelectorAll('[data-verse="'+i+'"]')).forEach(el=>{
-                el.classList.add('active');
-                if(i == parseInt(verseNumber)) {
-                     el.classList.add('active_first');                
-                }else if(i == parseInt(to_verseNumber)) {
-                    el.classList.add('active_last');                
-                }else{
-                    el.classList.add('active_middle');                
-                }
-             });
-         }
+            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                Array.from(document.querySelectorAll('[data-verse="' + i + '"]')).forEach(el => {
+                    el.classList.add('active');
+                    if (i == parseInt(verseNumber)) {
+                        el.classList.add('active_first');
+                    } else if (i == parseInt(to_verseNumber)) {
+                        el.classList.add('active_last');
+                    } else {
+                        el.classList.add('active_middle');
+                    }
+                });
+            }
         } 
     }else{
         //only one verse of each translation
@@ -638,7 +633,7 @@ function scrollToVerseView(verseView, userBlock = 'start'){
     },300);
 }
 
-var isMouseDown = false;
+let isMouseDown = false;
 
 //start - Desktop (mouse)
 v_line.onmousedown = function() { isMouseDown = true  };
@@ -750,7 +745,7 @@ function showHideStrongNumbers(){
         mySizeVerse();
         mySizeWindow();
 
-        var arr_verse_active = [];
+        let arr_verse_active = [];
         
         Array.from(document.querySelectorAll('.colsInner')[0].children).forEach(el=>{
             //console.log(el);
@@ -760,20 +755,19 @@ function showHideStrongNumbers(){
         });
 
         if(arr_verse_active.length>0){
+            let verseNumber, to_verseNumber;
             if(arr_verse_active.length == 1){
-                var verseNumber = arr_verse_active[0];
-                var to_verseNumber = null;
+                verseNumber = arr_verse_active[0];
+                to_verseNumber = null;
             }else{
-                var verseNumber = arr_verse_active[0];
-                var to_verseNumber = arr_verse_active[arr_verse_active.length-1];
+                verseNumber = arr_verse_active[0];
+                to_verseNumber = arr_verse_active[arr_verse_active.length-1];
             }
             setTimeout(()=>{
                 scrollToVerse(verseNumber, to_verseNumber);
             },200);
-        }
-    
+        }    
     }//fin
-    
 }
 
 function makeArrTransFromCols(){
@@ -785,13 +779,12 @@ function makeArrTransFromCols(){
     clearColsEmpty();
     
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
-        window.arr_trans.push(el.getAttribute('data-trans'));//antes
-        window.arr_divShow.push(el.parentElement.getAttribute('id'));//antes
+        window.arr_trans.push(el.getAttribute('data-trans'));
+        window.arr_divShow.push(el.parentElement.getAttribute('id'));
         //console.log('el trans: ' + el.getAttribute('data-trans') );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
-    arr_trans = arr_trans.filter(el=>el);
-    
+    window.arr_trans = window.arr_trans.filter(el=>el);    
 }
 
 function clearColsEmpty(){
@@ -835,7 +828,7 @@ function htmlEntities(str) {
 }
 
 function setBaseEnglishPsalms(){
-    var Translation = document.querySelector('#trans1').getAttribute('data-trans');
+    let Translation = document.querySelector('#trans1').getAttribute('data-trans');
 
     fetch(`modules/text/${Translation}/bibleqt.json`)
     .then((response) => response.json())
@@ -844,7 +837,7 @@ function setBaseEnglishPsalms(){
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
-        //console.log('error promesa: '+error);
+        console.log('error promesa: '+error);
     });
 }
 
