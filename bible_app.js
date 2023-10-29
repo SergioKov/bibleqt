@@ -782,23 +782,40 @@ function showHideStrongNumbers(){
     
 }
 
-
-function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    //console.log('===function showTrans()===');
+function makeArrTransFromCols(){
     window.arr_trans = [];
     window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
     window.obj_DataDivShow = {};//objeto de los p de cada div de trans para hacer build luego
     window.arr_divShow = [];
-    
-    //var startDivTrans = document.querySelector('#inpt_nav').dataset.divtrans;
 
+    clearColsEmpty();
+    
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
         window.arr_trans.push(el.getAttribute('data-trans'));//antes
         window.arr_divShow.push(el.parentElement.getAttribute('id'));//antes
         //console.log('el trans: ' + el.getAttribute('data-trans') );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
-    //console.log('arr_trans: ',arr_trans);
+    arr_trans = arr_trans.filter(el=>el);
+    
+}
+
+function clearColsEmpty(){
+    document.querySelectorAll('.colsHead').forEach((el,i)=>{
+        if(typeof el.dataset.trans == 'undefined'){
+            el.parentElement.remove();
+            mySizeWindow();
+            mySizeVerse()
+        }
+    });    
+}
+
+
+function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
+    //console.log('===function showTrans()===');
+    
+    //creo array de trans desde los que hay en cols
+    makeArrTransFromCols();
 
     //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
     window.iter_i = 0;
@@ -10154,7 +10171,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
-    clearAllDivShow();
+    //clearAllDivShow();
     
 
     var btnStrong = document.querySelector('#btnStrong');
@@ -11308,6 +11325,9 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     arr_data_head = [];
                     arr_data_body = [];
                     arr_data_all = [];
+
+                    arr_trans = arr_trans.filter(el => el);
+                    clearColsEmpty();
                     
 
                     window.iter_i++;
@@ -12421,8 +12441,12 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
         changePositionShow(document.querySelector('#btn_changePositionShowModal'));
     }
  
-    //showChapterText3(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
-    showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
+    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);//antes
+    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView,3);//test
+
+    console.log('temporalmente. cargo todos trans. revisar!');
+
+    showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
 
     setTimeout(() => {
         mySizeWindow();
