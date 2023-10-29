@@ -10154,7 +10154,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
-    //clearAllDivShow();
+    clearAllDivShow();
     
 
     var btnStrong = document.querySelector('#btnStrong');
