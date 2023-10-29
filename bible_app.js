@@ -784,6 +784,7 @@ function showHideStrongNumbers(){
 
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
+    //console.log('===function showTrans()===');
     window.arr_trans = [];
     window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
     window.obj_DataDivShow = {};//objeto de los p de cada div de trans para hacer build luego
@@ -797,6 +798,7 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
         //console.log('el trans: ' + el.getAttribute('data-trans') );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
+    //console.log('arr_trans: ',arr_trans);
 
     //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
     window.iter_i = 0;
@@ -4082,6 +4084,14 @@ function clearAllDivShow(){
     //console.log('===function clearAllDivShow()===');
     Array.from(wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = '';
+    });
+}
+
+function showTextInAllDivShow(text){
+    //console.log('===function showTextInAllDivShow()===');
+    //console.log('text: ', text);
+    Array.from(wrCols.children).forEach((el)=>{
+        el.querySelector('.colsInner').innerHTML = text;
     });
 }
 
@@ -8908,11 +8918,12 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                         });
 
                     }else{//si no está el id de book en el modulo...
+                        
                         document.querySelectorAll('.colsInner').forEach(el=>{
                             if(el.childElementCount == 0 || el.textContent == ''){
                                 var p = document.createElement('p');
                                 p.className = 'prim';
-                                p.innerHTML = `3. En este módulo no existe el libro indicado.`;
+                                p.innerHTML = `3.1 En este módulo no existe el libro indicado.`;
                                 el.append(p);
                                 //alert(' vacio');
                             }else{
@@ -10107,7 +10118,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             if(el.childElementCount == 0 || el.textContent == ''){
                                 var p = document.createElement('p');
                                 p.className = 'prim';
-                                p.innerHTML = `3. En este módulo no existe el libro indicado.`;
+                                p.innerHTML = `3.2 En este módulo no existe el libro indicado.`;
                                 el.append(p);
                                 //alert(' vacio');
                             }else{
@@ -10132,7 +10143,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
 
 }
 
-function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
+function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null, indexColToBuild = null){
     //console.log('');
     //console.log('=== function showChapterText5() === divId: ' + divId);
     
@@ -10141,8 +10152,9 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
     //divShow.innerHTML = '';//antes
+    
     //reseteo todas las columnas con sig. func
-    clearAllDivShow();
+    //clearAllDivShow();
     
 
     var btnStrong = document.querySelector('#btnStrong');
@@ -10189,7 +10201,8 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
 
             if(url.includes('no_disponible.htm')){
-                console.log('url includes no_disponible.htm');
+                //console.log('url includes no_disponible.htm');
+                showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
                 divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
                 return false;
             } 
@@ -11298,15 +11311,20 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                     
 
                     window.iter_i++;
-                    if(window.iter_i < window.arr_trans.length){
+                    if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
                         //console.log('iter_i: '+iter_i);
                         showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                     }
 
+                    if(indexColToBuild != null){//recargo solo col1 
+                        //console.log('indexColToBuild != null. recargo solo col1)');
+                        //showChapterText4(arr_trans[indexColToBuild],'#'+arr_divShow[indexColToBuild], book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild);
+                    }                    
+
                     //si es ultimo elemento del array...
                     if(countElementsInArray(arrDataDivShow) == arr_trans.length){
                         //console.log('--- llamo buildDivShow() ---');
-                        buildDivShow(arrDataDivShow);
+                        buildDivShow(arrDataDivShow, indexColToBuild);
                     }
 
                 }else{
@@ -11419,11 +11437,12 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                 if(el.childElementCount == 0 || el.textContent == ''){
                     var p = document.createElement('p');
                     p.className = 'prim';
-                    p.innerHTML = `3. En este módulo no existe el libro indicado.`;
+                    p.innerHTML = `3.3 En este módulo no existe el libro indicado.`;
                     el.append(p);
                     //alert(' vacio');
                 }else{
                     //alert(' no vacio');
+                    el.innerHTML = `<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>`;
                 }
             });
         }
@@ -12199,6 +12218,8 @@ function changeTransNav(trans, idCol_trans){
 }
 
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
+    //console.log('===function changeTrans()===');
+    
     var trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
         el.classList.remove('btn_active');
@@ -12210,6 +12231,10 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
     div_trans1.setAttribute('data-trans',trans);
     div_trans1.setAttribute('data-base_ep',EnglishPsalms);
+
+    //meto la trans nueva en el array de trans
+    arr_trans[0] = trans;
+    arr_divShow[0] = 'col1';//ya que siempre se cambia el primer div col1 al cambiar la trans en el footer
     
     // document.querySelector('#trans1 .colsHeadInner div').innerHTML = BibleShortName;//antes
     document.querySelector('#trans1 .colsHeadInner .partDesk .desk_trans').innerHTML = BibleShortName;
@@ -12225,7 +12250,6 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     inpt_nav.dataset.trans = trans;
     document.querySelector('#s_book').click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
 
-
     chapter = (chapter != '') ? chapter : 1;//default si no hay
     var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
 
@@ -12239,53 +12263,42 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
             //console.log(el);
         }
     });
-    var verseView = arr_verseView[0];
-
-    var Translation = trans;
-    url_bq = `modules/text/${Translation}/bibleqt.json`;
-
-    fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-
-            inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
-            inpt_nav.value = bq.Books[id_book].ShortNames[0];
-            if(chapter > 0){
-                inpt_nav.value += ' ' + chapter;
-            }
-            if(parseInt(verseNumber) > 0){
-                inpt_nav.value += ':' + verseNumber;
-            }
-            if(parseInt(to_verseNumber) > parseInt(verseNumber)){
-                inpt_nav.value += '-' + to_verseNumber;
-            }
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
-        });
     
-        //EnglishPsalms actual es igual que EnglishPsalms del modulo pinchado en footer, sólo recargo modulo base
-        if(act_base_ep == EnglishPsalms){
-            //showChapterText3(trans,'#col1', id_book, chapter, verseNumber, to_verseNumber, verseView);    
-            showChapterText4(trans,'#col1', id_book, chapter, verseNumber, to_verseNumber, verseView);    
-        }else{//EnglishPsalms actual es distinto. recargo todos los trans abiertos            
-            document.querySelectorAll('.colsInner').forEach( el => {
-                let este_trans = el.parentElement.children[0].getAttribute('data-trans');
-                let este_col = el.parentElement.getAttribute('id');
-                //showChapterText3(este_trans,'#'+este_col, id_book, chapter, verseNumber, to_verseNumber, verseView);
-                showChapterText4(este_trans,'#'+este_col, id_book, chapter, verseNumber, to_verseNumber, verseView);
-            });
-        }
+    let verseView = arr_verseView[0];
+    let Translation = trans;
+    let bq = arrFavTransObj.find(v => v.Translation == Translation);
 
-        //showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
-
-        //document.querySelectorAll('.colsInner').forEach( el => {
-        //    let este_trans = el.parentElement.children[0].getAttribute('data-trans');
-        //    let este_col = el.parentElement.getAttribute('id');
-        //    showChapterText3(este_trans,'#'+este_col, id_book, chapter, verseNumber, to_verseNumber, verseView);
-        //});
+    inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+    inpt_nav.value = bq.Books[id_book].ShortNames[0];
+    if(chapter > 0) inpt_nav.value += ' ' + chapter;
+    if(parseInt(verseNumber) > 0) inpt_nav.value += ':' + verseNumber;
+    if(parseInt(to_verseNumber) > parseInt(verseNumber)) inpt_nav.value += '-' + to_verseNumber;
             
+    //EnglishPsalms actual es igual que EnglishPsalms del modulo pinchado en footer, sólo recargo modulo base
+    if(act_base_ep == EnglishPsalms){
+        let arr_error_compare = [];
+        let arr_cols_empty = [];
+        document.querySelectorAll('.colsInner').forEach( el => {
+            if(el.innerHTML.includes('prim_error_compare')){
+                arr_error_compare.push(1);
+            }
+            if(el.innerHTML == ''){
+                arr_cols_empty.push(1);
+            }
+        });
+        //si hay errores de comparacion_ recargo todas las columnas
+        if(arr_error_compare.length > 0 || arr_cols_empty.length > 0){
+            showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+        }else{//solo recargo col1
+            window.arr_trans = [];//reset array de trans para formar uno nuevo
+            window.arr_trans[0] = trans;//meto la trans nueva en el array de trans
+            window.iter_i = 0;
+            showChapterText4(trans,'#col1', id_book, chapter, verseNumber, to_verseNumber, verseView, 0); // indexColToBuild: 0 es col1    
+        }  
+    
+    }else{//EnglishPsalms actual es distinto. recargo todos los trans abiertos            
+        showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+    }            
 }
 
 function changeModule(thisDiv,trans,BibleShortName){
@@ -21100,7 +21113,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
             const obj_trans_head = arrFavTransObj.find(v => v.Translation === trans_head);
 
             //si está seleccionado traducción
-            if(typeof trans_head != 'undefined'){
+            if(typeof trans_head != 'undefined' && typeof obj_trans_head.Books[bookNumber] != 'undefined'){
 
                 var trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
             
@@ -21150,7 +21163,12 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                 el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
             
-            }//end 
+            }else{
+                var new_ref = '--. --:--';
+
+                el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+                el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
+            } 
 
         }
     });

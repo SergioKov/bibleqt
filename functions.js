@@ -656,24 +656,42 @@ const handlerListenTsk = (ev, Translation ) => {
 }
 
 
-const buildDivShow = (arrData) => {
+const buildDivShow = (arrData, indexColToBuild = null) => {
     //console.log('function buildDivShow');
     //console.log('arrData: ', arrData);
-    
-    //wrCols es constanta y está declarada al inicio
-    Array.from(wrCols.children).forEach((el,i)=>{
+
+    //si solo hay que construir una columna
+    if(indexColToBuild != null){
+        let el = Array.from(wrCols.children)[indexColToBuild];//wrCols es constanta y está declarada al inicio
+
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
 
-        for (let index = 0; index < arrData[i].length; index++) {
-            const element = arrData[i][index];            
+        for (let index = 0; index < arrData[indexColToBuild].length; index++) {
+            const element = arrData[indexColToBuild][index];            
             //console.log('añado element con append. abajo element:');
             //console.log(element);
             el_colsInner.append(element);            
         }        
-        //console.log('build. wrCols: ');
-        //console.log(wrCols);
-    });
+        //console.log('one col --- el_colsInner: ', el_colsInner);
+
+    }else{//construir todas columnas
+        //wrCols es constanta y está declarada al inicio
+        Array.from(wrCols.children).forEach((el,i)=>{
+            let el_colsInner = el.querySelector('.colsInner');
+            el_colsInner.innerHTML = '';
+
+            for (let index = 0; index < arrData[i].length; index++) {
+                const element = arrData[i][index];            
+                //console.log('añado element con append. abajo element:');
+                //console.log(element);
+                el_colsInner.append(element);            
+            }        
+            //console.log('all cols --- el_colsInner: ', el_colsInner);
+        });
+    }
+    //console.log('build. wrCols: ', wrCols);
+
     arrDataDivShow = [];//reset despues de build
 }
 

@@ -1067,6 +1067,11 @@ li.active {
     font-size: 14px;
     display: block;
 }
+.prim_error_compare {
+    color: red;
+    font-size: 16px;
+    display: block;
+}
 .prim_h6 {
     color: grey;
     font-size: 14px;
