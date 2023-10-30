@@ -667,8 +667,8 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
 
-        for (let index = 0; index < arrData[indexColToBuild].length; index++) {
-            const element = arrData[indexColToBuild][index];            
+        for (let index = 0; index < arrData[0].length; index++) {//aquí siempre arrData[0]
+            const element = arrData[0][index];            
             //console.log('añado element con append. abajo element:');
             //console.log(element);
             el_colsInner.append(element);            

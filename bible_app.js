@@ -10148,8 +10148,8 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
 }
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null, indexColToBuild = null){
-    //console.log('');
-    //console.log('=== function showChapterText5() === divId: ' + divId);
+    console.log('');
+    console.log('=== function showChapterText5() === divId: ' + divId);
     
     var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -12233,8 +12233,8 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     });
     e.classList.add('btn_active');
    
-    var div_trans1 = document.querySelector('#trans1');
-    var act_base_ep = div_trans1.getAttribute('data-base_ep');
+    let div_trans1 = document.querySelector('#trans1');
+    let act_base_ep = div_trans1.getAttribute('data-base_ep');
 
     div_trans1.setAttribute('data-trans',trans);
     div_trans1.setAttribute('data-base_ep',EnglishPsalms);
@@ -12365,20 +12365,34 @@ function changeModule(thisDiv,trans,BibleShortName){
     }, 300);
 }
 
-function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
-   //console.log('function changeModule2. abajo thisDiv: ');
-   //console.log(thisDiv);
+function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
+    //console.log('function changeModule2. abajo thisDiv: ');
+    //console.log(thisDiv);
 
-    thisDiv.setAttribute('data-trans',trans);
-    thisDiv.setAttribute('data-base_ep',EnglishPsalms);
-    if(thisDiv.id == 'trans1'){
+    makeArrTransFromCols();
+
+    let trans_actual = thisDiv.dataset.trans;
+    let div_trans1 = document.getElementById('trans1');
+    let act_base_ep = div_trans1.getAttribute('data-base_ep');
+
+    //saco id de la columna de la trans
+    let idColToBuild = thisDiv.parentElement.id;
+    let indexColToBuild = arr_trans.indexOf(trans_actual);
+    //console.log(' indexColToBuild: ', indexColToBuild);
+
+    //console.log(' actual arr_trans: ', arr_trans);
+    //modifico arr_trans 
+    arr_trans[indexColToBuild] = trans;
+    //console.log(' cambiado arr_trans: ', arr_trans);
+
+    thisDiv.setAttribute('data-trans', trans);
+    thisDiv.setAttribute('data-base_ep', EnglishPsalms);
+    if (thisDiv.id == 'trans1') {
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
-        //thisDiv.children[0].children[0].innerHTML = BibleShortName;//antes
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-    }else{
+    } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
-        //thisDiv.children[0].children[1].innerHTML = BibleShortName; antes
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
     }
@@ -12390,32 +12404,32 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     let verseNumber = inpt_nav.getAttribute('data-show_verse');
     let to_verseNumber = inpt_nav.getAttribute('data-show_to_verse');
     inpt_nav.dataset.trans = trans;
-    document.querySelector('#s_book').click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
+    document.querySelector('#s_book').click();//simulo click sobre boton 'Kniga' para cargar los nombres cortos de los libros de la Biblia
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
-    var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
+    let arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
 
-    Array.from(thisDiv.parentElement.children[1].children).forEach(el=>{
-        if(isInViewport(el)){
+    Array.from(thisDiv.parentElement.children[1].children).forEach(el => {
+        if (isInViewport(el)) {
             //console.log('element is in ViewPort');
             //console.log(el);
-            if(el.hasAttribute('data-verse')){
+            if (el.hasAttribute('data-verse')) {
                 arr_verseView.push(el.getAttribute('data-verse'));
             }
-        }else{
+        } else {
             //console.log('element NO is in ViewPort');
             //console.log(el);
         }
     });
-    var verseView = arr_verseView[0];
+    let verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
 
     //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
-    if(thisDiv.id == 'trans1'){
-        var trans_buttons = document.querySelectorAll('#footerInner button');
-        trans_buttons.forEach(el=>{
+    if (thisDiv.id == 'trans1') {
+        let trans_buttons = document.querySelectorAll('#footerInner button');
+        trans_buttons.forEach(el => {
             el.classList.remove('btn_active');
-            if(el.value == thisDiv.dataset.trans){
+            if (el.value == thisDiv.dataset.trans) {
                 el.classList.add('btn_active');
                 el.scrollIntoView();
             }
@@ -12423,17 +12437,30 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     }
 
     //si es mobile, pongo 'row'
-    if(window.innerWidth < pantallaTabletMinPx){
+    if (window.innerWidth < pantallaTabletMinPx) {
         positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
         changePositionShow(document.querySelector('#btn_changePositionShowModal'));
     }
- 
-    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);//antes
-    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView,3);//test
 
-    console.log('temporalmente. cargo todos trans. revisar!');
-
-    showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+    let arr_error_compare = [];
+    let arr_cols_empty = [];
+    document.querySelectorAll('.colsInner').forEach(el => {
+        if (el.innerHTML.includes('prim_error_compare')) {
+            arr_error_compare.push(1);
+        }
+        if (el.innerHTML == '') {
+            arr_cols_empty.push(1);
+        }
+    });
+    //si hay errores de comparacion_ recargo todas las columnas
+    if (arr_error_compare.length > 0 || arr_cols_empty.length > 0) {
+        showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+    } else {//solo recargo col de la trans nueva
+        window.arr_trans = [];//reset array de trans para formar uno nuevo
+        window.arr_trans[0] = trans;//meto la trans nueva en el array de trans
+        window.iter_i = 0;
+        showChapterText4(trans, '#' + idColToBuild, id_book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild); // indexColToBuild: 0 es col1    
+    }
 
     setTimeout(() => {
         mySizeWindow();
