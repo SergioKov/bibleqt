@@ -658,7 +658,7 @@ if($url && $chapter){
     //para test
     if($isGet){
         echo"<h3>--- $ function getDataFromArr():</h3><pre>";
-        print_r($arr_data_for_json );
+        print_r($arr_data_for_json);
         print_r(getDataFromArr($arr_data, $arr_h4, 12, 16) );
         print_r(getDataFromArr($arr_data, $arr_h4, $chapter, $verse, $to_verse) );//returns $arr_data
         echo"</pre>";
@@ -710,6 +710,11 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
     $arr_data['h4_text'] = $ChapterNameText;
     //$arr_data['p_text_all'] = $ChapterPText;//COMENTO YA QUE NO HACE FALTA PARA JS YA QUE ESCOJO SOLO JSON
 
+    
+    $ChapterQty = count($arr_h4) - 1;
+    $arr_data['ChapterQty'] = $ChapterQty;
+
+    //echo "<p>$ VerseQty: $VerseQty</p><hr>";
     //echo"<br>ChapterNameText <pre>" . $ChapterNameText ."</pre>";
     //echo"<br>ChapterPText <pre>" . $ChapterPText ."</pre>";
     //die();
