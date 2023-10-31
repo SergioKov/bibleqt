@@ -192,7 +192,7 @@ function makeTransObj_new(arrTrans){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            console.log('makeTransObj2. error promesa: '+error);
+            console.log('makeTransObj_new. error promesa: '+error);
         });        
     }
     //console.log('1. abajo arrTransObj:');
@@ -201,19 +201,48 @@ function makeTransObj_new(arrTrans){
     return arrTransObj;
 }
 
+function loadRefDefault(ref, trans = null) {
+    if (trans == null) trans = arrTrans[0];
+    addTab(ref, 'act', null, trans);
+    getRefOfTab('tab1', ref, trans);
+}
+
+
 function loadDefaultFunctions() {
     //console.log('function loadDefaultFunctions()');
     //console.log(' --- empiezo a llamar funcciones por defecto ---');    
 
     //cargo book 0 (Genesis) chapter (1) en el primer div
-    showTrans(0, 1);
+    //showTrans(39, 5);
 
     //simulo click  al 'kniga' por defecto
-    sel(document.querySelector('.bcv_active'),'b');//por defecto
+    //sel(document.querySelector('.bcv_active'),'b');//por defecto
+    
+    loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
+    
+    getActTrans();    
 
-    getActTrans();
+    // addTab('Быт. 1:1', 'act', null,'rstStrongRed');
+    addTab('Быт. 1:1', 'rstStrongRed');
+    addTab('Mat. 5:3', 'rstStrongRed');
 
-    addTab('Быт. 1:1', 'act', null,'rstStrongRed');
+    addTab('Ex. 2:2', 'rstStrongRed,rv60');
+
+    addTab('Числ. 13:1', 'rstStrongRed,rv60');
+    addTab('Числ. 12:1', 'rv60,rstStrongRed');
+
+    addTab('Lev. 3:3', 'rstStrongRed,rv60,ukr_ogi');
+    addTab('Прит. 4:23', 'rstStrongRed,ukr_ogi,rv60,lbla');
+    addTab('Матф. 5:8', 'rstStrongRed,ukr_ogi,ukr_hom,rv60,lbla');
+    addTab('Рим. 6:10', 'rstStrongRed, rv60 ,lbla, ukr_gyz, ukr_fil, ukr_tur');
+    addTab('Лук. 7:16', 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
+    addTab('Is. 8:9', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+    addTab('Psa. 118:1', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+
+/*
+    addTab('Быт. 1:1', null, null,'rstStrongRed');
+    addTab('Mat. 5:3', null, null,'rstStrongRed');
+
     addTab('Ex. 2:2', null, null,'rstStrongRed,rv60');
 
     addTab('Числ. 13:1', null, null,'rstStrongRed,rv60');
@@ -226,6 +255,10 @@ function loadDefaultFunctions() {
     addTab('Лук. 7:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
     addTab('Is. 8:9', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
     addTab('Psa. 118:1', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
+
+
+*/
+
 
     addListenerModule();
 
@@ -10148,8 +10181,8 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
 }
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null, indexColToBuild = null){
-    //console.log('');
-    //console.log('=== function showChapterText5() === divId: ' + divId);
+    console.log('');
+    console.log('=== function showChapterText5() === divId: ' + divId);
     
     var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -10218,8 +10251,9 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
             formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
             if(book != null) formData.append('book', book);
             formData.append('chapter', chapter);
-            if(typeof verse != 'undefined' && verse != null) formData.append('verse', verse);
-            if(typeof to_verse != 'undefined' && to_verse != null) formData.append('to_verse', to_verse);
+            //AKI NO HACE FALTA NI VERSENUMBER NI TO_VERSENUMBER YA QUE MUESTRO TODO EL CAPITULO Y ALLI VOY AL VERSE INDICADO!!!
+            //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+            //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
             if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
             
             fetch('app/read_file_to_json.php',{
@@ -10260,6 +10294,10 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
                 //si existe el capitulo
                 if(typeof nb !== 'undefined'){//si existe texto devuelto pot php
+                    
+                    if(chapter > nb.ChapterQty) chapter = nb.ChapterQty;
+                    if(verseNumber != null && verseNumber > nb.VerseQty) verseNumber = nb.VerseQty;
+                    
                     var ChapterId = chapter;
 
                     //var nb_chapter_verses = (nb.includes('<p>')) ? nb.split('<p>') : console.error('no includes(<p>)');//as text
@@ -11323,11 +11361,6 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                         showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                     }
 
-                    if(indexColToBuild != null){//recargo solo col1 
-                        //console.log('indexColToBuild != null. recargo solo col1)');
-                        //showChapterText4(arr_trans[indexColToBuild],'#'+arr_divShow[indexColToBuild], book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild);
-                    }                    
-
                     //si es ultimo elemento del array...
                     if(countElementsInArray(arrDataDivShow) == arr_trans.length){
                         //console.log('--- llamo buildDivShow() ---');
@@ -12233,8 +12266,8 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     });
     e.classList.add('btn_active');
    
-    var div_trans1 = document.querySelector('#trans1');
-    var act_base_ep = div_trans1.getAttribute('data-base_ep');
+    let div_trans1 = document.querySelector('#trans1');
+    let act_base_ep = div_trans1.getAttribute('data-base_ep');
 
     div_trans1.setAttribute('data-trans',trans);
     div_trans1.setAttribute('data-base_ep',EnglishPsalms);
@@ -12365,20 +12398,34 @@ function changeModule(thisDiv,trans,BibleShortName){
     }, 300);
 }
 
-function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
-   //console.log('function changeModule2. abajo thisDiv: ');
-   //console.log(thisDiv);
+function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
+    //console.log('function changeModule2. abajo thisDiv: ');
+    //console.log(thisDiv);
 
-    thisDiv.setAttribute('data-trans',trans);
-    thisDiv.setAttribute('data-base_ep',EnglishPsalms);
-    if(thisDiv.id == 'trans1'){
+    makeArrTransFromCols();
+
+    let trans_actual = thisDiv.dataset.trans;
+    let div_trans1 = document.getElementById('trans1');
+    let act_base_ep = div_trans1.getAttribute('data-base_ep');
+
+    //saco id de la columna de la trans
+    let idColToBuild = thisDiv.parentElement.id;
+    let indexColToBuild = arr_trans.indexOf(trans_actual);
+    //console.log(' indexColToBuild: ', indexColToBuild);
+
+    //console.log(' actual arr_trans: ', arr_trans);
+    //modifico arr_trans 
+    arr_trans[indexColToBuild] = trans;
+    //console.log(' cambiado arr_trans: ', arr_trans);
+
+    thisDiv.setAttribute('data-trans', trans);
+    thisDiv.setAttribute('data-base_ep', EnglishPsalms);
+    if (thisDiv.id == 'trans1') {
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
-        //thisDiv.children[0].children[0].innerHTML = BibleShortName;//antes
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-    }else{
+    } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
-        //thisDiv.children[0].children[1].innerHTML = BibleShortName; antes
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
     }
@@ -12390,32 +12437,32 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     let verseNumber = inpt_nav.getAttribute('data-show_verse');
     let to_verseNumber = inpt_nav.getAttribute('data-show_to_verse');
     inpt_nav.dataset.trans = trans;
-    document.querySelector('#s_book').click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
+    document.querySelector('#s_book').click();//simulo click sobre boton 'Kniga' para cargar los nombres cortos de los libros de la Biblia
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
-    var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
+    let arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
 
-    Array.from(thisDiv.parentElement.children[1].children).forEach(el=>{
-        if(isInViewport(el)){
+    Array.from(thisDiv.parentElement.children[1].children).forEach(el => {
+        if (isInViewport(el)) {
             //console.log('element is in ViewPort');
             //console.log(el);
-            if(el.hasAttribute('data-verse')){
+            if (el.hasAttribute('data-verse')) {
                 arr_verseView.push(el.getAttribute('data-verse'));
             }
-        }else{
+        } else {
             //console.log('element NO is in ViewPort');
             //console.log(el);
         }
     });
-    var verseView = arr_verseView[0];
+    let verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
 
     //si es trans1 cambio al color rojo el boton de footer en tablet y desktop
-    if(thisDiv.id == 'trans1'){
-        var trans_buttons = document.querySelectorAll('#footerInner button');
-        trans_buttons.forEach(el=>{
+    if (thisDiv.id == 'trans1') {
+        let trans_buttons = document.querySelectorAll('#footerInner button');
+        trans_buttons.forEach(el => {
             el.classList.remove('btn_active');
-            if(el.value == thisDiv.dataset.trans){
+            if (el.value == thisDiv.dataset.trans) {
                 el.classList.add('btn_active');
                 el.scrollIntoView();
             }
@@ -12423,17 +12470,30 @@ function changeModule2(thisDiv,trans,BibleShortName,EnglishPsalms){
     }
 
     //si es mobile, pongo 'row'
-    if(window.innerWidth < pantallaTabletMinPx){
+    if (window.innerWidth < pantallaTabletMinPx) {
         positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
         changePositionShow(document.querySelector('#btn_changePositionShowModal'));
     }
- 
-    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);//antes
-    //showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView,3);//test
 
-    console.log('temporalmente. cargo todos trans. revisar!');
-
-    showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+    let arr_error_compare = [];
+    let arr_cols_empty = [];
+    document.querySelectorAll('.colsInner').forEach(el => {
+        if (el.innerHTML.includes('prim_error_compare')) {
+            arr_error_compare.push(1);
+        }
+        if (el.innerHTML == '') {
+            arr_cols_empty.push(1);
+        }
+    });
+    //si hay errores de comparacion_ recargo todas las columnas
+    if (arr_error_compare.length > 0 || arr_cols_empty.length > 0) {
+        showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
+    } else {//solo recargo col de la trans nueva
+        window.arr_trans = [];//reset array de trans para formar uno nuevo
+        window.arr_trans[0] = trans;//meto la trans nueva en el array de trans
+        window.iter_i = 0;
+        showChapterText4(trans, '#' + idColToBuild, id_book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild); // indexColToBuild: 0 es col1    
+    }
 
     setTimeout(() => {
         mySizeWindow();
@@ -13068,7 +13128,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
     },100);
 }
 
-function addTab(bibShortRef = null, act = null, tab_new = null, str_trans = null){
+function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null){
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
     //console.log(countTabs);
@@ -13244,8 +13304,8 @@ function selBook(e){
     inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
-    //v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';//antes          
-    v_verse.innerHTML = 'Cargando...';//new            
+    //v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
+    v_verse.innerHTML = 'cargando versículos...';            
 
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
@@ -14911,8 +14971,9 @@ function getRef(trans = null){
                     if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
                         var n_book = dataBooksBtnOk[i].BookNumber;
                         var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
-
-                        //var inpt_nav = document.querySelector('#inpt_nav');
+                        
+                        chapter = (chapter != null) ? chapter : 1;//default si no hay
+                        if(chapter > dataBooksBtnOk[i].ChapterQty) chapter = dataBooksBtnOk[i].ChapterQty;
 
                         //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
                         if(window.innerWidth < pantallaTabletMinPx){//mobile
@@ -14957,8 +15018,6 @@ function getRef(trans = null){
                             }                        
                         
                         } 
-
-                        chapter = (chapter != null) ? chapter : 1;//default si no hay
                     
                         inpt_nav.setAttribute('data-id_book',n_book);
                         inpt_nav.setAttribute('data-show_book',short_name);
@@ -14980,86 +15039,230 @@ function getRef(trans = null){
                             obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
+
+
+
+
+                        //script antes. funciona
+                        let modo_action = 'new';//old, new
                         
-                        //verse
-                        if(verse != null && parseInt(verse) > 0){
-                            inpt_nav.value += ':' + verse;
-                            obj_nav.id_verse = parseInt(verse) - 1;
-                            obj_nav.show_verse = verse;
-                            inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                            inpt_nav.setAttribute('data-show_verse',verse);
-                            document.querySelector('#v_verse').innerHTML = '';
-                        }else{
-                            //document.querySelector('#v_verse').innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
-                            //creo virtual e
-                            const e_virtual = document.createElement('li');
-                            e_virtual.id = 'e_virt';
-                            e_virtual.setAttribute('data-id_chapter',0);
-                            e_virtual.setAttribute('data-show_chapter',1);
-                            //e_virtual.onclick = function(){
-                                //selChapter(e_virtual,1);
-                            //};
-                            setTimeout(()=>{
-                                //e_virtual.click();
-                                selChapter(e_virtual, chapter);                           
-                            },50);
+                        if(modo_action == 'old'){
+                            console.log('modo_action == old');
+                            
+                            //verse
+                            if (verse != null && parseInt(verse) > 0) {
+                                inpt_nav.value += ':' + verse;
+                                obj_nav.id_verse = parseInt(verse) - 1;
+                                obj_nav.show_verse = verse;
+                                inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
+                                inpt_nav.setAttribute('data-show_verse', verse);
+                                document.querySelector('#v_verse').innerHTML = '';
+                            } else {
+                                //document.querySelector('#v_verse').innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //creo virtual e
+                                const e_virtual = document.createElement('li');
+                                e_virtual.id = 'e_virt';
+                                e_virtual.setAttribute('data-id_chapter', 0);
+                                e_virtual.setAttribute('data-show_chapter', 1);
+                                setTimeout(() => {
+                                    //e_virtual.click();
+                                    selChapter(e_virtual, chapter);
+                                }, 50);
+                            }
+
+                            //hay to_verse
+                            if (to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)) {
+                                inpt_nav.value += '-' + to_verse;
+                                inpt_nav.setAttribute('data-show_to_verse', to_verse);
+                                obj_nav.show_to_verse = to_verse;
+                            } else {
+                                inpt_nav.setAttribute('data-show_to_verse', '');
+                                obj_nav.show_to_verse = '';
+                            }
+
+
+                            if(document.querySelector('#v_book .li_active') != null){
+                                document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
+                            } 
+                            if(document.querySelector('#v_book div[data-id_book="'+n_book+'"]') != null){
+                                document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                            }
+
+                            //si es mobile, cierro menu
+                            if (window.innerWidth < pantallaTabletMinPx) {
+                                //console.log(' btn ok. cierro menu en mobile.');
+                                closeSidebar();
+                            }
+
+                            //meto Gen.1:1 en los head de cada trans
+                            document.querySelectorAll('.partMob .mob_sh_link').forEach(el => {
+                                let verse_to_show = (verse > 0) ? parseInt(verse) : 1;
+                                putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                            });
+
+                            showTrans(n_book, chapter, verse, to_verse);
+                            //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
+
+                            //test //no hay chapter, no hay verse
+                            if (chapter == null && verse == null) {
+                                document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
+                            }
+                            //hay chapter, no hay verse
+                            if (chapter != null && parseInt(chapter) > 0 && verse == null) {
+                                document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
+                            }
+                            //hay chapter, hay verse
+                            if (parseInt(chapter) > 0 && parseInt(verse) > 0) {
+                                document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                            }
                         }
 
-                        //hay to_verse
-                        if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                            inpt_nav.value += '-' + to_verse;
-                            inpt_nav.setAttribute('data-show_to_verse',to_verse);
-                            obj_nav.show_to_verse = to_verse;
-                        }else{
-                            inpt_nav.setAttribute('data-show_to_verse','');
-                            obj_nav.show_to_verse = '';
-                        }
+
+                        if(modo_action == 'new'){
+                            console.log('modo_action == new');
+                            
+                            //1. solo hay capitulo y no hay verse //funciona
+                            if(chapter && verse == null){//no hay verse //funciona
+                                //document.querySelector('#v_verse').innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //creo virtual e
+                                const e_virtual = document.createElement('li');
+                                e_virtual.id = 'e_virt';
+                                e_virtual.setAttribute('data-id_chapter',0);
+                                e_virtual.setAttribute('data-show_chapter',1);
+                                setTimeout(()=>{
+                                    selChapter(e_virtual, chapter);                           
+                                },50);
 
 
-                        
-                        /*//no hay chapter, no hay verse
-                        if(chapter == null && verse == null){
-                            document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
-                        }
-                        //hay chapter, no hay verse
-                        if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                            document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
-                        }
-                        //hay chapter, hay verse
-                        if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                            document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
-                        }*/
+                                if(document.querySelector('#v_book .li_active') != null){
+                                    document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
+                                } 
+                                if(document.querySelector('#v_book div[data-id_book="'+n_book+'"]') != null){
+                                    document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                }
+        
+                                //si es mobile, cierro menu
+                                if(window.innerWidth < pantallaTabletMinPx){
+                                    //console.log(' btn ok. cierro menu en mobile.');
+                                    closeSidebar();
+                                }
+        
+                                //meto Gen.1:1 en los head de cada trans
+                                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                                    let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
+                                    putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                });
+        
+                                
+                                showTrans(n_book, chapter, verse, to_verse);
+                                //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
-                        document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
-                        document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                //test //no hay chapter, no hay verse
+                                if(chapter == null && verse == null){
+                                    document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
+                                }
+                                //hay chapter, no hay verse
+                                if(chapter != null && parseInt(chapter) > 0 && verse == null){
+                                    document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
+                                }
+                                //hay chapter, hay verse
+                                if(parseInt(chapter) > 0 && parseInt(verse) > 0){
+                                    document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                }
+                                
+                            }
+                            
+                            //hay capitulo y hay verse //funciona
+                            if(chapter && verse != null && parseInt(verse) > 0){
 
-                        //si es mobile, cierro menu
-                        if(window.innerWidth < pantallaTabletMinPx){
-                            //console.log(' btn ok. cierro menu en mobile.');
-                            closeSidebar();
-                        }
+                                let url = './modules/text/'+trans+'/' + dataBooksBtnOk[i].PathName;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+                                    
+                                let formData = new FormData();
+                                formData.append('url','../'+url);
+                                formData.append('book', n_book);
+                                formData.append('chapter', chapter);
+        
+                                fetch('app/read_file_get_VerseQty_to_json.php',{
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    
+                                    console.log('data: ',data);
+                                    console.log('15047. VerseQty of chapter: ',data);
+                                    
+                                    if(verse > data.VerseQty) verse = data.VerseQty;
+                                    console.log('15047. verse: ',verse);
 
-                        //meto Gen.1:1 en los head de cada trans
-                        document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                            let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                            putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
-                        });
+                                    inpt_nav.value += ':' + verse;
+                                    obj_nav.id_verse = parseInt(verse) - 1;
+                                    obj_nav.show_verse = verse;
+                                    inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                                    inpt_nav.setAttribute('data-show_verse',verse);
+                                    document.querySelector('#v_verse').innerHTML = '';
 
-                        showTrans(n_book, chapter, verse, to_verse);
-                        //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
-                                        //test //no hay chapter, no hay verse
-                                        if(chapter == null && verse == null){
-                                            document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
-                                        }
-                                        //hay chapter, no hay verse
-                                        if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                                            document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
-                                        }
-                                        //hay chapter, hay verse
-                                        if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                                            document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
-                                        }
+                                    //hay to_verse
+                                    if(to_verse != null && parseInt(to_verse) > data.VerseQty) to_verse = data.VerseQty;
+                                    console.log('15096. to_verse: ',to_verse);
+
+                                    if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
+                                        inpt_nav.value += '-' + to_verse;
+                                        inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                                        obj_nav.show_to_verse = to_verse;
+                                    }else{
+                                        inpt_nav.setAttribute('data-show_to_verse','');
+                                        obj_nav.show_to_verse = '';
+                                    }
+
+                                    if(document.querySelector('#v_book .li_active') != null){
+                                        document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
+                                    } 
+                                    if(document.querySelector('#v_book div[data-id_book="'+n_book+'"]') != null){
+                                        document.querySelector('#v_book div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                    }
+            
+                                    //si es mobile, cierro menu
+                                    if(window.innerWidth < pantallaTabletMinPx){
+                                        //console.log(' btn ok. cierro menu en mobile.');
+                                        closeSidebar();
+                                    }
+            
+                                    //meto Gen.1:1 en los head de cada trans
+                                    document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                                        let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
+                                        putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                    });
+
+
+
+                                    showTrans(n_book, chapter, verse, to_verse);
+                                    //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
+        
+                                                            //test //no hay chapter, no hay verse
+                                    if(chapter == null && verse == null){
+                                        document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
+                                    }
+                                    //hay chapter, no hay verse
+                                    if(chapter != null && parseInt(chapter) > 0 && verse == null){
+                                        document.querySelector('#s_verse').click();// se cargan verses del chapter indicado para elegir el verse
+                                    }
+                                    //hay chapter, hay verse
+                                    if(parseInt(chapter) > 0 && parseInt(verse) > 0){
+                                        document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                    }
+            
+                                })
+                                .catch(error => { 
+                                    // Código a realizar cuando se rechaza la promesa
+                                    console.log('VerseQty. error promesa: '+error);
+                                });
+
+                            }
+
+                        }//end modo_action == 'new'
+
 
 
                         break;
