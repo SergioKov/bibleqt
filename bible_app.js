@@ -13244,7 +13244,8 @@ function selBook(e){
     inpt_nav.value = inpt_nav.getAttribute('data-show_book') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
-    v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            
+    //v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';//antes          
+    v_verse.innerHTML = 'Cargando...';//new            
 
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
