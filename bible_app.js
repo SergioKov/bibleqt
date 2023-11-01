@@ -218,7 +218,7 @@ function makeTransObj_new(arrTrans){
 
 function loadRefDefault(ref, trans = null) {
     if (trans == null) trans = arrTrans[0];
-    addTab(ref, 'act', null, trans);
+    addTab(ref, trans, 'act', null, );
     getRefOfTab('tab1', ref, trans);
 }
 
