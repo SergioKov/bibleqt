@@ -14792,11 +14792,13 @@ function sel(e, par, show_chapter = null, trans = null){
                                         //si hay un boton li activo me muevo alli
                                         if(v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
-                                                v_verse.querySelector('.li_active').scrollIntoView({
-                                                    behavior: "smooth",
-                                                    block: "start",
-                                                    inline: "nearest"
-                                                });
+                                                if(v_verse.querySelector('.li_active') != null){
+                                                    v_verse.querySelector('.li_active').scrollIntoView({
+                                                        behavior: "smooth",
+                                                        block: "start",
+                                                        inline: "nearest"
+                                                    });
+                                                }
                                             },100);
                                         }
                                     })
