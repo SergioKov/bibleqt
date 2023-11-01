@@ -10500,7 +10500,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
-    clearAllDivShow();//va mas rapido!
+    //clearAllDivShow();//no hacer nunca ya que borra el el contenido de todas cols cando se recarga solo 1 col al cambiar solo la trans de una col!
     
 
     var btnStrong = document.querySelector('#btnStrong');
