@@ -17,7 +17,6 @@ for (let index = 3251; index < 3304; index++) {
 //====================================================================//
 //start - modo 0
 //====================================================================//
-//ejecutar0('./modules/text/nrt/bibleqt.json');//'./modules/text/nrt/bibleqt.json'
 //paso 1
 const ejecutar0 = (url) => {
     console.log('paso1 --- function ejecutar0()');
@@ -47,6 +46,7 @@ async function obtenerDatos0(url) {
         console.error("Error:", error);
     }
 }
+//ejecutar0('./modules/text/nrt/bibleqt.json');//'./modules/text/nrt/bibleqt.json'
 //====================================================================//
 //end - modo 0
 //====================================================================//
