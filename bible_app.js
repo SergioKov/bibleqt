@@ -152,9 +152,24 @@ let obj_nav = {
 
 let arrTabs = [];//array de objetos de tabs (Vkladki)
 
+//'by_text' (old): getting all file and making array with .split() and showing only needed verses,
+//'by_json' (new): por php solo el capitulo
+let modo_fetch_tsk = 'by_json';//by_json, by_text
+console.log('modo_fetch_tsk: ',modo_fetch_tsk);
+
+//'by_text' (old): getting all file and showing only needed verses, 
+//'by_json' (new): getting only verses to show by json (faster)
+let modo_action_get_tsk_verses = 'by_json';//by_json, by_text
+console.log('modo_action_get_tsk_verses: ',modo_action_get_tsk_verses);
 
 
+//crear obj_tsk[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule}
+//para sacar refs de links TSK sin cargarlos por fetch
+let crear_objeto_obj_tsk = true;//true, false
 
+//crear obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule}
+//para sacar textos de libros sin cargarlos por fetch
+let crear_objeto_obj_o = false;//true, false
 
 
 
@@ -941,7 +956,7 @@ function getTsk(e){
         if(typeof obj_tsk[tskName] == 'undefined'){
             obj_tsk[tskName] = {};
             obj_tsk[tskName].Books = [];
-        }        
+        }
 
         //si existe objeto con tskName. Saco datos del objeto
         if(typeof obj_tsk[tskName] != 'undefined'){
@@ -992,8 +1007,7 @@ function getTsk(e){
                             const span_trans_tsk = document.createElement('span');
                             span_trans_tsk.className = 'trans_tsk';
                             span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                            span_sm_trans.append(span_trans_tsk);
-                            
+                            span_sm_trans.append(span_trans_tsk);                            
                 
                             const p = document.createElement('p');
                             p.id = el.id;
@@ -1017,8 +1031,8 @@ function getTsk(e){
                             const d_loader = document.createElement('div');
                             d_loader.className = 'loader';
                             d_loader.innerHTML = `<span class="loader__element"></span>
-                                                <span class="loader__element"></span>
-                                                <span class="loader__element"></span>`;
+                                                  <span class="loader__element"></span>
+                                                  <span class="loader__element"></span>`;
                             div_tsk_body.append(d_loader);
                 
                             arr_tsk_p = [];//por si acaso
@@ -1050,8 +1064,6 @@ function getTsk(e){
                                     //console.log('verseNumber: '+verseNumber);//empezando de 1
                                     //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                     //console.log('---');
-                                    
-                                    
                                 
                                     let bq = objTrans;    
                                     //console.log(' abajo bq:');
@@ -1118,7 +1130,6 @@ function getTsk(e){
                                                     //console.log(`--- hay fichero para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
                                                     //console.log('obj_o');
                                                     //console.log(obj_o);
-
 
                                                     let bookModule = obj_o[Translation].Books[bookNumber].fileContent;
                                                     //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
@@ -1190,8 +1201,7 @@ function getTsk(e){
                 
                                                             var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                             //console.log(VerseText);
-                                                        }
-                
+                                                        }                
                 
                                                         const p = document.createElement('p');
                                                         let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
@@ -1222,8 +1232,7 @@ function getTsk(e){
                                                         
                                                         a.innerHTML = refLink;
                                                         p.append(a);
-                                                        p.append(' ');
-                
+                                                        p.append(' ');                
                 
                                                         const span_vt = document.createElement('span');
                                                         span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
@@ -1378,19 +1387,21 @@ function getTsk(e){
 
                                                         //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                         //console.log(bookModule);
-                                                        //si no existe objeto de ficheros de la Biblia, lo creo
-                                                        if(typeof obj_o[Translation] == 'undefined'){
-                                                            obj_o[Translation] = {};
-                                                            obj_o[Translation].Books = [];
-                                                        }
 
-                                                        //si no existe este libro en el objeto con esta Translation. lo meto dentro
-                                                        if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
-                                                            //comento_temporalmente obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
-                                                            //console.log('1. obj_o');
-                                                            //console.log(obj_o);
-                                                        }
 
+                                                        if(crear_objeto_obj_o){
+                                                            //si no existe objeto de ficheros de la Biblia, lo creo
+                                                            if(typeof obj_o[Translation] == 'undefined'){
+                                                                obj_o[Translation] = {};
+                                                                obj_o[Translation].Books = [];
+                                                            }
+                                                            //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                            if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
+                                                                obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
+                                                                //console.log('1. obj_o');
+                                                                //console.log(obj_o);
+                                                            }
+                                                        }
                 
                                                         var nb = bookModule.split('<h4>');//делю файл на главы
                                                         //console.log(nb);
@@ -1696,10 +1707,12 @@ function getTsk(e){
             .then((response) => response.text())
             .then((tskModule) => { 
                 
-                //meto tskModule en obj_tsk
-                obj_tsk[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule};
-                //console.log('abajo obj_tsk:');
-                //console.log(obj_tsk);
+                if(crear_objeto_obj_tsk){
+                    //meto tskModule en obj_tsk
+                    obj_tsk[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule};
+                    //console.log('abajo obj_tsk:');
+                    //console.log(obj_tsk);
+                }
 
                 tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
                 
@@ -1729,8 +1742,7 @@ function getTsk(e){
                 const span_trans_tsk = document.createElement('span');
                 span_trans_tsk.className = 'trans_tsk';
                 span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                span_sm_trans.append(span_trans_tsk);
-                
+                span_sm_trans.append(span_trans_tsk);                
     
                 const p = document.createElement('p');
                 p.id = el.id;
@@ -1754,8 +1766,8 @@ function getTsk(e){
                 const d_loader = document.createElement('div');
                 d_loader.className = 'loader';
                 d_loader.innerHTML = `<span class="loader__element"></span>
-                                    <span class="loader__element"></span>
-                                    <span class="loader__element"></span>`;
+                                      <span class="loader__element"></span>
+                                      <span class="loader__element"></span>`;
                 div_tsk_body.append(d_loader);
     
                 arr_tsk_p = [];//por si acaso
@@ -1855,7 +1867,8 @@ function getTsk(e){
                                         obj_o[Translation].Books[bookNumber].fileName == bq.Books[bookNumber].PathName && 
                                         obj_o[Translation].Books[bookNumber].fileContent != ''
                                     ){
-                                        console.log(`--- hay fichero para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
+                                        //console.log(`--- hay fichero en el objeto 'obj_o'`);
+                                        //console.log(`--- hay fichero en el objeto 'obj_o' para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
 
                                         let bookModule = obj_o[Translation].Books[bookNumber].fileContent;
                                         var nb = bookModule.split('<h4>');//делю файл на главы
@@ -2103,15 +2116,13 @@ function getTsk(e){
 
                                     }else{
                                         
-                                        console.log(`(${el}) no hay fichero... voy a hacer fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+                                        //console.log(`(${el}) --- no hay fichero en obj_o`);
+                                        //console.log(`(${el}) no hay fichero '${Translation}/${bq.Books[bookNumber].PathName}'... \n voy a hacer fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
 
-
-
-
-                                        let modo_fetch_tsk = 'new';//old,new
-                                        
+                                       
                                         //todo el libro
-                                        if(modo_fetch_tsk == 'old'){
+                                        if(modo_fetch_tsk == 'by_text'){
+                                            //console.log('modo_fetch_tsk == by_text');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
@@ -2123,17 +2134,18 @@ function getTsk(e){
                                                 //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                 //console.log(bookModule);
 
-                                                //si no existe objeto de ficheros de la Biblia, lo creo
-                                                if(typeof obj_o[Translation] == 'undefined'){
-                                                    obj_o[Translation] = {};
-                                                    obj_o[Translation].Books = [];
-                                                }
-
-                                                //si no existe este libro en el objeto con esta Translation. lo meto dentro
-                                                if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
-                                                    //comento_temporalmente obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
-                                                    //console.log('2. obj_o');
-                                                    //console.log(obj_o);
+                                                if(crear_objeto_obj_o){
+                                                    //si no existe objeto de ficheros de la Biblia, lo creo
+                                                    if(typeof obj_o[Translation] == 'undefined'){
+                                                        obj_o[Translation] = {};
+                                                        obj_o[Translation].Books = [];
+                                                    }
+                                                    //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                    if(typeof obj_o[Translation].Books[bookNumber] == 'undefined'){
+                                                        obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule};
+                                                        //console.log('2. obj_o');
+                                                        //console.log(obj_o);
+                                                    }
                                                 }
                                                 
                                                 var nb = bookModule.split('<h4>');//делю файл на главы
@@ -2388,16 +2400,9 @@ function getTsk(e){
                                         }// end modo_fetch_tsk old
 
 
-
-
                                         //por php solo el capitulo
-                                        if(modo_fetch_tsk == 'new'){
-
-                                            console.log('modo_fetch_tsk == new');
-
-
-
-
+                                        if(modo_fetch_tsk == 'by_json'){
+                                            //console.log('modo_fetch_tsk == by_json');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
@@ -2426,10 +2431,6 @@ function getTsk(e){
                                                 let bookModule = dataRead.chapterData.arr_p_verses;
                                                 //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                 //console.log(bookModule);
-
-
-
-
                                                                                                
                                                 //var nb = bookModule.split('<h4>');//делю файл на главы
                                                 var nb = bookModule;//делю файл на главы
@@ -2677,14 +2678,7 @@ function getTsk(e){
                                                 console.log('2.new 2662 error promesa: '+error);
                                             });
 
-
-
-
-
-
-                                        }// end modo_fetch_tsk new
-
-
+                                        }// end modo_fetch_tsk by_json
 
 
                                     }
@@ -5716,10 +5710,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                     .then((response) => response.text())
                     .then((bookModule) => {
 
-                        //comento_temporalmente obj_o[Translation].Books[book] = {'fileName': bq.Books[book].PathName, 'fileContent': bookModule};
-                        //console.log('abajo obj_o:');
-                        //console.log(obj_o);
-
+                        if(crear_objeto_obj_o){
+                            obj_o[Translation].Books[book] = {'fileName': bq.Books[book].PathName, 'fileContent': bookModule};
+                            //console.log('abajo obj_o:');
+                            //console.log(obj_o);
+                        }
                         
                         //console.log(bookModule);
                         divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
@@ -15354,14 +15349,10 @@ function getRef(trans = null){
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
 
-
-
-
-                        //script antes. funciona
-                        let modo_action = 'new';//old, new
                         
-                        if(modo_action == 'old'){
-                            console.log('modo_action == old');
+                        //modo old. getting all file and showing only needed verses
+                        if(modo_action_get_tsk_verses == 'by_text'){
+                            //console.log('modo_action_get_tsk_verses == by_text');
                             
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
@@ -15429,11 +15420,12 @@ function getRef(trans = null){
                             if (parseInt(chapter) > 0 && parseInt(verse) > 0) {
                                 document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
                             }
-                        }
+                        }//end modo_action_get_tsk_verses == by_text
 
 
-                        if(modo_action == 'new'){
-                            console.log('modo_action == new');
+                        //modo new. getting only verses to show by json
+                        if(modo_action_get_tsk_verses == 'by_json'){
+                            //console.log('modo_action_get_tsk_verses == by_json');
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
@@ -15503,11 +15495,11 @@ function getRef(trans = null){
                                 .then(response => response.json())
                                 .then(data => {
                                     
-                                    console.log('data: ',data);
-                                    console.log('15047. VerseQty of chapter: ',data);
+                                    //console.log('data: ',data);
+                                    //console.log('15047. VerseQty of chapter: ',data);
                                     
                                     if(verse > data.VerseQty) verse = data.VerseQty;
-                                    console.log('15047. verse: ',verse);
+                                    //console.log('15047. verse: ',verse);
 
                                     inpt_nav.value += ':' + verse;
                                     obj_nav.id_verse = parseInt(verse) - 1;
@@ -15519,7 +15511,7 @@ function getRef(trans = null){
 
                                     //hay to_verse
                                     if(to_verse != null && parseInt(to_verse) > data.VerseQty) to_verse = data.VerseQty;
-                                    console.log('15096. to_verse: ',to_verse);
+                                    //console.log('15096. to_verse: ',to_verse);
 
                                     if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
                                         inpt_nav.value += '-' + to_verse;
@@ -15575,8 +15567,7 @@ function getRef(trans = null){
 
                             }
 
-                        }//end modo_action == 'new'
-
+                        }//end modo_action_get_tsk_verses == 'by_json'
 
 
                         break;
@@ -15586,9 +15577,9 @@ function getRef(trans = null){
                 }//end for                
             }//end for
 
-        }else{//modo old por fetch()
+        }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
-            alert(0);//no entra nunca
+            alert(0);//no entra nunca ya que tengo objeto arrFavTransObj
             console.log('modo old --- en getRef() ');
 
             let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
