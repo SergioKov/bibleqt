@@ -166,10 +166,12 @@ console.log('modo_action_get_tsk_verses: ',modo_action_get_tsk_verses);
 //crear obj_tsk[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule}
 //para sacar refs de links TSK sin cargarlos por fetch
 let crear_objeto_obj_tsk = true;//true, false
+console.log('crear_objeto_obj_tsk: ',crear_objeto_obj_tsk);
 
 //crear obj_o[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule}
 //para sacar textos de libros sin cargarlos por fetch
 let crear_objeto_obj_o = false;//true, false
+console.log('crear_objeto_obj_o: ',crear_objeto_obj_o);
 
 
 
@@ -4428,7 +4430,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 function clearAllDivShow(){
     //console.log('===function clearAllDivShow()===');
     Array.from(wrCols.children).forEach((el)=>{
-        el.querySelector('.colsInner').innerHTML = '';
+        el.querySelector('.colsInner').innerHTML = 'cargando...';
     });
 }
 
@@ -10500,7 +10502,9 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
-    //clearAllDivShow();//no hacer nunca ya que borra el el contenido de todas cols cando se recarga solo 1 col al cambiar solo la trans de una col!
+    if(indexColToBuild == null){
+        clearAllDivShow();//hacerlo SOLO cuando se cargan todos los cols ya que borra el el contenido de todas cols cando se recarga solo 1 col al cambiar solo la trans de una col!
+    }
     
 
     var btnStrong = document.querySelector('#btnStrong');
