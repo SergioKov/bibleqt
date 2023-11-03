@@ -247,10 +247,29 @@ function readFileToJson(url, book, chapter, verse = null, to_verse = null){
     if(verse != null) formData.append('verse', verse);
     if(to_verse != null) formData.append('to_verse', to_verse);
 
-    fetch('read_file_to_json.php',{
+    let url_read_file = 'read_file_to_json.php';
+    let paramsFetch = {
         method: 'POST',
         body: formData                            
-    })
+    };
+
+
+    let url_read_file2 = 'read_file_test.php';
+    const data_to_send = {
+        url: url,
+        book: book,
+        chapter: chapter,
+        verse: verse,
+    }
+    let paramsFetch2 = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data_to_send)                            
+    };
+
+    fetch(url_read_file2, paramsFetch2)
     .then(response => response.json())
     .then(data=>{
 

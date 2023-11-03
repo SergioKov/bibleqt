@@ -15488,7 +15488,7 @@ function getRef(trans = null){
                             if(chapter && verse != null && parseInt(verse) > 0){
 
                                 let url = './modules/text/'+trans+'/' + dataBooksBtnOk[i].PathName;// "./modules/text/rstStrongRed/02_exodus.htm"                                
-                                    
+                                
                                 let formData = new FormData();
                                 formData.append('url','../'+url);
                                 formData.append('book', n_book);

@@ -1,0 +1,11 @@
+<?php
+
+// Para datos en formato 'application/json'
+$jsonData = json_decode(file_get_contents("php://input"), true);
+
+
+
+echo json_encode($jsonData);
+
+
+?>
