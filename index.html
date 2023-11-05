@@ -143,8 +143,17 @@
                                 <input id="inpt_nav" data-divtrans="" data-trans="" data-id_book="0" data-show_book="Быт." data-id_chapter="" data-show_chapter="" data-id_verse="" data-show_verse="" data-show_to_verse="" value="Быт.">
                                 <div id="clear_inpt" onclick="clear_inpt('nav')">&times;</div>
                             </div>
+                            <div id="hist_nav" onclick="hideShowHistNav()">
+                                <img src="images/icon_razvernut.png">
+                            </div>
                             <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">OK</button>
                         </div>
+                        
+                        <div class="wr_hist_nav" style="display:none;">
+                            <div class="wr_hist_inner"></div>
+                        </div>
+
+
                         <div class="wr_bcv">
                             <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b',document.querySelector('#inpt_nav').dataset.trans)">
                                 <div>Книга</div>
@@ -192,7 +201,7 @@
                         </div>
                         <div id="find_head">
                             <div class="wr_hist_find" style="display:none;">
-                                ...
+                                <div class="wr_hist_inner"></div>
                             </div>                       
 
                             <div class="wr_op">
@@ -649,7 +658,7 @@
                             </div>
 
                             <div class="dbtn" title="View of all tabs" onclick="showTabs()" style="width:100%;">
-                                <div>Vk ... (Tabs - Vkladki)</div>
+                                <div>Вкладки</div>
                             </div>
 
                             

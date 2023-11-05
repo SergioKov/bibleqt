@@ -34,6 +34,7 @@ const wr_find_head = document.getElementById('wr_find_head');
 const find_body = document.getElementById('find_body');
 
 const gde = document.getElementById('gde');//select donde buscar
+const limit = document.getElementById('limit');//cuantos resultados de búsqueda mostrar en una página
 const cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
 const cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
 const cbox3 = document.getElementById('cbox3');//3. искать точную фразу
@@ -152,6 +153,33 @@ let obj_nav = {
 
 let arrTabs = [];//array de objetos de tabs (Vkladki)
 
+//array de objetos de historia de navegacion
+let arr_hist_nav = [];//se añade en addRefToHistNav();
+
+//array de objetos de historia de navegacion
+//let arr_hist_find = [];//se añade en addWordsToHistFind();
+let arr_hist_find = [
+    {
+        "trans": "rstStrongRed",
+        "BibleShortName": "RST+r",
+        "words": "Бог есть любовь",
+        "params": {
+            "gde_val": "TB",
+            "limit_val": "50",
+            "cbox1_checked": false,
+            "cbox2_checked": false,
+            "cbox3_checked": true,
+            "cbox4_checked": false,
+            "cbox5_checked": false,
+            "cbox6_checked": false,
+            "cbox7_checked": false
+        },
+        "fecha": "5/11/2023",
+        "hora": "01:08:46"
+    }
+];
+
+
 //'by_text' (old): getting all file and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
 let modo_fetch_tsk = 'by_json';//by_json, by_text
@@ -175,7 +203,9 @@ console.log('crear_objeto_obj_o: ',crear_objeto_obj_o);
 
 
 
-
+//===================================================================//
+// FUNCIONES
+//===================================================================//
 async function obtenerDatosTrans(url_bq) {
     const respuesta = await fetch(url_bq);
     const datos = await respuesta.json();
@@ -821,6 +851,19 @@ function showHideStrongNumbers(){
     }//fin
 }
 
+function getArrTransFromCols(){
+    window.arr_trans = [];
+    window.arr_divShow = [];
+
+    document.querySelectorAll('.colsHead').forEach((el,i)=>{
+        window.arr_trans.push(el.getAttribute('data-trans'));
+        window.arr_divShow.push(el.parentElement.getAttribute('id'));
+        //console.log('el trans: ' + el.getAttribute('data-trans') );
+        //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
+    }); 
+}
+
+
 function makeArrTransFromCols(){
     window.arr_trans = [];
     window.arrDataDivShow = [];//array de los p de cada div de trans para hacer build luego
@@ -911,6 +954,10 @@ function getTsk(e){
         verse = arr_v.split('-')[0];
         to_verse = arr_v.split('-')[1];
     }
+
+    let ref = el.querySelector('a').innerText;//Gn 1:1
+
+    addRefToHistNav(Translation, ref);
 
     //console.log('Translation: '+Translation);
     //console.log('book: '+book);
@@ -10584,7 +10631,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                 // console.log(bookModule);
 
                 divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
-                // console.log('lo reseteo en buildDivShow'); 
+                console.log('lo reseteo en buildDivShow'); 
 
                 var BookName = dataRead.chapterData.h2_text;
                 if(BookName == '') BookName = bq.Books[book].FullName;
@@ -12715,22 +12762,6 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //console.log('function changeModule2. abajo thisDiv: ');
     //console.log(thisDiv);
 
-    makeArrTransFromCols();
-
-    let trans_actual = thisDiv.dataset.trans;
-    let div_trans1 = document.getElementById('trans1');
-    let act_base_ep = div_trans1.getAttribute('data-base_ep');
-
-    //saco id de la columna de la trans
-    let idColToBuild = thisDiv.parentElement.id;
-    let indexColToBuild = arr_trans.indexOf(trans_actual);
-    //console.log(' indexColToBuild: ', indexColToBuild);
-
-    //console.log(' actual arr_trans: ', arr_trans);
-    //modifico arr_trans 
-    arr_trans[indexColToBuild] = trans;
-    //console.log(' cambiado arr_trans: ', arr_trans);
-
     thisDiv.setAttribute('data-trans', trans);
     thisDiv.setAttribute('data-base_ep', EnglishPsalms);
     if (thisDiv.id == 'trans1') {
@@ -12742,6 +12773,22 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
     }
+
+    let trans_actual = thisDiv.dataset.trans;
+    let div_trans1 = document.getElementById('trans1');
+    let act_base_ep = div_trans1.getAttribute('data-base_ep');
+
+    getArrTransFromCols();
+        
+    //saco id de la columna de la trans
+    let idColToBuild = thisDiv.parentElement.id;
+    let indexColToBuild = arr_trans.indexOf(trans_actual);
+    //console.log(' indexColToBuild: ', indexColToBuild);
+    
+    //console.log(' actual arr_trans: ', arr_trans);
+    //modifico arr_trans 
+    arr_trans[indexColToBuild] = trans;
+    //console.log(' cambiado arr_trans: ', arr_trans);
 
     //en navegación
     //let inpt_nav = document.querySelector('#inpt_nav');
@@ -13884,6 +13931,7 @@ function selVerse(e){
 
     //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
+    addRefToHistNav(inpt_nav.dataset.trans, inpt_nav.value);
 
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
@@ -15109,8 +15157,8 @@ function getRefForTsk(Translation, bookShortName){
 
 
 function getRef(trans = null){
-    //console.log('=== function getRef() ===');
-    //var inpt_nav = document.querySelector('#inpt_nav');
+    console.log('=== function getRef() ===');
+
     var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
     //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
@@ -15391,6 +15439,9 @@ function getRef(trans = null){
                                 obj_nav.show_to_verse = '';
                             }
 
+                            //meto ref encontrado en el historial de navegacion
+                            addRefToHistNav(trans, inpt_nav.value);
+
 
                             if(document.querySelector('#v_book .li_active') != null){
                                 document.querySelector('#v_book .li_active').classList.remove('li_active');//quito anterior book
@@ -15464,7 +15515,9 @@ function getRef(trans = null){
                                     let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
                                     putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                 });
-        
+
+                                //meto ref encontrado en el historial de navegacion
+                                addRefToHistNav(trans, inpt_nav.value);        
                                 
                                 showTrans(n_book, chapter, verse, to_verse);
                                 //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
@@ -15547,12 +15600,13 @@ function getRef(trans = null){
                                         putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                     });
 
-
+                                    //meto ref encontrado en el historial de navegacion
+                                    addRefToHistNav(trans, inpt_nav.value); 
 
                                     showTrans(n_book, chapter, verse, to_verse);
                                     //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
         
-                                                            //test //no hay chapter, no hay verse
+                                    //test //no hay chapter, no hay verse
                                     if(chapter == null && verse == null){
                                         document.querySelector('#s_chapter').click();//propongo seleccionar el chapter
                                     }
@@ -16110,13 +16164,12 @@ function selectModule2(htmlTrans){
 
 
     arrFavTransObj.forEach((el,i)=>{
-
         const p = document.createElement('p');
         p.className = 'cl_trans';
         p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
         p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
         p.onclick = function(){
-            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName,arrFavTransObj[i].EnglishPsalms);
+            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName, arrFavTransObj[i].EnglishPsalms);
             //console.log('p.onclick llamando changeModule2 ');
             closeModal();
         }        
@@ -17305,21 +17358,38 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         p_v.className = 'p_v';
         p_v.innerHTML = `Найти стихи с этим номером.`;
         p_v.onclick = function(){
-            showTab(document.querySelector('#btn_find'),'find');
-            
 
+            showTab(btn_find,'find');
+            
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                document.querySelector('#inpt_find').value = numberStrShow;
-                document.querySelector('#cbox7').checked = true;//si hace falta
+                inpt_find.value = numberStrShow;
+                cbox1.checked = false;
+                cbox2.checked = false;
+                cbox3.checked = false;
+                cbox4.checked = false;
+                cbox5.checked = false;
+                cbox6.checked = false;
+                cbox7.checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
-                document.querySelector('#inpt_find').value = numberStr;
+                inpt_find.value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                    document.querySelector('#cbox7').checked = true;//si hace falta
+                    cbox1.checked = false;
+                    cbox2.checked = false;
+                    cbox3.checked = false;
+                    cbox4.checked = false;
+                    cbox5.checked = false;
+                    cbox6.checked = false;
+                    cbox7.checked = true;//si hace falta
                     findWords(numberStr);
                 }else{//rstStrong (старый)
-                    document.querySelector('#cbox4').checked = true;//si hace falta
-                    document.querySelector('#cbox7').checked = false;//si hace falta
+                    cbox1.checked = false;
+                    cbox2.checked = false;
+                    cbox3.checked = false;
+                    cbox4.checked = true;//si hace falta
+                    cbox5.checked = false;
+                    cbox6.checked = false;    
+                    cbox7.checked = false;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
             }
@@ -17517,8 +17587,8 @@ function findWords(words_input){
     //console.log('cbox6.checked: '+cbox6.checked);
     //console.log('cbox7.checked: '+cbox7.checked);
 
-    var limit = document.querySelector('#limit').value;
-    limit = (limit != '*') ? parseInt(limit) : '*' ;
+    //var limit = document.querySelector('#limit').value;
+    let limit_val = (limit.value != '*') ? parseInt(limit.value) : '*' ;
     var book_start = null;
     var book_end = null;
     var book_one = null;
@@ -17660,6 +17730,10 @@ function findWords(words_input){
         btnStrongIsActive = true;
     }
 
+    //añado el texto de búsqueda en el historial
+    addWordsToHistFind(Translation, words_input);
+
+
     //Antes de buscar, muestro esto...
     if(document.querySelector('.res_f') == null){
         const f_book = document.createElement('p');
@@ -17755,7 +17829,9 @@ function findWords(words_input){
                             if(typeof obj_o[Translation].Books[book] != 'undefined'){
 
                                 if(obj_o[Translation].Books[book].fileName == bq.Books[book].PathName && obj_o[Translation].Books[book].fileContent != ''){
-                                    //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
+
+                                    console.log(' --- SI EXISTE objeto con Translation');
+                                    console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                     
                                     // Registra el tiempo de inicio
                                     const tiempoInicio = new Date().getTime();
@@ -18654,7 +18730,7 @@ function findWords(words_input){
                                             mySizeFind();//altura de div_find_body
                     
                                             var arr_l = [];
-                                            var limit_n = limit;
+                                            var limit_n = limit_val;
                                             for (let i = 0; i < result_finded.length; i++) {
                                                 const el = result_finded[i];
                                                 //console.log(el);
@@ -18662,7 +18738,7 @@ function findWords(words_input){
                                                 if(i > limit_n - 2 || i == result_finded.length - 1){
                                                     arr_l.push(el);
                                                     result_show.push(arr_l); 
-                                                    limit_n += limit;
+                                                    limit_n += limit_val;
                                                     arr_l = [];
                                                 }else{
                                                     arr_l.push(el);
@@ -18713,7 +18789,7 @@ function findWords(words_input){
                     //si no existe objeto con Translation. hago fetch()
                     if(typeof obj_o[Translation].Books[book] == 'undefined'){
 
-                        //console.log(' --- 1849 --- abajo bq: ');
+                        console.log(' --- NO EXISTE objeto con Translation. hago fetch() --- abajo bq: ');
                         //console.log(bq);
 
                         //url del libro necesario
@@ -19607,7 +19683,7 @@ function findWords(words_input){
                                 mySizeFind();//altura de div_find_body
         
                                 var arr_l = [];
-                                var limit_n = limit;
+                                var limit_n = limit_val;
                                 for (let i = 0; i < result_finded.length; i++) {
                                     const el = result_finded[i];
                                     //console.log(el);
@@ -19615,7 +19691,7 @@ function findWords(words_input){
                                     if(i > limit_n - 2 || i == result_finded.length - 1){
                                         arr_l.push(el);
                                         result_show.push(arr_l); 
-                                        limit_n += limit;
+                                        limit_n += limit_val;
                                         arr_l = [];
                                     }else{
                                         arr_l.push(el);
@@ -19665,6 +19741,8 @@ function findWords(words_input){
             }
 
         }else{//MODO OLD. como en Text3()
+            
+            console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
 
             fetch(`modules/text/${Translation}/bibleqt.json`)
             .then((response) => response.json())
@@ -20570,7 +20648,7 @@ function findWords(words_input){
                                 mySizeFind();//altura de div_find_body
         
                                 var arr_l = [];
-                                var limit_n = limit;
+                                var limit_n = limit_val;
                                 for (let i = 0; i < result_finded.length; i++) {
                                     const el = result_finded[i];
                                     //console.log(el);
@@ -20578,7 +20656,7 @@ function findWords(words_input){
                                     if(i > limit_n - 2 || i == result_finded.length - 1){
                                         arr_l.push(el);
                                         result_show.push(arr_l); 
-                                        limit_n += limit;
+                                        limit_n += limit_val;
                                         arr_l = [];
                                     }else{
                                         arr_l.push(el);
@@ -20623,8 +20701,7 @@ function findWords(words_input){
                         }*/
         
                     }//end for
-                }
-        
+                }        
         
             })
             .then(()=>{
@@ -20633,7 +20710,7 @@ function findWords(words_input){
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                //console.log('error promesa find: '+error);
+                console.log('error promesa find: '+error);
             });
 
         }
@@ -20759,21 +20836,33 @@ function mostrar_no_res(){
         div_find_body.append(p_f);    
 }
 
-function show_hist_find(){
-    let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = document.querySelector('#hist_find img');
-    hist_find_img.classList.add('razv');
+
+
+
+
+function hideShowHistNav(){
+    let bl_hist = document.querySelector('.wr_hist_nav');
+    if(bl_hist.style.display == 'none'){
+        show_hist_nav();
+    }else{
+        close_hist_nav();
+    }
+}
+function show_hist_nav(){
+    let bl_hist = document.querySelector('.wr_hist_nav');
+    let hist_nav_img = document.querySelector('#hist_nav img');
+    hist_nav_img.classList.add('razv');
     bl_hist.style.display = 'block';
-    mySizeFind();//altura de div_find_body
+    mySizeNav();//altura de div_nav_body
+}
+function close_hist_nav(){
+    let bl_hist = document.querySelector('.wr_hist_nav');
+    let hist_nav_img = document.querySelector('#hist_nav img');
+    hist_nav_img.classList.remove('razv');
+    bl_hist.style.display = 'none';
+    mySizeNav();//altura de div_nav_body
 }
 
-function close_hist_find(){
-    let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = document.querySelector('#hist_find img');
-    hist_find_img.classList.remove('razv');
-    bl_hist.style.display = 'none';
-    mySizeFind();//altura de div_find_body
-}
 
 function hideShowHistFind(){
     let bl_hist = document.querySelector('.wr_hist_find');
@@ -20782,6 +20871,20 @@ function hideShowHistFind(){
     }else{
         close_hist_find();
     }
+}
+function show_hist_find(){
+    let bl_hist = document.querySelector('.wr_hist_find');
+    let hist_find_img = document.querySelector('#hist_find img');
+    hist_find_img.classList.add('razv');
+    bl_hist.style.display = 'block';
+    mySizeFind();//altura de div_find_body
+}
+function close_hist_find(){
+    let bl_hist = document.querySelector('.wr_hist_find');
+    let hist_find_img = document.querySelector('#hist_find img');
+    hist_find_img.classList.remove('razv');
+    bl_hist.style.display = 'none';
+    mySizeFind();//altura de div_find_body
 }
 
 function hideShowFindParams(){

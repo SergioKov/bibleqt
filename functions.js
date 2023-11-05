@@ -275,21 +275,38 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     p_v.className = 'p_v';
                     p_v.innerHTML = `Найти стихи с этим номером.`;
                     p_v.onclick = function(){
-                        showTab(document.querySelector('#btn_find'),'find');
                         
+                        showTab(btn_find,'find');                        
             
                         if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                            document.querySelector('#inpt_find').value = numberStrShow;
-                            document.querySelector('#cbox7').checked = true;//si hace falta
+                            inpt_find.value = numberStrShow;
+                            cbox1.checked = false;
+                            cbox2.checked = false;
+                            cbox3.checked = false;
+                            cbox4.checked = false;
+                            cbox5.checked = false;
+                            cbox6.checked = false;
+                            cbox7.checked = true;//si hace falta
                             findWords(numberStrShow);//rstStrongRed - ok
                         }else{
-                            document.querySelector('#inpt_find').value = numberStr;
+                            inpt_find.value = numberStr;
                             if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                                document.querySelector('#cbox7').checked = true;//si hace falta
+                                cbox1.checked = false;
+                                cbox2.checked = false;
+                                cbox3.checked = false;
+                                cbox4.checked = false;
+                                cbox5.checked = false;
+                                cbox6.checked = false;
+                                cbox7.checked = true;//si hace falta
                                 findWords(numberStr);
                             }else{//rstStrong (старый)
-                                document.querySelector('#cbox4').checked = true;//si hace falta
-                                document.querySelector('#cbox7').checked = false;//si hace falta
+                                cbox1.checked = false;
+                                cbox2.checked = false;
+                                cbox3.checked = false;
+                                cbox4.checked = true;//si hace falta
+                                cbox5.checked = false;
+                                cbox6.checked = false;    
+                                cbox7.checked = false;//si hace falta
                                 findWords(numberStr);//rstStrong
                             }
                         }
@@ -546,21 +563,38 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             p_v.className = 'p_v';
             p_v.innerHTML = `Найти стихи с этим номером.`;
             p_v.onclick = function(){
-                showTab(document.querySelector('#btn_find'),'find');
+
+                showTab(btn_find,'find');
                 
-    
                 if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                    document.querySelector('#inpt_find').value = numberStrShow;
-                    document.querySelector('#cbox7').checked = true;//si hace falta
+                    inpt_find.value = numberStrShow;
+                    cbox1.checked = false;
+                    cbox2.checked = false;
+                    cbox3.checked = false;
+                    cbox4.checked = false;
+                    cbox5.checked = false;
+                    cbox6.checked = false;
+                    cbox7.checked = true;//si hace falta
                     findWords(numberStrShow);//rstStrongRed - ok
                 }else{
-                    document.querySelector('#inpt_find').value = numberStr;
+                    inpt_find.value = numberStr;
                     if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                        document.querySelector('#cbox7').checked = true;//si hace falta
+                        cbox1.checked = false;
+                        cbox2.checked = false;
+                        cbox3.checked = false;
+                        cbox4.checked = false;
+                        cbox5.checked = false;
+                        cbox6.checked = false;
+                        cbox7.checked = true;//si hace falta
                         findWords(numberStr);
                     }else{//rstStrong (старый)
-                        document.querySelector('#cbox4').checked = true;//si hace falta
-                        document.querySelector('#cbox7').checked = false;//si hace falta
+                        cbox1.checked = false;
+                        cbox2.checked = false;
+                        cbox3.checked = false;
+                        cbox4.checked = true;//si hace falta
+                        cbox5.checked = false;
+                        cbox6.checked = false;    
+                        cbox7.checked = false;//si hace falta
                         findWords(numberStr);//rstStrong
                     }
                 }
@@ -702,6 +736,154 @@ const countElementsInArray = arr => {
         return contador + 1;
       }, 0);
     return countElements;    
+}
+
+const addRefToHistNav = (trans, ref) => {
+    console.log('=== const addRefToHistNav ===');
+
+    console.log('trans: ', trans);
+    console.log('ref: ', ref);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    console.log("Fecha actual: " + fechaFormateada);
+
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    console.log("Hora actual: " + horaActual);
+
+    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
+
+    let itemHist = {'trans': trans, 'BibleShortName': esteTrans.BibleShortName, 'ref': ref, 'fecha': fechaFormateada, 'hora': horaActual};
+
+    arr_hist_nav.unshift(itemHist);
+    console.log('arr_hist_nav: ', arr_hist_nav);
+    
+    let wr_hist_nav_inner = document.querySelector('.wr_hist_nav .wr_hist_inner');
+    wr_hist_nav_inner.innerHTML = '';
+
+    arr_hist_nav.forEach((el,i)=>{
+        const p = document.createElement('p');
+        p.onclick = () => {
+
+            inpt_nav.dataset.trans = el.trans;
+            inpt_nav.value = el.ref;
+            inpt_nav.dataset.divtrans = 'trans1';//siempre aqui            
+
+            let objTrans = arrFavTransObj.find(v => v.Translation === el.trans);
+            let thisDiv = document.querySelector('#trans1.colsHead');
+            thisDiv.dataset.trans = el.trans;
+            thisDiv.dataset.base_ep = objTrans.EnglishPsalms;
+
+            let trans_buttons = document.querySelectorAll('#footerInner button');
+            trans_buttons.forEach(elem => {
+                elem.classList.remove('btn_active');
+                if(elem.value == thisDiv.dataset.trans) {
+                    elem.classList.add('btn_active');
+                    elem.scrollIntoView();
+                } 
+            });
+
+            console.log('llamo getRef()');
+            getRef();
+            wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
+        }
+        p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+        p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+        wr_hist_nav_inner.append(p);
+    });
+
+}
+
+
+const addWordsToHistFind = (trans, words) => {
+    console.log('=== const addWordsToHistFind ===');
+
+    console.log('trans: ', trans);
+    console.log('words: ', words);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    console.log("Fecha actual: " + fechaFormateada);
+    
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    console.log("Hora actual: " + horaActual);
+
+    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
+
+    let itemHist = {
+        'trans': trans, 
+        'BibleShortName': esteTrans.BibleShortName, 
+        'words': words,
+        'params': {
+            'gde_val'  : gde.value, 
+            'limit_val': limit.value,
+            'cbox1_checked': cbox1.checked,
+            'cbox2_checked': cbox2.checked,
+            'cbox3_checked': cbox3.checked,
+            'cbox4_checked': cbox4.checked,
+            'cbox5_checked': cbox5.checked,
+            'cbox6_checked': cbox6.checked,
+            'cbox7_checked': cbox7.checked             
+        },
+        'fecha': fechaFormateada, 
+        'hora': horaActual
+    };
+
+    arr_hist_find.unshift(itemHist);
+    console.log('arr_hist_find: ', arr_hist_find);
+    
+    let wr_hist_find_inner = document.querySelector('.wr_hist_find .wr_hist_inner');
+    wr_hist_find_inner.innerHTML = '';
+
+    arr_hist_find.forEach((el,i)=>{
+        const p = document.createElement('p');
+        p.onclick = () => {
+
+            inpt_nav.dataset.trans = el.trans;
+            inpt_find.value = el.words;
+
+            gde.value = el.params.gde_val;
+            limit.value = el.params.limit_val;
+            cbox1.checked = el.params.cbox1_checked;
+            cbox2.checked = el.params.cbox2_checked;
+            cbox3.checked = el.params.cbox3_checked;
+            cbox4.checked = el.params.cbox4_checked;
+            cbox5.checked = el.params.cbox5_checked;
+            cbox6.checked = el.params.cbox6_checked;
+            cbox7.checked = el.params.cbox7_checked;
+            
+            //console.log('llamo findWords()');
+            //findWords(el.words);
+            wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
+        }
+        p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
+                            <span class="wr_fecha_hora">
+                                <span class="sp_hora_hist">${el.hora}</span>
+                                <span class="sp_fecha_hist">${el.fecha}</span>
+                            </span>
+                        </span>`;
+        p.innerHTML += `<span class="sp_ref_hist">${el.words}</span>`;
+        wr_hist_find_inner.append(p);
+    });
+
 }
 
 

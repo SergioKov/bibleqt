@@ -37,7 +37,7 @@ function openModal(param = null, htmlTrans = null) {
 
 
     if(param == 'top'){
-        header_h4_text.innerHTML = 'Навигация. Переводы';
+        header_h4_text.innerHTML = 'Меню';
         // modal.style.paddingTop = headerContainer.offsetHeight + 'px';
         modal.style.paddingTop = '0px';
         modalContent.classList.add('modalContentTop');
@@ -54,14 +54,14 @@ function openModal(param = null, htmlTrans = null) {
         bl_modalBottom.style.display = 'block';
     }
     else if(param == 'full'){
-        header_h4_text.innerHTML = 'Выбор модуля Библии iz Izbrannyj';
+        header_h4_text.innerHTML = 'Выбор модуля Библии из Избранных';
         modal.style.paddingTop = '0vh';
         modalContent.classList.add('modalContentFull');
         bl_modalFull.style.display = 'block';
         selectModule2(htmlTrans);
     }
     else if(param == 'tabsList'){//Vkladki
-        header_h4_text.innerHTML = 'Выбор Tabs - Vkladki';
+        header_h4_text.innerHTML = 'Выбор Вкладки';
         modal.style.paddingTop = '0vh';
         modalContent.classList.add('modalContentFull');
         bl_modalFull.style.display = 'block';
