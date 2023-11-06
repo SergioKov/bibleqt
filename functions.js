@@ -46,15 +46,15 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     //console.log('numberStrShow: '+numberStrShow);
     //console.log('strongFile: '+strongFile);  
 
-    if(typeof obj_s == 'undefined'){
-        obj_s = {};
+    if(typeof obj_strong_files == 'undefined'){
+        obj_strong_files = {};
     }
 
     //si existe objeto con Translation. Saco datos del objeto
-    if(typeof obj_s[strongLang] != 'undefined'){
-        if(obj_s[strongLang].fileName != 'undefined'){
-            if(obj_s[strongLang].fileName == strongFile && obj_s[strongLang].fileContent != ''){
-                //console.log(' --- typeof obj_s[strongLang] EXISTE --- saco datos del objeto guardado ');
+    if(typeof obj_strong_files[strongLang] != 'undefined'){
+        if(obj_strong_files[strongLang].fileName != 'undefined'){
+            if(obj_strong_files[strongLang].fileName == strongFile && obj_strong_files[strongLang].fileContent != ''){
+                //console.log(' --- typeof obj_strong_files[strongLang] EXISTE --- saco datos del objeto guardado ');
        
                 var myPromise_strong = new Promise(function(resolve, reject){
                     resolve('ok');
@@ -65,7 +65,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     //console.log(strong);
 
                     if(data == 'ok'){//siempre es ok
-                        var strong = obj_s[strongLang].fileContent;
+                        var strong = obj_strong_files[strongLang].fileContent;
                     }
             
                     let obj_strong = strong.find(v => v.t === numberStr); 
@@ -342,8 +342,8 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
         } 
     }
 
-    if(typeof obj_s[strongLang] == 'undefined'){
-        //console.log(' --- typeof obj_s[strongLang] == undefined --- hago fetch() ');
+    if(typeof obj_strong_files[strongLang] == 'undefined'){
+        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
         
         fetch(`modules/text/strongs/${strongFile}`)
         .then((response) => response.json())
@@ -351,9 +351,9 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             //console.log(strong);
 
             //añado info al objeto con los datos obtenidos por fetch()
-            obj_s[strongLang] = {'fileName': strongFile, 'fileContent': strong};
-            //console.log('abajo obj_o:');
-            //console.log(obj_o);
+            obj_strong_files[strongLang] = {'fileName': strongFile, 'fileContent': strong};
+            //console.log('abajo obj_strong_files:');
+            //console.log(obj_strong_files);
     
             //let arr_strong = strong.split('<h4>')[numberInt + 1].split('</h4>');//una linea 
             let obj_strong = strong.find(v => v.t === numberStr); 
