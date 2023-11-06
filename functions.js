@@ -738,11 +738,11 @@ const countElementsInArray = arr => {
     return countElements;    
 }
 
-const addRefToHistNav = (trans, ref) => {
-    console.log('=== const addRefToHistNav ===');
+const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = null) => {
+    //console.log('=== const addRefToHistNav ===');
 
-    console.log('trans: ', trans);
-    console.log('ref: ', ref);
+    //console.log('trans: ', trans);
+    //console.log('ref: ', ref);
     
     const fechaActual = new Date();
     //const horas = fechaActual.getHours();
@@ -751,21 +751,31 @@ const addRefToHistNav = (trans, ref) => {
     //const horas_minutos = horas + ':'+minutos;
 
     const fechaFormateada = fechaActual.toLocaleDateString();
-    console.log("Fecha actual: " + fechaFormateada);
+    //console.log("Fecha actual: " + fechaFormateada);
 
     const horaActual = fechaActual.toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
     });
-    console.log("Hora actual: " + horaActual);
+    //console.log("Hora actual: " + horaActual);
 
     let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
 
-    let itemHist = {'trans': trans, 'BibleShortName': esteTrans.BibleShortName, 'ref': ref, 'fecha': fechaFormateada, 'hora': horaActual};
+    let itemHist = { 
+        'trans': trans, 
+        'BibleShortName': esteTrans.BibleShortName, 
+        'ref': ref,
+        'book': book,
+        'chapter': chapter,
+        'verse': verse,
+        'to_verse': to_verse,
+        'fecha': fechaFormateada, 
+        'hora': horaActual 
+    };
 
     arr_hist_nav.unshift(itemHist);
-    console.log('arr_hist_nav: ', arr_hist_nav);
+    //console.log('arr_hist_nav: ', arr_hist_nav);
     
     let wr_hist_nav_inner = document.querySelector('.wr_hist_nav .wr_hist_inner');
     wr_hist_nav_inner.innerHTML = '';
@@ -773,28 +783,33 @@ const addRefToHistNav = (trans, ref) => {
     arr_hist_nav.forEach((el,i)=>{
         const p = document.createElement('p');
         p.onclick = () => {
-
-            inpt_nav.dataset.trans = el.trans;
+            
             inpt_nav.value = el.ref;
-            inpt_nav.dataset.divtrans = 'trans1';//siempre aqui            
 
-            let objTrans = arrFavTransObj.find(v => v.Translation === el.trans);
-            let thisDiv = document.querySelector('#trans1.colsHead');
-            thisDiv.dataset.trans = el.trans;
-            thisDiv.dataset.base_ep = objTrans.EnglishPsalms;
+            let trans_base = arrFavTransObj.find(v => v.Translation === div_trans1.dataset.trans);
+            let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
 
-            let trans_buttons = document.querySelectorAll('#footerInner button');
-            trans_buttons.forEach(elem => {
-                elem.classList.remove('btn_active');
-                if(elem.value == thisDiv.dataset.trans) {
-                    elem.classList.add('btn_active');
-                    elem.scrollIntoView();
-                } 
-            });
+            
+            if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
+                let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
+                showTrans(res[0], res[1],res[2],res[3]);
+            }
+            else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
+                let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
+                showTrans(res[0], res[1],res[2],res[3]);
+            }
+            else{   
+                //console.log('llamo showTrans()');
+                showTrans(el.book, el.chapter, el.verse, el.to_verse);
+            }
 
-            console.log('llamo getRef()');
-            getRef();
             wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
+
+            //si es mobile, ciero menu
+            if(window.innerWidth < pantallaTabletMinPx){
+                //console.log('func selVerse(). mobile.');
+                closeSidebar();
+            }
         }
         p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
         p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
@@ -807,8 +822,8 @@ const addRefToHistNav = (trans, ref) => {
 const addWordsToHistFind = (trans, words) => {
     console.log('=== const addWordsToHistFind ===');
 
-    console.log('trans: ', trans);
-    console.log('words: ', words);
+    //console.log('trans: ', trans);
+    //console.log('words: ', words);
     
     const fechaActual = new Date();
     //const horas = fechaActual.getHours();
@@ -817,14 +832,14 @@ const addWordsToHistFind = (trans, words) => {
     //const horas_minutos = horas + ':'+minutos;
 
     const fechaFormateada = fechaActual.toLocaleDateString();
-    console.log("Fecha actual: " + fechaFormateada);
+    //console.log("Fecha actual: " + fechaFormateada);
     
     const horaActual = fechaActual.toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
     });
-    console.log("Hora actual: " + horaActual);
+    //console.log("Hora actual: " + horaActual);
 
     let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
 

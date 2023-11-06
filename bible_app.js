@@ -1,5 +1,5 @@
 //====================================================================//
-//  J A V A S C R I P T
+//  V A R I A B L E S
 //====================================================================//
 
 const header = document.getElementById('header');
@@ -16,6 +16,7 @@ const container = document.getElementById('container');
 const containerInner = document.getElementById('containerInner');
 const headerContainer = document.getElementById('headerContainer');
 const wrCols = document.getElementById('wrCols');
+const div_trans1 = document.getElementById('trans1');
 const footer = document.getElementById('footer');
 
 const btn_pageUp = document.getElementById('btn_pageUp');
@@ -203,9 +204,11 @@ console.log('crear_objeto_obj_o: ',crear_objeto_obj_o);
 
 
 
+
 //===================================================================//
 // FUNCIONES
 //===================================================================//
+
 async function obtenerDatosTrans(url_bq) {
     const respuesta = await fetch(url_bq);
     const datos = await respuesta.json();
@@ -956,9 +959,8 @@ function getTsk(e){
     }
 
     let ref = el.querySelector('a').innerText;//Gn 1:1
-
-    addRefToHistNav(Translation, ref);
-
+    addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+    
     //console.log('Translation: '+Translation);
     //console.log('book: '+book);
     //console.log('chapter: '+chapter);
@@ -10631,7 +10633,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
                 // console.log(bookModule);
 
                 divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
-                console.log('lo reseteo en buildDivShow'); 
+                //console.log('lo reseteo en buildDivShow'); 
 
                 var BookName = dataRead.chapterData.h2_text;
                 if(BookName == '') BookName = bq.Books[book].FullName;
@@ -13931,7 +13933,8 @@ function selVerse(e){
 
     //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
-    addRefToHistNav(inpt_nav.dataset.trans, inpt_nav.value);
+
+    addRefToHistNav(inpt_nav.dataset.trans, inpt_nav.value, inpt_nav.dataset.id_book, inpt_nav.dataset.show_chapter, inpt_nav.dataset.show_verse, to_verse);
 
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
@@ -15157,7 +15160,7 @@ function getRefForTsk(Translation, bookShortName){
 
 
 function getRef(trans = null){
-    console.log('=== function getRef() ===');
+    //console.log('=== function getRef() ===');
 
     var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
@@ -15407,7 +15410,8 @@ function getRef(trans = null){
                         //modo old. getting all file and showing only needed verses
                         if(modo_action_get_tsk_verses == 'by_text'){
                             //console.log('modo_action_get_tsk_verses == by_text');
-                            
+
+                                                        
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
                                 inpt_nav.value += ':' + verse;
@@ -15427,6 +15431,8 @@ function getRef(trans = null){
                                     //e_virtual.click();
                                     selChapter(e_virtual, chapter);
                                 }, 50);
+
+
                             }
 
                             //hay to_verse
@@ -15439,8 +15445,9 @@ function getRef(trans = null){
                                 obj_nav.show_to_verse = '';
                             }
 
+
                             //meto ref encontrado en el historial de navegacion
-                            addRefToHistNav(trans, inpt_nav.value);
+                            addRefToHistNav(trans, inpt_nav.value, n_book, chapter, verse, to_verse);
 
 
                             if(document.querySelector('#v_book .li_active') != null){
@@ -15516,8 +15523,10 @@ function getRef(trans = null){
                                     putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                 });
 
+                                
                                 //meto ref encontrado en el historial de navegacion
-                                addRefToHistNav(trans, inpt_nav.value);        
+                                addRefToHistNav(trans, inpt_nav.value, n_book, chapter, verse, to_verse);
+                                
                                 
                                 showTrans(n_book, chapter, verse, to_verse);
                                 //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
@@ -15601,7 +15610,7 @@ function getRef(trans = null){
                                     });
 
                                     //meto ref encontrado en el historial de navegacion
-                                    addRefToHistNav(trans, inpt_nav.value); 
+                                    addRefToHistNav(trans, inpt_nav.value, n_book, chapter, verse, to_verse); 
 
                                     showTrans(n_book, chapter, verse, to_verse);
                                     //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
@@ -17245,7 +17254,6 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
     var result = [bookNumber, chapterNumber, verseNumber, to_verseNumber];
 
     return result;
-
 }
 
 
