@@ -19,6 +19,8 @@ const wrCols = document.getElementById('wrCols');
 const div_trans1 = document.getElementById('trans1');
 const footer = document.getElementById('footer');
 
+
+
 const btn_pageUp = document.getElementById('btn_pageUp');
 const btn_pageDown = document.getElementById('btn_pageDown');
 
@@ -30,7 +32,14 @@ const nav_body = document.getElementById('nav_body');
 const computedStyle = window.getComputedStyle(sidebarInner);
 
 const inpt_nav = document.getElementById('inpt_nav');
+
 const s_book = document.getElementById('s_book');
+const s_chapter = document.getElementById('s_chapter');
+const s_verse = document.getElementById('s_verse');
+
+const v_book = document.getElementById('v_book');
+const v_chapter = document.getElementById('v_chapter');
+const v_verse = document.getElementById('v_verse');
 
 const wr_find_head = document.getElementById('wr_find_head');
 const find_body = document.getElementById('find_body');
@@ -52,6 +61,7 @@ const tsk_body = document.getElementById('tsk_body');
 const btn_tsk = document.getElementById('btn_tsk');
 const btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
 const btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
+const btn_ok = document.getElementById('btn_ok');
 
 const wr_strong_head = document.getElementById('wr_strong_head');
 const strong_body = document.getElementById('strong_body');
@@ -215,6 +225,7 @@ let crear_objeto_obj_bible_files = true;//true, false
 console.log('crear_objeto_obj_bible_files: ',crear_objeto_obj_bible_files);
 
 
+let trans_base = div_trans1.dataset.trans;//la trans base de #trans1
 
 
 //===================================================================//
@@ -17185,9 +17196,9 @@ function getRefOfTab(tab_id, ref, str_trans = null){
     });
 
     //ejecuto click sobre el boton ok en inpt_nav para que se muestren botones de verses
-    document.querySelector('#btn_ok').click();
+    btn_ok.click();
     setTimeout(()=>{
-        document.querySelector('#s_verse').click();
+        s_verse.click();
     },100);
 }
 
@@ -17211,7 +17222,6 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         }
     }
 
-    let div_trans1 = document.querySelector('#trans1');
     bibShortRef = (bibShortRef != null) ? bibShortRef : div_trans1.querySelector('.desk_sh_link').innerHTML ;
 
     //si se añade nueva tab 
@@ -17254,7 +17264,6 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
-        //document.querySelector('#headerContainerInner').appendChild(htmlTab);//antes
         document.querySelector('#partDeskTabs').appendChild(htmlTab);
 
 
@@ -17325,7 +17334,6 @@ function removeTab(){
     //console.log(countTabs);
 
     if(countTabs != 1){
-        //document.querySelector('#headerContainerInner').lastElementChild.remove();
         document.querySelector('#partDeskTabs').lastElementChild.remove();
     }
     updateArrTabs();
@@ -17341,8 +17349,6 @@ function closeTab(el){
 
 //Click sobre el boton li del libro de la Biblia en navegación
 function selBook(e){
-    //let inpt_nav = document.querySelector('#inpt_nav');
-    let v_verse = document.querySelector('#v_verse');
     //console.log(e.srcElement.innerText);
     
     obj_nav.divtrans = inpt_nav.dataset.divtrans;
@@ -17372,7 +17378,7 @@ function selBook(e){
 
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
-    document.querySelector('#s_chapter').click();// me muevo a la pestaña 'Glava'
+    s_chapter.click();// me muevo a la pestaña 'Glava'
     //en #s_chapter se llama sel(this,'ch',trans)...
     //en #v_chapter se quitan todos los li's botones de chapters para crear nuevos li's
     //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
@@ -17381,7 +17387,6 @@ function selBook(e){
 
 //Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e, show_chapter = null){
-    //let inpt_nav = document.querySelector('#inpt_nav');
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
@@ -17391,7 +17396,7 @@ function selChapter(e, show_chapter = null){
     //console.log('clickeado trans: '+inpt_nav.dataset.trans);
     //console.log('clickeado show_chapter: '+e.srcElement.getAttribute('data-show_chapter'));
 
-    var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+    //var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
@@ -17469,7 +17474,6 @@ function selChapter(e, show_chapter = null){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                //document.querySelector('#inpt_nav').value = new_ref_text;//antes
                 inpt_nav.value = new_ref_text;
 
                 inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);//REVISAR!!!
@@ -17484,7 +17488,7 @@ function selChapter(e, show_chapter = null){
         if(show_chapter == null){
             e.srcElement.classList.add('active');//añado bg red al li boton del chapter '22'
         }
-        document.querySelector('#s_verse').click();// me muevo a la pestaña 'Stij'
+        s_verse.click();// me muevo a la pestaña 'Stij'
         //en #s_verse se llama sel(this,'v',trans)...
         //en #v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
@@ -17503,33 +17507,24 @@ function selChapter(e, show_chapter = null){
         if(show_chapter == null){
             e.srcElement.classList.add('active');//añado bg red al li boton del chapter '22'
         }
-        document.querySelector('#s_verse').click();// me muevo a la pestaña 'Stij'
+        s_verse.click();// me muevo a la pestaña 'Stij'
         //en #s_verse se llama sel(this,'v',trans)...
         //en #v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
     
         showTrans(inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1    
-    } 
-
-    //e.srcElement.classList.add('active');//añado bg red al li boton del chapter '22'
-    //document.querySelector('#s_verse').click();// me muevo a la pestaña 'Stij'
-            //en #s_verse se llama sel(this,'v',trans)...
-            //en #v_verse se quitan todos los li's botones de verses para crear nuevos li's
-            //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
-
-    //showTrans(inpt_nav.getAttribute('data-id_book'), e.srcElement.getAttribute('data-show_chapter'));//chapter def 1    
+    }    
 }
 
 //Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
-    //let inpt_nav = document.querySelector('#inpt_nav');
     //console.log(e.srcElement.innerText);
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
     //console.log('clickeado trans: '+inpt_nav.dataset.trans);
     //console.log('clickeado show_verse: '+e.srcElement.getAttribute('data-show_verse'));
 
-    var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+    //var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
@@ -17649,10 +17644,7 @@ function selVerse(e){
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
     
-    //var inpt_nav = document.querySelector('#inpt_nav');
-    //var trans = document.querySelector('#trans1').getAttribute('data-trans');//antes
-    //var trans = (trans != null) ? trans : document.querySelector('#trans1').getAttribute('data-trans') ;//antes
-    var trans_base = document.querySelector('#trans1').dataset.trans;
+    //var trans_base = div_trans1.dataset.trans;
     var trans_inpt = inpt_nav.dataset.trans;
 
     if(trans != null){
@@ -18863,11 +18855,8 @@ function getRefForTsk(Translation, bookShortName){
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
 
-    var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
-    //var trans = (trans == null) ? document.querySelector('#trans1').getAttribute('data-trans') : trans ;
     var trans_inpt = inpt_nav.dataset.trans;
-    const s_book = document.querySelector('#s_book');
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
@@ -19051,7 +19040,7 @@ function getRef(trans = null){
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+inpt_nav.dataset.trans);
                                 
-                                var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+                                //var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
                                 var trans_inpt = inpt_nav.dataset.trans;// trans desde input
                                 var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
@@ -19381,7 +19370,7 @@ function getRef(trans = null){
                                     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                     //console.log('clickeado trans: '+inpt_nav.dataset.trans);
                                     
-                                    var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+                                    //var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
                                     var trans_inpt = inpt_nav.dataset.trans;// trans desde input
                                     var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
     
@@ -19527,7 +19516,6 @@ function getRef(trans = null){
 
 function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
-    var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
 
     var arr_code = code.split('__');
@@ -19630,7 +19618,6 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
 
 function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
-    var div_trans1 = document.querySelector('#trans1');
     var act_trans = div_trans1.getAttribute('data-trans');
 
     var arr_code = code.split('__');
@@ -19969,7 +19956,7 @@ function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
     //var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
+    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : div_trans1.getAttribute('data-trans');
 
     //reset de verse en rojo ya que hay que escojer el verse...
     inpt_nav.setAttribute('data-id_chapter', '0');
@@ -20179,10 +20166,9 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    //var inpt_nav = document.querySelector('#inpt_nav');
     var act_id_book = (inpt_nav.getAttribute('data-id_book') != '') ? inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     var act_show_chapter = (inpt_nav.getAttribute('data-show_chapter') != '') ? inpt_nav.getAttribute('data-show_chapter') : 1 ;
-    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
+    Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : div_trans1.getAttribute('data-trans');
 
     //reset de verse en rojo ya que hay que escojer el verse...
     inpt_nav.setAttribute('data-id_verse', '');
@@ -21432,7 +21418,7 @@ function findWords(words_input){
 
     //var inpt_nav = document.querySelector('#inpt_nav');
 
-    let Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').getAttribute('data-trans');
+    let Translation = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : div_trans1.getAttribute('data-trans');
     //var btnStrong = document.querySelector('#btnStrong');
     var btnStrongIsActive = false;
     if(btnStrong.classList.contains('btn_active')){
@@ -24470,7 +24456,7 @@ function mostrar_res_show(index){
     //cuando todo está añadido en div_find_body, hago esto...
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
         //let inpt_nav = document.querySelector('#inpt_nav');
-        let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : document.querySelector('#trans1').dataset.trans ;
+        let trans_find = (inpt_nav.dataset.trans != '') ? inpt_nav.dataset.trans : div_trans1.dataset.trans ;
         let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
         if(cbox7.checked &&
             btnStrong.classList.contains('btn_active') &&    
@@ -25211,7 +25197,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     
     //var inpt_nav = document.querySelector('#inpt_nav');
     
-    var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+    //var trans_base = div_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
 
@@ -25434,7 +25420,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
     let chapterNumber = arr_ref[2];
     let verseNumber = arr_ref[3];
 
-    let trans_base = document.querySelector('#trans1').dataset.trans;
+    //let trans_base = div_trans1.dataset.trans;
     
     let colsAll = document.querySelectorAll('.cols');
 
