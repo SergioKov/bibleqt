@@ -696,7 +696,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
 
     //si solo hay que construir una columna
     if(indexColToBuild != null){
-        let el = Array.from(wrCols.children)[indexColToBuild];//wrCols es constanta y está declarada al inicio
+        let el = Array.from(elem_wrCols.children)[indexColToBuild];//elem_wrCols es constanta y está declarada al inicio
 
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
@@ -710,8 +710,8 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
         //console.log('one col --- el_colsInner: ', el_colsInner);
 
     }else{//construir todas columnas
-        //wrCols es constanta y está declarada al inicio
-        Array.from(wrCols.children).forEach((el,i)=>{
+        //elem_wrCols es constanta y está declarada al inicio
+        Array.from(elem_wrCols.children).forEach((el,i)=>{
             let el_colsInner = el.querySelector('.colsInner');
             el_colsInner.innerHTML = '';
 
@@ -724,7 +724,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
             //console.log('all cols --- el_colsInner: ', el_colsInner);
         });
     }
-    //console.log('build. wrCols: ', wrCols);
+    //console.log('build. elem_wrCols: ', elem_wrCols);
 
     arrDataDivShow = [];//reset despues de build
 }
@@ -848,8 +848,8 @@ const addWordsToHistFind = (trans, words) => {
         'BibleShortName': esteTrans.BibleShortName, 
         'words': words,
         'params': {
-            'gde_val'  : gde.value, 
-            'limit_val': limit.value,
+            'gde_val'  : elem_gde.value, 
+            'limit_val': elem_limit.value,
             'cbox1_checked': cbox1.checked,
             'cbox2_checked': cbox2.checked,
             'cbox3_checked': cbox3.checked,
@@ -875,8 +875,8 @@ const addWordsToHistFind = (trans, words) => {
             inpt_nav.dataset.trans = el.trans;
             inpt_find.value = el.words;
 
-            gde.value = el.params.gde_val;
-            limit.value = el.params.limit_val;
+            elem_gde.value = el.params.gde_val;
+            elem_limit.value = el.params.limit_val;
             cbox1.checked = el.params.cbox1_checked;
             cbox2.checked = el.params.cbox2_checked;
             cbox3.checked = el.params.cbox3_checked;

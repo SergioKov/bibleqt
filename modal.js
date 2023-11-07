@@ -38,7 +38,6 @@ function openModal(param = null, htmlTrans = null) {
 
     if(param == 'top'){
         header_h4_text.innerHTML = 'Меню';
-        // modal.style.paddingTop = headerContainer.offsetHeight + 'px';
         modal.style.paddingTop = '0px';
         modalContent.classList.add('modalContentTop');
         bl_modalTop.style.display = 'block';
