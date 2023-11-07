@@ -668,15 +668,6 @@ function fnScrollCol(el,i){
 
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
-    //let arr = idVerse.split('/');
-    //let verseNumber = arr[2];
-
-    //padding-bottom to scroll the lastest verse
-    /*
-    document.querySelectorAll('.colsInner').forEach(el => {
-        el.lastChild.style.marginBottom = document.querySelector('#wrCols').offsetHeight + 'px';
-    });
-    */
     
     document.querySelectorAll('.active').forEach(el => {
         el.classList.remove('active');
@@ -9203,7 +9194,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                     //console.log(arrDataDivShow);
 
                                     //arr_data_all.forEach((el,i)=>{
-                                    //    //document.querySelector('#col1 .colsInner').append(el);
                                     //    //console.log(el);
                                     //    //divShow.append(el);//antes
                                     //});
@@ -10401,7 +10391,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                 arr_data_all = arr_data_head.concat(arr_data_body);
 
                                 arr_data_all.forEach((el,i)=>{
-                                    //document.querySelector('#col1 .colsInner').append(el);
                                     //console.log(el);
                                     divShow.append(el);
                                 });
@@ -12885,7 +12874,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                             //arr_data_all.forEach((el,i)=>{//antes
-                            //    //document.querySelector('#col1 .colsInner').append(el);
                             //    //console.log(el);
                             //    divShow.append(el);
                             //});
@@ -17126,7 +17114,7 @@ function closeTrans(el,event, param = null){
     //console.log(n);
     event.stopPropagation();
     
-    document.querySelector('#col'+n).remove();
+    document.getElementById('col'+n).remove();
 
     mySizeWindow();
     mySizeVerse();
@@ -17136,7 +17124,7 @@ function closeTrans(el,event, param = null){
 
 function getRefOfTab(tab_id, ref, str_trans = null){
     //alert(str_trans);
-    let this_tab = document.querySelector('#'+tab_id);
+    let this_tab = document.getElementById(tab_id);
     //console.log(this_tab);
     
     let tabsAll = document.querySelectorAll('.tabs');
