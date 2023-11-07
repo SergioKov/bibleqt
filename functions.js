@@ -9,8 +9,6 @@
 
 function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
     
-    let div_strong_head = document.querySelector('#strong_head');
-    let div_strong_body = document.querySelector('#strong_body');
     var numberInt, numberStrShow, strongFile;
 
     //si numero strong es clecked desde findWords y viene rojo... 
@@ -77,7 +75,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     //console.log('strongIndex: '+strongIndex);
                     //console.log('strongText: '+strongText);
             
-                    div_strong_body.innerHTML = '';//reset datos
+                    elem_strong_body.innerHTML = '';//reset datos
             
                     showTab(document.querySelector('#btn_strong'),'strong');  
                     
@@ -91,10 +89,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     let hist_strong_all = document.querySelectorAll('.hist_strong');
                     let ult_hist_strong = hist_strong_all[0];
                     if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                        div_strong_head.prepend(span_hist_strong);
+                        elem_strong_head.prepend(span_hist_strong);
                         //console.log('1 strongIndex');
                     }else if(ult_hist_strong.innerHTML != numberStrShow){
-                        div_strong_head.prepend(span_hist_strong);
+                        elem_strong_head.prepend(span_hist_strong);
                         //console.log('2 y mas strongIndex ...');
                     }else{
                         //console.log('no hago nada...');
@@ -280,46 +278,46 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             
                         if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                             inpt_find.value = numberStrShow;
-                            cbox1.checked = false;
-                            cbox2.checked = false;
-                            cbox3.checked = false;
-                            cbox4.checked = false;
-                            cbox5.checked = false;
-                            cbox6.checked = false;
-                            cbox7.checked = true;//si hace falta
+                            elem_cbox1.checked = false;
+                            elem_cbox2.checked = false;
+                            elem_cbox3.checked = false;
+                            elem_cbox4.checked = false;
+                            elem_cbox5.checked = false;
+                            elem_cbox6.checked = false;
+                            elem_cbox7.checked = true;//si hace falta
                             findWords(numberStrShow);//rstStrongRed - ok
                         }else{
                             inpt_find.value = numberStr;
                             if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                                cbox1.checked = false;
-                                cbox2.checked = false;
-                                cbox3.checked = false;
-                                cbox4.checked = false;
-                                cbox5.checked = false;
-                                cbox6.checked = false;
-                                cbox7.checked = true;//si hace falta
+                                elem_cbox1.checked = false;
+                                elem_cbox2.checked = false;
+                                elem_cbox3.checked = false;
+                                elem_cbox4.checked = false;
+                                elem_cbox5.checked = false;
+                                elem_cbox6.checked = false;
+                                elem_cbox7.checked = true;//si hace falta
                                 findWords(numberStr);
                             }else{//rstStrong (старый)
-                                cbox1.checked = false;
-                                cbox2.checked = false;
-                                cbox3.checked = false;
-                                cbox4.checked = true;//si hace falta
-                                cbox5.checked = false;
-                                cbox6.checked = false;    
-                                cbox7.checked = false;//si hace falta
+                                elem_cbox1.checked = false;
+                                elem_cbox2.checked = false;
+                                elem_cbox3.checked = false;
+                                elem_cbox4.checked = true;//si hace falta
+                                elem_cbox5.checked = false;
+                                elem_cbox6.checked = false;    
+                                elem_cbox7.checked = false;//si hace falta
                                 findWords(numberStr);//rstStrong
                             }
                         }
                         //findWords(strongIndex);//rstStrong - ok
                         //findWords(numberStr);
                     }
-                    div_strong_body.append(p_v);
+                    elem_strong_body.append(p_v);
             
                     const p = document.createElement('p');
                     p.append(span_num_strong);
                     p.append(span_text_strong);
             
-                    div_strong_body.append(p);
+                    elem_strong_body.append(p);
             
                     //Listener para Strong Heb
                     if(typeof new_strongText !== 'undefined' && new_strongText.includes('sn2_s')){
@@ -329,7 +327,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             });    
                         });
                     }
-                    mySizeStrong();//altura de div_strong_body despues de meter div_strong_head
+                    mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
                 })
                 .catch(error => { 
                     // Código a realizar cuando se rechaza la promesa
@@ -365,7 +363,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             //console.log('strongIndex: '+strongIndex);
             //console.log('strongText: '+strongText);
     
-            div_strong_body.innerHTML = '';//reset datos
+            elem_strong_body.innerHTML = '';//reset datos
     
             showTab(document.querySelector('#btn_strong'),'strong');  
             
@@ -379,10 +377,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             let hist_strong_all = document.querySelectorAll('.hist_strong');
             let ult_hist_strong = hist_strong_all[0];
             if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                div_strong_head.prepend(span_hist_strong);
+                elem_strong_head.prepend(span_hist_strong);
                 //console.log('1 strongIndex');
             }else if(ult_hist_strong.innerHTML != numberStrShow){
-                div_strong_head.prepend(span_hist_strong);
+                elem_strong_head.prepend(span_hist_strong);
                 //console.log('2 y mas strongIndex ...');
             }else{
                 //console.log('no hago nada...');
@@ -568,46 +566,46 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 
                 if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                     inpt_find.value = numberStrShow;
-                    cbox1.checked = false;
-                    cbox2.checked = false;
-                    cbox3.checked = false;
-                    cbox4.checked = false;
-                    cbox5.checked = false;
-                    cbox6.checked = false;
-                    cbox7.checked = true;//si hace falta
+                    elem_cbox1.checked = false;
+                    elem_cbox2.checked = false;
+                    elem_cbox3.checked = false;
+                    elem_cbox4.checked = false;
+                    elem_cbox5.checked = false;
+                    elem_cbox6.checked = false;
+                    elem_cbox7.checked = true;//si hace falta
                     findWords(numberStrShow);//rstStrongRed - ok
                 }else{
                     inpt_find.value = numberStr;
                     if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                        cbox1.checked = false;
-                        cbox2.checked = false;
-                        cbox3.checked = false;
-                        cbox4.checked = false;
-                        cbox5.checked = false;
-                        cbox6.checked = false;
-                        cbox7.checked = true;//si hace falta
+                        elem_cbox1.checked = false;
+                        elem_cbox2.checked = false;
+                        elem_cbox3.checked = false;
+                        elem_cbox4.checked = false;
+                        elem_cbox5.checked = false;
+                        elem_cbox6.checked = false;
+                        elem_cbox7.checked = true;//si hace falta
                         findWords(numberStr);
                     }else{//rstStrong (старый)
-                        cbox1.checked = false;
-                        cbox2.checked = false;
-                        cbox3.checked = false;
-                        cbox4.checked = true;//si hace falta
-                        cbox5.checked = false;
-                        cbox6.checked = false;    
-                        cbox7.checked = false;//si hace falta
+                        elem_cbox1.checked = false;
+                        elem_cbox2.checked = false;
+                        elem_cbox3.checked = false;
+                        elem_cbox4.checked = true;//si hace falta
+                        elem_cbox5.checked = false;
+                        elem_cbox6.checked = false;    
+                        elem_cbox7.checked = false;//si hace falta
                         findWords(numberStr);//rstStrong
                     }
                 }
                 //findWords(strongIndex);//rstStrong - ok
                 //findWords(numberStr);
             }
-            div_strong_body.append(p_v);
+            elem_strong_body.append(p_v);
     
             const p = document.createElement('p');
             p.append(span_num_strong);
             p.append(span_text_strong);
     
-            div_strong_body.append(p);
+            elem_strong_body.append(p);
     
             //Listener para Strong Heb
             if(typeof new_strongText !== 'undefined' && new_strongText.includes('sn2_s')){
@@ -617,7 +615,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     });    
                 });
             }
-            mySizeStrong();//altura de div_strong_body despues de meter div_strong_head
+            mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
@@ -649,7 +647,7 @@ function showHideDvor(){
 
 const buildVersesTsk = (arr_tsk_p, Translation) => {
     const count_tsk = document.getElementById('count_tsk');
-    tsk_body.innerHTML = '';//reset 
+    elem_tsk_body.innerHTML = '';//reset 
     //console.log(arr_tsk_p);
     arr_tsk_p_filtered = arr_tsk_p.filter(elm => elm);
 
@@ -658,14 +656,14 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
     arr_tsk_p_filtered.forEach(el=>{
         //console.log('build tsk. abajo el: ');
         //console.log(el);
-        tsk_body.append(el);
+        elem_tsk_body.append(el);
     });
-    tsk_body.scrollTop = 0;
+    elem_tsk_body.scrollTop = 0;
 
     //Después de formar todos los links de tsk añado listener on click//No funciona correctamente!
     
-    tsk_body.removeEventListener('click', handlerListenTsk);
-    tsk_body.addEventListener('click', handlerListenTsk);
+    elem_tsk_body.removeEventListener('click', handlerListenTsk);
+    elem_tsk_body.addEventListener('click', handlerListenTsk);
     
 
     if(count_tsk === null){
@@ -850,13 +848,13 @@ const addWordsToHistFind = (trans, words) => {
         'params': {
             'gde_val'  : elem_gde.value, 
             'limit_val': elem_limit.value,
-            'cbox1_checked': cbox1.checked,
-            'cbox2_checked': cbox2.checked,
-            'cbox3_checked': cbox3.checked,
-            'cbox4_checked': cbox4.checked,
-            'cbox5_checked': cbox5.checked,
-            'cbox6_checked': cbox6.checked,
-            'cbox7_checked': cbox7.checked             
+            'cbox1_checked': elem_cbox1.checked,
+            'cbox2_checked': elem_cbox2.checked,
+            'cbox3_checked': elem_cbox3.checked,
+            'cbox4_checked': elem_cbox4.checked,
+            'cbox5_checked': elem_cbox5.checked,
+            'cbox6_checked': elem_cbox6.checked,
+            'cbox7_checked': elem_cbox7.checked             
         },
         'fecha': fechaFormateada, 
         'hora': horaActual
@@ -877,13 +875,13 @@ const addWordsToHistFind = (trans, words) => {
 
             elem_gde.value = el.params.gde_val;
             elem_limit.value = el.params.limit_val;
-            cbox1.checked = el.params.cbox1_checked;
-            cbox2.checked = el.params.cbox2_checked;
-            cbox3.checked = el.params.cbox3_checked;
-            cbox4.checked = el.params.cbox4_checked;
-            cbox5.checked = el.params.cbox5_checked;
-            cbox6.checked = el.params.cbox6_checked;
-            cbox7.checked = el.params.cbox7_checked;
+            elem_cbox1.checked = el.params.cbox1_checked;
+            elem_cbox2.checked = el.params.cbox2_checked;
+            elem_cbox3.checked = el.params.cbox3_checked;
+            elem_cbox4.checked = el.params.cbox4_checked;
+            elem_cbox5.checked = el.params.cbox5_checked;
+            elem_cbox6.checked = el.params.cbox6_checked;
+            elem_cbox7.checked = el.params.cbox7_checked;
             
             //console.log('llamo findWords()');
             //findWords(el.words);

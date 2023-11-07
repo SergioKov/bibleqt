@@ -42,29 +42,35 @@ const elem_v_chapter = document.getElementById('v_chapter');
 const elem_v_verse = document.getElementById('v_verse');
 
 const elem_wr_find_head = document.getElementById('wr_find_head');
+const elem_find_head = document.getElementById('find_head'); 
+const elem_find_result = document.getElementById('find_result'); 
 const elem_find_body = document.getElementById('find_body');
 
 const elem_gde = document.getElementById('gde');//select donde buscar
 const elem_limit = document.getElementById('limit');//cuantos resultados de búsqueda mostrar en una página
-const cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
-const cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
-const cbox3 = document.getElementById('cbox3');//3. искать точную фразу
-const cbox4 = document.getElementById('cbox4');//4. выражения не могут быть частями слов
-const cbox5 = document.getElementById('cbox5');//5. различать прописные и Заглавные буквы
-const cbox6 = document.getElementById('cbox6');//6. различать буквы с ударениями (если есть)
-const cbox7 = document.getElementById('cbox7');//7. Номер Стронга (если есть)
+const elem_cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
+const elem_cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
+const elem_cbox3 = document.getElementById('cbox3');//3. искать точную фразу
+const elem_cbox4 = document.getElementById('cbox4');//4. выражения не могут быть частями слов
+const elem_cbox5 = document.getElementById('cbox5');//5. различать прописные и Заглавные буквы
+const elem_cbox6 = document.getElementById('cbox6');//6. различать буквы с ударениями (если есть)
+const elem_cbox7 = document.getElementById('cbox7');//7. Номер Стронга (если есть)
 
-const tsk_head = document.getElementById('tsk_head');
-const tsk_body = document.getElementById('tsk_body');
+const elem_tsk_head = document.getElementById('tsk_head');
+const elem_tsk_body = document.getElementById('tsk_body');
 
 //botones
-const btn_tsk = document.getElementById('btn_tsk');
-const btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
-const btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
-const btn_ok = document.getElementById('btn_ok');
+const elem_btn_tsk = document.getElementById('btn_tsk');
+const elem_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
+const elem_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
+const elem_btn_ok = document.getElementById('btn_ok');
 
-const wr_strong_head = document.getElementById('wr_strong_head');
-const strong_body = document.getElementById('strong_body');
+const elem_btnStrong = document.getElementById('btnStrong');
+const elem_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
+
+const elem_wr_strong_head = document.getElementById('wr_strong_head');
+const elem_strong_head = document.getElementById('strong_head');
+const elem_strong_body = document.getElementById('strong_body');
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
@@ -79,8 +85,6 @@ const pantallaDesktopSmallMinPx = 1024;
 //const pantallaDesktopSmallMaxPx = 1999;
 //const pantallaDesktopBigMinPx = 1200;
 
-const btnStrong = document.getElementById('btnStrong');
-const m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
 
 const obj_ep = {
     //ruso
@@ -810,12 +814,12 @@ function showHideStrongNumbers(){
 
         if(strongAll[0].classList.contains('show')){
             strongAction = 'hide';
-            btnStrong.classList.remove('btn_active');
-            m_btnStrong.classList.remove('btn_active');
+            elem_btnStrong.classList.remove('btn_active');
+            elem_m_btnStrong.classList.remove('btn_active');
         }else{
             strongAction = 'show';
-            btnStrong.classList.add('btn_active');
-            m_btnStrong.classList.add('btn_active');
+            elem_btnStrong.classList.add('btn_active');
+            elem_m_btnStrong.classList.add('btn_active');
         }
 
         strongAll.forEach(el=>{
@@ -1056,8 +1060,8 @@ function getTsk(e){
                             //console.log('tb_arr_links: ');
                             //console.log(tb_arr_links);
                 
-                            tsk_head.innerHTML = '';//reset datos
-                            tsk_body.innerHTML = '';//reset datos
+                            elem_tsk_head.innerHTML = '';//reset datos
+                            elem_tsk_body.innerHTML = '';//reset datos
                 
                             //Siempre muestro el verse clickeado en tsk
                             const span_sm_trans = document.createElement('span');
@@ -1081,11 +1085,11 @@ function getTsk(e){
                                 goToLink(Translation, p.querySelector('a').innerHTML);
                             });
                 
-                            tsk_head.append(span_sm_trans);
-                            tsk_head.append(p);
-                            tsk_head.scrollTop = 0;
+                            elem_tsk_head.append(span_sm_trans);
+                            elem_tsk_head.append(p);
+                            elem_tsk_head.scrollTop = 0;
                             
-                            mySizeTsk();//altura de tsk_body despues de meter tsk_head
+                            mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
                             
                             //Muestro loader tres puntos (...)
                             const d_loader = document.createElement('div');
@@ -1093,7 +1097,7 @@ function getTsk(e){
                             d_loader.innerHTML = `<span class="loader__element"></span>
                                                   <span class="loader__element"></span>
                                                   <span class="loader__element"></span>`;
-                            tsk_body.append(d_loader);
+                            elem_tsk_body.append(d_loader);
                 
                             arr_tsk_p = [];//por si acaso
                 
@@ -1728,22 +1732,22 @@ function getTsk(e){
                                 });//fin forEach de tb_arr_links
                 
                             }else{//no hay links
-                                tsk_body.innerHTML = '';//reset
+                                elem_tsk_body.innerHTML = '';//reset
                                 const p = document.createElement('p');
                                 p.className = 'tsk tsk_nolink';
                                 p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                                 //console.log(p);
-                                tsk_body.append(p);
+                                elem_tsk_body.append(p);
                             }
                 
                             //Abro Sidebar pata mostrar TSK
-                            showTab(btn_tsk,'tsk');//Se abre tab TSK
+                            showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
                             if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                                 openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                             }else{//si es desktop o tablet
                                 //comprebo si está oculto elem_sidebar
                                 if(elem_sidebar.style.display == 'none'){
-                                    btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                                    elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
                                 }
                             }
                 
@@ -1797,8 +1801,8 @@ function getTsk(e){
                 //console.log('tb_arr_links: ');
                 //console.log(tb_arr_links);
     
-                tsk_head.innerHTML = '';//reset datos
-                tsk_body.innerHTML = '';//reset datos
+                elem_tsk_head.innerHTML = '';//reset datos
+                elem_tsk_body.innerHTML = '';//reset datos
     
                 //Siempre muestro el verse clickeado en tsk
                 const span_sm_trans = document.createElement('span');
@@ -1822,11 +1826,11 @@ function getTsk(e){
                     goToLink(Translation, p.querySelector('a').innerHTML);
                 });
     
-                tsk_head.append(span_sm_trans);
-                tsk_head.append(p);
-                tsk_head.scrollTop = 0;
+                elem_tsk_head.append(span_sm_trans);
+                elem_tsk_head.append(p);
+                elem_tsk_head.scrollTop = 0;
                 
-                mySizeTsk();//altura de tsk_body despues de meter tsk_head
+                mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
                 
                 //Muestro loader tres puntos (...)
                 const d_loader = document.createElement('div');
@@ -1834,7 +1838,7 @@ function getTsk(e){
                 d_loader.innerHTML = `<span class="loader__element"></span>
                                       <span class="loader__element"></span>
                                       <span class="loader__element"></span>`;
-                tsk_body.append(d_loader);
+                elem_tsk_body.append(d_loader);
     
                 arr_tsk_p = [];//por si acaso
     
@@ -2763,22 +2767,22 @@ function getTsk(e){
                     });//fin forEach de tb_arr_links
     
                 }else{//no hay links
-                    tsk_body.innerHTML = '';//reset
+                    elem_tsk_body.innerHTML = '';//reset
                     const p = document.createElement('p');
                     p.className = 'tsk tsk_nolink';
                     p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                     //console.log(p);
-                    tsk_body.append(p);
+                    elem_tsk_body.append(p);
                 }
     
                 //Abro Sidebar pata mostrar TSK
-                showTab(btn_tsk,'tsk');//Se abre tab TSK
+                showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
                 if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                     openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                 }else{//si es desktop o tablet
                     //comprebo si está oculto elem_sidebar
                     if(elem_sidebar.style.display == 'none'){
-                        btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                        elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
                     }
                 }
     
@@ -2826,8 +2830,8 @@ function getTsk(e){
                     //console.log('tb_arr_links: ');
                     //console.log(tb_arr_links);
     
-                    tsk_head.innerHTML = '';//reset datos
-                    tsk_body.innerHTML = '';//reset datos
+                    elem_tsk_head.innerHTML = '';//reset datos
+                    elem_tsk_body.innerHTML = '';//reset datos
     
                     //Siempre muestro el verse clickeado en tsk
                     const span_sm_trans = document.createElement('span');
@@ -2852,11 +2856,11 @@ function getTsk(e){
                         goToLink(Translation, p.querySelector('a').innerHTML);
                     });
     
-                    tsk_head.append(span_sm_trans);
-                    tsk_head.append(p);
-                    tsk_head.scrollTop = 0;
+                    elem_tsk_head.append(span_sm_trans);
+                    elem_tsk_head.append(p);
+                    elem_tsk_head.scrollTop = 0;
                     
-                    mySizeTsk();//altura de tsk_body despues de meter tsk_head
+                    mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
                     
                     //Muestro loader tres puntos (...)
                     const d_loader = document.createElement('div');
@@ -2864,7 +2868,7 @@ function getTsk(e){
                     d_loader.innerHTML = `<span class="loader__element"></span>
                                         <span class="loader__element"></span>
                                         <span class="loader__element"></span>`;
-                    tsk_body.append(d_loader);
+                    elem_tsk_body.append(d_loader);
     
                     arr_tsk_p = [];//por si acaso
     
@@ -3233,22 +3237,22 @@ function getTsk(e){
                         });//fin forEach de tb_arr_links
     
                     }else{//no hay links
-                        tsk_body.innerHTML = '';//reset
+                        elem_tsk_body.innerHTML = '';//reset
                         const p = document.createElement('p');
                         p.className = 'tsk tsk_nolink';
                         p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                         //console.log(p);
-                        tsk_body.append(p);
+                        elem_tsk_body.append(p);
                     }
     
                     //Abro Sidebar pata mostrar TSK
-                    showTab(btn_tsk,'tsk');//Se abre tab TSK
+                    showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
                     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                     }else{//si es desktop o tablet
                         //comprebo si está oculto elem_sidebar
                         if(elem_sidebar.style.display == 'none'){
-                            btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                            elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
                         }
                     }
     
@@ -3280,7 +3284,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
     divShow.innerHTML = '';
 
     var btnStrongIsActive = false;
-    if(btnStrong.classList.contains('btn_active')){
+    if(elem_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -4518,7 +4522,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
     console.log('1. lo reseteo en buildDivShow');
 
     var btnStrongIsActive = false;
-    if(btnStrong.classList.contains('btn_active')){
+    if(elem_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -10577,7 +10581,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     }    
 
     var btnStrongIsActive = false;
-    if(btnStrong.classList.contains('btn_active')){
+    if(elem_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -14262,7 +14266,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
     }    
 
     var btnStrongIsActive = false;
-    if(btnStrong.classList.contains('btn_active')){
+    if(elem_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -16537,7 +16541,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //si es mobile, pongo 'row'
     if (window.innerWidth < pantallaTabletMinPx) {
         positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
-        changePositionShow(btn_changePositionShowModal);
+        changePositionShow(elem_btn_changePositionShowModal);
     }
 
     let arr_error_compare = [];
@@ -16790,7 +16794,7 @@ function mySizeTsk(){
     let sidebar_h = elem_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
     let menuTabs_h = elem_menuTabs.offsetHeight;
-    let tsk_head_h = tsk_head.offsetHeight;
+    let tsk_head_h = elem_tsk_head.offsetHeight;
 
     let tsk_body_h = 
       sidebar_h
@@ -16800,7 +16804,7 @@ function mySizeTsk(){
     - padding_tsk_body
     ;
     elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    tsk_body.style.height = tsk_body_h + 'px';
+    elem_tsk_body.style.height = tsk_body_h + 'px';
     //console.log('tsk_body_h: '+tsk_body_h);
 }
 
@@ -16813,12 +16817,12 @@ function mySizeStrong(){
     let sidebar_h = elem_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
     let menuTabs_h = elem_menuTabs.offsetHeight;
-    let wr_strong_head_h = wr_strong_head.offsetHeight;
+    let wr_strong_head_h = elem_wr_strong_head.offsetHeight;
 
     //si hay una card con el numero strong dentro
     let hasStrongCard = false;    
-    for (let i = 0; i < strong_body.children.length; i++) {
-        const childElement = strong_body.children[i];
+    for (let i = 0; i < elem_strong_body.children.length; i++) {
+        const childElement = elem_strong_body.children[i];
 
         if(childElement.classList.contains('p_v')) {
             hasStrongCard = true;
@@ -16838,7 +16842,7 @@ function mySizeStrong(){
     - padding_StrongCard //2px de border
     ;
     elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    strong_body.style.height = strong_body_h + 'px';
+    elem_strong_body.style.height = strong_body_h + 'px';
     //console.log('strong_body_h: '+strong_body_h);    
 }
 
@@ -17183,7 +17187,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
     });
 
     //ejecuto click sobre el boton ok en elem_inpt_nav para que se muestren botones de verses
-    btn_ok.click();
+    elem_btn_ok.click();
     setTimeout(()=>{
         elem_s_verse.click();
     },100);
@@ -17614,7 +17618,6 @@ function selVerse(e){
     });
     e.srcElement.classList.add('li_active');//añado bg red al li boton del verse '2'
 
-    //document.querySelector('#btn_ok').click();
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
 
     addRefToHistNav(elem_inpt_nav.dataset.trans, elem_inpt_nav.value, elem_inpt_nav.dataset.id_book, elem_inpt_nav.dataset.show_chapter, elem_inpt_nav.dataset.show_verse, to_verse);
@@ -19667,7 +19670,7 @@ function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecate
     switch (e.keyCode) {
         case 13:// tecla "Enter"
             if(document.querySelector('#btn_nav').classList.contains('btn_active')){
-                var thisBtn = document.querySelector('#btn_ok')
+                var thisBtn = elem_btn_ok;
                 thisBtn.click();
                 thisBtn.classList.add('btn_ok_active');
                 setTimeout(() => {thisBtn.classList.remove('btn_ok_active')},100);
@@ -19855,7 +19858,7 @@ function selectTab(){//Vkladki
         p.onclick = function(){
             if(window.innerWidth < pantallaTabletMinPx){
                 positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
-                document.querySelector('#btn_changePositionShowModal').click();               
+                elem_btn_changePositionShowModal.click();               
             }
             if(typeof arrTabs[i] != 'undefined'){
                 //simulo click sobre vkladka correspondiente
@@ -20385,8 +20388,6 @@ function goToLink(trans, refLink){
     //console.log('llamo getRef()...');
     getRef(trans);
 
-    //document.querySelector('#btn_ok').click();   
-
     /*
     let link = e.getAttribute('data2').split('__');
     let trans = link[0];
@@ -20879,8 +20880,6 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 
 function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
     
-    let div_strong_head = document.querySelector('#strong_head');
-    let div_strong_body = document.querySelector('#strong_body');
     var numberInt, numberStrShow, strongFile;
 
     //si numero strong es clecked desde findWords y viene rojo... 
@@ -20927,11 +20926,11 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         //console.log('strongIndex: '+strongIndex);
         //console.log('strongText: '+strongText);
 
-        //strong_head.innerHTML = strongIndex;
-        //strong_body.innerHTML = strongText;
+        //elem_strong_head.innerHTML = strongIndex;
+        //elem_strong_body.innerHTML = strongText;
 
-        //div_strong_head.innerHTML = '';//reset datos
-        div_strong_body.innerHTML = '';//reset datos
+        //elem_strong_head.innerHTML = '';//reset datos
+        elem_strong_body.innerHTML = '';//reset datos
 
         showTab(document.querySelector('#btn_strong'),'strong');  
         
@@ -20945,10 +20944,10 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         let hist_strong_all = document.querySelectorAll('.hist_strong');
         let ult_hist_strong = hist_strong_all[0];
         if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-            div_strong_head.prepend(span_hist_strong);
+            elem_strong_head.prepend(span_hist_strong);
             //console.log('1 strongIndex');
         }else if(ult_hist_strong.innerHTML != numberStrShow){
-            div_strong_head.prepend(span_hist_strong);
+            elem_strong_head.prepend(span_hist_strong);
             //console.log('2 y mas strongIndex ...');
         }else{
             //console.log('no hago nada...');
@@ -20991,46 +20990,46 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
             
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
                 inpt_find.value = numberStrShow;
-                cbox1.checked = false;
-                cbox2.checked = false;
-                cbox3.checked = false;
-                cbox4.checked = false;
-                cbox5.checked = false;
-                cbox6.checked = false;
-                cbox7.checked = true;//si hace falta
+                elem_cbox1.checked = false;
+                elem_cbox2.checked = false;
+                elem_cbox3.checked = false;
+                elem_cbox4.checked = false;
+                elem_cbox5.checked = false;
+                elem_cbox6.checked = false;
+                elem_cbox7.checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
                 inpt_find.value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                    cbox1.checked = false;
-                    cbox2.checked = false;
-                    cbox3.checked = false;
-                    cbox4.checked = false;
-                    cbox5.checked = false;
-                    cbox6.checked = false;
-                    cbox7.checked = true;//si hace falta
+                    elem_cbox1.checked = false;
+                    elem_cbox2.checked = false;
+                    elem_cbox3.checked = false;
+                    elem_cbox4.checked = false;
+                    elem_cbox5.checked = false;
+                    elem_cbox6.checked = false;
+                    elem_cbox7.checked = true;//si hace falta
                     findWords(numberStr);
                 }else{//rstStrong (старый)
-                    cbox1.checked = false;
-                    cbox2.checked = false;
-                    cbox3.checked = false;
-                    cbox4.checked = true;//si hace falta
-                    cbox5.checked = false;
-                    cbox6.checked = false;    
-                    cbox7.checked = false;//si hace falta
+                    elem_cbox1.checked = false;
+                    elem_cbox2.checked = false;
+                    elem_cbox3.checked = false;
+                    elem_cbox4.checked = true;//si hace falta
+                    elem_cbox5.checked = false;
+                    elem_cbox6.checked = false;    
+                    elem_cbox7.checked = false;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
             }
             //findWords(strongIndex);//rstStrong - ok
             //findWords(numberStr);
         }
-        div_strong_body.append(p_v);
+        elem_strong_body.append(p_v);
 
         const p = document.createElement('p');
         p.append(span_num_strong);
         p.append(span_text_strong);
 
-        div_strong_body.append(p);
+        elem_strong_body.append(p);
 
         //Listener para Strong Heb
         if(typeof new_strongText !== 'undefined' && new_strongText.includes('sp_strong Heb')){
@@ -21048,7 +21047,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
                 });    
             });
         }
-        mySizeStrong();//altura de div_strong_body despues de meter div_strong_head
+        mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
@@ -21070,47 +21069,39 @@ function cboxChange(e){
     //console.log('=== function cboxChange() ===');
     //console.log('e.id: '+e.id);
     
-    //var cbox1 = document.querySelector('#cbox1');//1. Искомое содержит хотя бы одно слово
-    //var cbox2 = document.querySelector('#cbox2');//2. Cлова идут в заданном порядке
-    //var cbox3 = document.querySelector('#cbox3');//3. Искать точную фразу
-    //var cbox4 = document.querySelector('#cbox4');//4. Выражения не могут быть частями слов
-    //var cbox5 = document.querySelector('#cbox5');//5. Различать прописные и заглавные буквы
-    //var cbox6 = document.querySelector('#cbox6');//6. Различать буквы с ударениями (если есть)
-    //var cbox7 = document.querySelector('#cbox7');//7. Искать только номер Стронга (если есть) *
-
     if(e.id == 'cbox1'){
-        if(cbox1.checked){
-            cbox2.checked = false;
-            cbox3.checked = false;
+        if(elem_cbox1.checked){
+            elem_cbox2.checked = false;
+            elem_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox2'){
-        if(cbox2.checked){
-            cbox1.checked = false;
-            cbox3.checked = false;
+        if(elem_cbox2.checked){
+            elem_cbox1.checked = false;
+            elem_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox3'){
-        if(cbox3.checked){
-            cbox1.checked = false;
-            cbox2.checked = false;
-            cbox4.checked = false;
-            cbox5.checked = false;
+        if(elem_cbox3.checked){
+            elem_cbox1.checked = false;
+            elem_cbox2.checked = false;
+            elem_cbox4.checked = false;
+            elem_cbox5.checked = false;
         }
     }
     if(e.id == 'cbox4'){
-        if(cbox3.checked){
-            cbox3.checked = false;
+        if(elem_cbox3.checked){
+            elem_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox7'){        
-        if(cbox7.checked){
-            cbox1.checked = false;
-            cbox2.checked = false;
-            cbox3.checked = false;
-            cbox4.checked = false;
-            cbox5.checked = false;
-            cbox6.checked = false;
+        if(elem_cbox7.checked){
+            elem_cbox1.checked = false;
+            elem_cbox2.checked = false;
+            elem_cbox3.checked = false;
+            elem_cbox4.checked = false;
+            elem_cbox5.checked = false;
+            elem_cbox6.checked = false;
         }
     }
 }
@@ -21198,13 +21189,13 @@ function findWords(words_input){
     btn_ok_stop.classList.add('d-block');
     window.doFind = true;
 
-    //console.log('cbox1.checked: '+cbox1.checked);
-    //console.log('cbox2.checked: '+cbox2.checked);
-    //console.log('cbox3.checked: '+cbox3.checked);
-    //console.log('cbox4.checked: '+cbox4.checked);
-    //console.log('cbox5.checked: '+cbox5.checked);
-    //console.log('cbox6.checked: '+cbox6.checked);
-    //console.log('cbox7.checked: '+cbox7.checked);
+    //console.log('elem_cbox1.checked: '+elem_cbox1.checked);
+    //console.log('elem_cbox2.checked: '+elem_cbox2.checked);
+    //console.log('elem_cbox3.checked: '+elem_cbox3.checked);
+    //console.log('elem_cbox4.checked: '+elem_cbox4.checked);
+    //console.log('elem_cbox5.checked: '+elem_cbox5.checked);
+    //console.log('elem_cbox6.checked: '+elem_cbox6.checked);
+    //console.log('elem_cbox7.checked: '+elem_cbox7.checked);
 
     let limit_val = (elem_limit.value != '*') ? parseInt(elem_limit.value) : '*' ;
     var book_start = null;
@@ -21283,10 +21274,8 @@ function findWords(words_input){
         book_end = book_one;
     }
 
-    var div_find_head = document.querySelector('#find_head'); 
-    var div_find_result = document.querySelector('#find_result'); 
 
-    div_find_result.innerHTML = '';//reset
+    elem_find_result.innerHTML = '';//reset
     elem_find_body.innerHTML = '';//reset
     window.res_show = '';//reset
      
@@ -21322,15 +21311,15 @@ function findWords(words_input){
     //Слова: 'Иисус Христос' но не 'Иисус МЕССИЯ Христос') //ok
     //4. выражения не могут быть частями слов
     //Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'.
-    var no_part_word = (cbox4.checked) ? 'Y' : 'N' ;  
+    var no_part_word = (elem_cbox4.checked) ? 'Y' : 'N' ;  
     //5. различать прописные и ЗАГЛАВНЫЕ буквы //ok
     //Пример: различать при поиске слова 'БОГ' и 'бог'.
-    var case_sens = (cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
+    var case_sens = (elem_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
     //6. различать буквы с ударениями (если есть)
     //Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю).
-    var accent_match = (cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
+    var accent_match = (elem_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
     //7. Номер Стронга StrongNumber
-    if(cbox7.checked){
+    if(elem_cbox7.checked){
         var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
     }else{//por defecto se busca solo en el texto sin buscar en los tags
         //buscar solo en text o tambien en los tags de strong
@@ -21341,9 +21330,9 @@ function findWords(words_input){
 
 
     let Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.getAttribute('data-trans');
-    //var btnStrong = document.querySelector('#btnStrong');
+
     var btnStrongIsActive = false;
-    if(btnStrong.classList.contains('btn_active')){
+    if(elem_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -21357,18 +21346,18 @@ function findWords(words_input){
         f_book.className = 'f_book';
         // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
         f_book.innerHTML = `<span class="book_name"></span>`;
-        div_find_head.append(f_book);
+        elem_find_head.append(f_book);
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
         //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
         p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
-        div_find_head.append(p_i);
+        elem_find_head.append(p_i);
     }
 
     let trans_find_obj = arrFavTransObj.find(v => v.Translation === Translation);
-    if(cbox7.checked && 
-        btnStrong.classList.contains('btn_active') && 
+    if(elem_cbox7.checked && 
+        elem_btnStrong.classList.contains('btn_active') && 
         typeof trans_find_obj.StrongNumbers !== 'undefined' && 
         trans_find_obj.StrongNumbers == 'Y' &&
         trans_find_obj.StrongNumberTagStart == '<S>' &&
@@ -21382,7 +21371,7 @@ function findWords(words_input){
                                         <button id="btn_all_s" class="btn" onclick="showAllStrongNumber_2Actions()">All S#</button>
                                     </span>
                                     `;
-        div_find_head.append(wr_strong_btns);
+        elem_find_head.append(wr_strong_btns);
     }else{
         //si están botones finded_s y all_s en la trans sin strong lo quito
         if(document.querySelector('.wr_strong_btns') != null){
@@ -21536,7 +21525,7 @@ function findWords(words_input){
                                                             //=======================================================================//  
                                                             //0. por defecto - nada marcado //ok
                                                             //=======================================================================//  
-                                                            if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
+                                                            if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
                                                                 let arr_matches = [];  
                                                                 //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                                 arr_words.forEach(w => {
@@ -21666,7 +21655,7 @@ function findWords(words_input){
                                                             //=======================================================================//                                    
                                                             //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                             //=======================================================================//
-                                                            if(cbox1.checked){
+                                                            if(elem_cbox1.checked){
                                                                 let arr_matches = [];
                                                                 if(no_part_word == 'Y'){
                                                                     arr_words.forEach(w => {
@@ -21763,7 +21752,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //2. - //cлова идут в заданном порядке //ok
                                                             //=======================================================================//
-                                                            if(cbox2.checked){
+                                                            if(elem_cbox2.checked){
                                                                 //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                                 let arr_matches = [];
                                                                 let arr_matches_w = [];//matches en words
@@ -22029,7 +22018,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                             //=======================================================================//
-                                                            if(cbox3.checked){
+                                                            if(elem_cbox3.checked){
                                                                 var words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                                 var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -22082,7 +22071,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                             //=======================================================================//
-                                                            if(cbox7.checked){
+                                                            if(elem_cbox7.checked){
                                                                 var words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                                 var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -22489,7 +22478,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
+                                                if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -22619,7 +22608,7 @@ function findWords(words_input){
                                                 //=======================================================================//                                    
                                                 //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                 //=======================================================================//
-                                                if(cbox1.checked){
+                                                if(elem_cbox1.checked){
                                                     let arr_matches = [];
                                                     if(no_part_word == 'Y'){
                                                         arr_words.forEach(w => {
@@ -22716,7 +22705,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //2. - //cлова идут в заданном порядке //ok
                                                 //=======================================================================//
-                                                if(cbox2.checked){
+                                                if(elem_cbox2.checked){
                                                     //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                     let arr_matches = [];
                                                     let arr_matches_w = [];//matches en words
@@ -22983,7 +22972,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-                                                if(cbox3.checked){
+                                                if(elem_cbox3.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -23037,7 +23026,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
-                                                if(cbox7.checked){
+                                                if(elem_cbox7.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -23456,7 +23445,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!cbox1.checked && !cbox2.checked && !cbox3.checked && !cbox7.checked){
+                                                if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -23586,7 +23575,7 @@ function findWords(words_input){
                                                 //=======================================================================//                                    
                                                 //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                 //=======================================================================//
-                                                if(cbox1.checked){
+                                                if(elem_cbox1.checked){
                                                     let arr_matches = [];
                                                     if(no_part_word == 'Y'){
                                                         arr_words.forEach(w => {
@@ -23683,7 +23672,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //2. - //cлова идут в заданном порядке //ok
                                                 //=======================================================================//
-                                                if(cbox2.checked){
+                                                if(elem_cbox2.checked){
                                                     //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                     let arr_matches = [];
                                                     let arr_matches_w = [];//matches en words
@@ -23949,7 +23938,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-                                                if(cbox3.checked){
+                                                if(elem_cbox3.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -24002,7 +23991,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
-                                                if(cbox7.checked){
+                                                if(elem_cbox7.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -24378,8 +24367,8 @@ function mostrar_res_show(index){
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
         let trans_find = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans ;
         let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
-        if(cbox7.checked &&
-            btnStrong.classList.contains('btn_active') &&    
+        if(elem_cbox7.checked &&
+            elem_btnStrong.classList.contains('btn_active') &&    
             typeof trans_find_obj.StrongNumbers !== 'undefined' && 
             trans_find_obj.StrongNumbers == 'Y' && 
             trans_find_obj.StrongNumberTagStart == '<S>' && 
