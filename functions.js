@@ -75,9 +75,9 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     //console.log('strongIndex: '+strongIndex);
                     //console.log('strongText: '+strongText);
             
-                    elem_strong_body.innerHTML = '';//reset datos
+                    eid_strong_body.innerHTML = '';//reset datos
             
-                    showTab(elem_btn_strong,'strong');  
+                    showTab(eid_btn_strong,'strong');  
                     
                     const span_hist_strong = document.createElement('span');
                     span_hist_strong.className = 'hist_strong';
@@ -89,10 +89,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     let hist_strong_all = document.querySelectorAll('.hist_strong');
                     let ult_hist_strong = hist_strong_all[0];
                     if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                        elem_strong_head.prepend(span_hist_strong);
+                        eid_strong_head.prepend(span_hist_strong);
                         //console.log('1 strongIndex');
                     }else if(ult_hist_strong.innerHTML != numberStrShow){
-                        elem_strong_head.prepend(span_hist_strong);
+                        eid_strong_head.prepend(span_hist_strong);
                         //console.log('2 y mas strongIndex ...');
                     }else{
                         //console.log('no hago nada...');
@@ -111,7 +111,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     //console.log('abajo arr_w: ');
                     //console.log(arr_w);
             
-                    arr_w = arr_w.filter(elm => elm);
+                    arr_w = arr_w.filter(elem => elem);
             
                     arr_w.forEach((el,i,arr)=>{   
                         
@@ -277,47 +277,47 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         showTab(btn_find,'find');                        
             
                         if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                            inpt_find.value = numberStrShow;
-                            elem_cbox1.checked = false;
-                            elem_cbox2.checked = false;
-                            elem_cbox3.checked = false;
-                            elem_cbox4.checked = false;
-                            elem_cbox5.checked = false;
-                            elem_cbox6.checked = false;
-                            elem_cbox7.checked = true;//si hace falta
+                            eid_inpt_find.value = numberStrShow;
+                            eid_cbox1.checked = false;
+                            eid_cbox2.checked = false;
+                            eid_cbox3.checked = false;
+                            eid_cbox4.checked = false;
+                            eid_cbox5.checked = false;
+                            eid_cbox6.checked = false;
+                            eid_cbox7.checked = true;//si hace falta
                             findWords(numberStrShow);//rstStrongRed - ok
                         }else{
-                            inpt_find.value = numberStr;
+                            eid_inpt_find.value = numberStr;
                             if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                                elem_cbox1.checked = false;
-                                elem_cbox2.checked = false;
-                                elem_cbox3.checked = false;
-                                elem_cbox4.checked = false;
-                                elem_cbox5.checked = false;
-                                elem_cbox6.checked = false;
-                                elem_cbox7.checked = true;//si hace falta
+                                eid_cbox1.checked = false;
+                                eid_cbox2.checked = false;
+                                eid_cbox3.checked = false;
+                                eid_cbox4.checked = false;
+                                eid_cbox5.checked = false;
+                                eid_cbox6.checked = false;
+                                eid_cbox7.checked = true;//si hace falta
                                 findWords(numberStr);
                             }else{//rstStrong (старый)
-                                elem_cbox1.checked = false;
-                                elem_cbox2.checked = false;
-                                elem_cbox3.checked = false;
-                                elem_cbox4.checked = true;//si hace falta
-                                elem_cbox5.checked = false;
-                                elem_cbox6.checked = false;    
-                                elem_cbox7.checked = false;//si hace falta
+                                eid_cbox1.checked = false;
+                                eid_cbox2.checked = false;
+                                eid_cbox3.checked = false;
+                                eid_cbox4.checked = true;//si hace falta
+                                eid_cbox5.checked = false;
+                                eid_cbox6.checked = false;    
+                                eid_cbox7.checked = false;//si hace falta
                                 findWords(numberStr);//rstStrong
                             }
                         }
                         //findWords(strongIndex);//rstStrong - ok
                         //findWords(numberStr);
                     }
-                    elem_strong_body.append(p_v);
+                    eid_strong_body.append(p_v);
             
                     const p = document.createElement('p');
                     p.append(span_num_strong);
                     p.append(span_text_strong);
             
-                    elem_strong_body.append(p);
+                    eid_strong_body.append(p);
             
                     //Listener para Strong Heb
                     if(typeof new_strongText !== 'undefined' && new_strongText.includes('sn2_s')){
@@ -327,7 +327,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             });    
                         });
                     }
-                    mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
+                    mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
                 })
                 .catch(error => { 
                     // Código a realizar cuando se rechaza la promesa
@@ -363,9 +363,9 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             //console.log('strongIndex: '+strongIndex);
             //console.log('strongText: '+strongText);
     
-            elem_strong_body.innerHTML = '';//reset datos
+            eid_strong_body.innerHTML = '';//reset datos
     
-            showTab(elem_btn_strong,'strong');  
+            showTab(eid_btn_strong,'strong');  
             
             const span_hist_strong = document.createElement('span');
             span_hist_strong.className = 'hist_strong';
@@ -377,10 +377,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             let hist_strong_all = document.querySelectorAll('.hist_strong');
             let ult_hist_strong = hist_strong_all[0];
             if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                elem_strong_head.prepend(span_hist_strong);
+                eid_strong_head.prepend(span_hist_strong);
                 //console.log('1 strongIndex');
             }else if(ult_hist_strong.innerHTML != numberStrShow){
-                elem_strong_head.prepend(span_hist_strong);
+                eid_strong_head.prepend(span_hist_strong);
                 //console.log('2 y mas strongIndex ...');
             }else{
                 //console.log('no hago nada...');
@@ -399,7 +399,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             //console.log('abajo arr_w: ');
             //console.log(arr_w);
     
-            arr_w = arr_w.filter(elm => elm);
+            arr_w = arr_w.filter(elem => elem);
     
             arr_w.forEach((el,i,arr)=>{   
                         
@@ -565,47 +565,47 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 showTab(btn_find,'find');
                 
                 if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                    inpt_find.value = numberStrShow;
-                    elem_cbox1.checked = false;
-                    elem_cbox2.checked = false;
-                    elem_cbox3.checked = false;
-                    elem_cbox4.checked = false;
-                    elem_cbox5.checked = false;
-                    elem_cbox6.checked = false;
-                    elem_cbox7.checked = true;//si hace falta
+                    eid_inpt_find.value = numberStrShow;
+                    eid_cbox1.checked = false;
+                    eid_cbox2.checked = false;
+                    eid_cbox3.checked = false;
+                    eid_cbox4.checked = false;
+                    eid_cbox5.checked = false;
+                    eid_cbox6.checked = false;
+                    eid_cbox7.checked = true;//si hace falta
                     findWords(numberStrShow);//rstStrongRed - ok
                 }else{
-                    inpt_find.value = numberStr;
+                    eid_inpt_find.value = numberStr;
                     if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                        elem_cbox1.checked = false;
-                        elem_cbox2.checked = false;
-                        elem_cbox3.checked = false;
-                        elem_cbox4.checked = false;
-                        elem_cbox5.checked = false;
-                        elem_cbox6.checked = false;
-                        elem_cbox7.checked = true;//si hace falta
+                        eid_cbox1.checked = false;
+                        eid_cbox2.checked = false;
+                        eid_cbox3.checked = false;
+                        eid_cbox4.checked = false;
+                        eid_cbox5.checked = false;
+                        eid_cbox6.checked = false;
+                        eid_cbox7.checked = true;//si hace falta
                         findWords(numberStr);
                     }else{//rstStrong (старый)
-                        elem_cbox1.checked = false;
-                        elem_cbox2.checked = false;
-                        elem_cbox3.checked = false;
-                        elem_cbox4.checked = true;//si hace falta
-                        elem_cbox5.checked = false;
-                        elem_cbox6.checked = false;    
-                        elem_cbox7.checked = false;//si hace falta
+                        eid_cbox1.checked = false;
+                        eid_cbox2.checked = false;
+                        eid_cbox3.checked = false;
+                        eid_cbox4.checked = true;//si hace falta
+                        eid_cbox5.checked = false;
+                        eid_cbox6.checked = false;    
+                        eid_cbox7.checked = false;//si hace falta
                         findWords(numberStr);//rstStrong
                     }
                 }
                 //findWords(strongIndex);//rstStrong - ok
                 //findWords(numberStr);
             }
-            elem_strong_body.append(p_v);
+            eid_strong_body.append(p_v);
     
             const p = document.createElement('p');
             p.append(span_num_strong);
             p.append(span_text_strong);
     
-            elem_strong_body.append(p);
+            eid_strong_body.append(p);
     
             //Listener para Strong Heb
             if(typeof new_strongText !== 'undefined' && new_strongText.includes('sn2_s')){
@@ -615,7 +615,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     });    
                 });
             }
-            mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
+            mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
@@ -647,23 +647,23 @@ function showHideDvor(){
 
 const buildVersesTsk = (arr_tsk_p, Translation) => {
     const count_tsk = document.getElementById('count_tsk');
-    elem_tsk_body.innerHTML = '';//reset 
+    eid_tsk_body.innerHTML = '';//reset 
     //console.log(arr_tsk_p);
-    arr_tsk_p_filtered = arr_tsk_p.filter(elm => elm);
+    arr_tsk_p_filtered = arr_tsk_p.filter(elem => elem);
 
     if(arr_tsk_p_filtered.length == 0) return;
 
     arr_tsk_p_filtered.forEach(el=>{
         //console.log('build tsk. abajo el: ');
         //console.log(el);
-        elem_tsk_body.append(el);
+        eid_tsk_body.append(el);
     });
-    elem_tsk_body.scrollTop = 0;
+    eid_tsk_body.scrollTop = 0;
 
     //Después de formar todos los links de tsk añado listener on click//No funciona correctamente!
     
-    elem_tsk_body.removeEventListener('click', handlerListenTsk);
-    elem_tsk_body.addEventListener('click', handlerListenTsk);
+    eid_tsk_body.removeEventListener('click', handlerListenTsk);
+    eid_tsk_body.addEventListener('click', handlerListenTsk);
     
 
     if(count_tsk === null){
@@ -694,7 +694,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
 
     //si solo hay que construir una columna
     if(indexColToBuild != null){
-        let el = Array.from(elem_wrCols.children)[indexColToBuild];//elem_wrCols es constanta y está declarada al inicio
+        let el = Array.from(eid_wrCols.children)[indexColToBuild];//eid_wrCols es constanta y está declarada al inicio
 
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
@@ -708,8 +708,8 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
         //console.log('one col --- el_colsInner: ', el_colsInner);
 
     }else{//construir todas columnas
-        //elem_wrCols es constanta y está declarada al inicio
-        Array.from(elem_wrCols.children).forEach((el,i)=>{
+        //eid_wrCols es constanta y está declarada al inicio
+        Array.from(eid_wrCols.children).forEach((el,i)=>{
             let el_colsInner = el.querySelector('.colsInner');
             el_colsInner.innerHTML = '';
 
@@ -722,7 +722,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
             //console.log('all cols --- el_colsInner: ', el_colsInner);
         });
     }
-    //console.log('build. elem_wrCols: ', elem_wrCols);
+    //console.log('build. eid_wrCols: ', eid_wrCols);
 
     arrDataDivShow = [];//reset despues de build
 }
@@ -784,7 +784,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
             
             inpt_nav.value = el.ref;
 
-            let trans_base = arrFavTransObj.find(v => v.Translation === elem_trans1.dataset.trans);
+            let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
             let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
 
             
@@ -846,15 +846,15 @@ const addWordsToHistFind = (trans, words) => {
         'BibleShortName': esteTrans.BibleShortName, 
         'words': words,
         'params': {
-            'gde_val'  : elem_gde.value, 
-            'limit_val': elem_limit.value,
-            'cbox1_checked': elem_cbox1.checked,
-            'cbox2_checked': elem_cbox2.checked,
-            'cbox3_checked': elem_cbox3.checked,
-            'cbox4_checked': elem_cbox4.checked,
-            'cbox5_checked': elem_cbox5.checked,
-            'cbox6_checked': elem_cbox6.checked,
-            'cbox7_checked': elem_cbox7.checked             
+            'gde_val'  : eid_gde.value, 
+            'limit_val': eid_limit.value,
+            'cbox1_checked': eid_cbox1.checked,
+            'cbox2_checked': eid_cbox2.checked,
+            'cbox3_checked': eid_cbox3.checked,
+            'cbox4_checked': eid_cbox4.checked,
+            'cbox5_checked': eid_cbox5.checked,
+            'cbox6_checked': eid_cbox6.checked,
+            'cbox7_checked': eid_cbox7.checked             
         },
         'fecha': fechaFormateada, 
         'hora': horaActual
@@ -871,17 +871,17 @@ const addWordsToHistFind = (trans, words) => {
         p.onclick = () => {
 
             inpt_nav.dataset.trans = el.trans;
-            inpt_find.value = el.words;
+            eid_inpt_find.value = el.words;
 
-            elem_gde.value = el.params.gde_val;
-            elem_limit.value = el.params.limit_val;
-            elem_cbox1.checked = el.params.cbox1_checked;
-            elem_cbox2.checked = el.params.cbox2_checked;
-            elem_cbox3.checked = el.params.cbox3_checked;
-            elem_cbox4.checked = el.params.cbox4_checked;
-            elem_cbox5.checked = el.params.cbox5_checked;
-            elem_cbox6.checked = el.params.cbox6_checked;
-            elem_cbox7.checked = el.params.cbox7_checked;
+            eid_gde.value = el.params.gde_val;
+            eid_limit.value = el.params.limit_val;
+            eid_cbox1.checked = el.params.cbox1_checked;
+            eid_cbox2.checked = el.params.cbox2_checked;
+            eid_cbox3.checked = el.params.cbox3_checked;
+            eid_cbox4.checked = el.params.cbox4_checked;
+            eid_cbox5.checked = el.params.cbox5_checked;
+            eid_cbox6.checked = el.params.cbox6_checked;
+            eid_cbox7.checked = el.params.cbox7_checked;
             
             //console.log('llamo findWords()');
             //findWords(el.words);

@@ -2,98 +2,108 @@
 //  V A R I A B L E S
 //====================================================================//
 
-const elem_header = document.getElementById('header');
-const elem_wrapper = document.getElementById('wrapper');
-const elem_sidebar = document.getElementById('sidebar');
+// prefijo 'eid_' se usa para lod elementos html con su id.
 
-//Por defecto ancho de elem_sidebar
-const def_w = elem_wrapper.offsetWidth * 0.3;//30%
-elem_sidebar.style.width = def_w +'px';
+const eid_header = document.getElementById('header');
+const eid_wrapper = document.getElementById('wrapper');
+const eid_sidebar = document.getElementById('sidebar');
 
-const elem_sidebarInner = document.getElementById('sidebarInner');
-const elem_v_line = document.getElementById('v_line');
-const elem_container = document.getElementById('container');
-const elem_containerInner = document.getElementById('containerInner');
-const elem_headerContainer = document.getElementById('headerContainer');
-const elem_wrCols = document.getElementById('wrCols');
-const elem_trans1 = document.getElementById('trans1');
-const elem_footer = document.getElementById('footer');
-const elem_footerInner = document.getElementById('footerInner');
+//Por defecto ancho de eid_sidebar
+const def_w = eid_wrapper.offsetWidth * 0.3;//30%
+eid_sidebar.style.width = def_w +'px';
 
-const elem_btn_pageUp = document.getElementById('btn_pageUp');
-const elem_btn_pageDown = document.getElementById('btn_pageDown');
+const eid_sidebarInner = document.getElementById('sidebarInner');
+const eid_v_line = document.getElementById('v_line');
+const eid_container = document.getElementById('container');
+const eid_containerInner = document.getElementById('containerInner');
+const eid_headerContainer = document.getElementById('headerContainer');
+const eid_wrCols = document.getElementById('wrCols');
+const eid_trans1 = document.getElementById('trans1');
+const eid_col1 = document.getElementById('col1');
+const eid_footer = document.getElementById('footer');
+const eid_footerInner = document.getElementById('footerInner');
 
-const elem_menuTabs = document.getElementById('menuTabs');
-const elem_nav_head = document.getElementById('nav_head');
-const elem_nav_body = document.getElementById('nav_body');
+const eid_btn_pageUp = document.getElementById('btn_pageUp');
+const eid_btn_pageDown = document.getElementById('btn_pageDown');
+
+const eid_menuTabs = document.getElementById('menuTabs');
+const eid_nav_head = document.getElementById('nav_head');
+const eid_nav_body = document.getElementById('nav_body');
 
 // Get the computed style, including margins
-const computedStyle = window.getComputedStyle(elem_sidebarInner);
+const computedStyle = window.getComputedStyle(eid_sidebarInner);
 
-const elem_inpt_nav = document.getElementById('inpt_nav');
+const eid_inpt_nav = document.getElementById('inpt_nav');
+const eid_hist_nav = document.getElementById('hist_nav');
 
-const elem_s_book = document.getElementById('s_book');
-const elem_s_chapter = document.getElementById('s_chapter');
-const elem_s_verse = document.getElementById('s_verse');
+const eid_s_book = document.getElementById('s_book');
+const eid_s_chapter = document.getElementById('s_chapter');
+const eid_s_verse = document.getElementById('s_verse');
 
-const elem_v_book = document.getElementById('v_book');
-const elem_v_chapter = document.getElementById('v_chapter');
-const elem_v_verse = document.getElementById('v_verse');
+const eid_v_book = document.getElementById('v_book');
+const eid_v_chapter = document.getElementById('v_chapter');
+const eid_v_verse = document.getElementById('v_verse');
 
-const elem_bcv_line = document.getElementById('bcv_line');
+const eid_bcv_line = document.getElementById('bcv_line');
 
-const elem_wr_find_head = document.getElementById('wr_find_head');
-const elem_find_head = document.getElementById('find_head'); 
-const elem_find_result = document.getElementById('find_result'); 
-const elem_find_body = document.getElementById('find_body');
 
-const elem_gde = document.getElementById('gde');//select donde buscar
-const elem_limit = document.getElementById('limit');//cuantos resultados de búsqueda mostrar en una página
-const elem_cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
-const elem_cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
-const elem_cbox3 = document.getElementById('cbox3');//3. искать точную фразу
-const elem_cbox4 = document.getElementById('cbox4');//4. выражения не могут быть частями слов
-const elem_cbox5 = document.getElementById('cbox5');//5. различать прописные и Заглавные буквы
-const elem_cbox6 = document.getElementById('cbox6');//6. различать буквы с ударениями (если есть)
-const elem_cbox7 = document.getElementById('cbox7');//7. Номер Стронга (если есть)
 
-const elem_tsk_head = document.getElementById('tsk_head');
-const elem_tsk_body = document.getElementById('tsk_body');
+const eid_inpt_find = document.getElementById('inpt_find');
+const eid_hist_find = document.getElementById('hist_find');
+
+
+const eid_wr_find_head = document.getElementById('wr_find_head');
+const eid_find_head = document.getElementById('find_head'); 
+const eid_find_result = document.getElementById('find_result'); 
+const eid_find_body = document.getElementById('find_body');
+
+const eid_gde = document.getElementById('gde');//select donde buscar
+const eid_limit = document.getElementById('limit');//cuantos resultados de búsqueda mostrar en una página
+const eid_cbox1 = document.getElementById('cbox1');//1. искомое содержит хотя бы одно слово ('Иисус Христос' или Иисус или Христос)
+const eid_cbox2 = document.getElementById('cbox2');//2. cлова идут в заданном порядке
+const eid_cbox3 = document.getElementById('cbox3');//3. искать точную фразу
+const eid_cbox4 = document.getElementById('cbox4');//4. выражения не могут быть частями слов
+const eid_cbox5 = document.getElementById('cbox5');//5. различать прописные и Заглавные буквы
+const eid_cbox6 = document.getElementById('cbox6');//6. различать буквы с ударениями (если есть)
+const eid_cbox7 = document.getElementById('cbox7');//7. Номер Стронга (если есть)
+
+const eid_tsk_head = document.getElementById('tsk_head');
+const eid_tsk_body = document.getElementById('tsk_body');
 
 //botones
-const elem_btn_nav = document.getElementById('btn_nav');
-const elem_btn_tsk = document.getElementById('btn_tsk');
-const elem_btn_find = document.getElementById('btn_find');
-const elem_btn_ok_find = document.getElementById('btn_ok_find');
-const elem_btn_ok_stop = document.getElementById('btn_ok_stop');
-const elem_btn_strong = document.getElementById('btn_strong');
+const eid_btn_nav = document.getElementById('btn_nav');
+const eid_btn_tsk = document.getElementById('btn_tsk');
+const eid_btn_find = document.getElementById('btn_find');
+const eid_btn_ok_find = document.getElementById('btn_ok_find');
+const eid_btn_ok_stop = document.getElementById('btn_ok_stop');
+const eid_btn_strong = document.getElementById('btn_strong');
 
 
-//const elem_sel_modules = document.getElementById('sel_modules');//?..
+//const eid_sel_modules = document.getElementById('sel_modules');//?..
 
-const elem_bl_modalFullInner = document.getElementById('elem_bl_modalFullInner');
+const eid_bl_modalFullInner = document.getElementById('bl_modalFullInner');
 
-const elem_vklad_nav = document.getElementById('vklad_nav');
-const elem_vklad_find = document.getElementById('vklad_find');
-const elem_vklad_tsk = document.getElementById('vklad_tsk');
-const elem_vklad_strong = document.getElementById('vklad_strong');
-
-
+const eid_vklad_nav = document.getElementById('vklad_nav');
+const eid_vklad_find = document.getElementById('vklad_find');
+const eid_vklad_tsk = document.getElementById('vklad_tsk');
+const eid_vklad_strong = document.getElementById('vklad_strong');
 
 
 
-const elem_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
-const elem_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
-const elem_btn_ok = document.getElementById('btn_ok');
 
-const elem_btnStrong = document.getElementById('btnStrong');
-const elem_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
 
-const elem_wr_strong_head = document.getElementById('wr_strong_head');
-const elem_strong_head = document.getElementById('strong_head');
-const elem_strong_body = document.getElementById('strong_body');
+const eid_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
+const eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
+const eid_btn_ok = document.getElementById('btn_ok');
 
-const elem_partDeskTabs = document.getElementById('partDeskTabs');
+const eid_btnStrong = document.getElementById('btnStrong');
+const eid_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
+
+const eid_wr_strong_head = document.getElementById('wr_strong_head');
+const eid_strong_head = document.getElementById('strong_head');
+const eid_strong_body = document.getElementById('strong_body');
+
+const eid_partDeskTabs = document.getElementById('partDeskTabs');
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
@@ -252,7 +262,7 @@ let crear_objeto_obj_bible_files = true;//true, false
 console.log('crear_objeto_obj_bible_files: ',crear_objeto_obj_bible_files);
 
 
-let trans_base = elem_trans1.dataset.trans;//la trans base de #trans1
+let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
 
 
 //===================================================================//
@@ -415,7 +425,7 @@ const handlerListenColsInnerAClick = (e) => {
 function addListenerToPATsk(){//no se llama en ninguna parte
     setTimeout(()=>{
         //console.log('=== function addListenerToPATsk()');
-        let trans = elem_tsk_head.querySelector('p').dataset.trans; 
+        let trans = eid_tsk_head.querySelector('p').dataset.trans; 
         Array.from(document.querySelectorAll('#vklad_tsk p a')).forEach(el=>{
             el.addEventListener('click',()=>{
                 goToLink(trans, el.innerHTML);
@@ -761,15 +771,15 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 let isMouseDown = false;
 
 //start - Desktop (mouse)
-elem_v_line.onmousedown = function() { isMouseDown = true  };
-elem_wrapper.onmousemove = function(e) { 
+eid_v_line.onmousedown = function() { isMouseDown = true  };
+eid_wrapper.onmousemove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
-        elem_sidebar.removeAttribute('class');
-        elem_sidebar.style.width = e.pageX - 3 + 'px';
+        eid_sidebar.removeAttribute('class');
+        eid_sidebar.style.width = e.pageX - 3 + 'px';
     }
 };
-elem_v_line.onmouseup = function() { 
+eid_v_line.onmouseup = function() { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -778,16 +788,16 @@ elem_v_line.onmouseup = function() {
 
 
 //start - Mobile (touch)
-elem_v_line.ontouchstart = function() { isMouseDown = true  };
-elem_wrapper.ontouchmove = function(e) { 
+eid_v_line.ontouchstart = function() { isMouseDown = true  };
+eid_wrapper.ontouchmove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
-        elem_sidebar.removeAttribute('class');
-        elem_sidebar.style.width = e.touches[0].pageX - 3 + 'px';
-        console.log('elem_wrapper.ontouchmove');
+        eid_sidebar.removeAttribute('class');
+        eid_sidebar.style.width = e.touches[0].pageX - 3 + 'px';
+        console.log('eid_wrapper.ontouchmove');
     }
 };
-elem_v_line.ontouchend = function() { 
+eid_v_line.ontouchend = function() { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -837,12 +847,12 @@ function showHideStrongNumbers(){
 
         if(strongAll[0].classList.contains('show')){
             strongAction = 'hide';
-            elem_btnStrong.classList.remove('btn_active');
-            elem_m_btnStrong.classList.remove('btn_active');
+            eid_btnStrong.classList.remove('btn_active');
+            eid_m_btnStrong.classList.remove('btn_active');
         }else{
             strongAction = 'show';
-            elem_btnStrong.classList.add('btn_active');
-            elem_m_btnStrong.classList.add('btn_active');
+            eid_btnStrong.classList.add('btn_active');
+            eid_m_btnStrong.classList.add('btn_active');
         }
 
         strongAll.forEach(el=>{
@@ -963,12 +973,12 @@ function htmlEntities(str) {
 }
 
 function setBaseEnglishPsalms(){
-    let Translation = elem_trans1.dataset.trans;
+    let Translation = eid_trans1.dataset.trans;
 
     fetch(`modules/text/${Translation}/bibleqt.json`)
     .then((response) => response.json())
     .then((bq) => {
-        elem_trans1.dataset.trans = bq.EnglishPsalms;
+        eid_trans1.dataset.trans = bq.EnglishPsalms;
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
@@ -1083,8 +1093,8 @@ function getTsk(e){
                             //console.log('tb_arr_links: ');
                             //console.log(tb_arr_links);
                 
-                            elem_tsk_head.innerHTML = '';//reset datos
-                            elem_tsk_body.innerHTML = '';//reset datos
+                            eid_tsk_head.innerHTML = '';//reset datos
+                            eid_tsk_body.innerHTML = '';//reset datos
                 
                             //Siempre muestro el verse clickeado en tsk
                             const span_sm_trans = document.createElement('span');
@@ -1108,11 +1118,11 @@ function getTsk(e){
                                 goToLink(Translation, p.querySelector('a').innerHTML);
                             });
                 
-                            elem_tsk_head.append(span_sm_trans);
-                            elem_tsk_head.append(p);
-                            elem_tsk_head.scrollTop = 0;
+                            eid_tsk_head.append(span_sm_trans);
+                            eid_tsk_head.append(p);
+                            eid_tsk_head.scrollTop = 0;
                             
-                            mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
+                            mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
                             
                             //Muestro loader tres puntos (...)
                             const d_loader = document.createElement('div');
@@ -1120,7 +1130,7 @@ function getTsk(e){
                             d_loader.innerHTML = `<span class="loader__element"></span>
                                                   <span class="loader__element"></span>
                                                   <span class="loader__element"></span>`;
-                            elem_tsk_body.append(d_loader);
+                            eid_tsk_body.append(d_loader);
                 
                             arr_tsk_p = [];//por si acaso
                 
@@ -1225,7 +1235,7 @@ function getTsk(e){
                                                     var nb = bookModule.split('<h4>');//делю файл на главы
                                                     //console.log(nb);
                                                     
-                                                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                                     //console.log(nb);
 
                                                     let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
@@ -1496,7 +1506,7 @@ function getTsk(e){
                                                         var nb = bookModule.split('<h4>');//делю файл на главы
                                                         //console.log(nb);
                                                         
-                                                        nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                                         //console.log(nb);
 
                                                         let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
@@ -1755,22 +1765,22 @@ function getTsk(e){
                                 });//fin forEach de tb_arr_links
                 
                             }else{//no hay links
-                                elem_tsk_body.innerHTML = '';//reset
+                                eid_tsk_body.innerHTML = '';//reset
                                 const p = document.createElement('p');
                                 p.className = 'tsk tsk_nolink';
                                 p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                                 //console.log(p);
-                                elem_tsk_body.append(p);
+                                eid_tsk_body.append(p);
                             }
                 
                             //Abro Sidebar pata mostrar TSK
-                            showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
+                            showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
                             if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                                 openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                             }else{//si es desktop o tablet
-                                //comprebo si está oculto elem_sidebar
-                                if(elem_sidebar.style.display == 'none'){
-                                    elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                                //comprebo si está oculto eid_sidebar
+                                if(eid_sidebar.style.display == 'none'){
+                                    eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                                 }
                             }
                 
@@ -1824,8 +1834,8 @@ function getTsk(e){
                 //console.log('tb_arr_links: ');
                 //console.log(tb_arr_links);
     
-                elem_tsk_head.innerHTML = '';//reset datos
-                elem_tsk_body.innerHTML = '';//reset datos
+                eid_tsk_head.innerHTML = '';//reset datos
+                eid_tsk_body.innerHTML = '';//reset datos
     
                 //Siempre muestro el verse clickeado en tsk
                 const span_sm_trans = document.createElement('span');
@@ -1849,11 +1859,11 @@ function getTsk(e){
                     goToLink(Translation, p.querySelector('a').innerHTML);
                 });
     
-                elem_tsk_head.append(span_sm_trans);
-                elem_tsk_head.append(p);
-                elem_tsk_head.scrollTop = 0;
+                eid_tsk_head.append(span_sm_trans);
+                eid_tsk_head.append(p);
+                eid_tsk_head.scrollTop = 0;
                 
-                mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
+                mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
                 
                 //Muestro loader tres puntos (...)
                 const d_loader = document.createElement('div');
@@ -1861,7 +1871,7 @@ function getTsk(e){
                 d_loader.innerHTML = `<span class="loader__element"></span>
                                       <span class="loader__element"></span>
                                       <span class="loader__element"></span>`;
-                elem_tsk_body.append(d_loader);
+                eid_tsk_body.append(d_loader);
     
                 arr_tsk_p = [];//por si acaso
     
@@ -1967,7 +1977,7 @@ function getTsk(e){
                                         var nb = bookModule.split('<h4>');//делю файл на главы
                                         //console.log(nb);
                                         
-                                        nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                         //console.log(nb);
 
                                         let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
@@ -2247,7 +2257,7 @@ function getTsk(e){
                                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                                 //console.log(nb);
                                                 
-                                                nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                                 //console.log(nb);
 
                                                 let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
@@ -2790,22 +2800,22 @@ function getTsk(e){
                     });//fin forEach de tb_arr_links
     
                 }else{//no hay links
-                    elem_tsk_body.innerHTML = '';//reset
+                    eid_tsk_body.innerHTML = '';//reset
                     const p = document.createElement('p');
                     p.className = 'tsk tsk_nolink';
                     p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                     //console.log(p);
-                    elem_tsk_body.append(p);
+                    eid_tsk_body.append(p);
                 }
     
                 //Abro Sidebar pata mostrar TSK
-                showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
+                showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
                 if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                     openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                 }else{//si es desktop o tablet
-                    //comprebo si está oculto elem_sidebar
-                    if(elem_sidebar.style.display == 'none'){
-                        elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                    //comprebo si está oculto eid_sidebar
+                    if(eid_sidebar.style.display == 'none'){
+                        eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                     }
                 }
     
@@ -2853,8 +2863,8 @@ function getTsk(e){
                     //console.log('tb_arr_links: ');
                     //console.log(tb_arr_links);
     
-                    elem_tsk_head.innerHTML = '';//reset datos
-                    elem_tsk_body.innerHTML = '';//reset datos
+                    eid_tsk_head.innerHTML = '';//reset datos
+                    eid_tsk_body.innerHTML = '';//reset datos
     
                     //Siempre muestro el verse clickeado en tsk
                     const span_sm_trans = document.createElement('span');
@@ -2879,11 +2889,11 @@ function getTsk(e){
                         goToLink(Translation, p.querySelector('a').innerHTML);
                     });
     
-                    elem_tsk_head.append(span_sm_trans);
-                    elem_tsk_head.append(p);
-                    elem_tsk_head.scrollTop = 0;
+                    eid_tsk_head.append(span_sm_trans);
+                    eid_tsk_head.append(p);
+                    eid_tsk_head.scrollTop = 0;
                     
-                    mySizeTsk();//altura de elem_tsk_body despues de meter elem_tsk_head
+                    mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
                     
                     //Muestro loader tres puntos (...)
                     const d_loader = document.createElement('div');
@@ -2891,7 +2901,7 @@ function getTsk(e){
                     d_loader.innerHTML = `<span class="loader__element"></span>
                                         <span class="loader__element"></span>
                                         <span class="loader__element"></span>`;
-                    elem_tsk_body.append(d_loader);
+                    eid_tsk_body.append(d_loader);
     
                     arr_tsk_p = [];//por si acaso
     
@@ -2997,7 +3007,7 @@ function getTsk(e){
                                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                                 //console.log(nb);
                                                 
-                                                nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                                 //console.log(nb);
 
                                                 let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
@@ -3260,22 +3270,22 @@ function getTsk(e){
                         });//fin forEach de tb_arr_links
     
                     }else{//no hay links
-                        elem_tsk_body.innerHTML = '';//reset
+                        eid_tsk_body.innerHTML = '';//reset
                         const p = document.createElement('p');
                         p.className = 'tsk tsk_nolink';
                         p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                         //console.log(p);
-                        elem_tsk_body.append(p);
+                        eid_tsk_body.append(p);
                     }
     
                     //Abro Sidebar pata mostrar TSK
-                    showTab(elem_btn_tsk,'tsk');//Se abre tab TSK
+                    showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
                     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                     }else{//si es desktop o tablet
-                        //comprebo si está oculto elem_sidebar
-                        if(elem_sidebar.style.display == 'none'){
-                            elem_btn_hideShowSidebar.click();//mostrar elem_sidebar con tsk
+                        //comprebo si está oculto eid_sidebar
+                        if(eid_sidebar.style.display == 'none'){
+                            eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                         }
                     }
     
@@ -3307,11 +3317,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
     divShow.innerHTML = '';
 
     var btnStrongIsActive = false;
-    if(elem_btnStrong.classList.contains('btn_active')){
+    if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
-    window.base_ep = elem_trans1.dataset.base_ep;
+    window.base_ep = eid_trans1.dataset.base_ep;
     //console.log('base_ep: '+base_ep);
 
     window.arr_data_head = [];//incluye h2 y h4
@@ -3352,7 +3362,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                     var nb = bookModule.split('<h4>');//делю файл на главы
                     //console.log(nb);
                     
-                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                     //console.log(nb);
 
                     //Book
@@ -4519,7 +4529,7 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
 
 function clearAllDivShow(){
     //console.log('===function clearAllDivShow()===');
-    Array.from(elem_wrCols.children).forEach((el)=>{
+    Array.from(eid_wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = 'cargando...';
     });
 }
@@ -4527,7 +4537,7 @@ function clearAllDivShow(){
 function showTextInAllDivShow(text){
     //console.log('===function showTextInAllDivShow()===');
     //console.log('text: ', text);
-    Array.from(elem_wrCols.children).forEach((el)=>{
+    Array.from(eid_wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = text;
     });
 }
@@ -4545,11 +4555,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
     console.log('1. lo reseteo en buildDivShow');
 
     var btnStrongIsActive = false;
-    if(elem_btnStrong.classList.contains('btn_active')){
+    if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
-    window.base_ep = elem_trans1.dataset.base_ep;
+    window.base_ep = eid_trans1.dataset.base_ep;
     //console.log('base_ep: '+base_ep);
 
     window.arr_data_head = [];//incluye h2 y h4
@@ -4623,7 +4633,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                     var nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
                                     
-                                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                     //console.log(nb);
             
                                     //Book
@@ -5813,7 +5823,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                         var nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
                         
-                        nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                         //console.log(nb);
 
                         //Book
@@ -7090,7 +7100,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                     arr_data_head.push(h2);
 
                                     var nb = (arr_one_h4.includes('<h4>')) ? arr_one_h4.split('<h4>') : console.error('no includes(<h4>)');//делю файл на главы
-                                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                     //console.log(nb);
                                 
                                 }else{
@@ -7105,7 +7115,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                     //console.log(h2);
 
                                     var nb = (bookModule.includes('<h4>')) ? bookModule.split('<h4>') : console.error('no includes(<h4>)');//делю файл на главы
-                                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                     //console.log(nb);                            
                                 }
 
@@ -9400,7 +9410,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             var nb = bookModule.split('<h4>');//делю файл на главы
                             //console.log(nb);
                             
-                            nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                            nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                             //console.log(nb);
 
                             //Book
@@ -10604,11 +10614,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     }    
 
     var btnStrongIsActive = false;
-    if(elem_btnStrong.classList.contains('btn_active')){
+    if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
-    window.base_ep = elem_trans1.dataset.base_ep;
+    window.base_ep = eid_trans1.dataset.base_ep;
     //console.log('base_ep: '+base_ep);
 
     window.arr_data_head = [];//incluye h2 y h4
@@ -10682,7 +10692,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     var nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
                                     
-                                    nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                     //console.log(nb);
             
                                     //Book
@@ -11878,7 +11888,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         var nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
                         
-                        nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                         //console.log(nb);
 
                         //Book
@@ -13096,7 +13106,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         var nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
                         
-                        nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                         //console.log(nb);
 
                         //Book
@@ -14289,11 +14299,11 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
     }    
 
     var btnStrongIsActive = false;
-    if(elem_btnStrong.classList.contains('btn_active')){
+    if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
-    window.base_ep = elem_trans1.dataset.base_ep;
+    window.base_ep = eid_trans1.dataset.base_ep;
     //console.log('base_ep: '+base_ep);
 
     window.arr_data_head = [];//incluye h2 y h4
@@ -16165,24 +16175,24 @@ window.addEventListener('resize',function(d){
 function resizeSidebar(par){
     //console.log('function resizeSidebar(par)');
 
-    let sidebar_w = (!isNaN(parseInt(elem_sidebar.style.width)))
-        ? parseInt(elem_sidebar.style.width)
+    let sidebar_w = (!isNaN(parseInt(eid_sidebar.style.width)))
+        ? parseInt(eid_sidebar.style.width)
         : def_w ;
 
-    min_w = elem_wrapper.offsetWidth * 0.05;//5%
-    max_w = elem_wrapper.offsetWidth;//100%
+    min_w = eid_wrapper.offsetWidth * 0.05;//5%
+    max_w = eid_wrapper.offsetWidth;//100%
 
     if(par == 'less'){
-        if( sidebar_w > elem_wrapper.offsetWidth * 0.1 ){
-            sidebar_w -= elem_wrapper.offsetWidth * 0.05;
+        if( sidebar_w > eid_wrapper.offsetWidth * 0.1 ){
+            sidebar_w -= eid_wrapper.offsetWidth * 0.05;
         }
     }else{
-        if( sidebar_w < elem_wrapper.offsetWidth * 0.7 ){
-            sidebar_w += elem_wrapper.offsetWidth * 0.05;
+        if( sidebar_w < eid_wrapper.offsetWidth * 0.7 ){
+            sidebar_w += eid_wrapper.offsetWidth * 0.05;
         }
     }
     //console.log(sidebar_w);
-    elem_sidebar.style.width = sidebar_w +'px';
+    eid_sidebar.style.width = sidebar_w +'px';
     mySizeWindow();
     mySizeVerse();
 }
@@ -16207,28 +16217,28 @@ function openSidebar(el){
     }
 
     if(typeof transClicked == 'undefined'){
-        if(elem_inpt_nav.dataset.trans != ''){
-            transClicked = elem_inpt_nav.dataset.trans;
+        if(eid_inpt_nav.dataset.trans != ''){
+            transClicked = eid_inpt_nav.dataset.trans;
         }else{//default de #trans1
-            transClicked = elem_trans1.dataset.trans;
+            transClicked = eid_trans1.dataset.trans;
         }
         //console.log('new clicked MENU of transClicked: '+transClicked);
     }
 
-    //cambio trans en la navegación del elem_sidebar
+    //cambio trans en la navegación del eid_sidebar
     changeTransNav(transClicked,idCol_transClicked);
 
-    if(elem_sidebar.classList.length == 0){//se ve, lo oculto
-         //console.log("1) elem_sidebar no tiene classe. se ve. Lo muestro de left a right");
-         elem_sidebar.classList.add('sideHide');
+    if(eid_sidebar.classList.length == 0){//se ve, lo oculto
+         //console.log("1) eid_sidebar no tiene classe. se ve. Lo muestro de left a right");
+         eid_sidebar.classList.add('sideHide');
          setTimeout(()=>{
-            elem_sidebar.classList.remove('sideHide');
-            elem_sidebar.classList.add('sideShow');
+            eid_sidebar.classList.remove('sideHide');
+            eid_sidebar.classList.add('sideShow');
          },3);
-     }else if(elem_sidebar.classList.contains('sideHide')){//no se ve, lo muestro
+     }else if(eid_sidebar.classList.contains('sideHide')){//no se ve, lo muestro
          //console.log("2, contains('sideHide')");
-         elem_sidebar.classList.remove('sideHide')
-         elem_sidebar.classList.add('sideShow');
+         eid_sidebar.classList.remove('sideHide')
+         eid_sidebar.classList.add('sideShow');
      }
      
      mySizeWindow();
@@ -16237,25 +16247,25 @@ function openSidebar(el){
 
 function closeSidebar(el){
     //console.log("3, contains('sideShow')");
-    elem_sidebar.classList.remove('sideShow')
-    elem_sidebar.classList.add('sideHide');  
+    eid_sidebar.classList.remove('sideShow')
+    eid_sidebar.classList.add('sideHide');  
      
      mySizeWindow();
      mySizeVerse();
 }
 
 function hideShowSidebar(el){ 
-    let disp = elem_sidebar.style.display;
-    if(disp != 'none' || elem_sidebar.offsetWidth > 0){//si se ve
+    let disp = eid_sidebar.style.display;
+    if(disp != 'none' || eid_sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
         el.innerText = 'Show';
     }else{
         disp = 'block';//lo muestro
         el.innerText = 'Hide';
     }
-    elem_sidebar.removeAttribute('class');
-    elem_sidebar.style.display = disp;
-    elem_v_line.style.display = disp;
+    eid_sidebar.removeAttribute('class');
+    eid_sidebar.style.display = disp;
+    eid_v_line.style.display = disp;
     
     mySizeWindow();
     mySizeVerse();
@@ -16263,7 +16273,7 @@ function hideShowSidebar(el){
 
 
 function getActTrans(){
-    var act_trans = elem_trans1.dataset.trans;
+    var act_trans = eid_trans1.dataset.trans;
     let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
         if(el.value == act_trans){
@@ -16278,16 +16288,16 @@ function changeTransNav(trans, idCol_trans){
     // console.log('trans to change en nav. idCol_trans: '+idCol_trans);
 
     if(typeof trans == 'undefined'){
-        trans = elem_trans1.dataset.trans;
+        trans = eid_trans1.dataset.trans;
     }
 
     //en navegación
-    var id_book = elem_inpt_nav.getAttribute('data-id_book');
-    var chapter = elem_inpt_nav.getAttribute('data-show_chapter');
-    var verseNumber = elem_inpt_nav.getAttribute('data-show_verse');
-    var to_verseNumber = (elem_inpt_nav.getAttribute('data-show_to_verse') != '') ? elem_inpt_nav.getAttribute('data-show_to_verse') : null ;
-    elem_inpt_nav.dataset.divtrans = idCol_trans;
-    elem_inpt_nav.dataset.trans = trans;
+    var id_book = eid_inpt_nav.getAttribute('data-id_book');
+    var chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    var verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    var to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
+    eid_inpt_nav.dataset.divtrans = idCol_trans;
+    eid_inpt_nav.dataset.trans = trans;
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
@@ -16325,25 +16335,25 @@ function changeTransNav(trans, idCol_trans){
                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                    elem_inpt_nav.value = new_ref_text;
+                    eid_inpt_nav.value = new_ref_text;
                 }
             }else{// un trans1
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
-                elem_inpt_nav.value = bq.Books[id_book].ShortNames[0];
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+                eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
     
-                if(chapter > 0) elem_inpt_nav.value += ' ' + chapter;
-                if(typeof chapter == 'undefined' && elem_inpt_nav.dataset.divtrans == 'trans1' && elem_inpt_nav.dataset.show_chapter > 0) elem_inpt_nav.value += ' ' + elem_inpt_nav.dataset.show_chapter;
+                if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
+                if(typeof chapter == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_chapter > 0) eid_inpt_nav.value += ' ' + eid_inpt_nav.dataset.show_chapter;
     
     
-                if(parseInt(verseNumber) > 0) elem_inpt_nav.value += ':' + verseNumber;
-                if(typeof verseNumber == 'undefined' && elem_inpt_nav.dataset.divtrans == 'trans1' && elem_inpt_nav.dataset.show_verse > 0) elem_inpt_nav.value += ':' + elem_inpt_nav.dataset.show_verse;
+                if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
+                if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_verse > 0) eid_inpt_nav.value += ':' + eid_inpt_nav.dataset.show_verse;
     
-                if(parseInt(to_verseNumber) > parseInt(verseNumber)) elem_inpt_nav.value += '-' + to_verseNumber;
-                if(typeof verseNumber == 'undefined' && elem_inpt_nav.dataset.divtrans == 'trans1' && elem_inpt_nav.dataset.show_to_verse > 0) elem_inpt_nav.value += '-' + elem_inpt_nav.dataset.show_to_verse;
+                if(parseInt(to_verseNumber) > parseInt(verseNumber)) eid_inpt_nav.value += '-' + to_verseNumber;
+                if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_to_verse > 0) eid_inpt_nav.value += '-' + eid_inpt_nav.dataset.show_to_verse;
             }
             
             //modifico los nombres de libros de la biblia en nav.
-            sel(elem_s_book,'b',null,trans);
+            sel(eid_s_book,'b',null,trans);
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
@@ -16361,26 +16371,26 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     });
     e.classList.add('btn_active');
    
-    let act_base_ep = elem_trans1.dataset.base_ep;
+    let act_base_ep = eid_trans1.dataset.base_ep;
 
-    elem_trans1.dataset.trans = trans;
-    elem_trans1.dataset.base_ep = EnglishPsalms;
+    eid_trans1.dataset.trans = trans;
+    eid_trans1.dataset.base_ep = EnglishPsalms;
 
     //meto la trans nueva en el array de trans
     arr_trans[0] = trans;
-    arr_divShow[0] = 'col1';//ya que siempre se cambia el primer div col1 al cambiar la trans en el elem_footer
+    arr_divShow[0] = 'col1';//ya que siempre se cambia el primer div col1 al cambiar la trans en el eid_footer
     
-    document.querySelector('#trans1 .colsHeadInner .partDesk .desk_trans').innerHTML = BibleShortName;
-    document.querySelector('#trans1 .colsHeadInner .partMob .mob_trans').innerHTML = BibleShortName;
-    elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля. 
+    eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = BibleShortName;
+    eid_trans1.querySelector('.colsHeadInner .partMob .mob_trans').innerHTML = BibleShortName;
+    eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля. 
 
     //en navegación
-    var id_book = elem_inpt_nav.getAttribute('data-id_book');
-    var chapter = elem_inpt_nav.getAttribute('data-show_chapter');
-    var verseNumber = elem_inpt_nav.getAttribute('data-show_verse');
-    var to_verseNumber = (elem_inpt_nav.getAttribute('data-show_to_verse') != '') ? elem_inpt_nav.getAttribute('data-show_to_verse') : null ;
-    elem_inpt_nav.dataset.trans = trans;
-    elem_s_book.click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
+    var id_book = eid_inpt_nav.getAttribute('data-id_book');
+    var chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    var verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    var to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
+    eid_inpt_nav.dataset.trans = trans;
+    eid_s_book.click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
     var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
@@ -16400,13 +16410,13 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     let Translation = trans;
     let bq = arrFavTransObj.find(v => v.Translation == Translation);
 
-    elem_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
-    elem_inpt_nav.value = bq.Books[id_book].ShortNames[0];
-    if(chapter > 0) elem_inpt_nav.value += ' ' + chapter;
-    if(parseInt(verseNumber) > 0) elem_inpt_nav.value += ':' + verseNumber;
-    if(parseInt(to_verseNumber) > parseInt(verseNumber)) elem_inpt_nav.value += '-' + to_verseNumber;
+    eid_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+    eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
+    if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
+    if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
+    if(parseInt(to_verseNumber) > parseInt(verseNumber)) eid_inpt_nav.value += '-' + to_verseNumber;
             
-    //EnglishPsalms actual es igual que EnglishPsalms del modulo pinchado en elem_footer, sólo recargo modulo base
+    //EnglishPsalms actual es igual que EnglishPsalms del modulo pinchado en eid_footer, sólo recargo modulo base
     if(act_base_ep == EnglishPsalms){
         let arr_error_compare = [];
         let arr_cols_empty = [];
@@ -16445,10 +16455,10 @@ function changeModule(thisDiv,trans,BibleShortName){
     }
 
     //en navegación
-    let id_book = elem_inpt_nav.getAttribute('data-id_book');
-    let chapter = elem_inpt_nav.getAttribute('data-show_chapter');
-    let verseNumber = elem_inpt_nav.getAttribute('data-show_verse');
-    let to_verseNumber = elem_inpt_nav.getAttribute('data-show_to_verse');
+    let id_book = eid_inpt_nav.getAttribute('data-id_book');
+    let chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    let verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    let to_verseNumber = eid_inpt_nav.getAttribute('data-show_to_verse');
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
     var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
@@ -16468,7 +16478,7 @@ function changeModule(thisDiv,trans,BibleShortName){
     var verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
 
-    //si es trans1 cambio al color rojo el boton de elem_footer en tablet y desktop
+    //si es trans1 cambio al color rojo el boton de eid_footer en tablet y desktop
     if(thisDiv.id == 'trans1'){
         var trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
@@ -16506,7 +16516,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     }
 
     let trans_actual = thisDiv.dataset.trans;
-    let act_base_ep = elem_trans1.getAttribute('data-base_ep');
+    let act_base_ep = eid_trans1.getAttribute('data-base_ep');
 
     getArrTransFromCols();
         
@@ -16521,12 +16531,12 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //console.log(' cambiado arr_trans: ', arr_trans);
 
     //en navegación
-    let id_book = elem_inpt_nav.getAttribute('data-id_book');
-    let chapter = elem_inpt_nav.getAttribute('data-show_chapter');
-    let verseNumber = elem_inpt_nav.getAttribute('data-show_verse');
-    let to_verseNumber = elem_inpt_nav.getAttribute('data-show_to_verse');
-    elem_inpt_nav.dataset.trans = trans;
-    elem_s_book.click();//simulo click sobre boton 'Kniga' para cargar los nombres cortos de los libros de la Biblia
+    let id_book = eid_inpt_nav.getAttribute('data-id_book');
+    let chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    let verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    let to_verseNumber = eid_inpt_nav.getAttribute('data-show_to_verse');
+    eid_inpt_nav.dataset.trans = trans;
+    eid_s_book.click();//simulo click sobre boton 'Kniga' para cargar los nombres cortos de los libros de la Biblia
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
     let arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
@@ -16546,7 +16556,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     let verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
 
-    //si es trans1 cambio al color rojo el boton de elem_footer en tablet y desktop
+    //si es trans1 cambio al color rojo el boton de eid_footer en tablet y desktop
     if (thisDiv.id == 'trans1') {
         let trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el => {
@@ -16561,7 +16571,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //si es mobile, pongo 'row'
     if (window.innerWidth < pantallaTabletMinPx) {
         positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
-        changePositionShow(elem_btn_changePositionShowModal);
+        changePositionShow(eid_btn_changePositionShowModal);
     }
 
     let arr_error_compare = [];
@@ -16616,23 +16626,23 @@ function mySizeWindow() {
     
     let window_w = window.innerWidth;
     let window_h = window.innerHeight;
-    let header_h = elem_header.offsetHeight;
-    let footer_h = elem_footer.offsetHeight;
-    let headerContainer_h = elem_headerContainer.offsetHeight;
+    let header_h = eid_header.offsetHeight;
+    let footer_h = eid_footer.offsetHeight;
+    let headerContainer_h = eid_headerContainer.offsetHeight;
     
     var pantalla, marginSidebar;
     if(window_w < pantallaTabletMinPx){
         pantalla = 'mobile';
         marginSidebar = 0;
-        elem_sidebar.removeAttribute('style');
+        eid_sidebar.removeAttribute('style');
     }else if(window_w >= pantallaTabletMinPx /*768*/ && window_w <= pantallaTabletMaxPx /*1023*/){
         pantalla = 'tablet';
         marginSidebar = 10;
-        elem_sidebar.removeAttribute('class');
+        eid_sidebar.removeAttribute('class');
     }else if(window_w >= 1024){
         pantalla = 'desktop';
         marginSidebar = 10;
-        elem_sidebar.removeAttribute('class');
+        eid_sidebar.removeAttribute('class');
     }
     let marginSidebar_h = marginSidebar * 2;//arriba y abajo
     // console.log('window_w: '+window_w);
@@ -16657,12 +16667,12 @@ function mySizeWindow() {
     let container_h = sidebar_h; 
     let v_line_h = sidebar_h; 
 
-    elem_wrapper.style.top = header_h + 'px';
-    elem_wrCols.style.height = wrCols_h + 'px';
+    eid_wrapper.style.top = header_h + 'px';
+    eid_wrCols.style.height = wrCols_h + 'px';
 
-    elem_sidebar.style.height = sidebar_h + 'px';
-    elem_container.style.height = container_h + 'px';
-    elem_v_line.style.height = v_line_h + 'px';
+    eid_sidebar.style.height = sidebar_h + 'px';
+    eid_container.style.height = container_h + 'px';
+    eid_v_line.style.height = v_line_h + 'px';
 
     let colsAll = document.querySelectorAll('.cols');
     let colsHeadAll = document.querySelectorAll('.colsHead');
@@ -16692,8 +16702,8 @@ function mySizeWindow() {
             el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height
         });
 
-        elem_wrCols.classList.remove('wrCols_center');
-        elem_wrCols.style.maxWidth = '';
+        eid_wrCols.classList.remove('wrCols_center');
+        eid_wrCols.style.maxWidth = '';
         
     }else{//col
         colsAll.forEach(el=>{
@@ -16706,15 +16716,15 @@ function mySizeWindow() {
 
         if(pantalla == 'desktop'){
             //añado anchi maximo de 350 px para comodidad de leer
-            elem_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
+            eid_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'tablet'){
             //añado anchi maximo de 350 px para comodidad de leer
-            //elem_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';//antes
-            elem_wrCols.style.maxWidth = '';
+            //eid_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';//antes
+            eid_wrCols.style.maxWidth = '';
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'mobile'){
-            elem_wrCols.style.maxWidth = '';
+            eid_wrCols.style.maxWidth = '';
             if(colsHeadAll.length == 1){
                 //document.querySelectorAll('.colsHead')[0].style.display = 'none';//comento temporalmente
             }
@@ -16730,9 +16740,9 @@ function mySizeWindow() {
         });
         //pongo top para boton pageUp()
         let top_h = colsInnerAll[colsInnerAll.length-1].getBoundingClientRect().top;
-        elem_btn_pageUp.style.top = top_h + 10 + 'px';
+        eid_btn_pageUp.style.top = top_h + 10 + 'px';
 
-        elem_wrCols.classList.add('wrCols_center');
+        eid_wrCols.classList.add('wrCols_center');
     }
 
     setTimeout(()=>{
@@ -16749,8 +16759,8 @@ function mySizeWindow() {
     //console.log('window_h: ' + window_h);
     //console.log('header_h: ' + header_h);
     //console.log('footer_h: ' + footer_h);
-    //console.log('elem_container.offsetHeight: ' + elem_container.offsetHeight);
-    //console.log('elem_containerInner.offsetHeight: ' + elem_containerInner.offsetHeight);
+    //console.log('eid_container.offsetHeight: ' + eid_container.offsetHeight);
+    //console.log('eid_containerInner.offsetHeight: ' + eid_containerInner.offsetHeight);
     //console.log('window_w: ' + window_w);
     //console.log('body.offsetWidth: ' + body.offsetWidth);
     //console.log('body.offsetHeight: ' + body.offsetHeight);
@@ -16765,10 +16775,10 @@ function mySizeNav(){
     parseInt(computedStyle.marginTop) + 
     parseInt(computedStyle.marginBottom);
 
-    let sidebar_h = elem_sidebar.offsetHeight;
+    let sidebar_h = eid_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    let menuTabs_h = elem_menuTabs.offsetHeight;
-    let nav_head_h = elem_nav_head.offsetHeight;
+    let menuTabs_h = eid_menuTabs.offsetHeight;
+    let nav_head_h = eid_nav_head.offsetHeight;
 
     let nav_body_h = 
       sidebar_h
@@ -16776,8 +16786,8 @@ function mySizeNav(){
     - menuTabs_h
     - nav_head_h
     ;
-    elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    elem_nav_body.style.height = nav_body_h + 'px';
+    eid_sidebarInner.style.height = sidebarInner_h + 'px';
+    eid_nav_body.style.height = nav_body_h + 'px';
     // console.log('nav_body_h: '+nav_body_h);    
 }
 
@@ -16787,10 +16797,10 @@ function mySizeFind(){
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
-    let sidebar_h = elem_sidebar.offsetHeight;
+    let sidebar_h = eid_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    let menuTabs_h = elem_menuTabs.offsetHeight;
-    let wr_find_head_h = elem_wr_find_head.offsetHeight;
+    let menuTabs_h = eid_menuTabs.offsetHeight;
+    let wr_find_head_h = eid_wr_find_head.offsetHeight;
 
     let find_body_h = 
       sidebar_h
@@ -16799,8 +16809,8 @@ function mySizeFind(){
     - wr_find_head_h
     - padding_find_body
     ;
-    elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    elem_find_body.style.height = find_body_h + 'px';
+    eid_sidebarInner.style.height = sidebarInner_h + 'px';
+    eid_find_body.style.height = find_body_h + 'px';
     //console.log('find_body_h: '+find_body_h);
 }
 
@@ -16811,10 +16821,10 @@ function mySizeTsk(){
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
-    let sidebar_h = elem_sidebar.offsetHeight;
+    let sidebar_h = eid_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    let menuTabs_h = elem_menuTabs.offsetHeight;
-    let tsk_head_h = elem_tsk_head.offsetHeight;
+    let menuTabs_h = eid_menuTabs.offsetHeight;
+    let tsk_head_h = eid_tsk_head.offsetHeight;
 
     let tsk_body_h = 
       sidebar_h
@@ -16823,8 +16833,8 @@ function mySizeTsk(){
     - tsk_head_h
     - padding_tsk_body
     ;
-    elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    elem_tsk_body.style.height = tsk_body_h + 'px';
+    eid_sidebarInner.style.height = sidebarInner_h + 'px';
+    eid_tsk_body.style.height = tsk_body_h + 'px';
     //console.log('tsk_body_h: '+tsk_body_h);
 }
 
@@ -16834,15 +16844,15 @@ function mySizeStrong(){
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
-    let sidebar_h = elem_sidebar.offsetHeight;
+    let sidebar_h = eid_sidebar.offsetHeight;
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
-    let menuTabs_h = elem_menuTabs.offsetHeight;
-    let wr_strong_head_h = elem_wr_strong_head.offsetHeight;
+    let menuTabs_h = eid_menuTabs.offsetHeight;
+    let wr_strong_head_h = eid_wr_strong_head.offsetHeight;
 
     //si hay una card con el numero strong dentro
     let hasStrongCard = false;    
-    for (let i = 0; i < elem_strong_body.children.length; i++) {
-        const childElement = elem_strong_body.children[i];
+    for (let i = 0; i < eid_strong_body.children.length; i++) {
+        const childElement = eid_strong_body.children[i];
 
         if(childElement.classList.contains('p_v')) {
             hasStrongCard = true;
@@ -16861,8 +16871,8 @@ function mySizeStrong(){
     - padding_strong_body
     - padding_StrongCard //2px de border
     ;
-    elem_sidebarInner.style.height = sidebarInner_h + 'px';
-    elem_strong_body.style.height = strong_body_h + 'px';
+    eid_sidebarInner.style.height = sidebarInner_h + 'px';
+    eid_strong_body.style.height = strong_body_h + 'px';
     //console.log('strong_body_h: '+strong_body_h);    
 }
 
@@ -17004,7 +17014,7 @@ function addMarginTolastP(){
 
 
 function ref(string){
-    elem_sidebarInner.querySelector('p').innerHTML = string;
+    eid_sidebarInner.querySelector('p').innerHTML = string;
 }
 
 
@@ -17092,7 +17102,7 @@ function addTrans(addMode = null){
         htmlCol.appendChild(htmlTrans);
         htmlCol.appendChild(htmlBody);
 
-        elem_wrCols.appendChild(htmlCol);
+        eid_wrCols.appendChild(htmlCol);
 
         setTimeout(e => {
             mySizeVerse();
@@ -17126,7 +17136,7 @@ function removeTrans(){
     let countCols = document.querySelectorAll('.cols').length;
     //console.log(countCols);
     if(countCols != 1){
-        elem_wrCols.lastElementChild.remove();
+        eid_wrCols.lastElementChild.remove();
         mySizeWindow();
         mySizeVerse();
     }
@@ -17157,9 +17167,9 @@ function getRefOfTab(tab_id, ref, str_trans = null){
     if(this_tab != null) this_tab.classList.add('tab_active');
 
     let colsAll = document.querySelectorAll('.cols');
-    elem_inpt_nav.value = ref;
+    eid_inpt_nav.value = ref;
 
-    str_trans = (str_trans != null) ? str_trans : elem_inpt_nav.dataset.trans;
+    str_trans = (str_trans != null) ? str_trans : eid_inpt_nav.dataset.trans;
     arr_trans = str_trans.split(',');
 
     //удаляю лишние колоны
@@ -17188,7 +17198,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
             }
         }        
 
-        //si es trans1 cambio al color rojo el boton de elem_footer en tablet y desktop
+        //si es trans1 cambio al color rojo el boton de eid_footer en tablet y desktop
         if(i == 0 && colsAll[i].querySelector('.colsHead').id == 'trans1'){
             var trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
@@ -17199,17 +17209,17 @@ function getRefOfTab(tab_id, ref, str_trans = null){
                 }
             });
             if(typeof obj_el_trans != 'undefined'){
-                //cambio trans del elem_inpt_nav
-                elem_inpt_nav.dataset.trans = obj_el_trans.Translation;
+                //cambio trans del eid_inpt_nav
+                eid_inpt_nav.dataset.trans = obj_el_trans.Translation;
             }
         }
 
     });
 
-    //ejecuto click sobre el boton ok en elem_inpt_nav para que se muestren botones de verses
-    elem_btn_ok.click();
+    //ejecuto click sobre el boton ok en eid_inpt_nav para que se muestren botones de verses
+    eid_btn_ok.click();
     setTimeout(()=>{
-        elem_s_verse.click();
+        eid_s_verse.click();
     },100);
 }
 
@@ -17233,7 +17243,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         }
     }
 
-    bibShortRef = (bibShortRef != null) ? bibShortRef : elem_trans1.querySelector('.desk_sh_link').innerHTML ;
+    bibShortRef = (bibShortRef != null) ? bibShortRef : eid_trans1.querySelector('.desk_sh_link').innerHTML ;
 
     //si se añade nueva tab 
     if(str_trans == null){
@@ -17275,7 +17285,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
-        elem_partDeskTabs.appendChild(htmlTab);
+        eid_partDeskTabs.appendChild(htmlTab);
 
 
         let tabsAll = document.querySelectorAll('.tabs');
@@ -17345,7 +17355,7 @@ function removeTab(){
     //console.log(countTabs);
 
     if(countTabs != 1){
-        elem_partDeskTabs.lastElementChild.remove();
+        eid_partDeskTabs.lastElementChild.remove();
     }
     updateArrTabs();
 }
@@ -17362,8 +17372,8 @@ function closeTab(el){
 function selBook(e){
     //console.log(e.srcElement.innerText);
     
-    obj_nav.divtrans = elem_inpt_nav.dataset.divtrans;
-    obj_nav.trans = elem_inpt_nav.dataset.trans;
+    obj_nav.divtrans = eid_inpt_nav.dataset.divtrans;
+    obj_nav.trans = eid_inpt_nav.dataset.trans;
     obj_nav.id_book = e.srcElement.getAttribute('data-id_book');
     obj_nav.show_book = e.srcElement.getAttribute('data-show_book');
     obj_nav.id_chapter = '';
@@ -17372,26 +17382,26 @@ function selBook(e){
     obj_nav.show_verse = '';
 
 
-    elem_inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
-    elem_inpt_nav.setAttribute('data-show_book',e.srcElement.getAttribute('data-show_book'));//Gen. Ex. Lev.
+    eid_inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
+    eid_inpt_nav.setAttribute('data-show_book',e.srcElement.getAttribute('data-show_book'));//Gen. Ex. Lev.
 
-    elem_inpt_nav.setAttribute('data-id_chapter','');
-    elem_inpt_nav.setAttribute('data-show_chapter','');
+    eid_inpt_nav.setAttribute('data-id_chapter','');
+    eid_inpt_nav.setAttribute('data-show_chapter','');
 
-    elem_inpt_nav.setAttribute('data-id_verse','');
-    elem_inpt_nav.setAttribute('data-show_verse','');
+    eid_inpt_nav.setAttribute('data-id_verse','');
+    eid_inpt_nav.setAttribute('data-show_verse','');
     
-    elem_inpt_nav.value = elem_inpt_nav.getAttribute('data-show_book') + ' ';
+    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
-    //elem_v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
-    elem_v_verse.innerHTML = 'cargando versículos...';            
+    //eid_v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
+    eid_v_verse.innerHTML = 'cargando versículos...';            
 
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
-    elem_s_chapter.click();// me muevo a la pestaña 'Glava'
-    //en #elem_s_chapter se llama sel(this,'ch',trans)...
-    //en #elem_v_chapter se quitan todos los li's botones de chapters para crear nuevos li's
+    eid_s_chapter.click();// me muevo a la pestaña 'Glava'
+    //en #eid_s_chapter se llama sel(this,'ch',trans)...
+    //en #eid_v_chapter se quitan todos los li's botones de chapters para crear nuevos li's
     //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
     showTrans(e.srcElement.getAttribute('data-id_book'), 1);//cargo con fetch chapter 1 por defecto    
 }
@@ -17404,12 +17414,12 @@ function selChapter(e, show_chapter = null){
 
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-    //console.log('clickeado trans: '+elem_inpt_nav.dataset.trans);
+    //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
     //console.log('clickeado show_chapter: '+e.srcElement.getAttribute('data-show_chapter'));
 
-    //var trans_base = elem_trans1.dataset.trans;//la trans base de #trans1
-    var trans_inpt = elem_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = elem_inpt_nav.dataset.divtrans;// trans desde input
+    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     var is_changedChapter = false;
 
@@ -17419,15 +17429,15 @@ function selChapter(e, show_chapter = null){
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-            //var new_res = convertLinkFromEspToRus(elem_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante EspToRus
-            var new_res = convertLinkFromEspToRus(elem_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante EspToRus
+            //var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante EspToRus
+            var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante EspToRus
             var chapterNumber = new_res[1];
             //console.log('en selChapter --- convertido chapterNumber: '+chapterNumber);//empezando de 1
             is_changedChapter = true;
         }
         else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-            //var new_res = convertLinkFromRusToEsp(elem_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante RusToEsp
-            var new_res = convertLinkFromRusToEsp(elem_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante RusToEsp
+            //var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante RusToEsp
+            var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante RusToEsp
             var chapterNumber = new_res[1];
             //console.log('en selChapter --- convertido chapterNumber: '+chapterNumber);//empezando de 1
             is_changedChapter = true;
@@ -17441,8 +17451,8 @@ function selChapter(e, show_chapter = null){
         obj_nav.id_verse = '';
         obj_nav.show_verse = '';
 
-        elem_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);
-        elem_inpt_nav.setAttribute('data-show_chapter',chapterNumber); 
+        eid_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);
+        eid_inpt_nav.setAttribute('data-show_chapter',chapterNumber); 
 
     }else{//si es trans1
 
@@ -17455,7 +17465,7 @@ function selChapter(e, show_chapter = null){
     }
 
 
-    if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
 
         if(document.querySelectorAll('.cols').length > 1 && is_changedChapter == false){
 
@@ -17485,13 +17495,13 @@ function selChapter(e, show_chapter = null){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                elem_inpt_nav.value = new_ref_text;
+                eid_inpt_nav.value = new_ref_text;
 
-                elem_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);//REVISAR!!!
-                elem_inpt_nav.setAttribute('data-show_chapter',chapterNumber); //REVISAR!!!
+                eid_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);//REVISAR!!!
+                eid_inpt_nav.setAttribute('data-show_chapter',chapterNumber); //REVISAR!!!
         
-                elem_inpt_nav.setAttribute('data-id_verse','');
-                elem_inpt_nav.setAttribute('data-show_verse','');
+                eid_inpt_nav.setAttribute('data-id_verse','');
+                eid_inpt_nav.setAttribute('data-show_verse','');
             }
         }
 
@@ -17499,31 +17509,31 @@ function selChapter(e, show_chapter = null){
         if(show_chapter == null){
             e.srcElement.classList.add('active');//añado bg red al li boton del chapter '22'
         }
-        elem_s_verse.click();// me muevo a la pestaña 'Stij'
-        //en #elem_s_verse se llama sel(this,'v',trans)...
-        //en #elem_v_verse se quitan todos los li's botones de verses para crear nuevos li's
+        eid_s_verse.click();// me muevo a la pestaña 'Stij'
+        //en #eid_s_verse se llama sel(this,'v',trans)...
+        //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
     
-        showTrans(elem_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
+        showTrans(eid_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
 
     }else{//trans1
-        elem_inpt_nav.setAttribute('data-id_chapter', param_show_chapter - 1);
-        elem_inpt_nav.setAttribute('data-show_chapter', param_show_chapter); 
+        eid_inpt_nav.setAttribute('data-id_chapter', param_show_chapter - 1);
+        eid_inpt_nav.setAttribute('data-show_chapter', param_show_chapter); 
 
-        elem_inpt_nav.setAttribute('data-id_verse','');
-        elem_inpt_nav.setAttribute('data-show_verse','');
+        eid_inpt_nav.setAttribute('data-id_verse','');
+        eid_inpt_nav.setAttribute('data-show_verse','');
     
-        elem_inpt_nav.value = elem_inpt_nav.getAttribute('data-show_book') + ' ' + elem_inpt_nav.getAttribute('data-show_chapter'); 
+        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
         
         if(show_chapter == null){
             e.srcElement.classList.add('active');//añado bg red al li boton del chapter '22'
         }
-        elem_s_verse.click();// me muevo a la pestaña 'Stij'
-        //en #elem_s_verse se llama sel(this,'v',trans)...
-        //en #elem_v_verse se quitan todos los li's botones de verses para crear nuevos li's
+        eid_s_verse.click();// me muevo a la pestaña 'Stij'
+        //en #eid_s_verse se llama sel(this,'v',trans)...
+        //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
     
-        showTrans(elem_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1    
+        showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1    
     }    
 }
 
@@ -17532,17 +17542,17 @@ function selVerse(e){
     //console.log(e.srcElement.innerText);
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-    //console.log('clickeado trans: '+elem_inpt_nav.dataset.trans);
+    //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
     //console.log('clickeado show_verse: '+e.srcElement.getAttribute('data-show_verse'));
 
-    //var trans_base = elem_trans1.dataset.trans;//la trans base de #trans1
-    var trans_inpt = elem_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = elem_inpt_nav.dataset.divtrans;// trans desde input
+    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     //asigno chapter por defecto si no hay cha`ter y se selecciona verse
-    if(elem_inpt_nav.getAttribute('data-id_chapter') == '' && elem_inpt_nav.getAttribute('data-show_chapter') == ''){
-        elem_inpt_nav.setAttribute('data-id_chapter', 0);
-        elem_inpt_nav.setAttribute('data-show_chapter', 1);
+    if(eid_inpt_nav.getAttribute('data-id_chapter') == '' && eid_inpt_nav.getAttribute('data-show_chapter') == ''){
+        eid_inpt_nav.setAttribute('data-id_chapter', 0);
+        eid_inpt_nav.setAttribute('data-show_chapter', 1);
     }
 
     var is_changedVerse = false;
@@ -17553,28 +17563,28 @@ function selVerse(e){
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-            var new_res = convertLinkFromEspToRus(elem_inpt_nav.dataset.id_book, elem_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante EspToRus
+            var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante EspToRus
             var chapterNumber = new_res[1];
             var verseNumber = new_res[2];
             //console.log('en selVerse --- convertido verseNumber: '+verseNumber);//empezando de 1
             is_changedVerse = true;
         }
         else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-            var new_res = convertLinkFromRusToEsp(elem_inpt_nav.dataset.id_book, elem_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante RusToEsp
+            var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante RusToEsp
             var chapterNumber = new_res[1];
             var verseNumber = new_res[2];
             //console.log('en selVerse --- convertido verseNumber: '+verseNumber);//empezando de 1
             is_changedVerse = true;
         }else{
-            var chapterNumber = elem_inpt_nav.getAttribute('data-show_chapter');
+            var chapterNumber = eid_inpt_nav.getAttribute('data-show_chapter');
             var verseNumber = e.srcElement.getAttribute('data-show_verse');
         }
 
         obj_nav.id_verse = verseNumber - 1;//comprobar!
         obj_nav.show_verse = verseNumber;//comprobar!
 
-        elem_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);
-        elem_inpt_nav.setAttribute('data-show_verse',verseNumber); 
+        eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);
+        eid_inpt_nav.setAttribute('data-show_verse',verseNumber); 
 
     }else{//si es trans1
 
@@ -17584,7 +17594,7 @@ function selVerse(e){
 
 
 
-    if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
 
         if(document.querySelectorAll('.cols').length > 1 && is_changedVerse == false){
 
@@ -17614,10 +17624,10 @@ function selVerse(e){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                elem_inpt_nav.value = new_ref_text;
+                eid_inpt_nav.value = new_ref_text;
 
-                elem_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);//REVISAR!!!
-                elem_inpt_nav.setAttribute('data-show_verse',verseNumber); //REVISAR!!!
+                eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);//REVISAR!!!
+                eid_inpt_nav.setAttribute('data-show_verse',verseNumber); //REVISAR!!!
             }
         }
 
@@ -17625,10 +17635,10 @@ function selVerse(e){
         obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
     
-        elem_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
-        elem_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));
+        eid_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
+        eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));
         
-        elem_inpt_nav.value = elem_inpt_nav.getAttribute('data-show_book') + ' ' + elem_inpt_nav.getAttribute('data-show_chapter') + ':' +elem_inpt_nav.getAttribute('data-show_verse');    
+        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');    
     } 
    
     
@@ -17639,7 +17649,7 @@ function selVerse(e){
 
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
 
-    addRefToHistNav(elem_inpt_nav.dataset.trans, elem_inpt_nav.value, elem_inpt_nav.dataset.id_book, elem_inpt_nav.dataset.show_chapter, elem_inpt_nav.dataset.show_verse, to_verse);
+    addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse);
 
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
@@ -17653,8 +17663,8 @@ function selVerse(e){
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
     
-    //var trans_base = elem_trans1.dataset.trans;
-    var trans_inpt = elem_inpt_nav.dataset.trans;
+    //var trans_base = eid_trans1.dataset.trans;
+    var trans_inpt = eid_inpt_nav.dataset.trans;
 
     if(trans != null){
         var trans = trans;
@@ -17675,7 +17685,7 @@ function sel(e, par, show_chapter = null, trans = null){
 
     // console.log(' === en function sel(). trans1 (trans_base): '+trans_base);
     // console.log(' === en function sel(). param trans: '+trans);
-    // console.log(' === en function sel(). trans2 (inpt): '+elem_inpt_nav.dataset.trans);
+    // console.log(' === en function sel(). trans2 (inpt): '+eid_inpt_nav.dataset.trans);
 
     document.querySelectorAll('.v_bcv').forEach(el=>{
         el.classList.remove('bcv_active');
@@ -17689,12 +17699,12 @@ function sel(e, par, show_chapter = null, trans = null){
 
     switch (par) {
         case 'b':   //Select li Book
-                    elem_v_book.classList.add('ul_active');
-                    elem_bcv_line.classList.remove('c_line');
-                    elem_bcv_line.classList.remove('v_line');
-                    elem_bcv_line.classList.add('b_line');
+                    eid_v_book.classList.add('ul_active');
+                    eid_bcv_line.classList.remove('c_line');
+                    eid_bcv_line.classList.remove('v_line');
+                    eid_bcv_line.classList.add('b_line');
 
-                    var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
+                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
                     //console.log(id_book);
 
                     //modo new. Siempre salta este ya que cargo book despues de crear const arrFavTransObj
@@ -17718,7 +17728,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log(arr_books);
                             }
                 
-                            elem_v_book.innerHTML = '';//reset botones de books
+                            eid_v_book.innerHTML = '';//reset botones de books
                 
                             var arr_booksBible = [];
                             var arr_genesis_hechos = [];
@@ -17807,23 +17817,23 @@ function sel(e, par, show_chapter = null, trans = null){
                                 if(i_b >= 0 && i_b <= 38){//Genesis - Малахия
                                     arr_block_AT.push(li);
                                     //console.log(arr_block_AT);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }                    
                                 //Meto en Nuevo Testamento
                                 if(i_b >= 39 && i_b <= 65){//Mateo - Apocalipsis
                                     arr_block_NT.push(li);
                                     //console.log(arr_block_NT);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }
                                 //Meto en Apocrifos
                                 if(i_b >= 66){//Makaveos - Tobit
                                     arr_block_APO.push(li);
                                     //console.log(arr_block_APO);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }
                             });
 
-                            //meto los blocks en elem_v_book
+                            //meto los blocks en eid_v_book
                             //Creo Antiguo Testamento
                             if(arr_block_AT.length != 0){
                                 const block_AT = document.createElement('div');
@@ -17834,7 +17844,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_AT.append(el);
                                     //console.log(block_AT);
                                 });
-                                elem_v_book.append(block_AT);
+                                eid_v_book.append(block_AT);
                             }
                             //Creo Nuevo Testamento
                             if(arr_block_NT.length != 0){
@@ -17846,7 +17856,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_NT.append(el);
                                     //console.log(block_NT);
                                 });
-                                elem_v_book.append(block_NT);
+                                eid_v_book.append(block_NT);
                             }
                             //Creo Apocrifos
                             if(arr_block_APO.length != 0){
@@ -17858,17 +17868,17 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_APO.append(el);
                                     //console.log(block_APO);
                                 });
-                                elem_v_book.append(block_APO);
+                                eid_v_book.append(block_APO);
                             }
-                            //console.log(elem_v_book);                
+                            //console.log(eid_v_book);                
 
                         })
                         .then(()=>{
                             //si hay un boton li activo me muevo alli
-                            if(elem_v_book.getElementsByClassName('li_active').length > 0){
+                            if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
-                                    //console.log('hago elem_v_book.querySelector(li_active).scrollIntoView');
-                                    elem_v_book.querySelector('.li_active').scrollIntoView({
+                                    //console.log('hago eid_v_book.querySelector(li_active).scrollIntoView');
+                                    eid_v_book.querySelector('.li_active').scrollIntoView({
                                         behavior: "smooth",
                                         block: "start",
                                         inline: "nearest"
@@ -17900,7 +17910,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             window.arr_books = data.Books;
                             //console.log(arr_books);
                 
-                            elem_v_book.innerHTML = '';//reset botones de books
+                            eid_v_book.innerHTML = '';//reset botones de books
                 
                             var arr_booksBible = [];
                             var arr_genesis_hechos = [];
@@ -17989,23 +17999,23 @@ function sel(e, par, show_chapter = null, trans = null){
                                 if(i_b >= 0 && i_b <= 38){//Genesis - Малахия
                                     arr_block_AT.push(li);
                                     //console.log(arr_block_AT);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }                    
                                 //Meto en Nuevo Testamento
                                 if(i_b >= 39 && i_b <= 65){//Mateo - Apocalipsis
                                     arr_block_NT.push(li);
                                     //console.log(arr_block_NT);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }
                                 //Meto en Apocrifos
                                 if(i_b >= 66){//Makaveos - Tobit
                                     arr_block_APO.push(li);
                                     //console.log(arr_block_APO);
-                                    //console.log(elem_v_book);
+                                    //console.log(eid_v_book);
                                 }
                             });
 
-                            //meto los blocks en elem_v_book
+                            //meto los blocks en eid_v_book
                             //Creo Antiguo Testamento
                             if(arr_block_AT.length != 0){
                                 const block_AT = document.createElement('div');
@@ -18016,7 +18026,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_AT.append(el);
                                     //console.log(block_AT);
                                 });
-                                elem_v_book.append(block_AT);
+                                eid_v_book.append(block_AT);
                             }
                             //Creo Nuevo Testamento
                             if(arr_block_NT.length != 0){
@@ -18028,7 +18038,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_NT.append(el);
                                     //console.log(block_NT);
                                 });
-                                elem_v_book.append(block_NT);
+                                eid_v_book.append(block_NT);
                             }
                             //Creo Apocrifos
                             if(arr_block_APO.length != 0){
@@ -18040,16 +18050,16 @@ function sel(e, par, show_chapter = null, trans = null){
                                     block_APO.append(el);
                                     //console.log(block_APO);
                                 });
-                                elem_v_book.append(block_APO);
+                                eid_v_book.append(block_APO);
                             }
-                            //console.log(elem_v_book);                
+                            //console.log(eid_v_book);                
                 
                         })
                         .then(()=>{
                             //si hay un boton li activo me muevo alli
-                            if(elem_v_book.getElementsByClassName('li_active').length > 0){
+                            if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
-                                    elem_v_book.querySelector('.li_active').scrollIntoView({
+                                    eid_v_book.querySelector('.li_active').scrollIntoView({
                                         behavior: "smooth",
                                         block: "start",
                                         inline: "nearest"
@@ -18067,13 +18077,13 @@ function sel(e, par, show_chapter = null, trans = null){
             break;
     
         case 'ch':  //Select li Chapter
-                    elem_v_chapter.classList.add('ul_active');
-                    elem_bcv_line.classList.remove('b_line');
-                    elem_bcv_line.classList.remove('v_line');
-                    elem_bcv_line.classList.add('c_line');
+                    eid_v_chapter.classList.add('ul_active');
+                    eid_bcv_line.classList.remove('b_line');
+                    eid_bcv_line.classList.remove('v_line');
+                    eid_bcv_line.classList.add('c_line');
             
-                    var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
-                    var id_chapter = parseInt(elem_inpt_nav.getAttribute('data-id_chapter'));//antes  
+                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
+                    var id_chapter = parseInt(eid_inpt_nav.getAttribute('data-id_chapter'));//antes  
                     
                     
                     //modo new
@@ -18118,11 +18128,11 @@ function sel(e, par, show_chapter = null, trans = null){
                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                    elem_inpt_nav.value = new_ref_text;
+                                    eid_inpt_nav.value = new_ref_text;
                                 }
                             } 
             
-                            elem_v_chapter.innerHTML = '';//reset todos los botones de chapter  
+                            eid_v_chapter.innerHTML = '';//reset todos los botones de chapter  
                             const wr_grid_ch = document.createElement('div');
                             wr_grid_ch.className = 'wr_grid_ch';
                             
@@ -18134,7 +18144,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 li_ch.className = 'v_li c_li';
             
                                 //si el menu fue clickeado desde no la trans1 (trans base) 
-                                if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                     //console.log(index+') if --- obj_nav.divtrans != trans1');
                                     //id_chapter = chapterNumber - 1;
                                     //show_chapter = chapterNumber;
@@ -18153,13 +18163,13 @@ function sel(e, par, show_chapter = null, trans = null){
                                 li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                                 wr_grid_ch.append(li_ch);
                             }
-                            elem_v_chapter.append(wr_grid_ch);
+                            eid_v_chapter.append(wr_grid_ch);
                         })
                         .then(()=>{
                             //si hay un boton li activo me muevo alli
-                            if(elem_v_chapter.getElementsByClassName('li_active').length > 0){
+                            if(eid_v_chapter.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
-                                    elem_v_chapter.querySelector('.li_active').scrollIntoView({
+                                    eid_v_chapter.querySelector('.li_active').scrollIntoView({
                                         behavior: "smooth",
                                         block: "start",
                                         inline: "nearest"
@@ -18217,7 +18227,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        elem_inpt_nav.value = new_ref_text;
+                                        eid_inpt_nav.value = new_ref_text;
                                     }
                                 } 
                                                 
@@ -18225,7 +18235,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log('abajo arr_chapters');
                                 //console.log(arr_chapters);
                 
-                                elem_v_chapter.innerHTML = '';//reset todos los botones de chapter                            
+                                eid_v_chapter.innerHTML = '';//reset todos los botones de chapter                            
                                 const wr_grid_ch = document.createElement('div');
                                 wr_grid_ch.className = 'wr_grid_ch';
                     
@@ -18237,7 +18247,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     li_ch.className = 'v_li c_li';
                 
                                     //si el menu fue clickeado desde no la trans1 (trans base) 
-                                    if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                         //console.log(index+') if --- obj_nav.divtrans != trans1');
                                         //id_chapter = chapterNumber - 1;
                                         //show_chapter = chapterNumber;
@@ -18255,13 +18265,13 @@ function sel(e, par, show_chapter = null, trans = null){
                                     li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                                     wr_grid_ch.append(li_ch);
                                 }
-                                elem_v_chapter.append(wr_grid_ch);
+                                eid_v_chapter.append(wr_grid_ch);
                             })
                             .then(()=>{
                                 //si hay un boton li activo me muevo alli
-                                if(elem_v_chapter.getElementsByClassName('li_active').length > 0){
+                                if(eid_v_chapter.getElementsByClassName('li_active').length > 0){
                                     setTimeout(()=>{
-                                        elem_v_chapter.querySelector('.li_active').scrollIntoView({
+                                        eid_v_chapter.querySelector('.li_active').scrollIntoView({
                                             behavior: "smooth",
                                             block: "start",
                                             inline: "nearest"
@@ -18285,14 +18295,14 @@ function sel(e, par, show_chapter = null, trans = null){
             break;
     
         case 'v':   //Select li Verse
-                    elem_v_verse.classList.add('ul_active');
-                    elem_bcv_line.classList.remove('b_line');
-                    elem_bcv_line.classList.remove('c_line');
-                    elem_bcv_line.classList.add('v_line');
+                    eid_v_verse.classList.add('ul_active');
+                    eid_bcv_line.classList.remove('b_line');
+                    eid_bcv_line.classList.remove('c_line');
+                    eid_bcv_line.classList.add('v_line');
             
-                    var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
-                    var id_chapter = (elem_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(elem_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
-                    var id_verse = parseInt(elem_inpt_nav.getAttribute('data-id_verse'));
+                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
+                    var id_chapter = (eid_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
+                    var id_verse = parseInt(eid_inpt_nav.getAttribute('data-id_verse'));
             
             
                     //modo new
@@ -18347,7 +18357,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                    elem_inpt_nav.value = new_ref_text;
+                                                    eid_inpt_nav.value = new_ref_text;
                                                 }else{//si no hay que cambiar el chapter 
                                                     var chapterNumber = id_chapter + 1;
                                                     var verseNumber = id_verse + 1;    
@@ -18361,7 +18371,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             //console.log('abajo arr_verses');
                                             //console.log(arr_verses);
                             
-                                            elem_v_verse.innerHTML = '';//reset botones de versiculos
+                                            eid_v_verse.innerHTML = '';//reset botones de versiculos
                                             const wr_grid_v = document.createElement('div');
                                             wr_grid_v.className = 'wr_grid_v';
                                                         
@@ -18372,7 +18382,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 li_v.setAttribute('data-show_verse',index);
                                                 li_v.className = 'v_li';                            
                                                 //si el menu fue clickeado desde no la trans1 (trans base) 
-                                                if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                                if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                                     //console.log(index+') if --- obj_nav.divtrans != trans1');
                                                     if(index == verseNumber){
                                                         //console.log('--- --- modifico verse: ' + verseNumber);
@@ -18388,7 +18398,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                                 wr_grid_v.append(li_v);
                                             }
-                                            elem_v_verse.append(wr_grid_v);
+                                            eid_v_verse.append(wr_grid_v);
             
                                         }else{
                                             console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -18455,7 +18465,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                elem_inpt_nav.value = new_ref_text;
+                                                eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
                                                 var chapterNumber = id_chapter + 1;
                                                 var verseNumber = id_verse + 1;    
@@ -18465,7 +18475,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             var verseNumber = id_verse + 1;
                                         }
                                                         
-                                        elem_v_verse.innerHTML = '';//reset botones de versiculos
+                                        eid_v_verse.innerHTML = '';//reset botones de versiculos
                                         const wr_grid_v = document.createElement('div');
                                         wr_grid_v.className = 'wr_grid_v';
                                 
@@ -18477,7 +18487,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             li_v.className = 'v_li';
                         
                                             //si el menu fue clickeado desde no la trans1 (trans base) 
-                                            if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                            if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                                 //console.log(index+') if --- obj_nav.divtrans != trans1');
                                                 if(index == verseNumber){
                                                     //console.log('--- --- modifico verse: ' + verseNumber);
@@ -18494,15 +18504,15 @@ function sel(e, par, show_chapter = null, trans = null){
                                             li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                             wr_grid_v.append(li_v);
                                         }
-                                        elem_v_verse.append(wr_grid_v);
+                                        eid_v_verse.append(wr_grid_v);
                 
                                     })
                                     .then(()=>{
                                         //si hay un boton li activo me muevo alli
-                                        if(elem_v_verse.getElementsByClassName('li_active').length > 0){
+                                        if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
-                                                if(elem_v_verse.querySelector('.li_active') != null){
-                                                    elem_v_verse.querySelector('.li_active').scrollIntoView({
+                                                if(eid_v_verse.querySelector('.li_active') != null){
+                                                    eid_v_verse.querySelector('.li_active').scrollIntoView({
                                                         behavior: "smooth",
                                                         block: "start",
                                                         inline: "nearest"
@@ -18555,7 +18565,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                elem_inpt_nav.value = new_ref_text;
+                                                eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
                                                 var chapterNumber = id_chapter + 1;
                                                 var verseNumber = id_verse + 1;    
@@ -18572,7 +18582,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         // console.log('abajo arr_verses');
                                         //console.log(arr_verses);
                         
-                                        elem_v_verse.innerHTML = '';//reset botones de versiculos
+                                        eid_v_verse.innerHTML = '';//reset botones de versiculos
                                         const wr_grid_v = document.createElement('div');
                                         wr_grid_v.className = 'wr_grid_v';
                                 
@@ -18584,7 +18594,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             li_v.className = 'v_li';
                         
                                             //si el menu fue clickeado desde no la trans1 (trans base) 
-                                            if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                            if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                                 //console.log(index+') if --- obj_nav.divtrans != trans1');
                                                 if(index == verseNumber){
                                                     //console.log('--- --- modifico verse: ' + verseNumber);
@@ -18601,14 +18611,14 @@ function sel(e, par, show_chapter = null, trans = null){
                                             li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                             wr_grid_v.append(li_v);
                                         }
-                                        elem_v_verse.append(wr_grid_v);
+                                        eid_v_verse.append(wr_grid_v);
                 
                                     })
                                     .then(()=>{
                                         //si hay un boton li activo me muevo alli
-                                        if(elem_v_verse.getElementsByClassName('li_active').length > 0){
+                                        if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
-                                                elem_v_verse.querySelector('.li_active').scrollIntoView({
+                                                eid_v_verse.querySelector('.li_active').scrollIntoView({
                                                     behavior: "smooth",
                                                     block: "start",
                                                     inline: "nearest"
@@ -18628,10 +18638,10 @@ function sel(e, par, show_chapter = null, trans = null){
                         })
                         .then(()=>{
                             //si hay un boton li activo me muevo alli
-                            if(elem_v_verse.getElementsByClassName('li_active').length > 0){
+                            if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
-                                    if(elem_v_verse.querySelector('.li_active') !== null){
-                                        elem_v_verse.querySelector('.li_active').scrollIntoView({
+                                    if(eid_v_verse.querySelector('.li_active') !== null){
+                                        eid_v_verse.querySelector('.li_active').scrollIntoView({
                                             behavior: "smooth",
                                             block: "start",
                                             inline: "nearest"
@@ -18690,7 +18700,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        elem_inpt_nav.value = new_ref_text;
+                                        eid_inpt_nav.value = new_ref_text;
                                     }else{//si no hay que cambiar el chapter 
                                         var chapterNumber = id_chapter + 1;
                                         var verseNumber = id_verse + 1;    
@@ -18705,7 +18715,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log('abajo arr_verses');
                                 //console.log(arr_verses);
                 
-                                elem_v_verse.innerHTML = '';//reset botones de versiculos
+                                eid_v_verse.innerHTML = '';//reset botones de versiculos
                                 const wr_grid_v = document.createElement('div');
                                 wr_grid_v.className = 'wr_grid_v';
                                 
@@ -18716,7 +18726,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     li_v.setAttribute('data-show_verse',index);
                                     li_v.className = 'v_li';                
                                     //si el menu fue clickeado desde no la trans1 (trans base) 
-                                    if(elem_inpt_nav.dataset.divtrans != '' && elem_inpt_nav.dataset.divtrans != 'trans1'){
+                                    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                         //console.log(index+') if --- obj_nav.divtrans != trans1');
                                         if(index == verseNumber){
                                             //console.log('--- --- modifico verse: ' + verseNumber);
@@ -18732,14 +18742,14 @@ function sel(e, par, show_chapter = null, trans = null){
                                     li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                     wr_grid_v.append(li_v);
                                 }
-                                elem_v_verse.append(wr_grid_v);
+                                eid_v_verse.append(wr_grid_v);
             
                             })
                             .then(()=>{
                                 //si hay un boton li activo me muevo alli
-                                if(elem_v_verse.getElementsByClassName('li_active').length > 0){
+                                if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                     setTimeout(()=>{
-                                        elem_v_verse.querySelector('.li_active').scrollIntoView({
+                                        eid_v_verse.querySelector('.li_active').scrollIntoView({
                                             behavior: "smooth",
                                             block: "start",
                                             inline: "nearest"
@@ -18762,7 +18772,7 @@ function sel(e, par, show_chapter = null, trans = null){
             break;
     
         default:    //select Book by default
-                    elem_v_book.classList.add('ul_active');
+                    eid_v_book.classList.add('ul_active');
             break;
     }
 
@@ -18812,8 +18822,8 @@ function getRefForTsk(Translation, bookShortName){
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
 
-    var act_trans = elem_trans1.dataset.trans;
-    var trans_inpt = elem_inpt_nav.dataset.trans;
+    var act_trans = eid_trans1.dataset.trans;
+    var trans_inpt = eid_inpt_nav.dataset.trans;
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
@@ -18822,14 +18832,14 @@ function getRef(trans = null){
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
-            var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
+            var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
             var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
 
-            //elem_trans1.dataset.trans = trans;//antes
-            //elem_trans1.dataset.base_ep = EnglishPsalms;//antes
-            //elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);//antes
+            //eid_trans1.dataset.trans = trans;//antes
+            //eid_trans1.dataset.base_ep = EnglishPsalms;//antes
+            //eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);//antes
 
-            elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+            eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
             var trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
@@ -18842,7 +18852,7 @@ function getRef(trans = null){
 
 
     //var inpt_v = inpt.value.trim();//antes
-    var inpt_v = elem_inpt_nav.value.trim();
+    var inpt_v = eid_inpt_nav.value.trim();
     var book = null;//por defecto
     var chapter = null;//por defecto
     var verse = null;//por defecto
@@ -18927,7 +18937,7 @@ function getRef(trans = null){
         var arr_v = inpt_v.split(' ');
 
         if(arr_v.length > 3){
-            arr_v = arr_v.filter(elm=>elm);
+            arr_v = arr_v.filter(elem => elem);
             book = arr_v[0];
             chapter = arr_v[1];
             verse = arr_v[2];
@@ -18994,11 +19004,11 @@ function getRef(trans = null){
                             if(document.querySelectorAll('.cols').length > 1){
 
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-                                //console.log('clickeado trans: '+elem_inpt_nav.dataset.trans);
+                                //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                //var trans_base = elem_trans1.dataset.trans;//la trans base de #trans1
-                                var trans_inpt = elem_inpt_nav.dataset.trans;// trans desde input
-                                var divtrans_inpt = elem_inpt_nav.dataset.divtrans;// trans desde input
+                                //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -19031,23 +19041,23 @@ function getRef(trans = null){
                         
                         } 
                     
-                        elem_inpt_nav.setAttribute('data-id_book',n_book);
-                        elem_inpt_nav.setAttribute('data-show_book',short_name);
+                        eid_inpt_nav.setAttribute('data-id_book',n_book);
+                        eid_inpt_nav.setAttribute('data-show_book',short_name);
 
-                        elem_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-                        elem_inpt_nav.setAttribute('data-show_chapter',chapter);
+                        eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                        eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
-                        elem_inpt_nav.value = short_name;
+                        eid_inpt_nav.value = short_name;
                         obj_nav.show_book = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
-                            elem_inpt_nav.value += ' ' + chapter;
+                            eid_inpt_nav.value += ' ' + chapter;
                             obj_nav.id_chapter = parseInt(chapter) - 1;
                             obj_nav.show_chapter = chapter;
-                            elem_v_chapter.innerHTML = '';
+                            eid_v_chapter.innerHTML = '';
                         }else{
-                            elem_v_chapter.innerHTML = 'selecciona el capítulo';
+                            eid_v_chapter.innerHTML = 'selecciona el capítulo';
                             obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
@@ -19060,14 +19070,14 @@ function getRef(trans = null){
                                                         
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
-                                elem_inpt_nav.value += ':' + verse;
+                                eid_inpt_nav.value += ':' + verse;
                                 obj_nav.id_verse = parseInt(verse) - 1;
                                 obj_nav.show_verse = verse;
-                                elem_inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
-                                elem_inpt_nav.setAttribute('data-show_verse', verse);
-                                elem_v_verse.innerHTML = '';
+                                eid_inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
+                                eid_inpt_nav.setAttribute('data-show_verse', verse);
+                                eid_v_verse.innerHTML = '';
                             } else {
-                                //elem_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
@@ -19083,24 +19093,24 @@ function getRef(trans = null){
 
                             //hay to_verse
                             if (to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)) {
-                                elem_inpt_nav.value += '-' + to_verse;
-                                elem_inpt_nav.setAttribute('data-show_to_verse', to_verse);
+                                eid_inpt_nav.value += '-' + to_verse;
+                                eid_inpt_nav.setAttribute('data-show_to_verse', to_verse);
                                 obj_nav.show_to_verse = to_verse;
                             } else {
-                                elem_inpt_nav.setAttribute('data-show_to_verse', '');
+                                eid_inpt_nav.setAttribute('data-show_to_verse', '');
                                 obj_nav.show_to_verse = '';
                             }
 
 
                             //meto ref encontrado en el historial de navegacion
-                            addRefToHistNav(trans, elem_inpt_nav.value, n_book, chapter, verse, to_verse);
+                            addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse);
 
 
-                            if(elem_v_book.querySelector('.li_active') != null){
-                                elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                            if(eid_v_book.querySelector('.li_active') != null){
+                                eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                             } 
-                            if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                            if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                             }
 
                             //si es mobile, cierro menu
@@ -19120,15 +19130,15 @@ function getRef(trans = null){
 
                             //test //no hay chapter, no hay verse
                             if (chapter == null && verse == null) {
-                                elem_s_chapter.click();//propongo seleccionar el chapter
+                                eid_s_chapter.click();//propongo seleccionar el chapter
                             }
                             //hay chapter, no hay verse
                             if (chapter != null && parseInt(chapter) > 0 && verse == null) {
-                                elem_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
+                                eid_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
                             }
                             //hay chapter, hay verse
                             if (parseInt(chapter) > 0 && parseInt(verse) > 0) {
-                                elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
                             }
                         }//end modo_action_get_tsk_verses == by_text
 
@@ -19139,7 +19149,7 @@ function getRef(trans = null){
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
-                                //elem_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
@@ -19150,11 +19160,11 @@ function getRef(trans = null){
                                 },50);
 
 
-                                if(elem_v_book.querySelector('.li_active') != null){
-                                    elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                                if(eid_v_book.querySelector('.li_active') != null){
+                                    eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                                 } 
-                                if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                    elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                    eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                                 }
         
                                 //si es mobile, cierro menu
@@ -19171,7 +19181,7 @@ function getRef(trans = null){
 
                                 
                                 //meto ref encontrado en el historial de navegacion
-                                addRefToHistNav(trans, elem_inpt_nav.value, n_book, chapter, verse, to_verse);
+                                addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse);
                                 
                                 
                                 showTrans(n_book, chapter, verse, to_verse);
@@ -19179,15 +19189,15 @@ function getRef(trans = null){
 
                                 //test //no hay chapter, no hay verse
                                 if(chapter == null && verse == null){
-                                    elem_s_chapter.click();//propongo seleccionar el chapter
+                                    eid_s_chapter.click();//propongo seleccionar el chapter
                                 }
                                 //hay chapter, no hay verse
                                 if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                                    elem_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
+                                    eid_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
                                 }
                                 //hay chapter, hay verse
                                 if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                                    elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                    eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
                                 }
                                 
                             }
@@ -19215,12 +19225,12 @@ function getRef(trans = null){
                                     if(verse > data.VerseQty) verse = data.VerseQty;
                                     //console.log('15047. verse: ',verse);
 
-                                    elem_inpt_nav.value += ':' + verse;
+                                    eid_inpt_nav.value += ':' + verse;
                                     obj_nav.id_verse = parseInt(verse) - 1;
                                     obj_nav.show_verse = verse;
-                                    elem_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                                    elem_inpt_nav.setAttribute('data-show_verse',verse);
-                                    elem_v_verse.innerHTML = '';
+                                    eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                                    eid_inpt_nav.setAttribute('data-show_verse',verse);
+                                    eid_v_verse.innerHTML = '';
 
 
                                     //hay to_verse
@@ -19228,19 +19238,19 @@ function getRef(trans = null){
                                     //console.log('15096. to_verse: ',to_verse);
 
                                     if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                                        elem_inpt_nav.value += '-' + to_verse;
-                                        elem_inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                                        eid_inpt_nav.value += '-' + to_verse;
+                                        eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
                                         obj_nav.show_to_verse = to_verse;
                                     }else{
-                                        elem_inpt_nav.setAttribute('data-show_to_verse','');
+                                        eid_inpt_nav.setAttribute('data-show_to_verse','');
                                         obj_nav.show_to_verse = '';
                                     }
 
-                                    if(elem_v_book.querySelector('.li_active') != null){
-                                        elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                                    if(eid_v_book.querySelector('.li_active') != null){
+                                        eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                                     } 
-                                    if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                        elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                    if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                        eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                                     }
             
                                     //si es mobile, cierro menu
@@ -19256,22 +19266,22 @@ function getRef(trans = null){
                                     });
 
                                     //meto ref encontrado en el historial de navegacion
-                                    addRefToHistNav(trans, elem_inpt_nav.value, n_book, chapter, verse, to_verse); 
+                                    addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse); 
 
                                     showTrans(n_book, chapter, verse, to_verse);
                                     //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
         
                                     //test //no hay chapter, no hay verse
                                     if(chapter == null && verse == null){
-                                        elem_s_chapter.click();//propongo seleccionar el chapter
+                                        eid_s_chapter.click();//propongo seleccionar el chapter
                                     }
                                     //hay chapter, no hay verse
                                     if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                                        elem_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
+                                        eid_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
                                     }
                                     //hay chapter, hay verse
                                     if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                                        elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                        eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
                                     }
             
                                 })
@@ -19323,11 +19333,11 @@ function getRef(trans = null){
                                 if(document.querySelectorAll('.cols').length > 1){
     
                                     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-                                    //console.log('clickeado trans: '+elem_inpt_nav.dataset.trans);
+                                    //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                     
-                                    //var trans_base = elem_trans1.dataset.trans;//la trans base de #trans1
-                                    var trans_inpt = elem_inpt_nav.dataset.trans;// trans desde input
-                                    var divtrans_inpt = elem_inpt_nav.dataset.divtrans;// trans desde input
+                                    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
     
                                     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -19362,37 +19372,37 @@ function getRef(trans = null){
     
                             chapter = (chapter != null) ? chapter : 1;//default si no hay
                         
-                            elem_inpt_nav.setAttribute('data-id_book',n_book);
-                            elem_inpt_nav.setAttribute('data-show_book',short_name);
+                            eid_inpt_nav.setAttribute('data-id_book',n_book);
+                            eid_inpt_nav.setAttribute('data-show_book',short_name);
     
-                            elem_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-                            elem_inpt_nav.setAttribute('data-show_chapter',chapter);
+                            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                            eid_inpt_nav.setAttribute('data-show_chapter',chapter);
     
-                            elem_inpt_nav.value = short_name;
+                            eid_inpt_nav.value = short_name;
                             obj_nav.show_book = short_name;
                             
                             //chapter
                             if(chapter != null && parseInt(chapter) > 0){
-                                elem_inpt_nav.value += ' ' + chapter;
+                                eid_inpt_nav.value += ' ' + chapter;
                                 obj_nav.id_chapter = parseInt(chapter) - 1;
                                 obj_nav.show_chapter = chapter;
-                                elem_v_chapter.innerHTML = '';
+                                eid_v_chapter.innerHTML = '';
                             }else{
-                                elem_v_chapter.innerHTML = 'selecciona el capítulo';
+                                eid_v_chapter.innerHTML = 'selecciona el capítulo';
                                 obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                                 obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                             }
                             
                             //verse
                             if(verse != null && parseInt(verse) > 0){
-                                elem_inpt_nav.value += ':' + verse;
+                                eid_inpt_nav.value += ':' + verse;
                                 obj_nav.id_verse = parseInt(verse) - 1;
                                 obj_nav.show_verse = verse;
-                                elem_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                                elem_inpt_nav.setAttribute('data-show_verse',verse);
-                                elem_v_verse.innerHTML = '';
+                                eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                                eid_inpt_nav.setAttribute('data-show_verse',verse);
+                                eid_v_verse.innerHTML = '';
                             }else{
-                                //elem_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
@@ -19409,30 +19419,30 @@ function getRef(trans = null){
     
                             //hay to_verse
                             if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                                elem_inpt_nav.value += '-' + to_verse;
-                                elem_inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                                eid_inpt_nav.value += '-' + to_verse;
+                                eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
                                 obj_nav.show_to_verse = to_verse;
                             }else{
-                                elem_inpt_nav.setAttribute('data-show_to_verse','');
+                                eid_inpt_nav.setAttribute('data-show_to_verse','');
                                 obj_nav.show_to_verse = '';
                             }
     
                             
                             //no hay chapter, no hay verse
                             if(chapter == null && verse == null){
-                                elem_s_chapter.click();//propongo seleccionar el chapter
+                                eid_s_chapter.click();//propongo seleccionar el chapter
                             }
                             //hay chapter, no hay verse
                             if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                                elem_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
+                                eid_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
                             }
                             //hay chapter, hay verse
                             if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                                elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                                eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
                             }
     
-                            elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
-                            elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                            eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                            eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
     
                             //si es mobile, cierro menu
                             if(window.innerWidth < pantallaTabletMinPx){
@@ -19471,7 +19481,7 @@ function getRef(trans = null){
 
 function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
-    var act_trans = elem_trans1.dataset.trans;
+    var act_trans = eid_trans1.dataset.trans;
 
     var arr_code = code.split('__');
     var trans = arr_code[0];
@@ -19494,12 +19504,12 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
+        var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
-        elem_trans1.dataset.trans = trans;
-        elem_trans1.dataset.base_ep = EnglishPsalms;
-        elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
-        elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+        eid_trans1.dataset.trans = trans;
+        eid_trans1.dataset.base_ep = EnglishPsalms;
+        eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
+        eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
         var trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
@@ -19521,41 +19531,41 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     
             let short_name = data.Books[book].ShortNames[0];
                     
-            elem_inpt_nav.setAttribute('data-id_book',book);
-            elem_inpt_nav.setAttribute('data-show_book',short_name);
+            eid_inpt_nav.setAttribute('data-id_book',book);
+            eid_inpt_nav.setAttribute('data-show_book',short_name);
 
-            elem_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-            elem_inpt_nav.setAttribute('data-show_chapter',chapter);
+            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+            eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
-            elem_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-            elem_inpt_nav.setAttribute('data-show_verse',verse);
+            eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+            eid_inpt_nav.setAttribute('data-show_verse',verse);
 
-            elem_inpt_nav.value = short_name ;
+            eid_inpt_nav.value = short_name ;
 
             if(chapter != null && parseInt(chapter) > 0){
-                elem_inpt_nav.value += ' ' + chapter;
-                elem_v_chapter.innerHTML = '';
+                eid_inpt_nav.value += ' ' + chapter;
+                eid_v_chapter.innerHTML = '';
             }
 
             if(verse != null && parseInt(verse) > 0){
-                elem_inpt_nav.value += ':' + verse;
-                elem_v_verse.innerHTML = '';
+                eid_inpt_nav.value += ':' + verse;
+                eid_v_verse.innerHTML = '';
             }
             //hay to_verse
             if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                elem_inpt_nav.value += '-' + to_verse;
-                elem_inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                eid_inpt_nav.value += '-' + to_verse;
+                eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
             }else{
-                elem_inpt_nav.setAttribute('data-show_to_verse','');
+                eid_inpt_nav.setAttribute('data-show_to_verse','');
             }
 
             //hay chapter, hay verse
             if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
             }
 
-            elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
-            elem_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
+            eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+            eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
 
             showTrans(book, chapter, verse, to_verse);
             //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
@@ -19572,7 +19582,7 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
 
 function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
-    var act_trans = elem_trans1.dataset.trans;
+    var act_trans = eid_trans1.dataset.trans;
 
     var arr_code = code.split('__');
     var trans = arr_code[0];
@@ -19595,12 +19605,12 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
+        var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
-        elem_trans1.dataset.trans = trans;
-        elem_trans1.dataset.base_ep = EnglishPsalms;
-        elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
-        elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+        eid_trans1.dataset.trans = trans;
+        eid_trans1.dataset.base_ep = EnglishPsalms;
+        eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
+        eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
         var trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
@@ -19622,41 +19632,41 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
     
             let short_name = data.Books[book].ShortNames[0];
                     
-            elem_inpt_nav.setAttribute('data-id_book',book);
-            elem_inpt_nav.setAttribute('data-show_book',short_name);
+            eid_inpt_nav.setAttribute('data-id_book',book);
+            eid_inpt_nav.setAttribute('data-show_book',short_name);
 
-            elem_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-            elem_inpt_nav.setAttribute('data-show_chapter',chapter);
+            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+            eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
-            elem_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-            elem_inpt_nav.setAttribute('data-show_verse',verse);
+            eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+            eid_inpt_nav.setAttribute('data-show_verse',verse);
 
-            elem_inpt_nav.value = short_name ;
+            eid_inpt_nav.value = short_name ;
 
             if(chapter != null && parseInt(chapter) > 0){
-                elem_inpt_nav.value += ' ' + chapter;
-                elem_v_chapter.innerHTML = '';
+                eid_inpt_nav.value += ' ' + chapter;
+                eid_v_chapter.innerHTML = '';
             }
 
             if(verse != null && parseInt(verse) > 0){
-                elem_inpt_nav.value += ':' + verse;
-                elem_v_verse.innerHTML = '';
+                eid_inpt_nav.value += ':' + verse;
+                eid_v_verse.innerHTML = '';
             }
             //hay to_verse
             if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                elem_inpt_nav.value += '-' + to_verse;
-                elem_inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                eid_inpt_nav.value += '-' + to_verse;
+                eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
             }else{
-                elem_inpt_nav.setAttribute('data-show_to_verse','');
+                eid_inpt_nav.setAttribute('data-show_to_verse','');
             }
 
             //hay chapter, hay verse
             if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                elem_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
+                eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
             }
 
-            elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
-            elem_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
+            eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+            eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
 
             showTrans(book, chapter, verse, to_verse);
             //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
@@ -19678,34 +19688,34 @@ function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecate
     e = e || window.event;
     switch (e.keyCode) {
         case 13:// tecla "Enter"
-            if(elem_btn_nav.classList.contains('btn_active')){
-                var thisBtn = elem_btn_ok;
+            if(eid_btn_nav.classList.contains('btn_active')){
+                var thisBtn = eid_btn_ok;
                 thisBtn.click();
                 thisBtn.classList.add('btn_ok_active');
                 setTimeout(() => {thisBtn.classList.remove('btn_ok_active')},100);
             }
-            if(elem_btn_find.classList.contains('btn_active')){
-                elem_btn_ok_find.click();
+            if(eid_btn_find.classList.contains('btn_active')){
+                eid_btn_ok_find.click();
             }
         
             break;
 
         case 27:// tecla "Esc"
-            if(elem_btn_nav.classList.contains('btn_active')){
+            if(eid_btn_nav.classList.contains('btn_active')){
                 clear_inpt('nav');
             }
-            if(elem_btn_find.classList.contains('btn_active')){
+            if(eid_btn_find.classList.contains('btn_active')){
                 //clear_inpt('find');
                 stopFindWords();
             }
-            if(elem_btn_strong.classList.contains('btn_active')){
+            if(eid_btn_strong.classList.contains('btn_active')){
                 clear_inpt('strong');
             }
             break;      
     }
 };
 function clear_inpt(param){
-    let thisInpt = document.querySelector('#inpt_'+param);
+    let thisInpt = document.getElementById('inpt_'+param);
     thisInpt.value = '';
     thisInpt.focus();
 }
@@ -19782,7 +19792,7 @@ function selectModule(e){
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if(result.isConfirmed) {
-            let sel_modules = document.querySelector('#sel_modules');
+            let sel_modules = document.getElementById('sel_modules');
             let i = sel_modules.selectedIndex;
             let trans = sel_modules[i].dataset.trans;
             let BibleShortName = sel_modules[i].getAttribute('data-shortName');
@@ -19800,7 +19810,7 @@ function selectModule(e){
 
 function selectModule2(htmlTrans){
     //console.log(arrFavTransObj);
-    elem_bl_modalFullInner.innerHTML = '';//reset
+    eid_bl_modalFullInner.innerHTML = '';//reset
 
     let thisDiv = htmlTrans;//test
     //console.log('abajo htmlTrans: ');
@@ -19817,7 +19827,7 @@ function selectModule2(htmlTrans){
             closeModal();
         }        
 
-        elem_bl_modalFullInner.appendChild(p);
+        eid_bl_modalFullInner.appendChild(p);
     });
 }
 
@@ -19834,7 +19844,7 @@ function getObjTransByName(trans){
 
 function selectTab(){//Vkladki
     //console.log('function selectTab()');
-    elem_bl_modalFullInner.innerHTML = '';//reset
+    eid_bl_modalFullInner.innerHTML = '';//reset
     arrTabs.forEach((el,i)=>{
         //busco nombres de trans para mostrar
         let arr_el_trans = (el.str_trans.includes(',')) ? el.str_trans.split(',') : el.str_trans.split() ;//el.str_trans.split() devuelve un array con 1 valor
@@ -19863,7 +19873,7 @@ function selectTab(){//Vkladki
         p.onclick = function(){
             if(window.innerWidth < pantallaTabletMinPx){
                 positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
-                elem_btn_changePositionShowModal.click();               
+                eid_btn_changePositionShowModal.click();               
             }
             if(typeof arrTabs[i] != 'undefined'){
                 //simulo click sobre vkladka correspondiente
@@ -19875,7 +19885,7 @@ function selectTab(){//Vkladki
             closeModal();
             updateArrTabs();
         }
-        elem_bl_modalFullInner.appendChild(p);
+        eid_bl_modalFullInner.appendChild(p);
     });
 }
 
@@ -19899,14 +19909,14 @@ function hist(param){
 
 function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
-    var act_id_book = (elem_inpt_nav.getAttribute('data-id_book') != '') ? elem_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
+    var act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
+    Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
-    elem_inpt_nav.setAttribute('data-id_chapter', '0');
-    elem_inpt_nav.setAttribute('data-show_chapter', '1');
-    elem_inpt_nav.setAttribute('data-id_verse', '');
-    elem_inpt_nav.setAttribute('data-show_verse', '');
+    eid_inpt_nav.setAttribute('data-id_chapter', '0');
+    eid_inpt_nav.setAttribute('data-show_chapter', '1');
+    eid_inpt_nav.setAttribute('data-id_verse', '');
+    eid_inpt_nav.setAttribute('data-show_verse', '');
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
     });
@@ -19950,13 +19960,13 @@ function bookGo(dir){
                     next_id_book = parseInt(act_id_book) + 1;
                 }            
 
-                elem_inpt_nav.setAttribute('data-id_book', next_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -19970,7 +19980,7 @@ function bookGo(dir){
                 obj_nav.show_chapter = next_show_chapter;
 
 
-                sel(elem_s_chapter,'ch',next_show_chapter);//chapter
+                sel(eid_s_chapter,'ch',next_show_chapter);//chapter
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -19984,13 +19994,13 @@ function bookGo(dir){
                     prev_id_book = parseInt(act_id_book) - 1;
                 }
 
-                elem_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20003,7 +20013,7 @@ function bookGo(dir){
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
 
-                sel(elem_s_chapter,'ch',prev_show_chapter);//chapter
+                sel(eid_s_chapter,'ch',prev_show_chapter);//chapter
                 showTrans(prev_id_book, prev_show_chapter);
             }            
         })
@@ -20036,13 +20046,13 @@ function bookGo(dir){
                     next_id_book = parseInt(act_id_book) + 1;
                 }            
 
-                elem_inpt_nav.setAttribute('data-id_book', next_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20056,7 +20066,7 @@ function bookGo(dir){
                 obj_nav.show_chapter = next_show_chapter;
 
 
-                sel(elem_s_chapter,'ch',next_show_chapter);//chapter
+                sel(eid_s_chapter,'ch',next_show_chapter);//chapter
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -20070,13 +20080,13 @@ function bookGo(dir){
                     prev_id_book = parseInt(act_id_book) - 1;
                 }
 
-                elem_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20089,7 +20099,7 @@ function bookGo(dir){
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
 
-                sel(elem_s_chapter,'ch',prev_show_chapter);//chapter
+                sel(eid_s_chapter,'ch',prev_show_chapter);//chapter
                 showTrans(prev_id_book, prev_show_chapter);
             }            
         })
@@ -20110,13 +20120,13 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    var act_id_book = (elem_inpt_nav.getAttribute('data-id_book') != '') ? elem_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    var act_show_chapter = (elem_inpt_nav.getAttribute('data-show_chapter') != '') ? elem_inpt_nav.getAttribute('data-show_chapter') : 1 ;
-    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
+    var act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
+    var act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
+    Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
-    elem_inpt_nav.setAttribute('data-id_verse', '');
-    elem_inpt_nav.setAttribute('data-show_verse', '');
+    eid_inpt_nav.setAttribute('data-id_verse', '');
+    eid_inpt_nav.setAttribute('data-show_verse', '');
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
     });
@@ -20171,13 +20181,13 @@ function chapterGo(dir){
                 }else{
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
-                elem_inpt_nav.setAttribute('data-id_book', next_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20191,7 +20201,7 @@ function chapterGo(dir){
                 obj_nav.show_chapter = next_show_chapter;
 
                 setTimeout(()=>{
-                    sel(elem_s_verse,'v',Translation);//verse
+                    sel(eid_s_verse,'v',Translation);//verse
                 },50);
                 showTrans(next_id_book, next_show_chapter); 
             }
@@ -20210,13 +20220,13 @@ function chapterGo(dir){
                 }else{
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
-                elem_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20230,7 +20240,7 @@ function chapterGo(dir){
                 obj_nav.show_chapter = prev_show_chapter;
 
                 setTimeout(()=>{
-                    sel(elem_s_verse,'v',Translation);//verse
+                    sel(eid_s_verse,'v',Translation);//verse
                 },50);
                 showTrans(prev_id_book, prev_show_chapter);
             }
@@ -20276,13 +20286,13 @@ function chapterGo(dir){
                 }else{
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
-                elem_inpt_nav.setAttribute('data-id_book', next_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20295,7 +20305,7 @@ function chapterGo(dir){
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
 
-                sel(elem_s_verse,'v',Translation);//verse
+                sel(eid_s_verse,'v',Translation);//verse
                 showTrans(next_id_book, next_show_chapter); 
             }
 
@@ -20313,13 +20323,13 @@ function chapterGo(dir){
                 }else{
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
-                elem_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                elem_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
 
-                elem_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
-                elem_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
-                elem_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
@@ -20332,7 +20342,7 @@ function chapterGo(dir){
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
 
-                sel(elem_s_verse,'v',Translation);//verse
+                sel(eid_s_verse,'v',Translation);//verse
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
@@ -20356,31 +20366,31 @@ function showTab(e, param){
     
     
     if(param == 'nav'){
-        elem_vklad_nav.style.display = 'block';
-        elem_vklad_find.style.display = 'none';
-        elem_vklad_tsk.style.display = 'none';
-        elem_vklad_strong.style.display = 'none';
+        eid_vklad_nav.style.display = 'block';
+        eid_vklad_find.style.display = 'none';
+        eid_vklad_tsk.style.display = 'none';
+        eid_vklad_strong.style.display = 'none';
         mySizeNav();
     }
     if(param == 'find'){
-        elem_vklad_nav.style.display = 'none';
-        elem_vklad_find.style.display = 'block';
-        elem_vklad_tsk.style.display = 'none';
-        elem_vklad_strong.style.display = 'none';
+        eid_vklad_nav.style.display = 'none';
+        eid_vklad_find.style.display = 'block';
+        eid_vklad_tsk.style.display = 'none';
+        eid_vklad_strong.style.display = 'none';
         mySizeFind();
     }
     if(param == 'tsk'){
-        elem_vklad_nav.style.display = 'none';
-        elem_vklad_find.style.display = 'none';
-        elem_vklad_tsk.style.display = 'block';
-        elem_vklad_strong.style.display = 'none';
+        eid_vklad_nav.style.display = 'none';
+        eid_vklad_find.style.display = 'none';
+        eid_vklad_tsk.style.display = 'block';
+        eid_vklad_strong.style.display = 'none';
         mySizeTsk();
     }
     if(param == 'strong'){
-        elem_vklad_nav.style.display = 'none';
-        elem_vklad_find.style.display = 'none';
-        elem_vklad_tsk.style.display = 'none';
-        elem_vklad_strong.style.display = 'block';
+        eid_vklad_nav.style.display = 'none';
+        eid_vklad_find.style.display = 'none';
+        eid_vklad_tsk.style.display = 'none';
+        eid_vklad_strong.style.display = 'block';
         mySizeStrong();
     }
             
@@ -20388,7 +20398,7 @@ function showTab(e, param){
 
 function goToLink(trans, refLink){
     //console.log('=== function goToLink(refLink). refLink: '+refLink);
-    elem_inpt_nav.value = refLink;
+    eid_inpt_nav.value = refLink;
     
     //console.log('llamo getRef()...');
     getRef(trans);
@@ -20406,11 +20416,11 @@ function goToLink(trans, refLink){
 
 function goToLinkFromFind(trans, refLink){
     //console.log('=== function goToLinkFromFind(refLink). refLink: '+refLink);
-    elem_inpt_nav.value = refLink;
+    eid_inpt_nav.value = refLink;
 
     //para que no aparezca TSK
-    //showTab(elem_btn_find,'find');
-    elem_vklad_tsk.style.display = 'none';
+    //showTab(eid_btn_find,'find');
+    eid_vklad_tsk.style.display = 'none';
     
     //console.log('llamo getRef()...');
     getRef(trans); 
@@ -20434,7 +20444,7 @@ function puntosInterval(){
 function showTabMob(btn_id, param, el){
     //1. abro menu mobile
     openSidebar(el);
-    //2. llamo showTab(elem_btn_nav,'nav')
+    //2. llamo showTab(eid_btn_nav,'nav')
     showTab(document.querySelector(btn_id), param);
 }
 
@@ -20931,13 +20941,13 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         //console.log('strongIndex: '+strongIndex);
         //console.log('strongText: '+strongText);
 
-        //elem_strong_head.innerHTML = strongIndex;
-        //elem_strong_body.innerHTML = strongText;
+        //eid_strong_head.innerHTML = strongIndex;
+        //eid_strong_body.innerHTML = strongText;
 
-        //elem_strong_head.innerHTML = '';//reset datos
-        elem_strong_body.innerHTML = '';//reset datos
+        //eid_strong_head.innerHTML = '';//reset datos
+        eid_strong_body.innerHTML = '';//reset datos
 
-        showTab(elem_btn_strong,'strong');  
+        showTab(eid_btn_strong,'strong');  
         
         const span_hist_strong = document.createElement('span');
         span_hist_strong.className = 'hist_strong';
@@ -20949,10 +20959,10 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         let hist_strong_all = document.querySelectorAll('.hist_strong');
         let ult_hist_strong = hist_strong_all[0];
         if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-            elem_strong_head.prepend(span_hist_strong);
+            eid_strong_head.prepend(span_hist_strong);
             //console.log('1 strongIndex');
         }else if(ult_hist_strong.innerHTML != numberStrShow){
-            elem_strong_head.prepend(span_hist_strong);
+            eid_strong_head.prepend(span_hist_strong);
             //console.log('2 y mas strongIndex ...');
         }else{
             //console.log('no hago nada...');
@@ -20965,7 +20975,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         let arr_w = strongText.split(' ');
         let arr_new = [];
 
-        arr_w = arr_w.filter(elm => elm);
+        arr_w = arr_w.filter(elem => elem);
 
         arr_w.forEach((el,i,arr)=>{   
             if(parseInt(el)){
@@ -20994,47 +21004,47 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
             showTab(btn_find,'find');
             
             if(paramfirstLetter != null && paramfirstLetter == 'Y'){
-                inpt_find.value = numberStrShow;
-                elem_cbox1.checked = false;
-                elem_cbox2.checked = false;
-                elem_cbox3.checked = false;
-                elem_cbox4.checked = false;
-                elem_cbox5.checked = false;
-                elem_cbox6.checked = false;
-                elem_cbox7.checked = true;//si hace falta
+                eid_inpt_find.value = numberStrShow;
+                eid_cbox1.checked = false;
+                eid_cbox2.checked = false;
+                eid_cbox3.checked = false;
+                eid_cbox4.checked = false;
+                eid_cbox5.checked = false;
+                eid_cbox6.checked = false;
+                eid_cbox7.checked = true;//si hace falta
                 findWords(numberStrShow);//rstStrongRed - ok
             }else{
-                inpt_find.value = numberStr;
+                eid_inpt_find.value = numberStr;
                 if(numberStr.includes('H') || numberStr.includes('G')){//rstStrongRed
-                    elem_cbox1.checked = false;
-                    elem_cbox2.checked = false;
-                    elem_cbox3.checked = false;
-                    elem_cbox4.checked = false;
-                    elem_cbox5.checked = false;
-                    elem_cbox6.checked = false;
-                    elem_cbox7.checked = true;//si hace falta
+                    eid_cbox1.checked = false;
+                    eid_cbox2.checked = false;
+                    eid_cbox3.checked = false;
+                    eid_cbox4.checked = false;
+                    eid_cbox5.checked = false;
+                    eid_cbox6.checked = false;
+                    eid_cbox7.checked = true;//si hace falta
                     findWords(numberStr);
                 }else{//rstStrong (старый)
-                    elem_cbox1.checked = false;
-                    elem_cbox2.checked = false;
-                    elem_cbox3.checked = false;
-                    elem_cbox4.checked = true;//si hace falta
-                    elem_cbox5.checked = false;
-                    elem_cbox6.checked = false;    
-                    elem_cbox7.checked = false;//si hace falta
+                    eid_cbox1.checked = false;
+                    eid_cbox2.checked = false;
+                    eid_cbox3.checked = false;
+                    eid_cbox4.checked = true;//si hace falta
+                    eid_cbox5.checked = false;
+                    eid_cbox6.checked = false;    
+                    eid_cbox7.checked = false;//si hace falta
                     findWords(numberStr);//rstStrong
                 }
             }
             //findWords(strongIndex);//rstStrong - ok
             //findWords(numberStr);
         }
-        elem_strong_body.append(p_v);
+        eid_strong_body.append(p_v);
 
         const p = document.createElement('p');
         p.append(span_num_strong);
         p.append(span_text_strong);
 
-        elem_strong_body.append(p);
+        eid_strong_body.append(p);
 
         //Listener para Strong Heb
         if(typeof new_strongText !== 'undefined' && new_strongText.includes('sp_strong Heb')){
@@ -21052,7 +21062,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
                 });    
             });
         }
-        mySizeStrong();//altura de elem_strong_body despues de meter elem_strong_head
+        mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
@@ -21075,48 +21085,48 @@ function cboxChange(e){
     //console.log('e.id: '+e.id);
     
     if(e.id == 'cbox1'){
-        if(elem_cbox1.checked){
-            elem_cbox2.checked = false;
-            elem_cbox3.checked = false;
+        if(eid_cbox1.checked){
+            eid_cbox2.checked = false;
+            eid_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox2'){
-        if(elem_cbox2.checked){
-            elem_cbox1.checked = false;
-            elem_cbox3.checked = false;
+        if(eid_cbox2.checked){
+            eid_cbox1.checked = false;
+            eid_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox3'){
-        if(elem_cbox3.checked){
-            elem_cbox1.checked = false;
-            elem_cbox2.checked = false;
-            elem_cbox4.checked = false;
-            elem_cbox5.checked = false;
+        if(eid_cbox3.checked){
+            eid_cbox1.checked = false;
+            eid_cbox2.checked = false;
+            eid_cbox4.checked = false;
+            eid_cbox5.checked = false;
         }
     }
     if(e.id == 'cbox4'){
-        if(elem_cbox3.checked){
-            elem_cbox3.checked = false;
+        if(eid_cbox3.checked){
+            eid_cbox3.checked = false;
         }
     }
     if(e.id == 'cbox7'){        
-        if(elem_cbox7.checked){
-            elem_cbox1.checked = false;
-            elem_cbox2.checked = false;
-            elem_cbox3.checked = false;
-            elem_cbox4.checked = false;
-            elem_cbox5.checked = false;
-            elem_cbox6.checked = false;
+        if(eid_cbox7.checked){
+            eid_cbox1.checked = false;
+            eid_cbox2.checked = false;
+            eid_cbox3.checked = false;
+            eid_cbox4.checked = false;
+            eid_cbox5.checked = false;
+            eid_cbox6.checked = false;
         }
     }
 }
 
 function stopFindWords(){
-    elem_btn_ok_stop.classList.remove('d-block');
-    elem_btn_ok_stop.classList.add('d-none');
+    eid_btn_ok_stop.classList.remove('d-block');
+    eid_btn_ok_stop.classList.add('d-none');
 
-    elem_btn_ok_find.classList.remove('d-none');
-    elem_btn_ok_find.classList.add('d-block');
+    eid_btn_ok_find.classList.remove('d-none');
+    eid_btn_ok_find.classList.add('d-block');
 
     window.doFind = false;
     //console.log('--- window.stopFind ---: '+window.doFind);  
@@ -21125,11 +21135,10 @@ function stopFindWords(){
 function guardWordsFind(words){
     //console.log('=== guardWordsFind(words) ===');
     //console.log('words: '+words);
-    var inpt_find = document.querySelector('#inpt_find');
 
     const p = document.createElement('p');
     p.className = 'pf';
-    p.innerHTML = inpt_find.value.trim();
+    p.innerHTML = eid_inpt_find.value.trim();
 
     if(document.querySelectorAll('.pf').length == 0 || words != document.querySelectorAll('.pf')[0].innerText){
         //console.log('distinto');
@@ -21154,7 +21163,6 @@ function guardWordsFind(words){
 //getGuardWordsFind();//al cargar la web para mostrar
 
 function getGuardWordsFind(){
-    var inpt_find = document.querySelector('#inpt_find');
     var wr_hist_find = document.querySelector('.wr_hist_find');
 
     fetch('app/guardWordsFind_file.json')
@@ -21165,14 +21173,14 @@ function getGuardWordsFind(){
         if(data != ''){           
             data.forEach((el,i)=>{
                 if(i == 0){
-                    inpt_find.value = el.words;
+                    eid_inpt_find.value = el.words;
                 }
                 
                 const p = document.createElement('p');
                 p.className = 'pf';
                 p.title = el.fecha;
                 p.onclick = function(){
-                    inpt_find.value = el.words;
+                    eid_inpt_find.value = el.words;
                     close_hist_find();
                 };
                 p.innerHTML = el.words;
@@ -21185,30 +21193,30 @@ function getGuardWordsFind(){
 
 function findWords(words_input){
     //console.log('function findWords(). words_input: '+words_input);
-    elem_btn_ok_find.classList.remove('d-block');
-    elem_btn_ok_find.classList.add('d-none');
+    eid_btn_ok_find.classList.remove('d-block');
+    eid_btn_ok_find.classList.add('d-none');
 
-    elem_btn_ok_stop.classList.remove('d-none');
-    elem_btn_ok_stop.classList.add('d-block');
+    eid_btn_ok_stop.classList.remove('d-none');
+    eid_btn_ok_stop.classList.add('d-block');
     window.doFind = true;
 
-    //console.log('elem_cbox1.checked: '+elem_cbox1.checked);
-    //console.log('elem_cbox2.checked: '+elem_cbox2.checked);
-    //console.log('elem_cbox3.checked: '+elem_cbox3.checked);
-    //console.log('elem_cbox4.checked: '+elem_cbox4.checked);
-    //console.log('elem_cbox5.checked: '+elem_cbox5.checked);
-    //console.log('elem_cbox6.checked: '+elem_cbox6.checked);
-    //console.log('elem_cbox7.checked: '+elem_cbox7.checked);
+    //console.log('eid_cbox1.checked: '+eid_cbox1.checked);
+    //console.log('eid_cbox2.checked: '+eid_cbox2.checked);
+    //console.log('eid_cbox3.checked: '+eid_cbox3.checked);
+    //console.log('eid_cbox4.checked: '+eid_cbox4.checked);
+    //console.log('eid_cbox5.checked: '+eid_cbox5.checked);
+    //console.log('eid_cbox6.checked: '+eid_cbox6.checked);
+    //console.log('eid_cbox7.checked: '+eid_cbox7.checked);
 
-    let limit_val = (elem_limit.value != '*') ? parseInt(elem_limit.value) : '*' ;
+    let limit_val = (eid_limit.value != '*') ? parseInt(eid_limit.value) : '*' ;
     var book_start = null;
     var book_end = null;
     var book_one = null;
 
-    switch (elem_gde.value) {
+    switch (eid_gde.value) {
         case 'TB'://ВСЯ БИБЛИЯ
             book_start = 0;
-            book_end = (elem_v_book.querySelectorAll('.v_li').length == 77) ? 76 : 65;
+            book_end = (eid_v_book.querySelectorAll('.v_li').length == 77) ? 76 : 65;
             break;
     
         case 'AT'://ВЕТХИЙ ЗАВЕТ
@@ -21266,7 +21274,7 @@ function findWords(words_input){
             book_end = 76;
             break;
     
-        default: book_one = parseInt(elem_gde.value);
+        default: book_one = parseInt(eid_gde.value);
             break;
     }
     //console.log('book_start: '+book_start);
@@ -21278,8 +21286,8 @@ function findWords(words_input){
     }
 
 
-    elem_find_result.innerHTML = '';//reset
-    elem_find_body.innerHTML = '';//reset
+    eid_find_result.innerHTML = '';//reset
+    eid_find_body.innerHTML = '';//reset
     window.res_show = '';//reset
      
     words_input = words_input.trim();
@@ -21287,7 +21295,7 @@ function findWords(words_input){
         const p = document.createElement('p');
         p.className = 'prim';
         p.innerHTML = 'Введите слово или словосочетание для поиска, пожалуйста.'
-        elem_find_body.append(p);
+        eid_find_body.append(p);
         return false;
     }
     //meto words en el history
@@ -21298,7 +21306,7 @@ function findWords(words_input){
     var arr_words = words.split(' ');
     //console.log('abajo arr_words: ');
     //console.log(arr_words);
-    arr_words = arr_words.filter(elm => elm);
+    arr_words = arr_words.filter(elem => elem);
     //console.log(arr_words);
 
 
@@ -21314,15 +21322,15 @@ function findWords(words_input){
     //Слова: 'Иисус Христос' но не 'Иисус МЕССИЯ Христос') //ok
     //4. выражения не могут быть частями слов
     //Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'.
-    var no_part_word = (elem_cbox4.checked) ? 'Y' : 'N' ;  
+    var no_part_word = (eid_cbox4.checked) ? 'Y' : 'N' ;  
     //5. различать прописные и ЗАГЛАВНЫЕ буквы //ok
     //Пример: различать при поиске слова 'БОГ' и 'бог'.
-    var case_sens = (elem_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
+    var case_sens = (eid_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
     //6. различать буквы с ударениями (если есть)
     //Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю).
-    var accent_match = (elem_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
+    var accent_match = (eid_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
     //7. Номер Стронга StrongNumber
-    if(elem_cbox7.checked){
+    if(eid_cbox7.checked){
         var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
     }else{//por defecto se busca solo en el texto sin buscar en los tags
         //buscar solo en text o tambien en los tags de strong
@@ -21332,10 +21340,10 @@ function findWords(words_input){
     var tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
 
 
-    let Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
+    let Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     var btnStrongIsActive = false;
-    if(elem_btnStrong.classList.contains('btn_active')){
+    if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
 
@@ -21349,18 +21357,18 @@ function findWords(words_input){
         f_book.className = 'f_book';
         // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
         f_book.innerHTML = `<span class="book_name"></span>`;
-        elem_find_head.append(f_book);
+        eid_find_head.append(f_book);
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
         //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
         p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
-        elem_find_head.append(p_i);
+        eid_find_head.append(p_i);
     }
 
     let trans_find_obj = arrFavTransObj.find(v => v.Translation === Translation);
-    if(elem_cbox7.checked && 
-        elem_btnStrong.classList.contains('btn_active') && 
+    if(eid_cbox7.checked && 
+        eid_btnStrong.classList.contains('btn_active') && 
         typeof trans_find_obj.StrongNumbers !== 'undefined' && 
         trans_find_obj.StrongNumbers == 'Y' &&
         trans_find_obj.StrongNumberTagStart == '<S>' &&
@@ -21374,14 +21382,14 @@ function findWords(words_input){
                                         <button id="btn_all_s" class="btn" onclick="showAllStrongNumber_2Actions()">All S#</button>
                                     </span>
                                     `;
-        elem_find_head.append(wr_strong_btns);
+        eid_find_head.append(wr_strong_btns);
     }else{
         //si están botones finded_s y all_s en la trans sin strong lo quito
         if(document.querySelector('.wr_strong_btns') != null){
             document.querySelector('.wr_strong_btns').remove();
         }
     }
-    mySizeFind();//altura de elem_find_body
+    mySizeFind();//altura de eid_find_body
 
     //Muestro loader tres puntos (...)
     const d_loader = document.createElement('div');
@@ -21389,7 +21397,7 @@ function findWords(words_input){
     d_loader.innerHTML = `<span class="loader__element"></span>
                           <span class="loader__element"></span>
                           <span class="loader__element"></span>`;
-    elem_find_body.append(d_loader);
+    eid_find_body.append(d_loader);
 
 
     var result_finded = [];
@@ -21469,7 +21477,7 @@ function findWords(words_input){
                                             var nb = bookModule.split('<h4>');//делю файл на главы
                                             //console.log(nb);
                                             
-                                            nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                            nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                             //console.log(nb);
                     
                                             var arr_chapters = nb;
@@ -21528,7 +21536,7 @@ function findWords(words_input){
                                                             //=======================================================================//  
                                                             //0. por defecto - nada marcado //ok
                                                             //=======================================================================//  
-                                                            if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
+                                                            if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
                                                                 let arr_matches = [];  
                                                                 //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                                 arr_words.forEach(w => {
@@ -21537,7 +21545,7 @@ function findWords(words_input){
                                                                             var arr_no_part_word = [];
                                                                             w = "^" +w +"$";//entera palabra del array, no parte
                                                                             var regex_w = RegExp(w, tipo);
-                                                                            VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                            VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                                 if(removeSymbols(el).match(regex_w)){
                                                                                     //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                                     arr_no_part_word.push(1);
@@ -21566,7 +21574,7 @@ function findWords(words_input){
                                                                             var arr_no_part_word = [];
                                                                             w = "^" +w +"$";//entera palabra del array, no parte
                                                                             var regex_w = RegExp(removeAccents(w), tipo);
-                                                                            removeAccents(VerseText).split(' ').filter(elm=>elm).forEach(el=> {
+                                                                            removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                                 if(removeSymbols(el).match(regex_w)){
                                                                                     //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                                     arr_no_part_word.push(1);
@@ -21601,7 +21609,7 @@ function findWords(words_input){
                                                                             if(no_part_word == 'Y'){//cbox4
                                                                                 var arr_VerseText_red = [];
                                                                                 var regex_w = RegExp(w, tipo);                                                       
-                                                                                VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                                     if(removeSymbols(el).match(regex_w)){
                                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                                         el = el.replace(regex_w, function (x) {
@@ -21658,7 +21666,7 @@ function findWords(words_input){
                                                             //=======================================================================//                                    
                                                             //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                             //=======================================================================//
-                                                            if(elem_cbox1.checked){
+                                                            if(eid_cbox1.checked){
                                                                 let arr_matches = [];
                                                                 if(no_part_word == 'Y'){
                                                                     arr_words.forEach(w => {
@@ -21755,7 +21763,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //2. - //cлова идут в заданном порядке //ok
                                                             //=======================================================================//
-                                                            if(elem_cbox2.checked){
+                                                            if(eid_cbox2.checked){
                                                                 //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                                 let arr_matches = [];
                                                                 let arr_matches_w = [];//matches en words
@@ -22021,7 +22029,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                             //=======================================================================//
-                                                            if(elem_cbox3.checked){
+                                                            if(eid_cbox3.checked){
                                                                 var words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                                 var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -22074,7 +22082,7 @@ function findWords(words_input){
                                                             //=======================================================================//
                                                             //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                             //=======================================================================//
-                                                            if(elem_cbox7.checked){
+                                                            if(eid_cbox7.checked){
                                                                 var words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                                 var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -22336,7 +22344,7 @@ function findWords(words_input){
                                             //inserto resultado de búsqueda                        
                                             //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
                                             document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
-                                            mySizeFind();//altura de elem_find_body
+                                            mySizeFind();//altura de eid_find_body
                     
                                             var arr_l = [];
                                             var limit_n = limit_val;
@@ -22420,7 +22428,7 @@ function findWords(words_input){
                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
                                 
-                                nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                 //console.log(nb);
         
                                 var arr_chapters = nb;
@@ -22481,7 +22489,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
+                                                if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -22490,7 +22498,7 @@ function findWords(words_input){
                                                                 var arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
                                                                 var regex_w = RegExp(w, tipo);
-                                                                VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                         arr_no_part_word.push(1);
@@ -22519,7 +22527,7 @@ function findWords(words_input){
                                                                 var arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
                                                                 var regex_w = RegExp(removeAccents(w), tipo);
-                                                                removeAccents(VerseText).split(' ').filter(elm=>elm).forEach(el=> {
+                                                                removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                         arr_no_part_word.push(1);
@@ -22554,7 +22562,7 @@ function findWords(words_input){
                                                                 if(no_part_word == 'Y'){//cbox4
                                                                     var arr_VerseText_red = [];
                                                                     var regex_w = RegExp(w, tipo);                                                       
-                                                                    VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                    VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                         if(removeSymbols(el).match(regex_w)){
                                                                             //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                             el = el.replace(regex_w, function (x) {
@@ -22611,7 +22619,7 @@ function findWords(words_input){
                                                 //=======================================================================//                                    
                                                 //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                 //=======================================================================//
-                                                if(elem_cbox1.checked){
+                                                if(eid_cbox1.checked){
                                                     let arr_matches = [];
                                                     if(no_part_word == 'Y'){
                                                         arr_words.forEach(w => {
@@ -22708,7 +22716,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //2. - //cлова идут в заданном порядке //ok
                                                 //=======================================================================//
-                                                if(elem_cbox2.checked){
+                                                if(eid_cbox2.checked){
                                                     //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                     let arr_matches = [];
                                                     let arr_matches_w = [];//matches en words
@@ -22975,7 +22983,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-                                                if(elem_cbox3.checked){
+                                                if(eid_cbox3.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -23029,7 +23037,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
-                                                if(elem_cbox7.checked){
+                                                if(eid_cbox7.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -23290,7 +23298,7 @@ function findWords(words_input){
                                 //inserto resultado de búsqueda                        
                                 //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
                                 document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
-                                mySizeFind();//altura de elem_find_body
+                                mySizeFind();//altura de eid_find_body
         
                                 var arr_l = [];
                                 var limit_n = limit_val;
@@ -23389,7 +23397,7 @@ function findWords(words_input){
                                 var nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
                                 
-                                nb = nb.filter(elm => elm);//удаляю пустые елементы массива
+                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                 //console.log(nb);
         
                                 var arr_chapters = nb;
@@ -23448,7 +23456,7 @@ function findWords(words_input){
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
                                                 //=======================================================================//  
-                                                if(!elem_cbox1.checked && !elem_cbox2.checked && !elem_cbox3.checked && !elem_cbox7.checked){
+                                                if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                     arr_words.forEach(w => {
@@ -23457,7 +23465,7 @@ function findWords(words_input){
                                                                 var arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
                                                                 var regex_w = RegExp(w, tipo);
-                                                                VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                         arr_no_part_word.push(1);
@@ -23486,7 +23494,7 @@ function findWords(words_input){
                                                                 var arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
                                                                 var regex_w = RegExp(removeAccents(w), tipo);
-                                                                removeAccents(VerseText).split(' ').filter(elm=>elm).forEach(el=> {
+                                                                removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                         arr_no_part_word.push(1);
@@ -23521,7 +23529,7 @@ function findWords(words_input){
                                                                 if(no_part_word == 'Y'){//cbox4
                                                                     var arr_VerseText_red = [];
                                                                     var regex_w = RegExp(w, tipo);                                                       
-                                                                    VerseText.split(' ').filter(elm=>elm).forEach(el=> {
+                                                                    VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                         if(removeSymbols(el).match(regex_w)){
                                                                             //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
                                                                             el = el.replace(regex_w, function (x) {
@@ -23578,7 +23586,7 @@ function findWords(words_input){
                                                 //=======================================================================//                                    
                                                 //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                 //=======================================================================//
-                                                if(elem_cbox1.checked){
+                                                if(eid_cbox1.checked){
                                                     let arr_matches = [];
                                                     if(no_part_word == 'Y'){
                                                         arr_words.forEach(w => {
@@ -23675,7 +23683,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //2. - //cлова идут в заданном порядке //ok
                                                 //=======================================================================//
-                                                if(elem_cbox2.checked){
+                                                if(eid_cbox2.checked){
                                                     //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
                                                     let arr_matches = [];
                                                     let arr_matches_w = [];//matches en words
@@ -23941,7 +23949,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
-                                                if(elem_cbox3.checked){
+                                                if(eid_cbox3.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -23994,7 +24002,7 @@ function findWords(words_input){
                                                 //=======================================================================//
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
-                                                if(elem_cbox7.checked){
+                                                if(eid_cbox7.checked){
                                                     var words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
                                                     var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
@@ -24255,7 +24263,7 @@ function findWords(words_input){
                                 //inserto resultado de búsqueda                        
                                 //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
                                 document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
-                                mySizeFind();//altura de elem_find_body
+                                mySizeFind();//altura de eid_find_body
         
                                 var arr_l = [];
                                 var limit_n = limit_val;
@@ -24335,7 +24343,7 @@ function findWords(words_input){
 function mostrar_res_show(index){
     //console.log('=== function mostrar_res_show() ===');
 
-    elem_find_body.innerHTML = '';//reset
+    eid_find_body.innerHTML = '';//reset
     //console.log(' abajo window.res_show: ');
     //console.log(window.res_show);
 
@@ -24355,23 +24363,23 @@ function mostrar_res_show(index){
         }
     }
 
-    //añado los versiculos encontrados en la 1-ra pagina de redultados encontrados abajo en elem_find_body
+    //añado los versiculos encontrados en la 1-ra pagina de redultados encontrados abajo en eid_find_body
     for(let i = 0;  i < res_show[index].length; i++){
         const el = res_show[index][i];
         //добавляю стих в див 
-        elem_find_body.append(el);        
+        eid_find_body.append(el);        
     }
 
-    elem_find_body.append(p_footer); 
+    eid_find_body.append(p_footer); 
     document.querySelectorAll('.res_link')[index].classList.add('active');
-    elem_find_body.scrollTop = 0;
+    eid_find_body.scrollTop = 0;
 
-    //cuando todo está añadido en elem_find_body, hago esto...
+    //cuando todo está añadido en eid_find_body, hago esto...
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
-        let trans_find = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans ;
+        let trans_find = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans ;
         let trans_find_obj = arrFavTransObj.find(v => v.Translation === trans_find);
-        if(elem_cbox7.checked &&
-            elem_btnStrong.classList.contains('btn_active') &&    
+        if(eid_cbox7.checked &&
+            eid_btnStrong.classList.contains('btn_active') &&    
             typeof trans_find_obj.StrongNumbers !== 'undefined' && 
             trans_find_obj.StrongNumbers == 'Y' && 
             trans_find_obj.StrongNumberTagStart == '<S>' && 
@@ -24380,7 +24388,7 @@ function mostrar_res_show(index){
             //muestro block de botones finded_s y all_s
             let wr_strong_btns = document.querySelector('.wr_strong_btns');
             wr_strong_btns.style.display = 'block';
-            mySizeFind();//altura de elem_find_body
+            mySizeFind();//altura de eid_find_body
             if(wr_strong_btns.querySelector('.s_active').id == 'btn_finded_s'){
                 //console.log('llamo showOnlyStrongNumberFinded() desde mostrar_res_show()');
                 showOnlyStrongNumberFinded();
@@ -24402,11 +24410,11 @@ function show_sn_finded(){
         
         markarStrongNumberFinded();
 
-        if(wr_strong_btns.querySelector('#btn_finded_s').classList.contains('s_active')){
+        if(wr_strong_btns.getElementById('btn_finded_s').classList.contains('s_active')){
             showOnlyStrongNumberFinded();
         }
         
-        if(wr_strong_btns.querySelector('#btn_all_s').classList.contains('s_active')){
+        if(wr_strong_btns.getElementById('btn_all_s').classList.contains('s_active')){
             showAllStrongNumber();
         }
     }else{
@@ -24417,11 +24425,10 @@ function show_sn_finded(){
 function mostrar_no_res(){
         //console.log('=== function mostrar_no_res() ===');
 
-        var inpt_find = document.querySelector('#inpt_find');
-        let count_words = inpt_find.value.trim().split(' ').length;
+        let count_words = eid_inpt_find.value.trim().split(' ').length;
         words_show = (count_words > 1) ? 'вводимую фразу' : 'вводимое слово' ;
 
-        document.querySelector(".res_f b").innerHTML = `${inpt_find.value.trim()}`;
+        document.querySelector(".res_f b").innerHTML = `${eid_inpt_find.value.trim()}`;
         document.querySelector(".res_f span").innerHTML = '(0)';
         document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0`);
         document.querySelector(".res_f span.tooltip").setAttribute('onmouseenter',`showTooltip(this)`);
@@ -24429,7 +24436,7 @@ function mostrar_no_res(){
         document.querySelector(".res_f span.tooltip").innerHTML = '*';
         document.querySelector(".res_m").innerHTML = '[0]';
 
-        elem_find_body.innerHTML = '';//reset
+        eid_find_body.innerHTML = '';//reset
         const p_footer = document.createElement('p');
         p_footer.className = 'wr_res_link';
 
@@ -24438,9 +24445,9 @@ function mostrar_no_res(){
         const p_f = document.createElement('p');
         p_f.className = 'prim16 mr-5';
         p_f.innerHTML = `<span class="trans_in_find">Поиск в переводе: <b>${trans_busqueda}</b> </span>`;
-        p_f.innerHTML += `По запросу "<b class="f_red">${inpt_find.value.trim()}</b>" ничего не найдено. Проверьте выбранный для поиска перевод Библии, ${words_show} или попробуйте изменить параметры.`;
+        p_f.innerHTML += `По запросу "<b class="f_red">${eid_inpt_find.value.trim()}</b>" ничего не найдено. Проверьте выбранный для поиска перевод Библии, ${words_show} или попробуйте изменить параметры.`;
         //добавляю стих в див 
-        elem_find_body.append(p_f);    
+        eid_find_body.append(p_f);    
 }
 
 
@@ -24457,14 +24464,14 @@ function hideShowHistNav(){
 }
 function show_hist_nav(){
     let bl_hist = document.querySelector('.wr_hist_nav');
-    let hist_nav_img = document.querySelector('#hist_nav img');
+    let hist_nav_img = eid_hist_nav.querySelector('img');
     hist_nav_img.classList.add('razv');
     bl_hist.style.display = 'block';
     mySizeNav();//altura de div_nav_body
 }
 function close_hist_nav(){
     let bl_hist = document.querySelector('.wr_hist_nav');
-    let hist_nav_img = document.querySelector('#hist_nav img');
+    let hist_nav_img = eid_hist_nav.querySelector('img');
     hist_nav_img.classList.remove('razv');
     bl_hist.style.display = 'none';
     mySizeNav();//altura de div_nav_body
@@ -24481,17 +24488,18 @@ function hideShowHistFind(){
 }
 function show_hist_find(){
     let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = document.querySelector('#hist_find img');
+    let hist_find_img = eid_hist_find.querySelector('img');
     hist_find_img.classList.add('razv');
     bl_hist.style.display = 'block';
-    mySizeFind();//altura de elem_find_body
+    mySizeFind();//altura de eid_find_body
 }
 function close_hist_find(){
     let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = document.querySelector('#hist_find img');
+    let hist_find_img = eid_hist_find.querySelector('img');
+
     hist_find_img.classList.remove('razv');
     bl_hist.style.display = 'none';
-    mySizeFind();//altura de elem_find_body
+    mySizeFind();//altura de eid_find_body
 }
 
 function hideShowFindParams(){
@@ -24505,7 +24513,7 @@ function hideShowFindParams(){
         bl_par.style.display = 'none';
         title_par_img.classList.remove('razv');
     }
-    mySizeFind();//altura de elem_find_body
+    mySizeFind();//altura de eid_find_body
 }
 
 
@@ -24765,9 +24773,9 @@ function updateTransFromActiveCol(){
             let id_of_col = el.parentElement.querySelector('.colsHead').id;
             //console.log('trans_of_col: '+trans_of_col+' --- id_of_col: '+id_of_col);
             if(typeof trans_of_col != 'undefined'){
-                elem_inpt_nav.dataset.divtrans = id_of_col;
-                elem_inpt_nav.dataset.trans = trans_of_col;
-                elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+                eid_inpt_nav.dataset.divtrans = id_of_col;
+                eid_inpt_nav.dataset.trans = trans_of_col;
+                eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             }
         }
     });
@@ -25105,8 +25113,8 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
 function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     //console.log('=== function checkRefNav() ===');
         
-    var trans_inpt = elem_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = elem_inpt_nav.dataset.divtrans;// trans desde input
+    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     let bookNumber = (book != null) ? book : 0 ;
     let chapterNumber = chapter;
@@ -25211,17 +25219,17 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
 
 function pintRefOnScroll(){
 
-    const divContenedor = document.querySelector('#col1 .colsInner');
+    const divContenedor = eid_col1.querySelector('.colsInner');
     //let divContenedor_rect = divContenedor.getBoundingClientRect();//para test
     //console.log(" ANTES de listener --- divContenedor_rect.top: " +divContenedor_rect.top);
     
     divContenedor.addEventListener('scroll', function(){        
 
-        let divContenedor_rect = document.querySelector('#col1 .colsInner').getBoundingClientRect();
-        let divContenedor_colsHead_rect = document.querySelector('#col1 .colsHead').getBoundingClientRect();
+        let divContenedor_rect = eid_col1.querySelector('.colsInner').getBoundingClientRect();
+        let divContenedor_colsHead_rect = eid_col1.querySelector('.colsHead').getBoundingClientRect();
         const elementos = divContenedor.children;
         let primerElementoVisible = null;
-        const mob_sh_link = document.querySelector('#col1 .mob_sh_link');
+        const mob_sh_link = eid_col1.querySelector('.mob_sh_link');
         let colsAll_length = document.querySelectorAll('.cols').length;
 
         //Recorrer elementos de '.colsInner'
@@ -25307,7 +25315,7 @@ function pintRefOnScroll(){
                 }
             }else if(primerElementoVisible.tagName === 'H4' || primerElementoVisible.tagName === 'H2'){
                 //console.log("else if --- primerElementoVisible.tagName: " + primerElementoVisible.tagName);
-                let p_first = document.querySelector('#col1 .colsInner p');
+                let p_first = eid_col1.querySelector('.colsInner p');
                 if(colsAll_length > 0){
                     putRefvisibleToHead(p_first.id,0);
                 }    
@@ -25626,8 +25634,8 @@ function showOnlyStrongNumberFinded_2Actions(){
 
 function showOnlyStrongNumberFinded(){
     //console.log('=== function showOnlyStrongNumberFinded() ===');
-    let btn_finded_s = document.querySelector('#btn_finded_s');
-    let btn_all_s = document.querySelector('#btn_all_s');
+    let btn_finded_s = document.getElementById('btn_finded_s');
+    let btn_all_s = document.getElementById('btn_all_s');
     btn_finded_s.classList.add('s_active');
     btn_all_s.classList.remove('s_active');
     markarStrongNumberFinded();
@@ -25648,8 +25656,8 @@ function showAllStrongNumber_2Actions(){
 
 function showAllStrongNumber(){
     //console.log('=== function showAllStrongNumber() ===');
-    let btn_finded_s = document.querySelector('#btn_finded_s');
-    let btn_all_s = document.querySelector('#btn_all_s');
+    let btn_finded_s = document.getElementById('btn_finded_s');
+    let btn_all_s = document.getElementById('btn_all_s');
     btn_finded_s.classList.remove('s_active');
     btn_all_s.classList.add('s_active');
     document.querySelectorAll('#find_body p s').forEach(el=>{

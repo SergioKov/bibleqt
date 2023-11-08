@@ -199,7 +199,7 @@ function getRefToCompare(ref){
     console.log('=== function getRefToCompare(ref) ===');
     console.log('ref: ',ref);
 
-    let act_trans = elem_trans1.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
 
     //var inpt_v = inpt.value.trim();//antes
     var inpt_v = inpt_nav.value.trim();
@@ -287,7 +287,7 @@ function getRefToCompare(ref){
         var arr_v = inpt_v.split(' ');
 
         if(arr_v.length > 3){
-            arr_v = arr_v.filter(elm=>elm);
+            arr_v = arr_v.filter(elem => elem);
             book = arr_v[0];
             chapter = arr_v[1];
             verse = arr_v[2];
@@ -405,9 +405,9 @@ function getRefToCompare(ref){
                             inpt_nav.value += ' ' + chapter;
                             obj_nav.id_chapter = parseInt(chapter) - 1;
                             obj_nav.show_chapter = chapter;
-                            elem_v_chapter.innerHTML = '';
+                            eid_v_chapter.innerHTML = '';
                         }else{
-                            elem_v_chapter.innerHTML = 'selecciona el capítulo';
+                            eid_v_chapter.innerHTML = 'selecciona el capítulo';
                             obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
@@ -424,9 +424,9 @@ function getRefToCompare(ref){
                                 obj_nav.show_verse = verse;
                                 inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
                                 inpt_nav.setAttribute('data-show_verse', verse);
-                                elem_v_verse.innerHTML = '';
+                                eid_v_verse.innerHTML = '';
                             } else {
-                                //elem_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
@@ -449,11 +449,11 @@ function getRefToCompare(ref){
                             }
 
 
-                            if(elem_v_book.querySelector('.li_active') != null){
-                                elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                            if(eid_v_book.querySelector('.li_active') != null){
+                                eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                             } 
-                            if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                            if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                             }
 
                             //si es mobile, cierro menu
@@ -492,7 +492,7 @@ function getRefToCompare(ref){
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
-                                //elem_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
+                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
@@ -503,11 +503,11 @@ function getRefToCompare(ref){
                                 },50);
 
 
-                                if(elem_v_book.querySelector('.li_active') != null){
-                                    elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                                if(eid_v_book.querySelector('.li_active') != null){
+                                    eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                                 } 
-                                if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                    elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                    eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                                 }
         
                                 //si es mobile, cierro menu
@@ -569,7 +569,7 @@ function getRefToCompare(ref){
                                     obj_nav.show_verse = verse;
                                     inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
                                     inpt_nav.setAttribute('data-show_verse',verse);
-                                    elem_v_verse.innerHTML = '';
+                                    eid_v_verse.innerHTML = '';
 
 
                                     //hay to_verse
@@ -585,11 +585,11 @@ function getRefToCompare(ref){
                                         obj_nav.show_to_verse = '';
                                     }
 
-                                    if(elem_v_book.querySelector('.li_active') != null){
-                                        elem_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                                    if(eid_v_book.querySelector('.li_active') != null){
+                                        eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                                     } 
-                                    if(elem_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
-                                        elem_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
+                                    if(eid_v_book.querySelector('div[data-id_book="'+n_book+'"]') != null){
+                                        eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
                                     }
             
                                     //si es mobile, cierro menu
@@ -658,7 +658,7 @@ function getRefToCompare(ref){
 async function parseTextToArrRef(textRef, trans = null){
     console.log('=== function parseTextToArrRef(text) ===');
 
-    let act_trans = elem_trans1.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
     var trans_inpt = inpt_nav.dataset.trans;
     const s_book = document.querySelector('#s_book');
 
@@ -768,7 +768,7 @@ async function parseTextToArrRef(textRef, trans = null){
         let arr_v = inpt_v.split(' ');
 
         if(arr_v.length > 3){
-            arr_v = arr_v.filter(elm=>elm);
+            arr_v = arr_v.filter(elem => elem);
             book = arr_v[0];
             chapter = arr_v[1];
             verse = arr_v[2];
