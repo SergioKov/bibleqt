@@ -199,8 +199,7 @@ function getRefToCompare(ref){
     console.log('=== function getRefToCompare(ref) ===');
     console.log('ref: ',ref);
 
-    let div_trans1 = document.querySelector('#trans1');
-    let act_trans = div_trans1.getAttribute('data-trans');
+    let act_trans = elem_trans1.dataset.trans;
 
     //var inpt_v = inpt.value.trim();//antes
     var inpt_v = inpt_nav.value.trim();
@@ -659,8 +658,7 @@ function getRefToCompare(ref){
 async function parseTextToArrRef(textRef, trans = null){
     console.log('=== function parseTextToArrRef(text) ===');
 
-    let div_trans1 = document.querySelector('#trans1');
-    let act_trans = div_trans1.getAttribute('data-trans');
+    let act_trans = elem_trans1.dataset.trans;
     var trans_inpt = inpt_nav.dataset.trans;
     const s_book = document.querySelector('#s_book');
 

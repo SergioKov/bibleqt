@@ -18,8 +18,7 @@ const elem_headerContainer = document.getElementById('headerContainer');
 const elem_wrCols = document.getElementById('wrCols');
 const elem_trans1 = document.getElementById('trans1');
 const elem_footer = document.getElementById('footer');
-
-
+const elem_footerInner = document.getElementById('footerInner');
 
 const elem_btn_pageUp = document.getElementById('btn_pageUp');
 const elem_btn_pageDown = document.getElementById('btn_pageDown');
@@ -41,6 +40,8 @@ const elem_v_book = document.getElementById('v_book');
 const elem_v_chapter = document.getElementById('v_chapter');
 const elem_v_verse = document.getElementById('v_verse');
 
+const elem_bcv_line = document.getElementById('bcv_line');
+
 const elem_wr_find_head = document.getElementById('wr_find_head');
 const elem_find_head = document.getElementById('find_head'); 
 const elem_find_result = document.getElementById('find_result'); 
@@ -60,7 +61,27 @@ const elem_tsk_head = document.getElementById('tsk_head');
 const elem_tsk_body = document.getElementById('tsk_body');
 
 //botones
+const elem_btn_nav = document.getElementById('btn_nav');
 const elem_btn_tsk = document.getElementById('btn_tsk');
+const elem_btn_find = document.getElementById('btn_find');
+const elem_btn_ok_find = document.getElementById('btn_ok_find');
+const elem_btn_ok_stop = document.getElementById('btn_ok_stop');
+const elem_btn_strong = document.getElementById('btn_strong');
+
+
+//const elem_sel_modules = document.getElementById('sel_modules');//?..
+
+const elem_bl_modalFullInner = document.getElementById('elem_bl_modalFullInner');
+
+const elem_vklad_nav = document.getElementById('vklad_nav');
+const elem_vklad_find = document.getElementById('vklad_find');
+const elem_vklad_tsk = document.getElementById('vklad_tsk');
+const elem_vklad_strong = document.getElementById('vklad_strong');
+
+
+
+
+
 const elem_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
 const elem_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
 const elem_btn_ok = document.getElementById('btn_ok');
@@ -71,6 +92,8 @@ const elem_m_btnStrong = document.getElementById('m_btnStrong');//menu tres punt
 const elem_wr_strong_head = document.getElementById('wr_strong_head');
 const elem_strong_head = document.getElementById('strong_head');
 const elem_strong_body = document.getElementById('strong_body');
+
+const elem_partDeskTabs = document.getElementById('partDeskTabs');
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
@@ -392,7 +415,7 @@ const handlerListenColsInnerAClick = (e) => {
 function addListenerToPATsk(){//no se llama en ninguna parte
     setTimeout(()=>{
         //console.log('=== function addListenerToPATsk()');
-        let trans = document.querySelector('#tsk_head p').getAttribute('data-trans'); 
+        let trans = elem_tsk_head.querySelector('p').dataset.trans; 
         Array.from(document.querySelectorAll('#vklad_tsk p a')).forEach(el=>{
             el.addEventListener('click',()=>{
                 goToLink(trans, el.innerHTML);
@@ -875,9 +898,9 @@ function getArrTransFromCols(){
     window.arr_divShow = [];
 
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
-        window.arr_trans.push(el.getAttribute('data-trans'));
+        window.arr_trans.push(el.dataset.trans);
         window.arr_divShow.push(el.parentElement.getAttribute('id'));
-        //console.log('el trans: ' + el.getAttribute('data-trans') );
+        //console.log('el trans: ' + el.dataset.trans );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     }); 
 }
@@ -892,9 +915,9 @@ function makeArrTransFromCols(){
     clearColsEmpty();
     
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
-        window.arr_trans.push(el.getAttribute('data-trans'));
+        window.arr_trans.push(el.dataset.trans);
         window.arr_divShow.push(el.parentElement.getAttribute('id'));
-        //console.log('el trans: ' + el.getAttribute('data-trans') );
+        //console.log('el trans: ' + el.dataset.trans );
         //console.log('el divShow: ' + el.parentElement.getAttribute('id') );
     });
     window.arr_trans = window.arr_trans.filter(el=>el);    
@@ -1077,7 +1100,7 @@ function getTsk(e){
                             p.id = el.id;
                             p.className = 'tsk tsk_verse';
                             p.setAttribute('data-verse',el.getAttribute('data-verse'));
-                            p.setAttribute('data-trans',Translation);
+                            p.dataset.trans = Translation;
                             p.innerHTML = el.innerHTML;
                             //p.querySelector('a').setAttribute('onclick',`goToLink('${Translation}', '${this.innerHTML}')`);//funciona//antes
                             p.querySelector('a').addEventListener('click',()=>{
@@ -1818,7 +1841,7 @@ function getTsk(e){
                 p.id = el.id;
                 p.className = 'tsk tsk_verse';
                 p.setAttribute('data-verse',el.getAttribute('data-verse'));
-                p.setAttribute('data-trans',Translation);
+                p.dataset.trans = Translation;
                 p.innerHTML = el.innerHTML;
                 //p.querySelector('a').setAttribute('onclick',`goToLink('${Translation}', '${this.innerHTML}')`);//funciona//antes
                 p.querySelector('a').addEventListener('click',()=>{
@@ -2848,7 +2871,7 @@ function getTsk(e){
                     p.id = el.id;
                     p.className = 'tsk tsk_verse';
                     p.setAttribute('data-verse',el.getAttribute('data-verse'));
-                    p.setAttribute('data-trans',Translation);
+                    p.dataset.trans = Translation;
                     p.innerHTML = el.innerHTML;
                     //p.querySelector('a').setAttribute('onclick',`goToLink('${Translation}', '${this.innerHTML}')`);//funciona//antes
                     p.querySelector('a').addEventListener('click',()=>{
@@ -16340,9 +16363,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
    
     let act_base_ep = elem_trans1.dataset.base_ep;
 
-    //elem_trans1.setAttribute('data-trans',trans);
     elem_trans1.dataset.trans = trans;
-    //elem_trans1.setAttribute('data-base_ep',EnglishPsalms);
     elem_trans1.dataset.base_ep = EnglishPsalms;
 
     //meto la trans nueva en el array de trans
@@ -16414,7 +16435,6 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
 function changeModule(thisDiv,trans,BibleShortName){
    
-    //thisDiv.setAttribute('data-trans',trans);
     thisDiv.dataset.trans = trans;
     if(thisDiv.id == 'trans1'){
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
@@ -16473,7 +16493,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //console.log('function changeModule2. abajo thisDiv: ');
     //console.log(thisDiv);
 
-    thisDiv.setAttribute('data-trans', trans);
+    thisDiv.dataset.trans = trans;
     thisDiv.setAttribute('data-base_ep', EnglishPsalms);
     if (thisDiv.id == 'trans1') {
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
@@ -16984,7 +17004,7 @@ function addMarginTolastP(){
 
 
 function ref(string){
-    document.querySelector('#sidebarInner p').innerHTML = string;
+    elem_sidebarInner.querySelector('p').innerHTML = string;
 }
 
 
@@ -17255,7 +17275,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.innerHTML = '<button class="btn btn_sm f_r" onclick="closeTab(this)">&#10005;</button>';//<!--X-->
         htmlTab.appendChild(spanBibShortRef);
 
-        document.querySelector('#partDeskTabs').appendChild(htmlTab);
+        elem_partDeskTabs.appendChild(htmlTab);
 
 
         let tabsAll = document.querySelectorAll('.tabs');
@@ -17325,7 +17345,7 @@ function removeTab(){
     //console.log(countTabs);
 
     if(countTabs != 1){
-        document.querySelector('#partDeskTabs').lastElementChild.remove();
+        elem_partDeskTabs.lastElementChild.remove();
     }
     updateArrTabs();
 }
@@ -17594,7 +17614,6 @@ function selVerse(e){
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                //document.querySelector('#elem_inpt_nav').value = new_ref_text;//antes
                 elem_inpt_nav.value = new_ref_text;
 
                 elem_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);//REVISAR!!!
@@ -17667,15 +17686,13 @@ function sel(e, par, show_chapter = null, trans = null){
         el.classList.remove('ul_active');
     });
 
-    var bcv_line = document.querySelector('#bcv_line');
-
 
     switch (par) {
         case 'b':   //Select li Book
                     elem_v_book.classList.add('ul_active');
-                    bcv_line.classList.remove('c_line');
-                    bcv_line.classList.remove('v_line');
-                    bcv_line.classList.add('b_line');
+                    elem_bcv_line.classList.remove('c_line');
+                    elem_bcv_line.classList.remove('v_line');
+                    elem_bcv_line.classList.add('b_line');
 
                     var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
                     //console.log(id_book);
@@ -18051,9 +18068,9 @@ function sel(e, par, show_chapter = null, trans = null){
     
         case 'ch':  //Select li Chapter
                     elem_v_chapter.classList.add('ul_active');
-                    bcv_line.classList.remove('b_line');
-                    bcv_line.classList.remove('v_line');
-                    bcv_line.classList.add('c_line');
+                    elem_bcv_line.classList.remove('b_line');
+                    elem_bcv_line.classList.remove('v_line');
+                    elem_bcv_line.classList.add('c_line');
             
                     var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
                     var id_chapter = parseInt(elem_inpt_nav.getAttribute('data-id_chapter'));//antes  
@@ -18101,7 +18118,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                    // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                     elem_inpt_nav.value = new_ref_text;
                                 }
                             } 
@@ -18201,7 +18217,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                         elem_inpt_nav.value = new_ref_text;
                                     }
                                 } 
@@ -18271,9 +18286,9 @@ function sel(e, par, show_chapter = null, trans = null){
     
         case 'v':   //Select li Verse
                     elem_v_verse.classList.add('ul_active');
-                    bcv_line.classList.remove('b_line');
-                    bcv_line.classList.remove('c_line');
-                    bcv_line.classList.add('v_line');
+                    elem_bcv_line.classList.remove('b_line');
+                    elem_bcv_line.classList.remove('c_line');
+                    elem_bcv_line.classList.add('v_line');
             
                     var id_book = parseInt(elem_inpt_nav.getAttribute('data-id_book'));
                     var id_chapter = (elem_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(elem_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
@@ -18305,9 +18320,7 @@ function sel(e, par, show_chapter = null, trans = null){
             
                                         if(obj_bible_files[trans].Books[id_book].fileName == this_trans_obj.Books[id_book].PathName && obj_bible_files[trans].Books[id_book].fileContent != ''){
                                             //console.log('existen datos del modulo para sacar numero de versiculos');
-            
-                                            //var elem_inpt_nav = document.querySelector('#elem_inpt_nav');
-                                
+                                            
                                             if(document.querySelectorAll('.cols').length > 1){
                                                 var chapter = obj_nav.show_chapter;
                                                 var verse = obj_nav.show_verse; 
@@ -18334,7 +18347,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                    // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                                     elem_inpt_nav.value = new_ref_text;
                                                 }else{//si no hay que cambiar el chapter 
                                                     var chapterNumber = id_chapter + 1;
@@ -18443,7 +18455,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                                 elem_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
                                                 var chapterNumber = id_chapter + 1;
@@ -18544,7 +18555,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                                // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                                 elem_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
                                                 var chapterNumber = id_chapter + 1;
@@ -18680,7 +18690,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        // document.querySelector('#elem_inpt_nav').value = new_ref_text;
                                         elem_inpt_nav.value = new_ref_text;
                                     }else{//si no hay que cambiar el chapter 
                                         var chapterNumber = id_chapter + 1;
@@ -18803,7 +18812,7 @@ function getRefForTsk(Translation, bookShortName){
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
 
-    var act_trans = elem_trans1.getAttribute('data-trans');
+    var act_trans = elem_trans1.dataset.trans;
     var trans_inpt = elem_inpt_nav.dataset.trans;
 
     //Si no viene trans, lo cojo del div #trans1
@@ -18813,11 +18822,11 @@ function getRef(trans = null){
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
-            var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
+            var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
             var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
 
-            //elem_trans1.setAttribute('data-trans',trans);//antes
-            //elem_trans1.setAttribute('data-base_ep',EnglishPsalms);//antes
+            //elem_trans1.dataset.trans = trans;//antes
+            //elem_trans1.dataset.base_ep = EnglishPsalms;//antes
             //elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);//antes
 
             elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
@@ -19462,7 +19471,7 @@ function getRef(trans = null){
 
 function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
-    var act_trans = elem_trans1.getAttribute('data-trans');
+    var act_trans = elem_trans1.dataset.trans;
 
     var arr_code = code.split('__');
     var trans = arr_code[0];
@@ -19485,10 +19494,10 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
+        var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
-        elem_trans1.setAttribute('data-trans',trans);
-        elem_trans1.setAttribute('data-base_ep',EnglishPsalms);
+        elem_trans1.dataset.trans = trans;
+        elem_trans1.dataset.base_ep = EnglishPsalms;
         elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
@@ -19563,7 +19572,7 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
 
 function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
-    var act_trans = elem_trans1.getAttribute('data-trans');
+    var act_trans = elem_trans1.dataset.trans;
 
     var arr_code = code.split('__');
     var trans = arr_code[0];
@@ -19586,10 +19595,10 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
+        var button_new_trans = elem_footerInner.querySelector('button[value="'+trans+'"]');
         var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
-        elem_trans1.setAttribute('data-trans',trans);
-        elem_trans1.setAttribute('data-base_ep',EnglishPsalms);
+        elem_trans1.dataset.trans = trans;
+        elem_trans1.dataset.base_ep = EnglishPsalms;
         elem_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         elem_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
@@ -19669,27 +19678,27 @@ function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecate
     e = e || window.event;
     switch (e.keyCode) {
         case 13:// tecla "Enter"
-            if(document.querySelector('#btn_nav').classList.contains('btn_active')){
+            if(elem_btn_nav.classList.contains('btn_active')){
                 var thisBtn = elem_btn_ok;
                 thisBtn.click();
                 thisBtn.classList.add('btn_ok_active');
                 setTimeout(() => {thisBtn.classList.remove('btn_ok_active')},100);
             }
-            if(document.querySelector('#btn_find').classList.contains('btn_active')){
-                document.querySelector('#btn_ok_find').click();
+            if(elem_btn_find.classList.contains('btn_active')){
+                elem_btn_ok_find.click();
             }
         
             break;
 
         case 27:// tecla "Esc"
-            if(document.querySelector('#btn_nav').classList.contains('btn_active')){
+            if(elem_btn_nav.classList.contains('btn_active')){
                 clear_inpt('nav');
             }
-            if(document.querySelector('#btn_find').classList.contains('btn_active')){
+            if(elem_btn_find.classList.contains('btn_active')){
                 //clear_inpt('find');
                 stopFindWords();
             }
-            if(document.querySelector('#btn_strong').classList.contains('btn_active')){
+            if(elem_btn_strong.classList.contains('btn_active')){
                 clear_inpt('strong');
             }
             break;      
@@ -19775,7 +19784,7 @@ function selectModule(e){
         if(result.isConfirmed) {
             let sel_modules = document.querySelector('#sel_modules');
             let i = sel_modules.selectedIndex;
-            let trans = sel_modules[i].getAttribute('data-trans');
+            let trans = sel_modules[i].dataset.trans;
             let BibleShortName = sel_modules[i].getAttribute('data-shortName');
             let BibleFullName = sel_modules[i].innerHTML;
             //console.log(trans);
@@ -19791,14 +19800,11 @@ function selectModule(e){
 
 function selectModule2(htmlTrans){
     //console.log(arrFavTransObj);
-    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
-    bl_modalFullInner.innerHTML = '';//reset
+    elem_bl_modalFullInner.innerHTML = '';//reset
 
-    // let thisDiv = document.querySelector('#trans2.colsHead');//test
     let thisDiv = htmlTrans;//test
     //console.log('abajo htmlTrans: ');
     //console.log(htmlTrans);
-
 
     arrFavTransObj.forEach((el,i)=>{
         const p = document.createElement('p');
@@ -19811,7 +19817,7 @@ function selectModule2(htmlTrans){
             closeModal();
         }        
 
-        bl_modalFullInner.appendChild(p);
+        elem_bl_modalFullInner.appendChild(p);
     });
 }
 
@@ -19828,8 +19834,7 @@ function getObjTransByName(trans){
 
 function selectTab(){//Vkladki
     //console.log('function selectTab()');
-    const bl_modalFullInner = document.querySelector('#bl_modalFullInner');
-    bl_modalFullInner.innerHTML = '';//reset
+    elem_bl_modalFullInner.innerHTML = '';//reset
     arrTabs.forEach((el,i)=>{
         //busco nombres de trans para mostrar
         let arr_el_trans = (el.str_trans.includes(',')) ? el.str_trans.split(',') : el.str_trans.split() ;//el.str_trans.split() devuelve un array con 1 valor
@@ -19854,7 +19859,7 @@ function selectTab(){//Vkladki
         p.innerHTML += `<span class="sh_n">${arrTabs[i].ref}</span> `;
         p.innerHTML += `<span class="sh_cuant" title="Translations to compare: ${arr_trans_names.length}">(${arr_trans_names.length})</span>`;
         p.innerHTML += `<span class="la_n">${str_trans_names}</span>`;
-        p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.querySelector('#${arrTabs[i].id} button'))">&#10005;</span>`;// <!--X--> 
+        p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.getElementById('${arrTabs[i].id} button'))">&#10005;</span>`;// <!--X--> 
         p.onclick = function(){
             if(window.innerWidth < pantallaTabletMinPx){
                 positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
@@ -19862,7 +19867,7 @@ function selectTab(){//Vkladki
             }
             if(typeof arrTabs[i] != 'undefined'){
                 //simulo click sobre vkladka correspondiente
-                let this_tab = document.querySelector('#'+arrTabs[i].id);
+                let this_tab = document.getElementById(arrTabs[i].id);
                 this_tab.click();
                 this_tab.scrollIntoView();
             }
@@ -19870,7 +19875,7 @@ function selectTab(){//Vkladki
             closeModal();
             updateArrTabs();
         }
-        bl_modalFullInner.appendChild(p);
+        elem_bl_modalFullInner.appendChild(p);
     });
 }
 
@@ -19895,7 +19900,7 @@ function hist(param){
 function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
     var act_id_book = (elem_inpt_nav.getAttribute('data-id_book') != '') ? elem_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.getAttribute('data-trans');
+    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
     elem_inpt_nav.setAttribute('data-id_chapter', '0');
@@ -20107,7 +20112,7 @@ function scrollTopCero(){
 function chapterGo(dir){
     var act_id_book = (elem_inpt_nav.getAttribute('data-id_book') != '') ? elem_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     var act_show_chapter = (elem_inpt_nav.getAttribute('data-show_chapter') != '') ? elem_inpt_nav.getAttribute('data-show_chapter') : 1 ;
-    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.getAttribute('data-trans');
+    Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
     elem_inpt_nav.setAttribute('data-id_verse', '');
@@ -20351,31 +20356,31 @@ function showTab(e, param){
     
     
     if(param == 'nav'){
-        document.querySelector('#vklad_nav').style.display = 'block';
-        document.querySelector('#vklad_find').style.display = 'none';
-        document.querySelector('#vklad_tsk').style.display = 'none';
-        document.querySelector('#vklad_strong').style.display = 'none';
+        elem_vklad_nav.style.display = 'block';
+        elem_vklad_find.style.display = 'none';
+        elem_vklad_tsk.style.display = 'none';
+        elem_vklad_strong.style.display = 'none';
         mySizeNav();
     }
     if(param == 'find'){
-        document.querySelector('#vklad_nav').style.display = 'none';
-        document.querySelector('#vklad_find').style.display = 'block';
-        document.querySelector('#vklad_tsk').style.display = 'none';
-        document.querySelector('#vklad_strong').style.display = 'none';
+        elem_vklad_nav.style.display = 'none';
+        elem_vklad_find.style.display = 'block';
+        elem_vklad_tsk.style.display = 'none';
+        elem_vklad_strong.style.display = 'none';
         mySizeFind();
     }
     if(param == 'tsk'){
-        document.querySelector('#vklad_nav').style.display = 'none';
-        document.querySelector('#vklad_find').style.display = 'none';
-        document.querySelector('#vklad_tsk').style.display = 'block';
-        document.querySelector('#vklad_strong').style.display = 'none';
+        elem_vklad_nav.style.display = 'none';
+        elem_vklad_find.style.display = 'none';
+        elem_vklad_tsk.style.display = 'block';
+        elem_vklad_strong.style.display = 'none';
         mySizeTsk();
     }
     if(param == 'strong'){
-        document.querySelector('#vklad_nav').style.display = 'none';
-        document.querySelector('#vklad_find').style.display = 'none';
-        document.querySelector('#vklad_tsk').style.display = 'none';
-        document.querySelector('#vklad_strong').style.display = 'block';
+        elem_vklad_nav.style.display = 'none';
+        elem_vklad_find.style.display = 'none';
+        elem_vklad_tsk.style.display = 'none';
+        elem_vklad_strong.style.display = 'block';
         mySizeStrong();
     }
             
@@ -20404,8 +20409,8 @@ function goToLinkFromFind(trans, refLink){
     elem_inpt_nav.value = refLink;
 
     //para que no aparezca TSK
-    //showTab(document.querySelector('#btn_find'),'find');
-    document.querySelector('#vklad_tsk').style.display = 'none';
+    //showTab(elem_btn_find,'find');
+    elem_vklad_tsk.style.display = 'none';
     
     //console.log('llamo getRef()...');
     getRef(trans); 
@@ -20429,7 +20434,7 @@ function puntosInterval(){
 function showTabMob(btn_id, param, el){
     //1. abro menu mobile
     openSidebar(el);
-    //2. llamo showTab(document.querySelector('#btn_nav'),'nav')
+    //2. llamo showTab(elem_btn_nav,'nav')
     showTab(document.querySelector(btn_id), param);
 }
 
@@ -20932,7 +20937,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
         //elem_strong_head.innerHTML = '';//reset datos
         elem_strong_body.innerHTML = '';//reset datos
 
-        showTab(document.querySelector('#btn_strong'),'strong');  
+        showTab(elem_btn_strong,'strong');  
         
         const span_hist_strong = document.createElement('span');
         span_hist_strong.className = 'hist_strong';
@@ -21107,15 +21112,14 @@ function cboxChange(e){
 }
 
 function stopFindWords(){
-    document.querySelector('#btn_ok_stop').classList.remove('d-block');
-    document.querySelector('#btn_ok_stop').classList.add('d-none');
+    elem_btn_ok_stop.classList.remove('d-block');
+    elem_btn_ok_stop.classList.add('d-none');
 
-    document.querySelector('#btn_ok_find').classList.remove('d-none');
-    document.querySelector('#btn_ok_find').classList.add('d-block');
+    elem_btn_ok_find.classList.remove('d-none');
+    elem_btn_ok_find.classList.add('d-block');
 
     window.doFind = false;
-    //console.log('--- window.stopFind ---: '+window.doFind);
-  
+    //console.log('--- window.stopFind ---: '+window.doFind);  
 }
 
 function guardWordsFind(words){
@@ -21181,12 +21185,11 @@ function getGuardWordsFind(){
 
 function findWords(words_input){
     //console.log('function findWords(). words_input: '+words_input);
-    let btn_ok_find = document.querySelector('#btn_ok_find');
-    btn_ok_find.classList.remove('d-block');
-    btn_ok_find.classList.add('d-none');
-    let btn_ok_stop = document.querySelector('#btn_ok_stop');
-    btn_ok_stop.classList.remove('d-none');
-    btn_ok_stop.classList.add('d-block');
+    elem_btn_ok_find.classList.remove('d-block');
+    elem_btn_ok_find.classList.add('d-none');
+
+    elem_btn_ok_stop.classList.remove('d-none');
+    elem_btn_ok_stop.classList.add('d-block');
     window.doFind = true;
 
     //console.log('elem_cbox1.checked: '+elem_cbox1.checked);
@@ -21329,7 +21332,7 @@ function findWords(words_input){
     var tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
 
 
-    let Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.getAttribute('data-trans');
+    let Translation = (elem_inpt_nav.dataset.trans != '') ? elem_inpt_nav.dataset.trans : elem_trans1.dataset.trans;
 
     var btnStrongIsActive = false;
     if(elem_btnStrong.classList.contains('btn_active')){

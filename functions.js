@@ -77,7 +77,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             
                     elem_strong_body.innerHTML = '';//reset datos
             
-                    showTab(document.querySelector('#btn_strong'),'strong');  
+                    showTab(elem_btn_strong,'strong');  
                     
                     const span_hist_strong = document.createElement('span');
                     span_hist_strong.className = 'hist_strong';
@@ -365,7 +365,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     
             elem_strong_body.innerHTML = '';//reset datos
     
-            showTab(document.querySelector('#btn_strong'),'strong');  
+            showTab(elem_btn_strong,'strong');  
             
             const span_hist_strong = document.createElement('span');
             span_hist_strong.className = 'hist_strong';
@@ -784,7 +784,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
             
             inpt_nav.value = el.ref;
 
-            let trans_base = arrFavTransObj.find(v => v.Translation === div_trans1.dataset.trans);
+            let trans_base = arrFavTransObj.find(v => v.Translation === elem_trans1.dataset.trans);
             let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
 
             
