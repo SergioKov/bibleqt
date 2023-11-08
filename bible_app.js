@@ -51,9 +51,10 @@ const eid_v_verse = document.getElementById('v_verse');
 const eid_bcv_line = document.getElementById('bcv_line');
 
 
-
 const eid_inpt_find = document.getElementById('inpt_find');
 const eid_hist_find = document.getElementById('hist_find');
+
+const eid_inpt_strong = document.getElementById('inpt_strong');
 const eid_hist_strong = document.getElementById('hist_strong');
 
 
@@ -238,6 +239,10 @@ let arr_hist_find = [
         "hora": "01:08:46"
     }
 ];
+
+//array de objetos de historia de StrongNumber's
+let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
+
 
 // en funcion showChaptertext4() hay 2 vias
 //'by_text' (old): getting all file and making array with .split() and showing only needed verses,

@@ -86,11 +86,11 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
 
 
                     //patata
+                    addStrongNumberToHistStrong(strongLang, strongIndex);
 
 
 
-
-                    
+                    /*
                     const span_hist_strong = document.createElement('span');
                     span_hist_strong.className = 'hist_strong';
                     //span_hist_strong.setAttribute('onclick',"getStrongNumber('"+strongIndex+"')");
@@ -100,6 +100,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     
                     let hist_strong_all = document.querySelectorAll('.hist_strong');
                     let ult_hist_strong = hist_strong_all[0];
+
                     if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
                         eid_strong_head.prepend(span_hist_strong);
                         //console.log('1 strongIndex');
@@ -109,6 +110,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     }else{
                         //console.log('no hago nada...');
                     }
+                    */
             
                     const span_num_strong = document.createElement('span');
                     span_num_strong.className = 'num_strong';
@@ -385,15 +387,14 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
 
 
             //patata
-
-            addStrongNumberToHistStrong(strongIndex);
-
+            addStrongNumberToHistStrong(strongLang, strongIndex);
 
 
 
 
 
-            
+
+            /*
             const span_hist_strong = document.createElement('span');
             span_hist_strong.className = 'hist_strong';
             //span_hist_strong.setAttribute('onclick',"getStrongNumber('"+strongIndex+"')");
@@ -412,6 +413,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             }else{
                 //console.log('no hago nada...');
             }
+            */
     
             const span_num_strong = document.createElement('span');
             span_num_strong.className = 'num_strong';
@@ -809,7 +811,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         const p = document.createElement('p');
         p.onclick = () => {
             
-            inpt_nav.value = el.ref;
+            eid_inpt_nav.value = el.ref;
 
             let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
             let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
@@ -897,7 +899,7 @@ const addWordsToHistFind = (trans, words) => {
         const p = document.createElement('p');
         p.onclick = () => {
 
-            inpt_nav.dataset.trans = el.trans;
+            eid_inpt_nav.dataset.trans = el.trans;
             eid_inpt_find.value = el.words;
 
             eid_gde.value = el.params.gde_val;
@@ -926,7 +928,7 @@ const addWordsToHistFind = (trans, words) => {
 
 }
 
-const addStrongNumberToHistStrong = (StrongNumber) => {
+const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
     console.log('=== const addStrongNumberToHistStrong ===');
 
     //console.log('trans: ', trans);
@@ -948,50 +950,34 @@ const addStrongNumberToHistStrong = (StrongNumber) => {
     });
     //console.log("Hora actual: " + horaActual);
 
-    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
 
     let itemHist = { 
-        'trans': trans, 
-        'BibleShortName': esteTrans.BibleShortName, 
-        'ref': ref,
-        'book': book,
-        'chapter': chapter,
-        'verse': verse,
-        'to_verse': to_verse,
+        'strongLang': toTitleCase(strongLang), 
+        'strongIndex': strongIndex, 
         'fecha': fechaFormateada, 
         'hora': horaActual 
     };
 
-    arr_hist_nav.unshift(itemHist);
-    //console.log('arr_hist_nav: ', arr_hist_nav);
+    if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
+        
+        arr_hist_strong.unshift(itemHist);
+        console.log('arr_hist_strong: ', arr_hist_strong);
+    }else{
+        console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
+    }
     
-    let wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
-    wr_hist_nav_inner.innerHTML = '';
+    let wr_hist_strong_inner = eid_wr_hist_strong.querySelector('.wr_hist_inner');
+    wr_hist_strong_inner.innerHTML = '';
 
-    arr_hist_nav.forEach((el,i)=>{
+    arr_hist_strong.forEach((el,i)=>{
         const p = document.createElement('p');
         p.onclick = () => {
             
-            inpt_nav.value = el.ref;
+            eid_inpt_strong.value = el.strongIndex;
+            console.log('llamo getStrongNumber()...');
+            getStrongNumber(el.strongIndex);
 
-            let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
-            let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
-
-            
-            if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
-                let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
-                showTrans(res[0], res[1],res[2],res[3]);
-            }
-            else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
-                let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
-                showTrans(res[0], res[1],res[2],res[3]);
-            }
-            else{   
-                //console.log('llamo showTrans()');
-                showTrans(el.book, el.chapter, el.verse, el.to_verse);
-            }
-
-            wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
+            wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
 
             //si es mobile, ciero menu
             if(window.innerWidth < pantallaTabletMinPx){
@@ -999,11 +985,17 @@ const addStrongNumberToHistStrong = (StrongNumber) => {
                 closeSidebar();
             }
         }
-        p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-        wr_hist_nav_inner.append(p);
+        p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+        p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+        wr_hist_strong_inner.append(p);
     });
 
+}
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }
 
 

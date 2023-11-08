@@ -1155,11 +1155,6 @@ span.h4_ch {
 
 #strong_head {
     background: #373737;
-    padding-bottom: 5px;
-    m-in-height: 10px;
-    o-verflow-y: scroll;
-    m-argin-bottom: 5px;
-    c-olor: white;
 }
 
 #tsk_head h4 {
@@ -1185,8 +1180,8 @@ span.h4_ch {
 #vklad_strong{
     background: #373737;
 }
-#strong_body {
-    padding: 0 5px 5px;
+#strong_body p {
+    background: white;
 }
 
 

@@ -202,7 +202,7 @@ function getRefToCompare(ref){
     let act_trans = eid_trans1.dataset.trans;
 
     //var inpt_v = inpt.value.trim();//antes
-    var inpt_v = inpt_nav.value.trim();
+    var inpt_v = eid_inpt_nav.value.trim();
     var book = null;//por defecto
     var chapter = null;//por defecto
     var verse = null;//por defecto
@@ -354,11 +354,11 @@ function getRefToCompare(ref){
                             if(document.querySelectorAll('.cols').length > 1){
 
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-                                //console.log('clickeado trans: '+inpt_nav.dataset.trans);
+                                //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
                                 var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
-                                var trans_inpt = inpt_nav.dataset.trans;// trans desde input
-                                var divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
+                                var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -391,18 +391,18 @@ function getRefToCompare(ref){
                         
                         } 
                     
-                        inpt_nav.setAttribute('data-id_book',n_book);
-                        inpt_nav.setAttribute('data-show_book',short_name);
+                        eid_inpt_nav.setAttribute('data-id_book',n_book);
+                        eid_inpt_nav.setAttribute('data-show_book',short_name);
 
-                        inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-                        inpt_nav.setAttribute('data-show_chapter',chapter);
+                        eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                        eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
-                        inpt_nav.value = short_name;
+                        eid_inpt_nav.value = short_name;
                         obj_nav.show_book = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
-                            inpt_nav.value += ' ' + chapter;
+                            eid_inpt_nav.value += ' ' + chapter;
                             obj_nav.id_chapter = parseInt(chapter) - 1;
                             obj_nav.show_chapter = chapter;
                             eid_v_chapter.innerHTML = '';
@@ -419,11 +419,11 @@ function getRefToCompare(ref){
                             
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
-                                inpt_nav.value += ':' + verse;
+                                eid_inpt_nav.value += ':' + verse;
                                 obj_nav.id_verse = parseInt(verse) - 1;
                                 obj_nav.show_verse = verse;
-                                inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
-                                inpt_nav.setAttribute('data-show_verse', verse);
+                                eid_inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
+                                eid_inpt_nav.setAttribute('data-show_verse', verse);
                                 eid_v_verse.innerHTML = '';
                             } else {
                                 //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
@@ -440,11 +440,11 @@ function getRefToCompare(ref){
 
                             //hay to_verse
                             if (to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)) {
-                                inpt_nav.value += '-' + to_verse;
-                                inpt_nav.setAttribute('data-show_to_verse', to_verse);
+                                eid_inpt_nav.value += '-' + to_verse;
+                                eid_inpt_nav.setAttribute('data-show_to_verse', to_verse);
                                 obj_nav.show_to_verse = to_verse;
                             } else {
-                                inpt_nav.setAttribute('data-show_to_verse', '');
+                                eid_inpt_nav.setAttribute('data-show_to_verse', '');
                                 obj_nav.show_to_verse = '';
                             }
 
@@ -564,11 +564,11 @@ function getRefToCompare(ref){
                                     if(verse > data.VerseQty) verse = data.VerseQty;
                                     //console.log('15047. verse: ',verse);
 
-                                    inpt_nav.value += ':' + verse;
+                                    eid_inpt_nav.value += ':' + verse;
                                     obj_nav.id_verse = parseInt(verse) - 1;
                                     obj_nav.show_verse = verse;
-                                    inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                                    inpt_nav.setAttribute('data-show_verse',verse);
+                                    eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
+                                    eid_inpt_nav.setAttribute('data-show_verse',verse);
                                     eid_v_verse.innerHTML = '';
 
 
@@ -577,11 +577,11 @@ function getRefToCompare(ref){
                                     //console.log('15096. to_verse: ',to_verse);
 
                                     if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                                        inpt_nav.value += '-' + to_verse;
-                                        inpt_nav.setAttribute('data-show_to_verse',to_verse);
+                                        eid_inpt_nav.value += '-' + to_verse;
+                                        eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
                                         obj_nav.show_to_verse = to_verse;
                                     }else{
-                                        inpt_nav.setAttribute('data-show_to_verse','');
+                                        eid_inpt_nav.setAttribute('data-show_to_verse','');
                                         obj_nav.show_to_verse = '';
                                     }
 
@@ -659,7 +659,7 @@ async function parseTextToArrRef(textRef, trans = null){
     console.log('=== function parseTextToArrRef(text) ===');
 
     let act_trans = eid_trans1.dataset.trans;
-    var trans_inpt = inpt_nav.dataset.trans;
+    var trans_inpt = eid_inpt_nav.dataset.trans;
     const s_book = document.querySelector('#s_book');
 
     //Si no viene trans, lo cojo del div #trans1
@@ -835,11 +835,11 @@ async function parseTextToArrRef(textRef, trans = null){
                             if(document.querySelectorAll('.cols').length > 1){
 
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-                                //console.log('clickeado trans: '+inpt_nav.dataset.trans);
+                                //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
                                 let trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
-                                let trans_inpt = inpt_nav.dataset.trans;// trans desde input
-                                let divtrans_inpt = inpt_nav.dataset.divtrans;// trans desde input
+                                let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
