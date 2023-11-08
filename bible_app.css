@@ -1143,16 +1143,25 @@ span.h4_ch {
     border-radius: 3px;
     outline: 1px solid #2c7fc1;
 }
-#tsk_head, 
-#strong_head 
-{
+ 
+#tsk_head {
+    max-height: 100px;
     min-height: 10px;
     padding: 5px 5px 0;
-    max-height: 100px;
     overflow-y: scroll;
     margin-bottom: 5px;
     color: white;
 }
+
+#strong_head {
+    background: #373737;
+    padding-bottom: 5px;
+    m-in-height: 10px;
+    o-verflow-y: scroll;
+    m-argin-bottom: 5px;
+    c-olor: white;
+}
+
 #tsk_head h4 {
     color: white;
     padding: 0 5px;
@@ -1290,13 +1299,9 @@ button#btn_ok_stop:hover{
 button#btn_ok_strong {
     height: 29px;
     cursor: pointer;
-    width: 70px;
+    width: 80px;
 }
 
-#vklad_strong p
-{
-    background: white;
-}
 span.num_strong {
     display: block;
     color: #2196F3;
@@ -1315,9 +1320,7 @@ span.num_strong {
     color:red;
 }
  
-#find_head, 
-#strong_head 
-{
+#find_head {
     background: #d4ebfe;
     color: white;
     padding-bottom: 5px;
@@ -1385,7 +1388,8 @@ select#limit {
     padding: 2px;
 }
 #vklad_nav p,
-#vklad_find p
+#vklad_find p,
+#vklad_strong p
 {
     border-radius: 2px;
     color: black;
@@ -1533,7 +1537,6 @@ select  optgroup option {
 .f_book span.trans_name {
     color: white;
     margin-right: 5px;
-    /* float: right; */
     background: #1b89e1;
     padding: 2px 5px 2px;
     border-radius: 3px;
@@ -1600,7 +1603,9 @@ select  optgroup option {
     display: block;
 }
 
-.wr_hist_nav{
+#wr_hist_nav,
+#wr_hist_strong
+{
     background: #d4ebfe;
     color: white;
     padding: 5px;
@@ -1668,7 +1673,7 @@ select  optgroup option {
 }
 
 
-.wr_hist_find {
+#wr_hist_find {
     /* background: #b5d3eb; */
     /* border: 1px solid #2196F3; */
     border-radius: 3px;
@@ -1681,7 +1686,8 @@ select  optgroup option {
     font-size: 14px;
 }
 #hist_nav,
-#hist_find
+#hist_find,
+#hist_strong
  {
     border-radius: 3px;
     border: 1px solid #1b89e1;
@@ -1703,7 +1709,8 @@ select  optgroup option {
     background: #5eb4f9;
 }
 #hist_nav img, 
-#hist_find img 
+#hist_find img, 
+#hist_strong img 
 {
     width: 10px;
     transition: 0.3s;
@@ -1711,9 +1718,9 @@ select  optgroup option {
 }
 #hist_nav img.razv, 
 #hist_find img.razv, 
+#hist_strong img.razv, 
 .title_par img.razv 
 {
-    /*transform: rotate(90deg);*/
     transform: rotate(0deg);
 }
 #hist_find:focus-visible {
@@ -1728,7 +1735,6 @@ select  optgroup option {
     transform: rotate(90deg);
     right: 2px;
     margin-left: 10px;
-    /* transform: rotate(0deg); */
     transition: 0.3s;
 }
 .pf {

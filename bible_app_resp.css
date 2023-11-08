@@ -119,9 +119,10 @@
     .colsHeadInner {
         margin: 2px;
     } 
+    
     .wr_op, 
     p.res_f,
-    .wr_hist_find,
+    #wr_hist_find,
     .wr_strong_btns
     {
        margin-right: -3px; 

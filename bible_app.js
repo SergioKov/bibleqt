@@ -36,6 +36,10 @@ const computedStyle = window.getComputedStyle(eid_sidebarInner);
 const eid_inpt_nav = document.getElementById('inpt_nav');
 const eid_hist_nav = document.getElementById('hist_nav');
 
+const eid_wr_hist_nav = document.getElementById('wr_hist_nav');
+const eid_wr_hist_find = document.getElementById('wr_hist_find');
+const eid_wr_hist_strong = document.getElementById('wr_hist_strong');
+
 const eid_s_book = document.getElementById('s_book');
 const eid_s_chapter = document.getElementById('s_chapter');
 const eid_s_verse = document.getElementById('s_verse');
@@ -50,6 +54,7 @@ const eid_bcv_line = document.getElementById('bcv_line');
 
 const eid_inpt_find = document.getElementById('inpt_find');
 const eid_hist_find = document.getElementById('hist_find');
+const eid_hist_strong = document.getElementById('hist_strong');
 
 
 const eid_wr_find_head = document.getElementById('wr_find_head');
@@ -17365,8 +17370,6 @@ function closeTab(el){
     updateArrTabs();
 }
 
-//sel(document.querySelector('.bcv_active'),'b');//por defecto
-
 
 //Click sobre el boton li del libro de la Biblia en navegación
 function selBook(e){
@@ -21163,13 +21166,12 @@ function guardWordsFind(words){
 //getGuardWordsFind();//al cargar la web para mostrar
 
 function getGuardWordsFind(){
-    var wr_hist_find = document.querySelector('.wr_hist_find');
 
     fetch('app/guardWordsFind_file.json')
     .then(response => response.json())
     .then(data=>{
         //console.log(data);
-        wr_hist_find.innerHTML = '';
+        eid_wr_hist_find.innerHTML = '';
         if(data != ''){           
             data.forEach((el,i)=>{
                 if(i == 0){
@@ -21184,7 +21186,7 @@ function getGuardWordsFind(){
                     close_hist_find();
                 };
                 p.innerHTML = el.words;
-                wr_hist_find.append(p);
+                eid_wr_hist_find.append(p);
             });
         }
     });  
@@ -21355,7 +21357,6 @@ function findWords(words_input){
     if(document.querySelector('.res_f') == null){
         const f_book = document.createElement('p');
         f_book.className = 'f_book';
-        // f_book.innerHTML = `<span class="trans_name"></span> <span class="book_name"></span>`;//antes=
         f_book.innerHTML = `<span class="book_name"></span>`;
         eid_find_head.append(f_book);
 
@@ -21424,7 +21425,6 @@ function findWords(words_input){
             //console.log(bq);
 
             //muestro trans en result de busqueda
-            //document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;//antes
             document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;
         
             if(book_start != null && book_end != null){
@@ -23368,7 +23368,6 @@ function findWords(words_input){
                 //console.log(bq);
 
                 //muestro trans en result de busqueda
-                //document.querySelector(".f_book .trans_name").innerHTML = bq.BibleShortName;//antes 
                 document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;               
         
                 if(book_start != null && book_end != null){
@@ -24455,52 +24454,61 @@ function mostrar_no_res(){
 
 
 function hideShowHistNav(){
-    let bl_hist = document.querySelector('.wr_hist_nav');
-    if(bl_hist.style.display == 'none'){
+    if(eid_wr_hist_nav.style.display == 'none'){
         show_hist_nav();
     }else{
         close_hist_nav();
     }
 }
 function show_hist_nav(){
-    let bl_hist = document.querySelector('.wr_hist_nav');
-    let hist_nav_img = eid_hist_nav.querySelector('img');
-    hist_nav_img.classList.add('razv');
-    bl_hist.style.display = 'block';
+    eid_hist_nav.querySelector('img').classList.add('razv');
+    eid_wr_hist_nav.style.display = 'block';
     mySizeNav();//altura de div_nav_body
 }
 function close_hist_nav(){
-    let bl_hist = document.querySelector('.wr_hist_nav');
-    let hist_nav_img = eid_hist_nav.querySelector('img');
-    hist_nav_img.classList.remove('razv');
-    bl_hist.style.display = 'none';
+    eid_hist_nav.querySelector('img').classList.remove('razv');
+    eid_wr_hist_nav.style.display = 'none';
     mySizeNav();//altura de div_nav_body
 }
 
 
 function hideShowHistFind(){
-    let bl_hist = document.querySelector('.wr_hist_find');
-    if(bl_hist.style.display == 'none'){
+    if(eid_wr_hist_find.style.display == 'none'){
         show_hist_find();
     }else{
         close_hist_find();
     }
 }
 function show_hist_find(){
-    let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = eid_hist_find.querySelector('img');
-    hist_find_img.classList.add('razv');
-    bl_hist.style.display = 'block';
+    eid_hist_find.querySelector('img').classList.add('razv');
+    eid_wr_hist_find.style.display = 'block';
     mySizeFind();//altura de eid_find_body
 }
 function close_hist_find(){
-    let bl_hist = document.querySelector('.wr_hist_find');
-    let hist_find_img = eid_hist_find.querySelector('img');
-
-    hist_find_img.classList.remove('razv');
-    bl_hist.style.display = 'none';
+    eid_hist_find.querySelector('img').classList.remove('razv');
+    eid_wr_hist_find.style.display = 'none';
     mySizeFind();//altura de eid_find_body
 }
+
+
+function hideShowHistStrong(){
+    if(eid_wr_hist_strong.style.display == 'none'){
+        show_hist_strong();
+    }else{
+        close_hist_strong();
+    }
+}
+function show_hist_strong(){
+    eid_hist_strong.querySelector('img').classList.add('razv');
+    eid_wr_hist_strong.style.display = 'block';
+    mySizeStrong();//altura de eid_strong_body
+}
+function close_hist_strong(){
+    eid_hist_strong.querySelector('img').classList.remove('razv');
+    eid_wr_hist_strong.style.display = 'none';
+    mySizeStrong();//altura de eid_strong_body
+}
+
 
 function hideShowFindParams(){
     let bl_par = document.querySelector('.bl_par');

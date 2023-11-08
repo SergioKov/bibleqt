@@ -149,7 +149,7 @@
                             <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">OK</button>
                         </div>
                         
-                        <div class="wr_hist_nav" style="display:none;">
+                        <div id="wr_hist_nav" style="display:none;">
                             <div class="wr_hist_inner"></div>
                         </div>
 
@@ -200,7 +200,7 @@
                             <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
                         </div>
                         <div id="find_head">
-                            <div class="wr_hist_find" style="display:none;">
+                            <div id="wr_hist_find" style="display:none;">
                                 <div class="wr_hist_inner"></div>
                             </div>                       
 
@@ -413,9 +413,20 @@
                                 <input id="inpt_strong" value="G3056">
                                 <div id="clear_inpt" onclick="clear_inpt('strong')">&times;</div>
                             </div>
+                            
+                            <div id="hist_strong" onclick="hideShowHistStrong()">
+                                <img src="images/icon_razvernut.png">
+                            </div>
+
                             <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">Strong</button>
                         </div>
-                        <div id="strong_head"></div>
+                        <div id="strong_head">
+                            <div id="wr_hist_strong" style="display:none;">
+                                <div class="wr_hist_inner">
+                                    <p><span class="sp_trans_hist">RST+r <span class="sp_fecha_hist">8/11/2023</span></span><span class="sp_ref_hist">Быт. 1 <span class="sp_hora_hist">12:55:02</span></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="strong_body">
