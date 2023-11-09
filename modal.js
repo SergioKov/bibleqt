@@ -1,13 +1,13 @@
 // Get the modal
-var modal = document.querySelector("#myModal");
-var modalContent = document.querySelector("#myModalContent");
-var modalContent_header = document.querySelector("#myModalContent header");
-var modalContent_section = document.querySelector("#myModalContent section");
-var modalContent_footer = document.querySelector("#myModalContent footer");
-var bl_modalTop = document.querySelector("#bl_modalTop");
-var bl_modalBottom = document.querySelector("#bl_modalBottom");
-var bl_modalCenter = document.querySelector("#bl_modalCenter");
-var bl_modalFull = document.querySelector("#bl_modalFull");
+const modal = document.getElementById('myModal');
+const modalContent = document.getElementById('myModalContent');
+const modalContent_header = document.getElementById('myModalContent header');
+const modalContent_section = document.getElementById('myModalContent section');
+const modalContent_footer = document.getElementById('myModalContent footer');
+const bl_modalTop = document.getElementById('bl_modalTop');
+const bl_modalBottom = document.getElementById('bl_modalBottom');
+const bl_modalCenter = document.getElementById('bl_modalCenter');
+const bl_modalFull = document.getElementById('bl_modalFull');
 
 // Get the button that opens the modal
 //var btn = document.getElementById("myBtn");

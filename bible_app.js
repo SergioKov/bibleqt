@@ -218,27 +218,7 @@ let arrTabs = [];//array de objetos de tabs (Vkladki)
 let arr_hist_nav = [];//se añade en addRefToHistNav();
 
 //array de objetos de historia de navegacion
-//let arr_hist_find = [];//se añade en addWordsToHistFind();
-let arr_hist_find = [
-    {
-        "trans": "rstStrongRed",
-        "BibleShortName": "RST+r",
-        "words": "Бог есть любовь",
-        "params": {
-            "gde_val": "TB",
-            "limit_val": "50",
-            "cbox1_checked": false,
-            "cbox2_checked": false,
-            "cbox3_checked": true,
-            "cbox4_checked": false,
-            "cbox5_checked": false,
-            "cbox6_checked": false,
-            "cbox7_checked": false
-        },
-        "fecha": "5/11/2023",
-        "hora": "01:08:46"
-    }
-];
+let arr_hist_find = [];//se añade en addWordsToHistFind();
 
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
@@ -17670,6 +17650,7 @@ function selVerse(e){
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
+    console.log('===function sel()===');
     
     //var trans_base = eid_trans1.dataset.trans;
     var trans_inpt = eid_inpt_nav.dataset.trans;

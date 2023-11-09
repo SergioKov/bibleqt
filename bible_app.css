@@ -2554,6 +2554,9 @@ el{
 .btn_dvor:hover{
     color:white;
 }
+.slov_dvor{
+    white-space: pre-line;
+}
 .sn_dvor{
    /* background: #ccc;*/
 }

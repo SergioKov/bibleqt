@@ -255,7 +255,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                                 console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
                             }
             
-                            el = '<span class="btn btn_dvor" onclick="showHideDvor()">Словарь Дворецкого: <img src="images/icon_razvernut.png"></span>' + '<span class="sn2 sn_dvor">'+el +'</span>';
+                            el = `<span class="btn btn_dvor" onclick="showHideDvor()">
+                                    <span class="slov_dvor">Словарь Дворецкого:</span> 
+                                    <img src="images/icon_razvernut.png">
+                                </span>
+                                <span class="sn2 sn_dvor">${el}</span>
+                            `;
                             el = el.replace('<br>','');//replace() no replaceAll(). elimino 1-er br
                             el = el.replaceAll(' Пр.: ',' <pr>Пр.:</pr> ');//                            
                         }
@@ -558,7 +563,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
                     }
     
-                    el = '<span class="btn btn_dvor" onclick="showHideDvor()">Словарь Дворецкого: <img src="images/icon_razvernut.png"></span>' + '<span class="sn2 sn_dvor">'+el +'</span>';
+                    el = `<span class="btn btn_dvor" onclick="showHideDvor()">
+                            <span class="slov_dvor">Словарь Дворецкого:</span> 
+                            <img src="images/icon_razvernut.png">
+                        </span>
+                        <span class="sn2 sn_dvor">${el}</span>
+                    `;
                     el = el.replace('<br>','');//replace() no replaceAll(). elimino 1-er br
                     el = el.replaceAll(' Пр.: ',' <pr>Пр.:</pr> ');//                            
                 }
@@ -793,6 +803,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         'trans': trans, 
         'BibleShortName': esteTrans.BibleShortName, 
         'ref': ref,
+        'BookShortName': esteTrans.Books[book].ShortNames[0],
         'book': book,
         'chapter': chapter,
         'verse': verse,
@@ -801,8 +812,13 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         'hora': horaActual 
     };
 
-    arr_hist_nav.unshift(itemHist);
-    //console.log('arr_hist_nav: ', arr_hist_nav);
+    //meto item si es primer index o si no se repite trans y words
+    if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
+        arr_hist_nav.unshift(itemHist);
+        console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+    }else{
+        console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
+    }
     
     let wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
     wr_hist_nav_inner.innerHTML = '';
@@ -811,11 +827,33 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         const p = document.createElement('p');
         p.onclick = () => {
             
-            eid_inpt_nav.value = el.ref;
+            eid_inpt_nav.value = el.ref;            
+            eid_inpt_nav.dataset.trans = el.trans;
+
+            eid_inpt_nav.dataset.id_book = el.book;
+            eid_inpt_nav.dataset.show_book = el.BookShortName;
+
+            eid_inpt_nav.dataset.id_chapter = el.chapter - 1;
+            eid_inpt_nav.dataset.show_chapter = el.chapter;
+            
+            if(el.verse != null){
+                eid_inpt_nav.dataset.id_verse = el.verse - 1;
+                eid_inpt_nav.dataset.show_verse = el.verse;
+                eid_s_verse.click();
+            }else{
+                eid_inpt_nav.dataset.id_verse = '';
+                eid_inpt_nav.dataset.show_verse = '';
+                eid_s_verse.click();
+            }
+
+            if(el.to_verse != null){
+                eid_inpt_nav.dataset.show_to_verse = el.to_verse;
+            }else{
+                eid_inpt_nav.dataset.show_to_verse = '';
+            }
 
             let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
             let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
-
             
             if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
                 let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
@@ -889,8 +927,13 @@ const addWordsToHistFind = (trans, words) => {
         'hora': horaActual
     };
 
-    arr_hist_find.unshift(itemHist);
-    console.log('arr_hist_find: ', arr_hist_find);
+    //meto item si es primer index o si no se repite trans y words
+    if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
+        arr_hist_find.unshift(itemHist);
+        console.log('meto item. arr_hist_find: ', arr_hist_find);
+    }else{
+        console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
+    }
     
     let wr_hist_find_inner = eid_wr_hist_find.querySelector('.wr_hist_inner');
     wr_hist_find_inner.innerHTML = '';
@@ -959,7 +1002,6 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
     };
 
     if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
-        
         arr_hist_strong.unshift(itemHist);
         console.log('arr_hist_strong: ', arr_hist_strong);
     }else{
@@ -979,11 +1021,7 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
 
             wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
 
-            //si es mobile, ciero menu
-            if(window.innerWidth < pantallaTabletMinPx){
-                //console.log('func selVerse(). mobile.');
-                closeSidebar();
-            }
+            //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
         }
         p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
         p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
