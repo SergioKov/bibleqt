@@ -1686,7 +1686,7 @@ select  optgroup option {
  {
     border-radius: 3px;
     border: 1px solid #1b89e1;
-    /* padding: 0px 5px 4px 6px; */
+    padding: 0px 5px;
     margin: 0 5px 0 2px;
     width: 10px;
     color: #000000;
@@ -1707,16 +1707,19 @@ select  optgroup option {
 #hist_find img, 
 #hist_strong img 
 {
-    width: 10px;
+    /*width: 10px;
     transition: 0.3s;
-    transform: rotate(90deg);
+    transform: rotate(90deg);*/
+
+    width: 16px;
+    transition: 0.5s;
+    transform: rotate(0deg);
 }
 #hist_nav img.razv, 
 #hist_find img.razv, 
-#hist_strong img.razv, 
-.title_par img.razv 
+#hist_strong img.razv
 {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
 }
 #hist_find:focus-visible {
     outline: 1px solid #1b89e1;
@@ -1731,6 +1734,9 @@ select  optgroup option {
     right: 2px;
     margin-left: 10px;
     transition: 0.3s;
+}
+.title_par img.razv{
+    transform: rotate(0deg);
 }
 .pf {
     cursor: pointer;
@@ -2046,41 +2052,58 @@ select  optgroup option {
     flex-wrap: nowrap;
     justify-content: center;
 }
-.modal-content section p {
+#modcont_body p {
     /* background: white; */
 }
 
 /* The Close Button */
 .close {
-    color: #aaaaaa;
+    color: white;
     float: right;
     font-size: 23px;
     font-weight: bold;
-    position: relative;
-    top: -6px;
+    top: -5px;
     right: -5px;
-    /* background: #ec6e6e; */
-    padding: 0px 8px;
+    /* background: red; */
+    padding: 0px 0px 2px;
     /* outline: 1px solid white; */
     transition: 0.3s;
+    height: 28px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 30px;
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+  /* color: #000; */
+  /* background: red; */
 }
 
-.modal-content header {
-    background: #4d4d4d;
+#modcont_header {
+    background: #1875bf;
     color: white;
 }
-.modal-content section {
-    background: #ccc;
+#modcont_header h4 {
+    color: white;
+    font-size: large;
+    border: none;
+    /* background: #034603; */
+    position: relative;
+}
+
+#modcont_body {
+    background: #373737;
     overflow: auto;
 }
-.modal-content footer {
+#modcont_footer {
     background: #4d4d4d;
     color: white;
 }
@@ -2140,16 +2163,11 @@ span.prim_tsk {
     padding: 0;
     max-width: 768px;
 }
-.modalContentFull section {
+.modalContentFull #modcont_body {
     background-color: black;
     border: 1px solid #4d4d4d;
 }
-.modal-content h4 {
-    color: white;
-    font-size: large;
-    border: none;
-    /* background: green; */
-}
+
 
 div#bl_modalTopInner
  {
@@ -2200,9 +2218,9 @@ div#bl_headerBtns .dbtn:hover
     background: #424242;
 }
 .dbtn span {
-    margin: 10px;
+    /* margin: 10px; */
     /* background: red; */
-    padding: 10px;
+    /* padding: 10px; */
 }
 div#headerMainInner button {
     height: 28px;
@@ -2315,10 +2333,13 @@ p.cl_tab:hover {
 }
 .cl_tab .sh_nl {
     margin-right: 5px;
-    color: #737373;
+    color: #414141;
     min-width: 30px;
-    /* background: yellow; */
+    /* background: white; */
     text-align: center;
+}
+.cl_tab:hover .sh_nl {
+    color: #737373;
 }
 .cl_tab_active {
     background: red;
@@ -2333,6 +2354,12 @@ p.cl_tab:hover {
 }
 .cl_tab_active .btn_tab_x:hover{
     background: black;
+}
+.cl_tab_active .btn_tab_x {
+    color: white;
+}
+.cl_tab_active:hover .btn_tab_x{
+    /* opacity: 1; */
 }
 
 .separ_line {
@@ -2438,9 +2465,13 @@ span.mob_sh_link {
     padding: 0px 4px 1px;
     font-weight: 600;
     transition: 0.3s;
+    color: #414141;
 }
 .btn_tab_x:hover{
     background: red;
+}
+.cl_tab:hover .btn_tab_x {
+    color: white;
 }
 .sh_cuant{
     margin-right: 10px;
@@ -2665,4 +2696,54 @@ pr {
 
 #wrColCompare{
     background-color: white;
+}
+.sp_atras {
+    float: left;
+    margin-right: 5px;
+    /* background: #dd0505; */
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    height: 24px;
+    position: relative;
+    top: -2px;
+    background-image: url(./images/arrow_left2_white.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    transition: 0.3s;
+}
+/*
+.sp_atras:hover{
+    background-image: url(./images/arrow_left2_black.svg);
+    opacity: 1;   
+}
+*/
+.sp_atras img {
+    width: 24px;
+    height: 24px;
+}
+#h4_text {
+    margin-right: 40px;
+    /* background: red; */
+    display: block;
+}
+.dbtn_inner {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+#bl_modalFullInner p{
+    padding: 5px;
+    cursor:pointer;
+    transition: 0.3s;
+}
+#bl_modalFullInner p:not(:last-child) {
+    border-bottom: 1px solid #404040;
+}
+#bl_modalFullInner p:hover{
+    background:#424242;
 }

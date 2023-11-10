@@ -820,68 +820,74 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
     
-    let wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
-    wr_hist_nav_inner.innerHTML = '';
+    eid_wr_hist_nav_inner.innerHTML = '';    
 
     arr_hist_nav.forEach((el,i)=>{
-        const p = document.createElement('p');
+               
+        const p = document.createElement('p');       
         p.onclick = () => {
-            
-            eid_inpt_nav.value = el.ref;            
-            eid_inpt_nav.dataset.trans = el.trans;
-
-            eid_inpt_nav.dataset.id_book = el.book;
-            eid_inpt_nav.dataset.show_book = el.BookShortName;
-
-            eid_inpt_nav.dataset.id_chapter = el.chapter - 1;
-            eid_inpt_nav.dataset.show_chapter = el.chapter;
-            
-            if(el.verse != null){
-                eid_inpt_nav.dataset.id_verse = el.verse - 1;
-                eid_inpt_nav.dataset.show_verse = el.verse;
-                eid_s_verse.click();
-            }else{
-                eid_inpt_nav.dataset.id_verse = '';
-                eid_inpt_nav.dataset.show_verse = '';
-                eid_s_verse.click();
-            }
-
-            if(el.to_verse != null){
-                eid_inpt_nav.dataset.show_to_verse = el.to_verse;
-            }else{
-                eid_inpt_nav.dataset.show_to_verse = '';
-            }
-
-            let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
-            let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
-            
-            if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
-                let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
-                showTrans(res[0], res[1],res[2],res[3]);
-            }
-            else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
-                let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
-                showTrans(res[0], res[1],res[2],res[3]);
-            }
-            else{   
-                //console.log('llamo showTrans()');
-                showTrans(el.book, el.chapter, el.verse, el.to_verse);
-            }
-
-            wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
-
-            //si es mobile, ciero menu
-            if(window.innerWidth < pantallaTabletMinPx){
-                //console.log('func selVerse(). mobile.');
-                closeSidebar();
-            }
+            onclick_p_nav(el);
         }
         p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
         p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-        wr_hist_nav_inner.append(p);
+        eid_wr_hist_nav_inner.append(p);
+
     });
 
 }
+
+
+function onclick_p_nav(el){
+    eid_inpt_nav.value = el.ref;            
+    eid_inpt_nav.dataset.trans = el.trans;
+
+    eid_inpt_nav.dataset.id_book = el.book;
+    eid_inpt_nav.dataset.show_book = el.BookShortName;
+
+    eid_inpt_nav.dataset.id_chapter = el.chapter - 1;
+    eid_inpt_nav.dataset.show_chapter = el.chapter;
+    
+    if(el.verse != null){
+        eid_inpt_nav.dataset.id_verse = el.verse - 1;
+        eid_inpt_nav.dataset.show_verse = el.verse;
+        eid_s_verse.click();
+    }else{
+        eid_inpt_nav.dataset.id_verse = '';
+        eid_inpt_nav.dataset.show_verse = '';
+        eid_s_verse.click();
+    }
+
+    if(el.to_verse != null){
+        eid_inpt_nav.dataset.show_to_verse = el.to_verse;
+    }else{
+        eid_inpt_nav.dataset.show_to_verse = '';
+    }
+
+    let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
+    let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
+    
+    if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
+        let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
+        showTrans(res[0], res[1],res[2],res[3]);
+    }
+    else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
+        let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
+        showTrans(res[0], res[1],res[2],res[3]);
+    }
+    else{   
+        //console.log('llamo showTrans()');
+        showTrans(el.book, el.chapter, el.verse, el.to_verse);
+    }
+
+    eid_wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
+
+    //si es mobile, ciero menu
+    if(window.innerWidth < pantallaTabletMinPx){
+        //console.log('func selVerse(). mobile.');
+        closeSidebar();
+    }    
+}
+
 
 
 const addWordsToHistFind = (trans, words) => {
@@ -935,29 +941,12 @@ const addWordsToHistFind = (trans, words) => {
         console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
     }
     
-    let wr_hist_find_inner = eid_wr_hist_find.querySelector('.wr_hist_inner');
-    wr_hist_find_inner.innerHTML = '';
+    eid_wr_hist_find_inner.innerHTML = '';
 
     arr_hist_find.forEach((el,i)=>{
         const p = document.createElement('p');
         p.onclick = () => {
-
-            eid_inpt_nav.dataset.trans = el.trans;
-            eid_inpt_find.value = el.words;
-
-            eid_gde.value = el.params.gde_val;
-            eid_limit.value = el.params.limit_val;
-            eid_cbox1.checked = el.params.cbox1_checked;
-            eid_cbox2.checked = el.params.cbox2_checked;
-            eid_cbox3.checked = el.params.cbox3_checked;
-            eid_cbox4.checked = el.params.cbox4_checked;
-            eid_cbox5.checked = el.params.cbox5_checked;
-            eid_cbox6.checked = el.params.cbox6_checked;
-            eid_cbox7.checked = el.params.cbox7_checked;
-            
-            //console.log('llamo findWords()');
-            //findWords(el.words);
-            wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
+            onclick_p_find(el);
         }
         p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
                             <span class="wr_fecha_hora">
@@ -966,9 +955,28 @@ const addWordsToHistFind = (trans, words) => {
                             </span>
                         </span>`;
         p.innerHTML += `<span class="sp_ref_hist">${el.words}</span>`;
-        wr_hist_find_inner.append(p);
+        eid_wr_hist_find_inner.append(p);
     });
 
+}
+
+function onclick_p_find(el){
+    eid_inpt_nav.dataset.trans = el.trans;
+    eid_inpt_find.value = el.words;
+
+    eid_gde.value = el.params.gde_val;
+    eid_limit.value = el.params.limit_val;
+    eid_cbox1.checked = el.params.cbox1_checked;
+    eid_cbox2.checked = el.params.cbox2_checked;
+    eid_cbox3.checked = el.params.cbox3_checked;
+    eid_cbox4.checked = el.params.cbox4_checked;
+    eid_cbox5.checked = el.params.cbox5_checked;
+    eid_cbox6.checked = el.params.cbox6_checked;
+    eid_cbox7.checked = el.params.cbox7_checked;
+    
+    //console.log('llamo findWords()');
+    //findWords(el.words);
+    eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
 }
 
 const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
@@ -1008,26 +1016,28 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
         console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
     }
     
-    let wr_hist_strong_inner = eid_wr_hist_strong.querySelector('.wr_hist_inner');
-    wr_hist_strong_inner.innerHTML = '';
+    eid_wr_hist_strong_inner.innerHTML = '';
 
     arr_hist_strong.forEach((el,i)=>{
         const p = document.createElement('p');
         p.onclick = () => {
-            
-            eid_inpt_strong.value = el.strongIndex;
-            console.log('llamo getStrongNumber()...');
-            getStrongNumber(el.strongIndex);
-
-            wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
-
-            //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
+            onclick_p_strong(el);            
         }
         p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
         p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
-        wr_hist_strong_inner.append(p);
+        eid_wr_hist_strong_inner.append(p);
     });
 
+}
+
+function onclick_p_strong(el){
+
+    eid_inpt_strong.value = el.strongIndex;
+    console.log('llamo getStrongNumber()...');
+    getStrongNumber(el.strongIndex);
+
+    eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
+    //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
 }
 
 function toTitleCase(str) {

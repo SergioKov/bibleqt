@@ -40,6 +40,10 @@ const eid_wr_hist_nav = document.getElementById('wr_hist_nav');
 const eid_wr_hist_find = document.getElementById('wr_hist_find');
 const eid_wr_hist_strong = document.getElementById('wr_hist_strong');
 
+const eid_wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
+const eid_wr_hist_find_inner = eid_wr_hist_find.querySelector('.wr_hist_inner');
+const eid_wr_hist_strong_inner = eid_wr_hist_strong.querySelector('.wr_hist_inner');
+
 const eid_s_book = document.getElementById('s_book');
 const eid_s_chapter = document.getElementById('s_chapter');
 const eid_s_verse = document.getElementById('s_verse');
@@ -110,6 +114,8 @@ const eid_strong_head = document.getElementById('strong_head');
 const eid_strong_body = document.getElementById('strong_body');
 
 const eid_partDeskTabs = document.getElementById('partDeskTabs');
+
+
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
@@ -17045,7 +17051,7 @@ function addTrans(addMode = null){
                                     
                                     <div class="partDesk">
 
-                                        <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))">
+                                        <div class="wr_desk_trans" title="Presiona para seleccionar la traducción." onclick="openModal('full','Избранныe модули Библии',document.querySelector('#${htmlTrans.id}.colsHead'),'showModules')">
                                         
                                             <div class="vstavka_left">&nbsp;</div>
                                             <div class="centralPart">
@@ -17066,7 +17072,7 @@ function addTrans(addMode = null){
                                             <button class="btn btn_svg" onclick="chapterGo('prev')" title="Previous Chapter"><img src="images/arrow_chevron_left_white.svg"></button>
                                             
                                             <div class="centralPart">
-                                                <button class="btn" onclick="openModal('full',document.querySelector('#${htmlTrans.id}.colsHead'))" title="open Modal to choose translation">
+                                                <button class="btn" title="open Modal to choose translation" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#${htmlTrans.id}.colsHead'),'showModules')">
                                                     <span class="mob_trans">RST+r</span>
                                                 </button>
                                                 <div class="separ_line"></div>
@@ -17110,7 +17116,8 @@ function addTrans(addMode = null){
         
         if(addMode == 'askForTrans'){
             //propongo selección del modulo
-            openModal('full',htmlTrans);//contiene dentro selectModule2()
+            console.log('addMode: ',addMode);
+            openModal('full','Избранныe модули Библии',htmlTrans,'showModules');//contiene dentro selectModule2()
         }else{
             //no hago nada. añado col vacio
         }
@@ -17336,7 +17343,7 @@ function updateArrTabs(){
 
 function showTabs(){
     //console.log('function showTabs()');
-    openModal('tabsList',null);//contiene dentro selectTab()
+    openModal('tabsList','Вкладки');//contiene dentro selectTab()
 }
 
 
@@ -24441,7 +24448,11 @@ function mostrar_no_res(){
 
 function hideShowHistNav(){
     if(eid_wr_hist_nav.style.display == 'none'){
-        show_hist_nav();
+        if(window.innerWidth < pantallaTabletMinPx){
+            openModal('full','История навигации',null,'showHistoryNav');
+        }else{
+            show_hist_nav();
+        }
     }else{
         close_hist_nav();
     }
@@ -24460,17 +24471,21 @@ function close_hist_nav(){
 
 function hideShowHistFind(){
     if(eid_wr_hist_find.style.display == 'none'){
-        show_hist_find();
+        if(window.innerWidth < pantallaTabletMinPx){
+            openModal('full','История поиска',null,'showHistoryFind');
+        }else{
+            show_hist_find();
+        }
     }else{
         close_hist_find();
     }
 }
-function show_hist_find(){
+function show_hist_find() {
     eid_hist_find.querySelector('img').classList.add('razv');
     eid_wr_hist_find.style.display = 'block';
     mySizeFind();//altura de eid_find_body
 }
-function close_hist_find(){
+function close_hist_find() {
     eid_hist_find.querySelector('img').classList.remove('razv');
     eid_wr_hist_find.style.display = 'none';
     mySizeFind();//altura de eid_find_body
@@ -24479,7 +24494,11 @@ function close_hist_find(){
 
 function hideShowHistStrong(){
     if(eid_wr_hist_strong.style.display == 'none'){
-        show_hist_strong();
+        if(window.innerWidth < pantallaTabletMinPx){
+            openModal('full','История номеров Стронга',null,'showHistoryStrong');
+        }else{
+            show_hist_strong();
+        }
     }else{
         close_hist_strong();
     }
