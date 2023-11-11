@@ -21343,7 +21343,7 @@ function findWords(words_input){
     }
 
     //añado el texto de búsqueda en el historial
-    addWordsToHistFind(Translation, words_input);
+    //addWordsToHistFind(Translation, words_input);
 
 
     //Antes de buscar, muestro esto...
@@ -21355,7 +21355,6 @@ function findWords(words_input){
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
-        //p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(.)</span> <span class="res_m f_r" title="Совпадений">[.]</span>`;
         p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
         eid_find_head.append(p_i);
     }
@@ -22335,9 +22334,11 @@ function findWords(words_input){
                                             }                    
                     
                                             //inserto resultado de búsqueda                        
-                                            //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
                                             document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                             mySizeFind();//altura de eid_find_body
+
+                                            //añado el texto de búsqueda en el historial
+                                            addWordsToHistFind(Translation, words_input, count_f, count_m_total);
                     
                                             var arr_l = [];
                                             var limit_n = limit_val;

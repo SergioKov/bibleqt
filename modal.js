@@ -118,58 +118,78 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 function showHistoryNav(){
     eid_bl_modalFullInner.innerHTML = '';
 
-    arr_hist_nav.forEach((el,i)=>{
-               
-        const p = document.createElement('p');       
-        p.onclick = () => {
-            onclick_p_nav(el);
-            closeModal();
-            showTab(eid_btn_nav,'nav');
-        }
-        p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+    if(arr_hist_nav.length > 0){
+        arr_hist_nav.forEach((el,i)=>{
+            const p = document.createElement('p');       
+            p.onclick = () => {
+                onclick_p_nav(el);
+                closeModal();
+                showTab(eid_btn_nav,'nav');
+            }
+            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            eid_bl_modalFullInner.append(p);
+        });
+    }else{
+        const p = document.createElement('p');
+        p.className = 'prim';
+        p.innerHTML = 'Нет записей в истории навигации.';
         eid_bl_modalFullInner.append(p);
-
-    });
+    }    
 }
 
 function showHistoryFind(){
     eid_bl_modalFullInner.innerHTML = '';
 
-    arr_hist_find.forEach((el,i)=>{
-        const p = document.createElement('p');
-        p.onclick = () => {
-            onclick_p_find(el);
-            closeModal();
-            showTab(eid_btn_find,'find');
-        }
-        p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
+    if(arr_hist_find.length > 0){
+        arr_hist_find.forEach((el,i)=>{
+            const p = document.createElement('p');
+            p.onclick = () => {
+                onclick_p_find(el);
+                closeModal();
+                if(window.innerWidth < pantallaTabletMinPx){
+                    openSidebar(document.querySelector('.btnMenu'));//abro sidemar 'menu hamburguesa left'
+                }
+                showTab(eid_btn_find,'find');
+            }
+            p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
                             <span class="wr_fecha_hora">
-                                <span class="sp_hora_hist">${el.hora}</span>
-                                <span class="sp_fecha_hist">${el.fecha}</span>
+                                <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                                <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
                             </span>
                         </span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.words}</span>`;
+            p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
+            eid_bl_modalFullInner.append(p);
+        });
+    }else{
+        const p = document.createElement('p');
+        p.className = 'prim';
+        p.innerHTML = 'Нет записей в истории поиска.';
         eid_bl_modalFullInner.append(p);
-    });
-
+    }
 }
 
 function showHistoryStrong(){
     eid_bl_modalFullInner.innerHTML = '';
 
-    arr_hist_strong.forEach((el,i)=>{
+    if(arr_hist_strong.length > 0){
+        arr_hist_strong.forEach((el,i)=>{
+            const p = document.createElement('p');
+            p.onclick = () => {
+                onclick_p_strong(el);
+                closeModal();
+                showTab(eid_btn_strong,'strong');           
+            }
+            p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            eid_bl_modalFullInner.append(p);
+        });
+    }else{
         const p = document.createElement('p');
-        p.onclick = () => {
-            onclick_p_strong(el);
-            closeModal();
-            showTab(eid_btn_strong,'strong');           
-        }
-        p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+        p.className = 'prim';
+        p.innerHTML = 'Нет записей в истории номеров Стронга.';
         eid_bl_modalFullInner.append(p);
-    });
-
+    }
 }
 
 

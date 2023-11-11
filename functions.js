@@ -18,7 +18,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
         numberStr = numberStr.replace('</b>','');
     }
 
-    if(window.innerWidth < 768){//si es mobile
+    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
     }    
     //H7225 or G6225
@@ -79,38 +79,9 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     eid_strong_body.innerHTML = '';//reset datos
             
                     showTab(eid_btn_strong,'strong'); 
-                    
-                    
 
-
-
-
-                    //patata
+                    //añado NumberStrong al historial
                     addStrongNumberToHistStrong(strongLang, strongIndex);
-
-
-
-                    /*
-                    const span_hist_strong = document.createElement('span');
-                    span_hist_strong.className = 'hist_strong';
-                    //span_hist_strong.setAttribute('onclick',"getStrongNumber('"+strongIndex+"')");
-                    span_hist_strong.setAttribute('onclick',"getStrongNumber('"+numberStrShow+"')");
-                    //span_hist_strong.innerHTML = strongIndex;
-                    span_hist_strong.innerHTML = numberStrShow;
-                    
-                    let hist_strong_all = document.querySelectorAll('.hist_strong');
-                    let ult_hist_strong = hist_strong_all[0];
-
-                    if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                        eid_strong_head.prepend(span_hist_strong);
-                        //console.log('1 strongIndex');
-                    }else if(ult_hist_strong.innerHTML != numberStrShow){
-                        eid_strong_head.prepend(span_hist_strong);
-                        //console.log('2 y mas strongIndex ...');
-                    }else{
-                        //console.log('no hago nada...');
-                    }
-                    */
             
                     const span_num_strong = document.createElement('span');
                     span_num_strong.className = 'num_strong';
@@ -379,46 +350,15 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     
             let strongIndex = obj_strong.t;//topic
             let strongText = obj_strong.d;//definition
-            console.log('strongIndex: '+strongIndex);
-            console.log('strongText: '+strongText);
+            //console.log('strongIndex: '+strongIndex);
+            //console.log('strongText: '+strongText);
     
             eid_strong_body.innerHTML = '';//reset datos
     
-            showTab(eid_btn_strong,'strong'); 
-            
-            
+            showTab(eid_btn_strong,'strong');
 
-
-
-
-            //patata
+            //añado numberStrong al historial
             addStrongNumberToHistStrong(strongLang, strongIndex);
-
-
-
-
-
-
-            /*
-            const span_hist_strong = document.createElement('span');
-            span_hist_strong.className = 'hist_strong';
-            //span_hist_strong.setAttribute('onclick',"getStrongNumber('"+strongIndex+"')");
-            span_hist_strong.setAttribute('onclick',"getStrongNumber('"+numberStrShow+"')");
-            //span_hist_strong.innerHTML = strongIndex;
-            span_hist_strong.innerHTML = numberStrShow;
-            
-            let hist_strong_all = document.querySelectorAll('.hist_strong');
-            let ult_hist_strong = hist_strong_all[0];
-            if(typeof ult_hist_strong == 'undefined' && hist_strong_all.length == 0){//vacio y 1-er element
-                eid_strong_head.prepend(span_hist_strong);
-                //console.log('1 strongIndex');
-            }else if(ult_hist_strong.innerHTML != numberStrShow){
-                eid_strong_head.prepend(span_hist_strong);
-                //console.log('2 y mas strongIndex ...');
-            }else{
-                //console.log('no hago nada...');
-            }
-            */
     
             const span_num_strong = document.createElement('span');
             span_num_strong.className = 'num_strong';
@@ -890,7 +830,7 @@ function onclick_p_nav(el){
 
 
 
-const addWordsToHistFind = (trans, words) => {
+const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
     console.log('=== const addWordsToHistFind ===');
 
     //console.log('trans: ', trans);
@@ -918,6 +858,8 @@ const addWordsToHistFind = (trans, words) => {
         'trans': trans, 
         'BibleShortName': esteTrans.BibleShortName, 
         'words': words,
+        'count_verses': count_verses,
+        'count_matches': count_matches,
         'params': {
             'gde_val'  : eid_gde.value, 
             'limit_val': eid_limit.value,
@@ -950,11 +892,11 @@ const addWordsToHistFind = (trans, words) => {
         }
         p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
                             <span class="wr_fecha_hora">
-                                <span class="sp_hora_hist">${el.hora}</span>
-                                <span class="sp_fecha_hist">${el.fecha}</span>
+                                <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                                <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
                             </span>
                         </span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.words}</span>`;
+        p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
         eid_wr_hist_find_inner.append(p);
     });
 

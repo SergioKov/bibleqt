@@ -1638,17 +1638,23 @@ select  optgroup option {
 .sp_trans_hist {
     color: grey;
     min-width: 90px;
-    display: block;
+    display: flex;
     /* background: darkred; */
     font-size: x-small;
     position: relative;
     padding-bottom: 3px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: flex-start;
+    white-space: nowrap;
 }
 
 .sp_fecha_hist,
 .sp_hora_hist{
     color: grey;
     float:right;
+    padding-left: 10px;
 }
 
 .sp_ref_hist {
@@ -1658,6 +1664,16 @@ select  optgroup option {
     justify-content: space-between;
     flex-direction: row;
     align-items: baseline;
+}
+.sp_words_hist {
+    color: #ffffff;
+    /* background: #b8b8b8; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 .sp_hora_hist {
     font-size: x-small;
