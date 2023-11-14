@@ -2788,10 +2788,14 @@ pr {
     transition: 0.3s;
     cursor: pointer;
     border: 1px solid #b8b8b8;
-    border-radius: 5px;
+    border-radius: 3px;
     opacity: 0;
-    top: 5px;
+    top: 50%;
     right: 5px;
+    width: 16px;
+    height: 24px;
+    margin-top: -14px;
+    text-align: center;
 }
 p:hover .btn_verse_menu{
     opacity: 0.4;

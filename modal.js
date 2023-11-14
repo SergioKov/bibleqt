@@ -286,8 +286,7 @@ function buildVersesToCompare(arr_p_id){
                 let VerseText = arr.join(' ');
 
 
-                //arr_new = removeTagsWithStrongNumber(arr_new,'<S>','</S>');//no hace falta
-                arr_verses_compare[iter_a].verseText = VerseText; 
+                //arr_verses_compare[iter_a].verseText = VerseText; 
 
 
 
@@ -302,189 +301,91 @@ function buildVersesToCompare(arr_p_id){
                 //========================================================//
                 //start - hay que modificar
                 //========================================================//
+
                             //Номера Стронга в стихах (RST+)
                             if(bq.StrongNumbers == "Y"){
                                 let t = VerseText;
-                                var arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
-
+                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                let arr_verse_words = [];                               
                                 arr_t.forEach((el,i) => {    
-                                    
                                     //element of string is Strong Number
                                     if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                        const span_strong = document.createElement('span');
+                                        let span_strong_tag_start,span_strong_tag_end;
                                         if(btnStrongIsActive){
-                                            span_strong.className = 'strong show strongActive'; 
+                                            span_strong_tag_start = '<span class="strong show strongActive">'; 
+                                            span_strong_tag_end = '</span>'; 
                                         }else{
-                                            span_strong.className = 'strong'; 
+                                            span_strong_tag_start = '<span class="strong">';
+                                            span_strong_tag_end = '</span>'; 
                                         }
                                         let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
                                         //si ultimo carácter es string
                                         if(last_char != '' && isNaN(last_char)){
                                             let el_number = el.substring(0,el.length-1);
                                             let el_string = last_char;
-                                            span_strong.innerHTML = el_number;
-                                            p.append(span_strong);
-                                            p.append(el_string);
+                                            arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
                                         }else{//es number
-                                            span_strong.innerHTML = el;
-                                            p.append(span_strong);
+                                            arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
                                         }
-
                                     }else{//is word
-                                        p.append(' ');
                                         if(btnStrongIsActive){
                                             if(el.includes('<S>')){
                                                 el = el.replace('<S>','<S class="show strongActive">');
                                             }
                                         }
-                                        p.append(el);
+                                        arr_verse_words.push(' '+el);
                                     }
                                 });
-                                p.innerHTML.trim();
-
-                                //console.log('antes: ' + p.innerHTML);
-                                if(bq.HTMLFilter == 'Y'){
-                                    p.innerHTML = htmlEntities(p.innerHTML);
-                                }
-                                //console.log('despues: '+p.innerHTML);
-
-                                if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
-                                    p.querySelectorAll('.strongActive').forEach((el)=>{
-                                        el.addEventListener('click', ()=>{
-                                            //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
-                                            //console.log('1. book: '+book);
-                                            //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                            var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
-
-                                            if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                getStrongNumber(el.innerHTML, null, paramfirstLetter);
-                                            }else{//rstStrong
-                                                lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                getStrongNumber(el.innerHTML, lang, paramfirstLetter);
-                                            }
-                                        });
-                                    }); 
-                                }
-
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
-                                arr_data_body.push(p);
-                                //console.log(p);
+                                console.log('arr_verse_words: ');
+                                console.log(arr_verse_words);
+                                let new_VerseText = arr_verse_words.join(' ');
+                                arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
                             }
 
 
                             //Примечания редактора в стихах (RSTi2)
                             if(bq.Notes == 'Y'){
                                 let t = VerseText;
-
                                 if(t.includes(bq.NoteSign)){// '*'
                                     let arr_t0 = t.split(bq.NoteSign);
                                     let before_Note = arr_t0[0];
-
                                     if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                         let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                         let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                         let text_Note = arr_t2[0];
                                         let after_Note = arr_t2[1];
-
-                                        const span_t = document.createElement('span');
-                                        span_t.className = 'tooltip';
-                                        span_t.setAttribute('data-tooltip',text_Note);
-                                        span_t.innerHTML = bq.NoteSign;
-
-                                        span_t.addEventListener('mouseenter', function(){
-                                            showTooltip(this);
-                                        });
-                                        span_t.addEventListener('mouseleave', function(){
-                                            hideTooltip(this);
-                                        });
-
                                         before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                        span_vt.append(before_Note);
-                                        span_vt.append(span_t);
                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                        span_vt.append(after_Note);
-
-                                        p.append(span_vt);//antes
+                                        arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
                                     }
                                 }else{
-                                    //p.append(VerseText);//antes
-                                    span_vt.append(VerseText);
-                                    p.append(span_vt);
-
-                                    if(bq.HTMLFilter == 'Y'){
-                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                    }
+                                    arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
                                 }
-                                //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
-                                arr_data_body.push(p);
-                                //console.log(p);
                             }
 
 
                             //Оглавления в стихах (NRT)
                             if(bq.Titles == 'Y'){
                                 let t = VerseText;
-
                                 if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                     let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                     let before_Title = arr_t1[0];
                                     let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                     let text_Title = arr_t2[0];
                                     let after_Title = arr_t2[1];
-
-                                    const span_title = document.createElement('span');
-                                    span_title.className = 'verse_title';
-                                    span_title.innerHTML = text_Title;
-
-                                    p.append(before_Title);
-                                    p.append(span_title);
-                                    p.append(after_Title);
+                                    arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
                                 }else{
-                                    p.append(VerseText);
-                                }
-
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
-                                arr_data_body.push(p);
-                                //console.log(p);
-
-                                if(bq.HTMLFilter == 'Y'){
-                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                    arr_verses_compare[iter_a].verseText = VerseText;
                                 }
                             }
 
+
                             //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
                             if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                //p.append(VerseText);//antes
-                                span_vt.append(VerseText);
-                                p.append(span_vt);
-                                
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
+                                arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                            } 
 
-                                arr_data_body.push(p);
-                                //console.log(p);
-                                
-                                if(bq.HTMLFilter == 'Y'){
-                                    p.innerHTML = htmlEntities(p.innerHTML);
-                                }
-                            }                
+
                 //========================================================//
                 //end - hay que modificar
                 //========================================================//
