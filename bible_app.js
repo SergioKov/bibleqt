@@ -91,7 +91,10 @@ const eid_btn_strong = document.getElementById('btn_strong');
 
 //const eid_sel_modules = document.getElementById('sel_modules');//?..
 
-const eid_bl_modalFullInner = document.getElementById('bl_modalFullInner');
+
+const eid_btn_sp_atras = document.getElementById('btn_sp_atras');
+const eid_h4_text = document.getElementById('h4_text');//text en el header de modcont_header
+
 
 const eid_vklad_nav = document.getElementById('vklad_nav');
 const eid_vklad_find = document.getElementById('vklad_find');
@@ -114,6 +117,31 @@ const eid_strong_head = document.getElementById('strong_head');
 const eid_strong_body = document.getElementById('strong_body');
 
 const eid_partDeskTabs = document.getElementById('partDeskTabs');
+
+
+
+
+
+
+//start - modal.js
+const eid_myModal = document.getElementById('myModal');
+const eid_myModalContent = document.getElementById('myModalContent');
+
+const eid_modcont_header = document.getElementById('modcont_header');
+const eid_modcont_body = document.getElementById('modcont_body');
+const eid_modcont_footer = document.getElementById('modcont_footer');
+
+const eid_bl_modalTop = document.getElementById('bl_modalTop');
+const eid_bl_modalCenter = document.getElementById('bl_modalCenter');
+const eid_bl_modalBottom = document.getElementById('bl_modalBottom');
+const eid_bl_modalFull = document.getElementById('bl_modalFull');
+
+const eid_bl_modalTopInner = document.getElementById('bl_modalTopInner');
+const eid_bl_modalCenterInner = document.getElementById('bl_modalCenterInner');
+const eid_bl_modalBottomInner = document.getElementById('bl_modalBottomInner');
+const eid_bl_modalFullInner = document.getElementById('bl_modalFullInner');
+//end - modal.js
+
 
 
 
@@ -346,27 +374,6 @@ function loadDefaultFunctions() {
     addTab('Is. 8:9', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
     addTab('Psa. 118:1', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
 
-/*
-    addTab('Быт. 1:1', null, null,'rstStrongRed');
-    addTab('Mat. 5:3', null, null,'rstStrongRed');
-
-    addTab('Ex. 2:2', null, null,'rstStrongRed,rv60');
-
-    addTab('Числ. 13:1', null, null,'rstStrongRed,rv60');
-    addTab('Числ. 12:1', null, null,'rv60,rstStrongRed');
-
-    addTab('Lev. 3:3', null, null,'rstStrongRed,rv60,ukr_ogi');
-    addTab('Прит. 4:23', null, null,'rstStrongRed,ukr_ogi,rv60,lbla');
-    addTab('Матф. 5:8', null, null,'rstStrongRed,ukr_ogi,ukr_hom,rv60,lbla');
-    addTab('Рим. 6:10', null, null, 'rstStrongRed, rv60 ,lbla, ukr_gyz, ukr_fil, ukr_tur');
-    addTab('Лук. 7:16', null, null, 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
-    addTab('Is. 8:9', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
-    addTab('Psa. 118:1', null, null, 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
-
-
-*/
-
-
     addListenerModule();
 
     updateTransFromActiveCol();
@@ -382,53 +389,7 @@ function loadDefaultFunctions() {
 
 
 
-/*
-document.addEventListener("DOMContentLoaded", function(event) { 
-    //do work
-    //console.log('DOMContentLoaded');
-    //addListenerToPA();//listen links p > a //no hace falta ya que todavía no hay p a
 
-    //addTrans();
-    //addTrans();
-});
-*/
-
-//listen links p > a
-function addListenerToPA(){
-    setTimeout(()=>{
-        //console.log('=== function addListenerToPA()');       
-       document.querySelectorAll('.colsInner').forEach(event =>{ 
-            event.removeEventListener("click", handlerListenColsInnerAClick);
-            event.addEventListener('click', handlerListenColsInnerAClick);    
-        });
-
-    },100);  
-}
-
-let contador_llamada_tsk = 0;
-
-const handlerListenColsInnerAClick = (e) => {
-    //console.log(e);
-    //console.log(e.target.parentElement);
-    if(e.target.tagName == 'A'){
-        contador_llamada_tsk++;
-        //console.log(`--- contador_llamada_tsk: ${contador_llamada_tsk}`);
-        getTsk(e);//ok new
-    }
-}
-
-//listen links p > a en Tsk block
-function addListenerToPATsk(){//no se llama en ninguna parte
-    setTimeout(()=>{
-        //console.log('=== function addListenerToPATsk()');
-        let trans = eid_tsk_head.querySelector('p').dataset.trans; 
-        Array.from(document.querySelectorAll('#vklad_tsk p a')).forEach(el=>{
-            el.addEventListener('click',()=>{
-                goToLink(trans, el.innerHTML);
-            });
-        });
-    },1000);  
-}
 
 
 function obtenerTamanioObjeto(objeto) {
@@ -3540,6 +3501,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         }); 
                                     }
 
+                                    const sp_btn_vm = document.createElement('span');
+                                    sp_btn_vm.className = 'btn_verse_menu';
+                                    sp_btn_vm.textContent = '...';
+                                    p.append(sp_btn_vm);
+
                                     arr_data_body.push(p);
                                     //console.log(p);
                                 }
@@ -3598,6 +3564,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     //p.append(span_vt);//antes
                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                    const sp_btn_vm = document.createElement('span');
+                                    sp_btn_vm.className = 'btn_verse_menu';
+                                    sp_btn_vm.textContent = '...';
+                                    p.append(sp_btn_vm);
+
                                     arr_data_body.push(p);
                                     //console.log(p);
                                 }
@@ -3625,6 +3596,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         p.append(VerseText);
                                     }
 
+                                    const sp_btn_vm = document.createElement('span');
+                                    sp_btn_vm.className = 'btn_verse_menu';
+                                    sp_btn_vm.textContent = '...';
+                                    p.append(sp_btn_vm);
+
                                     arr_data_body.push(p);
                                     //console.log(p);
 
@@ -3638,6 +3614,11 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     //p.append(VerseText);//antes
                                     span_vt.append(VerseText);
                                     p.append(span_vt);
+
+                                    const sp_btn_vm = document.createElement('span');
+                                    sp_btn_vm.className = 'btn_verse_menu';
+                                    sp_btn_vm.textContent = '...';
+                                    p.append(sp_btn_vm);
 
                                     arr_data_body.push(p);
                                     //console.log(p);
@@ -3658,7 +3639,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         //=====================================================//
                         if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                             //console.log('Numeración base es Española - y cols es Rusa');
-                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                             var arr_vstavka = [];
                             var vstavka2 = [];
                             
@@ -3991,7 +3971,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                         //=====================================================//
                         if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                             //console.log('Numeración base Rusa - y cols Española');
-                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                             //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
                             var arr_vstavka = [];
                             var vstavka2 = [];
@@ -4806,6 +4785,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                             });
                                                         }); 
                                                     }
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -4864,6 +4848,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }
                                                     //p.append(span_vt);//antes
                                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -4891,7 +4880,12 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }else{
                                                         p.append(VerseText);
                                                     }
-            
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
+                                                                
                                                     arr_data_body.push(p);
                                                     //console.log(p);
             
@@ -4905,6 +4899,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     //p.append(VerseText);//antes
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -4925,7 +4924,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //=====================================================//
                                         if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                             //console.log('Numeración base es Española - y cols es Rusa');
-                                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                             var arr_vstavka = [];
                                             var vstavka2 = [];
                                             
@@ -5258,7 +5256,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //=====================================================//
                                         if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                                             //console.log('Numeración base Rusa - y cols Española');
-                                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                             //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
                                             var arr_vstavka = [];
                                             var vstavka2 = [];
@@ -6001,6 +5998,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             }); 
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -6059,6 +6061,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -6086,6 +6093,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             p.append(VerseText);
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -6099,6 +6111,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
+
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -6119,7 +6136,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             //=====================================================//
                             if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                 //console.log('Numeración base es Española - y cols es Rusa');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                 var arr_vstavka = [];
                                 var vstavka2 = [];
                                 
@@ -6452,7 +6468,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             //=====================================================//
                             if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                                 //console.log('Numeración base Rusa - y cols Española');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                 //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
                                 var arr_vstavka = [];
                                 var vstavka2 = [];
@@ -7269,6 +7284,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }); 
                                                 }
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                             }
@@ -7327,6 +7347,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 //p.append(span_vt);//antes
                                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                             }
@@ -7354,6 +7379,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     p.append(VerseText);
                                                 }
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
 
@@ -7368,6 +7398,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 span_vt.append(VerseText);
                                                 p.append(span_vt);
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                                 
@@ -8322,6 +8357,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }); 
                                                 }
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                             }
@@ -8380,6 +8420,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 //p.append(span_vt);//antes
                                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                             }
@@ -8407,6 +8452,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     p.append(VerseText);
                                                 }
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
 
@@ -8421,6 +8471,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 span_vt.append(VerseText);
                                                 p.append(span_vt);
 
+                                                const sp_btn_vm = document.createElement('span');
+                                                sp_btn_vm.className = 'btn_verse_menu';
+                                                sp_btn_vm.textContent = '...';
+                                                p.append(sp_btn_vm);
+        
                                                 arr_data_body.push(p);
                                                 //console.log(p);
                                                 
@@ -9588,6 +9643,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 }); 
                                             }
 
+                                            const sp_btn_vm = document.createElement('span');
+                                            sp_btn_vm.className = 'btn_verse_menu';
+                                            sp_btn_vm.textContent = '...';
+                                            p.append(sp_btn_vm);
+    
                                             arr_data_body.push(p);
                                             //console.log(p);
                                         }
@@ -9646,6 +9706,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             //p.append(span_vt);//antes
                                             //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                            const sp_btn_vm = document.createElement('span');
+                                            sp_btn_vm.className = 'btn_verse_menu';
+                                            sp_btn_vm.textContent = '...';
+                                            p.append(sp_btn_vm);
+    
                                             arr_data_body.push(p);
                                             //console.log(p);
                                         }
@@ -9673,6 +9738,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 p.append(VerseText);
                                             }
 
+                                            const sp_btn_vm = document.createElement('span');
+                                            sp_btn_vm.className = 'btn_verse_menu';
+                                            sp_btn_vm.textContent = '...';
+                                            p.append(sp_btn_vm);
+    
                                             arr_data_body.push(p);
                                             //console.log(p);
 
@@ -9687,6 +9757,11 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             span_vt.append(VerseText);
                                             p.append(span_vt);
 
+                                            const sp_btn_vm = document.createElement('span');
+                                            sp_btn_vm.className = 'btn_verse_menu';
+                                            sp_btn_vm.textContent = '...';
+                                            p.append(sp_btn_vm);
+    
                                             arr_data_body.push(p);
                                             //console.log(p);
                                             
@@ -10865,6 +10940,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             });
                                                         }); 
                                                     }
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -10923,6 +11003,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     }
                                                     //p.append(span_vt);//antes
                                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -10950,6 +11035,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     }else{
                                                         p.append(VerseText);
                                                     }
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -10964,7 +11054,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //p.append(VerseText);//antes
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
-            
+
+                                                    const sp_btn_vm = document.createElement('span');
+                                                    sp_btn_vm.className = 'btn_verse_menu';
+                                                    sp_btn_vm.textContent = '...';
+                                                    p.append(sp_btn_vm);
+                        
                                                     arr_data_body.push(p);
                                                     //console.log(p);
                                                     
@@ -12066,6 +12161,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }); 
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -12123,6 +12223,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         }
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                        
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -12151,6 +12256,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.append(VerseText);
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -12164,6 +12274,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
+
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -12885,7 +13000,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }//fin switch
                             }
                             //=====================================================//
-                            // inicio - Numeración base Rusa - y col's Española
+                            // fin - Numeración base Rusa - y col's Española
                             //=====================================================//
                             
 
@@ -13284,6 +13399,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }); 
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -13341,6 +13461,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         }
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                        
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -13369,6 +13494,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.append(VerseText);
                                         }
 
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
+
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -13382,6 +13512,11 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
+                                        
+                                        const sp_btn_vm = document.createElement('span');
+                                        sp_btn_vm.className = 'btn_verse_menu';
+                                        sp_btn_vm.textContent = '...';
+                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -13402,7 +13537,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //=====================================================//
                             if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                 //console.log('Numeración base es Española - y cols es Rusa');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                 var arr_vstavka = [];
                                 var vstavka2 = [];
                                 
@@ -14540,6 +14674,11 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }); 
                                 }
 
+                                const sp_btn_vm = document.createElement('span');
+                                sp_btn_vm.className = 'btn_verse_menu';
+                                sp_btn_vm.textContent = '...';
+                                p.append(sp_btn_vm);
+
                                 arr_data_body.push(p);
                                 //console.log(p);
                             }
@@ -14598,6 +14737,11 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //p.append(span_vt);//antes
                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
+                                const sp_btn_vm = document.createElement('span');
+                                sp_btn_vm.className = 'btn_verse_menu';
+                                sp_btn_vm.textContent = '...';
+                                p.append(sp_btn_vm);
+
                                 arr_data_body.push(p);
                                 //console.log(p);
                             }
@@ -14625,6 +14769,11 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     p.append(VerseText);
                                 }
 
+                                const sp_btn_vm = document.createElement('span');
+                                sp_btn_vm.className = 'btn_verse_menu';
+                                sp_btn_vm.textContent = '...';
+                                p.append(sp_btn_vm);
+
                                 arr_data_body.push(p);
                                 //console.log(p);
 
@@ -14638,6 +14787,11 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //p.append(VerseText);//antes
                                 span_vt.append(VerseText);
                                 p.append(span_vt);
+                                
+                                const sp_btn_vm = document.createElement('span');
+                                sp_btn_vm.className = 'btn_verse_menu';
+                                sp_btn_vm.textContent = '...';
+                                p.append(sp_btn_vm);
 
                                 arr_data_body.push(p);
                                 //console.log(p);
@@ -19889,7 +20043,7 @@ function selectTab(){//Vkladki
 
 function addListenerModule(){
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
-        if(i>0){
+        if(i > 0){
             el.addEventListener('click',selectModule);//antes
             //el.addEventListener('click',selectModule2);//new
         }

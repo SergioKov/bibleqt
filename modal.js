@@ -1,21 +1,3 @@
-const eid_myModal = document.getElementById('myModal');
-const eid_myModalContent = document.getElementById('myModalContent');
-
-const eid_modcont_header = document.getElementById('modcont_header');
-const eid_modcont_body = document.getElementById('modcont_body');
-const eid_modcont_footer = document.getElementById('modcont_footer');
-
-const eid_bl_modalTop = document.getElementById('bl_modalTop');
-const eid_bl_modalCenter = document.getElementById('bl_modalCenter');
-const eid_bl_modalBottom = document.getElementById('bl_modalBottom');
-const eid_bl_modalFull = document.getElementById('bl_modalFull');
-
-const eid_btn_sp_atras = document.getElementById('btn_sp_atras');
-const eid_h4_text = document.getElementById('h4_text');//text en el header de modcont_header
-
-
-
-
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null){
   console.log('===function openModal()===');
   console.log(`param: ${param} --- headerTitle: ${headerTitle}`);    
@@ -59,10 +41,23 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
         //pendiente de desarrollo
         case 'bottom':
+            eid_h4_text.innerHTML = headerTitle;//'verse Меню';
             eid_btn_sp_atras.style.display = 'none';//?
             eid_myModal.style.paddingTop = '50vh';
             eid_myModalContent.classList.add('modalContentBottom');
             eid_bl_modalBottom.style.display = 'block';
+            switch (action) {
+            
+                case 'buildVerseMenu':
+                    console.log('aki llamar buildVerseMenu()');
+                    buildVerseMenu(htmlTrans);//es arr_p_id en este caso
+                    break;
+            
+            
+                default:
+                    console.log('indica action en openModal()');
+                    break;
+            }
             break;
 
         //Выбор модуля Библии из Избранных
@@ -92,6 +87,11 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     console.log('aki llamar showHistoryStrong()');
                     showHistoryStrong();
                     break;
+
+                case 'compareVerse':
+                    console.log('aki llamar buildVersesToCompare()');
+                    buildVersesToCompare(htmlTrans);
+                    break;
             
                 default:
                     console.log('indica action en openModal()');
@@ -114,6 +114,229 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             break;
     }
 }
+
+
+
+
+function buildVerseMenu(arr_p_id){
+    console.log('=== function buildVerseMenu(arr_p_id) ===');
+
+    eid_bl_modalBottomInner.innerHTML = '';
+  
+    const btn1 = document.createElement('div');
+    btn1.id = 'btn_copiar';
+    btn1.className = 'dbtn';
+    btn1.title = 'Copiar el texto del versículo.';
+    btn1.innerHTML = '<img src="./images/copy_icon_white.svg">';
+    btn1.onclick = ()=>{
+        console.log('llamo func para copiar');
+        console.log(arr_p_id);
+    }
+
+    const btn2 = document.createElement('div');
+    btn2.id = 'btn_marker';
+    btn2.className = 'dbtn';
+    btn2.title = 'Marker el texto del versículo.';
+    btn2.innerHTML = '<img src="./images/marker_icon_white.svg">';
+    btn2.onclick = ()=>{
+        console.log('llamo func para añadir marker-закладку');
+        console.log(arr_p_id);
+    }
+
+    const btn3 = document.createElement('div');
+    btn3.id = 'btn_comparar';
+    btn3.className = 'dbtn';
+    btn3.title = 'Comparar el versiculo en diferentes traducciones.';
+    btn3.innerHTML = '<img src="./images/compare_icon_white.svg">';
+    btn3.onclick = ()=>{
+        console.log('llamo func para comparar');
+        console.log(arr_p_id);
+        openModal('full', 'Comparar traducciones', arr_p_id, 'compareVerse');
+    }
+    
+    const btn4 = document.createElement('div');
+    btn4.id = 'btn_compartir';
+    btn4.className = 'dbtn';
+    btn4.title = 'Compartir el versiculo en redes sociales.';
+    btn4.innerHTML = '<img src="./images/share_icon_white.svg">';
+    btn4.onclick = ()=>{
+        console.log('llamo func para compartir');
+        console.log(arr_p_id);
+    }
+
+    eid_bl_modalBottomInner.append(btn1);
+    eid_bl_modalBottomInner.append(btn2);
+    eid_bl_modalBottomInner.append(btn3);
+    eid_bl_modalBottomInner.append(btn4);
+    
+}
+
+function buildVersesToCompare(arr_p_id){
+    //creo array de p's de un verse de todas las trans favoritas
+
+    window.arr_verses_compare = [];
+    let iter_a = 0;//start
+
+    makeArrVersesToCompare(iter_a, arr_p_id);
+
+
+
+    function makeArrVersesToCompare(iter_a, arr_p_id){
+        
+        let base_ep = eid_trans1.dataset.base_ep;
+
+        let trans_ref = arr_p_id[0];
+        let book = arr_p_id[1];
+        let chapter = arr_p_id[2];
+        let verse = arr_p_id[3];
+
+        let bookNumber = book;
+        let chapterNumber = chapter;
+        let verseNumber = verse;
+
+        if(iter_a < arrFavTransObj.length){
+            console.log(`iter_a: ${iter_a}`);
+
+            el_trans = arrFavTransObj[iter_a];
+            console.log(`abajo el_trans:`);
+            console.log(el_trans);
+    
+            //url del libro necesario
+            url = `modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+    
+
+            if(url.includes('no_disponible.htm')){
+                console.log('url includes no_disponible.htm');
+                //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+
+                iter_a++;
+                console.log(`aumentado iter_a: ${iter_a}`);
+                arr_verses_compare.push('');//item vacio. luego lo quito
+
+                makeArrVersesToCompare(iter_a, arr_p_id);
+                return false;
+            }
+
+
+            arr_verses_compare.push({});
+            arr_verses_compare[iter_a]['Translation'] = el_trans.Translation;
+            arr_verses_compare[iter_a]['BibleShortName'] = el_trans.BibleShortName;
+            arr_verses_compare[iter_a]['BibleBookShortName'] = el_trans.Books[book].ShortNames[0];
+            arr_verses_compare[iter_a]['EnglishPsalms'] = el_trans.EnglishPsalms;
+
+            let trans_obj_ref = arrFavTransObj.find(v => v.Translation === trans_ref);
+
+            if(trans_obj_ref.EnglishPsalms == 'N' && el_trans.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
+                let res = convertLinkFromRusToEsp(book, chapter, verse);
+                bookNumber = res[0];
+                chapterNumber = res[1];
+                verseNumber = res[2];
+                console.log(`modifico chapter y verse de rus a esp`);        
+            }
+            else if(trans_obj_ref.EnglishPsalms == 'Y' && el_trans.EnglishPsalms == 'N'){//Sal 23 | Пс 22
+                let res = convertLinkFromEspToRus(book, chapter, verse);
+                bookNumber = res[0];
+                chapterNumber = res[1];
+                verseNumber = res[2];
+                console.log(`modifico chapter y verse de esp a rus`);
+            }
+            else{
+                console.log('--- chapter y verse no se modifican. se pasan tal cual.');
+            }
+
+            arr_verses_compare[iter_a].book = bookNumber;
+            arr_verses_compare[iter_a].chapter = chapterNumber;
+            arr_verses_compare[iter_a].verse = verseNumber;
+
+
+
+            //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+            let formData = new FormData();
+            formData.append('url', '../'+url );
+            formData.append('base_ep', base_ep);
+            formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
+            if(book != null) formData.append('book', bookNumber);
+            formData.append('chapter', chapterNumber);
+            //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
+            if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+            if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+    
+            fetch('app/read_file_to_json.php',{
+                method: 'POST',
+                body: formData
+            })
+            .then((response) => response.json())
+            .then((dataRead) => {
+    
+                console.log(dataRead);
+                
+                console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
+
+                //arr_verses_compare[iter_a].book = bookNumber;
+                //arr_verses_compare[iter_a].chapter = chapterNumber;
+                //arr_verses_compare[iter_a].verse = verseNumber;
+
+                let arr = dataRead.chapterData.arr_p_verses[verseNumber].split(' ');
+                arr.shift(0);//elomibo index 0
+                let arr_new = arr.join(' ');
+
+                //arr_new = removeTagsWithStrongNumber(arr_new,'<S>','</S>');//no hace falta
+                arr_verses_compare[iter_a].verseText = arr_new; 
+                
+                
+    
+                iter_a++;
+                console.log(`aumentado iter_a: ${iter_a}`);
+
+                if(iter_a < arrFavTransObj.length){
+                    console.log(' llamo makeArrVersesToCompare()');
+                    makeArrVersesToCompare(iter_a, arr_p_id);
+                }
+
+                if(iter_a == arrFavTransObj.length){
+                    console.log(' final  --- llamo buildVersesFromArr()');
+                    arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+
+                    buildVersesFromArr(arr_verses_compare);
+                }
+    
+            })
+            .catch(error => {
+                console.log('error: ', error);
+            });
+
+        }
+
+
+    }
+
+
+}
+
+function buildVersesFromArr(arr_verses_compare){
+    console.log('=== buildVersesFromArr() ===');
+    
+    eid_bl_modalFullInner.innerHTML = '';
+
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+    p.className = 'eee';
+    p.innerHTML = `<button class="btn f_l">prev</button> <button class="btn f_r">next</button>`;
+    div.append(p);
+
+
+    arr_verses_compare.forEach((el,i) => {
+        
+        const p = document.createElement('p');
+        p.className = 'aaa';
+        p.innerHTML = `<span class="zzz">${el.BibleShortName}</span> <a href="#">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> <span class="ttt">${el.verseText}</span>`;
+        div.append(p);
+    });
+    eid_bl_modalFullInner.append(div);
+
+}
+
+
 
 function showHistoryNav(){
     eid_bl_modalFullInner.innerHTML = '';

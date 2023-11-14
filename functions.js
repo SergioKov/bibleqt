@@ -989,6 +989,22 @@ function toTitleCase(str) {
 }
 
 
+function showVerseMenu(e){
+    console.log('===function showVerseMenu(e)===');
+    console.log(e);
+    let p_id = e.srcElement.parentElement.id;
+    let ref = e.srcElement.parentElement.querySelector('a').textContent;
+    let arr_p_id = p_id.split('__');
+    console.log(arr_p_id);
+
+    let trans = arr_p_id[0];
+    let book = arr_p_id[1];
+    let chapter = arr_p_id[2];
+    let verse = arr_p_id[3];
+    
+    openModal('bottom', ref, arr_p_id, 'buildVerseMenu');
+}
+
 
 
 

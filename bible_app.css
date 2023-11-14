@@ -365,6 +365,7 @@ body{
 }
 .colsInner p {
     padding: 5px;
+    position: relative;
 }
 /*impar*/
 .cols:nth-child(odd) {
@@ -2185,8 +2186,7 @@ span.prim_tsk {
 }
 
 
-div#bl_modalTopInner
- {
+#bl_modalTopInner {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -2194,7 +2194,15 @@ div#bl_modalTopInner
     justify-content: flex-start;
     align-items: center;
 }
-div#bl_headerBtns {
+#bl_modalBottomInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+#bl_headerBtns {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -2203,13 +2211,15 @@ div#bl_headerBtns {
     align-items: center;
 }
 
-div#bl_modalTopInner .btn{
+#bl_modalTopInner .btn{
     margin: 2px 2px;
     width: 60px;
     padding: 10px;
 }
 
-div#bl_modalTopInner .dbtn{
+#bl_modalTopInner .dbtn,
+#bl_modalBottomInner .dbtn
+{
     margin: 0px;
     width: 25%;
     padding: 15px 0px;
@@ -2228,8 +2238,9 @@ div#bl_modalTopInner .dbtn{
     transition: 0.3s;
     cursor: pointer;
 }
-div#bl_modalTopInner .dbtn:hover, 
-div#bl_headerBtns .dbtn:hover 
+#bl_modalTopInner .dbtn:hover, 
+#bl_modalBottomInner .dbtn:hover, 
+#bl_headerBtns .dbtn:hover 
 {
     background: #424242;
 }
@@ -2238,12 +2249,17 @@ div#bl_headerBtns .dbtn:hover
     /* background: red; */
     /* padding: 10px; */
 }
-div#headerMainInner button {
+.dbtn img {
+    width: 22px;
+    height: 22px;
+}
+
+#headerMainInner button {
     height: 28px;
     width: 50px;
 }
 
-div#bl_headerBtns .dbtn {
+#bl_headerBtns .dbtn {
     margin: 0px;
     /* width: 25%; */
     /* padding: 15px 0px; */
@@ -2763,3 +2779,49 @@ pr {
 #bl_modalFullInner p:hover{
     background:#424242;
 }
+
+.btn_verse_menu {
+    background: #dcdcdc;
+    color: grey;
+    padding: 0 3px;
+    position: absolute;
+    transition: 0.3s;
+    cursor: pointer;
+    border: 1px solid #b8b8b8;
+    border-radius: 5px;
+    opacity: 0;
+    top: 5px;
+    right: 5px;
+}
+p:hover .btn_verse_menu{
+    opacity: 0.4;
+}
+
+
+p.aaa {
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    color: white;
+}
+span.zzz {
+    /* background: #ffc107; */
+    display: inline-block;
+    min-width: 95px;
+    color: #929292;
+}
+.aaa a{
+    margin-right: 15px;
+}
+span.ttt {
+    /* margin-left: 15px; */
+}
+
+.eee {
+    overflow: hidden;
+}
+
+
+
