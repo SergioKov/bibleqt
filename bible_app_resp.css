@@ -143,6 +143,9 @@
     {
         outline: none;
     }
+    .pv_inner{
+        flex-direction: column; 
+    }
 }
 /* end mobilka */
 

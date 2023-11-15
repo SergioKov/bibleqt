@@ -682,6 +682,15 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
             const element = arrData[0][index];            
             //console.log('añado element con append. abajo element:');
             //console.log(element);
+            
+            //añado boton con '...' al verse para verseMenu de comparar traducciones
+            if(element.tagName == 'P'){   
+                const sp_btn_vm = document.createElement('span');
+                sp_btn_vm.className = 'btn_verse_menu';
+                sp_btn_vm.textContent = '...';
+                element.append(sp_btn_vm);
+            }
+            
             el_colsInner.append(element);            
         }        
         //console.log('one col --- el_colsInner: ', el_colsInner);
@@ -696,6 +705,15 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                 const element = arrData[i][index];            
                 //console.log('añado element con append. abajo element:');
                 //console.log(element);
+
+                //añado boton con '...' al verse para verseMenu de comparar traducciones
+                if(element.tagName == 'P'){   
+                    const sp_btn_vm = document.createElement('span');
+                    sp_btn_vm.className = 'btn_verse_menu';
+                    sp_btn_vm.textContent = '...';
+                    element.append(sp_btn_vm);
+                }
+
                 el_colsInner.append(element);            
             }        
             //console.log('all cols --- el_colsInner: ', el_colsInner);

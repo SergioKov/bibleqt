@@ -3500,12 +3500,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                             });
                                         }); 
                                     }
-
-                                    const sp_btn_vm = document.createElement('span');
-                                    sp_btn_vm.className = 'btn_verse_menu';
-                                    sp_btn_vm.textContent = '...';
-                                    p.append(sp_btn_vm);
-
                                     arr_data_body.push(p);
                                     //console.log(p);
                                 }
@@ -3564,11 +3558,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     //p.append(span_vt);//antes
                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
-                                    const sp_btn_vm = document.createElement('span');
-                                    sp_btn_vm.className = 'btn_verse_menu';
-                                    sp_btn_vm.textContent = '...';
-                                    p.append(sp_btn_vm);
-
                                     arr_data_body.push(p);
                                     //console.log(p);
                                 }
@@ -3596,11 +3585,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                         p.append(VerseText);
                                     }
 
-                                    const sp_btn_vm = document.createElement('span');
-                                    sp_btn_vm.className = 'btn_verse_menu';
-                                    sp_btn_vm.textContent = '...';
-                                    p.append(sp_btn_vm);
-
                                     arr_data_body.push(p);
                                     //console.log(p);
 
@@ -3614,11 +3598,6 @@ function showChapterText3(Translation, divId, book, chapter, verseNumber = null,
                                     //p.append(VerseText);//antes
                                     span_vt.append(VerseText);
                                     p.append(span_vt);
-
-                                    const sp_btn_vm = document.createElement('span');
-                                    sp_btn_vm.className = 'btn_verse_menu';
-                                    sp_btn_vm.textContent = '...';
-                                    p.append(sp_btn_vm);
 
                                     arr_data_body.push(p);
                                     //console.log(p);
@@ -4784,13 +4763,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                                 }
                                                             });
                                                         }); 
-                                                    }
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
-            
+                                                    }            
                                                     arr_data_body.push(p);
                                                     //console.log(p);
                                                 }
@@ -4848,11 +4821,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }
                                                     //p.append(span_vt);//antes
                                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -4880,11 +4848,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     }else{
                                                         p.append(VerseText);
                                                     }
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
                                                                 
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -4899,11 +4862,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     //p.append(VerseText);//antes
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -5997,12 +5955,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 });
                                             }); 
                                         }
-
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -6061,11 +6013,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -6093,11 +6040,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             p.append(VerseText);
                                         }
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -6111,11 +6053,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
-
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -7283,11 +7220,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                         });
                                                     }); 
                                                 }
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -7346,11 +7278,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 }
                                                 //p.append(span_vt);//antes
                                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -7378,11 +7305,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 }else{
                                                     p.append(VerseText);
                                                 }
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -7397,11 +7319,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 //p.append(VerseText);//antes
                                                 span_vt.append(VerseText);
                                                 p.append(span_vt);
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -8356,11 +8273,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                         });
                                                     }); 
                                                 }
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -8419,11 +8331,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 }
                                                 //p.append(span_vt);//antes
                                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -8451,11 +8358,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 }else{
                                                     p.append(VerseText);
                                                 }
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -8470,11 +8372,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                 //p.append(VerseText);//antes
                                                 span_vt.append(VerseText);
                                                 p.append(span_vt);
-
-                                                const sp_btn_vm = document.createElement('span');
-                                                sp_btn_vm.className = 'btn_verse_menu';
-                                                sp_btn_vm.textContent = '...';
-                                                p.append(sp_btn_vm);
         
                                                 arr_data_body.push(p);
                                                 //console.log(p);
@@ -9642,11 +9539,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                                     });
                                                 }); 
                                             }
-
-                                            const sp_btn_vm = document.createElement('span');
-                                            sp_btn_vm.className = 'btn_verse_menu';
-                                            sp_btn_vm.textContent = '...';
-                                            p.append(sp_btn_vm);
     
                                             arr_data_body.push(p);
                                             //console.log(p);
@@ -9705,11 +9597,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             }
                                             //p.append(span_vt);//antes
                                             //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                            const sp_btn_vm = document.createElement('span');
-                                            sp_btn_vm.className = 'btn_verse_menu';
-                                            sp_btn_vm.textContent = '...';
-                                            p.append(sp_btn_vm);
     
                                             arr_data_body.push(p);
                                             //console.log(p);
@@ -9737,11 +9624,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             }else{
                                                 p.append(VerseText);
                                             }
-
-                                            const sp_btn_vm = document.createElement('span');
-                                            sp_btn_vm.className = 'btn_verse_menu';
-                                            sp_btn_vm.textContent = '...';
-                                            p.append(sp_btn_vm);
     
                                             arr_data_body.push(p);
                                             //console.log(p);
@@ -9756,11 +9638,6 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                             //p.append(VerseText);//antes
                                             span_vt.append(VerseText);
                                             p.append(span_vt);
-
-                                            const sp_btn_vm = document.createElement('span');
-                                            sp_btn_vm.className = 'btn_verse_menu';
-                                            sp_btn_vm.textContent = '...';
-                                            p.append(sp_btn_vm);
     
                                             arr_data_body.push(p);
                                             //console.log(p);
@@ -10940,11 +10817,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             });
                                                         }); 
                                                     }
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -11003,11 +10875,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     }
                                                     //p.append(span_vt);//antes
                                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -11035,11 +10902,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     }else{
                                                         p.append(VerseText);
                                                     }
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
             
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -11054,11 +10916,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //p.append(VerseText);//antes
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
-
-                                                    const sp_btn_vm = document.createElement('span');
-                                                    sp_btn_vm.className = 'btn_verse_menu';
-                                                    sp_btn_vm.textContent = '...';
-                                                    p.append(sp_btn_vm);
                         
                                                     arr_data_body.push(p);
                                                     //console.log(p);
@@ -12161,11 +12018,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }); 
                                         }
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -12223,11 +12075,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         }
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-                                        
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -12256,11 +12103,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.append(VerseText);
                                         }
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -12274,11 +12116,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
-
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -13399,11 +13236,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }); 
                                         }
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
@@ -13461,11 +13293,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         }
                                         //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-                                        
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -13494,11 +13321,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.append(VerseText);
                                         }
 
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
-
                                         arr_data_body.push(p);
                                         //console.log(p);
 
@@ -13512,11 +13334,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //p.append(VerseText);//antes
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
-                                        
-                                        const sp_btn_vm = document.createElement('span');
-                                        sp_btn_vm.className = 'btn_verse_menu';
-                                        sp_btn_vm.textContent = '...';
-                                        p.append(sp_btn_vm);
 
                                         arr_data_body.push(p);
                                         //console.log(p);
@@ -14674,11 +14491,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }); 
                                 }
 
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
                                 arr_data_body.push(p);
                                 //console.log(p);
                             }
@@ -14737,11 +14549,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //p.append(span_vt);//antes
                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
                                 arr_data_body.push(p);
                                 //console.log(p);
                             }
@@ -14769,11 +14576,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     p.append(VerseText);
                                 }
 
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
-
                                 arr_data_body.push(p);
                                 //console.log(p);
 
@@ -14787,11 +14589,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //p.append(VerseText);//antes
                                 span_vt.append(VerseText);
                                 p.append(span_vt);
-                                
-                                const sp_btn_vm = document.createElement('span');
-                                sp_btn_vm.className = 'btn_verse_menu';
-                                sp_btn_vm.textContent = '...';
-                                p.append(sp_btn_vm);
 
                                 arr_data_body.push(p);
                                 //console.log(p);

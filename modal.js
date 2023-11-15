@@ -69,6 +69,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_bl_modalFull.style.display = 'block';
             
             switch (action) {
+                
                 case 'showModules':
                     selectModule2(htmlTrans);
                     break;
@@ -91,7 +92,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                 case 'compareVerse':
                     eid_btn_sp_atras.style.display = 'none';
                     console.log('aki llamar buildVersesToCompare()');
-                    buildVersesToCompare(htmlTrans);
+                    buildVersesToCompare(htmlTrans);//aki htmlTrans = arr_p_id = ['rstStrongRed',0,1,1]
                     break;
             
                 default:
@@ -172,7 +173,7 @@ function buildVerseMenu(arr_p_id){
     
 }
 
-function buildVersesToCompare(arr_p_id){
+function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
     //creo array de p's de un verse de todas las trans favoritas
 
     window.arr_verses_compare = [];
@@ -185,8 +186,6 @@ function buildVersesToCompare(arr_p_id){
     }
 
     makeArrVersesToCompare(iter_a, arr_p_id);
-
-
 
     function makeArrVersesToCompare(iter_a, arr_p_id){
         
@@ -227,9 +226,11 @@ function buildVersesToCompare(arr_p_id){
 
             arr_verses_compare.push({});
             arr_verses_compare[iter_a]['Translation'] = el_trans.Translation;
+            arr_verses_compare[iter_a]['Lang'] = el_trans.Lang;
             arr_verses_compare[iter_a]['BibleShortName'] = el_trans.BibleShortName;
             arr_verses_compare[iter_a]['BibleBookShortName'] = el_trans.Books[book].ShortNames[0];
             arr_verses_compare[iter_a]['EnglishPsalms'] = el_trans.EnglishPsalms;
+            arr_verses_compare[iter_a]['BookQty'] = el_trans.BookQty;
 
             let trans_obj_ref = arrFavTransObj.find(v => v.Translation === trans_ref);
 
@@ -276,6 +277,9 @@ function buildVersesToCompare(arr_p_id){
             .then((dataRead) => {
     
                 console.log(dataRead);
+
+                arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
+                arr_verses_compare[iter_a].VerseQty = dataRead.chapterData.VerseQty;
                 
                 console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
                 let bq = el_trans;
@@ -287,118 +291,95 @@ function buildVersesToCompare(arr_p_id){
 
 
                 //========================================================//
-                //start - hay que modificar
+                //start - modificado
                 //========================================================//
 
-                            //Номера Стронга в стихах (RST+)
-                            if(bq.StrongNumbers == "Y"){
-                                let t = VerseText;
-                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
-                                let arr_verse_words = [];                               
-                                arr_t.forEach((el,i) => {    
-                                    //element of string is Strong Number
-                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                        let span_strong_tag_start,span_strong_tag_end;
-                                        if(btnStrongIsActive){
-                                            span_strong_tag_start = '<span class="strong show strongActive">'; 
-                                            span_strong_tag_end = '</span>'; 
-                                        }else{
-                                            span_strong_tag_start = '<span class="strong">';
-                                            span_strong_tag_end = '</span>'; 
-                                        }
-                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                                        //si ultimo carácter es string
-                                        if(last_char != '' && isNaN(last_char)){
-                                            let el_number = el.substring(0,el.length-1);
-                                            let el_string = last_char;
-                                            arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
-                                        }else{//es number
-                                            arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
-                                        }
-                                    }else{//is word
-                                        if(btnStrongIsActive){
-                                            if(el.includes('<S>')){
-                                                el = el.replace('<S>','<S class="show strongActive">');
-                                            }
-                                        }
-                                        arr_verse_words.push(el);
-                                    }
-                                });
-                                console.log('arr_verse_words: ');
-                                console.log(arr_verse_words);
-                                let new_VerseText = arr_verse_words.join(' ');
-                                arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
+                //Номера Стронга в стихах (RST+)
+                if(bq.StrongNumbers == "Y"){
+                    let t = VerseText;
+                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                    let arr_verse_words = [];                               
+                    arr_t.forEach((el,i) => {    
+                        //element of string is Strong Number
+                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                            let span_strong_tag_start,span_strong_tag_end;
+                            if(btnStrongIsActive){
+                                span_strong_tag_start = '<span class="strong show strongActive">'; 
+                                span_strong_tag_end = '</span>'; 
+                            }else{
+                                span_strong_tag_start = '<span class="strong">';
+                                span_strong_tag_end = '</span>'; 
                             }
-
-
-                            //Примечания редактора в стихах (RSTi2)
-                            if(bq.Notes == 'Y'){
-                                let t = VerseText;
-                                if(t.includes(bq.NoteSign)){// '*'
-                                    let arr_t0 = t.split(bq.NoteSign);
-                                    let before_Note = arr_t0[0];
-                                    if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                                        let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                                        let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                                        let text_Note = arr_t2[0];
-                                        let after_Note = arr_t2[1];
-                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                        arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
-                                    }
-                                }else{
-                                    arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                            //si ultimo carácter es string
+                            if(last_char != '' && isNaN(last_char)){
+                                let el_number = el.substring(0,el.length-1);
+                                let el_string = last_char;
+                                arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
+                            }else{//es number
+                                arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
+                            }
+                        }else{//is word
+                            if(btnStrongIsActive){
+                                if(el.includes('<S>')){
+                                    el = el.replace('<S>','<S class="show strongActive">');
                                 }
                             }
+                            arr_verse_words.push(el);
+                        }
+                    });
+                    console.log('arr_verse_words: ');
+                    console.log(arr_verse_words);
+                    let new_VerseText = arr_verse_words.join(' ');
+                    arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
+                }
 
 
-                            //Оглавления в стихах (NRT)
-                            if(bq.Titles == 'Y'){
-                                let t = VerseText;
-                                if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                                    let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                                    let before_Title = arr_t1[0];
-                                    let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                                    let text_Title = arr_t2[0];
-                                    let after_Title = arr_t2[1];
-                                    arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
-                                }else{
-                                    arr_verses_compare[iter_a].verseText = VerseText;
-                                }
-                            }
+                //Примечания редактора в стихах (RSTi2)
+                if(bq.Notes == 'Y'){
+                    let t = VerseText;
+                    if(t.includes(bq.NoteSign)){// '*'
+                        let arr_t0 = t.split(bq.NoteSign);
+                        let before_Note = arr_t0[0];
+                        if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                            let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                            let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                            let text_Note = arr_t2[0];
+                            let after_Note = arr_t2[1];
+                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                            arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+                        }
+                    }else{
+                        arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                    }
+                }
 
 
-                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
-                            } 
+                //Оглавления в стихах (NRT)
+                if(bq.Titles == 'Y'){
+                    let t = VerseText;
+                    if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                        let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                        let before_Title = arr_t1[0];
+                        let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                        let text_Title = arr_t2[0];
+                        let after_Title = arr_t2[1];
+                        arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
+                    }else{
+                        arr_verses_compare[iter_a].verseText = VerseText;
+                    }
+                }
 
+
+                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
+                    arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                }
 
                 //========================================================//
-                //end - hay que modificar
+                //end - modificado
                 //========================================================//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
                 
     
                 iter_a++;
@@ -413,7 +394,7 @@ function buildVersesToCompare(arr_p_id){
                     console.log(' final  --- llamo buildVersesFromArr()');
                     arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
 
-                    buildVersesFromArr(arr_verses_compare);
+                    buildVersesFromArr(arr_p_id, arr_verses_compare);
                 }
     
             })
@@ -429,41 +410,292 @@ function buildVersesToCompare(arr_p_id){
 
 }
 
-function buildVersesFromArr(arr_verses_compare){
+function buildVersesFromArr(arr_p_id, arr_verses_compare){
     console.log('=== buildVersesFromArr() ===');
+
+    console.log('arr_p_id: ', arr_p_id);
+    console.log('arr_verses_compare: ', arr_verses_compare);
+
+    let trans_ref = arr_p_id[0];
+    let book = arr_p_id[1];
+    let chapter = arr_p_id[2];
+    let verse = arr_p_id[3];
     
     eid_bl_modalFullInner.innerHTML = '';
 
     const div = document.createElement('div');
     div.id = 'wr_vc';
 
-    let verseRef = `${arr_verses_compare[0].BibleBookShortName}${arr_verses_compare[0].chapter}:${arr_verses_compare[0].verse}`;
+    let objTransCompare = arr_verses_compare.find(v => v.Translation === trans_ref);
+
+    let verseRef = `${objTransCompare.BibleBookShortName}${objTransCompare.chapter}:${objTransCompare.verse}`;
+
+    let obj_to_send = {
+        "verseRef":   verseRef,
+        "BibleBookShortName":   objTransCompare.BibleBookShortName,
+        "trans_ref":  trans_ref,
+        "book":       Number(book),
+        "chapter":    Number(chapter),
+        "verse":      Number(verse),
+        "BookQty":    Number(objTransCompare.BookQty),
+        "ChapterQty": Number(objTransCompare.ChapterQty),
+        "VerseQty":   Number(objTransCompare.VerseQty)
+    };
+
+    let obj_to_send_string = JSON.stringify(obj_to_send);
 
     const d = document.createElement('div');
     d.className = 'vc_head';
-    d.innerHTML = ` <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev')">
+    /*
+    d.innerHTML = ` <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev','${obj_to_send_string}')">
                         <img src="images/arrow_chevron_left_white.svg">
                     </div> 
                     
-                    <div>${verseRef}</div> 
+                    <div class="vc_head_ref">${verseRef}</div> 
                     
-                    <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next')">
+                    <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next','${obj_to_send_string}')">
                         <img src="images/arrow_chevron_right_white.svg">
                     </div>
                     `;
     div.append(d);
+    */
+
+
+    const d_prev = document.createElement('div');
+    d_prev.id = 'btn_verseGoPrev';
+    d_prev.className = 'dbtn';
+    d_prev.title = 'Prev verse';
+    d_prev.onclick = () => {
+        verseGo('prev',obj_to_send_string);
+    };
+    d_prev.innerHTML = `<img src="images/arrow_chevron_left_white.svg">`;
+
+    const d_ref = document.createElement('div');
+    d_ref.className = 'vc_head_ref';
+    d_ref.innerHTML = verseRef;
+
+    const d_next = document.createElement('div');
+    d_next.id = 'btn_verseGoNext';
+    d_next.className = 'dbtn';
+    d_next.title = 'Next verse';
+    d_next.onclick = () => {
+        verseGo('next',obj_to_send_string);
+    };
+    d_next.innerHTML = `<img src="images/arrow_chevron_right_white.svg">`;
+
+    d.append(d_prev);
+    d.append(d_ref);
+    d.append(d_next);
+    div.append(d);
+
+
+    const d2 = document.createElement('div');
+    d2.id = 'pa';
+    d2.className = 'vc_head_filter';
+    d2.innerHTML = ` 
+                    <div id="title_filter" onclick="hideShowWrFilter()">Filtrar:</div>
+
+                    <div id="wr_filter" style="display:none;">
+                        <div id="wr_filter_inner">
+                        
+                            
+                            <div class="wr_one_lang">
+                                <label>
+                                    <span>
+                                        <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> Solo un idioma
+                                    </span>
+                                </label>
+                                <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
+                            </div>
+
+
+                            <div class="wr_btns_lang">
+                            
+                                <div class="btns_lang">
+                                    <button id="btn_ru" class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+                                    <button id="btn_ua" class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
+                                    <button id="btn_es" class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
+                                </div>
+                            
+                                <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+    div.append(d2);
+    
+
+
+    
+    //coloco trans del versiculo elegido al inicio de la lista de los comparados
+    arr_verses_compare.sort((a, b) => {
+        if(a.Translation == trans_ref){
+            return -1;//coloca al inicio la trans_ref
+        }else{
+            return 1;
+        }
+    });
+    //console.log(arr_verses_compare);
 
 
     arr_verses_compare.forEach((el,i) => {        
         const p = document.createElement('p');
-        p.className = 'pv';
-        p.innerHTML = `<span class="b_trans">${el.BibleShortName}</span> <a href="#" style="display:none;">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> <span class="v_trans">${el.verseText}</span>`;
+        p.className = (i == 0) ? 'pv pv_active' : 'pv' ;//el primer elemento -> activo que es trans_ref
+        p.dataset.verse_lang = el.Lang;
+        p.innerHTML = ` <span class="pv_inner">
+                            <span class="b_trans">${el.BibleShortName}</span> 
+                            <a href="#" class="a_ref">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
+                            <span class="v_trans">${el.verseText}</span>
+                        </span>
+                        `;
         div.append(p);
     });
     eid_bl_modalFullInner.append(div);
 
 }
 
+function hideShowWrFilter(){
+    let wr_filter = document.getElementById('wr_filter');
+
+    if(esVisible(wr_filter)){
+        wr_filter.style.display = 'none';
+    }else{
+        wr_filter.style.display = 'block';
+    }
+}
+
+function hideShowRefsCompare(e){
+    let a_ref_all = document.querySelectorAll('.a_ref');//todos a_ref
+    let elementoRef = a_ref_all[0];//primer link
+
+    //if(e.className.includes())
+    
+    if(esVisible(elementoRef)){
+        e.classList.remove('btn_active');
+        a_ref_all.forEach(el=>{
+            el.style.display = 'none';
+        });
+    }else{
+        e.classList.add('btn_active');
+        a_ref_all.forEach(el=>{
+            el.style.display = 'inline-block';
+        });
+    }
+}
+
+function filterTransCompare(e, param = 'all'){
+    let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
+
+    const cbox_one_lang = document.getElementById('one_lang');
+    const btn_all = document.getElementById('btn_all');
+    const btn_ru = document.getElementById('btn_ru');
+    const btn_ua = document.getElementById('btn_ua');
+    const btn_es = document.getElementById('btn_es');
+
+    let btns_lang_all = document.querySelectorAll('.btns_lang .btn');
+
+    let this_btn = e;
+
+    if(cbox_one_lang.checked){//solo mostrar un idioma
+        
+        btn_all.style.display = 'none';
+
+        btns_lang_all.forEach(el=>{
+            if(el.className.includes('btn_active')){
+                el.classList.remove('btn_active');
+            } 
+        });
+        this_btn.classList.add('btn_active');
+        
+        pv_all.forEach((el,i)=>{   
+            if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
+                //if(param == 'all'){
+                //    el.style.display = 'block';
+                //}else{
+                    if(el.dataset.verse_lang == param){
+                        el.style.display = 'block';
+                    }else{
+                        el.style.display = 'none';
+                    }
+                //}
+            }
+        });
+
+    }else{//mostrar VARIOS los idiomas marcadas
+
+        btn_all.style.display = 'block';
+
+
+        if(this_btn.id == 'btn_all'){
+
+            if(btn_all.className.includes('btn_active')){
+                btn_all.classList.remove('btn_active');//desactivo este btn_all
+                
+                //y desactivo todos
+                btns_lang_all.forEach(el=>{
+                    if(el.className.includes('btn_active')){
+                        el.classList.remove('btn_active');
+                    } 
+                });
+                
+            }else{
+                btn_all.classList.add('btn_active');//activo este btn_all
+                
+                //y activo todos
+                btns_lang_all.forEach(el=>{
+                    if(!el.className.includes('btn_active')){
+                        el.classList.add('btn_active');
+                    } 
+                });
+            }
+
+        }else{
+
+            if(this_btn.className.includes('btn_active')){
+                this_btn.classList.remove('btn_active');
+            }else{
+                this_btn.classList.add('btn_active'); 
+            }
+        }
+
+
+
+
+
+
+        
+
+        //miro cuantos botones están marcados
+        let arr_lang_act = [];
+        btns_lang_all.forEach(el=>{
+            if(el.className.includes('btn_active')){
+                arr_lang_act.push(el.dataset.lang);
+            } 
+        });
+        console.log(arr_lang_act);
+
+        (arr_lang_act.length == 3) ? btn_all.classList.add('btn_active') : btn_all.classList.remove('btn_active') ;
+
+        pv_all.forEach((el,i)=>{   
+            if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
+                //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
+                if(arr_lang_act.indexOf(el.dataset.verse_lang) >= 0){
+                    el.style.display = 'block';
+                }else{
+                    el.style.display = 'none';
+                }
+            }
+        });
+    }
+
+}
+
+
+function esVisible(elemento) {
+    return !!elemento && (elemento.offsetWidth > 0 || elemento.offsetHeight > 0 || elemento.getClientRects().length > 0) && getComputedStyle(elemento).visibility !== 'hidden';
+}
 
 
 function showHistoryNav(){
@@ -559,6 +791,103 @@ window.onclick = function(event) {
         closeModal();
     }
 }
+
+
+
+function verseGo(dir, obj_to_send_string){
+    
+    let this_json = JSON.parse(obj_to_send_string);
+
+    console.log('abajo this_json: ');    
+    console.log(this_json);  
+
+    //desestructuracion de objeto this_json
+    const { 
+        verseRef,
+        BibleBookShortName,
+        trans_ref,
+        book, 
+        chapter, 
+        verse,        
+        BookQty,
+        ChapterQty,
+        VerseQty
+    } = this_json;
+
+    console.log(`${book} ---${chapter} ---${verse}`);
+    
+    
+    
+    if(dir == 'next'){
+        console.log('show next verse');    
+
+        let next_book = book;
+        let next_chapter = chapter; 
+        let next_verse = verse; 
+
+
+        if(verse == VerseQty){
+
+            if(chapter == ChapterQty){
+                
+                if(book == BookQty - 1){//Apocalipsis
+                    next_book = 0;//Génesis
+                }else{
+                    next_book = book + 1;
+                }   
+    
+                next_chapter = 1;
+            }else{
+                next_chapter = chapter + 1;
+            }
+            
+            next_verse = 1;
+        }else{
+            next_verse = verse + 1;
+        }
+
+        console.log(`${next_book} ---${next_chapter} ---${next_verse}`);
+
+
+        openModal('full', verseRef, [trans_ref, next_book, next_chapter, next_verse], 'compareVerse');
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if(dir == 'prev'){
+        console.log('show prev verse');    
+
+    }
+}
+
+
+
 
 
 eid_myModal.addEventListener('click', function(e){
