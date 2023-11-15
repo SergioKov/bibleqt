@@ -2792,7 +2792,7 @@ pr {
     opacity: 0;
     top: 50%;
     right: 5px;
-    width: 16px;
+    width: 18px;
     height: 24px;
     margin-top: -14px;
     text-align: center;
@@ -2802,30 +2802,79 @@ p:hover .btn_verse_menu{
 }
 
 
-p.aaa {
+#wr_vc {
+    background: white;
+    color: black;
+    margin: -10px;
+    padding: 10px;
+}
+.vc_head {
+    overflow: hidden;
+    background: #63afec;
+    margin: -10px -10px 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #1875bf;
+}
+.vc_head .dbtn {
+    margin: 0px;
+    width: 30px;
+    padding: 2px 0px;
+    /* font-size: 18px; */
+    border-radius: 0;
+    /* outline: 1px solid #373737; */
+    background: #1875bf;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.vc_head .dbtn:hover {
+    background: #2f8fdc;
+}
+
+.pv {
     display: flex;
     align-content: center;
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: nowrap;
     color: white;
+    transition: 0.3s;
 }
-span.zzz {
+.pv:hover{
+    background: #c9c9c9 !important;
+}
+.pv:not(:last-child) {
+    border-bottom: 1px solid #cccccc!important;
+}
+
+.b_trans {
     /* background: #ffc107; */
     display: inline-block;
     min-width: 95px;
     color: #929292;
 }
-.aaa a{
+.pv a{
     margin-right: 15px;
 }
-span.ttt {
+.v_trans {
     /* margin-left: 15px; */
+    color: black;
 }
 
-.eee {
-    overflow: hidden;
-}
+
 
 
 

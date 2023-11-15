@@ -286,18 +286,6 @@ function buildVersesToCompare(arr_p_id){
                 let VerseText = arr.join(' ');
 
 
-                //arr_verses_compare[iter_a].verseText = VerseText; 
-
-
-
-
-
-
-
-
-
-
-
                 //========================================================//
                 //start - hay que modificar
                 //========================================================//
@@ -333,7 +321,7 @@ function buildVersesToCompare(arr_p_id){
                                                 el = el.replace('<S>','<S class="show strongActive">');
                                             }
                                         }
-                                        arr_verse_words.push(' '+el);
+                                        arr_verse_words.push(el);
                                     }
                                 });
                                 console.log('arr_verse_words: ');
@@ -447,17 +435,29 @@ function buildVersesFromArr(arr_verses_compare){
     eid_bl_modalFullInner.innerHTML = '';
 
     const div = document.createElement('div');
-    const p = document.createElement('p');
-    p.className = 'eee';
-    p.innerHTML = `<button class="btn f_l">prev</button> <button class="btn f_r">next</button>`;
-    div.append(p);
+    div.id = 'wr_vc';
+
+    let verseRef = `${arr_verses_compare[0].BibleBookShortName}${arr_verses_compare[0].chapter}:${arr_verses_compare[0].verse}`;
+
+    const d = document.createElement('div');
+    d.className = 'vc_head';
+    d.innerHTML = ` <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev')">
+                        <img src="images/arrow_chevron_left_white.svg">
+                    </div> 
+                    
+                    <div>${verseRef}</div> 
+                    
+                    <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next')">
+                        <img src="images/arrow_chevron_right_white.svg">
+                    </div>
+                    `;
+    div.append(d);
 
 
-    arr_verses_compare.forEach((el,i) => {
-        
+    arr_verses_compare.forEach((el,i) => {        
         const p = document.createElement('p');
-        p.className = 'aaa';
-        p.innerHTML = `<span class="zzz">${el.BibleShortName}</span> <a href="#">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> <span class="ttt">${el.verseText}</span>`;
+        p.className = 'pv';
+        p.innerHTML = `<span class="b_trans">${el.BibleShortName}</span> <a href="#" style="display:none;">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> <span class="v_trans">${el.verseText}</span>`;
         div.append(p);
     });
     eid_bl_modalFullInner.append(div);

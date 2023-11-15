@@ -796,6 +796,15 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
                 //echo '<p>' . $i;
                 // echo '<p>' . $arr_p[$i];
                 //$p_text_all .= '<p>' . $arr_p[$i];
+
+                //si el versse termina con '</p>'
+                if(strpos($arr_p[$i], "</p>") !== false){
+                    //dorabotat
+                }else{
+                    //dorabotat
+
+                }
+
                 $arr_p_verses[$i] = $arr_p[$i];
             }            
         }else{//1 verse
