@@ -2920,6 +2920,11 @@ p:hover .btn_verse_menu{
     min-width: 100px;
 }
 
+#vc_body{
+    /* background: #e0e0e0; */
+    /* overflow-y: scroll; */
+    /* max-height: 800px; */
+}
 
 
 .pv_inner {

@@ -159,7 +159,7 @@ function buildVerseMenu(arr_p_id){
     btn3.onclick = ()=>{
         console.log('llamo func para comparar');
         console.log(arr_p_id);
-        openModal('full', 'Comparar traducciones', arr_p_id, 'compareVerse');
+        openModal('full', 'Сравнение переводов', arr_p_id, 'compareVerse');
     }
     
     const btn4 = document.createElement('div');
@@ -532,7 +532,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
 
     //div FILTER
     const div_vc_head_filter = document.createElement('div');
-    div_vc_head_filter.id = 'vc_head_filter';    
+    div_vc_head_filter.id = 'vc_head_filter'; 
+
     
     /*
     div_vc_head_filter.innerHTML = ` 
@@ -593,7 +594,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     /*
     div_wr_one_lang.innerHTML = `
         <label id="lab_one_lang">
-                <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Sólo un idioma</span>
+                <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Только один язык</span>
         </label>
         <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
     `;
@@ -605,13 +606,13 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
 
     //span_one_lang_text
     const span_one_lang_text = document.createElement('span');
-    span_one_lang_text.textContent = ' Sólo un idioma';
+    span_one_lang_text.textContent = ' Только один язык';
 
     const cbox_one_lang = document.createElement('input');
     cbox_one_lang.id = 'one_lang';
     cbox_one_lang.type = 'checkbox';
     cbox_one_lang.checked = ajuste1.one_lang.checked;
-    cbox_one_lang.textContent = 'Sólo un idioma';
+    cbox_one_lang.textContent = 'Только один язык';
     cbox_one_lang.onchange = (e) => {
         filterTransCompare(e.target,null);//e.srcElement = this 
     };
@@ -622,7 +623,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     //boton_btn_show_refs.innerHTML = `<button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>`;
     boton_btn_show_refs.style.display = ajuste1.btn_show_refs.display;
     boton_btn_show_refs.className = ajuste1.btn_show_refs.classText;
-    boton_btn_show_refs.textContent = 'Show Refs';
+    boton_btn_show_refs.textContent = 'Ссылки';
     //hideShowRefsCompare();
     boton_btn_show_refs.onclick = (e) => {
         hideShowRefsCompare(e.target);
@@ -668,6 +669,11 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     boton_btn_all.onclick = (e) => {
         filterTransCompare(e.target,'all');
     };
+
+    //BODY of verses
+    const div_vc_body = document.createElement('div');
+    div_vc_body.id = 'vc_body';    
+    
    
    //append los elementos
     div_wr_vc.append(div_vc_head);
@@ -690,8 +696,9 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     
                 div_wr_filter_inner.append(div_wr_btns_lang);
                     div_wr_btns_lang.append(div_btns_lang);
-                    div_wr_btns_lang.append(boton_btn_all); 
+                    div_wr_btns_lang.append(boton_btn_all);
 
+    div_wr_vc.append(div_vc_body);
 
     //================================================================//
     //end - estructura html
@@ -724,7 +731,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                             <span class="v_trans">${el.verseText}</span>
                         </span>
                         `;
-        div_wr_vc.append(p);
+        //div_wr_vc.append(p);
+        div_vc_body.append(p);
     });
     eid_bl_modalFullInner.append(div_wr_vc);
 
@@ -1031,7 +1039,7 @@ function verseGo(dir, obj_to_send_string){
 
         console.log(`${next_book} ---${next_chapter} ---${next_verse}`);
 
-        openModal('full', 'Comparar traducciones', [trans_ref, next_book, next_chapter, next_verse], 'compareVerse', false);// modalFadeIn = false
+        openModal('full', 'Сравнение переводов', [trans_ref, next_book, next_chapter, next_verse], 'compareVerse', false);// modalFadeIn = false
 
     }
 
@@ -1078,7 +1086,7 @@ function verseGo(dir, obj_to_send_string){
                 //console.log('15047. verse: ',verse);
 
                 if(prev_verse > 0){
-                    openModal('full', 'Comparar traducciones', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
+                    openModal('full', 'Сравнение переводов', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
                 }
 
             })
@@ -1091,7 +1099,7 @@ function verseGo(dir, obj_to_send_string){
             prev_verse = verse - 1;
             console.log(`${prev_book} ---${prev_chapter} ---${prev_verse}`);
             
-            openModal('full', 'Comparar traducciones', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
+            openModal('full', 'Сравнение переводов', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
         }
 
     }
