@@ -2808,7 +2808,7 @@ p:hover .btn_verse_menu{
     margin: -10px;
     padding: 10px;
 }
-.vc_head {
+#vc_head {
     overflow: hidden;
     background: #63afec;
     margin: -10px -10px 10px;
@@ -2825,7 +2825,7 @@ p:hover .btn_verse_menu{
     color: white;
     font-weight: bold;
 }
-.vc_head .dbtn {
+#vc_head .dbtn {
     margin: 0px;
     width: 30px;
     padding: 2px 0px;
@@ -2844,12 +2844,12 @@ p:hover .btn_verse_menu{
     transition: 0.3s;
     cursor: pointer;
 }
-.vc_head .dbtn:hover {
+#vc_head .dbtn:hover {
     background: #2f8fdc;
 }
 
 
-.vc_head_filter {
+#vc_head_filter {
     overflow: hidden;
     background: #d4ebfe;
     margin: -10px -10px 10px;
@@ -2886,7 +2886,7 @@ p:hover .btn_verse_menu{
     border-radius: 0 0 3px 3px;
 }
 
-.wr_one_lang {
+#wr_one_lang {
     /* background: aqua; */
     display: flex;
     justify-content: space-between;
@@ -2896,7 +2896,7 @@ p:hover .btn_verse_menu{
     align-items: center;
     padding-bottom: 5px;
 }
-.wr_btns_lang {
+#wr_btns_lang {
     /* background: lightgreen; */
     display: flex;
     justify-content: space-between;
@@ -2904,6 +2904,14 @@ p:hover .btn_verse_menu{
     align-content: center;
     gap: 10px;
     flex-wrap: nowrap;
+}
+
+#btns_lang {
+    /* background: brown; */
+    display: flex;
+    gap: 5px;
+    align-content: center;
+    justify-content: center;
 }
 
 #btn_show_refs,

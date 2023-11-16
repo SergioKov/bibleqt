@@ -158,6 +158,40 @@ const pantallaDesktopSmallMinPx = 1024;
 //const pantallaDesktopSmallMaxPx = 1999;
 //const pantallaDesktopBigMinPx = 1200;
 
+let arr_verses_compare = [];
+let arr_verses_lang = [];
+
+const ajuste1 = {
+    wr_filter: {
+        display: 'block'
+    },
+    btn_all: {
+        display: 'block',
+        class: 'btn',
+        stateActive: true
+    },
+    one_lang: {
+        checked: false
+    },
+    btn_show_refs: {
+        display: 'block',
+        classText: 'btn',
+        stateActive: false
+    },
+    a_ref: {
+        display: 'none'
+    },
+    arr_lang_act: [],
+    arr_lang_noact: [],
+
+
+
+
+
+
+    aaa: 'aaa'
+};
+
 
 const obj_ep = {
     //ruso

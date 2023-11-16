@@ -1,12 +1,18 @@
-function openModal(param = null, headerTitle = null, htmlTrans = null, action = null){
+function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
   console.log('===function openModal()===');
   console.log(`param: ${param} --- headerTitle: ${headerTitle}`);    
 
-    eid_myModal.style.display = "block";
-    eid_myModal.style.opacity = 0;//start efecto fade
-    setTimeout(()=>{
-        eid_myModal.style.opacity = 1;//end efecto fade
-    },10);
+
+    if(modalFadeIn){
+        eid_myModal.style.display = "block";
+        eid_myModal.style.opacity = 0;//start efecto fade
+        setTimeout(()=>{
+            eid_myModal.style.opacity = 1;//end efecto fade
+        },10);
+    }else{
+        eid_myModal.style.display = "block";
+        eid_myModal.style.opacity = 1;//start efecto fade
+    }
 
     //reset
     eid_myModalContent.removeAttribute('class');
@@ -176,7 +182,7 @@ function buildVerseMenu(arr_p_id){
 function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
     //creo array de p's de un verse de todas las trans favoritas
 
-    window.arr_verses_compare = [];
+    arr_verses_compare = [];//reset
     let iter_a = 0;//start
 
 
@@ -206,23 +212,46 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             el_trans = arrFavTransObj[iter_a];
             console.log(`abajo el_trans:`);
             console.log(el_trans);
-    
-            //url del libro necesario
-            url = `modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
-    
 
-            if(url.includes('no_disponible.htm')){
-                console.log('url includes no_disponible.htm');
-                //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+            //si existe traduccion, el libro de trans, boo
+            if(typeof el_trans.Translation != 'undefined' && typeof el_trans.Books[bookNumber] != 'undefined'){
+                //url del libro necesario
+                url = `modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+
+                if(url.includes('no_disponible.htm')){
+                    console.log('url includes no_disponible.htm');
+    
+                    iter_a++;
+                    console.log(`aumentado iter_a: ${iter_a}`);
+                    arr_verses_compare.push('');//item vacio. luego lo quito
+
+                    if(iter_a == arrFavTransObj.length){
+                        console.log('1. final  --- llamo buildVersesFromArr()');
+                        arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+    
+                        buildVersesFromArr(arr_p_id, arr_verses_compare);
+                    }   
+    
+                    makeArrVersesToCompare(iter_a, arr_p_id);//si iter_a es ultimo elemento de arrFavTransObj, no entrará aquí 
+                    return false;
+                }
+            }else{
+                console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
 
                 iter_a++;
                 console.log(`aumentado iter_a: ${iter_a}`);
                 arr_verses_compare.push('');//item vacio. luego lo quito
 
-                makeArrVersesToCompare(iter_a, arr_p_id);
+                if(iter_a == arrFavTransObj.length){
+                    console.log('2. final  --- llamo buildVersesFromArr()');
+                    arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+
+                    buildVersesFromArr(arr_p_id, arr_verses_compare);
+                }
+
+                makeArrVersesToCompare(iter_a, arr_p_id);//si iter_a es ultimo elemento de arrFavTransObj, no entrará aquí
                 return false;
             }
-
 
             arr_verses_compare.push({});
             arr_verses_compare[iter_a]['Translation'] = el_trans.Translation;
@@ -423,8 +452,13 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     
     eid_bl_modalFullInner.innerHTML = '';
 
-    const div = document.createElement('div');
-    div.id = 'wr_vc';
+    //creo array de lang de los que están en arr_verses_compare
+    arr_verses_lang = [];//reset
+    arr_verses_lang = arr_verses_compare.map(el => el.Lang);
+    //quito valores duplicados
+    arr_verses_lang = [... new Set(arr_verses_lang)];
+
+    
 
     let objTransCompare = arr_verses_compare.find(v => v.Translation === trans_ref);
 
@@ -444,20 +478,33 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
 
     let obj_to_send_string = JSON.stringify(obj_to_send);
 
-    const d = document.createElement('div');
-    d.className = 'vc_head';
+
+
+
+
+
+
+    //================================================================//
+    //start - estructura html
+    //================================================================//
+    const div_wr_vc = document.createElement('div');
+    div_wr_vc.id = 'wr_vc';
+
+    const div_vc_head = document.createElement('div');
+    div_vc_head.id = 'vc_head';
     /*
-    d.innerHTML = ` <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev','${obj_to_send_string}')">
-                        <img src="images/arrow_chevron_left_white.svg">
-                    </div> 
-                    
-                    <div class="vc_head_ref">${verseRef}</div> 
-                    
-                    <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next','${obj_to_send_string}')">
-                        <img src="images/arrow_chevron_right_white.svg">
-                    </div>
-                    `;
-    div.append(d);
+    div_vc_head.innerHTML = ` 
+            <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev','${obj_to_send_string}')">
+                <img src="images/arrow_chevron_left_white.svg">
+            </div> 
+            
+            <div class="vc_head_ref">${verseRef}</div> 
+            
+            <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next','${obj_to_send_string}')">
+                <img src="images/arrow_chevron_right_white.svg">
+            </div>
+        `;
+    div.append(div_vc_head);
     */
 
 
@@ -483,48 +530,174 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     };
     d_next.innerHTML = `<img src="images/arrow_chevron_right_white.svg">`;
 
-    d.append(d_prev);
-    d.append(d_ref);
-    d.append(d_next);
-    div.append(d);
+    //div FILTER
+    const div_vc_head_filter = document.createElement('div');
+    div_vc_head_filter.id = 'vc_head_filter';    
+    
+    /*
+    div_vc_head_filter.innerHTML = ` 
+        <div id="title_filter" onclick="hideShowWrFilter()">Filtrar:</div>
+
+        <div id="wr_filter" style="display:none;">
+            <div id="wr_filter_inner">
+            
+                
+                <div id="wr_one_lang">
+                    <label id="lab_one_lang">
+                        <span>
+                            <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> Solo un idioma
+                        </span>
+                    </label>
+                    <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
+                </div>
 
 
-    const d2 = document.createElement('div');
-    d2.id = 'pa';
-    d2.className = 'vc_head_filter';
-    d2.innerHTML = ` 
-                    <div id="title_filter" onclick="hideShowWrFilter()">Filtrar:</div>
-
-                    <div id="wr_filter" style="display:none;">
-                        <div id="wr_filter_inner">
-                        
-                            
-                            <div class="wr_one_lang">
-                                <label>
-                                    <span>
-                                        <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> Solo un idioma
-                                    </span>
-                                </label>
-                                <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
-                            </div>
-
-
-                            <div class="wr_btns_lang">
-                            
-                                <div class="btns_lang">
-                                    <button id="btn_ru" class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
-                                    <button id="btn_ua" class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
-                                    <button id="btn_es" class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
-                                </div>
-                            
-                                <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
-
-                            </div>
-
-                        </div>
+                <div id="wr_btns_lang">
+                
+                    <div id="btns_lang">
+                        <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+                        <button class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
+                        <button class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
                     </div>
-                `;
-    div.append(d2);
+                
+                    <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+
+                </div>
+
+            </div>
+        </div>
+    `;
+    */
+
+
+    //title_filter
+    const div_title_filter = document.createElement('div');
+    div_title_filter.id = 'title_filter';
+    div_title_filter.innerHTML = 'Filtrar:';
+    div_title_filter.onclick = () => {
+        hideShowWrFilter();
+    }
+
+    //wr_filter
+    const div_wr_filter = document.createElement('div');
+    div_wr_filter.id = 'wr_filter';
+    div_wr_filter.style.display = ajuste1.wr_filter.display;//por defecto es oculto
+    
+    //wr_filter_inner
+    const div_wr_filter_inner = document.createElement('div');
+    div_wr_filter_inner.id = 'wr_filter_inner';
+
+    //wr_one_lang
+    const div_wr_one_lang = document.createElement('div');
+    div_wr_one_lang.id = 'wr_one_lang';
+    /*
+    div_wr_one_lang.innerHTML = `
+        <label id="lab_one_lang">
+                <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Sólo un idioma</span>
+        </label>
+        <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
+    `;
+    */
+
+    //label_one_lang
+    const label_one_lang = document.createElement('label');
+    label_one_lang.id = 'lab_one_lang';
+
+    //span_one_lang_text
+    const span_one_lang_text = document.createElement('span');
+    span_one_lang_text.textContent = ' Sólo un idioma';
+
+    const cbox_one_lang = document.createElement('input');
+    cbox_one_lang.id = 'one_lang';
+    cbox_one_lang.type = 'checkbox';
+    cbox_one_lang.checked = ajuste1.one_lang.checked;
+    cbox_one_lang.textContent = 'Sólo un idioma';
+    cbox_one_lang.onchange = (e) => {
+        filterTransCompare(e.target,null);//e.srcElement = this 
+    };
+
+    //btn_show_refs
+    const boton_btn_show_refs = document.createElement('button');
+    boton_btn_show_refs.id = 'btn_show_refs';
+    //boton_btn_show_refs.innerHTML = `<button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>`;
+    boton_btn_show_refs.style.display = ajuste1.btn_show_refs.display;
+    boton_btn_show_refs.className = ajuste1.btn_show_refs.classText;
+    boton_btn_show_refs.textContent = 'Show Refs';
+    //hideShowRefsCompare();
+    boton_btn_show_refs.onclick = (e) => {
+        hideShowRefsCompare(e.target);
+    };
+
+    //wr_btns_lang
+    const div_wr_btns_lang = document.createElement('div');
+    div_wr_btns_lang.id = 'wr_btns_lang';
+    /*
+    div_wr_btns_lang.innerHTML = `
+        <div id="btns_lang">
+            <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+            <button class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
+            <button class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
+        </div>
+
+        <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+    `;
+    */
+
+    //btns_lang
+    const div_btns_lang = document.createElement('div');
+    div_btns_lang.id = 'btns_lang';
+
+    arr_verses_lang.forEach(el=>{
+        //ejemplo boton: <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+        const btn = document.createElement('button');
+        btn.className = (ajuste1.arr_lang_act.includes(el) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+        btn.dataset.lang = el;//['ru','ua','es']
+        btn.textContent = el.toUpperCase();
+        btn.onclick = (e) => {
+            filterTransCompare(e.target,el);
+        };
+        div_btns_lang.append(btn);
+    });
+    
+    //btn_all
+    const boton_btn_all = document.createElement('button');
+    boton_btn_all.id = 'btn_all';
+    //div_btn_all.innerHTML = `<button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>`;
+    boton_btn_all.className = (ajuste1.arr_lang_act.length == arr_verses_lang.length || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+    boton_btn_all.textContent = 'Todos';
+    boton_btn_all.onclick = (e) => {
+        filterTransCompare(e.target,'all');
+    };
+   
+   //append los elementos
+    div_wr_vc.append(div_vc_head);
+        div_vc_head.append(d_prev);
+        div_vc_head.append(d_ref);
+        div_vc_head.append(d_next);
+
+    div_wr_vc.append(div_vc_head_filter);
+
+        div_vc_head_filter.append(div_title_filter);
+
+        div_vc_head_filter.append(div_wr_filter);
+            div_wr_filter.append(div_wr_filter_inner);
+
+                div_wr_filter_inner.append(div_wr_one_lang);
+                    div_wr_one_lang.append(label_one_lang);
+                        label_one_lang.append(cbox_one_lang);
+                        label_one_lang.append(span_one_lang_text);
+                    div_wr_one_lang.append(boton_btn_show_refs);
+                    
+                div_wr_filter_inner.append(div_wr_btns_lang);
+                    div_wr_btns_lang.append(div_btns_lang);
+                    div_wr_btns_lang.append(boton_btn_all); 
+
+
+    //================================================================//
+    //end - estructura html
+    //================================================================//
+
+
     
 
 
@@ -544,41 +717,55 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         const p = document.createElement('p');
         p.className = (i == 0) ? 'pv pv_active' : 'pv' ;//el primer elemento -> activo que es trans_ref
         p.dataset.verse_lang = el.Lang;
+        p.style.display = (i == 0 || ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'block' : 'none' ;
         p.innerHTML = ` <span class="pv_inner">
                             <span class="b_trans">${el.BibleShortName}</span> 
-                            <a href="#" class="a_ref">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
+                            <a href="#" class="a_ref" style="display: ${ajuste1.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
                             <span class="v_trans">${el.verseText}</span>
                         </span>
                         `;
-        div.append(p);
+        div_wr_vc.append(p);
     });
-    eid_bl_modalFullInner.append(div);
+    eid_bl_modalFullInner.append(div_wr_vc);
+
 
 }
 
 function hideShowWrFilter(){
     let wr_filter = document.getElementById('wr_filter');
+    let val;
 
     if(esVisible(wr_filter)){
-        wr_filter.style.display = 'none';
+        //wr_filter.style.display = 'none';
+        val = 'none';
     }else{
-        wr_filter.style.display = 'block';
+        //wr_filter.style.display = 'block';
+        val = 'block';
     }
+
+    wr_filter.style.display = val;
+    ajuste1.wr_filter.display = val;
 }
 
-function hideShowRefsCompare(e){
+function hideShowRefsCompare(e = null){
     let a_ref_all = document.querySelectorAll('.a_ref');//todos a_ref
-    let elementoRef = a_ref_all[0];//primer link
+    let btn_show_refs = document.getElementById('btn_show_refs');
+    //let elementoRef = a_ref_all[0];//primer link   
 
-    //if(e.className.includes())
     
-    if(esVisible(elementoRef)){
-        e.classList.remove('btn_active');
+    if(ajuste1.btn_show_refs.stateActive /*esVisible(elementoRef)*/){
+        btn_show_refs.classList.remove('btn_active');
+        ajuste1.btn_show_refs.classText = 'btn';
+        ajuste1.btn_show_refs.stateActive = false;
+        ajuste1.a_ref.display = 'none';
         a_ref_all.forEach(el=>{
             el.style.display = 'none';
         });
     }else{
-        e.classList.add('btn_active');
+        btn_show_refs.classList.add('btn_active');
+        ajuste1.btn_show_refs.classText = 'btn btn_active';
+        ajuste1.btn_show_refs.stateActive = true;
+        ajuste1.a_ref.display = 'inline-block';
         a_ref_all.forEach(el=>{
             el.style.display = 'inline-block';
         });
@@ -587,20 +774,17 @@ function hideShowRefsCompare(e){
 
 function filterTransCompare(e, param = 'all'){
     let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
-
     const cbox_one_lang = document.getElementById('one_lang');
+    const btns_lang = document.getElementById('btns_lang');
     const btn_all = document.getElementById('btn_all');
-    const btn_ru = document.getElementById('btn_ru');
-    const btn_ua = document.getElementById('btn_ua');
-    const btn_es = document.getElementById('btn_es');
-
-    let btns_lang_all = document.querySelectorAll('.btns_lang .btn');
-
+    let btns_lang_all = btns_lang.querySelectorAll('.btn');
     let this_btn = e;
 
     if(cbox_one_lang.checked){//solo mostrar un idioma
         
         btn_all.style.display = 'none';
+        ajuste1.btn_all.display = 'none';
+        ajuste1.btn_all.class = 'tab';
 
         btns_lang_all.forEach(el=>{
             if(el.className.includes('btn_active')){
@@ -611,22 +795,19 @@ function filterTransCompare(e, param = 'all'){
         
         pv_all.forEach((el,i)=>{   
             if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
-                //if(param == 'all'){
-                //    el.style.display = 'block';
-                //}else{
-                    if(el.dataset.verse_lang == param){
-                        el.style.display = 'block';
-                    }else{
-                        el.style.display = 'none';
-                    }
-                //}
+                if(el.dataset.verse_lang == param){
+                    el.style.display = 'block';
+                }else{
+                    el.style.display = 'none';
+                }
             }
         });
 
     }else{//mostrar VARIOS los idiomas marcadas
 
         btn_all.style.display = 'block';
-
+        ajuste1.btn_all.display = 'block';
+        ajuste1.btn_all.class = 'tab tab_active';
 
         if(this_btn.id == 'btn_all'){
 
@@ -660,23 +841,25 @@ function filterTransCompare(e, param = 'all'){
             }
         }
 
-
-
-
-
-
         
 
         //miro cuantos botones están marcados
         let arr_lang_act = [];
+        let arr_lang_noact = [];
         btns_lang_all.forEach(el=>{
             if(el.className.includes('btn_active')){
                 arr_lang_act.push(el.dataset.lang);
-            } 
+            }else{
+                arr_lang_noact.push(el.dataset.lang);
+            }
         });
         console.log(arr_lang_act);
+        console.log(arr_lang_noact);
 
-        (arr_lang_act.length == 3) ? btn_all.classList.add('btn_active') : btn_all.classList.remove('btn_active') ;
+        ajuste1.arr_lang_act = arr_lang_act;
+        ajuste1.arr_lang_noact = arr_lang_noact;
+
+        (arr_lang_act.length == arr_verses_lang.length) ? btn_all.classList.add('btn_active') : btn_all.classList.remove('btn_active') ;
 
         pv_all.forEach((el,i)=>{   
             if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
@@ -814,8 +997,9 @@ function verseGo(dir, obj_to_send_string){
         VerseQty
     } = this_json;
 
-    console.log(`${book} ---${chapter} ---${verse}`);
-    
+    console.log(`${trans_ref} --- ${book} ---${chapter} ---${verse}`);
+
+    let this_objTrans = arrFavTransObj.find(v => v.Translation === trans_ref);  
     
     
     if(dir == 'next'){
@@ -823,8 +1007,7 @@ function verseGo(dir, obj_to_send_string){
 
         let next_book = book;
         let next_chapter = chapter; 
-        let next_verse = verse; 
-
+        let next_verse = verse;
 
         if(verse == VerseQty){
 
@@ -848,40 +1031,68 @@ function verseGo(dir, obj_to_send_string){
 
         console.log(`${next_book} ---${next_chapter} ---${next_verse}`);
 
-
-        openModal('full', verseRef, [trans_ref, next_book, next_chapter, next_verse], 'compareVerse');
+        openModal('full', 'Comparar traducciones', [trans_ref, next_book, next_chapter, next_verse], 'compareVerse', false);// modalFadeIn = false
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     if(dir == 'prev'){
         console.log('show prev verse');    
+
+        let prev_book = book;
+        let prev_chapter = chapter; 
+        let prev_verse = verse;
+
+        if(verse == 1){
+
+            if(chapter == 1){
+                
+                if(book == 0){//Génesis
+                    prev_book = BookQty - 1;//66 - 1 = 65 => Apocapipsis
+                }else{
+                    prev_book = book - 1;
+                }   
+    
+                prev_chapter = parseInt(this_objTrans.Books[prev_book].ChapterQty);
+            }else{
+                prev_chapter = chapter - 1;
+            }
+
+            
+            //hago fetch para sacar VerseQty del chapter anterior
+            let url = './modules/text/'+trans_ref+'/' + this_objTrans.Books[prev_book].PathName;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+                                
+            let formData = new FormData();
+            formData.append('url','../'+url);
+            formData.append('book', prev_book);
+            formData.append('chapter', prev_chapter);
+
+            fetch('app/read_file_get_VerseQty_to_json.php',{
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                prev_verse = data.VerseQty;
+                //console.log('15047. verse: ',verse);
+
+                if(prev_verse > 0){
+                    openModal('full', 'Comparar traducciones', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
+                }
+
+            })
+            .catch(error => { 
+                // Código a realizar cuando se rechaza la promesa
+                console.log('VerseQty. error promesa: '+error);
+            });
+
+        }else{
+            prev_verse = verse - 1;
+            console.log(`${prev_book} ---${prev_chapter} ---${prev_verse}`);
+            
+            openModal('full', 'Comparar traducciones', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
+        }
 
     }
 }
