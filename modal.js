@@ -1,7 +1,12 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-  console.log('===function openModal()===');
-  console.log(`param: ${param} --- headerTitle: ${headerTitle}`);    
-
+    console.log('===function openModal()===');
+    console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
+    
+    //Reset
+    eid_myModalContent.removeAttribute('class');
+    eid_myModalContent.classList.add('modal-content');
+    eid_modcont_body.removeAttribute('class');//reset
+    
 
     if(modalFadeIn){
         eid_myModal.style.display = "block";
@@ -13,10 +18,6 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
         eid_myModal.style.display = "block";
         eid_myModal.style.opacity = 1;//start efecto fade
     }
-
-    //reset
-    eid_myModalContent.removeAttribute('class');
-    eid_myModalContent.classList.add('modal-content');
  
     Array.from(document.querySelectorAll('.body_bls')).forEach((el,i)=>{
         el.style.display = 'none';
@@ -24,12 +25,14 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
         //el.classList.add('modal-content');//default
     });
 
-    //
+
     //Tipos de ModalContent
     switch (param) {
 
         //Меню
         case 'top':
+            eid_modcont_body.style.overflow = 'auto';//habilita scroll  
+            eid_modcont_body.classList.add('theme_grey');   
             eid_h4_text.innerHTML = headerTitle;//'Меню';
             eid_btn_sp_atras.style.display = 'none'; //mo muestro flecha atras
             eid_myModal.style.paddingTop = '0px';
@@ -39,6 +42,8 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
         //pendiente de desarrollo
         case 'center':
+            eid_modcont_body.style.overflow = 'auto';//habilita scroll 
+            eid_modcont_body.classList.add('theme_grey');
             eid_btn_sp_atras.style.display = 'none';//?
             eid_myModal.style.paddingTop = '25vh';
             eid_myModalContent.classList.add('modalContentCenter');
@@ -55,6 +60,8 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             switch (action) {
             
                 case 'buildVerseMenu':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
                     console.log('aki llamar buildVerseMenu()');
                     buildVerseMenu(htmlTrans);//es arr_p_id en este caso
                     break;
@@ -77,25 +84,35 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             switch (action) {
                 
                 case 'showModules':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll 
+                    eid_modcont_body.classList.add('theme_grey');   
                     selectModule2(htmlTrans);
                     break;
             
                 case 'showHistoryNav':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
                     console.log('aki llamar showHistoryNav()');
                     showHistoryNav();
                     break;
             
                 case 'showHistoryFind':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
                     console.log('aki llamar showHistoryFind()');
                     showHistoryFind();
                     break;
             
                 case 'showHistoryStrong':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll 
+                    eid_modcont_body.classList.add('theme_grey');   
                     console.log('aki llamar showHistoryStrong()');
                     showHistoryStrong();
                     break;
 
                 case 'compareVerse':
+                    eid_modcont_body.style.overflow = 'hidden';//desabilita scroll de head 
+                    eid_modcont_body.classList.add('theme_white');  
                     eid_btn_sp_atras.style.display = 'none';
                     console.log('aki llamar buildVersesToCompare()');
                     buildVersesToCompare(htmlTrans);//aki htmlTrans = arr_p_id = ['rstStrongRed',0,1,1]
@@ -109,6 +126,8 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
         //Vkladki
         case 'tabsList':
+            eid_modcont_body.style.overflow = 'auto';//habilita scroll 
+            eid_modcont_body.classList.add('theme_grey');   
             eid_h4_text.innerHTML = headerTitle;//'Вкладки';
             eid_btn_sp_atras.style.display = 'block';
             eid_myModal.style.paddingTop = '0vh';
@@ -159,6 +178,7 @@ function buildVerseMenu(arr_p_id){
     btn3.onclick = ()=>{
         console.log('llamo func para comparar');
         console.log(arr_p_id);
+        eid_bl_modalFullInner.innerHTML = '';//reset
         openModal('full', 'Сравнение переводов', arr_p_id, 'compareVerse');
     }
     
@@ -490,6 +510,9 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     const div_wr_vc = document.createElement('div');
     div_wr_vc.id = 'wr_vc';
 
+    const div_wr_vc_head = document.createElement('div');
+    div_wr_vc_head.id = 'wr_vc_head';
+
     const div_vc_head = document.createElement('div');
     div_vc_head.id = 'vc_head';
     /*
@@ -674,7 +697,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     const div_vc_body = document.createElement('div');
     div_vc_body.id = 'vc_body';    
     
-   
+/*   
    //append los elementos
     div_wr_vc.append(div_vc_head);
         div_vc_head.append(d_prev);
@@ -699,6 +722,36 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     div_wr_btns_lang.append(boton_btn_all);
 
     div_wr_vc.append(div_vc_body);
+*/
+
+
+
+    //append los elementos
+    div_wr_vc.append(div_wr_vc_head);
+
+        div_wr_vc_head.append(div_vc_head);
+            div_vc_head.append(d_prev);
+            div_vc_head.append(d_ref);
+            div_vc_head.append(d_next);
+
+    div_wr_vc_head.append(div_vc_head_filter);
+
+        div_vc_head_filter.append(div_title_filter);
+        div_vc_head_filter.append(div_wr_filter);
+
+            div_wr_filter.append(div_wr_filter_inner);
+
+                div_wr_filter_inner.append(div_wr_one_lang);
+                    div_wr_one_lang.append(label_one_lang);
+                        label_one_lang.append(cbox_one_lang);
+                        label_one_lang.append(span_one_lang_text);
+                    div_wr_one_lang.append(boton_btn_show_refs);
+                    
+                div_wr_filter_inner.append(div_wr_btns_lang);
+                    div_wr_btns_lang.append(div_btns_lang);
+                    div_wr_btns_lang.append(boton_btn_all);
+
+        div_wr_vc.append(div_vc_body);    
 
     //================================================================//
     //end - estructura html
@@ -736,7 +789,33 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     });
     eid_bl_modalFullInner.append(div_wr_vc);
 
+    mySizeVersesCompare();
 
+}
+
+function mySizeVersesCompare(){
+
+    //eid_myModalContent.offsetHeight;//1208
+    //eid_modcont_header.offsetHeight;//40 // Sravneniye perevodov
+    //eid_modcont_body.offsetHeight;//1168
+    //eid_bl_modalFull.offsetHeight;//1721 todos los versiculos
+    //eid_bl_modalFullInner.offsetHeight;//1721 todos los versiculos
+
+    const eid_wr_vc_head = document.getElementById('wr_vc_head');
+    const eid_vc_body = document.getElementById('vc_body');
+
+    if(eid_wr_vc_head != null && eid_vc_body != null){
+        let h = 
+            eid_myModalContent.offsetHeight //653
+          - eid_modcont_header.offsetHeight //41   
+          - eid_wr_vc_head.offsetHeight     //173
+          - 20  
+        ;
+    
+        eid_vc_body.style.maxHeight = h + 'px';
+        //eid_vc_body.style.height = h + 'px';//para test
+        eid_modcont_body.style.overflow = 'hidden';
+    }
 }
 
 function hideShowWrFilter(){

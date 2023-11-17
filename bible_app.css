@@ -366,6 +366,12 @@ body{
 .colsInner p {
     padding: 5px;
     position: relative;
+    transition: 0.3s;
+}
+.colsInner p:hover {
+    background: #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 0px grey;
 }
 /*impar*/
 .cols:nth-child(odd) {
@@ -2069,9 +2075,6 @@ select  optgroup option {
     flex-wrap: nowrap;
     justify-content: center;
 }
-#modcont_body p {
-    /* background: white; */
-}
 
 /* The Close Button */
 .close {
@@ -2117,8 +2120,8 @@ select  optgroup option {
 }
 
 #modcont_body {
-    background: #373737;
-    overflow: auto;
+    /* background: #373737; */
+    /* overflow: auto; */
 }
 #modcont_footer {
     background: #4d4d4d;
@@ -2180,11 +2183,19 @@ span.prim_tsk {
     padding: 0;
     max-width: 768px;
 }
-.modalContentFull #modcont_body {
+
+.theme_black {
     background-color: black;
     border: 1px solid #4d4d4d;
 }
-
+.theme_grey {
+    background: #373737;
+    border: 1px solid #4d4d4d;
+}
+.theme_white {
+    background-color: white;
+    border: 1px solid #14619f;
+}
 
 #bl_modalTopInner {
     display: flex;
@@ -2326,10 +2337,12 @@ p.cl_trans:hover {
     margin-right: 15px;
     /* background: #755905; */
     width: 117px;
+    padding-left: 5px;
 }
 .cl_trans .la_n {
     /* background: #5a0211; */
     width: 100%;
+    padding-right: 5px;
 }
 
 .cl_tab {
@@ -2810,9 +2823,9 @@ p:hover .btn_verse_menu{
 }
 #vc_head {
     overflow: hidden;
-    background: #63afec;
+    background: #3a84bf;
     margin: -10px -10px 10px;
-    padding: 10px;
+    padding: 5px;
     display: flex;
     justify-content: space-between;
     align-content: center;
@@ -2829,10 +2842,9 @@ p:hover .btn_verse_menu{
     margin: 0px;
     width: 30px;
     padding: 2px 0px;
-    /* font-size: 18px; */
     border-radius: 0;
     /* outline: 1px solid #373737; */
-    background: #1875bf;
+    background: #3a84bf;
     border: none;
     display: flex;
     flex-direction: row;
@@ -2864,11 +2876,11 @@ p:hover .btn_verse_menu{
 }
 
 #title_filter {
-    background: #1875bf;
+    background: #3a84bf;
     cursor: pointer;
     border-radius: 3px;
     padding: 5px;
-    border: 1px solid #13619f;
+    border: 1px solid #1875bf;
     color: white;
     cursor: pointer;
     transition: 0.3s;
@@ -2890,20 +2902,19 @@ p:hover .btn_verse_menu{
     /* background: aqua; */
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     flex-direction: row;
     align-content: center;
-    align-items: center;
     padding-bottom: 5px;
+    gap: 5px;
+    align-items: flex-start;
 }
 #wr_btns_lang {
     /* background: lightgreen; */
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     align-content: center;
-    gap: 10px;
-    flex-wrap: nowrap;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
 #btns_lang {
@@ -2922,8 +2933,7 @@ p:hover .btn_verse_menu{
 
 #vc_body{
     /* background: #e0e0e0; */
-    /* overflow-y: scroll; */
-    /* max-height: 800px; */
+    overflow-y: scroll;
 }
 
 
