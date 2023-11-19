@@ -2205,6 +2205,14 @@ span.prim_tsk {
     justify-content: flex-start;
     align-items: center;
 }
+#bl_modalCenterInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
 #bl_modalBottomInner {
     display: flex;
     flex-direction: row;
@@ -2229,6 +2237,7 @@ span.prim_tsk {
 }
 
 #bl_modalTopInner .dbtn,
+#bl_modalCenterInner .dbtn,
 #bl_modalBottomInner .dbtn
 {
     margin: 0px;
@@ -2250,6 +2259,7 @@ span.prim_tsk {
     cursor: pointer;
 }
 #bl_modalTopInner .dbtn:hover, 
+#bl_modalCenterInner .dbtn:hover, 
 #bl_modalBottomInner .dbtn:hover, 
 #bl_headerBtns .dbtn:hover 
 {

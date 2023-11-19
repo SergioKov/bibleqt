@@ -42,12 +42,25 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
         //pendiente de desarrollo
         case 'center':
-            eid_modcont_body.style.overflow = 'auto';//habilita scroll 
-            eid_modcont_body.classList.add('theme_grey');
+            eid_h4_text.innerHTML = headerTitle;//'verse Меню';
             eid_btn_sp_atras.style.display = 'none';//?
             eid_myModal.style.paddingTop = '25vh';
             eid_myModalContent.classList.add('modalContentCenter');
             eid_bl_modalCenter.style.display = 'block';
+            switch (action) {
+            
+                case 'buildVerseMenu':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
+                    console.log('aki llamar buildVerseMenu()');
+                    buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
+                    break;
+            
+            
+                default:
+                    console.log('indica action en openModal()');
+                    break;
+            }
             break;
 
         //pendiente de desarrollo
@@ -63,7 +76,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     console.log('aki llamar buildVerseMenu()');
-                    buildVerseMenu(htmlTrans);//es arr_p_id en este caso
+                    buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
                     break;
             
             
@@ -145,10 +158,15 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
 
 
-function buildVerseMenu(arr_p_id){
+function buildVerseMenu(arr_p_id,positionModal){
     console.log('=== function buildVerseMenu(arr_p_id) ===');
 
-    eid_bl_modalBottomInner.innerHTML = '';
+    
+    if(positionModal == 'center'){
+        eid_bl_modalCenterInner.innerHTML = '';
+    }else if(positionModal == 'bottom'){
+        eid_bl_modalBottomInner.innerHTML = '';
+    }
   
     const btn1 = document.createElement('div');
     btn1.id = 'btn_copiar';
@@ -192,10 +210,23 @@ function buildVerseMenu(arr_p_id){
         console.log(arr_p_id);
     }
 
-    eid_bl_modalBottomInner.append(btn1);
-    eid_bl_modalBottomInner.append(btn2);
-    eid_bl_modalBottomInner.append(btn3);
-    eid_bl_modalBottomInner.append(btn4);
+    if(positionModal == 'center'){
+        eid_bl_modalCenterInner.append(btn1);
+        eid_bl_modalCenterInner.append(btn2);
+        eid_bl_modalCenterInner.append(btn3);
+        eid_bl_modalCenterInner.append(btn4);
+    
+    }else if(positionModal == 'bottom'){
+        eid_bl_modalBottomInner.append(btn1);
+        eid_bl_modalBottomInner.append(btn2);
+        eid_bl_modalBottomInner.append(btn3);
+        eid_bl_modalBottomInner.append(btn4);    
+    }
+
+    //eid_bl_modalBottomInner.append(btn1);
+    //eid_bl_modalBottomInner.append(btn2);
+    //eid_bl_modalBottomInner.append(btn3);
+    //eid_bl_modalBottomInner.append(btn4);
     
 }
 

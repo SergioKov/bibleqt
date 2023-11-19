@@ -1020,7 +1020,8 @@ function showVerseMenu(e){
     let chapter = arr_p_id[2];
     let verse = arr_p_id[3];
     
-    openModal('bottom', ref, arr_p_id, 'buildVerseMenu');
+    // openModal('bottom', ref, arr_p_id, 'buildVerseMenu');
+    openModal('center', ref, arr_p_id, 'buildVerseMenu');
 }
 
 
