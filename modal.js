@@ -276,6 +276,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             arr_verses_compare.push({});
             arr_verses_compare[iter_a]['Translation'] = el_trans.Translation;
             arr_verses_compare[iter_a]['Lang'] = el_trans.Lang;
+            arr_verses_compare[iter_a]['BibleName'] = el_trans.BibleName;
             arr_verses_compare[iter_a]['BibleShortName'] = el_trans.BibleShortName;
             arr_verses_compare[iter_a]['BibleBookShortName'] = el_trans.Books[book].ShortNames[0];
             arr_verses_compare[iter_a]['EnglishPsalms'] = el_trans.EnglishPsalms;
@@ -510,223 +511,295 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     const div_wr_vc = document.createElement('div');
     div_wr_vc.id = 'wr_vc';
 
-    const div_wr_vc_head = document.createElement('div');
-    div_wr_vc_head.id = 'wr_vc_head';
+        const div_wr_vc_head = document.createElement('div');
+        div_wr_vc_head.id = 'wr_vc_head';
 
-    const div_vc_head = document.createElement('div');
-    div_vc_head.id = 'vc_head';
-    /*
-    div_vc_head.innerHTML = ` 
-            <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev','${obj_to_send_string}')">
-                <img src="images/arrow_chevron_left_white.svg">
-            </div> 
-            
-            <div class="vc_head_ref">${verseRef}</div> 
-            
-            <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next','${obj_to_send_string}')">
-                <img src="images/arrow_chevron_right_white.svg">
-            </div>
-        `;
-    div.append(div_vc_head);
-    */
+            const div_vc_head = document.createElement('div');
+            div_vc_head.id = 'vc_head';
+            /*
+            div_vc_head.innerHTML = ` 
+                    <div id="btn_verseGoPrev" class="dbtn" title="Prev verse" onclick="verseGo('prev','${obj_to_send_string}')">
+                        <img src="images/arrow_chevron_left_white.svg">
+                    </div> 
+                    
+                    <div class="vc_head_ref">${verseRef}</div> 
+                    
+                    <div id="btn_verseGoNext" class="dbtn" title="Next verse" onclick="verseGo('next','${obj_to_send_string}')">
+                        <img src="images/arrow_chevron_right_white.svg">
+                    </div>
+                `;
+            div.append(div_vc_head);
+            */
 
 
-    const d_prev = document.createElement('div');
-    d_prev.id = 'btn_verseGoPrev';
-    d_prev.className = 'dbtn';
-    d_prev.title = 'Prev verse';
-    d_prev.onclick = () => {
-        verseGo('prev',obj_to_send_string);
-    };
-    d_prev.innerHTML = `<img src="images/arrow_chevron_left_white.svg">`;
+            const d_prev = document.createElement('div');
+            d_prev.id = 'btn_verseGoPrev';
+            d_prev.className = 'dbtn';
+            d_prev.title = 'Prev verse';
+            d_prev.onclick = () => {
+                verseGo('prev',obj_to_send_string);
+            };
+            d_prev.innerHTML = `<img src="images/arrow_chevron_left_white.svg">`;
 
-    const d_ref = document.createElement('div');
-    d_ref.className = 'vc_head_ref';
-    d_ref.innerHTML = verseRef;
+            const d_ref = document.createElement('div');
+            d_ref.className = 'vc_head_ref';
+            d_ref.innerHTML = verseRef;
 
-    const d_next = document.createElement('div');
-    d_next.id = 'btn_verseGoNext';
-    d_next.className = 'dbtn';
-    d_next.title = 'Next verse';
-    d_next.onclick = () => {
-        verseGo('next',obj_to_send_string);
-    };
-    d_next.innerHTML = `<img src="images/arrow_chevron_right_white.svg">`;
+            const d_next = document.createElement('div');
+            d_next.id = 'btn_verseGoNext';
+            d_next.className = 'dbtn';
+            d_next.title = 'Next verse';
+            d_next.onclick = () => {
+                verseGo('next',obj_to_send_string);
+            };
+            d_next.innerHTML = `<img src="images/arrow_chevron_right_white.svg">`;
 
-    //div FILTER
-    const div_vc_head_filter = document.createElement('div');
-    div_vc_head_filter.id = 'vc_head_filter'; 
+
+
+        //div FILTER
+        const div_vc_head_filter = document.createElement('div');
+        div_vc_head_filter.id = 'vc_head_filter'; 
 
     
-    /*
-    div_vc_head_filter.innerHTML = ` 
-        <div id="title_filter" onclick="hideShowWrFilter()">Filtrar:</div>
+        /*
+        div_vc_head_filter.innerHTML = ` 
+            <div id="title_filter" onclick="hideShowWrFilter()">Filtrar:</div>
 
-        <div id="wr_filter" style="display:none;">
-            <div id="wr_filter_inner">
-            
+            <div id="wr_filter" style="display:none;">
+                <div id="wr_filter_inner">
                 
-                <div id="wr_one_lang">
+                    
+                    <div id="wr_one_lang">
+                        <label id="lab_one_lang">
+                            <span>
+                                <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> Solo un idioma
+                            </span>
+                        </label>
+                        <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
+                    </div>
+
+
+                    <div id="wr_btns_lang">
+                    
+                        <div id="btns_lang">
+                            <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+                            <button class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
+                            <button class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
+                        </div>
+                    
+                        <button id="btn_lang_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+
+                    </div>
+
+                </div>
+            </div>
+        `;
+        */
+
+
+        //title_filter
+        const div_title_filter = document.createElement('div');
+        div_title_filter.id = 'title_filter';
+        div_title_filter.innerHTML = 'Фильтр:';
+        div_title_filter.onclick = () => {
+            hideShowWrFilter();
+        }
+
+        //wr_filter
+        const div_wr_filter = document.createElement('div');
+        div_wr_filter.id = 'wr_filter';
+        div_wr_filter.style.display = ajuste1.wr_filter.display;//por defecto es oculto
+    
+            //wr_filter_inner
+            const div_wr_filter_inner = document.createElement('div');
+            div_wr_filter_inner.id = 'wr_filter_inner';
+
+
+
+            //fld_refs
+            const fieldset_fld_refs = document.createElement('fieldset');
+            fieldset_fld_refs.id = 'fld_refs';
+            fieldset_fld_refs.innerHTML = '<legend class="leg">Ссылки</legend>';
+
+                //wr_show_refs
+                const div_wr_show_refs = document.createElement('div');
+                div_wr_show_refs.id = 'wr_show_refs';
+
+                    //btn_show_refs
+                    const boton_btn_show_refs = document.createElement('button');
+                    boton_btn_show_refs.id = 'btn_show_refs';
+                    //boton_btn_show_refs.innerHTML = `<button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>`;
+                    boton_btn_show_refs.style.display = ajuste1.btn_show_refs.display;
+                    boton_btn_show_refs.className = ajuste1.btn_show_refs.classText;
+                    boton_btn_show_refs.textContent = 'Паказывать ссылки';
+                    //hideShowRefsCompare();
+                    boton_btn_show_refs.onclick = (e) => {
+                        hideShowRefsCompare(e.target);
+                    };
+
+
+
+            //fld_lang
+            const fieldset_fld_lang = document.createElement('fieldset');
+            fieldset_fld_lang.id = 'fld_lang';
+            fieldset_fld_lang.innerHTML = '<legend class="leg">Языки</legend>';
+
+                //wr_one_lang
+                const div_wr_one_lang = document.createElement('div');
+                div_wr_one_lang.id = 'wr_one_lang';
+                /*
+                div_wr_one_lang.innerHTML = `
                     <label id="lab_one_lang">
-                        <span>
-                            <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> Solo un idioma
-                        </span>
+                            <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Один язык</span>
+                    </label>
+                    <label id="lab_many_lang">
+                            <input id="many_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Несколько языков</span>
                     </label>
                     <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
-                </div>
+                `;
+                */
+
+                    //label_one_lang
+                    const label_one_lang = document.createElement('label');
+                    label_one_lang.id = 'lab_one_lang';
+
+                    //span_one_lang_text
+                    const span_one_lang_text = document.createElement('span');
+                    span_one_lang_text.textContent = ' Один язык';
+
+                    const radio_one_lang = document.createElement('input');
+                    radio_one_lang.id = 'one_lang';
+                    radio_one_lang.type = 'radio';
+                    radio_one_lang.name = 'modo_lang';
+                    radio_one_lang.checked = ajuste1.one_lang.checked;
+                    radio_one_lang.onchange = (e) => {
+                        filterTransCompare(e.target,null);//e.srcElement = this 
+                    };
 
 
-                <div id="wr_btns_lang">
-                
+                    //label_many_lang
+                    const label_many_lang = document.createElement('label');
+                    label_many_lang.id = 'lab_many_lang';
+
+                    //span_one_lang_text
+                    const span_many_lang_text = document.createElement('span');
+                    span_many_lang_text.textContent = ' Несколько языков';
+
+                    const radio_many_lang = document.createElement('input');
+                    radio_many_lang.id = 'many_lang';
+                    radio_many_lang.type = 'radio';
+                    radio_many_lang.name = 'modo_lang';
+                    radio_many_lang.checked = ajuste1.many_lang.checked;
+                    radio_many_lang.onchange = (e) => {
+                        filterTransCompare(e.target,null);//e.srcElement = this 
+                    }; 
+
+
+
+                //wr_btns_lang
+                const div_wr_btns_lang = document.createElement('div');
+                div_wr_btns_lang.id = 'wr_btns_lang';
+                /*
+                div_wr_btns_lang.innerHTML = `
                     <div id="btns_lang">
                         <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
                         <button class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
                         <button class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
                     </div>
+
+                    <button id="btn_lang_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+                `;
+                */
+
+                //btns_lang
+                const div_btns_lang = document.createElement('div');
+                div_btns_lang.id = 'btns_lang';
+
+                arr_verses_lang.forEach(el=>{
+                    //ejemplo boton: <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
+                    const btn = document.createElement('button');
+                    btn.className = (ajuste1.arr_lang_act.includes(el) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+                    btn.dataset.lang = el;//['ru','ua','es']
+                    btn.textContent = el.toUpperCase();
+                    btn.onclick = (e) => {
+                        filterTransCompare(e.target,el);
+                    };
+                    div_btns_lang.append(btn);
+                });                
+
+
+                //btn_lang_all
+                const boton_btn_lang_all = document.createElement('button');
+                boton_btn_lang_all.id = 'btn_lang_all';
+                //div_btn_lang_all.innerHTML = `<button id="btn_lang_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>`;
+                boton_btn_lang_all.className = (ajuste1.arr_lang_act.length == arr_verses_lang.length || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+                boton_btn_lang_all.style.display = (ajuste1.many_lang.checked) ? 'block' : 'none' ;
+                boton_btn_lang_all.textContent = 'Все языки';
+                boton_btn_lang_all.onclick = (e) => {
+                    filterTransCompare(e.target,'all');
+                };
+
+
+            
+            //fld_trans
+            const fieldset_fld_trans = document.createElement('fieldset');
+            fieldset_fld_trans.id = 'fld_trans';
+            fieldset_fld_trans.innerHTML = `
+                <legend class="leg">Переводы</legend>
+            `;
+            
+                //wr_btns_trans
+                const div_wr_btns_trans = document.createElement('div');
+                div_wr_btns_trans.id = 'wr_btns_trans';
+                /*
+                div_wr_btns_trans.innerHTML = `
+                    <div id="btns_trans">
+                        <button class="btn btn_active" data-lang="ru" data-trans="rstStrongRed" onclick="filterTransCompare(this,'ru')">RSTr+</button>
+                        <button class="btn btn_active" data-lang="ua" data-trans="ukr_ogi" onclick="filterTransCompare(this,'ua')">Ukr_Ogi</button>
+                        <button class="btn btn_active" data-lang="es" data-trans="rv60" onclick="filterTransCompare(this,'es')">RV60</button>
+                    </div>
+                `;
+                */
                 
-                    <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
+                //btns_lang
+                const div_btns_trans = document.createElement('div');
+                div_btns_trans.id = 'btns_trans';
+            
+                arr_verses_compare.forEach(el => {
+                    //ejemplo boton: <button class="btn btn_active" data-lang="ru" data-trans="rstStrongRed" onclick="filterTransCompare(this,'ru')">RSTr+</button>
+                    const btn = document.createElement('button');
 
-                </div>
+                    if(ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ){
+                        btn.style.display = 'block';
+                    }else{
+                        btn.style.display = 'none';
+                    }
 
-            </div>
-        </div>
-    `;
-    */
+                    if(ajuste1.arr_trans_act.includes(el.Translation) || (ajuste1.arr_trans_act.length == 0 && ajuste1.arr_trans_noact.length == 0) ){
+                        btn.className = 'btn btn_active';
+                    }else{
+                        btn.className = 'btn';
+                    }
 
+                    btn.dataset.lang = el.Lang;//['ru','ua','es']
+                    btn.dataset.trans = el.Translation;//['rstStrongRed','rv60',...]
+                    btn.textContent = el.BibleShortName;
+                    btn.title = el.BibleName;
+                    btn.onclick = (e) => {
+                        filterTransCompareBtns(e.target);
+                    };
+                    div_btns_trans.append(btn);
+                });
 
-    //title_filter
-    const div_title_filter = document.createElement('div');
-    div_title_filter.id = 'title_filter';
-    div_title_filter.innerHTML = 'Filtrar:';
-    div_title_filter.onclick = () => {
-        hideShowWrFilter();
-    }
-
-    //wr_filter
-    const div_wr_filter = document.createElement('div');
-    div_wr_filter.id = 'wr_filter';
-    div_wr_filter.style.display = ajuste1.wr_filter.display;//por defecto es oculto
-    
-    //wr_filter_inner
-    const div_wr_filter_inner = document.createElement('div');
-    div_wr_filter_inner.id = 'wr_filter_inner';
-
-    //wr_one_lang
-    const div_wr_one_lang = document.createElement('div');
-    div_wr_one_lang.id = 'wr_one_lang';
-    /*
-    div_wr_one_lang.innerHTML = `
-        <label id="lab_one_lang">
-                <input id="one_lang" type="checkbox" onchange="filterTransCompare(this,null)"> <span>Только один язык</span>
-        </label>
-        <button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>
-    `;
-    */
-
-    //label_one_lang
-    const label_one_lang = document.createElement('label');
-    label_one_lang.id = 'lab_one_lang';
-
-    //span_one_lang_text
-    const span_one_lang_text = document.createElement('span');
-    span_one_lang_text.textContent = ' Только один язык';
-
-    const cbox_one_lang = document.createElement('input');
-    cbox_one_lang.id = 'one_lang';
-    cbox_one_lang.type = 'checkbox';
-    cbox_one_lang.checked = ajuste1.one_lang.checked;
-    cbox_one_lang.textContent = 'Только один язык';
-    cbox_one_lang.onchange = (e) => {
-        filterTransCompare(e.target,null);//e.srcElement = this 
-    };
-
-    //btn_show_refs
-    const boton_btn_show_refs = document.createElement('button');
-    boton_btn_show_refs.id = 'btn_show_refs';
-    //boton_btn_show_refs.innerHTML = `<button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>`;
-    boton_btn_show_refs.style.display = ajuste1.btn_show_refs.display;
-    boton_btn_show_refs.className = ajuste1.btn_show_refs.classText;
-    boton_btn_show_refs.textContent = 'Ссылки';
-    //hideShowRefsCompare();
-    boton_btn_show_refs.onclick = (e) => {
-        hideShowRefsCompare(e.target);
-    };
-
-    //wr_btns_lang
-    const div_wr_btns_lang = document.createElement('div');
-    div_wr_btns_lang.id = 'wr_btns_lang';
-    /*
-    div_wr_btns_lang.innerHTML = `
-        <div id="btns_lang">
-            <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
-            <button class="btn btn_active" data-lang="ua" onclick="filterTransCompare(this,'ua')">Ukr</button>
-            <button class="btn btn_active" data-lang="es" onclick="filterTransCompare(this,'es')">Esp</button>
-        </div>
-
-        <button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>
-    `;
-    */
-
-    //btns_lang
-    const div_btns_lang = document.createElement('div');
-    div_btns_lang.id = 'btns_lang';
-
-    arr_verses_lang.forEach(el=>{
-        //ejemplo boton: <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
-        const btn = document.createElement('button');
-        btn.className = (ajuste1.arr_lang_act.includes(el) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
-        btn.dataset.lang = el;//['ru','ua','es']
-        btn.textContent = el.toUpperCase();
-        btn.onclick = (e) => {
-            filterTransCompare(e.target,el);
-        };
-        div_btns_lang.append(btn);
-    });
-    
-    //btn_all
-    const boton_btn_all = document.createElement('button');
-    boton_btn_all.id = 'btn_all';
-    //div_btn_all.innerHTML = `<button id="btn_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>`;
-    boton_btn_all.className = (ajuste1.arr_lang_act.length == arr_verses_lang.length || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
-    boton_btn_all.textContent = 'Todos';
-    boton_btn_all.onclick = (e) => {
-        filterTransCompare(e.target,'all');
-    };
 
     //BODY of verses
     const div_vc_body = document.createElement('div');
     div_vc_body.id = 'vc_body';    
     
-/*   
-   //append los elementos
-    div_wr_vc.append(div_vc_head);
-        div_vc_head.append(d_prev);
-        div_vc_head.append(d_ref);
-        div_vc_head.append(d_next);
 
-    div_wr_vc.append(div_vc_head_filter);
-
-        div_vc_head_filter.append(div_title_filter);
-
-        div_vc_head_filter.append(div_wr_filter);
-            div_wr_filter.append(div_wr_filter_inner);
-
-                div_wr_filter_inner.append(div_wr_one_lang);
-                    div_wr_one_lang.append(label_one_lang);
-                        label_one_lang.append(cbox_one_lang);
-                        label_one_lang.append(span_one_lang_text);
-                    div_wr_one_lang.append(boton_btn_show_refs);
-                    
-                div_wr_filter_inner.append(div_wr_btns_lang);
-                    div_wr_btns_lang.append(div_btns_lang);
-                    div_wr_btns_lang.append(boton_btn_all);
-
-    div_wr_vc.append(div_vc_body);
-*/
-
-
-
-    //append los elementos
+    //==================================//
+    //start - append los elementos
+    //==================================//
     div_wr_vc.append(div_wr_vc_head);
 
         div_wr_vc_head.append(div_vc_head);
@@ -734,31 +807,42 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
             div_vc_head.append(d_ref);
             div_vc_head.append(d_next);
 
-    div_wr_vc_head.append(div_vc_head_filter);
+        div_wr_vc_head.append(div_vc_head_filter);
 
-        div_vc_head_filter.append(div_title_filter);
-        div_vc_head_filter.append(div_wr_filter);
+            div_vc_head_filter.append(div_title_filter);
+            div_vc_head_filter.append(div_wr_filter);
+                div_wr_filter.append(div_wr_filter_inner);
 
-            div_wr_filter.append(div_wr_filter_inner);
+                    div_wr_filter_inner.append(fieldset_fld_refs);
+                        fieldset_fld_refs.append(div_wr_show_refs);
+                            div_wr_show_refs.append(boton_btn_show_refs);
 
-                div_wr_filter_inner.append(div_wr_one_lang);
-                    div_wr_one_lang.append(label_one_lang);
-                        label_one_lang.append(cbox_one_lang);
-                        label_one_lang.append(span_one_lang_text);
-                    div_wr_one_lang.append(boton_btn_show_refs);
-                    
-                div_wr_filter_inner.append(div_wr_btns_lang);
-                    div_wr_btns_lang.append(div_btns_lang);
-                    div_wr_btns_lang.append(boton_btn_all);
+                    div_wr_filter_inner.append(fieldset_fld_lang);
+                        fieldset_fld_lang.append(div_wr_one_lang);
+                            div_wr_one_lang.append(label_one_lang);
+                                label_one_lang.append(radio_one_lang);
+                                label_one_lang.append(span_one_lang_text);
+                            div_wr_one_lang.append(label_many_lang);
+                                label_many_lang.append(radio_many_lang);
+                                label_many_lang.append(span_many_lang_text);
 
-        div_wr_vc.append(div_vc_body);    
+                    div_wr_filter_inner.append(fieldset_fld_trans);        
+                        fieldset_fld_lang.append(div_wr_btns_lang);
+                            div_wr_btns_lang.append(boton_btn_lang_all);
+                            div_wr_btns_lang.append(div_btns_lang);
+
+                    div_wr_filter_inner.append(fieldset_fld_trans);
+                        fieldset_fld_trans.append(div_wr_btns_trans);
+                            div_wr_btns_trans.append(div_btns_trans);
+
+    div_wr_vc.append(div_vc_body);
+    //==================================//
+    //end - append los elementos
+    //==================================//    
 
     //================================================================//
     //end - estructura html
-    //================================================================//
-
-
-    
+    //================================================================//   
 
 
     
@@ -777,14 +861,62 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         const p = document.createElement('p');
         p.className = (i == 0) ? 'pv pv_active' : 'pv' ;//el primer elemento -> activo que es trans_ref
         p.dataset.verse_lang = el.Lang;
-        p.style.display = (i == 0 || ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'block' : 'none' ;
-        p.innerHTML = ` <span class="pv_inner">
-                            <span class="b_trans">${el.BibleShortName}</span> 
-                            <a href="#" class="a_ref" style="display: ${ajuste1.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
-                            <span class="v_trans">${el.verseText}</span>
-                        </span>
-                        `;
-        //div_wr_vc.append(p);
+        p.dataset.verse_trans = el.Translation;
+
+        if( i == 0 || 
+            //(ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) || 
+            (ajuste1.arr_trans_act.includes(el.Translation) || (ajuste1.arr_trans_act.length == 0 && ajuste1.arr_trans_noact.length == 0) )
+        ){
+            p.style.display = 'block';
+        }else{
+            p.style.display = 'none';
+        }
+
+        /*
+        p.innerHTML = ` 
+        <span class="pv_inner">
+            <span class="b_trans" title="${el.BibleName}">${el.BibleShortName}</span> 
+            <a href="#" class="a_ref" style="display: ${ajuste1.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
+            <span class="v_trans">${el.verseText}</span>
+        </span>
+        `;
+        */
+        
+        const pv_inner = document.createElement('span');
+        pv_inner.className = 'pv_inner';
+
+        const b_trans = document.createElement('span');
+        b_trans.className = 'b_trans';
+        b_trans.title = el.BibleName;
+        b_trans.innerHTML = el.BibleShortName;
+
+        const a_ref = document.createElement('a');
+        a_ref.className = 'a_ref';
+        a_ref.href = '#';
+        a_ref.style.display = ajuste1.a_ref.display;
+        let refLink = `${el.BibleBookShortName}${el.chapter}:${el.verse}`;
+        a_ref.innerHTML = refLink;
+        a_ref.onclick = (e) => {
+            eid_inpt_nav.dataset.trans = el.Translation;
+            goToLink(el.Translation, refLink);
+            eid_trans1.dataset.trans = el.Translation;
+            setTimeout(()=>{
+                eid_s_verse.click();
+            },100);
+            //getRef(refLink);
+            closeModal();
+        };
+
+        const v_trans = document.createElement('span');
+        v_trans.className = 'v_trans';
+        v_trans.innerHTML = el.verseText;
+
+        p.append(pv_inner);
+
+        pv_inner.append(b_trans);
+        pv_inner.append(a_ref);
+        pv_inner.append(v_trans);
+
         div_vc_body.append(p);
     });
     eid_bl_modalFullInner.append(div_wr_vc);
@@ -860,18 +992,25 @@ function hideShowRefsCompare(e = null){
 }
 
 function filterTransCompare(e, param = 'all'){
-    let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
-    const cbox_one_lang = document.getElementById('one_lang');
+    const radio_one_lang = document.getElementById('one_lang');
+    const radio_many_lang = document.getElementById('many_lang');
     const btns_lang = document.getElementById('btns_lang');
-    const btn_all = document.getElementById('btn_all');
+    const btn_lang_all = document.getElementById('btn_lang_all');
+    const btns_trans = document.getElementById('btns_trans');
+    
+    let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
     let btns_lang_all = btns_lang.querySelectorAll('.btn');
+    let btns_trans_all = btns_trans.querySelectorAll('.btn');
     let this_btn = e;
 
-    if(cbox_one_lang.checked){//solo mostrar un idioma
+    if(radio_one_lang.checked){//solo mostrar un idioma
+
+        ajuste1.one_lang.checked = true;
+        ajuste1.many_lang.checked = false;
         
-        btn_all.style.display = 'none';
-        ajuste1.btn_all.display = 'none';
-        ajuste1.btn_all.class = 'tab';
+        btn_lang_all.style.display = 'none';
+        ajuste1.btn_lang_all.display = 'none';
+        ajuste1.btn_lang_all.class = 'tab';
 
         btns_lang_all.forEach(el=>{
             if(el.className.includes('btn_active')){
@@ -879,9 +1018,54 @@ function filterTransCompare(e, param = 'all'){
             } 
         });
         this_btn.classList.add('btn_active');
+
+        //y desactivo todos trans
+        btns_trans_all.forEach(el=>{
+            if(el.className.includes('btn_active')){
+                el.classList.remove('btn_active');
+                el.style.display = 'none';
+                ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+            } 
+        });
+
+        //miro cuantos botones están marcados
+        let arr_lang_act = [];
+        let arr_lang_noact = [];
+        btns_lang_all.forEach(el => {
+            if(el.className.includes('btn_active')){
+                arr_lang_act.push(el.dataset.lang);
+            }else{
+                arr_lang_noact.push(el.dataset.lang);
+            }
+        });
+        //console.log('arr_lang_act: ',arr_lang_act );
+        //console.log('arr_lang_noact: ',arr_lang_noact);
+
+        ajuste1.arr_lang_act = arr_lang_act;
+        ajuste1.arr_lang_noact = arr_lang_noact;
+
+        //btns_trans
+        btns_trans_all.forEach(el=>{
+            //console.log(`${el.dataset.lang} --- ${el.dataset.trans}`);
+            if(arr_lang_act.indexOf(el.dataset.lang) >= 0){
+                el.style.display = 'block';        
+                if(!el.className.includes('btn_active') && this_btn.dataset.lang == el.dataset.lang){
+                    el.classList.add('btn_active');
+                    ajuste1.arr_trans_act.push(el.dataset.trans);
+                }    
+            }else{
+                el.style.display = 'none';                
+                if(el.className.includes('btn_active')){
+                    el.classList.remove('btn_active');
+                    ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                }
+            }
+        });
+
         
         pv_all.forEach((el,i)=>{   
             if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
+                //console.log(`one lang --- ${el.dataset.verse_lang} --- ${el.dataset.verse_trans}`);
                 if(el.dataset.verse_lang == param){
                     el.style.display = 'block';
                 }else{
@@ -890,31 +1074,50 @@ function filterTransCompare(e, param = 'all'){
             }
         });
 
-    }else{//mostrar VARIOS los idiomas marcadas
+    }else{//mostrar VARIOS idiomas marcadas
 
-        btn_all.style.display = 'block';
-        ajuste1.btn_all.display = 'block';
-        ajuste1.btn_all.class = 'tab tab_active';
+        ajuste1.one_lang.checked = false;
+        ajuste1.many_lang.checked = true;
 
-        if(this_btn.id == 'btn_all'){
+        btn_lang_all.style.display = 'block';
+        ajuste1.btn_lang_all.display = 'block';
+        ajuste1.btn_lang_all.class = 'tab tab_active';
 
-            if(btn_all.className.includes('btn_active')){
-                btn_all.classList.remove('btn_active');//desactivo este btn_all
+        if(this_btn.id == 'btn_lang_all'){
+
+            if(btn_lang_all.className.includes('btn_active')){
+                btn_lang_all.classList.remove('btn_active');//desactivo este btn_lang_all
                 
-                //y desactivo todos
+                //y desactivo todos lang
                 btns_lang_all.forEach(el=>{
                     if(el.className.includes('btn_active')){
                         el.classList.remove('btn_active');
                     } 
                 });
+
+                //y desactivo todos trans
+                btns_trans_all.forEach(el=>{
+                    if(el.className.includes('btn_active')){
+                        el.classList.remove('btn_active');
+                        ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                    } 
+                });
                 
             }else{
-                btn_all.classList.add('btn_active');//activo este btn_all
+                btn_lang_all.classList.add('btn_active');//activo este btn_lang_all
                 
-                //y activo todos
+                //y activo todos lang
                 btns_lang_all.forEach(el=>{
                     if(!el.className.includes('btn_active')){
                         el.classList.add('btn_active');
+                    } 
+                });
+
+                //y activo todos trans
+                btns_trans_all.forEach(el=>{
+                    if(!el.className.includes('btn_active') ){
+                        el.classList.add('btn_active');
+                        ajuste1.arr_trans_act.push(el.dataset.trans);
                     } 
                 });
             }
@@ -926,6 +1129,7 @@ function filterTransCompare(e, param = 'all'){
             }else{
                 this_btn.classList.add('btn_active'); 
             }
+
         }
 
         
@@ -933,33 +1137,126 @@ function filterTransCompare(e, param = 'all'){
         //miro cuantos botones están marcados
         let arr_lang_act = [];
         let arr_lang_noact = [];
-        btns_lang_all.forEach(el=>{
+        btns_lang_all.forEach(el => {
             if(el.className.includes('btn_active')){
                 arr_lang_act.push(el.dataset.lang);
             }else{
                 arr_lang_noact.push(el.dataset.lang);
             }
         });
-        console.log(arr_lang_act);
-        console.log(arr_lang_noact);
+        console.log('arr_lang_act: ',arr_lang_act );
+        //console.log('arr_lang_noact: ',arr_lang_noact);
 
         ajuste1.arr_lang_act = arr_lang_act;
         ajuste1.arr_lang_noact = arr_lang_noact;
+        
+        //btns_trans
+        btns_trans_all.forEach(el=>{
+            console.log(`${el.dataset.lang} --- ${el.dataset.trans}`);
 
-        (arr_lang_act.length == arr_verses_lang.length) ? btn_all.classList.add('btn_active') : btn_all.classList.remove('btn_active') ;
+            if(arr_lang_act.indexOf(el.dataset.lang) >= 0){
+                el.style.display = 'block';        
+                if(!el.className.includes('btn_active') && this_btn.dataset.lang == el.dataset.lang){
+                    el.classList.add('btn_active');
+                    ajuste1.arr_trans_act.push(el.dataset.trans);
+                }    
+            }else{
+                el.style.display = 'none';                
+                if(el.className.includes('btn_active')){
+                    el.classList.remove('btn_active');
+                    ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                }
+            }
+        });
+        
 
-        pv_all.forEach((el,i)=>{   
+        (arr_lang_act.length == arr_verses_lang.length) ? btn_lang_all.classList.add('btn_active') : btn_lang_all.classList.remove('btn_active') ;
+
+        pv_all.forEach((el,i) => {   
             if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
+                console.log(`${el.dataset.verse_lang} --- ${el.dataset.verse_trans}`);
+
                 //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
-                if(arr_lang_act.indexOf(el.dataset.verse_lang) >= 0){
+                if(ajuste1.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
+                    console.log('muestro pv');
                     el.style.display = 'block';
                 }else{
+                    console.log('--- NO muestro pv');
                     el.style.display = 'none';
                 }
             }
         });
     }
 
+}
+
+
+
+function filterTransCompareBtns(e){
+    console.log('===function filterTransCompareBtns()===');
+
+    const btns_trans = document.getElementById('btns_trans');
+    let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
+
+    let btns_lang_all = btns_lang.querySelectorAll('.btn');
+    let btns_trans_all = btns_trans.querySelectorAll('.btn');
+    let this_btn = e;
+
+
+    if(this_btn.className.includes('btn_active')){
+        this_btn.classList.remove('btn_active');
+    }else{
+        this_btn.classList.add('btn_active');
+    }
+
+
+    let arr_trans_act = [];
+    let arr_trans_noact = [];
+    let arr_trans_lang = [];
+
+    btns_trans_all.forEach(el => {
+        if(el.className.includes('btn_active')){
+            arr_trans_act.push(el.dataset.trans);
+            arr_trans_lang.push(el.dataset.lang);
+            console.log('arr_trans_lang: ',arr_trans_lang );
+        }else{
+            arr_trans_noact.push(el.dataset.trans);
+        }
+    });
+    console.log('arr_trans_act: ',arr_trans_act );
+    //console.log('arr_trans_noact: ',arr_trans_noact);
+
+    arr_trans_lang = [... new Set(arr_trans_lang)];//quito elementos duplicados 
+    console.log('sin duplicados --- arr_trans_lang: ',arr_trans_lang );
+
+    ajuste1.arr_trans_act = arr_trans_act;
+    ajuste1.arr_trans_noact = arr_trans_noact;    
+    
+    btns_lang_all.forEach(el => {
+        if(el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) == -1 ){
+            console.log(' noo ok. --- quito act');
+            el.classList.remove('btn_active');
+            ajuste1.arr_lang_act.splice(ajuste1.arr_lang_act.indexOf(el.dataset.lang),1)
+        }
+        else if(!el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) >= 0 ){
+            console.log(' todo ok. no quito act');
+            el.classList.add('btn_active');
+            ajuste1.arr_lang_act.push(el.dataset.lang);
+        }       
+    });
+    ajuste1.arr_lang_act = [... new Set(ajuste1.arr_lang_act)];//quito elementos duplicados
+
+
+    pv_all.forEach((el,i)=>{   
+        if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
+            //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
+            if(ajuste1.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
+                el.style.display = 'block';
+            }else{
+                el.style.display = 'none';
+            }
+        }
+    });
 }
 
 

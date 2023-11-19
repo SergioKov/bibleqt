@@ -165,13 +165,16 @@ const ajuste1 = {
     wr_filter: {
         display: 'block'
     },
-    btn_all: {
+    btn_lang_all: {
         display: 'block',
         class: 'btn',
         stateActive: true
     },
     one_lang: {
         checked: false
+    },
+    many_lang: {
+        checked: true
     },
     btn_show_refs: {
         display: 'block',
@@ -183,6 +186,8 @@ const ajuste1 = {
     },
     arr_lang_act: [],
     arr_lang_noact: [],
+    arr_trans_act: [],
+    arr_trans_noact: [],
 
 
 
@@ -17780,7 +17785,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 
                                 const li = document.createElement('div');
                                 li.id = 'li' + arr_b[i_b].BookNumber;
-                                li.title = arr_b[i_b].BookNumber;
+                                li.title = arr_b[i_b].FullName;
                                 li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
                                 li.className = 'v_li b_li '+ el_b.cl_book;
@@ -17962,7 +17967,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 
                                 const li = document.createElement('div');
                                 li.id = 'li' + arr_b[i_b].BookNumber;
-                                li.title = arr_b[i_b].BookNumber;
+                                li.title = arr_b[i_b].FullName;
                                 li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
                                 li.className = 'v_li b_li '+ el_b.cl_book;

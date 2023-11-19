@@ -2898,6 +2898,70 @@ p:hover .btn_verse_menu{
     border-radius: 0 0 3px 3px;
 }
 
+fieldset {
+    margin-top: 10px;
+}
+
+#fld_refs {
+    background: #d4ebfe;
+    padding: 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+#fld_refs .leg {
+    background: #d4ebfe;
+    padding: 0px 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+
+
+#fld_lang {
+    background: #d4ebfe;
+    padding: 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+#fld_lang .leg {
+    background: #d4ebfe;
+    padding: 0px 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+
+#fld_trans {
+    background: #d4ebfe;
+    padding: 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+#fld_trans .leg {
+    background: #d4ebfe;
+    padding: 0px 5px;
+    border: 1px solid #52a1e0;
+    border-radius: 3px;
+}
+
+#lab_one_lang {
+    /* width: 50%; */
+    /* background: red; */
+}
+#lab_many_lang {
+    /* width: 50%; */
+    /* background: #696868; */
+}
+
+
+#wr_show_refs {
+    /* background: aqua; */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-content: center;
+    padding-bottom: 5px;
+    gap: 5px;
+    align-items: flex-start;
+}
 #wr_one_lang {
     /* background: aqua; */
     display: flex;
@@ -2912,21 +2976,38 @@ p:hover .btn_verse_menu{
     /* background: lightgreen; */
     display: flex;
     justify-content: space-between;
-    align-content: center;
     gap: 5px;
     flex-wrap: wrap;
+    flex-direction: column;
 }
-
 #btns_lang {
     /* background: brown; */
     display: flex;
     gap: 5px;
     align-content: center;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#wr_btns_trans {
+    /* background: lightgreen; */
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+#btns_trans {
+    /* background: green; */
+    display: flex;
+    gap: 5px;
+    align-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 #btn_show_refs,
-#btn_all
+#btn_lang_all
 {
     min-width: 100px;
 }
@@ -2945,6 +3026,7 @@ p:hover .btn_verse_menu{
     flex-wrap: nowrap;
     color: white;
     transition: 0.3s;
+    font-size: 18px;
 }
 .pv:hover{
     background: #c9c9c9 !important;
