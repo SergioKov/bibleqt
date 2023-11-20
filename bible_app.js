@@ -306,7 +306,7 @@ console.log('modo_fetch_verses_for_tsk_block: ',modo_fetch_verses_for_tsk_block)
 
 //'by_text' (old): getting all file and showing only needed verses, //creado después
 //'by_json' (new): getting only verses to show by json (lento)//creado primero
-let modo_fetch_verses_compare = 'by_text';//by_json, by_text
+let modo_fetch_verses_compare = 'by_json';//by_json, by_text
 console.log('modo_fetch_verses_compare: ',modo_fetch_verses_compare);
 
 
@@ -439,15 +439,35 @@ function mostrarTamanioObjeto(objeto){
 }
 
 function changeModo(param){
+    const eid_m_btnByText = document.getElementById('m_btnByText');
+    const eid_m_btnByJson = document.getElementById('m_btnByJson');
+    
     if(param == 'by_text'){
         modo_fetch_verses_for_cols = 'by_text';
-    }else if(param == 'by_json'){
+        modo_fetch_verses_for_tsk_block = 'by_text';
+        modo_fetch_verses_compare = 'by_text';
+
+        eid_m_btnByText.classList.add('btn_active');
+        eid_m_btnByJson.classList.remove('btn_active');
+    }
+    else if(param == 'by_json'){
         modo_fetch_verses_for_cols = 'by_json';
-    }else{
-        modo_fetch_verses_for_cols = 'by_text';//default
+        modo_fetch_verses_for_tsk_block = 'by_json';
+        modo_fetch_verses_compare = 'by_json';
+
+        eid_m_btnByText.classList.remove('btn_active');
+        eid_m_btnByJson.classList.add('btn_active');
+    }
+    else{//default 
+        modo_fetch_verses_for_cols = 'by_text';
+        modo_fetch_verses_for_tsk_block = 'by_text';
+        modo_fetch_verses_compare = 'by_text';
+
+        eid_m_btnByText.classList.add('btn_active');
+        eid_m_btnByJson.classList.remove('btn_active');
     }
     console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
-    alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
+    //alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
     closeModal();
 }
 
