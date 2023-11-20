@@ -291,13 +291,12 @@ let arr_hist_find = [];//se añade en addWordsToHistFind();
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
 
-
+//by_text es mas rápido y más optimizado
 // en funcion showChaptertext4() hay 2 vias
 //'by_text' (old): getting all file '01_genesis.htm' and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
 let modo_fetch_verses_for_cols = 'by_text';//by_json, by_text
 console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
-
 
 //'by_text' (old): getting all file and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
@@ -306,7 +305,7 @@ console.log('modo_fetch_verses_for_tsk_block: ',modo_fetch_verses_for_tsk_block)
 
 //'by_text' (old): getting all file and showing only needed verses, //creado después
 //'by_json' (new): getting only verses to show by json (lento)//creado primero
-let modo_fetch_verses_compare = 'by_json';//by_json, by_text
+let modo_fetch_verses_compare = 'by_text';//by_json, by_text
 console.log('modo_fetch_verses_compare: ',modo_fetch_verses_compare);
 
 

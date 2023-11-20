@@ -1338,8 +1338,9 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         a_ref.innerHTML = refLink;
         a_ref.onclick = (e) => {
             eid_inpt_nav.dataset.trans = el.Translation;
-            goToLink(el.Translation, refLink);
             eid_trans1.dataset.trans = el.Translation;
+            goToLink(el.Translation, refLink);
+            //eid_trans1.dataset.trans = el.Translation;
             setTimeout(()=>{
                 eid_s_verse.click();
             },100);
