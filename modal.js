@@ -196,7 +196,7 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn3.onclick = ()=>{
         console.log('llamo func para comparar');
         console.log(arr_p_id);
-        eid_bl_modalFullInner.innerHTML = '';//reset
+        eid_bl_modalFullInner.innerHTML = '<div id="wr_vc">cargando...</div>';//reset
         openModal('full', 'Сравнение переводов', arr_p_id, 'compareVerse');
     }
     
@@ -231,8 +231,9 @@ function buildVerseMenu(arr_p_id,positionModal){
 }
 
 function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
-    //creo array de p's de un verse de todas las trans favoritas
+    console.log('===function buildVersesToCompare(arr_p_id)===');
 
+    //creo array de p's de un verse de todas las trans favoritas
     arr_verses_compare = [];//reset
     let iter_a = 0;//start
 
@@ -244,11 +245,11 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
     makeArrVersesToCompare(iter_a, arr_p_id);
 
-    function makeArrVersesToCompare(iter_a, arr_p_id){
+    function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
         
         let base_ep = eid_trans1.dataset.base_ep;
 
-        let trans_ref = arr_p_id[0];
+        let trans_ref = arr_p_id[0];//'rstStrongRed'
         let book = arr_p_id[1];
         let chapter = arr_p_id[2];
         let verse = arr_p_id[3];
@@ -264,7 +265,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             console.log(`abajo el_trans:`);
             console.log(el_trans);
 
-            //si existe traduccion, el libro de trans, boo
+            //si existe traduccion, el libro de trans y book del libro
             if(typeof el_trans.Translation != 'undefined' && typeof el_trans.Books[bookNumber] != 'undefined'){
                 //url del libro necesario
                 url = `modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
@@ -286,6 +287,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     makeArrVersesToCompare(iter_a, arr_p_id);//si iter_a es ultimo elemento de arrFavTransObj, no entrará aquí 
                     return false;
                 }
+
             }else{
                 console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
 
@@ -338,150 +340,557 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             arr_verses_compare[iter_a].verse = verseNumber;
 
 
+            if(modo_fetch_verses_compare == 'by_text'){
+                console.log(`modo_fetch_verses_compare == 'by_text'`);
 
-            //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
-            let formData = new FormData();
-            formData.append('url', '../'+url );
-            formData.append('base_ep', base_ep);
-            formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
-            if(book != null) formData.append('book', bookNumber);
-            formData.append('chapter', chapterNumber);
-            //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
-            if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
-            if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
-    
-            fetch('app/read_file_to_json.php',{
-                method: 'POST',
-                body: formData
-            })
-            .then((response) => response.json())
-            .then((dataRead) => {
-    
-                console.log(dataRead);
-
-                arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
-                arr_verses_compare[iter_a].VerseQty = dataRead.chapterData.VerseQty;
-                
-                console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
+                //saco ajustes de este modulo en json               
                 let bq = el_trans;
+                //console.log(' abajo bq:');
+                //console.log(bq);
+
+                let Translation = el_trans.Translation;//solo aqui
+
+                //si no existe objeto lo creo
+                if(typeof obj_bible_files[Translation] == 'undefined'){
+                    obj_bible_files[Translation] = {};
+                    obj_bible_files[Translation].Books = [];
+                }
 
 
-                let arr = dataRead.chapterData.arr_p_verses[verseNumber].split(' ');
-                arr.shift(0);//elimino index 0
-                let VerseText = arr.join(' ');
+                //si existe objeto con Translation. Saco datos del objeto
+                if(typeof obj_bible_files[Translation] != 'undefined'){
+                    if(typeof obj_bible_files[Translation].Books != 'undefined'){
+                        if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
 
+                            if(obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && obj_bible_files[Translation].Books[book].fileContent != ''){
+                                console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
+                                
+                                // Registra el tiempo de inicio
+                                const tiempoInicio = new Date().getTime();
+                                //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                //========================================================//
-                //start - modificado
-                //========================================================//
+                                let myPromise_vc = new Promise(function(resolve, reject){
+                                    resolve('ok');
+                                });
 
-                //Номера Стронга в стихах (RST+)
-                if(bq.StrongNumbers == "Y"){
-                    let t = VerseText;
-                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
-                    let arr_verse_words = [];                               
-                    arr_t.forEach((el,i) => {    
-                        //element of string is Strong Number
-                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                            let span_strong_tag_start,span_strong_tag_end;
-                            if(btnStrongIsActive){
-                                span_strong_tag_start = '<span class="strong show strongActive">'; 
-                                span_strong_tag_end = '</span>'; 
+                                myPromise_vc
+                                .then((data) => {//data = ok
+                                    //console.log(' --- if: ');
+
+                                    if(data == 'ok'){//siempre ok
+                                        var bookModule = obj_bible_files[Translation].Books[book].fileContent;
+                                    }            
+                                                
+                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                    //console.log(nb);
+                                    
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                    //console.log(nb);
+            
+                                    //si existe el capitulo// siempre existe
+                                    if(typeof nb[chapter] !== 'undefined'){
+            
+                                        let nb_chapter_verses = nb[chapter].split('<p>');
+                                        //console.log(nb_chapter_verses);  
+                                        
+                                        let este_p = nb_chapter_verses[verse];
+                                        let VerseText = '(текст стиха отсутствует...)';//si es vacio...
+                                        
+                                        if(typeof este_p != 'undefined'){
+                                            let p_Text = ' ';
+
+                                            if(este_p.includes('</p>')){
+                                                let arr_p_text = este_p.split('</p>');
+                                                p_Text = arr_p_text[0];
+                                            }else{
+                                                p_Text = este_p;
+                                            }
+                                            //console.log('p_Text: '+p_Text); 
+                        
+                                            let arr_p = p_Text.split(' ');
+                                            let VerseId = arr_p[0];
+                                            console.log('VerseId: '+VerseId);
+                        
+                                            arr_p.shift(0);//elimino index 0
+                                            VerseText = arr_p.join(' '); 
+                                        }                                       
+
+                                        arr_verses_compare[iter_a].ChapterQty = bq.Books[book].ChapterQty;
+                                        arr_verses_compare[iter_a].VerseQty = nb_chapter_verses.length - 1;
+                                                           
+                    
+                                        //========================================================//
+                                        //start - modificado
+                                        //========================================================//
+                    
+                                        //Номера Стронга в стихах (RST+)
+                                        if(bq.StrongNumbers == "Y"){
+                                            let t = VerseText;
+                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                            let arr_verse_words = [];                               
+                                            arr_t.forEach((el,i) => {    
+                                                //element of string is Strong Number
+                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                    let span_strong_tag_start,span_strong_tag_end;
+                                                    if(btnStrongIsActive){
+                                                        span_strong_tag_start = '<span class="strong show strongActive">'; 
+                                                        span_strong_tag_end = '</span>'; 
+                                                    }else{
+                                                        span_strong_tag_start = '<span class="strong">';
+                                                        span_strong_tag_end = '</span>'; 
+                                                    }
+                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                                    //si ultimo carácter es string
+                                                    if(last_char != '' && isNaN(last_char)){
+                                                        let el_number = el.substring(0,el.length-1);
+                                                        let el_string = last_char;
+                                                        arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
+                                                    }else{//es number
+                                                        arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
+                                                    }
+                                                }else{//is word
+                                                    if(btnStrongIsActive){
+                                                        if(el.includes('<S>')){
+                                                            el = el.replace('<S>','<S class="show strongActive">');
+                                                        }
+                                                    }
+                                                    arr_verse_words.push(el);
+                                                }
+                                            });
+                                            console.log('arr_verse_words: ');
+                                            console.log(arr_verse_words);
+                                            let new_VerseText = arr_verse_words.join(' ');
+                                            arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
+                                        }
+                    
+                    
+                                        //Примечания редактора в стихах (RSTi2)
+                                        if(bq.Notes == 'Y'){
+                                            let t = VerseText;
+                                            if(t.includes(bq.NoteSign)){// '*'
+                                                let arr_t0 = t.split(bq.NoteSign);
+                                                let before_Note = arr_t0[0];
+                                                if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                    let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                                    let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                                    let text_Note = arr_t2[0];
+                                                    let after_Note = arr_t2[1];
+                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                    arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+                                                }
+                                            }else{
+                                                arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                                            }
+                                        }
+                    
+                    
+                                        //Оглавления в стихах (NRT)
+                                        if(bq.Titles == 'Y'){
+                                            let t = VerseText;
+                                            if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                                let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                                let before_Title = arr_t1[0];
+                                                let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                                let text_Title = arr_t2[0];
+                                                let after_Title = arr_t2[1];
+                                                arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
+                                            }else{
+                                                arr_verses_compare[iter_a].verseText = VerseText;
+                                            }
+                                        }
+                    
+                    
+                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                        if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
+                                            arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                                        }
+                    
+                                        //========================================================//
+                                        //end - modificado
+                                        //========================================================//
+                                        
+                            
+                                        iter_a++;
+                                        console.log(`aumentado iter_a: ${iter_a}`);
+                    
+                                        if(iter_a < arrFavTransObj.length){
+                                            console.log(' llamo makeArrVersesToCompare()');
+                                            makeArrVersesToCompare(iter_a, arr_p_id);
+                                        }
+                    
+                                        if(iter_a == arrFavTransObj.length){
+                                            console.log(' final  --- llamo buildVersesFromArr()');
+                                            arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+                    
+                                            buildVersesFromArr(arr_p_id, arr_verses_compare);
+                                        }                                         
+            
+                                    }else{
+                                        //console.log(' no existe capítulo '+chapter+' del módulo '+book);
+                                        let aviso_text = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                                        alert(aviso_text);
+                                    }
+                                })
+                                .catch((error) => {
+                                    // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
+                                    console.log('error promesa en myPromise con obj_bible_files. error: '+error);
+                                });
+
                             }else{
-                                span_strong_tag_start = '<span class="strong">';
-                                span_strong_tag_end = '</span>'; 
+                                console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
-                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                            //si ultimo carácter es string
-                            if(last_char != '' && isNaN(last_char)){
-                                let el_number = el.substring(0,el.length-1);
-                                let el_string = last_char;
-                                arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
-                            }else{//es number
-                                arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
+
+                        }else{
+                            //console.log('no esxiste obj_bible_files book');
+                        }
+                    }
+                }//end - if(typeof obj_bible_files[Translation] != 'undefined')
+                
+
+                //si no existe objeto con Translation. hago fetch()
+                if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
+                    console.log('--- vc --- no existe objeto con Translation. hago fetch()');
+
+                    //start de tiempo para calcular cuanto tarda
+                    const tiempoInicioFetch = new Date().getTime();
+                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+
+                    //url del libro necesario
+                    url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
+
+                    fetch(url)
+                    .then((response) => response.text())
+                    .then((bookModule) => {
+
+                        if(crear_objeto_obj_bible_files){
+                            obj_bible_files[Translation].Books[book] = {
+                                'fileName': bq.Books[book].PathName, 
+                                'fileContent': bookModule
+                            };
+                            //console.log('abajo obj_bible_files:');
+                            //console.log(obj_bible_files);
+                        }
+                       
+
+                        let nb = bookModule.split('<h4>');//делю файл на главы
+                        //console.log(nb);
+                        
+                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                        //console.log(nb);
+
+                        //si existe el capitulo// siempre existe
+                        if(typeof nb[chapter] !== 'undefined'){
+
+                            let nb_chapter_verses = nb[chapter].split('<p>');
+                            //console.log(nb_chapter_verses);                            
+
+                            let este_p = nb_chapter_verses[verse];
+                            let VerseText = '(текст стиха отсутствует...)';//si es vacio...
+                            
+                            if(typeof este_p != 'undefined'){
+                                let p_Text = ' ';
+
+                                if(este_p.includes('</p>')){
+                                    let arr_p_text = este_p.split('</p>');
+                                    p_Text = arr_p_text[0];
+                                }else{
+                                    p_Text = este_p;
+                                }
+                                //console.log('p_Text: '+p_Text); 
+            
+                                let arr_p = p_Text.split(' ');
+                                let VerseId = arr_p[0];
+                                console.log('VerseId: '+VerseId);
+            
+                                arr_p.shift(0);//elimino index 0
+                                VerseText = arr_p.join(' '); 
+                            }                                       
+
+                            arr_verses_compare[iter_a].ChapterQty = bq.Books[book].ChapterQty;
+                            arr_verses_compare[iter_a].VerseQty = nb_chapter_verses.length - 1;
+                                                
+        
+                            //========================================================//
+                            //start - modificado
+                            //========================================================//
+        
+                            //Номера Стронга в стихах (RST+)
+                            if(bq.StrongNumbers == "Y"){
+                                let t = VerseText;
+                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                let arr_verse_words = [];                               
+                                arr_t.forEach((el,i) => {    
+                                    //element of string is Strong Number
+                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                        let span_strong_tag_start,span_strong_tag_end;
+                                        if(btnStrongIsActive){
+                                            span_strong_tag_start = '<span class="strong show strongActive">'; 
+                                            span_strong_tag_end = '</span>'; 
+                                        }else{
+                                            span_strong_tag_start = '<span class="strong">';
+                                            span_strong_tag_end = '</span>'; 
+                                        }
+                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                        //si ultimo carácter es string
+                                        if(last_char != '' && isNaN(last_char)){
+                                            let el_number = el.substring(0,el.length-1);
+                                            let el_string = last_char;
+                                            arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
+                                        }else{//es number
+                                            arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
+                                        }
+                                    }else{//is word
+                                        if(btnStrongIsActive){
+                                            if(el.includes('<S>')){
+                                                el = el.replace('<S>','<S class="show strongActive">');
+                                            }
+                                        }
+                                        arr_verse_words.push(el);
+                                    }
+                                });
+                                console.log('arr_verse_words: ');
+                                console.log(arr_verse_words);
+                                let new_VerseText = arr_verse_words.join(' ');
+                                arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
                             }
-                        }else{//is word
-                            if(btnStrongIsActive){
-                                if(el.includes('<S>')){
-                                    el = el.replace('<S>','<S class="show strongActive">');
+        
+        
+                            //Примечания редактора в стихах (RSTi2)
+                            if(bq.Notes == 'Y'){
+                                let t = VerseText;
+                                if(t.includes(bq.NoteSign)){// '*'
+                                    let arr_t0 = t.split(bq.NoteSign);
+                                    let before_Note = arr_t0[0];
+                                    if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                        let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                        let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                        let text_Note = arr_t2[0];
+                                        let after_Note = arr_t2[1];
+                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                        arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+                                    }
+                                }else{
+                                    arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
                                 }
                             }
-                            arr_verse_words.push(el);
+        
+        
+                            //Оглавления в стихах (NRT)
+                            if(bq.Titles == 'Y'){
+                                let t = VerseText;
+                                if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                    let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                    let before_Title = arr_t1[0];
+                                    let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                    let text_Title = arr_t2[0];
+                                    let after_Title = arr_t2[1];
+                                    arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
+                                }else{
+                                    arr_verses_compare[iter_a].verseText = VerseText;
+                                }
+                            }
+        
+        
+                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
+                                arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
+                            }
+        
+                            //========================================================//
+                            //end - modificado
+                            //========================================================//
+                            
+                
+                            iter_a++;
+                            console.log(`aumentado iter_a: ${iter_a}`);
+        
+                            if(iter_a < arrFavTransObj.length){
+                                console.log(' llamo makeArrVersesToCompare()');
+                                makeArrVersesToCompare(iter_a, arr_p_id);
+                            }
+        
+                            if(iter_a == arrFavTransObj.length){
+                                console.log(' final  --- llamo buildVersesFromArr()');
+                                arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+        
+                                buildVersesFromArr(arr_p_id, arr_verses_compare);
+                            }
+
+                        }else{
+                            //console.log(' no existe capítulo '+chapter+' del módulo '+book);
+                            let aviso_text = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                            alert(aviso_text);
                         }
-                    });
-                    console.log('arr_verse_words: ');
-                    console.log(arr_verse_words);
-                    let new_VerseText = arr_verse_words.join(' ');
-                    arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
-                }
+                    })
+                    .catch(error => { 
+                        //Código a realizar cuando se rechaza la promesa
+                        console.log('error promesa en fetch() con obj_bible_files. error: '+error);
+                    });                    
+                }//end - if(typeof obj_bible_files[Translation].Books[book] == 'undefined')
+
+                console.log('despues de fetch --- abajo obj_bible_files:');
+                console.log(obj_bible_files); 
+
+            }//end - modo_fetch_verses_compare == 'by_text'
 
 
-                //Примечания редактора в стихах (RSTi2)
-                if(bq.Notes == 'Y'){
-                    let t = VerseText;
-                    if(t.includes(bq.NoteSign)){// '*'
-                        let arr_t0 = t.split(bq.NoteSign);
-                        let before_Note = arr_t0[0];
-                        if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                            let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                            let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                            let text_Note = arr_t2[0];
-                            let after_Note = arr_t2[1];
-                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                            arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+
+
+
+
+
+            if(modo_fetch_verses_compare == 'by_json'){
+                console.log(`modo_fetch_verses_compare == 'by_json'`);
+
+                //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+                let formData = new FormData();
+                formData.append('url', '../'+url );
+                formData.append('base_ep', base_ep);
+                formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
+                if(book != null) formData.append('book', bookNumber);
+                formData.append('chapter', chapterNumber);
+                //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
+                if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+                if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+        
+                fetch('app/read_file_to_json.php',{
+                    method: 'POST',
+                    body: formData
+                })
+                .then((response) => response.json())
+                .then((dataRead) => {
+        
+                    console.log(dataRead);
+
+                    arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
+                    arr_verses_compare[iter_a].VerseQty = dataRead.chapterData.VerseQty;
+                    
+                    console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
+                    let bq = el_trans;
+
+
+                    let arr = dataRead.chapterData.arr_p_verses[verseNumber].split(' ');
+                    arr.shift(0);//elimino index 0
+                    let VerseText = arr.join(' ');
+
+
+                    //========================================================//
+                    //start - modificado
+                    //========================================================//
+
+                    //Номера Стронга в стихах (RST+)
+                    if(bq.StrongNumbers == "Y"){
+                        let t = VerseText;
+                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                        let arr_verse_words = [];                               
+                        arr_t.forEach((el,i) => {    
+                            //element of string is Strong Number
+                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                let span_strong_tag_start,span_strong_tag_end;
+                                if(btnStrongIsActive){
+                                    span_strong_tag_start = '<span class="strong show strongActive">'; 
+                                    span_strong_tag_end = '</span>'; 
+                                }else{
+                                    span_strong_tag_start = '<span class="strong">';
+                                    span_strong_tag_end = '</span>'; 
+                                }
+                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                //si ultimo carácter es string
+                                if(last_char != '' && isNaN(last_char)){
+                                    let el_number = el.substring(0,el.length-1);
+                                    let el_string = last_char;
+                                    arr_verse_words.push(span_strong_tag_start + el_number + span_strong_tag_end + el_string);
+                                }else{//es number
+                                    arr_verse_words.push(span_strong_tag_start + el + span_strong_tag_end);
+                                }
+                            }else{//is word
+                                if(btnStrongIsActive){
+                                    if(el.includes('<S>')){
+                                        el = el.replace('<S>','<S class="show strongActive">');
+                                    }
+                                }
+                                arr_verse_words.push(el);
+                            }
+                        });
+                        console.log('arr_verse_words: ');
+                        console.log(arr_verse_words);
+                        let new_VerseText = arr_verse_words.join(' ');
+                        arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
+                    }
+
+
+                    //Примечания редактора в стихах (RSTi2)
+                    if(bq.Notes == 'Y'){
+                        let t = VerseText;
+                        if(t.includes(bq.NoteSign)){// '*'
+                            let arr_t0 = t.split(bq.NoteSign);
+                            let before_Note = arr_t0[0];
+                            if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                let text_Note = arr_t2[0];
+                                let after_Note = arr_t2[1];
+                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+                            }
+                        }else{
+                            arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
                         }
-                    }else{
+                    }
+
+
+                    //Оглавления в стихах (NRT)
+                    if(bq.Titles == 'Y'){
+                        let t = VerseText;
+                        if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                            let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                            let before_Title = arr_t1[0];
+                            let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                            let text_Title = arr_t2[0];
+                            let after_Title = arr_t2[1];
+                            arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
+                        }else{
+                            arr_verses_compare[iter_a].verseText = VerseText;
+                        }
+                    }
+
+
+                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
                         arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
                     }
-                }
 
+                    //========================================================//
+                    //end - modificado
+                    //========================================================//
+                    
+        
+                    iter_a++;
+                    console.log(`aumentado iter_a: ${iter_a}`);
 
-                //Оглавления в стихах (NRT)
-                if(bq.Titles == 'Y'){
-                    let t = VerseText;
-                    if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                        let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                        let before_Title = arr_t1[0];
-                        let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                        let text_Title = arr_t2[0];
-                        let after_Title = arr_t2[1];
-                        arr_verses_compare[iter_a].verseText = `${before_Title} <span class="verse_title">${text_Title}</span>${after_Title}`;
-                    }else{
-                        arr_verses_compare[iter_a].verseText = VerseText;
+                    if(iter_a < arrFavTransObj.length){
+                        console.log(' llamo makeArrVersesToCompare()');
+                        makeArrVersesToCompare(iter_a, arr_p_id);
                     }
-                }
+
+                    if(iter_a == arrFavTransObj.length){
+                        console.log(' final  --- llamo buildVersesFromArr()');
+                        arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
+
+                        buildVersesFromArr(arr_p_id, arr_verses_compare);
+                    }
+        
+                })
+                .catch(error => {
+                    console.log('Error fetch versesCompare. error: ', error);
+                });
+
+            }//end - modo_fetch_verses_compare == 'by_json'
 
 
-                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                    arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
-                }
-
-                //========================================================//
-                //end - modificado
-                //========================================================//
-                
-    
-                iter_a++;
-                console.log(`aumentado iter_a: ${iter_a}`);
-
-                if(iter_a < arrFavTransObj.length){
-                    console.log(' llamo makeArrVersesToCompare()');
-                    makeArrVersesToCompare(iter_a, arr_p_id);
-                }
-
-                if(iter_a == arrFavTransObj.length){
-                    console.log(' final  --- llamo buildVersesFromArr()');
-                    arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
-
-                    buildVersesFromArr(arr_p_id, arr_verses_compare);
-                }
-    
-            })
-            .catch(error => {
-                console.log('error: ', error);
-            });
 
         }
 
@@ -995,6 +1404,7 @@ function hideShowWrFilter(){
 
     wr_filter.style.display = val;
     ajuste1.wr_filter.display = val;
+    mySizeVersesCompare();
 }
 
 function hideShowRefsCompare(e = null){

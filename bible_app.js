@@ -189,11 +189,6 @@ const ajuste1 = {
     arr_trans_act: [],
     arr_trans_noact: [],
 
-
-
-
-
-
     aaa: 'aaa'
 };
 
@@ -298,20 +293,21 @@ let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
 
 
 // en funcion showChaptertext4() hay 2 vias
-//'by_text' (old): getting all file and making array with .split() and showing only needed verses,
+//'by_text' (old): getting all file '01_genesis.htm' and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
-let modo_fetch_chapter = 'by_text';//by_json, by_text
-console.log('modo_fetch_chapter: ',modo_fetch_chapter);
+let modo_fetch_verses_for_cols = 'by_text';//by_json, by_text
+console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
+
 
 //'by_text' (old): getting all file and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
-let modo_fetch_tsk = 'by_json';//by_json, by_text
-console.log('modo_fetch_tsk: ',modo_fetch_tsk);
+let modo_fetch_verses_for_tsk_block = 'by_text';//by_json, by_text
+console.log('modo_fetch_verses_for_tsk_block: ',modo_fetch_verses_for_tsk_block);
 
-//'by_text' (old): getting all file and showing only needed verses, 
-//'by_json' (new): getting only verses to show by json (faster)
-let modo_action_get_tsk_verses = 'by_json';//by_json, by_text
-console.log('modo_action_get_tsk_verses: ',modo_action_get_tsk_verses);
+//'by_text' (old): getting all file and showing only needed verses, //creado después
+//'by_json' (new): getting only verses to show by json (lento)//creado primero
+let modo_fetch_verses_compare = 'by_text';//by_json, by_text
+console.log('modo_fetch_verses_compare: ',modo_fetch_verses_compare);
 
 
 //crear obj_tsk_files[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule}
@@ -442,6 +438,18 @@ function mostrarTamanioObjeto(objeto){
     //console.log(`El tamaño del objeto es: ${tamanio} bytes.`);
 }
 
+function changeModo(param){
+    if(param == 'by_text'){
+        modo_fetch_verses_for_cols = 'by_text';
+    }else if(param == 'by_json'){
+        modo_fetch_verses_for_cols = 'by_json';
+    }else{
+        modo_fetch_verses_for_cols = 'by_text';//default
+    }
+    console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
+    alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
+    closeModal();
+}
 
 function showTooltip(el){
     //console.log(el);
@@ -948,7 +956,6 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
 
     //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
     window.iter_i = 0;
-    //old_showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);//antes
     showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);// solo file_read_to_json.php
     //console.log('iter_i: ' + iter_i + ' --- start en showTrans()');
 }
@@ -1312,7 +1319,7 @@ function getTsk(e){
                                                         const a = document.createElement('a');
                                                         //a.id = 'goto_' + idLink;
                                                         a.href = '#';
-                                                        a.classList.add = 'blink';
+                                                        //a.classList.add('aki_clase');//de momento comento...
                 
                                                         let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                                         if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -1584,7 +1591,7 @@ function getTsk(e){
                                                             const a = document.createElement('a');
                                                             //a.id = 'goto_' + idLink;
                                                             a.href = '#';
-                                                            a.classList.add = 'blink';
+                                                            //a.classList.add('aki_clase');//de momento comento...
                     
                                                             let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                                             if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -2055,7 +2062,7 @@ function getTsk(e){
                                             const a = document.createElement('a');
                                             //a.id = 'goto_' + idLink;
                                             a.href = '#';
-                                            a.classList.add = 'blink';
+                                            //a.classList.add('aki_clase');//de momento comento...
     
                                             let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                             if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -2220,8 +2227,8 @@ function getTsk(e){
 
                                        
                                         //todo el libro
-                                        if(modo_fetch_tsk == 'by_text'){
-                                            //console.log('modo_fetch_tsk == by_text');
+                                        if(modo_fetch_verses_for_tsk_block == 'by_text'){
+                                            console.log('modo_fetch_verses_for_tsk_block == by_text');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
@@ -2335,7 +2342,7 @@ function getTsk(e){
                                                     const a = document.createElement('a');
                                                     //a.id = 'goto_' + idLink;
                                                     a.href = '#';
-                                                    a.classList.add = 'blink';
+                                                    //a.classList.add('aki_clase');//de momento comento...
         
                                                     let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                                     if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -2499,12 +2506,12 @@ function getTsk(e){
                                                 console.log('2.2210 error promesa: '+error);
                                             });
 
-                                        }// end modo_fetch_tsk old
+                                        }// end modo_fetch_verses_for_tsk_block old
 
 
                                         //por php solo el capitulo
-                                        if(modo_fetch_tsk == 'by_json'){
-                                            //console.log('modo_fetch_tsk == by_json');
+                                        if(modo_fetch_verses_for_tsk_block == 'by_json'){
+                                            console.log('modo_fetch_verses_for_tsk_block == by_json');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
@@ -2616,7 +2623,7 @@ function getTsk(e){
                                                     const a = document.createElement('a');
                                                     //a.id = 'goto_' + idLink;
                                                     a.href = '#';
-                                                    a.classList.add = 'blink';
+                                                    //a.classList.add('aki_clase');//de momento comento...
         
                                                     let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                                     if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -2780,8 +2787,7 @@ function getTsk(e){
                                                 console.log('2.new 2662 error promesa: '+error);
                                             });
 
-                                        }// end modo_fetch_tsk by_json
-
+                                        }// end modo_fetch_verses_for_tsk_block by_json
 
                                     }
 
@@ -3085,7 +3091,7 @@ function getTsk(e){
                                                     const a = document.createElement('a');
                                                     //a.id = 'goto_' + idLink;
                                                     a.href = '#';
-                                                    a.classList.add = 'blink';
+                                                    //a.classList.add('aki_clase');//de momento comento...
         
                                                     let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
                                                     if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
@@ -3301,1224 +3307,6 @@ function getTsk(e){
 
 }
 
-//actual
-function showChapterText3(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){
-    let book_i = (book > 0) ? book - 1 : 0 ;//index of book 1 is 0
-    let chapter_i = (chapter > 0) ? chapter - 1 : 0 ;//index of chapter 1 is 0
-    //var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner div');//ej: RST+//antes
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
-    var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
-    divShow.innerHTML = '';
-
-    var btnStrongIsActive = false;
-    if(eid_btnStrong.classList.contains('btn_active')){
-        btnStrongIsActive = true;
-    }
-
-    window.base_ep = eid_trans1.dataset.base_ep;
-    //console.log('base_ep: '+base_ep);
-
-    window.arr_data_head = [];//incluye h2 y h4
-    window.arr_data_body = [];//incluye p
-    window.arr_data_all = [];//incluye todo: h2 y h4 y p
-        
-    //saco ajustes de este modulo en json
-    url_bq = `modules/text/${Translation}/bibleqt.json`;
-
-    if(Translation != null){
-
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-            //console.log(' abajo bq:');
-            //console.log(bq);
-
-            //window.bq = bq;
-            if(divTrans != null){
-                // divTrans.innerHTML = bq.BibleShortName;
-                divTransDesk.innerHTML = bq.BibleShortName;
-                divTransMob.innerHTML = bq.BibleShortName;
-            }
-            
-            //si el id de book está entre numero de books del modulo, lo muestro
-            if(parseInt(book) < bq.BookQty){//0-65 < 66
-                
-                //url del libro necesario
-                url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
-
-                fetch(url)
-                .then((response) => response.text())
-                .then((bookModule) => {
-                    
-                    //console.log(bookModule);
-                    divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
-
-                    var nb = bookModule.split('<h4>');//делю файл на главы
-                    //console.log(nb);
-                    
-                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
-                    //console.log(nb);
-
-                    //Book
-                    if(bookModule.includes('<h2>')){
-                        var arr_h2 = bookModule.split('<h2>');
-
-                        if(arr_h2[1].includes('</h2>')){
-                            var arr_h2_text = arr_h2[1].split('</h2>');
-                            var BookName = arr_h2_text[0];
-                        }else{
-                            var BookName = arr_h2[1];
-                        }
-                        BookName = (BookName == '') ? bq.Books[book].FullName : BookName ;
-                        //console.log('BookName: '+BookName); 
-                        
-                        //Book
-                        var h2 = document.createElement('h2');
-                        h2.append(BookName);
-
-                        arr_data_head.push(h2);
-                        //console.log(h2);
-
-                        if(bq.HTMLFilter == 'Y'){
-                            h2.innerHTML = htmlEntities(h2.innerHTML)
-                        }
-                    }
-
-                    //si existe el capitulo
-                    if(typeof nb[chapter] !== 'undefined'){
-                        var ChapterId = chapter;
-
-                        var nb_chapter_verses = nb[chapter].split('<p>');
-                        //console.log(nb_chapter_verses);
-
-                        var only_verses_length = nb_chapter_verses.length - 1;
-                        //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
-                        // console.log('only_ divId: '+divId);
-
-                        if(divId == '#col1'){
-                            window.col1_p_length = only_verses_length;
-                            //console.log('only_ col1_p_length: '+window.col1_p_length);
-                        }else{
-                            //console.log('no es col1. only_ col1_p_length: '+window.col1_p_length);
-                        }
-
-
-
-                        //Chapter, Verse
-                        nb_chapter_verses.forEach( (el,i) => {
-                            //console.log(el);
-            
-                            //Chapter
-                            if(i == 0){
-                                //console.log('es Chapter: '+el);
-
-                                if(el.includes('</h4>')){
-                                    var arr_h4_text = el.split('</h4>');
-                                    var ChapterText = arr_h4_text[0];
-                                }else{
-                                    var ChapterText = el;
-                                }
-                                //console.log('ChapterText: '+ChapterText);
-
-                                if(ChapterText == ''){
-                                    ChapterText = bq.Books[book].FullName + ' ' + chapter;
-                                }
-
-                                //Chapter
-                                var h4 = document.createElement('h4');
-                                h4.append(ChapterText);
-
-                                arr_data_head.push(h4);
-                                //console.log(h4);
-
-                                //divShow.append(h4);
-
-                                if(bq.HTMLFilter == 'Y'){
-                                    h4.innerHTML = htmlEntities(h4.innerHTML);
-                                }
-                            }
-                            else{//Verse
-                                //console.log('es Verse: '+el);
-            
-                                if(el.includes('</p>')){
-                                    var arr_p_text = el.split('</p>');
-                                    var p_Text = arr_p_text[0];
-                                }else{
-                                    var p_Text = el;
-                                }
-                                //console.log('p_Text: '+p_Text); 
-            
-                                var arr_p = p_Text.split(' ');
-                                var VerseId = arr_p[0];
-                                //console.log('VerseId: '+VerseId);
-            
-                                var VerseText = '';
-                                for(let index = 1; index < arr_p.length; index++){
-                                    VerseText += arr_p[index] + ' ';
-                                }
-                                //console.log('VerseText: '+VerseText);
-            
-                                var p = document.createElement('p');
-                                p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
-                                p.setAttribute('data-verse',VerseId);
-                
-                                var a = document.createElement('a');
-                                a.href = '#';
-                                a.classList.add = 'blink';
-                                a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
-                                p.append(a);
-                                p.append(' '); 
-
-                                const span_vt = document.createElement('span');
-                                span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-
-
-                                //Номера Стронга в стихах (RST+)
-                                if(bq.StrongNumbers == "Y"){
-                                    let t = VerseText;
-                                    var arr_t = t.split(' ');
-
-                                    arr_t.forEach((el,i) => {    
-                                        
-                                        //element of string is Strong Number
-                                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                            const span_strong = document.createElement('span');
-                                            if(btnStrongIsActive){
-                                                span_strong.className = 'strong show strongActive'; 
-                                            }else{
-                                                span_strong.className = 'strong'; 
-                                            }
-                                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
-                                            //si ultimo carácter es string
-                                            if(last_char != '' && isNaN(last_char)){
-                                                let el_number = el.substring(0,el.length-1);
-                                                let el_string = last_char;
-                                                span_strong.innerHTML = el_number;
-                                                p.append(span_strong);
-                                                p.append(el_string);
-                                            }else{//es number
-                                                span_strong.innerHTML = el;
-                                                p.append(span_strong);
-                                            }
-
-                                        }else{//is word
-                                            p.append(' ');
-                                            if(btnStrongIsActive){
-                                                if(el.includes('<S>')){
-                                                    el = el.replace('<S>','<S class="show strongActive">');
-                                                }
-                                            }
-                                            p.append(el);
-                                        }
-                                    });
-                                    p.innerHTML.trim();
-
-                                    //console.log('antes: ' + p.innerHTML);
-                                    if(bq.HTMLFilter == 'Y'){
-                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                    }
-                                    //console.log('despues: '+p.innerHTML);
-
-                                    if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
-                                        p.querySelectorAll('.strongActive').forEach((el)=>{
-                                            el.addEventListener('click', ()=>{
-                                                //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
-                                                //console.log('1. book: '+book);
-                                                //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                                var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
-
-                                                if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                    getStrongNumber(el.innerHTML, null, paramfirstLetter);
-                                                }else{//rstStrong
-                                                    lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                    getStrongNumber(el.innerHTML, lang, paramfirstLetter);
-                                                }
-                                            });
-                                        }); 
-                                    }
-                                    arr_data_body.push(p);
-                                    //console.log(p);
-                                }
-
-
-                                //Примечания редактора в стихах (RSTi2)
-                                if(bq.Notes == 'Y'){
-                                    let t = VerseText;
-
-                                    if(t.includes(bq.NoteSign)){// '*'
-                                        let arr_t0 = t.split(bq.NoteSign);
-                                        let before_Note = arr_t0[0];
-
-                                        if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                                            let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                                            let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                                            let text_Note = arr_t2[0];
-                                            let after_Note = arr_t2[1];
-
-                                            const span_t = document.createElement('span');
-                                            span_t.className = 'tooltip';
-                                            span_t.setAttribute('data-tooltip',text_Note);
-                                            span_t.innerHTML = bq.NoteSign;
-
-                                            span_t.addEventListener('mouseenter', function(){
-                                                showTooltip(this);
-                                            });
-                                            span_t.addEventListener('mouseleave', function(){
-                                                hideTooltip(this);
-                                            });
-                                            /*
-                                            //antes
-                                            p.append(before_Note);
-                                            p.append(span_t);
-                                            p.append(after_Note);
-                                            */
-
-                                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                            span_vt.append(before_Note);
-                                            span_vt.append(span_t);
-                                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                            span_vt.append(after_Note);
-                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-
-                                            p.append(span_vt);//antes
-                                        }
-                                    }else{
-                                        //p.append(VerseText);//antes
-                                        span_vt.append(VerseText);
-                                        p.append(span_vt);
-
-                                        if(bq.HTMLFilter == 'Y'){
-                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                        }
-                                    }
-                                    //p.append(span_vt);//antes
-                                    //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-                                    arr_data_body.push(p);
-                                    //console.log(p);
-                                }
-
-
-                                //Оглавления в стихах (NRT)
-                                if(bq.Titles == 'Y'){
-                                    let t = VerseText;
-
-                                    if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                                        let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                                        let before_Title = arr_t1[0];
-                                        let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                                        let text_Title = arr_t2[0];
-                                        let after_Title = arr_t2[1];
-
-                                        const span_title = document.createElement('span');
-                                        span_title.className = 'verse_title';
-                                        span_title.innerHTML = text_Title;
-
-                                        p.append(before_Title);
-                                        p.append(span_title);
-                                        p.append(after_Title);
-                                    }else{
-                                        p.append(VerseText);
-                                    }
-
-                                    arr_data_body.push(p);
-                                    //console.log(p);
-
-                                    if(bq.HTMLFilter == 'Y'){
-                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                    }
-                                }
-
-                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                    //p.append(VerseText);//antes
-                                    span_vt.append(VerseText);
-                                    p.append(span_vt);
-
-                                    arr_data_body.push(p);
-                                    //console.log(p);
-                                    
-                                    if(bq.HTMLFilter == 'Y'){
-                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                    }
-                                }        
-                                
-                            }
-            
-                        });
-                        
-                        
-                        //Posle forEach...
-                        //=====================================================//
-                        // 1. inicio - Numeración base Española - y col's Rusa
-                        //=====================================================//
-                        if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
-                            //console.log('Numeración base es Española - y cols es Rusa');
-                            var arr_vstavka = [];
-                            var vstavka2 = [];
-                            
-                            //Miro la traducción con EnglishPsalms
-                            switch (parseInt(book)) {
-
-                                case 3: //Числа
-                                        if(chapter == 12){//Числа 12:16 => Num. 13:1
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 13, 1);//add Num. 13:1
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 13, 16);//se añade capitulo 13 al verse 13 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 13){//13:1-33 => 13: +1
-                                            arr_data_body.splice(0, 1);//[p....] - elimino primer versículo
-                                        }
-                                    break;
-
-                                case 5: //Иисус Навин
-                                        if(chapter == 5){//Ис.Нав.6:1 => Josue 5:16 | 6:2-27 =>	6: -1
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 6){//Ис.Нав.6:1 => Josue 5:16 | 6:2-27 =>	6: -1
-                                            addChapterToHead(bq, book, 5);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 5, 16);//add Josue 5:16
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 6, 2);//se añade capitulo 6 al verse 2 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break; 
-                                    
-                                case 8: //1Samuel (1Царств) 
-                                        if(chapter == 20){//20:42-а	=> 20:42:00 | 20:42-б => 20:43:00
-                                            //1 verse contiene 2 en ruso
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 20, form_list_verses(1, col1_p_length+1) );                                       
-                                            let arr_mezclado = mergeVerses(arr_vstavka, 42);//se meclan 42 y el siguiente 43.
-                                            arr_data_body = [].concat(arr_mezclado, arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 23){//23:29 => 24:1
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 24, 1 );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);//añado al final un versiculo
-                                            addChapterToVerse(arr_data_body, bq, book, 24, 29);//se añade capitulo 24 al verse 29 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 24){//24:1-22	=> 24: +1
-                                            arr_data_body.splice(0, 1);//[p....] - elimino primer versículo
-                                        }
-                                    break; 
-                                
-                                case 17: //Job 
-                                        if(chapter == 39){
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 40){//40:1-5 => 39:31-35 | 40:6-24 =>	40: -5
-                                            addChapterToHead(bq, book, 39);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 39, form_list_verses(31, 35) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 40, 6);//se añade capitulo 40 al verse 6 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);//[p....] - elimino versículos sobrantes a partir de el último hasta el fin
-                                        }
-                                        if(chapter == 41){//41:1-8 => 40:20-27 | 41:9-34 =>	41: -8
-                                            addChapterToHead(bq, book, 40);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 40, form_list_verses(20, 27) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 41, 9);//se añade capitulo 41 al verse 9 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break; 
-
-                                case 18: //Psalmos 
-                                        if(chapter >= 3 && chapter <= 8){//3:1 - 9:20 =>	Х : +1 *
-                                            arr_data_body.splice(0, 1);//[p....] - elimino primer versículo
-                                        }
-                                        if(chapter == 9){//3:1 - 9:20 => Х : +1 *
-                                            arr_data_body.splice(0, 1);//[p....] - elimino primer versículo
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 10){//10:2-18 => 9: +21
-                                            addChapterToHead(bq, book, 9);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 9, form_list_verses(22, 39) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula Esp => Rus //Ps.X:1 => Пс.X-1:1 
-                                        //-1 : Х
-                                        if(
-                                            (chapter == 11) || 
-                                            (chapter >= 14 && chapter <= 17) || 
-                                            (chapter >= 23 && chapter <= 29) || 
-                                            (chapter >= 32 && chapter <= 33) || 
-                                            (chapter == 35) || 
-                                            (chapter == 37) || 
-                                            (chapter == 43) || 
-                                            (chapter == 50) || 
-                                            (chapter == 66) || 
-                                            (chapter >= 71 && chapter <= 74) || 
-                                            (chapter >= 78 && chapter <= 79) || 
-                                            (chapter == 82) || 
-                                            (chapter == 86) || 
-                                            (chapter == 87) || 
-                                            (chapter == 91) || 
-                                            (chapter >= 93 && chapter <= 101) || 
-                                            (chapter >= 103 && chapter <= 107) || 
-                                            (chapter >= 109 && chapter <= 114) || 
-                                            (chapter >= 117 && chapter <= 146)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula Esp => Rus //Ps.X:1 => Пс.X-1:2 
-                                        //-1 : +1
-                                        if(
-                                            (chapter == 12) || 
-                                            (chapter >= 18 && chapter <= 22) || 
-                                            (chapter >= 30 && chapter <= 31) || 
-                                            (chapter == 34) || 
-                                            (chapter == 36) || 
-                                            (chapter >= 38 && chapter <= 42) || 
-                                            (chapter >= 44 && chapter <= 49) || 
-                                            (chapter == 53) || 
-                                            (chapter >= 55 && chapter <= 59) || 
-                                            (chapter >= 61 && chapter <= 65) || 
-                                            (chapter >= 67 && chapter <= 70) || 
-                                            (chapter >= 75 && chapter <= 77) || 
-                                            (chapter >= 80 && chapter <= 81) || 
-                                            (chapter >= 83 && chapter <= 85) || 
-                                            (chapter >= 88 && chapter < 90) || 
-                                            (chapter == 92) || 
-                                            (chapter == 102) || 
-                                            (chapter == 108)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(1+1, col1_p_length+1) );// desde 2 versiculo
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //2en1
-                                        if(chapter == 13){//13:05 => 12:6-а | 13:06 => 12:6-б
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(2, 6) );// desde 2 versiculo
-                                            arr_data_body = arr_vstavka.concat(vstavka_vacio('arriba'),arr_data_body);
-                                            arr_data_body.splice(col1_p_length);//1 verse español contiene 2 en ruso
-                                        }
-                                        //Formula
-                                        //-1 : +2 *
-                                        if(
-                                            (chapter >= 51 && chapter <= 52) ||
-                                            (chapter == 54) || 
-                                            (chapter == 60)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(1+2, col1_p_length+2) );// desde 3 versiculo
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //2en1
-                                        if(chapter == 90){//90:05 => 89:6-а | 90:06	=> 89:6-б 
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(2, col1_p_length) );
-                                            let p_vacio = document.createElement('p');
-                                            p_vacio.className = 'prim';
-                                            p_vacio.innerHTML = 'смотри стих выше...';
-                                            arr_vstavka.splice(5,0,p_vacio);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //-2: +8
-                                        if(chapter == 115){//115:1-18 => 113: +8
-                                            addChapterToHead(bq, book, parseInt(chapter)-2);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-2, form_list_verses(1+8, col1_p_length+8) );// desde 9 versiculo
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //-2: X
-                                        if(chapter == 116){//116:1-9 => 114: Х
-                                            addChapterToHead(bq, book, parseInt(chapter)-2);//si el verse vstavka es primero
-                                            // Sal.116:1-9 => Пс. 114:1-9
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-2, form_list_verses(1, 9) );
-                                            // Sal.116:10-19 => Пс. 115:1-10
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(1, 10) );
-                                            arr_vstavka = arr_vstavka.concat(vstavka2);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 115, 10);//se añade capitulo 115 al verse 10 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //-1: X (especial)
-                                        if(chapter == 147){//147:1-11 => 146:1-11
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            // Sal.147:1-11 => Пс.146:1-11
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(1, 11) );
-                                            // Sal.147:12-20 => Пс. 147:1-9
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, 9) );
-                                            arr_vstavka = arr_vstavka.concat(vstavka2);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 147, 12);//se añade capitulo 147 al verse 12 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 19: //Притчи
-                                        if(chapter == 4){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = [].concat(arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-                            
-                                case 21: //Cantares - Песня песней
-                                        if(chapter == 1){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            let p_vacio = document.createElement('p');
-                                            p_vacio.className = 'prim';
-                                            p_vacio.innerHTML = 'заглавие...';
-                                            arr_vstavka.splice(0,0,p_vacio);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 6){//06:13 =>	07:1
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, 1 );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 7, 13);//se añade capitulo 7 al verse 13 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 7){//7:1-13 => 7: +1 (7:2-14)
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1+1, col1_p_length+1) );
-                                            arr_data_body = [].concat(arr_vstavka,arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 22: //Isaías - Исаия
-                                        if(chapter == 3){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            let p_vacio = document.createElement('p');
-                                            p_vacio.className = 'prim';
-                                            p_vacio.innerHTML = 'смотри стих выше...';
-                                            arr_vstavka.splice(19,0,p_vacio);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 26: //Daniel - Даниил
-                                        if(chapter == 3){//3:1-30 => 3:1-30
-                                            //в Синодальном переводе есть вставочные стихи, которых нет в Исп Библии. Стихи с 24 по 90 включительно переведены с греческого, потому что в еврейском тексте их нет. - Прим. ред.
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 4){//4:1-3 => 3:31-33 | 4:4-37 => 4: -3
-                                            addChapterToHead(bq, book, parseInt(chapter)-1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-1, form_list_verses(31, 33) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 4, 4);//se añade capitulo 4 al verse 4 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 27: //Oseas - Осия
-                                        if(chapter == 13){//13:16 => 14:1
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 14, 1);
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 14, 16);//se añade capitulo 14 al verse 16 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 14){//14:1-9 => 14:2-10
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(2, 10) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 31: //Jonas - Иона
-                                        if(chapter == 1){//1:17 => 2:1
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 2, 1);
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 2, 17);//se añade capitulo 2 al verse 17 español que es 1 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 2){//2:1-10 => 2:2-11
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(2, 11) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 44: //Romanos - Римлянам
-                                        //book = book + 7;// 44 + 7 = 51 //Romanos - Римлянам
-                                        if(chapter == 16){// 16:25-27 => 14:24-26                                          
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter-2, form_list_verses(24,  26) );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 14, 25);//se añade capitulo 14 al verse 25 español que es 24-26 ruso
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 46: //2Corintios - 2-Коринфянам
-                                        //book = book + 7;// 46 + 7 = 53 //2Corintios - 2-Коринфянам
-                                        if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-1) );
-                                            let p_vacio = document.createElement('p');
-                                            p_vacio.className = 'prim';
-                                            p_vacio.innerHTML = 'смотри стих выше...';
-                                            arr_vstavka.splice(12,0,p_vacio);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-                                
-                                default:
-                                    //console.log('default en switch');
-                                    break;
-                            }//fin switch
-                        }
-                        //=====================================================//
-                        // fin - Numeración base Española - y col's Rusa
-                        //=====================================================//
-                        
-                        
-                        //=====================================================//
-                        // 2. inicio - Numeración base Rusa - y col's Española
-                        //=====================================================//
-                        if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
-                            //console.log('Numeración base Rusa - y cols Española');
-                            //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
-                            var arr_vstavka = [];
-                            var vstavka2 = [];
-                            
-                            //Miro la traducción con EnglishPsalms
-                            switch (parseInt(book)) {
-
-                                case 3: //Числа
-                                        if(chapter == 12){//12:X => 12:X (quito ultimo verse)
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 13){//Числа 13:1 => Num.12:16 
-                                            addChapterToHead(bq, book, 12);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 12, 16);
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 13, 2);//result Num.13:1 => Números 13 Num.13:1
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 5: //Иисус Навин
-                                        if(chapter == 5){//Иис.Нав.5:16 => Jos.6:1                                    
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 6, 1);
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 6, 16);//se añade capitulo 5 al verse 16 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 6){//Иис.Нав.6:1 => Jos.6:2 ... Иис.Нав.6:26 => Jos.6:27
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1+1, col1_p_length+1));
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break; 
-                                    
-                                case 8: //1Samuel (1Царств) 
-                                        if(chapter == 20){//1Цар.20:42-43 => 1Sam 20:42
-                                            //1 verse contiene 2 en ruso
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-1) );
-                                            arr_data_body = [].concat(arr_vstavka,vstavka_vacio('arriba'));
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 23){//
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 24){//1Цар.24:1 => 1S.23:29
-                                            addChapterToHead(bq, book, 23);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 23, 29 );//cojo último verse del capitulo anterior
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 24, 2);//se añade capitulo 24 al verse 2 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break; 
-                                
-                                case 17: //Job 
-                                        if(chapter == 39){//39:31-35 => 40:1-5  | 40:6-24 =>	40: -5
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 40, form_list_verses(1, 5) );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 40, 31);//se añade capitulo 40 al verse 31 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 40){//40:1-19 => 40:6-24 
-                                            //console.log(arr_data_body);//arr_data_body trae todos los verses del capitulo  40:1-24
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 40, form_list_verses(6, 24) );//trae 8 verses 40:6-24
-                                            //console.log(arr_vstavka);//trae 8 verses 40:6-24
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, 41, form_list_verses(1, 8) );//trae 8 verses 41:1-8
-                                            //console.log(vstavka2);
-                                            arr_data_body = [].concat(arr_vstavka, vstavka2);//[]. reescribe y une 40:6-24 con 41:1-8 
-                                            //console.log(arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 41, 20);//se añade capitulo 41 al verse 20 ruso que es 1 español                                        
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 41){//40:1-26 => 41:9-34
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 41, form_list_verses(9, 34) );
-                                            arr_data_body = [].concat(arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break; 
-
-                                case 18: //Psalmos 
-                                        if(chapter >= 3 && chapter <= 8){//3:1 - 9:20 =>	Х : +1 *
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-1) );
-                                            arr_data_body = [].concat(vstavka_vacio(), arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 9){//3:1 - 9:20 => Х : +1 *
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, 20) );
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, 10, form_list_verses(1, 18) );
-                                            arr_data_body = [].concat(vstavka_vacio(), arr_vstavka, vstavka2);
-                                            addChapterToVerse(arr_data_body, bq, book, 10, 22);//se añade capitulo 10 al verse 22 ruso que es 1 español 
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula Esp => Rus //Пс.X:1 => Ps.X+1:1 
-                                        //+1 : Х
-                                        if(
-                                            (chapter == 10) || 
-                                            (chapter >= 13 && chapter <= 16) || 
-                                            (chapter >= 22 && chapter <= 28) || 
-                                            (chapter >= 31 && chapter <= 32) || 
-                                            (chapter == 34) || 
-                                            (chapter == 36) || 
-                                            (chapter == 42) || 
-                                            (chapter == 49) || 
-                                            (chapter == 65) || 
-                                            (chapter >= 70 && chapter <= 73) || 
-                                            (chapter >= 77 && chapter <= 78) || 
-                                            (chapter == 81) || 
-                                            (chapter == 85) || 
-                                            (chapter == 86) || 
-                                            (chapter == 90) || 
-                                            (chapter >= 92 && chapter <= 100) || 
-                                            (chapter >= 102 && chapter <= 106) || 
-                                            (chapter >= 108 && chapter < 113) || 
-                                            (chapter >= 116 && chapter <= 138) ||
-                                            (chapter >= 140 && chapter <= 145)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula Esp => Rus //Пс.X+1:2 => Ps.X:1 //добавляю пустой стих сначала в исп перевод
-                                        //+1 : -1
-                                        if(
-                                            (chapter == 11) || 
-                                            (chapter == 12) || 
-                                            (chapter >= 17 && chapter <= 21) ||
-                                            (chapter >= 29 && chapter <= 30) || 
-                                            (chapter == 33) || 
-                                            (chapter == 35) || 
-                                            (chapter >= 37 && chapter <= 41) || 
-                                            (chapter >= 43 && chapter <= 48) || 
-                                            (chapter == 52) || 
-                                            (chapter >= 54 && chapter <= 58) || 
-                                            (chapter >= 60 && chapter <= 64) || 
-                                            (chapter >= 66 && chapter <= 69) || 
-                                            (chapter >= 74 && chapter <= 76) || 
-                                            (chapter >= 79 && chapter <= 80) || 
-                                            (chapter >= 82 && chapter <= 84) || 
-                                            (chapter >= 87 && chapter < 89) || 
-                                            (chapter == 91) || 
-                                            (chapter == 101) || 
-                                            (chapter == 107) ||
-                                            (chapter == 139)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length-1) );
-                                            arr_data_body = [].concat(vstavka_vacio(), arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //+1 : -2 | Ej.:  50:0 => 51:1 | 50:1 => 51:2
-                                        if(
-                                            (chapter >= 50 && chapter <= 51) ||
-                                            (chapter == 53) || 
-                                            (chapter == 59)
-                                        ){
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length-2) );
-                                            arr_data_body = [].concat(vstavka_vacio(),vstavka_vacio(), arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //2en1
-                                        if(chapter == 89){//89:6 => 90:5-6 
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                            var new_arr = [];
-                                            arr_vstavka.map((el,i,arr) => {
-                                                if(i == 4){
-                                                    const p_new = document.createElement('p');
-                                                    p_new.innerHTML = arr[i].innerHTML + '<br>' + arr[i+1].innerHTML;
-                                                    new_arr.push(p_new); 
-                                                }else{
-                                                    new_arr.push(el);
-                                                }
-                                            });
-                                            new_arr.splice(5, 0);//elimino verse 6 (90:6) 
-                                            //console.log(new_arr);
-                                            arr_vstavka = new_arr;
-                                            arr_data_body = [].concat(vstavka_vacio(), arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //+2: -8
-                                        if(chapter == 113){//113: +8 => 115:1-18 | Пс.113:9 => Sal.115:1
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, 8) );
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+2, form_list_verses(1, 18) );
-                                            arr_data_body = [].concat(arr_vstavka, vstavka2);
-                                            addChapterToVerse(arr_data_body, bq, book, 115, 9);//se añade capitulo 115 al verse 9 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula
-                                        //-2: X
-                                        if(chapter == 114){// Пс. 114:1-9 => Sal.116:1-9 
-                                            addChapterToHead(bq, book, parseInt(chapter)+2);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+2, form_list_verses(1, 9) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 115){// Пс. 115:1-10 => Sal.116:10-19
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(10, 19) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula (especial)
-                                        if(chapter == 146){// Пс.146:1-11 => Sal.147:1-11
-                                            addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, 11) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        //Formula (especial)
-                                        if(chapter == 147){// Пс.147:1-11 => Sal.147:12-20
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(12, 20) );
-                                            arr_data_body = arr_vstavka.concat(arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;                                 
-
-                                case 19: //Притчи
-                                        if(chapter == 4){
-                                            //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length-2) );
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            //arr_data_body = [].concat(arr_vstavka, vstavka_vacio(), vstavka_vacio());
-                                            arr_data_body = [].concat(arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-                                
-                                case 21: //Cantares - Песня песней
-                                        if(chapter == 1){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            //console.log(arr_vstavka);
-                                            var new_arr = [];
-                                            arr_vstavka.map((el,i,arr) => {
-                                                if(i == 0){
-                                                    const p_new = document.createElement('p');
-                                                    p_new.innerHTML = arr[i].innerHTML + '<br>' + arr[i+1].innerHTML;
-                                                    new_arr.push(p_new); 
-                                                }else{
-                                                    new_arr.push(el);
-                                                }
-                                            });
-                                            new_arr.splice(1, 1);//elimino verse  (Cantar 1:2) 
-                                            //console.log(new_arr);
-                                            arr_vstavka = new_arr;
-                                            //arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));//mal
-                                            arr_data_body = [].concat(arr_vstavka);//ok
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 6){//06:1-12 => 06:1-12	
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 7){//07:1 => 06:13	
-                                            addChapterToHead(bq, book, 6);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)-1, 13 );
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 7, 2);//se añade capitulo 7 al verse 2 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 22: //Isaías - Исаия
-                                        if(chapter == 3){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                            var new_arr = [];
-                                            arr_vstavka.map((el,i,arr) => {
-                                                if(i == 18){
-                                                    const p_new = document.createElement('p');
-                                                    p_new.innerHTML = arr[i].innerHTML + '<br>' + arr[i+1].innerHTML;
-                                                    new_arr.push(p_new); 
-                                                }else{
-                                                    new_arr.push(el);
-                                                }
-                                            });
-                                            new_arr.splice(19, 1);//elimino verse  (Is.3:19) 
-                                            //console.log(new_arr);
-                                            arr_vstavka = new_arr;
-                                            //arr_data_body = [].concat(arr_vstavka, vstavka_vacio('arriba'));
-                                            arr_data_body = [].concat(arr_vstavka);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 26: //Daniel - Даниил
-                                        if(chapter == 3){//3:1-30 => 3:1-30
-                                            //в Синодальном переводе есть вставочные стихи, которых нет в Исп Библии. Стихи с 24 по 90 включительно переведены с греческого, потому что в еврейском тексте их нет. - Прим. ред.
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, 30) );
-                                            vstavka2 = for_parseVerse(Translation, bq, bookModule, book, 4, form_list_verses(1, 3) );
-                                            arr_data_body = [].concat(arr_vstavka, vstavka2);
-                                            addChapterToVerse(arr_data_body, bq, book, 4, 31);//se añade capitulo 4 al verse 31 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 4){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(4, col1_p_length+3) );
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 27: //Oseas - Осия
-                                        if(chapter == 14){//14:1 => 13:16 
-                                            addChapterToHead(bq, book, 13);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 13, 16);
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 14, 2);//se añade capitulo 14 al verse 2 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 31: //Jonas - Иона
-                                        if(chapter == 1){
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, form_list_verses(1, col1_p_length));
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                        if(chapter == 2){// 2:1 => 1:17
-                                            addChapterToHead(bq, book, 1);//si el verse vstavka es primero
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 1, 17);
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            addChapterToVerse(arr_data_body, bq, book, 2, 2);//se añade capitulo 2 al verse 2 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 44: //Romanos - Римлянам
-                                        if(chapter == 14){// 14:24-26 => 16:25-27                                       
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, 16, form_list_verses(25,  27) );
-                                            arr_data_body = arr_data_body.concat(arr_vstavka);
-                                            addChapterToVerse(arr_data_body, bq, book, 16, 24);//se añade capitulo 14 al verse 24 ruso que es 1 español
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                case 46: //2Corintios - 2-Коринфянам
-                                        if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
-                                            arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );
-                                            var new_arr = [];
-                                            arr_vstavka.map((el,i,arr) => {
-                                                if(i == 11){
-                                                    const p_new = document.createElement('p');
-                                                    p_new.innerHTML = arr[i].innerHTML + '<br>' + arr[i+1].innerHTML;
-                                                    new_arr.push(p_new); 
-                                                }else{
-                                                    new_arr.push(el);
-                                                }
-                                            });
-                                            new_arr.splice(12, 1);//elimino verse  (Is.3:19) 
-                                            //console.log(new_arr);
-                                            arr_vstavka = new_arr;
-                                            arr_data_body = [].concat(arr_vstavka, arr_data_body);
-                                            arr_data_body.splice(col1_p_length);
-                                        }
-                                    break;
-
-                                default:
-                                    //console.log('default en switch');
-                                    break;
-                            }//fin switch
-                        }
-                        //=====================================================//
-                        // inicio - Numeración base Rusa - y col's Española
-                        //=====================================================//
-                        
-
-                        //console.log('arr_data_head');
-                        //console.log(arr_data_head);
-
-                        //console.log('arr_data_body');
-                        //console.log(arr_data_body);
-
-                        arr_data_body.forEach((el,i)=>{//cambio data-verse
-                            el.setAttribute('data-verse', i + 1 );
-                        });
-
-                        arr_data_all = arr_data_head.concat(arr_data_body);
-
-                        arr_data_all.forEach((el,i)=>{
-                            //console.log(el);
-                            divShow.append(el);
-                        });
-                        arr_data_head = [];
-                        arr_data_body = [];
-                        arr_data_all = [];
-                        
-
-                        window.iter_i++;
-                        if(window.iter_i < window.arr_trans.length){
-                            //console.log('iter_i: '+iter_i);
-                            //showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                            showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                        }
-
-                    }else{
-                        //console.log(' no existe capítulo '+chapter+' del módulo '+book);
-                        divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
-                    }
-                })
-                .then(() => {
-                    mySizeWindow();
-                    mySizeVerse();
-                    /*
-                    //si es ultimo elemento, añado padding-bottom
-                    let p_last = divShow.querySelector('p:last-child');
-                    let mb_h = divShow.offsetHeight - p_last.offsetHeight;
-                    console.log('mb_h: '+mb_h)
-                    p_last.style.marginBottom = mb_h + 'px';
-                    p_last.style.background = 'lightgreen';
-                    */
-                })
-                .then(() => {
-                    
-                    if(verseNumber !== null &&  verseNumber != "" && verseView == null){
-                        //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
-
-                        //styles of other verses
-                        if(to_verseNumber !== null && to_verseNumber != ""){
-                            //console.log('hay to_verseNumber');
-                            if(parseInt(verseNumber) < parseInt(to_verseNumber)){
-                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                    Array.from(document.querySelectorAll('[data-verse="'+i+'"]')).forEach(el=>{
-                                        if(i == parseInt(verseNumber)) {
-                                            el.classList.add('active_first');                
-                                        }else if(i == parseInt(to_verseNumber)) {
-                                            el.classList.add('active_last');                
-                                        }else{
-                                            el.classList.add('active_middle');                
-                                        }
-                                    });
-                                }
-                            } 
-                        }else{
-                            //console.log('no hay to_verseNumber. reviso verseNumber');
-                            //only one verse of each translation
-                            if(verseNumber !== null && verseNumber != ""){
-                                document.querySelectorAll('[data-verse="'+verseNumber+'"]').forEach(el=>{
-                                    el.classList.add('active_one');
-                                });
-                            }
-                        }                
-                    
-                        //scroll to verse o verses activos
-                        //scrollToVerse(verseNumber, to_verseNumber);
-                    }
-
-                    if(verseView !== null && verseView != ""){
-                        //console.log('hay verseView');
-
-                        //styles of other verses of col1
-                        if(to_verseNumber !== null && to_verseNumber != ""){
-                            //console.log('hay to_verseNumber');
-                            if(parseInt(verseNumber) < parseInt(to_verseNumber)){
-                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                    Array.from(document.querySelectorAll('#col1 .colsInner [data-verse="'+i+'"]')).forEach(el=>{
-                                        if(i == parseInt(verseNumber)) {
-                                            el.classList.add('active_first');                
-                                        }else if(i == parseInt(to_verseNumber)) {
-                                            el.classList.add('active_last');                
-                                        }else{
-                                            el.classList.add('active_middle');                
-                                        }
-                                    });
-                                }
-                            } 
-                        }else{
-                            //console.log('no hay to_verseNumber. reviso verseNumber');
-                            //only one verse of each translation
-                            if(verseNumber !== null && verseNumber != ""){
-                                document.querySelectorAll('.colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
-                                    el.classList.add('active_one');
-                                });
-                            }
-                        }                
-                    }
-                })
-                .then(() => {
-                    //si hay versiculo marcado con amarillo...
-                    if(verseNumber !== null &&  verseNumber != "" ){
-                        //scroll to verse o verses activos
-                        scrollToVerse(verseNumber, to_verseNumber);
-
-                        //y si con el versiculo marcado existe verse de la vista...
-                        if(verseView !== null && verseView != ""){
-                            //scroll to verseView
-                            scrollToVerseView(verseView);
-                        }
-                    }else{
-                        //console.log('no hay verseNumber');
-                        if(verseView !== null && verseView != ""){
-                            //scroll to verseView
-                            scrollToVerseView(verseView);
-                        }
-                    }
-                    
-                })
-                .then(() => {
-                    mySizeWindow();
-                    mySizeVerse();
-                    addListenerToPA();//listen links p > a
-                });
-
-            }else{//si no está el id de book en el modulo...
-                document.querySelectorAll('.colsInner').forEach(el=>{
-                    if(el.childElementCount == 0 || el.textContent == ''){
-                        var p = document.createElement('p');
-                        p.className = 'prim';
-                        p.innerHTML = `1. En este módulo no existe el libro indicado.`;
-                        el.append(p);
-                        //alert(' vacio');
-                    }else{
-                        //alert(' no vacio');
-                    }
-                });
-            }            
-        });
-
-    }//end --- typeof Translation
-    else{
-        console.log('la traducción no está seleccionada. Translation: '+Translation); 
-        //alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
-    }
-
-
-}
 
 function clearAllDivShow(){
     //console.log('===function clearAllDivShow()===');
@@ -4730,7 +3518,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                                 
                                                 var a = document.createElement('a');
                                                 a.href = '#';
-                                                a.classList.add = 'blink';
+                                                //a.classList.add('aki_clase');//de momento comento...
                                                 a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                                 p.append(a);
                                                 p.append(' '); 
@@ -5921,7 +4709,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                     
                                     var a = document.createElement('a');
                                     a.href = '#';
-                                    a.classList.add = 'blink';
+                                    //a.classList.add('aki_clase');//de momento comento...
                                     a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                     p.append(a);
                                     p.append(' '); 
@@ -7186,7 +5974,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             
                                             var a = document.createElement('a');
                                             a.href = '#';
-                                            a.classList.add = 'blink';
+                                            //a.classList.add('aki_clase');//de momento comento...
                                             a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                             p.append(a);
                                             p.append(' '); 
@@ -8239,7 +7027,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                             
                                             var a = document.createElement('a');
                                             a.href = '#';
-                                            a.classList.add = 'blink';
+                                            //a.classList.add('aki_clase');//de momento comento...
                                             a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                             p.append(a);
                                             p.append(' '); 
@@ -9505,7 +8293,7 @@ function old_showChapterText4(Translation, divId, book, chapter, verseNumber = n
                         
                                         var a = document.createElement('a');
                                         a.href = '#';
-                                        a.classList.add = 'blink';
+                                        //a.classList.add('aki_clase');//de momento comento...
                                         a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                         p.append(a);
                                         p.append(' '); 
@@ -10576,9 +9364,10 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
     console.log('');
     console.log('=== function showChapterText4() new === divId: ' + divId);
 
-    if(modo_fetch_chapter == 'by_text'){
+    if(modo_fetch_verses_for_cols == 'by_text'){
         viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild);
-    }else if(modo_fetch_chapter == 'by_json'){
+    }
+    else if(modo_fetch_verses_for_cols == 'by_json'){
         viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild);
     }
 }
@@ -10783,7 +9572,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 
                                                 var a = document.createElement('a');
                                                 a.href = '#';
-                                                a.classList.add = 'blink';
+                                                //a.classList.add('aki_clase');//de momento comento...
                                                 a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                                 p.append(a);
                                                 p.append(' '); 
@@ -11983,7 +10772,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     
                                     var a = document.createElement('a');
                                     a.href = '#';
-                                    a.classList.add = 'blink';
+                                    //a.classList.add('aki_clase');//de momento comento...
                                     a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                     p.append(a);
                                     p.append(' '); 
@@ -13201,7 +11990,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     
                                     var a = document.createElement('a');
                                     a.href = '#';
-                                    a.classList.add = 'blink';
+                                    //a.classList.add('aki_clase');//de momento comento...
                                     a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                     p.append(a);
                                     p.append(' '); 
@@ -14456,7 +13245,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
             
                             var a = document.createElement('a');
                             a.href = '#';
-                            a.classList.add = 'blink';
+                            //a.classList.add('aki_clase');//de momento comento...
                             a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                             p.append(a);
                             p.append(' '); 
@@ -15739,7 +14528,7 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
 
         const a = document.createElement('a');
         a.href = '#';
-        a.classList.add = 'blink';
+        //a.classList.add('aki_clase');//de momento comento...
         a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
         p.append(a);
         p.append(' '); 
@@ -15976,7 +14765,7 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
 
         var a = document.createElement('a');
         a.href = '#';
-        a.classList.add = 'blink';
+        //a.classList.add('aki_clase');//de momento comento...
         a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
         p.append(a);
         p.append(' '); 
@@ -19049,9 +17838,9 @@ function getRef(trans = null){
                         }
 
                         
-                        //modo old. getting all file and showing only needed verses
-                        if(modo_action_get_tsk_verses == 'by_text'){
-                            //console.log('modo_action_get_tsk_verses == by_text');
+                        //modo old. getting all file '01genesis.htmn' and showing only needed verses (with .split())
+                        if(modo_fetch_verses_for_cols == 'by_text'){
+                            console.log('modo_fetch_verses_for_cols == by_text');
 
                                                         
                             //verse
@@ -19126,12 +17915,12 @@ function getRef(trans = null){
                             if (parseInt(chapter) > 0 && parseInt(verse) > 0) {
                                 eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
                             }
-                        }//end modo_action_get_tsk_verses == by_text
+                        }//end modo_fetch_verses_for_cols == by_text
 
 
                         //modo new. getting only verses to show by json
-                        if(modo_action_get_tsk_verses == 'by_json'){
-                            //console.log('modo_action_get_tsk_verses == by_json');
+                        if(modo_fetch_verses_for_cols == 'by_json'){
+                            console.log('modo_fetch_verses_for_cols == by_json');
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
@@ -19278,7 +18067,7 @@ function getRef(trans = null){
 
                             }
 
-                        }//end modo_action_get_tsk_verses == 'by_json'
+                        }//end modo_fetch_verses_for_cols == 'by_json'
 
 
                         break;
@@ -22130,7 +20919,7 @@ function findWords(words_input){
                                             
                                                             var a = document.createElement('a');
                                                             a.href = '#';
-                                                            a.classList.add = 'blink';
+                                                            //a.classList.add('aki_clase');//de momento comento...
                                                             let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                                             a.innerHTML = aLink;
                                                             a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
@@ -23086,7 +21875,7 @@ function findWords(words_input){
                                 
                                                 var a = document.createElement('a');
                                                 a.href = '#';
-                                                a.classList.add = 'blink';
+                                                //a.classList.add('aki_clase');//de momento comento...
                                                 let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                                 a.innerHTML = aLink;
                                                 a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
@@ -24050,7 +22839,7 @@ function findWords(words_input){
                                 
                                                 var a = document.createElement('a');
                                                 a.href = '#';
-                                                a.classList.add = 'blink';
+                                                //a.classList.add('aki_clase');//de momento comento...
                                                 let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
                                                 a.innerHTML = aLink;
                                                 a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona

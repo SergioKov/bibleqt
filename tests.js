@@ -414,8 +414,8 @@ function getRefToCompare(ref){
 
                         
                         //modo old. getting all file and showing only needed verses
-                        if(modo_action_get_tsk_verses == 'by_text'){
-                            //console.log('modo_action_get_tsk_verses == by_text');
+                        if(modo_fetch_verses_for_cols == 'by_text'){
+                            //console.log('modo_fetch_verses_for_cols == by_text');
                             
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
@@ -483,12 +483,12 @@ function getRefToCompare(ref){
                             if (parseInt(chapter) > 0 && parseInt(verse) > 0) {
                                 document.querySelector('#s_verse').click();// se cargan verses del chapter indicado y se muestra el verse marcado
                             }
-                        }//end modo_action_get_tsk_verses == by_text
+                        }//end modo_fetch_verses_for_cols == by_text
 
 
                         //modo new. getting only verses to show by json
-                        if(modo_action_get_tsk_verses == 'by_json'){
-                            //console.log('modo_action_get_tsk_verses == by_json');
+                        if(modo_fetch_verses_for_cols == 'by_json'){
+                            //console.log('modo_fetch_verses_for_cols == by_json');
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
@@ -630,7 +630,7 @@ function getRefToCompare(ref){
 
                             }
 
-                        }//end modo_action_get_tsk_verses == 'by_json'
+                        }//end modo_fetch_verses_for_cols == 'by_json'
 
 
                         break;
