@@ -356,7 +356,7 @@ function getRefToCompare(ref){
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                var trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+                                let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
                                 var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                 var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
@@ -837,7 +837,7 @@ async function parseTextToArrRef(textRef, trans = null){
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                let trans_base = document.querySelector('#trans1').dataset.trans;//la trans base de #trans1
+                                let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
                                 let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                 let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 

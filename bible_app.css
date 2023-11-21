@@ -1605,6 +1605,29 @@ select  optgroup option {
     display: block;
 }
 
+#wr_act_trans_nav {
+    background: #373737;
+    /* color: white; */
+    padding: 5px;
+    /* border: 5px solid #1875bf; */
+    /* border-bottom: none; */
+}
+#act_trans_nav {
+    background: #000000;
+    color: #c4c4c4;
+    padding: 2px 5px;
+    font-size: 15px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#act_trans:hover{
+    background: #424242;
+}
+
+
 #wr_hist_nav,
 #wr_hist_strong
 {
@@ -2813,7 +2836,8 @@ pr {
     border: 1px solid #b8b8b8;
     border-radius: 3px;
     opacity: 0;
-    top: 50%;
+    /* top: 50%; */
+    bottom: 5px;
     right: 5px;
     width: 18px;
     height: 24px;
@@ -2821,7 +2845,7 @@ pr {
     text-align: center;
 }
 p:hover .btn_verse_menu{
-    opacity: 0.4;
+    opacity: 0.5;
 }
 
 

@@ -332,13 +332,16 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 console.log(`modifico chapter y verse de esp a rus`);
             }
             else{
-                console.log('--- chapter y verse no se modifican. se pasan tal cual.');
+                console.log('--- 335 chapter y verse no se modifican. se pasan tal cual.');
             }
 
             arr_verses_compare[iter_a].book = bookNumber;
             arr_verses_compare[iter_a].chapter = chapterNumber;
             arr_verses_compare[iter_a].verse = verseNumber;
 
+            book = bookNumber;
+            chapter = chapterNumber;
+            verse = verseNumber;
 
             if(modo_fetch_verses_compare == 'by_text'){
                 console.log(`modo_fetch_verses_compare == 'by_text'`);
@@ -1337,14 +1340,36 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         let refLink = `${el.BibleBookShortName}${el.chapter}:${el.verse}`;
         a_ref.innerHTML = refLink;
         a_ref.onclick = (e) => {
+            
+            updateArrTrans();
+
+            if(arr_trans.includes(el.Translation)){
+                arr_trans.unshift(el.Translation);//вставляю в начало
+                arr_trans = [... new Set(arr_trans)];//удаляю повторяющиеся елементы
+            }else{
+                arr_trans[0] = el.Translation;//меняю первый елемент
+            }
+
+            document.querySelectorAll('.colsHead').forEach((el,i) => {
+                let this_trans = arrFavTransObj.find(v => v.Translation === arr_trans[i]);
+
+                el.dataset.trans = this_trans.Translation;
+                el.dataset.base_ep = this_trans.EnglishPsalms;
+
+                if(i == 0){
+                    //eid_inpt_nav.dataset.trans = this_trans.Translation; 
+                }
+            });
+            
+            
             eid_inpt_nav.dataset.trans = el.Translation;
-            eid_trans1.dataset.trans = el.Translation;
+            eid_act_trans_nav.textContent = el.BibleShortName;            
+            
             goToLink(el.Translation, refLink);
-            //eid_trans1.dataset.trans = el.Translation;
+            updateArrTrans();
             setTimeout(()=>{
                 eid_s_verse.click();
             },100);
-            //getRef(refLink);
             closeModal();
         };
 
@@ -1363,6 +1388,30 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     eid_bl_modalFullInner.append(div_wr_vc);
 
     mySizeVersesCompare();
+
+}
+
+function updateArrTrans(){
+    let colsHeadAll = document.querySelectorAll('.colsHead');
+
+    arr_trans = [];//reset
+    colsHeadAll.forEach((el) =>{
+        arr_trans.push(el.dataset.trans);
+        console.log(arr_trans);
+    });
+    console.log('arr_trans: ',arr_trans);
+
+
+    let btns_footer_trans_all = document.querySelectorAll('#footerInner button');
+    btns_footer_trans_all.forEach(el => {
+        if(el.classList.contains('btn_active')){
+            el.classList.remove('btn_active');
+        }
+        
+        if(el.value == eid_trans1.dataset.trans){
+            el.classList.add('btn_active');
+        }
+    });
 
 }
 

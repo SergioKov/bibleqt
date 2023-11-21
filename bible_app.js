@@ -36,6 +36,8 @@ const computedStyle = window.getComputedStyle(eid_sidebarInner);
 const eid_inpt_nav = document.getElementById('inpt_nav');
 const eid_hist_nav = document.getElementById('hist_nav');
 
+const eid_act_trans_nav = document.getElementById('act_trans_nav');
+
 const eid_wr_hist_nav = document.getElementById('wr_hist_nav');
 const eid_wr_hist_find = document.getElementById('wr_hist_find');
 const eid_wr_hist_strong = document.getElementById('wr_hist_strong');
@@ -222,7 +224,7 @@ const obj_ep = {
 }  
 
 //constant para crear arrFavTransObj
-const arrTrans = [
+const arrFavTrans = [
     "rstStrongRed",
     //"rstStrong", desconecto por ser inecesario
     "rstt",
@@ -247,7 +249,7 @@ const arrTrans = [
 ];
 
 
-const arrFavTransObj = makeTransObj_new(arrTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
+const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 // console.log('abajo arrFavTransObj:');
 // console.log(arrFavTransObj);
 
@@ -333,14 +335,14 @@ async function obtenerDatosTrans(url_bq) {
     return datos;
 }
 
-function makeTransObj_new(arrTrans){
-    //console.log('===function makeTransObj_new(arrTrans)===');
+function makeTransObj_new(arrFavTrans){
+    //console.log('===function makeTransObj_new(arrFavTrans)===');
 
     let arrTransObj = [];
 
     //paso 1. Creo array de Dato de todos Trans
-    for (let i = 0; i < arrTrans.length; i++) {
-        const el = arrTrans[i];
+    for (let i = 0; i < arrFavTrans.length; i++) {
+        const el = arrFavTrans[i];
         //console.log(i);
         //console.log(el);
 
@@ -353,7 +355,7 @@ function makeTransObj_new(arrTrans){
             arrTransObj[i] = bq;
             //console.log(arrTransObj);
             //cuando es el ultimo elemento lanzo showTrans(0,1)
-            if(i == arrTrans.length - 1){
+            if(i == arrFavTrans.length - 1){
                 //console.log('es ultimo elemento. llamo showTrans(0,1)');
                 loadDefaultFunctions();
             }
@@ -370,7 +372,7 @@ function makeTransObj_new(arrTrans){
 }
 
 function loadRefDefault(ref, trans = null) {
-    if (trans == null) trans = arrTrans[0];
+    if (trans == null) trans = arrFavTrans[0];
     addTab(ref, trans, 'act', null, );
     getRefOfTab('tab1', ref, trans);
 }
@@ -15093,6 +15095,9 @@ function changeTransNav(trans, idCol_trans){
     eid_inpt_nav.dataset.divtrans = idCol_trans;
     eid_inpt_nav.dataset.trans = trans;
 
+    let act_trans = arrFavTransObj.find(v => v.Translation === trans);
+    eid_act_trans_nav.textContent = act_trans.BibleShortName;
+
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
     var Translation = trans;
@@ -15156,6 +15161,8 @@ function changeTransNav(trans, idCol_trans){
 
 }
 
+
+
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     //console.log('===function changeTrans()===');
     
@@ -15169,6 +15176,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
     eid_trans1.dataset.trans = trans;
     eid_trans1.dataset.base_ep = EnglishPsalms;
+    eid_act_trans_nav.textContent = BibleShortName;
 
     //meto la trans nueva en el array de trans
     arr_trans[0] = trans;
@@ -15303,10 +15311,12 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
+        eid_act_trans_nav.textContent = BibleShortName;
     } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
+        eid_act_trans_nav.textContent = BibleShortName;
     }
 
     let trans_actual = thisDiv.dataset.trans;
@@ -16210,7 +16220,7 @@ function selChapter(e, show_chapter = null){
     //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
     //console.log('clickeado show_chapter: '+e.srcElement.getAttribute('data-show_chapter'));
 
-    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+    let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
@@ -16338,7 +16348,7 @@ function selVerse(e){
     //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
     //console.log('clickeado show_verse: '+e.srcElement.getAttribute('data-show_verse'));
 
-    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+    let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
@@ -16457,7 +16467,7 @@ function selVerse(e){
 function sel(e, par, show_chapter = null, trans = null){
     console.log('===function sel()===');
     
-    //var trans_base = eid_trans1.dataset.trans;
+    let trans_base = eid_trans1.dataset.trans;
     var trans_inpt = eid_inpt_nav.dataset.trans;
 
     if(trans != null){
@@ -17800,7 +17810,7 @@ function getRef(trans = null){
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
                                 var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                 var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
@@ -18129,7 +18139,7 @@ function getRef(trans = null){
                                     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                     //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                     
-                                    //var trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                    let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
                                     var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                     var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
     
@@ -19241,68 +19251,6 @@ function showTabMob(btn_id, param, el){
     //2. llamo showTab(eid_btn_nav,'nav')
     showTab(document.querySelector(btn_id), param);
 }
-
-
-function makeTransObj_old(){
-    var arrTrans = [
-        "rstStrongRed",
-        //"rstStrong", desconecto por ser inecesario
-        "rstt",
-        "rsti2",
-        "rstm",
-        "nrt",
-        "rstStrong_rv60",
-        "opnz",
-        
-        "ukr_fil",
-        "ukr_ogi",
-        "ukr_hom",
-        "ukr_gyz",
-        "ukr_tur",
-        "ukr_der",
-        
-        "rv60",
-        "lbla"
-
-        //"kjv",
-        //"nkjv",
-    ];
-
-    var arrTransObj = [];
-    //var arrTransObj = {};
-    //let y = 0;
-
-    for (let i = 0; i < arrTrans.length; i++) {
-        const el = arrTrans[i];
-        //console.log(i);
-        //console.log(el);
-
-        //saco ajustes de este modulo en json
-        url_bq = `modules/text/${el}/bibleqt.json`;
-        //console.log(url_bq);
-
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-            arrTransObj[i] = bq;
-            //console.log(arrTransObj);
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.log('makeTransObj. error promesa: '+error);
-        });        
-    }
-
-    //return arrTrans;
-    return arrTransObj;
-}
-
-
-
-
-
-
-
 
 
 
@@ -23587,6 +23535,11 @@ function updateTransFromActiveCol(){
             if(typeof trans_of_col != 'undefined'){
                 eid_inpt_nav.dataset.divtrans = id_of_col;
                 eid_inpt_nav.dataset.trans = trans_of_col;
+                
+                let act_trans = arrFavTransObj.find(v => v.Translation === trans_of_col);
+                eid_act_trans_nav.title = act_trans.BibleName;
+                eid_act_trans_nav.textContent = act_trans.BibleShortName;
+
                 eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             }
         }
@@ -23924,7 +23877,8 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
 
 function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     //console.log('=== function checkRefNav() ===');
-        
+
+    let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
     var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
     var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
