@@ -1,7 +1,7 @@
 {
     "type": "settings",
-    "BibleName": "tsk. Перекрестные ссылки.",
-    "BibleShortName": "tsk",
+    "BibleName": "TSK. Перекрестные ссылки.",
+    "BibleShortName": "TSK",
     "Bible": "Y",
     "OldTestament": "Y",
     "NewTestament": "Y",
@@ -21,7 +21,7 @@
     "Titles": "N",
     "StartTitleSign": "",
     "EndTitleSign": "",
-    "Translation": "TSK",
+    "Translation": "tsk",
     "Lang": "en",
     "HTMLFilter": "Y",
     "Books":
