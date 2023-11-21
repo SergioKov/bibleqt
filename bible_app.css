@@ -3092,6 +3092,11 @@ fieldset {
     color: black;
 }
 
+.p_aviso {
+    color: #eaeaea;
+    background: black;
+    padding: 10px;
+}
 
 
 

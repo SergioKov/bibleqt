@@ -55,6 +55,14 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     console.log('aki llamar buildVerseMenu()');
                     buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
                     break;
+
+                case 'showAviso':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
+                    console.log('aki llamar showAviso()');
+                    //alert('aki showAviso()');
+                    showAviso(htmlTrans, param);//es arr_p_id en este caso
+                    break;
             
             
                 default:
@@ -156,6 +164,30 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 }
 
 
+function showAviso(htmlTrans, positionModal){
+    console.log('=== showAviso(htmlTrans, param) ===');
+
+    if(positionModal == 'center'){
+        eid_bl_modalCenterInner.innerHTML = '';
+    }else if(positionModal == 'bottom'){
+        eid_bl_modalBottomInner.innerHTML = '';
+    }
+
+
+    const p = document.createElement('p');
+    p.className = 'p_aviso';
+    p.innerHTML = htmlTrans;
+
+
+
+    if(positionModal == 'center'){
+        eid_bl_modalCenterInner.append(p);
+    
+    }else if(positionModal == 'bottom'){
+        eid_bl_modalBottomInner.append(p);
+    }
+
+}
 
 
 function buildVerseMenu(arr_p_id,positionModal){

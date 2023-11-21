@@ -335,6 +335,18 @@ async function obtenerDatosTrans(url_bq) {
     return datos;
 }
 
+async function obtenerDatosToText(url_bq) {
+    const respuesta = await fetch(url_bq);
+    const datos = await respuesta.text();
+    return datos;
+}
+
+async function obtenerDatosToJson(url_bq) {
+    const respuesta = await fetch(url_bq);
+    const datos = await respuesta.json();
+    return datos;
+}
+
 function makeTransObj_new(arrFavTrans){
     //console.log('===function makeTransObj_new(arrFavTrans)===');
 
@@ -350,7 +362,7 @@ function makeTransObj_new(arrFavTrans){
         url_bq = `modules/text/${el}/bibleqt.json`;
         //console.log(url_bq);
 
-        obtenerDatosTrans(url_bq)
+        obtenerDatosToJson(url_bq)
         .then((bq) => {
             arrTransObj[i] = bq;
             //console.log(arrTransObj);
@@ -377,6 +389,146 @@ function loadRefDefault(ref, trans = null) {
     getRefOfTab('tab1', ref, trans);
 }
 
+
+
+
+function loadAllFavModules(){
+    console.log('===function loadAllFavModules()===');
+
+    let i_trans = 0;
+    for_eachTrans(i_trans, arrFavTrans);
+
+    function for_eachTrans(i_trans, arrFavTrans){
+        
+        const el = arrFavTrans[i_trans];
+        //console.log(`${i_trans} --- ${el}`);
+
+        //saco ajustes de este modulo en json
+        url_bq = `modules/text/${el}/bibleqt.json`;
+        //console.log(url_bq);
+
+        obtenerDatosToJson(url_bq)
+        .then((data) => {            
+                            
+            //console.log('data: ',data);
+            console.log('data.Translation: ',data.Translation);
+            
+            //si no existe objeto lo creo
+            if(typeof obj_bible_files[data.Translation] == 'undefined'){
+                obj_bible_files[data.Translation] = {};
+                obj_bible_files[data.Translation].Books = [];
+            }
+
+            let i_book = 0;
+            for_addFilesToModule(i_book, data);
+
+            function for_addFilesToModule(i_book, data){
+                const el_book = data.Books[i_book];
+
+                if(typeof el_book == 'undefined'){
+                    //console.log('0. no existe este i_book en el modulo  --- ');
+                    //console.log(`--- i_trans: ${i_trans} --- `);
+                    //console.log(`--- i_book: ${i_book} --- `);
+                    //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
+                    //console.log(`--- data.Books.length: ${data.Books.length} --- `);                    
+                    i_trans++;
+                    //console.log(`voy al siguiente trans . aumentado i_trans: ${i_trans}`);
+                    for_eachTrans(i_trans, arrFavTrans);
+                    return false;//importante
+                }
+
+                let url_PathName = `modules/text/${data.Translation}/${el_book.PathName}`;
+                //console.log('url_PathName: ',url_PathName);
+
+                //si no hay el fichero '01_genesis.htm' en el objeto 'obj_bible_files', lo añado
+                if(typeof obj_bible_files[data.Translation].Books[i_book] == 'undefined'){
+                     
+                    if(url_PathName.includes('no_disponible.htm')){
+                        //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
+                        i_book++;
+                        //console.log(`aumentado i_book: ${i_book}`);
+                        if(i_book == data.Books.length){
+                            //console.log('1. final  --- ');
+                            //console.log(`--- i_trans: ${i_trans} --- `);
+                            //console.log(`--- i_book: ${i_book} --- `);
+                            //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
+                            //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
+                            i_trans++;
+                            for_eachTrans(i_trans, arrFavTrans);
+                            return false;//importante para que no ejecute for_addFilesToModule(i_book, data);
+                        }else{
+                            //console.log(`else --- i_trans: ${i_trans} --- `);
+                            //console.log(`else --- i_book: ${i_book} --- `); 
+                            //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                        }
+                        for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
+                        return false;//importante
+                    }
+                    
+                    obtenerDatosToText(url_PathName)
+                    .then(dataBook => {
+
+                        //console.log('dataBook: ',dataBook);
+
+                        obj_bible_files[data.Translation].Books[i_book] = {
+                            fileName   : el_book.PathName,
+                            fileContent: dataBook
+                        }
+                        //console.log('obj_bible_files: ',obj_bible_files);
+
+                        i_book++;
+                        if(i_book < data.Books.length){
+                            //console.log(`--- i_book: ${i_book}) --- `);
+                            for_addFilesToModule(i_book, data);
+                        }
+                        else if(i_book == data.Books.length){
+                            //console.log('fin for');
+                            //console.log(`i_trans: ${i_trans}) --- es ultimo elemento. abajo obj_bible_files: '`);
+                            //console.log('obj_bible_files: ',obj_bible_files);
+                            
+                            i_trans++;
+                            if(i_trans < arrFavTrans.length){
+                                for_eachTrans(i_trans, arrFavTrans);
+                            }
+                            
+                            if(i_trans == arrFavTrans.length - 1){
+                                console.log('9. final  --- (i_book == data.Books.length )');
+                                //console.log(`i_trans: ${i_trans}) --- (i_trans == arrFavTrans.length - 1). abajo obj_bible_files: '`);
+                                //console.log(obj_bible_files);                
+                                let tamanio = obtenerTamanioObjeto(obj_bible_files);
+                                let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
+                                let tamanioMB = tamanio / 1000 / 1000;
+                                let aviso_load = `Todos los modulos de las traducciones favoritas se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. 
+                                <br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. <br>Tamaño del objeto de ficheros de texto: ${tamanioConSeparadores} bytes.
+                                <br>(${tamanioMB.toFixed(1)} MB)`;
+                                openModal('center','Aviso',aviso_load,'showAviso');                
+                                //alert(aviso_load);
+                            }
+                        }
+                    })
+                    .catch(error => { 
+                        // Código a realizar cuando se rechaza la promesa
+                        console.error('loadAllFavModules(). error promesa: '+error);
+                    });                    
+                    
+                }else{
+                    i_book++;
+                    //console.log(`aumentado i_book: ${i_book}`);
+                    for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
+                }
+
+            }//end
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.error('loadAllFavModules(). error promesa: '+error);
+        });
+    }
+}
+
+function agregarSeparadores(numero, separador) {
+    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separador);
+}
 
 function loadDefaultFunctions() {
     //console.log('function loadDefaultFunctions()');
