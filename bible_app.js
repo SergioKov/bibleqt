@@ -746,7 +746,7 @@ function loadAllFavStrongFiles(){
         let tamanioMB = (obtenerTamanioObjeto(obj_strong_files) / 1000 / 1000).toFixed(1) + ' MB';
         aviso_load_all_data.push(`Strong: <span class="f_r">${tamanioMB}</span>`);
         if(aviso_load_all_data.length == 3){
-            let aviso_load = 'Los datos ya están cargados <br><br>Tamaño:';
+            let aviso_load = 'Los datos ya están cargados. <br><br>Tamaño:';
             aviso_load_all_data.forEach(el=>{
                 aviso_load += '<br>' + el;
             });
