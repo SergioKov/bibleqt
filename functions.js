@@ -705,7 +705,6 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                 const element = arrData[i][index];            
                 //console.log('añado element con append. abajo element:');
                 //console.log(element);
-
                 //añado boton con '...' al verse para verseMenu de comparar traducciones
                 if(element.tagName == 'P'){   
                     const sp_btn_vm = document.createElement('span');
@@ -713,11 +712,14 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                     sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
                 }
-
                 el_colsInner.append(element);            
             }        
             //console.log('all cols --- el_colsInner: ', el_colsInner);
         });
+        //si no hay botones de verses, simulo click para cargarlos
+        if(eid_v_verse.innerHTML == ''){
+            eid_s_verse.click();
+        }
     }
     //console.log('build. eid_wrCols: ', eid_wrCols);
 
