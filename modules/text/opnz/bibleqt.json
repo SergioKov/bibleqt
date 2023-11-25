@@ -11,7 +11,7 @@
     "StrongNumberTags": "N",
     "StrongNumberTagStart": "",
     "StrongNumberTagEnd": "",
-    "EnglishPsalms": "N",
+    "EnglishPsalms": "Y",
     "Greek": "N",
     "BookQty": 27,
     "Notes": "N",
@@ -30,351 +30,273 @@
                 "BookNumber": 0,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 1,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 2,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 3,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 4,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 5,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 6,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 7,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 8,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 9,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 10,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 11,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 12,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 13,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 14,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 15,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 16,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 17,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 18,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 19,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 20,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 21,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 22,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 23,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 24,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 25,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 26,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 27,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 28,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 29,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 30,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 31,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 32,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 33,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 34,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 35,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 36,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 37,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {
                 "BookNumber": 38,
                 "PathName": "no_disponible.htm",
                 "FullName": "No_disponible",
-                "ShortNames": [
-                    "No_disp"
-                ],
+                "ShortNames": [""],
                 "ChapterQty": 0
             },
             {

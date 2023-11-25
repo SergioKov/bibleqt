@@ -397,7 +397,10 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     if(typeof obj_bible_files[Translation].Books != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
 
-                            if(obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && obj_bible_files[Translation].Books[book].fileContent != ''){
+                            if( obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && 
+                                obj_bible_files[Translation].Books[book].fileContent != '' && 
+                                obj_bible_files[Translation].Books[book].fileContent != ' '
+                            ){
                                 console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
                                 
                                 // Registra el tiempo de inicio
@@ -2004,6 +2007,12 @@ function verseGo(dir, obj_to_send_string){
     }
 }
 
+
+function openModalForActTrans(){
+    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
+    // console.log(divtrans_to_change);    
+    openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
+}
 
 
 

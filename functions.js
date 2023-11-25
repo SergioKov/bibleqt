@@ -52,7 +52,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     //si existe objeto con Translation. Saco datos del objeto
     if(typeof obj_strong_files[strongLang] != 'undefined'){
         if(obj_strong_files[strongLang].fileName != 'undefined'){
-            if(obj_strong_files[strongLang].fileName == strongFile && obj_strong_files[strongLang].fileContent != ''){
+            if( obj_strong_files[strongLang].fileName == strongFile && 
+                obj_strong_files[strongLang].fileContent != '' && 
+                obj_strong_files[strongLang].fileContent != ' '
+            ){
                 //console.log(' --- typeof obj_strong_files[strongLang] EXISTE --- saco datos del objeto guardado ');
        
                 var myPromise_strong = new Promise(function(resolve, reject){
@@ -678,31 +681,10 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
 
-        for (let index = 0; index < arrData[0].length; index++) {//aquí siempre arrData[0]
-            const element = arrData[0][index];            
-            //console.log('añado element con append. abajo element:');
-            //console.log(element);
-            
-            //añado boton con '...' al verse para verseMenu de comparar traducciones
-            if(element.tagName == 'P'){   
-                const sp_btn_vm = document.createElement('span');
-                sp_btn_vm.className = 'btn_verse_menu';
-                sp_btn_vm.textContent = '...';
-                element.append(sp_btn_vm);
-            }
-            
-            el_colsInner.append(element);            
-        }        
-        //console.log('one col --- el_colsInner: ', el_colsInner);
-
-    }else{//construir todas columnas
-        //eid_wrCols es constanta y está declarada al inicio
-        Array.from(eid_wrCols.children).forEach((el,i)=>{
-            let el_colsInner = el.querySelector('.colsInner');
-            el_colsInner.innerHTML = '';
-
-            for (let index = 0; index < arrData[i].length; index++) {
-                const element = arrData[i][index];            
+        //si hay verses en array
+        if(arrData[0].length != 0){
+            for (let index = 0; index < arrData[0].length; index++) {//aquí siempre arrData[0]
+                const element = arrData[0][index];            
                 //console.log('añado element con append. abajo element:');
                 //console.log(element);
                 //añado boton con '...' al verse para verseMenu de comparar traducciones
@@ -711,9 +693,38 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                     sp_btn_vm.className = 'btn_verse_menu';
                     sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
-                }
+                }                
                 el_colsInner.append(element);            
-            }        
+            }
+        }else{
+            el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+        }                
+        //console.log('one col --- el_colsInner: ', el_colsInner);
+
+    }else{//construir todas columnas
+        //eid_wrCols es constanta y está declarada al inicio
+        Array.from(eid_wrCols.children).forEach((el,i)=>{
+            let el_colsInner = el.querySelector('.colsInner');
+            el_colsInner.innerHTML = '';
+
+            //si hay verses en array
+            if(arrData[i].length != 0){
+                for (let index = 0; index < arrData[i].length; index++) {
+                    const element = arrData[i][index];            
+                    //console.log('añado element con append. abajo element:');
+                    //console.log(element);
+                    //añado boton con '...' al verse para verseMenu de comparar traducciones
+                    if(element.tagName == 'P'){   
+                        const sp_btn_vm = document.createElement('span');
+                        sp_btn_vm.className = 'btn_verse_menu';
+                        sp_btn_vm.textContent = '...';
+                        element.append(sp_btn_vm);
+                    }
+                    el_colsInner.append(element);            
+                }
+            }else{
+                el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+            }                    
             //console.log('all cols --- el_colsInner: ', el_colsInner);
         });
         //si no hay botones de verses, simulo click para cargarlos

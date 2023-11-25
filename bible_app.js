@@ -255,8 +255,6 @@ let arrFavTsk = [
 let aviso_load_all_data = [];
 let aviso_load_success = [];
 
-
-
 const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 // console.log('abajo arrFavTransObj:');
 // console.log(arrFavTransObj);
@@ -275,7 +273,7 @@ const obj_strong_files = {};
 const obj_tsk_files = {};
 
 let positionShow = 'col';//por defecto posicion de columnas
-//mySizeVerse();
+let countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
 // window.obj_nav = {//antes
 let obj_nav = {
@@ -505,7 +503,7 @@ function loadAllFavBibleFiles(){
                             //console.log('dataBook: ',dataBook);
 
                             obj_bible_files[data.Translation].Books[i_book] = {
-                                fileName   : el_book.PathName,
+                                fileName: el_book.PathName,
                                 fileContent: dataBook
                             }
                             //console.log('obj_bible_files: ',obj_bible_files);
@@ -666,7 +664,7 @@ function loadAllFavTskFiles(){
                         //console.log('dataBook: ',dataBook);
 
                         obj_tsk_files[data.Translation].Books[i_book] = {
-                            fileName   : el_book.PathName,
+                            fileName: el_book.PathName,
                             fileContent: dataBook
                         }
                         //console.log('obj_tsk_files: ',obj_tsk_files);
@@ -1538,7 +1536,10 @@ function getTsk(e){
             if(typeof obj_tsk_files[tskName].Books != 'undefined'){
                 if(typeof obj_tsk_files[tskName].Books[book] != 'undefined'){
 
-                    if(obj_tsk_files[tskName].Books[book].fileName == tsk.Books[book].PathName && obj_tsk_files[tskName].Books[book].fileContent != ''){
+                    if( obj_tsk_files[tskName].Books[book].fileName == tsk.Books[book].PathName && 
+                        obj_tsk_files[tskName].Books[book].fileContent != '' && 
+                        obj_tsk_files[tskName].Books[book].fileContent != ' '
+                    ){
                         //console.log(`--- --- starting from myPromise --- : tskName: ${tskName} `);
 
                         let myPromise_tsk = new Promise(function(resolve, reject){
@@ -1700,7 +1701,8 @@ function getTsk(e){
                                                 if( typeof obj_bible_files[Translation] != 'undefined' && 
                                                     typeof obj_bible_files[Translation].Books[bookNumber] != 'undefined' &&
                                                     obj_bible_files[Translation].Books[bookNumber].fileName == bq.Books[bookNumber].PathName && 
-                                                    obj_bible_files[Translation].Books[bookNumber].fileContent != ''
+                                                    obj_bible_files[Translation].Books[bookNumber].fileContent != '' && 
+                                                    obj_bible_files[Translation].Books[bookNumber].fileContent != ' '
                                                 ){
                                                     //console.log(`--- hay fichero para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
                                                     //console.log('obj_bible_files');
@@ -1972,12 +1974,14 @@ function getTsk(e){
                                                             }
                                                             //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                                             if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
-                                                                obj_bible_files[Translation].Books[bookNumber] = {
-                                                                    'fileName': bq.Books[bookNumber].PathName, 
-                                                                    'fileContent': bookModule
-                                                                };
-                                                                //console.log('1. obj_bible_files');
-                                                                //console.log(obj_bible_files);
+                                                                if(bookModule != '' && bookModule != ' '){
+                                                                    obj_bible_files[Translation].Books[bookNumber] = {
+                                                                        'fileName': bq.Books[bookNumber].PathName, 
+                                                                        'fileContent': bookModule
+                                                                    };
+                                                                    //console.log('1. obj_bible_files');
+                                                                    //console.log(obj_bible_files);
+                                                                }                                                                
                                                             }
                                                         }
                 
@@ -2446,7 +2450,8 @@ function getTsk(e){
                                     if( typeof obj_bible_files[Translation] != 'undefined' && 
                                         typeof obj_bible_files[Translation].Books[bookNumber] != 'undefined' &&
                                         obj_bible_files[Translation].Books[bookNumber].fileName == bq.Books[bookNumber].PathName && 
-                                        obj_bible_files[Translation].Books[bookNumber].fileContent != ''
+                                        obj_bible_files[Translation].Books[bookNumber].fileContent != '' && 
+                                        obj_bible_files[Translation].Books[bookNumber].fileContent != ' '
                                     ){
                                         //console.log(`--- hay fichero en el objeto 'obj_bible_files'`);
                                         //console.log(`--- hay fichero en el objeto 'obj_bible_files' para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
@@ -2723,12 +2728,14 @@ function getTsk(e){
                                                     }
                                                     //si no existe este libro en el objeto con esta Translation. lo meto dentro
                                                     if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
-                                                        obj_bible_files[Translation].Books[bookNumber] = {
-                                                            'fileName': bq.Books[bookNumber].PathName, 
-                                                            'fileContent': bookModule
-                                                        };
-                                                        //console.log('2. obj_bible_files');
-                                                        //console.log(obj_bible_files);
+                                                        if(bookModule != '' && bookModule != ' '){
+                                                            obj_bible_files[Translation].Books[bookNumber] = {
+                                                                'fileName': bq.Books[bookNumber].PathName, 
+                                                                'fileContent': bookModule
+                                                            };
+                                                            //console.log('2. obj_bible_files');
+                                                            //console.log(obj_bible_files);
+                                                        }
                                                     }
                                                 }
                                                 
@@ -3851,7 +3858,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             //console.log('objTrans está creado. abajo objTrans: ');
             //console.log(objTrans);
 
-
             //saco ajustes de este modulo en json               
             var bq = objTrans;
             //console.log(' abajo bq:');
@@ -3870,6 +3876,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 //url del libro necesario
                 url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
 
+                //aki no hace falsta 'if(url.includes('no_disponible.htm'))'
+                //ya que fetcha() traerá un ' '(espacio) como datos del fichero 'no_disponible.htm'
+                //y como if(typeof nb[chapter] !== 'undefined') retorna false
+                //se pasa al else
+
+
                 //si no existe objeto lo creo
                 if(typeof obj_bible_files[Translation] == 'undefined'){
                     obj_bible_files[Translation] = {};
@@ -3881,7 +3893,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     if(typeof obj_bible_files[Translation].Books != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
 
-                            if(obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && obj_bible_files[Translation].Books[book].fileContent != ''){
+                            if( obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && 
+                                obj_bible_files[Translation].Books[book].fileContent != '' 
+                                //&& obj_bible_files[Translation].Books[book].fileContent != ' '
+                            ){
                                 //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                 
                                 // Registra el tiempo de inicio
@@ -4113,25 +4128,16 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             });
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
-                                                            });
-                                                            /*
-                                                            //antes
-                                                            p.append(before_Note);
-                                                            p.append(span_t);
-                                                            p.append(after_Note);
-                                                            */
-            
+                                                            });            
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                             span_vt.append(before_Note);
                                                             span_vt.append(span_t);
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_vt.append(after_Note);
                                                             //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-            
                                                             p.append(span_vt);//antes
                                                         }
                                                     }else{
-                                                        //p.append(VerseText);//antes
                                                         span_vt.append(VerseText);
                                                         p.append(span_vt);
             
@@ -4923,13 +4929,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         arrDataDivShow.push(arr_data_all);
                                         //console.log('11667. arrDataDivShow:',arrDataDivShow);
 
-            
-                                        //arr_data_all.forEach((el,i)=>{//antes
-                                        //    //console.log(el);
-                                        //    divShow.append(el);
-                                        //});
-
-
                                         arr_data_head = [];
                                         arr_data_body = [];
                                         arr_data_all = [];
@@ -4937,12 +4936,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         arr_trans = arr_trans.filter(el => el);//new
                                         clearColsEmpty();//new
             
-                                        //window.iter_i++;
-                                        //if(window.iter_i < window.arr_trans.length){
-                                        //    //console.log('iter_i: '+iter_i);
-                                        //    showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                                        //}
-
                                         window.iter_i++;
                                         if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
                                             //console.log('iter_i: '+iter_i);
@@ -4958,6 +4951,21 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }else{
                                         //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                                         divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+
+                                        window.iter_i++;
+                                        if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                                            //console.log('iter_i: '+iter_i);
+                                            showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                                        }
+                    
+                                        arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                                        //console.log('4951. arrDataDivShow: ',arrDataDivShow);
+
+                                        //si es ultimo elemento del array...
+                                        if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                            //console.log('--- llamo buildDivShow() ---');
+                                            buildDivShow(arrDataDivShow, indexColToBuild);
+                                        }                                        
                                     }
                                 })
                                 .then(() => {
@@ -5089,12 +5097,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     .then((bookModule) => {
 
                         if(crear_objeto_obj_bible_files){
-                            obj_bible_files[Translation].Books[book] = {
-                                'fileName': bq.Books[book].PathName, 
-                                'fileContent': bookModule
-                            };
-                            //console.log('abajo obj_bible_files:');
-                            //console.log(obj_bible_files);
+                            if(bookModule != '' && bookModule != ' '){
+                                obj_bible_files[Translation].Books[book] = {
+                                    'fileName': bq.Books[book].PathName, 
+                                    'fileContent': bookModule
+                                };
+                                //console.log('abajo obj_bible_files:');
+                                //console.log(obj_bible_files);
+                            }
                         }
                         
                         //console.log(bookModule);
@@ -6124,25 +6134,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             arrDataDivShow.push(arr_data_all);
                             //console.log('12864. arrDataDivShow:',arrDataDivShow);
 
-
-                            //arr_data_all.forEach((el,i)=>{//antes
-                            //    //console.log(el);
-                            //    divShow.append(el);
-                            //});
-
-
                             arr_data_head = [];
                             arr_data_body = [];
                             arr_data_all = [];
 
                             arr_trans = arr_trans.filter(el => el);//new
                             clearColsEmpty();//new                
-
-                            //window.iter_i++;
-                            //if(window.iter_i < window.arr_trans.length){
-                            //    //console.log('iter_i: '+iter_i);
-                            //    showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                            //}
 
                             window.iter_i++;
                             if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
@@ -6154,12 +6151,26 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             if(countElementsInArray(arrDataDivShow) == arr_trans.length){
                                 //console.log('--- llamo buildDivShow() ---');
                                 buildDivShow(arrDataDivShow, indexColToBuild);
-                            }                                        
-
+                            }
 
                         }else{
                             //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                             divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                            
+                            window.iter_i++;
+                            if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                                //console.log('iter_i: '+iter_i);
+                                showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                            }
+
+                            arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                            //console.log('6154. arrDataDivShow: ',arrDataDivShow);
+        
+                            //si es ultimo elemento del array...
+                            if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                //console.log('--- llamo buildDivShow() ---');
+                                buildDivShow(arrDataDivShow, indexColToBuild);
+                            }
                         }
                     })
                     .then(() => {
@@ -6306,7 +6317,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             }
     
         }else{//MODO OLD. como en Text3()
-            console.log('MODO OLD. como en Text3()');
+            
+            console.log('MODO OLD. como en Text3(). hago fetch() para sacar texto del capítulo');
 
             //saco ajustes de este modulo en json
             url_bq = `modules/text/${Translation}/bibleqt.json`;
@@ -6324,10 +6336,36 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }
                 
                 //si el id de book está entre numero de books del modulo, lo muestro
-                if(parseInt(book) < bq.BookQty){//0-65 < 66
-                    
+                //if(parseInt(book) < bq.BookQty){//0-65 < 66
+                if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
+
                     //url del libro necesario
                     url = `modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
+
+                    if(url.includes('no_disponible.htm')){
+                        //console.log('url includes no_disponible.htm');
+                        //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                        //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                        
+                        window.iter_i++;
+                        if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                            //console.log('iter_i: '+iter_i);
+                            showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                        }
+        
+                        arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                        console.log('6343. arrDataDivShow: ',arrDataDivShow);
+        
+                        //si es ultimo elemento del array...
+                        if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                            //console.log('--- llamo buildDivShow() ---');
+                            buildDivShow(arrDataDivShow, indexColToBuild);
+                        } 
+                        
+                        return false;
+                    }
+
+
 
                     fetch(url)
                     .then((response) => response.text())
@@ -6413,8 +6451,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                                     arr_data_head.push(h4);
                                     //console.log(h4);
-
-                                    //divShow.append(h4);
 
                                     if(bq.HTMLFilter == 'Y'){
                                         h4.innerHTML = htmlEntities(h4.innerHTML);
@@ -6551,12 +6587,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 span_t.addEventListener('mouseleave', function(){
                                                     hideTooltip(this);
                                                 });
-                                                /*
-                                                //antes
-                                                p.append(before_Note);
-                                                p.append(span_t);
-                                                p.append(after_Note);
-                                                */
 
                                                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                 span_vt.append(before_Note);
@@ -6613,6 +6643,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
                                     }
+
 
                                     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
                                     if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
@@ -7355,25 +7386,46 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             arr_data_all = arr_data_head.concat(arr_data_body);
 
-                            arr_data_all.forEach((el,i)=>{
-                                //console.log(el);
-                                divShow.append(el);
-                            });
+                            arrDataDivShow.push(arr_data_all);
+                            //console.log('12864. arrDataDivShow:',arrDataDivShow);
+
                             arr_data_head = [];
                             arr_data_body = [];
                             arr_data_all = [];
-                            
+
+                            arr_trans = arr_trans.filter(el => el);//new
+                            clearColsEmpty();//new                
 
                             window.iter_i++;
-                            if(window.iter_i < window.arr_trans.length){
+                            if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
                                 //console.log('iter_i: '+iter_i);
-                                //showChapterText3(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
                                 showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                            }
+        
+                            //si es ultimo elemento del array...
+                            if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                //console.log('--- llamo buildDivShow() ---');
+                                buildDivShow(arrDataDivShow, indexColToBuild);
                             }
 
                         }else{
                             //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                             divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                            
+                            window.iter_i++;
+                            if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                                //console.log('iter_i: '+iter_i);
+                                showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                            }
+
+                            arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                            //console.log('7382. arrDataDivShow: ',arrDataDivShow);
+                
+                            //si es ultimo elemento del array...
+                            if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                //console.log('--- llamo buildDivShow() ---');
+                                buildDivShow(arrDataDivShow, indexColToBuild);
+                            }                        
                         }
                     })
                     .then(() => {
@@ -7563,8 +7615,24 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
             if(url.includes('no_disponible.htm')){
                 //console.log('url includes no_disponible.htm');
-                showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
-                divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                
+                window.iter_i++;
+                if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                    //console.log('iter_i: '+iter_i);
+                    showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                }
+
+                arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                console.log('7588. arrDataDivShow: ',arrDataDivShow);
+
+                //si es ultimo elemento del array...
+                if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                    //console.log('--- llamo buildDivShow() ---');
+                    buildDivShow(arrDataDivShow, indexColToBuild);
+                } 
+
                 return false;
             } 
 
@@ -8676,8 +8744,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     arr_data_all = [];
 
                     arr_trans = arr_trans.filter(el => el);
-                    clearColsEmpty();
-                    
+                    clearColsEmpty();                    
 
                     window.iter_i++;
                     if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
@@ -8694,6 +8761,21 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }else{
                     //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                     divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+
+                    window.iter_i++;
+                    if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                        //console.log('iter_i: '+iter_i);
+                        showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    }
+
+                    arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                    //console.log('8723. arrDataDivShow: ',arrDataDivShow);
+
+                    //si es ultimo elemento del array...
+                    if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                        //console.log('--- llamo buildDivShow() ---');
+                        buildDivShow(arrDataDivShow, indexColToBuild);
+                    }                    
                 }
 
             })
@@ -9736,11 +9818,13 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
         eid_act_trans_nav.textContent = BibleShortName;
+        eid_inpt_nav.dataset.divtrans = thisDiv.id;
     } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
         eid_act_trans_nav.textContent = BibleShortName;
+        eid_inpt_nav.dataset.divtrans = thisDiv.id;
     }
 
     let trans_actual = thisDiv.dataset.trans;
@@ -10257,14 +10341,14 @@ function addTrans(addMode = null){
     });
     //console.log(arr_n);
 
-    for(let i = 1; i <= 8; i++) {
+    for(let i = 1; i <= countMaxTransInCols; i++) {
         if(!arr_n.includes(i)){
             var next_n = i;
             break;
         }
     }
 
-    if(countCols < 8){        
+    if(countCols < countMaxTransInCols){        
         let new_w = 100 / (countCols+1) + '%';
         document.querySelectorAll('.cols').forEach(el => {
             el.style.width = new_w;
@@ -11530,7 +11614,9 @@ function sel(e, par, show_chapter = null, trans = null){
             
                     var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
                     var id_chapter = (eid_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
+                    if(id_chapter < 0) id_chapter = 0;
                     var id_verse = parseInt(eid_inpt_nav.getAttribute('data-id_verse'));
+                    eid_v_verse.innerHTML = '';//reset botones de versiculos
             
             
                     //modo new
@@ -11556,7 +11642,9 @@ function sel(e, par, show_chapter = null, trans = null){
                                 if(typeof obj_bible_files[trans].Books != 'undefined'){
                                     if(typeof obj_bible_files[trans].Books[id_book] != 'undefined'){
             
-                                        if(obj_bible_files[trans].Books[id_book].fileName == this_trans_obj.Books[id_book].PathName && obj_bible_files[trans].Books[id_book].fileContent != ''){
+                                        if( obj_bible_files[trans].Books[id_book].fileName == this_trans_obj.Books[id_book].PathName && 
+                                            obj_bible_files[trans].Books[id_book].fileContent != '' 
+                                        ){
                                             //console.log('existen datos del modulo para sacar numero de versiculos');
                                             
                                             if(document.querySelectorAll('.cols').length > 1){
@@ -11595,9 +11683,17 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 var verseNumber = id_verse + 1;
                                             }
                                     
+                                            
+                                            //if(obj_bible_files[trans].Books[id_book].fileContent != ' '){
+                                            //    
+                                            //}else{
+                                            //    return;
+                                            //}
+
                                             window.arr_verses = obj_bible_files[trans].Books[id_book].fileContent.split('<h4>')[chapterNumber].split('<p>');
                                             //console.log('abajo arr_verses');
                                             //console.log(arr_verses);
+                                            
                             
                                             eid_v_verse.innerHTML = '';//reset botones de versiculos
                                             const wr_grid_v = document.createElement('div');
@@ -11856,7 +11952,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     })
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
-                                        //console.log('error promesa: '+error);
+                                        console.log('error promesa: '+error);
                                     });    
 
                                 }                                
@@ -11987,13 +12083,13 @@ function sel(e, par, show_chapter = null, trans = null){
                             })
                             .catch(error => { 
                                 // Código a realizar cuando se rechaza la promesa
-                                //console.log('error promesa: '+error);
+                                console.log('error promesa: '+error);
                             });
 
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            //console.log('error promesa: '+error);
+                            console.log('error promesa: '+error);
                         });
             
                     }
@@ -14607,7 +14703,10 @@ function findWords(words_input){
                         if(typeof obj_bible_files[Translation].Books != 'undefined'){
                             if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
 
-                                if(obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && obj_bible_files[Translation].Books[book].fileContent != ''){
+                                if( obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && 
+                                    obj_bible_files[Translation].Books[book].fileContent != '' && 
+                                    obj_bible_files[Translation].Books[book].fileContent != ' '
+                                ){
 
                                     console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
                                     console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
