@@ -15506,9 +15506,6 @@ function findWords(words_input){
                                             //inserto resultado de búsqueda                        
                                             document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                             mySizeFind();//altura de eid_find_body
-
-                                            //añado el texto de búsqueda en el historial
-                                            addWordsToHistFind(Translation, words_input, count_f, count_m_total);
                     
                                             var arr_l = [];
                                             var limit_n = limit_val;
@@ -15534,6 +15531,8 @@ function findWords(words_input){
                     
                                             if(result_show != null){
                                                 if(index == book_end){
+                                                    //añado el texto de búsqueda en el historial
+                                                    addWordsToHistFind(Translation, words_input, count_f, count_m_total);
                                                     //console.log('1. con el ultimo book de find --- llamo mostrar_res_show(0)');
                                                     mostrar_res_show(0);//por defecto los primeros 50
                                                 }
@@ -16488,6 +16487,8 @@ function findWords(words_input){
         
                                 if(result_show != null){
                                     if(index == book_end){
+                                        //añado el texto de búsqueda en el historial
+                                        addWordsToHistFind(Translation, words_input, count_f, count_m_total);
                                         //console.log('2. con el ultimo book de find --- llamo mostrar_res_show(0)');
                                         mostrar_res_show(0);//por defecto los primeros 50
                                     }
@@ -17452,6 +17453,8 @@ function findWords(words_input){
         
                                 if(result_show != null){
                                     if(index == book_end){
+                                        //añado el texto de búsqueda en el historial
+                                        addWordsToHistFind(Translation, words_input, count_f, count_m_total);
                                         //console.log('3. con el ultimo book de find --- llamo mostrar_res_show(0)');
                                         mostrar_res_show(0);//por defecto los primeros 50
                                     } 
