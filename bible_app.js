@@ -1494,14 +1494,14 @@ function getTsk(e){
     console.log('===function getTsk(e)===');
     
     //console.log(e);
-    var el = e.srcElement.parentElement;
+    let el = e.srcElement.parentElement;
 
-    var arr_v = el.id.split('__');//rstStrong__0__1__1 => ['rstStrong',0,1,1] => [rstStrong, Gen, 1, 1]
-    var Translation = arr_v[0];//rstStrong
-    var book = arr_v[1];//id_book
-    var chapter = arr_v[2];//chapter
-    var verse = arr_v[3];//verse
-    var to_verse = null;//to_verse por defecto
+    let arr_v = el.id.split('__');//rstStrong__0__1__1 => ['rstStrong',0,1,1] => [rstStrong, Gen, 1, 1]
+    let Translation = arr_v[0];//rstStrong
+    let book = arr_v[1];//id_book
+    let chapter = arr_v[2];//chapter
+    let verse = arr_v[3];//verse
+    let to_verse = null;//to_verse por defecto
     if(arr_v[3].includes('-')){
         verse = arr_v.split('-')[0];
         to_verse = arr_v.split('-')[1];
@@ -1536,7 +1536,7 @@ function getTsk(e){
         //console.log('res --- verse: '+verse);//empezando de 1
     }
 
-    var arr_tsk_p = [];
+    let arr_tsk_p = [];
     let tskName = 'tsk';
     let objTsk = arrFavTskObj.find(v => v.Translation === tskName);
     //console.log('abajo objTsk: ');
@@ -1576,22 +1576,23 @@ function getTsk(e){
                         myPromise_tsk
                         .then((data) => {//data = ok
                             
+                            let tskModule;
                             if(data == 'ok'){
-                                var tskModule = obj_tsk_files[tskName].Books[book].fileContent;
+                                tskModule = obj_tsk_files[tskName].Books[book].fileContent;
                             }
                             //console.log('abajo tskModule: ');
                             //console.log(tskModule);
                             
                             tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
     
-                            var tb = tskModule.split('[');//divido en chapters
-                            var tb_chapter = tb[chapter].split(']\n');//new //arr de un chapter indicado en el link divido en 2
-                            var tb_chapterNumber = tb_chapter[0];//numero de chapter
-                            var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                            var tb_lines = tb_chapter_vlinks.split('\n');
-                            var tb_verseNumber = tb_chapter_vlinks[0];
+                            let tb = tskModule.split('[');//divido en chapters
+                            let tb_chapter = tb[chapter].split(']\n');//new //arr de un chapter indicado en el link divido en 2
+                            let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                            let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                            let tb_lines = tb_chapter_vlinks.split('\n');
+                            let tb_verseNumber = tb_chapter_vlinks[0];
                             
-                            var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                            let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
                             if(tb_arr_links == null) alert('error tb_arr_links');
                             
                             //console.log('tb_chapterNumber: '+tb_chapterNumber);
@@ -1649,11 +1650,11 @@ function getTsk(e){
                                     //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
                                     let tb_iter = i;
                 
-                                    var bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
-                                    var chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
-                                    var verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
-                                    var verseNumber = null;
-                                    var to_verseNumber = null;
+                                    let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                                    let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                                    let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                                    let verseNumber = null;
+                                    let to_verseNumber = null;
                 
                                     if(verseNumbers.includes('-')){
                                         verseNumber = verseNumbers.split('-')[0];
@@ -1697,8 +1698,8 @@ function getTsk(e){
                                             const elem = element.ShortNames[y];
             
                                             if(bookShortName.toLowerCase() == elem.toLowerCase()){
-                                                var n_book = element.BookNumber;
-                                                var short_name = elem;//siempre el primer nombre del array
+                                                let n_book = element.BookNumber;
+                                                let short_name = elem;//siempre el primer nombre del array
                             
                                                 bookNumber = i;//numero de book empezando de 0. 0 => Génesis
                                                 //console.log('bookNumber: '+bookNumber);                        
@@ -1710,7 +1711,7 @@ function getTsk(e){
             
                                                 if(bq_EnglishPsalms == 'N'){
                                                     //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                                    var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
                                                                                                 
                                                     //asigno nuevo valor
                                                     bookNumber = new_result[0];
@@ -1739,7 +1740,7 @@ function getTsk(e){
                                                     //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                     //console.log(bookModule);
             
-                                                    var nb = bookModule.split('<h4>');//делю файл на главы
+                                                    let nb = bookModule.split('<h4>');//делю файл на главы
                                                     //console.log(nb);
                                                     
                                                     nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -1760,7 +1761,8 @@ function getTsk(e){
                                                         //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
                 
-                                                        var VerseTextFull = '';
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
 
                                                         // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                                         if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -1792,7 +1794,7 @@ function getTsk(e){
                 
                                                                 //console.log(VerseTextFull);
                                                                 
-                                                                var VerseText = VerseTextFull;
+                                                                VerseText = VerseTextFull;
                                                                 //console.log(VerseText);
                                                             }//end for
                 
@@ -1803,7 +1805,7 @@ function getTsk(e){
                                                             let stijText = VerseTextFull.split(' ');
                                                             stijText.shift();//elimino numero de versiculo
                 
-                                                            var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                             //console.log(VerseText);
                                                         }                
                 
@@ -1845,7 +1847,7 @@ function getTsk(e){
                                                         //Номера Стронга в стихах (RST+)
                                                         if(bq_StrongNumbers == "Y"){
                                                             let t = VerseText;
-                                                            var arr_t = t.split(' ');
+                                                            let arr_t = t.split(' ');
                 
                                                             arr_t.forEach((el,i) => {    
                                                                 
@@ -2012,7 +2014,7 @@ function getTsk(e){
                                                             }
                                                         }
                 
-                                                        var nb = bookModule.split('<h4>');//делю файл на главы
+                                                        let nb = bookModule.split('<h4>');//делю файл на главы
                                                         //console.log(nb);
                                                         
                                                         nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -2033,7 +2035,8 @@ function getTsk(e){
                                                             //console.log(`4. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
                     
-                                                            var VerseTextFull = '';
+                                                            let VerseTextFull = '';
+                                                            let VerseText = '';
 
                                                             // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                                             if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -2065,7 +2068,7 @@ function getTsk(e){
                     
                                                                     //console.log(VerseTextFull);
                                                                     
-                                                                    var VerseText = VerseTextFull;
+                                                                    VerseText = VerseTextFull;
                                                                     //console.log(VerseText);
                                                                 }//end for
                     
@@ -2076,7 +2079,7 @@ function getTsk(e){
                                                                 let stijText = VerseTextFull.split(' ');
                                                                 stijText.shift();//elimino numero de versiculo
                     
-                                                                var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                                 //console.log(VerseText);
                                                             }
                     
@@ -2120,7 +2123,7 @@ function getTsk(e){
                                                             //Номера Стронга в стихах (RST+)
                                                             if(bq_StrongNumbers == "Y"){
                                                                 let t = VerseText;
-                                                                var arr_t = t.split(' ');
+                                                                let arr_t = t.split(' ');
                     
                                                                 arr_t.forEach((el,i) => {    
                                                                     
@@ -2328,14 +2331,14 @@ function getTsk(e){
 
                 tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
                 
-                var tb = tskModule.split('[');//divido en chapters
-                var tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
-                var tb_chapterNumber = tb_chapter[0];//numero de chapter
-                var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                var tb_lines = tb_chapter_vlinks.split('\n');
-                var tb_verseNumber = tb_chapter_vlinks[0];
+                let tb = tskModule.split('[');//divido en chapters
+                let tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
+                let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                let tb_lines = tb_chapter_vlinks.split('\n');
+                let tb_verseNumber = tb_chapter_vlinks[0];
                 
-                var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
                 if(tb_arr_links == null) alert('error tb_arr_links');
                 
                 //console.log('tb_chapterNumber: '+tb_chapterNumber);
@@ -2393,11 +2396,11 @@ function getTsk(e){
                         //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
                         let tb_iter = i;
     
-                        var bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
-                        var chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
-                        var verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
-                        var verseNumber = null;
-                        var to_verseNumber = null;
+                        let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                        let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                        let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                        let verseNumber = null;
+                        let to_verseNumber = null;
     
                         if(verseNumbers.includes('-')){
                             verseNumber = verseNumbers.split('-')[0];
@@ -2415,7 +2418,7 @@ function getTsk(e){
                         
 
                         //saco ajustes de este modulo en json               
-                        var bq = objTrans;
+                        let bq = objTrans;
                         //console.log(' abajo bq:');
                         //console.log(bq);
 
@@ -2444,8 +2447,8 @@ function getTsk(e){
                                 const elem = element.ShortNames[y];
 
                                 if(bookShortName.toLowerCase() == elem.toLowerCase()){
-                                    var n_book = element.BookNumber;
-                                    var short_name = elem;//siempre el primer nombre del array
+                                    let n_book = element.BookNumber;
+                                    let short_name = elem;//siempre el primer nombre del array
                 
                                     bookNumber = i;//numero de book empezando de 0. 0 => Génesis
                                     //console.log('bookNumber: '+bookNumber);                        
@@ -2457,7 +2460,7 @@ function getTsk(e){
 
                                     if(bq_EnglishPsalms == 'N'){
                                         //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                        var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                        let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
                                                                                     
                                         //asigno nuevo valor
                                         bookNumber = new_result[0];
@@ -2484,7 +2487,7 @@ function getTsk(e){
                                         //console.log(`--- hay fichero en el objeto 'obj_bible_files' para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
 
                                         let bookModule = obj_bible_files[Translation].Books[bookNumber].fileContent;
-                                        var nb = bookModule.split('<h4>');//делю файл на главы
+                                        let nb = bookModule.split('<h4>');//делю файл на главы
                                         //console.log(nb);
                                         
                                         nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -2505,7 +2508,8 @@ function getTsk(e){
                                             //console.log(`1. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
     
-                                            var VerseTextFull = '';
+                                            let VerseTextFull = '';
+                                            let VerseText = '';
 
                                             // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                             if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -2537,7 +2541,7 @@ function getTsk(e){
     
                                                     //console.log(VerseTextFull);
                                                     
-                                                    var VerseText = VerseTextFull;
+                                                    VerseText = VerseTextFull;
                                                     //console.log(VerseText);
                                                 }//end for
     
@@ -2548,7 +2552,7 @@ function getTsk(e){
                                                 let stijText = VerseTextFull.split(' ');
                                                 stijText.shift();//elimino numero de versiculo
     
-                                                var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                 //console.log(VerseText);
                                             }
     
@@ -2592,7 +2596,7 @@ function getTsk(e){
                                             //Номера Стронга в стихах (RST+)
                                             if(bq_StrongNumbers == "Y"){
                                                 let t = VerseText;
-                                                var arr_t = t.split(' ');
+                                                let arr_t = t.split(' ');
     
                                                 arr_t.forEach((el,i) => {    
                                                     
@@ -2766,7 +2770,7 @@ function getTsk(e){
                                                     }
                                                 }
                                                 
-                                                var nb = bookModule.split('<h4>');//делю файл на главы
+                                                let nb = bookModule.split('<h4>');//делю файл на главы
                                                 //console.log(nb);
                                                 
                                                 nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -2787,7 +2791,8 @@ function getTsk(e){
                                                     //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
         
-                                                    var VerseTextFull = '';
+                                                    let VerseTextFull = '';
+                                                    let VerseText = '';
 
                                                     // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                                     if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -2819,7 +2824,7 @@ function getTsk(e){
         
                                                             //console.log(VerseTextFull);
                                                             
-                                                            var VerseText = VerseTextFull;
+                                                            VerseText = VerseTextFull;
                                                             //console.log(VerseText);
                                                         }//end for
         
@@ -2830,7 +2835,7 @@ function getTsk(e){
                                                         let stijText = VerseTextFull.split(' ');
                                                         stijText.shift();//elimino numero de versiculo
         
-                                                        var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                         //console.log(VerseText);
                                                     }
         
@@ -2874,7 +2879,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        var arr_t = t.split(' ');
+                                                        let arr_t = t.split(' ');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -3050,8 +3055,7 @@ function getTsk(e){
                                                 //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                 //console.log(bookModule);
                                                                                                
-                                                //var nb = bookModule.split('<h4>');//делю файл на главы
-                                                var nb = bookModule;//делю файл на главы
+                                                let nb = bookModule;//делю файл на главы
                                                 //console.log(nb);
                                                 
                                                 let vsego_stijov = dataRead.chapterData.VerseQty;
@@ -3068,7 +3072,8 @@ function getTsk(e){
                                                     //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
         
-                                                    var VerseTextFull = '';
+                                                    let VerseTextFull = '';
+                                                    let VerseText = '';
 
                                                     // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                                     if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -3100,7 +3105,7 @@ function getTsk(e){
         
                                                             //console.log(VerseTextFull);
                                                             
-                                                            var VerseText = VerseTextFull;
+                                                            VerseText = VerseTextFull;
                                                             //console.log(VerseText);
                                                         }//end for
         
@@ -3111,7 +3116,7 @@ function getTsk(e){
                                                         let stijText = VerseTextFull.split(' ');
                                                         stijText.shift();//elimino numero de versiculo
         
-                                                        var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                         //console.log(VerseText);
                                                     }
         
@@ -3155,7 +3160,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        var arr_t = t.split(' ');
+                                                        let arr_t = t.split(' ');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -3359,14 +3364,14 @@ function getTsk(e){
                     
                     tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
     
-                    var tb = tskModule.split('[');//divido en chapters
-                    var tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
-                    var tb_chapterNumber = tb_chapter[0];//numero de chapter
-                    var tb_chapter_vlinks = tb_chapter[1];//links del chapter
-                    var tb_lines = tb_chapter_vlinks.split('\n');
-                    var tb_verseNumber = tb_chapter_vlinks[0];
+                    let tb = tskModule.split('[');//divido en chapters
+                    let tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
+                    let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                    let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                    let tb_lines = tb_chapter_vlinks.split('\n');
+                    let tb_verseNumber = tb_chapter_vlinks[0];
                     
-                    var tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                    let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
                     if(tb_arr_links == null) alert('error tb_arr_links');
                     
                     //console.log('tb_chapterNumber: '+tb_chapterNumber);
@@ -3425,11 +3430,11 @@ function getTsk(e){
                             //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
                             let tb_iter = i;
     
-                            var bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
-                            var chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
-                            var verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
-                            var verseNumber = null;
-                            var to_verseNumber = null;
+                            let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                            let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                            let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                            let verseNumber = null;
+                            let to_verseNumber = null;
         
                             if(verseNumbers.includes('-')){
                                 verseNumber = verseNumbers.split('-')[0];
@@ -3479,8 +3484,8 @@ function getTsk(e){
                                         const elem = element.ShortNames[y];
     
                                         if(bookShortName.toLowerCase() == elem.toLowerCase()){
-                                            var n_book = element.BookNumber;
-                                            var short_name = elem;//siempre el primer nombre del array
+                                            let n_book = element.BookNumber;
+                                            let short_name = elem;//siempre el primer nombre del array
                         
                                             bookNumber = i;//numero de book empezando de 0. 0 => Génesis
                                             //console.log('bookNumber: '+bookNumber);                        
@@ -3492,7 +3497,7 @@ function getTsk(e){
     
                                             if(bq_EnglishPsalms == 'N'){
                                                 //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                                var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
                                                                                             
                                                 //asigno nuevo valor
                                                 bookNumber = new_result[0];
@@ -3515,7 +3520,7 @@ function getTsk(e){
                                                 //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
                                                 //console.log(bookModule);
     
-                                                var nb = bookModule.split('<h4>');//делю файл на главы
+                                                let nb = bookModule.split('<h4>');//делю файл на главы
                                                 //console.log(nb);
                                                 
                                                 nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -3536,7 +3541,8 @@ function getTsk(e){
                                                     //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
                                                     //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
-                                                    var VerseTextFull = '';
+                                                    let VerseTextFull = '';
+                                                    let VerseText = '';
 
                                                     // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
                                                     if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
@@ -3568,7 +3574,7 @@ function getTsk(e){
         
                                                             //console.log(VerseTextFull);
                                                             
-                                                            var VerseText = VerseTextFull;
+                                                            VerseText = VerseTextFull;
                                                             //console.log(VerseText);
                                                         }//end for
         
@@ -3579,7 +3585,7 @@ function getTsk(e){
                                                         let stijText = VerseTextFull.split(' ');
                                                         stijText.shift();//elimino numero de versiculo
         
-                                                        var VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                         //console.log(VerseText);
                                                     }
         
@@ -3623,7 +3629,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        var arr_t = t.split(' ');
+                                                        let arr_t = t.split(' ');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -3791,6 +3797,7 @@ function getTsk(e){
     
                     //Abro Sidebar pata mostrar TSK
                     showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
+
                     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                     }else{//si es desktop o tablet
@@ -3850,10 +3857,10 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     console.log('=== viaByText_showChapterText4 ===');
 
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
-    var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
+    let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
+    let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
+    let divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
+    let divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
@@ -3861,7 +3868,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
         clearAllDivShow();//hacerlo SOLO cuando se cargan todos los cols ya que borra el el contenido de todas cols cando se recarga solo 1 col al cambiar solo la trans de una col!
     }    
 
-    var btnStrongIsActive = false;
+    let btnStrongIsActive = false;
     if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
@@ -3876,7 +3883,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
     if(Translation != null){
                 
-        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         console.log('objTrans: ',objTrans);
 
         
@@ -3886,7 +3893,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             //console.log(objTrans);
 
             //saco ajustes de este modulo en json               
-            var bq = objTrans;
+            let bq = objTrans;
             //console.log(' abajo bq:');
             //console.log(bq);
 
@@ -3930,7 +3937,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 const tiempoInicio = new Date().getTime();
                                 //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                var myPromise = new Promise(function(resolve, reject){
+                                let myPromise = new Promise(function(resolve, reject){
                                     resolve('ok');
                                 });
 
@@ -3938,14 +3945,15 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 .then((data) => {//data = ok
                                     //console.log(' --- if: ');
 
+                                    let bookModule;
                                     if(data == 'ok'){
-                                        var bookModule = obj_bible_files[Translation].Books[book].fileContent;
+                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                     }            
                                     
                                     //console.log(bookModule);
                                     divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
             
-                                    var nb = bookModule.split('<h4>');//делю файл на главы
+                                    let nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
                                     
                                     nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -3953,19 +3961,20 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
                                     //Book
                                     if(bookModule.includes('<h2>')){
-                                        var arr_h2 = bookModule.split('<h2>');
+                                        let arr_h2 = bookModule.split('<h2>');
+                                        let BookName;
             
                                         if(arr_h2[1].includes('</h2>')){
-                                            var arr_h2_text = arr_h2[1].split('</h2>');
-                                            var BookName = arr_h2_text[0];
+                                            let arr_h2_text = arr_h2[1].split('</h2>');
+                                            BookName = arr_h2_text[0];
                                         }else{
-                                            var BookName = arr_h2[1];
+                                            BookName = arr_h2[1];
                                         }
                                         BookName = (BookName == '') ? bq.Books[book].FullName : BookName ;
                                         //console.log('BookName: '+BookName); 
                                         
                                         //Book
-                                        var h2 = document.createElement('h2');
+                                        const h2 = document.createElement('h2');
                                         h2.append(BookName);
             
                                         arr_data_head.push(h2);
@@ -3978,12 +3987,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
                                     //si existe el capitulo
                                     if(typeof nb[chapter] !== 'undefined'){
-                                        var ChapterId = chapter;
+                                        let ChapterId = chapter;
             
-                                        var nb_chapter_verses = nb[chapter].split('<p>');
+                                        let nb_chapter_verses = nb[chapter].split('<p>');
                                         //console.log(nb_chapter_verses);
             
-                                        var only_verses_length = nb_chapter_verses.length - 1;
+                                        let only_verses_length = nb_chapter_verses.length - 1;
                                         //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
                                         // console.log('only_ divId: '+divId);
             
@@ -3999,12 +4008,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             //Chapter
                                             if(i == 0){
                                                 //console.log('es Chapter: '+el);
+                                                let ChapterText;
             
                                                 if(el.includes('</h4>')){
-                                                    var arr_h4_text = el.split('</h4>');
-                                                    var ChapterText = arr_h4_text[0];
+                                                    let arr_h4_text = el.split('</h4>');
+                                                    ChapterText = arr_h4_text[0];
                                                 }else{
-                                                    var ChapterText = el;
+                                                    ChapterText = el;
                                                 }
                                                 //console.log('ChapterText: '+ChapterText);
             
@@ -4013,44 +4023,43 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 }
             
                                                 //Chapter
-                                                var h4 = document.createElement('h4');
+                                                const h4 = document.createElement('h4');
                                                 h4.append(ChapterText);
             
                                                 arr_data_head.push(h4);
                                                 //console.log(h4);
-            
-                                                //divShow.append(h4);
-            
+                        
                                                 if(bq.HTMLFilter == 'Y'){
                                                     h4.innerHTML = htmlEntities(h4.innerHTML);
                                                 }
                                             }
                                             else{//Verse
                                                 //console.log('es Verse: '+el);
+                                                let p_Text = '';
                             
                                                 if(el.includes('</p>')){
-                                                    var arr_p_text = el.split('</p>');
-                                                    var p_Text = arr_p_text[0];
+                                                    let arr_p_text = el.split('</p>');
+                                                    p_Text = arr_p_text[0];
                                                 }else{
-                                                    var p_Text = el;
+                                                    p_Text = el;
                                                 }
                                                 //console.log('p_Text: '+p_Text); 
                             
-                                                var arr_p = p_Text.split(' ');
-                                                var VerseId = arr_p[0];
+                                                let arr_p = p_Text.split(' ');
+                                                let VerseId = arr_p[0];
                                                 //console.log('VerseId: '+VerseId);
                             
-                                                var VerseText = '';
+                                                let VerseText = '';
                                                 for(let index = 1; index < arr_p.length; index++){
                                                     VerseText += arr_p[index] + ' ';
                                                 }
                                                 //console.log('VerseText: '+VerseText);
                             
-                                                var p = document.createElement('p');
+                                                const p = document.createElement('p');
                                                 p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                                 p.setAttribute('data-verse',VerseId);
                                 
-                                                var a = document.createElement('a');
+                                                const a = document.createElement('a');
                                                 a.href = '#';
                                                 //a.classList.add('aki_clase');//de momento comento...
                                                 a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -4064,7 +4073,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 //Номера Стронга в стихах (RST+)
                                                 if(bq.StrongNumbers == "Y"){
                                                     let t = VerseText;
-                                                    var arr_t = t.split(' ');
+                                                    let arr_t = t.split(' ');
             
                                                     arr_t.forEach((el,i) => {    
                                                         
@@ -4114,7 +4123,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                                 //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
                                                                 //console.log('1. book: '+book);
                                                                 //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                                                var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
+                                                                let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
             
                                                                 if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                                     getStrongNumber(el.innerHTML, null, paramfirstLetter);
@@ -4235,9 +4244,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //=====================================================//
                                         if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                             //console.log('Numeración base es Española - y cols es Rusa');
-                                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
-                                            var arr_vstavka = [];
-                                            var vstavka2 = [];
+                                            let arr_vstavka = [];
+                                            let vstavka2 = [];
                                             
                                             //Miro la traducción con EnglishPsalms
                                             switch (parseInt(book)) {
@@ -4568,10 +4576,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         //=====================================================//
                                         if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                                             //console.log('Numeración base Rusa - y cols Española');
-                                            //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                             //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
-                                            var arr_vstavka = [];
-                                            var vstavka2 = [];
+                                            let arr_vstavka = [];
+                                            let vstavka2 = [];
                                             
                                             //Miro la traducción con EnglishPsalms
                                             switch (parseInt(book)) {
@@ -4739,7 +4746,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                         if(chapter == 89){//89:6 => 90:5-6 
                                                             addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                                             arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                                            var new_arr = [];
+                                                            let new_arr = [];
                                                             arr_vstavka.map((el,i,arr) => {
                                                                 if(i == 4){
                                                                     const p_new = document.createElement('p');
@@ -4808,7 +4815,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                         if(chapter == 1){
                                                             arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
                                                             //console.log(arr_vstavka);
-                                                            var new_arr = [];
+                                                            let new_arr = [];
                                                             arr_vstavka.map((el,i,arr) => {
                                                                 if(i == 0){
                                                                     const p_new = document.createElement('p');
@@ -4840,7 +4847,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 case 22: //Isaías - Исаия
                                                         if(chapter == 3){
                                                             arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                                            var new_arr = [];
+                                                            let new_arr = [];
                                                             arr_vstavka.map((el,i,arr) => {
                                                                 if(i == 18){
                                                                     const p_new = document.createElement('p');
@@ -4912,7 +4919,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 case 46: //2Corintios - 2-Коринфянам
                                                         if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
                                                             arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );
-                                                            var new_arr = [];
+                                                            let new_arr = [];
                                                             arr_vstavka.map((el,i,arr) => {
                                                                 if(i == 11){
                                                                     const p_new = document.createElement('p');
@@ -5137,7 +5144,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         //console.log(bookModule);
                         divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
-                        var nb = bookModule.split('<h4>');//делю файл на главы
+                        let nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
                         
                         nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -5145,19 +5152,20 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                         //Book
                         if(bookModule.includes('<h2>')){
-                            var arr_h2 = bookModule.split('<h2>');
+                            let arr_h2 = bookModule.split('<h2>');
+                            let BookName;
 
                             if(arr_h2[1].includes('</h2>')){
-                                var arr_h2_text = arr_h2[1].split('</h2>');
-                                var BookName = arr_h2_text[0];
+                                let arr_h2_text = arr_h2[1].split('</h2>');
+                                BookName = arr_h2_text[0];
                             }else{
-                                var BookName = arr_h2[1];
+                                BookName = arr_h2[1];
                             }
                             BookName = (BookName == '') ? bq.Books[book].FullName : BookName ;
                             //console.log('BookName: '+BookName); 
                             
                             //Book
-                            var h2 = document.createElement('h2');
+                            const h2 = document.createElement('h2');
                             h2.append(BookName);
 
                             arr_data_head.push(h2);
@@ -5170,12 +5178,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                         //si existe el capitulo
                         if(typeof nb[chapter] !== 'undefined'){
-                            var ChapterId = chapter;
+                            let ChapterId = chapter;
 
-                            var nb_chapter_verses = nb[chapter].split('<p>');
+                            let nb_chapter_verses = nb[chapter].split('<p>');
                             //console.log(nb_chapter_verses);
 
-                            var only_verses_length = nb_chapter_verses.length - 1;
+                            let only_verses_length = nb_chapter_verses.length - 1;
                             //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
                             // console.log('only_ divId: '+divId);
 
@@ -5195,12 +5203,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //Chapter
                                 if(i == 0){
                                     //console.log('es Chapter: '+el);
+                                    let ChapterText;
 
                                     if(el.includes('</h4>')){
-                                        var arr_h4_text = el.split('</h4>');
-                                        var ChapterText = arr_h4_text[0];
+                                        let arr_h4_text = el.split('</h4>');
+                                        ChapterText = arr_h4_text[0];
                                     }else{
-                                        var ChapterText = el;
+                                        ChapterText = el;
                                     }
                                     //console.log('ChapterText: '+ChapterText);
 
@@ -5209,7 +5218,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }
 
                                     //Chapter
-                                    var h4 = document.createElement('h4');
+                                    const h4 = document.createElement('h4');
                                     h4.append(ChapterText);
 
                                     arr_data_head.push(h4);
@@ -5223,30 +5232,31 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                                 else{//Verse
                                     //console.log('es Verse: '+el);
+                                    let p_Text = '';
                 
                                     if(el.includes('</p>')){
-                                        var arr_p_text = el.split('</p>');
-                                        var p_Text = arr_p_text[0];
+                                        let arr_p_text = el.split('</p>');
+                                        p_Text = arr_p_text[0];
                                     }else{
-                                        var p_Text = el;
+                                        p_Text = el;
                                     }
                                     //console.log('p_Text: '+p_Text); 
                 
-                                    var arr_p = p_Text.split(' ');
-                                    var VerseId = arr_p[0];
+                                    let arr_p = p_Text.split(' ');
+                                    let VerseId = arr_p[0];
                                     //console.log('VerseId: '+VerseId);
                 
-                                    var VerseText = '';
+                                    let VerseText = '';
                                     for(let index = 1; index < arr_p.length; index++){
                                         VerseText += arr_p[index] + ' ';
                                     }
                                     //console.log('VerseText: '+VerseText);
                 
-                                    var p = document.createElement('p');
+                                    const p = document.createElement('p');
                                     p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                     p.setAttribute('data-verse',VerseId);
                     
-                                    var a = document.createElement('a');
+                                    const a = document.createElement('a');
                                     a.href = '#';
                                     //a.classList.add('aki_clase');//de momento comento...
                                     a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -5260,7 +5270,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     //Номера Стронга в стихах (RST+)
                                     if(bq.StrongNumbers == "Y"){
                                         let t = VerseText;
-                                        var arr_t = t.split(' ');
+                                        let arr_t = t.split(' ');
 
                                         arr_t.forEach((el,i) => {    
                                             
@@ -5310,7 +5320,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
                                                     //console.log('1. book: '+book);
                                                     //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                                    var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
+                                                    let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
 
                                                     if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                         getStrongNumber(el.innerHTML, null, paramfirstLetter);
@@ -5440,9 +5450,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //=====================================================//
                             if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                 //console.log('Numeración base es Española - y cols es Rusa');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
-                                var arr_vstavka = [];
-                                var vstavka2 = [];
+                                let arr_vstavka = [];
+                                let vstavka2 = [];
                                 
                                 //Miro la traducción con EnglishPsalms
                                 switch (parseInt(book)) {
@@ -5773,10 +5782,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //=====================================================//
                             if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                                 //console.log('Numeración base Rusa - y cols Española');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                 //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
-                                var arr_vstavka = [];
-                                var vstavka2 = [];
+                                let arr_vstavka = [];
+                                let vstavka2 = [];
                                 
                                 //Miro la traducción con EnglishPsalms
                                 switch (parseInt(book)) {
@@ -5944,7 +5952,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             if(chapter == 89){//89:6 => 90:5-6 
                                                 addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 4){
                                                         const p_new = document.createElement('p');
@@ -6013,7 +6021,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             if(chapter == 1){
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
                                                 //console.log(arr_vstavka);
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 0){
                                                         const p_new = document.createElement('p');
@@ -6045,7 +6053,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     case 22: //Isaías - Исаия
                                             if(chapter == 3){
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 18){
                                                         const p_new = document.createElement('p');
@@ -6117,7 +6125,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     case 46: //2Corintios - 2-Коринфянам
                                             if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 11){
                                                         const p_new = document.createElement('p');
@@ -6332,7 +6340,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 
                 document.querySelectorAll('.colsInner').forEach(el=>{
                     if(el.childElementCount == 0 || el.textContent == ''){
-                        var p = document.createElement('p');
+                        const p = document.createElement('p');
                         p.className = 'prim';
                         p.innerHTML = `В данном модуле отсутствует указанная книга.`;
                         el.append(p);
@@ -6401,7 +6409,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         //console.log(bookModule);
                         divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
-                        var nb = bookModule.split('<h4>');//делю файл на главы
+                        let nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
                         
                         nb = nb.filter(elem => elem);//удаляю пустые елементы массива
@@ -6409,19 +6417,20 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                         //Book
                         if(bookModule.includes('<h2>')){
-                            var arr_h2 = bookModule.split('<h2>');
+                            let arr_h2 = bookModule.split('<h2>');
+                            let BookName;
 
                             if(arr_h2[1].includes('</h2>')){
-                                var arr_h2_text = arr_h2[1].split('</h2>');
-                                var BookName = arr_h2_text[0];
+                                let arr_h2_text = arr_h2[1].split('</h2>');
+                                BookName = arr_h2_text[0];
                             }else{
-                                var BookName = arr_h2[1];
+                                BookName = arr_h2[1];
                             }
                             BookName = (BookName == '') ? bq.Books[book].FullName : BookName ;
                             //console.log('BookName: '+BookName); 
                             
                             //Book
-                            var h2 = document.createElement('h2');
+                            const h2 = document.createElement('h2');
                             h2.append(BookName);
 
                             arr_data_head.push(h2);
@@ -6434,12 +6443,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                         //si existe el capitulo
                         if(typeof nb[chapter] !== 'undefined'){
-                            var ChapterId = chapter;
+                            let ChapterId = chapter;
 
-                            var nb_chapter_verses = nb[chapter].split('<p>');
+                            let nb_chapter_verses = nb[chapter].split('<p>');
                             //console.log(nb_chapter_verses);
 
-                            var only_verses_length = nb_chapter_verses.length - 1;
+                            let only_verses_length = nb_chapter_verses.length - 1;
                             //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
                             // console.log('only_ divId: '+divId);
 
@@ -6459,12 +6468,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //Chapter
                                 if(i == 0){
                                     //console.log('es Chapter: '+el);
+                                    let ChapterText;
 
                                     if(el.includes('</h4>')){
-                                        var arr_h4_text = el.split('</h4>');
-                                        var ChapterText = arr_h4_text[0];
+                                        let arr_h4_text = el.split('</h4>');
+                                        ChapterText = arr_h4_text[0];
                                     }else{
-                                        var ChapterText = el;
+                                        ChapterText = el;
                                     }
                                     //console.log('ChapterText: '+ChapterText);
 
@@ -6473,7 +6483,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }
 
                                     //Chapter
-                                    var h4 = document.createElement('h4');
+                                    const h4 = document.createElement('h4');
                                     h4.append(ChapterText);
 
                                     arr_data_head.push(h4);
@@ -6485,30 +6495,31 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                                 else{//Verse
                                     //console.log('es Verse: '+el);
+                                    let p_Text = '';
                 
                                     if(el.includes('</p>')){
-                                        var arr_p_text = el.split('</p>');
-                                        var p_Text = arr_p_text[0];
+                                        let arr_p_text = el.split('</p>');
+                                        p_Text = arr_p_text[0];
                                     }else{
-                                        var p_Text = el;
+                                        p_Text = el;
                                     }
                                     //console.log('p_Text: '+p_Text); 
                 
-                                    var arr_p = p_Text.split(' ');
-                                    var VerseId = arr_p[0];
+                                    let arr_p = p_Text.split(' ');
+                                    let VerseId = arr_p[0];
                                     //console.log('VerseId: '+VerseId);
                 
-                                    var VerseText = '';
+                                    let VerseText = '';
                                     for(let index = 1; index < arr_p.length; index++){
                                         VerseText += arr_p[index] + ' ';
                                     }
                                     //console.log('VerseText: '+VerseText);
                 
-                                    var p = document.createElement('p');
+                                    const p = document.createElement('p');
                                     p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                     p.setAttribute('data-verse',VerseId);
                     
-                                    var a = document.createElement('a');
+                                    const a = document.createElement('a');
                                     a.href = '#';
                                     //a.classList.add('aki_clase');//de momento comento...
                                     a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -6522,7 +6533,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     //Номера Стронга в стихах (RST+)
                                     if(bq.StrongNumbers == "Y"){
                                         let t = VerseText;
-                                        var arr_t = t.split(' ');
+                                        let arr_t = t.split(' ');
 
                                         arr_t.forEach((el,i) => {    
                                             
@@ -6572,7 +6583,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
                                                     //console.log('1. book: '+book);
                                                     //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                                    var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
+                                                    let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
 
                                                     if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                         getStrongNumber(el.innerHTML, null, paramfirstLetter);
@@ -6697,8 +6708,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //=====================================================//
                             if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                                 //console.log('Numeración base es Española - y cols es Rusa');
-                                var arr_vstavka = [];
-                                var vstavka2 = [];
+                                let arr_vstavka = [];
+                                let vstavka2 = [];
                                 
                                 //Miro la traducción con EnglishPsalms
                                 switch (parseInt(book)) {
@@ -7029,10 +7040,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //=====================================================//
                             if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                                 //console.log('Numeración base Rusa - y cols Española');
-                                //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                                 //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
-                                var arr_vstavka = [];
-                                var vstavka2 = [];
+                                let arr_vstavka = [];
+                                let vstavka2 = [];
                                 
                                 //Miro la traducción con EnglishPsalms
                                 switch (parseInt(book)) {
@@ -7200,7 +7210,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             if(chapter == 89){//89:6 => 90:5-6 
                                                 addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 4){
                                                         const p_new = document.createElement('p');
@@ -7269,7 +7279,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             if(chapter == 1){
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
                                                 //console.log(arr_vstavka);
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 0){
                                                         const p_new = document.createElement('p');
@@ -7301,7 +7311,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     case 22: //Isaías - Исаия
                                             if(chapter == 3){
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 18){
                                                         const p_new = document.createElement('p');
@@ -7373,7 +7383,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     case 46: //2Corintios - 2-Коринфянам
                                             if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
                                                 arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );
-                                                var new_arr = [];
+                                                let new_arr = [];
                                                 arr_vstavka.map((el,i,arr) => {
                                                     if(i == 11){
                                                         const p_new = document.createElement('p');
@@ -7553,7 +7563,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }else{//si no está el id de book en el modulo...
                     document.querySelectorAll('.colsInner').forEach(el=>{
                         if(el.childElementCount == 0 || el.textContent == ''){
-                            var p = document.createElement('p');
+                            const p = document.createElement('p');
                             p.className = 'prim';
                             p.innerHTML = `3.2 En este módulo no existe el libro indicado.`;
                             el.append(p);
@@ -7586,10 +7596,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     console.log('=== viaByJson_showChapterText4 === ');
 
-    var divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
-    var divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
-    var divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
+    let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
+    let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
+    let divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
+    let divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
     //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
@@ -7597,7 +7607,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         clearAllDivShow();//hacerlo SOLO cuando se cargan todos los cols ya que borra el el contenido de todas cols cando se recarga solo 1 col al cambiar solo la trans de una col!
     }    
 
-    var btnStrongIsActive = false;
+    let btnStrongIsActive = false;
     if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
@@ -7614,7 +7624,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
         //console.log('saco datos por json por fetch()');
         
-        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
         
         if(typeof objTrans == 'undefined'){
             console.log('objTrans todavia no existe. return false.');
@@ -7622,7 +7632,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         }
 
         //saco ajustes de este modulo en json               
-        var bq = objTrans;
+        let bq = objTrans;
         //console.log(' abajo bq:');
         //console.log(bq);
 
@@ -7685,31 +7695,26 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                 //console.log('10197. abajo dataRead');
                 //console.log(dataRead);
                 
-                //var bookModule = dataRead.chapterData.p_text_all;//NO HACE FALTA AQUI!!!
-                // console.log('6577. abajo bookModule:');
-                // console.log(bookModule);
-
                 divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
                 //console.log('lo reseteo en buildDivShow'); 
 
-                var BookName = dataRead.chapterData.h2_text;
+                let BookName = dataRead.chapterData.h2_text;
                 if(BookName == '') BookName = bq.Books[book].FullName;
                 
                 //Book
-                var h2 = document.createElement('h2');
+                const h2 = document.createElement('h2');
                 h2.append(BookName);
 
                 arr_data_head.push(h2);
 
-                var nb = dataRead.chapterData;
-                // var nb = dataRead.chapterData.p_text_all;//ANTES
+                let nb = dataRead.chapterData;
                 //console.log('abajo dataRead.chapterData.p_text_all:');
                 //console.log(dataRead.chapterData.p_text_all);
                 //console.log('abajo dataRead.chapterData.arr_p_verses:');
                 //console.log(dataRead.chapterData.arr_p_verses);
 
-                var arr_p_verses = (typeof dataRead.vstavkaData != 'undefined') ? dataRead.vstavkaData.arr_p_verses : [] ;
-                var arr_p_verses2 = (typeof dataRead.vstavkaData2 != 'undefined') ? dataRead.vstavkaData2.arr_p_verses : [] ;
+                let arr_p_verses = (typeof dataRead.vstavkaData != 'undefined') ? dataRead.vstavkaData.arr_p_verses : [] ;
+                let arr_p_verses2 = (typeof dataRead.vstavkaData2 != 'undefined') ? dataRead.vstavkaData2.arr_p_verses : [] ;
 
                 //si existe el capitulo
                 if(typeof nb !== 'undefined'){//si existe texto devuelto pot php
@@ -7717,13 +7722,12 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     if(chapter > nb.ChapterQty) chapter = nb.ChapterQty;
                     if(verseNumber != null && verseNumber > nb.VerseQty) verseNumber = nb.VerseQty;
                     
-                    var ChapterId = chapter;
+                    let ChapterId = chapter;
 
-                    //var nb_chapter_verses = (nb.includes('<p>')) ? nb.split('<p>') : console.error('no includes(<p>)');//as text
-                    var nb_chapter_verses = (dataRead.chapterData.arr_p_verses.length != 0) ? dataRead.chapterData.arr_p_verses : console.error('dataRead.chapterData.arr_p_verses.length = 0');//as json
+                    let nb_chapter_verses = (dataRead.chapterData.arr_p_verses.length != 0) ? dataRead.chapterData.arr_p_verses : console.error('dataRead.chapterData.arr_p_verses.length = 0');//as json
                     //console.log(nb_chapter_verses);
 
-                    var only_verses_length = nb_chapter_verses.length - 1;
+                    let only_verses_length = nb_chapter_verses.length - 1;
                     //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
                     // console.log('only_ divId: '+divId);
 
@@ -7744,7 +7748,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         if(i == 0){
                             //console.log('es Chapter: '+el);
 
-                            var ChapterText = dataRead.chapterData.h4_text;//ya que el indice es 0, el siguiente es '<p>'
+                            let ChapterText = dataRead.chapterData.h4_text;//ya que el indice es 0, el siguiente es '<p>'
                             if(ChapterText == '') ChapterText = bq.Books[book].FullName + ' ' + chapter;
 
                             //Chapter
@@ -7760,30 +7764,31 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         }
                         else{//Verse
                             //console.log('es Verse: '+el);
+                            let p_Text = '';
         
                             if(el.includes('</p>')){
-                                var arr_p_text = (el.includes('</p>')) ? el.split('</p>') : console.error('no includes </p>') ;
-                                var p_Text = arr_p_text[0];
+                                let arr_p_text = (el.includes('</p>')) ? el.split('</p>') : console.error('no includes </p>') ;
+                                p_Text = arr_p_text[0];
                             }else{
-                                var p_Text = el;//ya que fue hecho el .split('<p>')
+                                p_Text = el;//ya que fue hecho el .split('<p>')
                             }
                             //console.log('p_Text: '+p_Text); 
                             
-                            var arr_p = (p_Text.includes(' ')) ? p_Text.split(' ') : console.error("no includes ' '") ;
-                            var VerseId = arr_p[0];
+                            let arr_p = (p_Text.includes(' ')) ? p_Text.split(' ') : console.error("no includes ' '") ;
+                            let VerseId = arr_p[0];
                             //console.log('VerseId: '+VerseId);
         
-                            var VerseText = '';
+                            let VerseText = '';
                             for(let index = 1; index < arr_p.length; index++){
                                 VerseText += arr_p[index] + ' ';
                             }
                             //console.log('VerseText: '+VerseText);
         
-                            var p = document.createElement('p');
+                            const p = document.createElement('p');
                             p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                             p.setAttribute('data-verse',VerseId);
             
-                            var a = document.createElement('a');
+                            const a = document.createElement('a');
                             a.href = '#';
                             //a.classList.add('aki_clase');//de momento comento...
                             a.innerHTML = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -7797,7 +7802,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //Номера Стронга в стихах (RST+)
                             if(bq.StrongNumbers == "Y"){
                                 let t = VerseText;
-                                var arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
 
                                 arr_t.forEach((el,i) => {    
                                     
@@ -7847,7 +7852,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             //console.log('1. bq.StrongFirstLetter: '+bq.StrongFirstLetter);
                                             //console.log('1. book: '+book);
                                             //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
-                                            var paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
+                                            let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
 
                                             if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                 getStrongNumber(el.innerHTML, null, paramfirstLetter);
@@ -7977,9 +7982,8 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     //=====================================================//
                     if(base_ep == 'Y' && bq.EnglishPsalms == 'N'){//numeración rusa
                         //console.log('Numeración base es Española - y cols es Rusa');
-                        //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
-                        var arr_vstavka = [];
-                        var vstavka2 = [];
+                        let arr_vstavka = [];
+                        let vstavka2 = [];
                         
                         //Miro la traducción con EnglishPsalms
                         switch (parseInt(book)) {
@@ -8340,10 +8344,9 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     //=====================================================//
                     if(base_ep == 'N' && bq.EnglishPsalms == 'Y'){//numeración Española
                         //console.log('Numeración base Rusa - y cols Española');
-                        //var col1_p_length = document.querySelectorAll('#col1 .colsInner p').length;//antes
                         //console.log(' --- dentro de bloque Numeración base Rusa - y cols Española --- col1_p_length: '+col1_p_length);//test
-                        var arr_vstavka = [];
-                        var vstavka2 = [];
+                        let arr_vstavka = [];
+                        let vstavka2 = [];
                         
                         //Miro la traducción con EnglishPsalms
                         switch (parseInt(book)) {
@@ -8529,7 +8532,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         addChapterToHead(bq, book, parseInt(chapter)+1);//si el verse vstavka es primero
                                         //arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
                                         arr_vstavka = for_parseVerse_json(Translation, bq, arr_p_verses, book, parseInt(chapter)+1, form_list_verses(1, col1_p_length) );
-                                        var new_arr = [];
+                                        let new_arr = [];
                                         arr_vstavka.map((el,i,arr) => {
                                             if(i == 4){
                                                 const p_new = document.createElement('p');
@@ -8604,7 +8607,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         // arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length) );
                                         arr_vstavka = for_parseVerse_json(Translation, bq, arr_p_verses, book, chapter, form_list_verses(1, col1_p_length) );
                                         //console.log(arr_vstavka);
-                                        var new_arr = [];
+                                        let new_arr = [];
                                         arr_vstavka.map((el,i,arr) => {
                                             if(i == 0){
                                                 const p_new = document.createElement('p');
@@ -8638,7 +8641,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     if(chapter == 3){
                                         // arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );//correcto!
                                         arr_vstavka = for_parseVerse_json(Translation, bq, arr_p_verses, book, chapter, form_list_verses(1, col1_p_length+1) );//correcto!
-                                        var new_arr = [];
+                                        let new_arr = [];
                                         arr_vstavka.map((el,i,arr) => {
                                             if(i == 18){
                                                 const p_new = document.createElement('p');
@@ -8721,7 +8724,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     if(chapter == 13){// 13:12-13 => 13:12 | 13:14 => 13:13                                          
                                         // arr_vstavka = for_parseVerse(Translation, bq, bookModule, book, chapter, form_list_verses(1, col1_p_length+1) );
                                         arr_vstavka = for_parseVerse_json(Translation, bq, arr_p_verses, book, chapter, form_list_verses(1, col1_p_length+1) );
-                                        var new_arr = [];
+                                        let new_arr = [];
                                         arr_vstavka.map((el,i,arr) => {
                                             if(i == 11){
                                                 const p_new = document.createElement('p');
@@ -8908,7 +8911,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         }else{//si no está el id de book en el modulo...
             document.querySelectorAll('.colsInner').forEach(el=>{
                 if(el.childElementCount == 0 || el.textContent == ''){
-                    var p = document.createElement('p');
+                    const p = document.createElement('p');
                     p.className = 'prim';
                     p.innerHTML = `3.3 En este módulo no existe el libro indicado.`;
                     el.append(p);
@@ -8937,7 +8940,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
 function form_list_verses(from_verse, to_verse){
-    var lista_verses = [];
+    let lista_verses = [];
     for (let i = from_verse; i <= to_verse; i++) {
         lista_verses.push(i);                                                    
         //console.log('abajo lista_verses');
@@ -8947,8 +8950,7 @@ function form_list_verses(from_verse, to_verse){
 }
 
 function vstavka_vacio(direccion){
-    //var arr = [];
-    let p_vacio = document.createElement('p');
+    const p_vacio = document.createElement('p');
     p_vacio.className = 'prim';
 
     if(direccion == 'arriba'){
@@ -8959,7 +8961,6 @@ function vstavka_vacio(direccion){
         p_vacio.innerHTML = 'эквивалент стиха отсутствует в данном переводе...';
     } 
     
-    //console.log('vstavka_vacio arr:');
     //console.log(p_vacio);
     return p_vacio;
 }
@@ -8998,7 +8999,7 @@ function addChapterToVerse(arr_data_body, bq, book, chapter, verseNumber){
 
 
 function mergeVerses(arr_data_body, verseNumber){
-    var new_arr = [];
+    let new_arr = [];
     arr_data_body.map((el,i,arr) => {
         if(i == verseNumber-1){
             const p_vstavka = '<br>' + arr[i+1].innerHTML;
@@ -9020,7 +9021,7 @@ function mergeVerses(arr_data_body, verseNumber){
 
 
 function for_parseVerse_json(Translation, bq, arr_p_verses, book, chapter, arr_verses ){
-    var a = [];
+    let a = [];
 
     //Hay solo un verse
     if(typeof arr_verses == 'number'){// 1 vez
@@ -9053,24 +9054,25 @@ function for_parseVerse_json(Translation, bq, arr_p_verses, book, chapter, arr_v
 
 function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumber){
 
-    var verse_add = arr_p_verses[verseNumber];
+    let verse_add = arr_p_verses[verseNumber];
     
-    var el = verse_add;
-    var arr_data_add = [];
+    let el = verse_add;
+    let arr_data_add = [];
+    let p_Text = '';
 
         if(el.includes('</p>')){
-            var arr_p_text = el.split('</p>');
-            var p_Text = arr_p_text[0];
+            let arr_p_text = el.split('</p>');
+            p_Text = arr_p_text[0];
         }else{
-            var p_Text = el;
+            p_Text = el;
         }
         //console.log('p_Text: '+p_Text); 
 
-        var arr_p = p_Text.split(' ');
-        var VerseId = arr_p[0];
+        let arr_p = p_Text.split(' ');
+        let VerseId = arr_p[0];
         //console.log('VerseId: '+VerseId);
 
-        var VerseText = '';
+        let VerseText = '';
         for(let index = 1; index < arr_p.length; index++){
             VerseText += arr_p[index] + ' ';
         }
@@ -9094,7 +9096,7 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
         //Номера Стронга в стихах (RST+)
         if(bq.StrongNumbers == "Y"){
             let t = VerseText;
-            var arr_t = t.split(' ');
+            let arr_t = t.split(' ');
 
             arr_t.forEach((el,i) => {    
                 
@@ -9254,7 +9256,7 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
 
 
 function for_parseVerse(Translation, bq, bookModule, book, chapter, arr_verses ){
-    var a = [];
+    let a = [];
 
     //Hay solo un verse
     if(typeof arr_verses == 'number'){// 1 vez
@@ -9285,39 +9287,40 @@ function for_parseVerse(Translation, bq, bookModule, book, chapter, arr_verses )
 }
 
 function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
-
+    let verse_add;
     if(typeof isTestPhp != 'undefined' && isTestPhp){       
-        var verse_add = bookModule.split('<p>')[verseNumber];
+        verse_add = bookModule.split('<p>')[verseNumber];
     }else{
-        var verse_add = bookModule.split('<h4>')[chapter].split('<p>')[verseNumber];
+        verse_add = bookModule.split('<h4>')[chapter].split('<p>')[verseNumber];
     }
     
-    var el = verse_add;
-    var arr_data_add = [];
+    let el = verse_add;
+    let arr_data_add = [];
+    let p_Text = '';
 
         if(el.includes('</p>')){
-            var arr_p_text = el.split('</p>');
-            var p_Text = arr_p_text[0];
+            let arr_p_text = el.split('</p>');
+            p_Text = arr_p_text[0];
         }else{
-            var p_Text = el;
+            p_Text = el;
         }
         //console.log('p_Text: '+p_Text); 
 
-        var arr_p = p_Text.split(' ');
-        var VerseId = arr_p[0];
+        let arr_p = p_Text.split(' ');
+        let VerseId = arr_p[0];
         //console.log('VerseId: '+VerseId);
 
-        var VerseText = '';
+        let VerseText = '';
         for(let index = 1; index < arr_p.length; index++){
             VerseText += arr_p[index] + ' ';
         }
         //console.log('VerseText: '+VerseText);
 
-        var p = document.createElement('p');
+        const p = document.createElement('p');
         p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
         //p.setAttribute('data-verse',data_verse_add);//meto el numero correspondiente a trans1
 
-        var a = document.createElement('a');
+        const a = document.createElement('a');
         a.href = '#';
         //a.classList.add('aki_clase');//de momento comento...
         a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
@@ -9331,7 +9334,7 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
         //Номера Стронга в стихах (RST+)
         if(bq.StrongNumbers == "Y"){
             let t = VerseText;
-            var arr_t = t.split(' ');
+            let arr_t = t.split(' ');
 
             arr_t.forEach((el,i) => {    
                 
@@ -9602,7 +9605,7 @@ function hideShowSidebar(el){
 
 
 function getActTrans(){
-    var act_trans = eid_trans1.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
     let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
         if(el.value == act_trans){
@@ -9621,10 +9624,10 @@ function changeTransNav(trans, idCol_trans){
     }
 
     //en navegación
-    var id_book = eid_inpt_nav.getAttribute('data-id_book');
-    var chapter = eid_inpt_nav.getAttribute('data-show_chapter');
-    var verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
-    var to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
+    let id_book = eid_inpt_nav.getAttribute('data-id_book');
+    let chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    let verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    let to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
     eid_inpt_nav.dataset.divtrans = idCol_trans;
     eid_inpt_nav.dataset.trans = trans;
 
@@ -9633,7 +9636,7 @@ function changeTransNav(trans, idCol_trans){
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
-    var Translation = trans;
+    let Translation = trans;
     url_bq = `modules/text/${Translation}/bibleqt.json`;
 
     fetch(url_bq)
@@ -9642,19 +9645,19 @@ function changeTransNav(trans, idCol_trans){
 
 
             if(document.querySelectorAll('.cols').length > 1){
-                var chapter = obj_nav.show_chapter;
-                var verse = obj_nav.show_verse; 
-                var to_verse = null;//todavia no está seleccionado
+                let chapter = obj_nav.show_chapter;
+                let verse = obj_nav.show_verse; 
+                let to_verse = null;//todavia no está seleccionado
                 
-                var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
 
                 if(res_new_link){
                     //asigno nuevo valor
-                    var bookNumber = res_new_link[0];
-                    var chapterNumber = res_new_link[1];
-                    var verseNumber = res_new_link[2];
-                    var to_verseNumber = res_new_link[3];
-                    var trans_BookShortName = res_new_link[4];
+                    let bookNumber = res_new_link[0];
+                    let chapterNumber = res_new_link[1];
+                    let verseNumber = res_new_link[2];
+                    let to_verseNumber = res_new_link[3];
+                    let trans_BookShortName = res_new_link[4];
                     
                     // console.log('---despues---');
                     // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -9663,7 +9666,7 @@ function changeTransNav(trans, idCol_trans){
                     // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                     // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);
 
-                    var new_ref_text = trans_BookShortName;
+                    let new_ref_text = trans_BookShortName;
                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
@@ -9699,7 +9702,7 @@ function changeTransNav(trans, idCol_trans){
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     //console.log('===function changeTrans()===');
     
-    var trans_buttons = document.querySelectorAll('#footerInner button');
+    let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
         el.classList.remove('btn_active');
     });
@@ -9720,15 +9723,15 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля. 
 
     //en navegación
-    var id_book = eid_inpt_nav.getAttribute('data-id_book');
-    var chapter = eid_inpt_nav.getAttribute('data-show_chapter');
-    var verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
-    var to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
+    let id_book = eid_inpt_nav.getAttribute('data-id_book');
+    let chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+    let verseNumber = eid_inpt_nav.getAttribute('data-show_verse');
+    let to_verseNumber = (eid_inpt_nav.getAttribute('data-show_to_verse') != '') ? eid_inpt_nav.getAttribute('data-show_to_verse') : null ;
     eid_inpt_nav.dataset.trans = trans;
     eid_s_book.click();//simulo click sobre boton 'Kniga' para cargar los nombres corto de las libros de la Biblia
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
-    var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
+    let arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
 
     Array.from(document.querySelectorAll('.colsInner')[0].children).forEach(el=>{
         if(isInViewport(el)){
@@ -9796,7 +9799,7 @@ function changeModule(thisDiv,trans,BibleShortName){
     let to_verseNumber = eid_inpt_nav.getAttribute('data-show_to_verse');
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
-    var arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
+    let arr_verseView = [];//versiculos (elementos) visibles completamente en pantalla
 
     Array.from(thisDiv.parentElement.children[1].children).forEach(el=>{
         if(isInViewport(el)){
@@ -9810,12 +9813,12 @@ function changeModule(thisDiv,trans,BibleShortName){
             //console.log(el);
         }
     });
-    var verseView = arr_verseView[0];
+    let verseView = arr_verseView[0];
     //console.log('verseView: '+verseView);
 
     //si es trans1 cambio al color rojo el boton de eid_footer en tablet y desktop
     if(thisDiv.id == 'trans1'){
-        var trans_buttons = document.querySelectorAll('#footerInner button');
+        let trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
             el.classList.remove('btn_active');
             if(el.value == thisDiv.dataset.trans){
@@ -9969,7 +9972,7 @@ function mySizeWindow() {
     let footer_h = eid_footer.offsetHeight;
     let headerContainer_h = eid_headerContainer.offsetHeight;
     
-    var pantalla, marginSidebar;
+    let pantalla, marginSidebar;
     if(window_w < pantallaTabletMinPx){
         pantalla = 'mobile';
         marginSidebar = 0;
@@ -10221,9 +10224,9 @@ function mySizeVerse(){
 
     window.arr_h = [];
     window.arr_sum_line_h = [];
-    var arr_p_len = [];
-    var colsHeadAll = document.querySelectorAll('.colsHead');
-    var colsInnerAll = document.querySelectorAll('.colsInner');
+    let arr_p_len = [];
+    let colsHeadAll = document.querySelectorAll('.colsHead');
+    let colsInnerAll = document.querySelectorAll('.colsInner');
 
     colsHeadAll.forEach(el=>{
         //si el ancho de una col es menos de 350, quito min-width:90px
@@ -10246,9 +10249,9 @@ function mySizeVerse(){
         });
 
         let colsInnerAll_ch = document.querySelectorAll('.colsInner')[index].children;
-        var arr_h2 = [];
-        var arr_sum_p_h2 = [];
-        var sum_p_h = 0;
+        let arr_h2 = [];
+        let arr_sum_p_h2 = [];
+        let sum_p_h = 0;
 
         arr_p_len.push(colsInnerAll_ch.length);
 
@@ -10271,16 +10274,16 @@ function mySizeVerse(){
     //console.log(arr_h);
     //console.log('arr_p_len: '+arr_p_len);
 
-    var p_count = Math.max(...arr_p_len);
+    let p_count = Math.max(...arr_p_len);
     //console.log('p_count: '+p_count);
 
     window.arr_line_h = [];       
 
-    for(var p = 0; p < p_count; p++){
+    for(let p = 0; p < p_count; p++){
         //console.log(i);
 
         let max_h = 0;
-        var arr_line_h2 = [];
+        let arr_line_h2 = [];
         
         for(let c = 0; c < colsInnerAll.length; c++){
             
@@ -10308,7 +10311,7 @@ function mySizeVerse(){
         
         //para cada versiculo 'p' de cada columpa 'ch' pongo la misma altura 'max_h' si es positionShow 'col'
         if(positionShow == 'col'){
-            for(var ch = 0; ch < colsInnerAll.length; ch++){
+            for(let ch = 0; ch < colsInnerAll.length; ch++){
                 if(typeof document.querySelectorAll('.colsInner')[ch].children[p] !== 'undefined'){
                     document.querySelectorAll('.colsInner')[ch].children[p].style.height = max_h + 'px';
                 }
@@ -10368,9 +10371,10 @@ function addTrans(addMode = null){
     });
     //console.log(arr_n);
 
+    let next_n = 1;//por defecto
     for(let i = 1; i <= countMaxTransInCols; i++) {
         if(!arr_n.includes(i)){
-            var next_n = i;
+            next_n = i;
             break;
         }
     }
@@ -10483,7 +10487,7 @@ function removeTrans(){
 }
 
 function closeTrans(el,event, param = null){
-    var n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);
+    let n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);
     //console.log(n);
     event.stopPropagation();
     
@@ -10524,7 +10528,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
         el = el.trim();
         //console.log(el);
 
-        var obj_el_trans = arrFavTransObj.find(v => v.Translation === el);
+        let obj_el_trans = arrFavTransObj.find(v => v.Translation === el);
 
         if(typeof obj_el_trans != 'undefined'){            
             if(colsAll[i] != null){//existe una columna
@@ -10540,7 +10544,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
         //si es trans1 cambio al color rojo el boton de eid_footer en tablet y desktop
         if(i == 0 && colsAll[i].querySelector('.colsHead').id == 'trans1'){
-            var trans_buttons = document.querySelectorAll('#footerInner button');
+            let trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
                 el.classList.remove('btn_active');
                 if(el.value == colsAll[i].querySelector('.colsHead').dataset.trans){
@@ -10576,9 +10580,10 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
     });
     //console.log(arr_n);
 
+    let next_n = 1;//por defecto
     for(let i = 1; i <= maxTabs; i++){
         if(!arr_n.includes(i)){
-            var next_n = i;
+            next_n = i;
             break;
         }
     }
@@ -10756,32 +10761,30 @@ function selChapter(e, show_chapter = null){
     //console.log('clickeado show_chapter: '+e.srcElement.getAttribute('data-show_chapter'));
 
     let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+    let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
-    var is_changedChapter = false;
+    let is_changedChapter = false;
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
+        let chapterNumber;
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-            //var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante EspToRus
-            var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante EspToRus
-            var chapterNumber = new_res[1];
+            let new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante EspToRus
+            chapterNumber = new_res[1];
             //console.log('en selChapter --- convertido chapterNumber: '+chapterNumber);//empezando de 1
             is_changedChapter = true;
         }
         else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-            //var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, e.srcElement.getAttribute('data-show_chapter'), null, null);//importante RusToEsp
-            var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante RusToEsp
-            var chapterNumber = new_res[1];
+            let new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, param_show_chapter, null, null);//importante RusToEsp
+            chapterNumber = new_res[1];
             //console.log('en selChapter --- convertido chapterNumber: '+chapterNumber);//empezando de 1
             is_changedChapter = true;
         }else{
-            //var chapterNumber = e.srcElement.getAttribute('data-show_chapter');
-            var chapterNumber = param_show_chapter;
+            chapterNumber = param_show_chapter;
         }
 
         obj_nav.id_chapter = chapterNumber - 1;
@@ -10807,20 +10810,20 @@ function selChapter(e, show_chapter = null){
 
         if(document.querySelectorAll('.cols').length > 1 && is_changedChapter == false){
 
-            var id_book = obj_nav.id_book;
-            var chapter = obj_nav.show_chapter;
-            var verse = obj_nav.show_verse; 
-            var to_verse = null;//todavia no está seleccionado
+            let id_book = obj_nav.id_book;
+            let chapter = obj_nav.show_chapter;
+            let verse = obj_nav.show_verse; 
+            let to_verse = null;//todavia no está seleccionado
             
-            var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+            let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
 
             if(res_new_link){
                 //asigno nuevo valor
-                var bookNumber = res_new_link[0];
-                var chapterNumber = res_new_link[1];
-                var verseNumber = res_new_link[2];
-                var to_verseNumber = res_new_link[3];
-                var trans_BookShortName = res_new_link[4];
+                let bookNumber = res_new_link[0];
+                let chapterNumber = res_new_link[1];
+                let verseNumber = res_new_link[2];
+                let to_verseNumber = res_new_link[3];
+                let trans_BookShortName = res_new_link[4];
                 
                 // console.log('---despues---');
                 // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -10829,7 +10832,7 @@ function selChapter(e, show_chapter = null){
                 // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                 // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
 
-                var new_ref_text = trans_BookShortName;
+                let new_ref_text = trans_BookShortName;
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
@@ -10884,8 +10887,8 @@ function selVerse(e){
     //console.log('clickeado show_verse: '+e.srcElement.getAttribute('data-show_verse'));
 
     let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+    let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     //asigno chapter por defecto si no hay cha`ter y se selecciona verse
     if(eid_inpt_nav.getAttribute('data-id_chapter') == '' && eid_inpt_nav.getAttribute('data-show_chapter') == ''){
@@ -10893,29 +10896,30 @@ function selVerse(e){
         eid_inpt_nav.setAttribute('data-show_chapter', 1);
     }
 
-    var is_changedVerse = false;
+    let is_changedVerse = false;
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
+        let chapterNumber, verseNumber;
 
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-            var new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante EspToRus
-            var chapterNumber = new_res[1];
-            var verseNumber = new_res[2];
+            let new_res = convertLinkFromEspToRus(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante EspToRus
+            chapterNumber = new_res[1];
+            verseNumber = new_res[2];
             //console.log('en selVerse --- convertido verseNumber: '+verseNumber);//empezando de 1
             is_changedVerse = true;
         }
         else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-            var new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante RusToEsp
-            var chapterNumber = new_res[1];
-            var verseNumber = new_res[2];
+            let new_res = convertLinkFromRusToEsp(eid_inpt_nav.dataset.id_book, eid_inpt_nav.getAttribute('data-show_chapter'), e.srcElement.getAttribute('data-show_verse'), null);//importante RusToEsp
+            chapterNumber = new_res[1];
+            verseNumber = new_res[2];
             //console.log('en selVerse --- convertido verseNumber: '+verseNumber);//empezando de 1
             is_changedVerse = true;
         }else{
-            var chapterNumber = eid_inpt_nav.getAttribute('data-show_chapter');
-            var verseNumber = e.srcElement.getAttribute('data-show_verse');
+            chapterNumber = eid_inpt_nav.getAttribute('data-show_chapter');
+            verseNumber = e.srcElement.getAttribute('data-show_verse');
         }
 
         obj_nav.id_verse = verseNumber - 1;//comprobar!
@@ -10936,20 +10940,20 @@ function selVerse(e){
 
         if(document.querySelectorAll('.cols').length > 1 && is_changedVerse == false){
 
-            var id_book = obj_nav.id_book;
-            var chapter = obj_nav.show_chapter;
-            var verse = obj_nav.show_verse; 
-            var to_verse = null;//todavia no está seleccionado
+            let id_book = obj_nav.id_book;
+            let chapter = obj_nav.show_chapter;
+            let verse = obj_nav.show_verse; 
+            let to_verse = null;//todavia no está seleccionado
             
-            var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+            let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
 
             if(res_new_link){
                 //asigno nuevo valor
-                var bookNumber = res_new_link[0];
-                var chapterNumber = res_new_link[1];
-                var verseNumber = res_new_link[2];
-                var to_verseNumber = res_new_link[3];
-                var trans_BookShortName = res_new_link[4];
+                let bookNumber = res_new_link[0];
+                let chapterNumber = res_new_link[1];
+                let verseNumber = res_new_link[2];
+                let to_verseNumber = res_new_link[3];
+                let trans_BookShortName = res_new_link[4];
                 
                 // console.log('---despues---');
                 // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -10958,7 +10962,7 @@ function selVerse(e){
                 // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                 // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
 
-                var new_ref_text = trans_BookShortName;
+                let new_ref_text = trans_BookShortName;
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
@@ -11003,21 +11007,22 @@ function sel(e, par, show_chapter = null, trans = null){
     console.log('===function sel()===');
     
     let trans_base = eid_trans1.dataset.trans;
-    var trans_inpt = eid_inpt_nav.dataset.trans;
+    let trans_inpt = eid_inpt_nav.dataset.trans;
 
     if(trans != null){
-        var trans = trans;
+        trans = trans;
     }else{
         if(trans_inpt != ''){
-            var trans = trans_inpt;
+            trans = trans_inpt;
         }else{
-            var trans = trans_base;
+            trans = trans_base;
         }
     }
 
+    let this_trans_obj;
     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
         //creo objeto de esta trans
-        var this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
+        this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
         //console.log('abajo  this_trans_obj: ');
         //console.log(this_trans_obj);
     }
@@ -11035,6 +11040,8 @@ function sel(e, par, show_chapter = null, trans = null){
         el.classList.remove('ul_active');
     });
 
+    let id_book, id_chapter;
+
 
     switch (par) {
         case 'b':   //Select li Book
@@ -11043,7 +11050,7 @@ function sel(e, par, show_chapter = null, trans = null){
                     eid_bcv_line.classList.remove('v_line');
                     eid_bcv_line.classList.add('b_line');
 
-                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
+                    id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
                     //console.log(id_book);
 
                     //modo new. Siempre salta este ya que cargo book despues de crear const arrFavTransObj
@@ -11055,7 +11062,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         // Registra el tiempo de inicio
                         //const tiempoInicio_b = new Date().getTime();
 
-                        var myPromise_b = new Promise(function(resolve, reject){
+                        let myPromise_b = new Promise(function(resolve, reject){
                             resolve('ok');
                         });
 
@@ -11069,12 +11076,12 @@ function sel(e, par, show_chapter = null, trans = null){
                 
                             eid_v_book.innerHTML = '';//reset botones de books
                 
-                            var arr_booksBible = [];
-                            var arr_genesis_hechos = [];
-                            var arr_ep_pablo = [];//epísolas de Pablo
-                            var arr_ep_saniago = [];//de Santiago a Juda
-                            var arr_apo = [];//Apocalipsis
-                            var arr_apocrif = [];//Apocrifos
+                            let arr_booksBible = [];
+                            let arr_genesis_hechos = [];
+                            let arr_ep_pablo = [];//epísolas de Pablo
+                            let arr_ep_saniago = [];//de Santiago a Juda
+                            let arr_apo = [];//Apocalipsis
+                            let arr_apocrif = [];//Apocrifos
                     
                             arr_books.forEach((el_b,i_b,arr_b) =>{
                                 let cl_book = '';//class de book
@@ -11129,9 +11136,9 @@ function sel(e, par, show_chapter = null, trans = null){
                             }
                             //console.log(arr_booksBible);
 
-                            var arr_block_AT = [];
-                            var arr_block_NT = [];
-                            var arr_block_APO = [];
+                            let arr_block_AT = [];
+                            let arr_block_NT = [];
+                            let arr_block_APO = [];
 
                             //new - con grid
                             arr_booksBible.forEach((el_b,i_b,arr_b) =>{                    
@@ -11251,12 +11258,12 @@ function sel(e, par, show_chapter = null, trans = null){
                 
                             eid_v_book.innerHTML = '';//reset botones de books
                 
-                            var arr_booksBible = [];
-                            var arr_genesis_hechos = [];
-                            var arr_ep_pablo = [];//epísolas de Pablo
-                            var arr_ep_saniago = [];//de Santiago a Juda
-                            var arr_apo = [];//Apocalipsis
-                            var arr_apocrif = [];//Apocrifos
+                            let arr_booksBible = [];
+                            let arr_genesis_hechos = [];
+                            let arr_ep_pablo = [];//epísolas de Pablo
+                            let arr_ep_saniago = [];//de Santiago a Juda
+                            let arr_apo = [];//Apocalipsis
+                            let arr_apocrif = [];//Apocrifos
                     
                             arr_books.forEach((el_b,i_b,arr_b) =>{
                                 let cl_book = '';//class de book
@@ -11311,9 +11318,9 @@ function sel(e, par, show_chapter = null, trans = null){
                             }
                             //console.log(arr_booksBible);
 
-                            var arr_block_AT = [];
-                            var arr_block_NT = [];
-                            var arr_block_APO = [];
+                            let arr_block_AT = [];
+                            let arr_block_NT = [];
+                            let arr_block_APO = [];
 
                             //new - con grid
                             arr_booksBible.forEach((el_b,i_b,arr_b) =>{                    
@@ -11421,8 +11428,8 @@ function sel(e, par, show_chapter = null, trans = null){
                     eid_bcv_line.classList.remove('v_line');
                     eid_bcv_line.classList.add('c_line');
             
-                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
-                    var id_chapter = parseInt(eid_inpt_nav.getAttribute('data-id_chapter'));//antes  
+                    id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
+                    id_chapter = parseInt(eid_inpt_nav.getAttribute('data-id_chapter')); 
                     
                     
                     //modo new
@@ -11430,7 +11437,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         
                         //alert('function sel() --- case: ch (chapter) --- modo new. existe arrFavTransObj');
             
-                        var myPromise_ch = new Promise(function(resolve, reject){
+                        let myPromise_ch = new Promise(function(resolve, reject){
                             resolve('ok');
                         });
             
@@ -11442,19 +11449,19 @@ function sel(e, par, show_chapter = null, trans = null){
                             }
                                             
                             if(document.querySelectorAll('.cols').length > 1){
-                                var chapter = obj_nav.show_chapter;
-                                var verse = obj_nav.show_verse; 
-                                var to_verse = null;//todavia no está seleccionado
+                                let chapter = obj_nav.show_chapter;
+                                let verse = obj_nav.show_verse; 
+                                let to_verse = null;//todavia no está seleccionado
                                 
-                                var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
             
                                 if(res_new_link){
                                     //asigno nuevo valor
-                                    var bookNumber = res_new_link[0];
-                                    var chapterNumber = res_new_link[1];
-                                    var verseNumber = res_new_link[2];
-                                    var to_verseNumber = res_new_link[3];
-                                    var trans_BookShortName = res_new_link[4];
+                                    let bookNumber = res_new_link[0];
+                                    let chapterNumber = res_new_link[1];
+                                    let verseNumber = res_new_link[2];
+                                    let to_verseNumber = res_new_link[3];
+                                    let trans_BookShortName = res_new_link[4];
                                     
                                     // console.log('---despues---');
                                     // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -11463,7 +11470,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                     // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
             
-                                    var new_ref_text = trans_BookShortName;
+                                    let new_ref_text = trans_BookShortName;
                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
@@ -11541,19 +11548,19 @@ function sel(e, par, show_chapter = null, trans = null){
                                 //console.log(data);        
                                 
                                 if(document.querySelectorAll('.cols').length > 1){
-                                    var chapter = obj_nav.show_chapter;
-                                    var verse = obj_nav.show_verse; 
-                                    var to_verse = null;//todavia no está seleccionado
+                                    let chapter = obj_nav.show_chapter;
+                                    let verse = obj_nav.show_verse; 
+                                    let to_verse = null;//todavia no está seleccionado
                                     
-                                    var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                    let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
                 
                                     if(res_new_link){
                                         //asigno nuevo valor
-                                        var bookNumber = res_new_link[0];
-                                        var chapterNumber = res_new_link[1];
-                                        var verseNumber = res_new_link[2];
-                                        var to_verseNumber = res_new_link[3];
-                                        var trans_BookShortName = res_new_link[4];
+                                        let bookNumber = res_new_link[0];
+                                        let chapterNumber = res_new_link[1];
+                                        let verseNumber = res_new_link[2];
+                                        let to_verseNumber = res_new_link[3];
+                                        let trans_BookShortName = res_new_link[4];
                                         
                                         // console.log('---despues---');
                                         // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -11562,7 +11569,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                         // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                 
-                                        var new_ref_text = trans_BookShortName;
+                                        let new_ref_text = trans_BookShortName;
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
@@ -11639,10 +11646,10 @@ function sel(e, par, show_chapter = null, trans = null){
                     eid_bcv_line.classList.remove('c_line');
                     eid_bcv_line.classList.add('v_line');
             
-                    var id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
-                    var id_chapter = (eid_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
+                    id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
+                    id_chapter = (eid_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
                     if(id_chapter < 0) id_chapter = 0;
-                    var id_verse = parseInt(eid_inpt_nav.getAttribute('data-id_verse'));
+                    let id_verse = parseInt(eid_inpt_nav.getAttribute('data-id_verse'));
                     eid_v_verse.innerHTML = '';//reset botones de versiculos
             
             
@@ -11651,7 +11658,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         
                         //alert('function sel() --- case: v (verse) --- modo new. existe arrFavTransObj');
             
-                        var myPromise_v = new Promise(function(resolve, reject){
+                        let myPromise_v = new Promise(function(resolve, reject){
                             resolve('ok');
                         });
             
@@ -11673,21 +11680,22 @@ function sel(e, par, show_chapter = null, trans = null){
                                             obj_bible_files[trans].Books[id_book].fileContent != '' 
                                         ){
                                             //console.log('existen datos del modulo para sacar numero de versiculos');
+                                            let chapterNumber,verseNumber;
                                             
                                             if(document.querySelectorAll('.cols').length > 1){
-                                                var chapter = obj_nav.show_chapter;
-                                                var verse = obj_nav.show_verse; 
-                                                var to_verse = null;//todavia no está seleccionado
+                                                let chapter = obj_nav.show_chapter;
+                                                let verse = obj_nav.show_verse; 
+                                                let to_verse = null;//todavia no está seleccionado
                                                 
-                                                var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                                let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
                             
                                                 if(res_new_link){
                                                     //asigno nuevo valor
-                                                    var bookNumber = res_new_link[0];
-                                                    var chapterNumber = res_new_link[1];
-                                                    var verseNumber = res_new_link[2];
-                                                    var to_verseNumber = res_new_link[3];
-                                                    var trans_BookShortName = res_new_link[4];
+                                                    let bookNumber = res_new_link[0];
+                                                    chapterNumber = res_new_link[1];
+                                                    verseNumber = res_new_link[2];
+                                                    let to_verseNumber = res_new_link[3];
+                                                    let trans_BookShortName = res_new_link[4];
                                                     
                                                     // console.log('---despues---');
                                                     // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -11696,27 +11704,21 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                                     // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                             
-                                                    var new_ref_text = trans_BookShortName;
+                                                    let new_ref_text = trans_BookShortName;
                                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                     if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                     eid_inpt_nav.value = new_ref_text;
                                                 }else{//si no hay que cambiar el chapter 
-                                                    var chapterNumber = id_chapter + 1;
-                                                    var verseNumber = id_verse + 1;    
+                                                    chapterNumber = id_chapter + 1;
+                                                    verseNumber = id_verse + 1;    
                                                 }
                                             }else{
-                                                var chapterNumber = id_chapter + 1;
-                                                var verseNumber = id_verse + 1;
+                                                chapterNumber = id_chapter + 1;
+                                                verseNumber = id_verse + 1;
                                             }
                                     
-                                            
-                                            //if(obj_bible_files[trans].Books[id_book].fileContent != ' '){
-                                            //    
-                                            //}else{
-                                            //    return;
-                                            //}
-
+                
                                             window.arr_verses = obj_bible_files[trans].Books[id_book].fileContent.split('<h4>')[chapterNumber].split('<p>');
                                             //console.log('abajo arr_verses');
                                             //console.log(arr_verses);
@@ -11789,21 +11791,22 @@ function sel(e, par, show_chapter = null, trans = null){
                                     .then(data => {
                                         
                                         //console.log('data: ',data);
+                                        let chapterNumber,verseNumber;
                                                 
                                         if(document.querySelectorAll('.cols').length > 1){
-                                            var chapter = obj_nav.show_chapter;
-                                            var verse = obj_nav.show_verse; 
-                                            var to_verse = null;//todavia no está seleccionado
+                                            let chapter = obj_nav.show_chapter;
+                                            let verse = obj_nav.show_verse; 
+                                            let to_verse = null;//todavia no está seleccionado
                                             
-                                            var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                            let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
                         
                                             if(res_new_link){
                                                 //asigno nuevo valor
-                                                var bookNumber = res_new_link[0];
-                                                var chapterNumber = res_new_link[1];
-                                                var verseNumber = res_new_link[2];
-                                                var to_verseNumber = res_new_link[3];
-                                                var trans_BookShortName = res_new_link[4];
+                                                let bookNumber = res_new_link[0];
+                                                chapterNumber = res_new_link[1];
+                                                verseNumber = res_new_link[2];
+                                                let to_verseNumber = res_new_link[3];
+                                                let trans_BookShortName = res_new_link[4];
                                                 
                                                 // console.log('---despues---');
                                                 // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -11812,18 +11815,18 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                                 // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                         
-                                                var new_ref_text = trans_BookShortName;
+                                                let new_ref_text = trans_BookShortName;
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                 eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
-                                                var chapterNumber = id_chapter + 1;
-                                                var verseNumber = id_verse + 1;    
+                                                chapterNumber = id_chapter + 1;
+                                                verseNumber = id_verse + 1;    
                                             }
                                         }else{
-                                            var chapterNumber = id_chapter + 1;
-                                            var verseNumber = id_verse + 1;
+                                            chapterNumber = id_chapter + 1;
+                                            verseNumber = id_verse + 1;
                                         }
                                                         
                                         eid_v_verse.innerHTML = '';//reset botones de versiculos
@@ -11888,22 +11891,23 @@ function sel(e, par, show_chapter = null, trans = null){
                                     .then(data => {
                                         
                                         //console.log('abajo data');
-                                        //console.log(data);                        
+                                        //console.log(data); 
+                                        let chapterNumber,verseNumber;
                         
                                         if(document.querySelectorAll('.cols').length > 1){
-                                            var chapter = obj_nav.show_chapter;
-                                            var verse = obj_nav.show_verse; 
-                                            var to_verse = null;//todavia no está seleccionado
+                                            let chapter = obj_nav.show_chapter;
+                                            let verse = obj_nav.show_verse; 
+                                            let to_verse = null;//todavia no está seleccionado
                                             
-                                            var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                            let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
                         
                                             if(res_new_link){
                                                 //asigno nuevo valor
-                                                var bookNumber = res_new_link[0];
-                                                var chapterNumber = res_new_link[1];
-                                                var verseNumber = res_new_link[2];
-                                                var to_verseNumber = res_new_link[3];
-                                                var trans_BookShortName = res_new_link[4];
+                                                let bookNumber = res_new_link[0];
+                                                chapterNumber = res_new_link[1];
+                                                verseNumber = res_new_link[2];
+                                                let to_verseNumber = res_new_link[3];
+                                                let trans_BookShortName = res_new_link[4];
                                                 
                                                 // console.log('---despues---');
                                                 // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -11912,24 +11916,21 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                                 // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                         
-                                                var new_ref_text = trans_BookShortName;
+                                                let new_ref_text = trans_BookShortName;
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                                 if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                 eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
-                                                var chapterNumber = id_chapter + 1;
-                                                var verseNumber = id_verse + 1;    
+                                                chapterNumber = id_chapter + 1;
+                                                verseNumber = id_verse + 1;    
                                             }
                                         }else{
-                                            var chapterNumber = id_chapter + 1;
-                                            var verseNumber = id_verse + 1;
+                                            chapterNumber = id_chapter + 1;
+                                            verseNumber = id_verse + 1;
                                         }
                                 
-                                        //window.arr_verses = data.split('<h4>')[id_chapter + 1].split('<p>');//antes
-                                        console.log('antes---');
                                         window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
-                                        console.log('despues---');
                                         // console.log('abajo arr_verses');
                                         //console.log(arr_verses);
                         
@@ -12024,21 +12025,22 @@ function sel(e, par, show_chapter = null, trans = null){
                             .then(data => {
                                 //console.log('abajo chapter_PathName');
                                 //console.log(data);
+                                let chapterNumber,verseNumber;
                                 
                                 if(document.querySelectorAll('.cols').length > 1){
-                                    var chapter = obj_nav.show_chapter;
-                                    var verse = obj_nav.show_verse; 
-                                    var to_verse = null;//todavia no está seleccionado
+                                    let chapter = obj_nav.show_chapter;
+                                    let verse = obj_nav.show_verse; 
+                                    let to_verse = null;//todavia no está seleccionado
                                     
-                                    var res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+                                    let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
                 
                                     if(res_new_link){
                                         //asigno nuevo valor
-                                        var bookNumber = res_new_link[0];
-                                        var chapterNumber = res_new_link[1];
-                                        var verseNumber = res_new_link[2];
-                                        var to_verseNumber = res_new_link[3];
-                                        var trans_BookShortName = res_new_link[4];
+                                        let bookNumber = res_new_link[0];
+                                        chapterNumber = res_new_link[1];
+                                        verseNumber = res_new_link[2];
+                                        let to_verseNumber = res_new_link[3];
+                                        let trans_BookShortName = res_new_link[4];
                                         
                                         // console.log('---despues---');
                                         // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
@@ -12047,21 +12049,20 @@ function sel(e, par, show_chapter = null, trans = null){
                                         // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                         // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                 
-                                        var new_ref_text = trans_BookShortName;
+                                        let new_ref_text = trans_BookShortName;
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
                                         if(verseNumber > 0) new_ref_text += ':' + verseNumber;
                                         if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                         eid_inpt_nav.value = new_ref_text;
                                     }else{//si no hay que cambiar el chapter 
-                                        var chapterNumber = id_chapter + 1;
-                                        var verseNumber = id_verse + 1;    
+                                        chapterNumber = id_chapter + 1;
+                                        verseNumber = id_verse + 1;    
                                     }
                                 }else{
-                                    var chapterNumber = id_chapter + 1;
-                                    var verseNumber = id_verse + 1;
+                                    chapterNumber = id_chapter + 1;
+                                    verseNumber = id_verse + 1;
                                 }
                         
-                                //window.arr_verses = data.split('<h4>')[id_chapter + 1].split('<p>');//antes
                                 window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
                                 //console.log('abajo arr_verses');
                                 //console.log(arr_verses);
@@ -12133,7 +12134,7 @@ function sel(e, par, show_chapter = null, trans = null){
 function getRefForTsk(Translation, bookShortName){
     //console.log('Translation: '+Translation);
     //console.log('bookShortName: '+bookShortName);
-    var bookNumber;
+    let bookNumber;
 
     let url = './modules/text/'+Translation+'/bibleqt.json';//Ej.: rsti2
     fetch(url)
@@ -12147,8 +12148,8 @@ function getRefForTsk(Translation, bookShortName){
             //console.log('arr['+i+']: '+arr[i].FullName + ' '+arr[i].ShortNames[0] );
             arr[i].ShortNames.forEach( (e,j,arr_s) =>{
                 if(bookShortName.toLowerCase() == e.toLowerCase()){
-                    var n_book = arr[i].BookNumber;
-                    var short_name = arr_s[0];//siempre el primer nombre del array
+                    let n_book = arr[i].BookNumber;
+                    let short_name = arr_s[0];//siempre el primer nombre del array
 
                     bookNumber = i;
                     //console.log('bookNumber: '+bookNumber);
@@ -12173,18 +12174,18 @@ function getRefForTsk(Translation, bookShortName){
 function getRef(trans = null){
     //console.log('=== function getRef() ===');
 
-    var act_trans = eid_trans1.dataset.trans;
-    var trans_inpt = eid_inpt_nav.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
+    let trans_inpt = eid_inpt_nav.dataset.trans;
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
-        var trans = (trans_inpt != '') ? trans_inpt : act_trans;
+        trans = (trans_inpt != '') ? trans_inpt : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
-            var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
-            var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
+            let button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
+            let EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
 
             //eid_trans1.dataset.trans = trans;//antes
             //eid_trans1.dataset.base_ep = EnglishPsalms;//antes
@@ -12192,7 +12193,7 @@ function getRef(trans = null){
 
             eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
-            var trans_buttons = document.querySelectorAll('#footerInner button');
+            let trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
                 el.classList.remove('btn_active');
             });
@@ -12202,35 +12203,34 @@ function getRef(trans = null){
     }
 
 
-    //var inpt_v = inpt.value.trim();//antes
-    var inpt_v = eid_inpt_nav.value.trim();
-    var book = null;//por defecto
-    var chapter = null;//por defecto
-    var verse = null;//por defecto
-    var to_verse = null;//por defecto
+    let inpt_v = eid_inpt_nav.value.trim();
+    let book = null;//por defecto
+    let chapter = null;//por defecto
+    let verse = null;//por defecto
+    let to_verse = null;//por defecto
     //console.log(inpt_v);
 
     //Solo book
     if(inpt_v.split(' ').length == 1){
-        var arr_book = inpt_v.split(' ');
+        let arr_book = inpt_v.split(' ');
         book = arr_book[0];
     }
 
     //Ejemplo: 'Jn.3:16' y Jn.3:16-18
     if(inpt_v.includes(':')){
-        var arr_v = inpt_v.split(':');
+        let arr_v = inpt_v.split(':');
         verse = arr_v[1];
         //console.log('verse: '+verse);
         
         if(verse.includes('-')){
-            var arr_verse = verse.split('-');
+            let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
         }
 
         if(arr_v[0].includes('.')){
-            var arr_ch = arr_v[0].split('.');
+            let arr_ch = arr_v[0].split('.');
 
             if(arr_ch.length == 2){
                 book = arr_ch[0] + '.';
@@ -12245,7 +12245,7 @@ function getRef(trans = null){
         }
 
         if(arr_v[0].includes(' ')){
-            var arr_ch = arr_v[0].split(' ');
+            let arr_ch = arr_v[0].split(' ');
             book = arr_ch[0];
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -12255,19 +12255,19 @@ function getRef(trans = null){
 
     //Ejemplo: 'Jn.3,16'
     if(inpt_v.includes(',')){
-        var arr_v = inpt_v.split(',');
+        let arr_v = inpt_v.split(',');
         verse = arr_v[1];
         //console.log('verse: '+verse);
         
         if(verse.includes('-')){
-            var arr_verse = verse.split('-');
+            let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
         }
 
         if(arr_v[0].includes('.')){
-            var arr_ch = arr_v[0].split('.');
+            let arr_ch = arr_v[0].split('.');
             book = arr_ch[0] + '.';
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -12275,7 +12275,7 @@ function getRef(trans = null){
         }
 
         if(arr_v[0].includes(' ')){
-            var arr_ch = arr_v[0].split(' ');
+            let arr_ch = arr_v[0].split(' ');
             book = arr_ch[0];
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -12285,7 +12285,7 @@ function getRef(trans = null){
 
     //Ejemplo: 'Jn. 3 16' y 'Jn 3 16-18' // sin ':'
     if(inpt_v.includes(' ') && !inpt_v.includes(':') && !inpt_v.includes(',')){
-        var arr_v = inpt_v.split(' ');
+        let arr_v = inpt_v.split(' ');
 
         if(arr_v.length > 3){
             arr_v = arr_v.filter(elem => elem);
@@ -12300,7 +12300,7 @@ function getRef(trans = null){
         if(arr_v.length == 3){
             verse = arr_v[2];
             if(verse.includes('-')){
-                var arr_verse = verse.split('-');
+                let arr_verse = verse.split('-');
                 verse = arr_verse[0];
                 to_verse = arr_verse[1];
                 //console.log('to_verse: '+to_verse);
@@ -12324,8 +12324,8 @@ function getRef(trans = null){
     if(book != null){
         //console.log('getRef() --- book != null');
 
-        var Translation = trans;
-        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+        let Translation = trans;
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
@@ -12333,7 +12333,7 @@ function getRef(trans = null){
             //console.log(objTrans);
 
             //saco ajustes de este modulo en json               
-            var data = objTrans;
+            let data = objTrans;
             //console.log(data);
     
             window.dataBooksBtnOk = data.Books;
@@ -12342,8 +12342,8 @@ function getRef(trans = null){
                 for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
                     const el = dataBooksBtnOk[i].ShortNames[j];
                     if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
-                        var n_book = dataBooksBtnOk[i].BookNumber;
-                        var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
+                        let n_book = dataBooksBtnOk[i].BookNumber;
+                        let short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
                         
                         chapter = (chapter != null) ? chapter : 1;//default si no hay
                         if(chapter > dataBooksBtnOk[i].ChapterQty) chapter = dataBooksBtnOk[i].ChapterQty;
@@ -12358,8 +12358,8 @@ function getRef(trans = null){
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
                                 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-                                var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-                                var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+                                trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -12367,7 +12367,7 @@ function getRef(trans = null){
                                     const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
                                     if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-                                        var new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
+                                        let new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
                                         chapter = new_res[1];
                                         verse = new_res[2];
                                         to_verse = new_res[3];
@@ -12376,7 +12376,7 @@ function getRef(trans = null){
                                         //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
                                     }
                                     else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-                                        var new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
+                                        let new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
                                         chapter = new_res[1];
                                         verse = new_res[2];
                                         to_verse = new_res[3];
@@ -12673,8 +12673,8 @@ function getRef(trans = null){
                     for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
                         const el = dataBooksBtnOk[i].ShortNames[j];
                         if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
-                            var n_book = dataBooksBtnOk[i].BookNumber;
-                            var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
+                            let n_book = dataBooksBtnOk[i].BookNumber;
+                            let short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
     
     
                             //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
@@ -12687,8 +12687,8 @@ function getRef(trans = null){
                                     //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                     
                                     let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-                                    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-                                    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+                                    trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                    let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
     
                                     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -12696,7 +12696,7 @@ function getRef(trans = null){
                                         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
     
                                         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-                                            var new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
+                                            let new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
                                             chapter = new_res[1];
                                             verse = new_res[2];
                                             to_verse = new_res[3];
@@ -12705,7 +12705,7 @@ function getRef(trans = null){
                                             //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
                                         }
                                         else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-                                            var new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
+                                            let new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
                                             chapter = new_res[1];
                                             verse = new_res[2];
                                             to_verse = new_res[3];
@@ -12832,14 +12832,14 @@ function getRef(trans = null){
 
 function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
-    var act_trans = eid_trans1.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
 
-    var arr_code = code.split('__');
-    var trans = arr_code[0];
-    var book = arr_code[1];
-    var chapter = arr_code[2];
-    var verse = arr_code[3];
-    var to_verse = null;
+    let arr_code = code.split('__');
+    let trans = arr_code[0];
+    let book = arr_code[1];
+    let chapter = arr_code[2];
+    let verse = arr_code[3];
+    let to_verse = null;
     if(arr_code[3].includes('-')){
         verse = arr_code[3].split('-')[0];
         to_verse = arr_code[3].split('-')[1];
@@ -12855,14 +12855,14 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
-        var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
+        let button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
+        let EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
         eid_trans1.dataset.trans = trans;
         eid_trans1.dataset.base_ep = EnglishPsalms;
         eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
-        var trans_buttons = document.querySelectorAll('#footerInner button');
+        let trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
             el.classList.remove('btn_active');
         });
@@ -12933,14 +12933,14 @@ function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
 
 function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
-    var act_trans = eid_trans1.dataset.trans;
+    let act_trans = eid_trans1.dataset.trans;
 
-    var arr_code = code.split('__');
-    var trans = arr_code[0];
-    var book = arr_code[1];
-    var chapter = arr_code[2];
-    var verse = arr_code[3];
-    var to_verse = null;
+    let arr_code = code.split('__');
+    let trans = arr_code[0];
+    let book = arr_code[1];
+    let chapter = arr_code[2];
+    let verse = arr_code[3];
+    let to_verse = null;
     if(arr_code[3].includes('-')){
         verse = arr_code[3].split('-')[0];
         to_verse = arr_code[3].split('-')[1];
@@ -12956,14 +12956,14 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
     //si trans es distinto del actual
     if(trans != act_trans){
         //lo cojo del parametro y grabo en div #trans1
-        var button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
-        var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
+        let button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
+        let EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
         eid_trans1.dataset.trans = trans;
         eid_trans1.dataset.base_ep = EnglishPsalms;
         eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);
         eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
         
-        var trans_buttons = document.querySelectorAll('#footerInner button');
+        let trans_buttons = document.querySelectorAll('#footerInner button');
         trans_buttons.forEach(el=>{
             el.classList.remove('btn_active');
         });
@@ -13040,7 +13040,7 @@ function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecate
     switch (e.keyCode) {
         case 13:// tecla "Enter"
             if(eid_btn_nav.classList.contains('btn_active')){
-                var thisBtn = eid_btn_ok;
+                let thisBtn = eid_btn_ok;
                 thisBtn.click();
                 thisBtn.classList.add('btn_ok_active');
                 setTimeout(() => {thisBtn.classList.remove('btn_ok_active')},100);
@@ -13064,7 +13064,9 @@ function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecate
             }
             break;      
     }
-};
+}
+
+
 function clear_inpt(param){
     let thisInpt = document.getElementById('inpt_'+param);
     thisInpt.value = '';
@@ -13083,7 +13085,7 @@ function isInViewport(el) {
 }
 
 function selectModule(e){
-    var thisDiv = e.currentTarget;
+    let thisDiv = e.currentTarget;
 
     let sk_test = true;//test...
     if(sk_test){
@@ -13260,7 +13262,7 @@ function hist(param){
 
 function bookGo(dir){
     //console.log('bookGo dir: '+dir);    
-    var act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
+    let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
@@ -13277,7 +13279,7 @@ function bookGo(dir){
     obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
-    var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+    let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
 
     //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
     if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
@@ -13285,15 +13287,16 @@ function bookGo(dir){
         //console.log('bookGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log(objTrans);
 
-        var myPromise_b_go = new Promise(function(resolve, reject){
+        let myPromise_b_go = new Promise(function(resolve, reject){
             resolve('ok');
         });
 
         myPromise_b_go
         .then((res) => {
-
+            
+            let bq;
             if(res == 'ok'){//siempre ok
-                var bq = objTrans;
+                bq = objTrans;
             }            
             //console.log('abajo bq'); 
             //console.log(bq); 
@@ -13302,8 +13305,8 @@ function bookGo(dir){
             //console.log(bq); 
 
             if(dir == 'next'){
-                var next_id_book = act_id_book;
-                var next_show_chapter = 1;//siempre      
+                let next_id_book = act_id_book;
+                let next_show_chapter = 1;//siempre      
                 
                 if(act_id_book == parseInt(bq.BookQty) - 1){//66 - 1 = 65 //Apocalipsis
                     next_id_book = 0;//Génesis
@@ -13336,8 +13339,8 @@ function bookGo(dir){
             }
 
             if(dir == 'prev'){
-                var prev_id_book = act_id_book;
-                var prev_show_chapter = 1;
+                let prev_id_book = act_id_book;
+                let prev_show_chapter = 1;
 
                 if(act_id_book == 0){//Génesis
                     prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
@@ -13388,8 +13391,8 @@ function bookGo(dir){
             //console.log(bq); 
 
             if(dir == 'next'){
-                var next_id_book = act_id_book;
-                var next_show_chapter = 1;//siempre      
+                let next_id_book = act_id_book;
+                let next_show_chapter = 1;//siempre      
                 
                 if(act_id_book == parseInt(bq.BookQty) - 1){//66 - 1 = 65 //Apocalipsis
                     next_id_book = 0;//Génesis
@@ -13422,8 +13425,8 @@ function bookGo(dir){
             }
 
             if(dir == 'prev'){
-                var prev_id_book = act_id_book;
-                var prev_show_chapter = 1;
+                let prev_id_book = act_id_book;
+                let prev_show_chapter = 1;
 
                 if(act_id_book == 0){//Génesis
                     prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
@@ -13471,8 +13474,8 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    var act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
-    var act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
+    let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
+    let act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
@@ -13490,7 +13493,7 @@ function chapterGo(dir){
 
 
 
-    var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+    let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
     
     //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
     if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
@@ -13498,7 +13501,7 @@ function chapterGo(dir){
         //console.log('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log(objTrans);
 
-        var myPromise_ch_go = new Promise(function(resolve, reject){
+        let myPromise_ch_go = new Promise(function(resolve, reject){
             resolve('ok');
         });
 
@@ -13506,8 +13509,9 @@ function chapterGo(dir){
         myPromise_ch_go
         .then((res) => {
 
+            let bq;
             if(res == 'ok'){//siempre ok
-                var bq = objTrans;
+                bq = objTrans;
             }            
             //console.log('abajo bq'); 
             //console.log(bq); 
@@ -13519,8 +13523,8 @@ function chapterGo(dir){
 
 
             if(dir == 'next'){
-                var next_id_book = act_id_book;
-                var next_show_chapter = act_show_chapter; 
+                let next_id_book = act_id_book;
+                let next_show_chapter = act_show_chapter; 
 
                 if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
                     if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
@@ -13558,8 +13562,8 @@ function chapterGo(dir){
             }
 
             if(dir == 'prev'){
-                var prev_id_book = act_id_book;
-                var prev_show_chapter = act_show_chapter;
+                let prev_id_book = act_id_book;
+                let prev_show_chapter = act_show_chapter;
 
                 if(act_show_chapter == 1){
                     if(act_id_book == 0){//Génesis
@@ -13624,8 +13628,8 @@ function chapterGo(dir){
 
 
             if(dir == 'next'){
-                var next_id_book = act_id_book;
-                var next_show_chapter = act_show_chapter; 
+                let next_id_book = act_id_book;
+                let next_show_chapter = act_show_chapter; 
 
                 if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
                     if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
@@ -13661,8 +13665,8 @@ function chapterGo(dir){
             }
 
             if(dir == 'prev'){
-                var prev_id_book = act_id_book;
-                var prev_show_chapter = act_show_chapter;
+                let prev_id_book = act_id_book;
+                let prev_show_chapter = act_show_chapter;
 
                 if(act_show_chapter == 1){
                     if(act_id_book == 0){//Génesis
@@ -13779,7 +13783,7 @@ function goToLinkFromFind(trans, refLink){
 
 function puntosInterval(){
     const element = document.querySelector(".puntos");
-    var count = 0;
+    let count = 0;
     if(element != null){
         setInterval(()=>{
             element.innerHTML += ".";
@@ -13802,13 +13806,13 @@ function showTabMob(btn_id, param, el){
 
 
 function makeTskObj(){
-    var arrTsk = [
+    let arrTsk = [
         "tsk"
         //"tsk_gromov",
         //"tsk_otro",
     ];
 
-    var arrTskObj = [];
+    let arrTskObj = [];
 
     for (let i = 0; i < arrTsk.length; i++) {
         const el = arrTsk[i];
@@ -13847,16 +13851,16 @@ function makeTskObj(){
 function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
     //console.log('Convierto Psalmo 119:63 en Псалом 118:63 para menu u otras cosas.');
 
-    var book = parseInt(book);
-    var chapter = (chapter != null) ? parseInt(chapter) : null;
-    var verse = parseInt(verse);
-    var to_verse = parseInt(to_verse);
+    let book = parseInt(book);
+    let chapter = (chapter != null) ? parseInt(chapter) : null;
+    let verse = parseInt(verse);
+    let to_verse = parseInt(to_verse);
 
     //nuevos datos
-    var bookNumber = book;
-    var chapterNumber = chapter;
-    var verseNumber = verse;
-    var to_verseNumber = to_verse;
+    let bookNumber = book;
+    let chapterNumber = chapter;
+    let verseNumber = verse;
+    let to_verseNumber = to_verse;
 
     //Miro la traducción con EnglishPsalms
     switch (book) {
@@ -14176,7 +14180,7 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 
     to_verseNumber = (isNaN(to_verseNumber)) ? null : to_verseNumber ;
 
-    var result = [bookNumber, chapterNumber, verseNumber, to_verseNumber];
+    let result = [bookNumber, chapterNumber, verseNumber, to_verseNumber];
 
     return result;
 }
@@ -14184,7 +14188,7 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 
 function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
     
-    var numberInt, numberStrShow, strongFile;
+    let numberInt, numberStrShow, strongFile;
 
     //si numero strong es clecked desde findWords y viene rojo... 
     if(numberStr.includes('<b class="f_red">') || numberStr.includes('</b>')){
@@ -14279,7 +14283,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
             //console.log(el);
             arr_new.push(el);
         });
-        var new_strongText = arr_new.join(' ');
+        let new_strongText = arr_new.join(' ');
 
         const span_text_strong = document.createElement('span');
         span_text_strong.className = 'text_strong';
@@ -14497,9 +14501,9 @@ function findWords(words_input){
     //console.log('eid_cbox7.checked: '+eid_cbox7.checked);
 
     let limit_val = (eid_limit.value != '*') ? parseInt(eid_limit.value) : '*' ;
-    var book_start = null;
-    var book_end = null;
-    var book_one = null;
+    let book_start = null;
+    let book_end = null;
+    let book_one = null;
 
     switch (eid_gde.value) {
         case 'TB'://ВСЯ БИБЛИЯ
@@ -14514,7 +14518,7 @@ function findWords(words_input){
     
         case 'NT'://НОВЫЙ ЗАВЕТ
             book_start = 39;
-            var book_end = 65;
+            book_end = 65;
             break;
     
         case 'M'://Пятикнижье
@@ -14590,8 +14594,8 @@ function findWords(words_input){
     //guardWordsFind(words_input);
     close_hist_find();
 
-    var words = words_input;
-    var arr_words = words.split(' ');
+    let words = words_input;
+    let arr_words = words.split(' ');
     //console.log('abajo arr_words: ');
     //console.log(arr_words);
     arr_words = arr_words.filter(elem => elem);
@@ -14610,27 +14614,28 @@ function findWords(words_input){
     //Слова: 'Иисус Христос' но не 'Иисус МЕССИЯ Христос') //ok
     //4. выражения не могут быть частями слов
     //Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'.
-    var no_part_word = (eid_cbox4.checked) ? 'Y' : 'N' ;  
+    let no_part_word = (eid_cbox4.checked) ? 'Y' : 'N' ;  
     //5. различать прописные и ЗАГЛАВНЫЕ буквы //ok
     //Пример: различать при поиске слова 'БОГ' и 'бог'.
-    var case_sens = (eid_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
+    let case_sens = (eid_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
     //6. различать буквы с ударениями (если есть)
     //Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю).
-    var accent_match = (eid_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
+    let accent_match = (eid_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
     //7. Номер Стронга StrongNumber
+    let search_only_in_text_without_StrongTags;
     if(eid_cbox7.checked){
-        var search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
+        search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
     }else{//por defecto se busca solo en el texto sin buscar en los tags
         //buscar solo en text o tambien en los tags de strong
-        var search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
+        search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
     }
 
-    var tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
+    let tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
 
 
     let Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
-    var btnStrongIsActive = false;
+    let btnStrongIsActive = false;
     if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
@@ -14686,18 +14691,18 @@ function findWords(words_input){
     eid_find_body.append(d_loader);
 
 
-    var result_finded = [];
-    var result_show = [];
-    var count_f = 0;//cantidad de versiculos con frases encontradas
-    var arr_result_m_total = [];//tottal array de ocurrencias (matches) en el versículo encontradas
-    var arr_result_m = [];//array de ocurrencias (matches) en el versículo encontradas
-    var count_m_total = 0;//total cantidad de ocurrencias (matches) en el versículo encontradas
-    var count_m = 0;//cantidad de ocurrencias (matches) en el versículo encontradas
+    let result_finded = [];
+    let result_show = [];
+    let count_f = 0;//cantidad de versiculos con frases encontradas
+    let arr_result_m_total = [];//tottal array de ocurrencias (matches) en el versículo encontradas
+    let arr_result_m = [];//array de ocurrencias (matches) en el versículo encontradas
+    let count_m_total = 0;//total cantidad de ocurrencias (matches) en el versículo encontradas
+    let count_m = 0;//cantidad de ocurrencias (matches) en el versículo encontradas
 
     //Si existe traducción...
     if(Translation != null){
         
-        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
 
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
@@ -14705,7 +14710,7 @@ function findWords(words_input){
             //console.log(objTrans);            
             
             //saco ajustes de este modulo en json               
-            var bq = objTrans;
+            let bq = objTrans;
             //console.log(' abajo bq:');
             //console.log(bq);
 
@@ -14742,16 +14747,17 @@ function findWords(words_input){
                                     const tiempoInicio = new Date().getTime();
                                     //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                    var myPromise_find = new Promise(function(resolve, reject){
+                                    let myPromise_find = new Promise(function(resolve, reject){
                                         resolve('ok');
                                     });
 
                                     myPromise_find
                                     .then((data) => {//data = ok
                                         //console.log(' --- if: ');
-
+                                        
+                                        let bookModule;
                                         if(data == 'ok'){
-                                            var bookModule = obj_bible_files[Translation].Books[book].fileContent;
+                                            bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                         }
 
                                         if(window.doFind){
@@ -14762,13 +14768,13 @@ function findWords(words_input){
                                             //показываю в каких книгах ищу
                                             document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
                     
-                                            var nb = bookModule.split('<h4>');//делю файл на главы
+                                            let nb = bookModule.split('<h4>');//делю файл на главы
                                             //console.log(nb);
                                             
                                             nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                             //console.log(nb);
                     
-                                            var arr_chapters = nb;
+                                            let arr_chapters = nb;
                                             //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
                     
                                             arr_chapters.forEach( (el_ch, i_ch) => {
@@ -14777,25 +14783,26 @@ function findWords(words_input){
                                                 let ChapterId = i_ch;
                                                 
                                                 if(el_ch.includes('<p>')){
-                                                    var arr_verses = el_ch.split('<p>');
+                                                    let arr_verses = el_ch.split('<p>');
                                                     //console.log(arr_verses);
                                                     
                                                     //Recorrer todos los verses
                                                     arr_verses.forEach((el,i) => {
-                    
+                                                        let p_Text = '';
+
                                                         if(el.includes('</p>')){
-                                                            var arr_p_text = el.split('</p>');
-                                                            var p_Text = arr_p_text[0];
+                                                            let arr_p_text = el.split('</p>');
+                                                            p_Text = arr_p_text[0];
                                                         }else{
-                                                            var p_Text = el;
+                                                            p_Text = el;
                                                         }
                                                         //console.log('p_Text: '+p_Text); 
                     
-                                                        var arr_p = p_Text.split(' ');
-                                                        var VerseId = arr_p[0];
+                                                        let arr_p = p_Text.split(' ');
+                                                        let VerseId = arr_p[0];
                                                         //console.log('VerseId: '+VerseId);
                     
-                                                        var VerseText = '';
+                                                        let VerseText = '';
                                                         for(let index = 1; index < arr_p.length; index++){
                                                             VerseText += arr_p[index] + ' ';
                                                             //console.log('arr_p['+index+']: '+arr_p[index]);
@@ -14818,7 +14825,7 @@ function findWords(words_input){
                                                         if(arr_words.length > 0){
                                                             
                                                             //tipos de busqueda
-                                                            var is_match = false;
+                                                            let is_match = false;
                     
                     
                                                             //=======================================================================//  
@@ -14830,9 +14837,9 @@ function findWords(words_input){
                                                                 arr_words.forEach(w => {
                                                                     if(accent_match == 'Y'){//cbox6
                                                                         if(no_part_word == 'Y'){//cbox4
-                                                                            var arr_no_part_word = [];
+                                                                            let arr_no_part_word = [];
                                                                             w = "^" +w +"$";//entera palabra del array, no parte
-                                                                            var regex_w = RegExp(w, tipo);
+                                                                            let regex_w = RegExp(w, tipo);
                                                                             VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                                 if(removeSymbols(el).match(regex_w)){
                                                                                     //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -14848,7 +14855,7 @@ function findWords(words_input){
                                                                                 arr_matches.push(0);
                                                                             }
                                                                         }else if(no_part_word == 'N'){
-                                                                            var regex_w = RegExp(w, tipo);
+                                                                            let regex_w = RegExp(w, tipo);
                                                                             arr_result_m = VerseText.match(regex_w);
                                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                             if(count_m > 0){
@@ -14859,9 +14866,9 @@ function findWords(words_input){
                                                                         }
                                                                     }else if(accent_match == 'N'){
                                                                         if(no_part_word == 'Y'){
-                                                                            var arr_no_part_word = [];
+                                                                            let arr_no_part_word = [];
                                                                             w = "^" +w +"$";//entera palabra del array, no parte
-                                                                            var regex_w = RegExp(removeAccents(w), tipo);
+                                                                            let regex_w = RegExp(removeAccents(w), tipo);
                                                                             removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                                 if(removeSymbols(el).match(regex_w)){
                                                                                     //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -14877,7 +14884,7 @@ function findWords(words_input){
                                                                                 arr_matches.push(0);
                                                                             }
                                                                         }else if(no_part_word == 'N'){
-                                                                            var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
                                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                             if(count_m > 0){
@@ -14895,8 +14902,8 @@ function findWords(words_input){
                                                                     arr_words.forEach(w => {
                                                                         if(accent_match == 'Y'){//cbox6
                                                                             if(no_part_word == 'Y'){//cbox4
-                                                                                var arr_VerseText_red = [];
-                                                                                var regex_w = RegExp(w, tipo);                                                       
+                                                                                let arr_VerseText_red = [];
+                                                                                let regex_w = RegExp(w, tipo);
                                                                                 VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                                     if(removeSymbols(el).match(regex_w)){
                                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -14912,7 +14919,7 @@ function findWords(words_input){
                                                                                 VerseText = arr_VerseText_red.join(' ');
                                                                                 //console.log('VerseText: ', VerseText);
                                                                             }else if(no_part_word == 'N'){
-                                                                                var regex_w = RegExp(w, tipo);
+                                                                                let regex_w = RegExp(w, tipo);
                                                                                 arr_result_m = VerseText.match(regex_w);
                                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                                 if(count_m > 0){
@@ -14922,15 +14929,15 @@ function findWords(words_input){
                                                                                 }
                                                                             }
                                                                         }else if(accent_match == 'N'){
-                                                                            var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
                                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                             if(count_m > 0){
-                                                                                var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                                     return '{' + x + '}';
                                                                                 });
-                                                                                var text_original = VerseText;
-                                                                                var text_marcas = prepararTextMarcas(text_marcas);
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(text_marcas);
                                                                                 VerseText = markRed(text_original, text_marcas);
                                                                             }
                                                                         }
@@ -14963,7 +14970,7 @@ function findWords(words_input){
                                                                             w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
                                                                         }
                                                                         if(accent_match == 'Y'){
-                                                                            var regex_w = RegExp(w, tipo); 
+                                                                            let regex_w = RegExp(w, tipo); 
                                                                             arr_result_m = VerseText.match(regex_w);
                                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                             if(count_m > 0){
@@ -14977,16 +14984,16 @@ function findWords(words_input){
                                                                                 arr_matches.push(0);
                                                                             }
                                                                         }else if(accent_match == 'N'){
-                                                                            var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
                                                                             arr_result_m = removeAccents(VerseText).match(regex_w);;
                                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                             if(count_m > 0){
                                                                                 arr_matches.push(1);
-                                                                                var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                                     return '{' + x + '}';
                                                                                 });
-                                                                                var text_original = VerseText;
-                                                                                var text_marcas = prepararTextMarcas(text_marcas);
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(text_marcas);
                                                                                 VerseText = markRed(text_original, text_marcas);
                                                                                 count_m_total += count_m;
                                                                                 arr_result_m_total.push(arr_result_m);
@@ -15003,7 +15010,7 @@ function findWords(words_input){
                                                                 }else if(no_part_word == 'N'){
                                                                     if(accent_match == 'Y'){
                                                                         words = arr_words.join('|');
-                                                                        var regex1 = RegExp(words, tipo);//buscar todo
+                                                                        let regex1 = RegExp(words, tipo);//buscar todo
                                                                         arr_result_m = VerseText.match(regex1);
                                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                         if(count_m > 0){
@@ -15018,15 +15025,15 @@ function findWords(words_input){
                                                                         } 
                                                                     }else if(accent_match == 'N'){
                                                                         words = arr_words.join('|');
-                                                                        var regex_w = RegExp(removeAccents(words), tipo); 
+                                                                        let regex_w = RegExp(removeAccents(words), tipo); 
                                                                         arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                         if(count_m > 0){
                                                                             arr_matches.push(1);
-                                                                            var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                                 return '{' + x + '}';
                                                                             });
-                                                                            var text_original = VerseText;
+                                                                            let text_original = VerseText;
                                                                             text_marcas = prepararTextMarcas(text_marcas);
                                                                             VerseText = markRed(text_original, text_marcas);
                                                                             //console.log('VerseText: '+VerseText);
@@ -15059,9 +15066,9 @@ function findWords(words_input){
                                                                 let arr_regex_w_l = [];//для сравнения
                                                                 arr_words.forEach( (w,i,arr_w) => {
                                                                     if(accent_match == 'Y'){
-                                                                        var regex_w = RegExp(w, tipo);
+                                                                        let regex_w = RegExp(w, tipo);
                                                                         arr_regex_w.push(regex_w);
-                                                                        var regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                                        let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
                                                                         arr_regex_w_l.push(regex_w_l);
                                                                         arr_result_m = VerseText.match(regex_w);
                                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -15069,8 +15076,8 @@ function findWords(words_input){
                                                                             //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                             if(typeof arr_w[i+1] != 'undefined'){
                                                                                 if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                                    var index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                                    var index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                                    let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
                                                                                     if(index_first_w < index_next_w){
                                                                                         //console.log('VerseText: '+VerseText);
                                                                                         //console.log('caso2a. index_first_w: '+index_first_w);
@@ -15079,12 +15086,13 @@ function findWords(words_input){
                                                                                         let arr_VerseText_a_ed = [];
                                                                                         for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                             let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
                                                                                             if(no_part_word == 'Y'){
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                                var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                             }else{//no_part_word == 'N'
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                                var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                             }
                                                                                             //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                             if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -15108,8 +15116,8 @@ function findWords(words_input){
                                                                                     }
                                                                                 }else if(case_sens == 'i'){//все равно какие буквы
                                                                                     //превращаю в мал. буквы только для сравнения.
-                                                                                    var index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                                    var index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                                    let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                                     if(index_first_w < index_next_w){
                                                                                         //console.log('VerseText: '+VerseText);
                                                                                         //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
@@ -15119,12 +15127,13 @@ function findWords(words_input){
                                                                                         let arr_VerseText_a_ed = [];
                                                                                         for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                             let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
                                                                                             if(no_part_word == 'Y'){
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                                var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                                sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                             }else{//no_part_word == 'N'
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                                var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                                sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                             }
                                                                                             //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                             if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -15150,9 +15159,9 @@ function findWords(words_input){
                                                                             }
                                                                         }    
                                                                     }else if(accent_match == 'N'){
-                                                                        var regex_w = RegExp(removeAccents(w), tipo);
+                                                                        let regex_w = RegExp(removeAccents(w), tipo);
                                                                         arr_regex_w.push(regex_w);
-                                                                        var regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                                        let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
                                                                         arr_regex_w_l.push(regex_w_l);
                                                                         arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -15160,8 +15169,8 @@ function findWords(words_input){
                                                                             //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                             if(typeof arr_w[i+1] != 'undefined'){
                                                                                 if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                                    var index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                                    var index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                                    let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
                                                                                     if(index_first_w < index_next_w){
                                                                                         //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
                                                                                         //console.log('caso2a. index_first_w: '+index_first_w);
@@ -15170,12 +15179,13 @@ function findWords(words_input){
                                                                                         let arr_VerseText_a_ed = [];
                                                                                         for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                             let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
                                                                                             if(no_part_word == 'Y'){
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                                var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                             }else{//no_part_word == 'N'
-                                                                                                var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                                var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                             }
                                                                                             //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                             if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -15192,8 +15202,8 @@ function findWords(words_input){
                                                                                             }
                                                                                             arr_VerseText_a_ed.push(el_a); 
                                                                                         }
-                                                                                        var text_original = VerseText;
-                                                                                        var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                        let text_original = VerseText;
+                                                                                        let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                                         VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                                         //console.log('VerseText: '+VerseText); 
                                                                                     }else{
@@ -15201,8 +15211,8 @@ function findWords(words_input){
                                                                                     }
                                                                                 }else if(case_sens == 'i'){//все равно какие буквы
                                                                                     //превращаю в мал. буквы только для сравнения.
-                                                                                    var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                                    var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                                    let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                                     if(index_first_w < index_next_w){
                                                                                         //console.log('VerseText: '+removeAccents(VerseText));
                                                                                         //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
@@ -15212,17 +15222,17 @@ function findWords(words_input){
                                                                                         let arr_VerseText_a_ed = [];
                                                                                         for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                             let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
                                                                                             if(no_part_word == 'Y'){
-                                                                                                //var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);//antes y ok
-                                                                                                var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                                regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
                                                                                                 if(arr_w[i+sovpad] < arr_w.length){
-                                                                                                    var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                                 }else{
-                                                                                                    var sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
                                                                                                 }
                                                                                             }else{//no_part_word == 'N'
-                                                                                                var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
-                                                                                                var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                                regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                                sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                             }
                                                                                             //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                             if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -15239,8 +15249,8 @@ function findWords(words_input){
                                                                                             }
                                                                                             arr_VerseText_a_ed.push(el_a); 
                                                                                         }
-                                                                                        var text_original = VerseText;
-                                                                                        var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                        let text_original = VerseText;
+                                                                                        let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                                         VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                                         //console.log('VerseText: '+VerseText); 
                                                                                     }else{
@@ -15254,21 +15264,22 @@ function findWords(words_input){
                                                                 if(!arr_matches.includes(0)){//si todos ocurrencias hay
                                                                     for (let i = 0; i < arr_regex_w.length; i++) {
                                                                         if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                            let index_first_w,index_next_w;                                                                            
                                                                             if(accent_match == 'Y'){
                                                                                 if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                                    var index_first_w = VerseText.indexOf(arr_words[i]);
-                                                                                    var index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                                    index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                                    index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
                                                                                 }if(case_sens == 'i'){//все равно какие буквы
-                                                                                    var index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                                    var index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                                    index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                                    index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                                 }
                                                                             }else if(accent_match == 'N'){
                                                                                 if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                                    var index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
-                                                                                    var index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                                    index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                                    index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
                                                                                 }if(case_sens == 'i'){//все равно какие буквы
-                                                                                    var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                                    var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                                    index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                                    index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                                 }
                                                                             }
                                                                             if(index_first_w < index_next_w && arr_matches_w.includes(1)){
@@ -15318,12 +15329,12 @@ function findWords(words_input){
                                                             //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                             //=======================================================================//
                                                             if(eid_cbox3.checked){
-                                                                var words = arr_words.join(' ');
+                                                                let words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                                var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                                let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                                 VerseText = arr_VerseText_or.join(' ');
                                                                 if(accent_match == 'Y'){
-                                                                    var regex_w = RegExp(words, tipo);
+                                                                    let regex_w = RegExp(words, tipo);
                                                                     arr_result_m = VerseText.match(regex_w);
                                                                     count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                     if(count_m > 0){
@@ -15337,17 +15348,17 @@ function findWords(words_input){
                                                                         is_match = false;
                                                                     } 
                                                                 }else if(accent_match == 'N'){
-                                                                    var regex_w = RegExp(removeAccents(words), tipo);
+                                                                    let regex_w = RegExp(removeAccents(words), tipo);
                                                                     arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                     count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                     if(count_m > 0){
-                                                                        var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                             return '{' + x + '}';
                                                                         });
-                                                                        var text_original = VerseText;
-                                                                        var arr_frases = prepararFrases(text_original,text_marcas);
-                                                                        var frase_original = arr_frases[0];
-                                                                        var frase_exacta = arr_frases[1];
+                                                                        let text_original = VerseText;
+                                                                        let arr_frases = prepararFrases(text_original,text_marcas);
+                                                                        let frase_original = arr_frases[0];
+                                                                        let frase_exacta = arr_frases[1];
                                                                         //console.log('frase_original: '+frase_original);
                                                                         //console.log('frase_exacta: '+frase_exacta);
                                                                         text_marcas = prepararTextMarcas(frase_exacta);                                                                        
@@ -15371,13 +15382,13 @@ function findWords(words_input){
                                                             //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                             //=======================================================================//
                                                             if(eid_cbox7.checked){
-                                                                var words = arr_words.join(' ');
+                                                                let words = arr_words.join(' ');
                                                                 VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                                var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                                let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                                 VerseText = arr_VerseText_or.join(' ');
-                                                                var regex_w = RegExp(words, tipo);
-                                                                var arr_VerseText_con_sn = [];
-                                                                var arr_sn = [];//arr de strong numbers finded
+                                                                let regex_w = RegExp(words, tipo);
+                                                                let arr_VerseText_con_sn = [];
+                                                                let arr_sn = [];//arr de strong numbers finded
                                                                 arr_VerseText_or.forEach(el=>{  
                                                                     if(el.includes('<S>') && el.includes('</S>')){//number strong 
                                                                         //console.log('el: '+el);
@@ -15431,10 +15442,10 @@ function findWords(words_input){
                                                             count_f++;
                                                             span_num_find.innerText = count_f;
                     
-                                                            var p = document.createElement('p');
+                                                            const p = document.createElement('p');
                                                             p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                             
-                                                            var a = document.createElement('a');
+                                                            const a = document.createElement('a');
                                                             a.href = '#';
                                                             //a.classList.add('aki_clase');//de momento comento...
                                                             let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -15452,7 +15463,7 @@ function findWords(words_input){
                                                             //Номера Стронга в стихах (RST+)
                                                             if(bq.StrongNumbers == "Y"){
                                                                 let t = VerseText;
-                                                                var arr_t = t.split(' ');
+                                                                let arr_t = t.split(' ');
                                     
                                                                 arr_t.forEach((el,i) => {    
                                                                     
@@ -15633,8 +15644,8 @@ function findWords(words_input){
                                             document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                             mySizeFind();//altura de eid_find_body
                     
-                                            var arr_l = [];
-                                            var limit_n = limit_val;
+                                            let arr_l = [];
+                                            let limit_n = limit_val;
                                             for (let i = 0; i < result_finded.length; i++) {
                                                 const el = result_finded[i];
                                                 //console.log(el);
@@ -15714,13 +15725,13 @@ function findWords(words_input){
                                 //показываю в каких книгах ищу
                                 document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
         
-                                var nb = bookModule.split('<h4>');//делю файл на главы
+                                let nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
                                 
                                 nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                 //console.log(nb);
         
-                                var arr_chapters = nb;
+                                let arr_chapters = nb;
                                 //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
         
                                 arr_chapters.forEach( (el_ch, i_ch) => {
@@ -15729,25 +15740,26 @@ function findWords(words_input){
                                     let ChapterId = i_ch;
                                     
                                     if(el_ch.includes('<p>')){
-                                        var arr_verses = el_ch.split('<p>');
+                                        let arr_verses = el_ch.split('<p>');
                                         //console.log(arr_verses);
                                         
                                         //Recorrer todos los verses
                                         arr_verses.forEach((el,i) => {
-        
+                                            let p_Text = '';
+
                                             if(el.includes('</p>')){
-                                                var arr_p_text = el.split('</p>');
-                                                var p_Text = arr_p_text[0];
+                                                let arr_p_text = el.split('</p>');
+                                                p_Text = arr_p_text[0];
                                             }else{
-                                                var p_Text = el;
+                                                p_Text = el;
                                             }
                                             //console.log('p_Text: '+p_Text); 
         
-                                            var arr_p = p_Text.split(' ');
-                                            var VerseId = arr_p[0];
+                                            let arr_p = p_Text.split(' ');
+                                            let VerseId = arr_p[0];
                                             //console.log('VerseId: '+VerseId);
         
-                                            var VerseText = '';
+                                            let VerseText = '';
                                             for(let index = 1; index < arr_p.length; index++){
                                                 VerseText += arr_p[index] + ' ';
                                                 //console.log('arr_p['+index+']: '+arr_p[index]);
@@ -15772,7 +15784,7 @@ function findWords(words_input){
                                             if(arr_words.length > 0){
                                                 
                                                 //tipos de busqueda
-                                                var is_match = false;
+                                                let is_match = false;
         
         
                                                 //=======================================================================//  
@@ -15784,9 +15796,9 @@ function findWords(words_input){
                                                     arr_words.forEach(w => {
                                                         if(accent_match == 'Y'){//cbox6
                                                             if(no_part_word == 'Y'){//cbox4
-                                                                var arr_no_part_word = [];
+                                                                let arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
-                                                                var regex_w = RegExp(w, tipo);
+                                                                let regex_w = RegExp(w, tipo);
                                                                 VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -15802,7 +15814,7 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(no_part_word == 'N'){
-                                                                var regex_w = RegExp(w, tipo);
+                                                                let regex_w = RegExp(w, tipo);
                                                                 arr_result_m = VerseText.match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -15813,9 +15825,9 @@ function findWords(words_input){
                                                             }
                                                         }else if(accent_match == 'N'){
                                                             if(no_part_word == 'Y'){
-                                                                var arr_no_part_word = [];
+                                                                let arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
-                                                                var regex_w = RegExp(removeAccents(w), tipo);
+                                                                let regex_w = RegExp(removeAccents(w), tipo);
                                                                 removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -15831,7 +15843,7 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(no_part_word == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -15849,8 +15861,8 @@ function findWords(words_input){
                                                         arr_words.forEach(w => {
                                                             if(accent_match == 'Y'){//cbox6
                                                                 if(no_part_word == 'Y'){//cbox4
-                                                                    var arr_VerseText_red = [];
-                                                                    var regex_w = RegExp(w, tipo);                                                       
+                                                                    let arr_VerseText_red = [];
+                                                                    let regex_w = RegExp(w, tipo);                                                       
                                                                     VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                         if(removeSymbols(el).match(regex_w)){
                                                                             //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -15866,7 +15878,7 @@ function findWords(words_input){
                                                                     VerseText = arr_VerseText_red.join(' ');
                                                                     //console.log('VerseText: ', VerseText);
                                                                 }else if(no_part_word == 'N'){
-                                                                    var regex_w = RegExp(w, tipo);
+                                                                    let regex_w = RegExp(w, tipo);
                                                                     arr_result_m = VerseText.match(regex_w);
                                                                     count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                     if(count_m > 0){
@@ -15876,15 +15888,15 @@ function findWords(words_input){
                                                                     }
                                                                 }
                                                             }else if(accent_match == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
-                                                                    var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                         return '{' + x + '}';
                                                                     });
-                                                                    var text_original = VerseText;
-                                                                    var text_marcas = prepararTextMarcas(text_marcas);
+                                                                    let text_original = VerseText;
+                                                                    let text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                 }
                                                             }
@@ -15917,7 +15929,7 @@ function findWords(words_input){
                                                                 w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
                                                             }
                                                             if(accent_match == 'Y'){
-                                                                var regex_w = RegExp(w, tipo); 
+                                                                let regex_w = RegExp(w, tipo); 
                                                                 arr_result_m = VerseText.match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -15931,16 +15943,16 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(accent_match == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);;
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
                                                                     arr_matches.push(1);
-                                                                    var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                         return '{' + x + '}';
                                                                     });
-                                                                    var text_original = VerseText;
-                                                                    var text_marcas = prepararTextMarcas(text_marcas);
+                                                                    let text_original = VerseText;
+                                                                    let text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                     count_m_total += count_m;
                                                                     arr_result_m_total.push(arr_result_m);
@@ -15957,7 +15969,7 @@ function findWords(words_input){
                                                     }else if(no_part_word == 'N'){
                                                         if(accent_match == 'Y'){
                                                             words = arr_words.join('|');
-                                                            var regex1 = RegExp(words, tipo);//buscar todo
+                                                            let regex1 = RegExp(words, tipo);//buscar todo
                                                             arr_result_m = VerseText.match(regex1);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                             if(count_m > 0){
@@ -15972,15 +15984,15 @@ function findWords(words_input){
                                                             } 
                                                         }else if(accent_match == 'N'){
                                                             words = arr_words.join('|');
-                                                            var regex_w = RegExp(removeAccents(words), tipo); 
+                                                            let regex_w = RegExp(removeAccents(words), tipo); 
                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                             if(count_m > 0){
                                                                 arr_matches.push(1);
-                                                                var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                     return '{' + x + '}';
                                                                 });
-                                                                var text_original = VerseText;
+                                                                let text_original = VerseText;
                                                                 text_marcas = prepararTextMarcas(text_marcas);
                                                                 VerseText = markRed(text_original, text_marcas);
                                                                 //console.log('VerseText: '+VerseText);
@@ -16013,9 +16025,9 @@ function findWords(words_input){
                                                     let arr_regex_w_l = [];//для сравнения
                                                     arr_words.forEach( (w,i,arr_w) => {
                                                         if(accent_match == 'Y'){
-                                                            var regex_w = RegExp(w, tipo);
+                                                            let regex_w = RegExp(w, tipo);
                                                             arr_regex_w.push(regex_w);
-                                                            var regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
                                                             arr_regex_w_l.push(regex_w_l);
                                                             arr_result_m = VerseText.match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -16023,8 +16035,8 @@ function findWords(words_input){
                                                                 //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                 if(typeof arr_w[i+1] != 'undefined'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        var index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                        let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+VerseText);
                                                                             //console.log('caso2a. index_first_w: '+index_first_w);
@@ -16033,12 +16045,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -16062,8 +16075,8 @@ function findWords(words_input){
                                                                         }
                                                                     }else if(case_sens == 'i'){//все равно какие буквы
                                                                         //превращаю в мал. буквы только для сравнения.
-                                                                        var index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        var index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+VerseText);
                                                                             //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
@@ -16073,12 +16086,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -16104,9 +16118,9 @@ function findWords(words_input){
                                                                 }
                                                             }    
                                                         }else if(accent_match == 'N'){
-                                                            var regex_w = RegExp(removeAccents(w), tipo);
+                                                            let regex_w = RegExp(removeAccents(w), tipo);
                                                             arr_regex_w.push(regex_w);
-                                                            var regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
                                                             arr_regex_w_l.push(regex_w_l);
                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -16114,8 +16128,8 @@ function findWords(words_input){
                                                                 //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                 if(typeof arr_w[i+1] != 'undefined'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        var index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                        let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
                                                                             //console.log('caso2a. index_first_w: '+index_first_w);
@@ -16124,12 +16138,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -16146,8 +16161,8 @@ function findWords(words_input){
                                                                                 }
                                                                                 arr_VerseText_a_ed.push(el_a); 
                                                                             }
-                                                                            var text_original = VerseText;
-                                                                            var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                             VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                             //console.log('VerseText: '+VerseText); 
                                                                         }else{
@@ -16155,8 +16170,8 @@ function findWords(words_input){
                                                                         }
                                                                     }else if(case_sens == 'i'){//все равно какие буквы
                                                                         //превращаю в мал. буквы только для сравнения.
-                                                                        var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+removeAccents(VerseText));
                                                                             //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
@@ -16166,17 +16181,17 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    //var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);//antes y ok
-                                                                                    var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
                                                                                     if(arr_w[i+sovpad] < arr_w.length){
-                                                                                        var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                     }else{
-                                                                                        var sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
                                                                                     }
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
-                                                                                    var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -16193,8 +16208,8 @@ function findWords(words_input){
                                                                                 }
                                                                                 arr_VerseText_a_ed.push(el_a); 
                                                                             }
-                                                                            var text_original = VerseText;
-                                                                            var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                             VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                             //console.log('text_original: '+text_original); 
                                                                             //console.log('text_marcas: '+text_marcas); 
@@ -16210,21 +16225,22 @@ function findWords(words_input){
                                                     if(!arr_matches.includes(0)){//si todos ocurrencias hay
                                                         for (let i = 0; i < arr_regex_w.length; i++) {
                                                             if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                let index_first_w,index_next_w;
                                                                 if(accent_match == 'Y'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = VerseText.indexOf(arr_words[i]);
-                                                                        var index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                        index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                        index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
                                                                     }if(case_sens == 'i'){//все равно какие буквы
-                                                                        var index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        var index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                     }
                                                                 }else if(accent_match == 'N'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
-                                                                        var index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                        index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                        index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
                                                                     }if(case_sens == 'i'){//все равно какие буквы
-                                                                        var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                     }
                                                                 }
                                                                 if(index_first_w < index_next_w && arr_matches_w.includes(1)){
@@ -16273,13 +16289,13 @@ function findWords(words_input){
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
                                                 if(eid_cbox3.checked){
-                                                    var words = arr_words.join(' ');
+                                                    let words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                     VerseText = arr_VerseText_or.join(' ');
                                                     //console.log('------------- 2347 --- VerseText: '+VerseText);
                                                     if(accent_match == 'Y'){
-                                                        var regex_w = RegExp(words, tipo);
+                                                        let regex_w = RegExp(words, tipo);
                                                         arr_result_m = VerseText.match(regex_w);
                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                         if(count_m > 0){
@@ -16293,17 +16309,17 @@ function findWords(words_input){
                                                             is_match = false;
                                                         } 
                                                     }else if(accent_match == 'N'){
-                                                        var regex_w = RegExp(removeAccents(words), tipo);
+                                                        let regex_w = RegExp(removeAccents(words), tipo);
                                                         arr_result_m = removeAccents(VerseText).match(regex_w);
                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                         if(count_m > 0){
-                                                            var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                 return '{' + x + '}';
                                                             });
-                                                            var text_original = VerseText;
-                                                            var arr_frases = prepararFrases(text_original,text_marcas);
-                                                            var frase_original = arr_frases[0];
-                                                            var frase_exacta = arr_frases[1];
+                                                            let text_original = VerseText;
+                                                            let arr_frases = prepararFrases(text_original,text_marcas);
+                                                            let frase_original = arr_frases[0];
+                                                            let frase_exacta = arr_frases[1];
                                                             //console.log('frase_original: '+frase_original);
                                                             //console.log('frase_exacta: '+frase_exacta);
                                                             text_marcas = prepararTextMarcas(frase_exacta);                                                            
@@ -16327,13 +16343,13 @@ function findWords(words_input){
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
                                                 if(eid_cbox7.checked){
-                                                    var words = arr_words.join(' ');
+                                                    let words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                     VerseText = arr_VerseText_or.join(' ');
-                                                    var regex_w = RegExp(words, tipo);
-                                                    var arr_VerseText_con_sn = [];
-                                                    var arr_sn = [];//arr de strong numbers finded
+                                                    let regex_w = RegExp(words, tipo);
+                                                    let arr_VerseText_con_sn = [];
+                                                    let arr_sn = [];//arr de strong numbers finded
                                                     arr_VerseText_or.forEach(el=>{  
                                                         if(el.includes('<S>') && el.includes('</S>')){//number strong 
                                                             //console.log('el: '+el);
@@ -16386,10 +16402,10 @@ function findWords(words_input){
                                                 count_f++;
                                                 span_num_find.innerText = count_f;
         
-                                                var p = document.createElement('p');
+                                                const p = document.createElement('p');
                                                 p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                 
-                                                var a = document.createElement('a');
+                                                const a = document.createElement('a');
                                                 a.href = '#';
                                                 //a.classList.add('aki_clase');//de momento comento...
                                                 let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -16407,7 +16423,7 @@ function findWords(words_input){
                                                 //Номера Стронга в стихах (RST+)
                                                 if(bq.StrongNumbers == "Y"){
                                                     let t = VerseText;
-                                                    var arr_t = t.split(' ');
+                                                    let arr_t = t.split(' ');
                         
                                                     arr_t.forEach((el,i) => {    
                                                         
@@ -16589,8 +16605,8 @@ function findWords(words_input){
                                 document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                 mySizeFind();//altura de eid_find_body
         
-                                var arr_l = [];
-                                var limit_n = limit_val;
+                                let arr_l = [];
+                                let limit_n = limit_val;
                                 for (let i = 0; i < result_finded.length; i++) {
                                     const el = result_finded[i];
                                     //console.log(el);
@@ -16684,13 +16700,13 @@ function findWords(words_input){
                                 //показываю в каких книгах ищу
                                 document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
         
-                                var nb = bookModule.split('<h4>');//делю файл на главы
+                                let nb = bookModule.split('<h4>');//делю файл на главы
                                 //console.log(nb);
                                 
                                 nb = nb.filter(elem => elem);//удаляю пустые елементы массива
                                 //console.log(nb);
         
-                                var arr_chapters = nb;
+                                let arr_chapters = nb;
                                 //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
         
                                 arr_chapters.forEach( (el_ch, i_ch) => {
@@ -16699,25 +16715,26 @@ function findWords(words_input){
                                     let ChapterId = i_ch;
                                     
                                     if(el_ch.includes('<p>')){
-                                        var arr_verses = el_ch.split('<p>');
+                                        let arr_verses = el_ch.split('<p>');
                                         //console.log(arr_verses);
                                         
                                         //Recorrer todos los verses
                                         arr_verses.forEach((el,i) => {
+                                            let p_Text = '';
         
                                             if(el.includes('</p>')){
-                                                var arr_p_text = el.split('</p>');
-                                                var p_Text = arr_p_text[0];
+                                                let arr_p_text = el.split('</p>');
+                                                p_Text = arr_p_text[0];
                                             }else{
-                                                var p_Text = el;
+                                                p_Text = el;
                                             }
                                             //console.log('p_Text: '+p_Text); 
         
-                                            var arr_p = p_Text.split(' ');
-                                            var VerseId = arr_p[0];
+                                            let arr_p = p_Text.split(' ');
+                                            let VerseId = arr_p[0];
                                             //console.log('VerseId: '+VerseId);
         
-                                            var VerseText = '';
+                                            let VerseText = '';
                                             for(let index = 1; index < arr_p.length; index++){
                                                 VerseText += arr_p[index] + ' ';
                                                 //console.log('arr_p['+index+']: '+arr_p[index]);
@@ -16740,7 +16757,7 @@ function findWords(words_input){
                                             if(arr_words.length > 0){
                                                 
                                                 //tipos de busqueda
-                                                var is_match = false;
+                                                let is_match = false;
         
         
                                                 //=======================================================================//  
@@ -16752,9 +16769,9 @@ function findWords(words_input){
                                                     arr_words.forEach(w => {
                                                         if(accent_match == 'Y'){//cbox6
                                                             if(no_part_word == 'Y'){//cbox4
-                                                                var arr_no_part_word = [];
+                                                                let arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
-                                                                var regex_w = RegExp(w, tipo);
+                                                                let regex_w = RegExp(w, tipo);
                                                                 VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -16770,7 +16787,7 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(no_part_word == 'N'){
-                                                                var regex_w = RegExp(w, tipo);
+                                                                let regex_w = RegExp(w, tipo);
                                                                 arr_result_m = VerseText.match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -16781,9 +16798,9 @@ function findWords(words_input){
                                                             }
                                                         }else if(accent_match == 'N'){
                                                             if(no_part_word == 'Y'){
-                                                                var arr_no_part_word = [];
+                                                                let arr_no_part_word = [];
                                                                 w = "^" +w +"$";//entera palabra del array, no parte
-                                                                var regex_w = RegExp(removeAccents(w), tipo);
+                                                                let regex_w = RegExp(removeAccents(w), tipo);
                                                                 removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
                                                                     if(removeSymbols(el).match(regex_w)){
                                                                         //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -16799,7 +16816,7 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(no_part_word == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -16817,8 +16834,8 @@ function findWords(words_input){
                                                         arr_words.forEach(w => {
                                                             if(accent_match == 'Y'){//cbox6
                                                                 if(no_part_word == 'Y'){//cbox4
-                                                                    var arr_VerseText_red = [];
-                                                                    var regex_w = RegExp(w, tipo);                                                       
+                                                                    let arr_VerseText_red = [];
+                                                                    let regex_w = RegExp(w, tipo);                                                       
                                                                     VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                         if(removeSymbols(el).match(regex_w)){
                                                                             //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
@@ -16834,7 +16851,7 @@ function findWords(words_input){
                                                                     VerseText = arr_VerseText_red.join(' ');
                                                                     //console.log('VerseText: ', VerseText);
                                                                 }else if(no_part_word == 'N'){
-                                                                    var regex_w = RegExp(w, tipo);
+                                                                    let regex_w = RegExp(w, tipo);
                                                                     arr_result_m = VerseText.match(regex_w);
                                                                     count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                     if(count_m > 0){
@@ -16844,15 +16861,15 @@ function findWords(words_input){
                                                                     }
                                                                 }
                                                             }else if(accent_match == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
-                                                                    var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                         return '{' + x + '}';
                                                                     });
-                                                                    var text_original = VerseText;
-                                                                    var text_marcas = prepararTextMarcas(text_marcas);
+                                                                    let text_original = VerseText;
+                                                                    let text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                 }
                                                             }
@@ -16885,7 +16902,7 @@ function findWords(words_input){
                                                                 w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
                                                             }
                                                             if(accent_match == 'Y'){
-                                                                var regex_w = RegExp(w, tipo); 
+                                                                let regex_w = RegExp(w, tipo); 
                                                                 arr_result_m = VerseText.match(regex_w);
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
@@ -16899,16 +16916,16 @@ function findWords(words_input){
                                                                     arr_matches.push(0);
                                                                 }
                                                             }else if(accent_match == 'N'){
-                                                                var regex_w = RegExp(removeAccents(w), tipo); 
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
                                                                 arr_result_m = removeAccents(VerseText).match(regex_w);;
                                                                 count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                 if(count_m > 0){
                                                                     arr_matches.push(1);
-                                                                    var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                         return '{' + x + '}';
                                                                     });
-                                                                    var text_original = VerseText;
-                                                                    var text_marcas = prepararTextMarcas(text_marcas);
+                                                                    let text_original = VerseText;
+                                                                    let text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                     count_m_total += count_m;
                                                                     arr_result_m_total.push(arr_result_m);
@@ -16925,7 +16942,7 @@ function findWords(words_input){
                                                     }else if(no_part_word == 'N'){
                                                         if(accent_match == 'Y'){
                                                             words = arr_words.join('|');
-                                                            var regex1 = RegExp(words, tipo);//buscar todo
+                                                            let regex1 = RegExp(words, tipo);//buscar todo
                                                             arr_result_m = VerseText.match(regex1);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                             if(count_m > 0){
@@ -16940,15 +16957,15 @@ function findWords(words_input){
                                                             } 
                                                         }else if(accent_match == 'N'){
                                                             words = arr_words.join('|');
-                                                            var regex_w = RegExp(removeAccents(words), tipo); 
+                                                            let regex_w = RegExp(removeAccents(words), tipo); 
                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                             if(count_m > 0){
                                                                 arr_matches.push(1);
-                                                                var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                     return '{' + x + '}';
                                                                 });
-                                                                var text_original = VerseText;
+                                                                let text_original = VerseText;
                                                                 text_marcas = prepararTextMarcas(text_marcas);
                                                                 VerseText = markRed(text_original, text_marcas);
                                                                 //console.log('VerseText: '+VerseText);
@@ -16981,9 +16998,9 @@ function findWords(words_input){
                                                     let arr_regex_w_l = [];//для сравнения
                                                     arr_words.forEach( (w,i,arr_w) => {
                                                         if(accent_match == 'Y'){
-                                                            var regex_w = RegExp(w, tipo);
+                                                            let regex_w = RegExp(w, tipo);
                                                             arr_regex_w.push(regex_w);
-                                                            var regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
                                                             arr_regex_w_l.push(regex_w_l);
                                                             arr_result_m = VerseText.match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -16991,8 +17008,8 @@ function findWords(words_input){
                                                                 //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                 if(typeof arr_w[i+1] != 'undefined'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        var index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                        let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+VerseText);
                                                                             //console.log('caso2a. index_first_w: '+index_first_w);
@@ -17001,12 +17018,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -17030,8 +17048,8 @@ function findWords(words_input){
                                                                         }
                                                                     }else if(case_sens == 'i'){//все равно какие буквы
                                                                         //превращаю в мал. буквы только для сравнения.
-                                                                        var index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        var index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+VerseText);
                                                                             //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
@@ -17041,12 +17059,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -17072,9 +17091,9 @@ function findWords(words_input){
                                                                 }
                                                             }    
                                                         }else if(accent_match == 'N'){
-                                                            var regex_w = RegExp(removeAccents(w), tipo);
+                                                            let regex_w = RegExp(removeAccents(w), tipo);
                                                             arr_regex_w.push(regex_w);
-                                                            var regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
                                                             arr_regex_w_l.push(regex_w_l);
                                                             arr_result_m = removeAccents(VerseText).match(regex_w);
                                                             count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
@@ -17082,8 +17101,8 @@ function findWords(words_input){
                                                                 //console.log('ok --- regex_w match arr_words. w: '+w);
                                                                 if(typeof arr_w[i+1] != 'undefined'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        var index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                        let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
                                                                             //console.log('caso2a. index_first_w: '+index_first_w);
@@ -17092,12 +17111,13 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    var sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -17114,8 +17134,8 @@ function findWords(words_input){
                                                                                 }
                                                                                 arr_VerseText_a_ed.push(el_a); 
                                                                             }
-                                                                            var text_original = VerseText;
-                                                                            var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                             VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                             //console.log('VerseText: '+VerseText); 
                                                                         }else{
@@ -17123,8 +17143,8 @@ function findWords(words_input){
                                                                         }
                                                                     }else if(case_sens == 'i'){//все равно какие буквы
                                                                         //превращаю в мал. буквы только для сравнения.
-                                                                        var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
                                                                         if(index_first_w < index_next_w){
                                                                             //console.log('VerseText: '+removeAccents(VerseText));
                                                                             //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
@@ -17134,17 +17154,17 @@ function findWords(words_input){
                                                                             let arr_VerseText_a_ed = [];
                                                                             for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
                                                                                 let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
                                                                                 if(no_part_word == 'Y'){
-                                                                                    //var regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);//antes y ok
-                                                                                    var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
                                                                                     if(arr_w[i+sovpad] < arr_w.length){
-                                                                                        var sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
                                                                                     }else{
-                                                                                        var sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
                                                                                     }
                                                                                 }else{//no_part_word == 'N'
-                                                                                    var regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
-                                                                                    var sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
                                                                                 }
                                                                                 //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
                                                                                 if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
@@ -17161,8 +17181,8 @@ function findWords(words_input){
                                                                                 }
                                                                                 arr_VerseText_a_ed.push(el_a); 
                                                                             }
-                                                                            var text_original = VerseText;
-                                                                            var text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
                                                                             VerseText = markRed(text_original, text_marcas);//FUNCIONA
                                                                             //console.log('VerseText: '+VerseText); 
                                                                         }else{
@@ -17176,21 +17196,22 @@ function findWords(words_input){
                                                     if(!arr_matches.includes(0)){//si todos ocurrencias hay
                                                         for (let i = 0; i < arr_regex_w.length; i++) {
                                                             if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                let index_first_w,index_next_w;
                                                                 if(accent_match == 'Y'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = VerseText.indexOf(arr_words[i]);
-                                                                        var index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                        index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                        index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
                                                                     }if(case_sens == 'i'){//все равно какие буквы
-                                                                        var index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        var index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                     }
                                                                 }else if(accent_match == 'N'){
                                                                     if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        var index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
-                                                                        var index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                        index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                        index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
                                                                     }if(case_sens == 'i'){//все равно какие буквы
-                                                                        var index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        var index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
                                                                     }
                                                                 }
                                                                 if(index_first_w < index_next_w && arr_matches_w.includes(1)){
@@ -17240,12 +17261,12 @@ function findWords(words_input){
                                                 //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
                                                 //=======================================================================//
                                                 if(eid_cbox3.checked){
-                                                    var words = arr_words.join(' ');
+                                                    let words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                     VerseText = arr_VerseText_or.join(' ');
                                                     if(accent_match == 'Y'){
-                                                        var regex_w = RegExp(words, tipo);
+                                                        let regex_w = RegExp(words, tipo);
                                                         arr_result_m = VerseText.match(regex_w);
                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                         if(count_m > 0){
@@ -17259,17 +17280,17 @@ function findWords(words_input){
                                                             is_match = false;
                                                         } 
                                                     }else if(accent_match == 'N'){
-                                                        var regex_w = RegExp(removeAccents(words), tipo);
+                                                        let regex_w = RegExp(removeAccents(words), tipo);
                                                         arr_result_m = removeAccents(VerseText).match(regex_w);
                                                         count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                         if(count_m > 0){
-                                                            var text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
                                                                 return '{' + x + '}';
                                                             });
-                                                            var text_original = VerseText;
-                                                            var arr_frases = prepararFrases(text_original,text_marcas);
-                                                            var frase_original = arr_frases[0];
-                                                            var frase_exacta = arr_frases[1];
+                                                            let text_original = VerseText;
+                                                            let arr_frases = prepararFrases(text_original,text_marcas);
+                                                            let frase_original = arr_frases[0];
+                                                            let frase_exacta = arr_frases[1];
                                                             //console.log('frase_original: '+frase_original);
                                                             //console.log('frase_exacta: '+frase_exacta);
                                                             text_marcas = prepararTextMarcas(frase_exacta);                                                            
@@ -17293,13 +17314,13 @@ function findWords(words_input){
                                                 //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
                                                 //=======================================================================//
                                                 if(eid_cbox7.checked){
-                                                    var words = arr_words.join(' ');
+                                                    let words = arr_words.join(' ');
                                                     VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    var arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
                                                     VerseText = arr_VerseText_or.join(' ');
-                                                    var regex_w = RegExp(words, tipo);
-                                                    var arr_VerseText_con_sn = [];
-                                                    var arr_sn = [];//arr de strong numbers finded
+                                                    let regex_w = RegExp(words, tipo);
+                                                    let arr_VerseText_con_sn = [];
+                                                    let arr_sn = [];//arr de strong numbers finded
                                                     arr_VerseText_or.forEach(el=>{  
                                                         if(el.includes('<S>') && el.includes('</S>')){//number strong 
                                                             //console.log('el: '+el);
@@ -17352,10 +17373,10 @@ function findWords(words_input){
                                                 count_f++;
                                                 span_num_find.innerText = count_f;
         
-                                                var p = document.createElement('p');
+                                                const p = document.createElement('p');
                                                 p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
                                 
-                                                var a = document.createElement('a');
+                                                const a = document.createElement('a');
                                                 a.href = '#';
                                                 //a.classList.add('aki_clase');//de momento comento...
                                                 let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
@@ -17373,7 +17394,7 @@ function findWords(words_input){
                                                 //Номера Стронга в стихах (RST+)
                                                 if(bq.StrongNumbers == "Y"){
                                                     let t = VerseText;
-                                                    var arr_t = t.split(' ');
+                                                    let arr_t = t.split(' ');
                         
                                                     arr_t.forEach((el,i) => {    
                                                         
@@ -17555,8 +17576,8 @@ function findWords(words_input){
                                 document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
                                 mySizeFind();//altura de eid_find_body
         
-                                var arr_l = [];
-                                var limit_n = limit_val;
+                                let arr_l = [];
+                                let limit_n = limit_val;
                                 for (let i = 0; i < result_finded.length; i++) {
                                     const el = result_finded[i];
                                     //console.log(el);
@@ -17642,6 +17663,8 @@ function mostrar_res_show(index){
     const p_footer = document.createElement('p');
     p_footer.className = 'wr_res_link';
 
+    let ejecutar_1vez = false;//por defecto
+
     for(let index = 0; index < res_show.length; index++){
         const res_link = document.createElement('span');
         res_link.className = 'res_link';
@@ -17651,7 +17674,7 @@ function mostrar_res_show(index){
         
         //para ejecutar 1 vez
         if(index == 0){
-            var ejecutar_1vez = true; 
+            ejecutar_1vez = true; 
         }
     }
 
@@ -17689,7 +17712,7 @@ function mostrar_res_show(index){
                 showAllStrongNumber();
             }
         }
-        var ejecutar_1vez = false; 
+        ejecutar_1vez = false; 
     }
     makeStrongNumbersActiveFind();
 }
@@ -17875,10 +17898,10 @@ function hasAccents(word) {
 
 
 function prepararFrases(text_original,text_marcas){
-    var arr_orig = text_original.split(' ');//de aki cojo las marcas
-    var arr_marcas = text_marcas.split(' ');//de aki cojo las marcas
-    var buscar_end = false;//default
-    var arr_new = [];
+    let arr_orig = text_original.split(' ');//de aki cojo las marcas
+    let arr_marcas = text_marcas.split(' ');//de aki cojo las marcas
+    let buscar_end = false;//default
+    let arr_new = [];
 
     //reviso si en text_marcas no hay frase de checkbox3 '{Criso Jesus}' o '{Criso Dios Jesus}'
     //para convertir en '{Criso} {Jesus}' o '{Criso} {Dios} Jesus}'
@@ -17900,8 +17923,8 @@ function prepararFrases(text_original,text_marcas){
         }
         arr_new.push(el);
     });
-    var text_orig_new = arr_orig.join(' ').replace(/¬ /g,'¬');
-    var text_marcas_new = arr_new.join(' ').replace(/¬ /g,'¬');
+    let text_orig_new = arr_orig.join(' ').replace(/¬ /g,'¬');
+    let text_marcas_new = arr_new.join(' ').replace(/¬ /g,'¬');
     //console.log('text_orig_new: ', text_orig_new);
     //console.log('text_marcas_new: ', text_marcas_new);
     return [text_orig_new, text_marcas_new];
@@ -17909,9 +17932,9 @@ function prepararFrases(text_original,text_marcas){
 
 
 function prepararTextMarcas(text_marcas){
-    var arr_marcas_pre = text_marcas.split(' ');//de aki cojo las marcas;
-    var arr_marcas_fin = [];
-    var arr_parse = [];
+    let arr_marcas_pre = text_marcas.split(' ');//de aki cojo las marcas;
+    let arr_marcas_fin = [];
+    let arr_parse = [];
     arr_marcas_pre.forEach((el_em, i_em, arr_em)=>{
         if( (el_em.match(/{|}/g) != null && el_em.match(/{|}/g).length / 2) > 3){
             el_em.split('}').forEach((el,u)=>{
@@ -17931,7 +17954,7 @@ function prepararTextMarcas(text_marcas){
         }
         arr_marcas_fin.push(el_em);
     });
-    var text_marcas_new = arr_marcas_fin.join(' ');
+    let text_marcas_new = arr_marcas_fin.join(' ');
     //console.log('nuevo text_marcas_new: ');
     //console.log(text_marcas_new);
     return text_marcas_new;
@@ -17939,9 +17962,9 @@ function prepararTextMarcas(text_marcas){
 
 
 function markRed(text_original, text_marcas){
-    var arr_orig = text_original.split(' ');//aki luego meto '<b class="f_red">'
-    var arr_marcas = text_marcas.split(' ');//de aki cojo las marcas
-    var arr_parts_word_orig = [];
+    let arr_orig = text_original.split(' ');//aki luego meto '<b class="f_red">'
+    let arr_marcas = text_marcas.split(' ');//de aki cojo las marcas
+    let arr_parts_word_orig = [];
     //Recorrer palabras del texto
     arr_orig.forEach((el,i,arr_or)=>{
         //console.log(el);
@@ -17949,11 +17972,11 @@ function markRed(text_original, text_marcas){
             //si hay solo una parte marcada con '{}' Ejemplo: 
             //1. '...{RAPIDA}'
             if( (arr_marcas[i].match(/{|}/g).length / 2) == 1){//ok                   
-                var position_start = arr_marcas[i].indexOf('{'); //3 //Starting position of the character to replace
-                var position_end   = arr_marcas[i].indexOf('}'); //10 //Ending position of the character to replace  
+                let position_start = arr_marcas[i].indexOf('{'); //3 //Starting position of the character to replace
+                let position_end   = arr_marcas[i].indexOf('}'); //10 //Ending position of the character to replace  
                 //console.log('1. position_start: ', position_start);
                 //console.log('1. position_end: ', position_end);
-                var word_new = el.substring(0,position_start) + 
+                let word_new = el.substring(0,position_start) + 
                             '<b class="f_red">'+ el.substring(position_start,position_end-1) + '</b>' + 
                             el.substring(position_end-1, el.length);
                 //console.log('word_new: ', word_new);
@@ -17963,10 +17986,10 @@ function markRed(text_original, text_marcas){
                 //2. '...{RAPIDA}mente{Dios}' //hay 2
                 //3. '...{RAPIDA}mente{Dios}...{PODEROSO}...' //hay 3
                 //console.log(arr_marcas[i]);
-                var count_marcas = arr_marcas[i].match(/{|}/g).length / 2;//ya que son pareja '{}'
+                let count_marcas = arr_marcas[i].match(/{|}/g).length / 2;//ya que son pareja '{}'
                 //divido palabra por el fin de marca '}'
-                var arr_parts = arr_marcas[i].split('}');
-                var arr_word_new = [];                
+                let arr_parts = arr_marcas[i].split('}');
+                let arr_word_new = [];                
                 //a cada parte si tiene '{' le añado '}'
                 arr_parts.forEach((el,y,arry)=>{
                     if(el.includes('{')){
@@ -17974,14 +17997,15 @@ function markRed(text_original, text_marcas){
                         //console.log( y + '). el.length: ', el.length);
                         //saco todos los indexes de '{' y '}'
                         //2. '...{RAPIDA}mente{Dios}'
+                        let word_new;
                         if( (arr_marcas[i].match(/{|}/g).length / 2) == 2){//ok
-                            var position_start = el.indexOf('{');//3
-                            var position_end   = el.length;//10 // no tiene '}' por eso el.length                                
+                            let position_start = el.indexOf('{');//3
+                            let position_end   = el.length;//10 // no tiene '}' por eso el.length                                
                             //console.log(y+'). position_start: ', position_start);
                             //console.log(y+'). position_end: ', position_end);
                             if(y == 0){
-                                var firstPart_or = arr_or[i].slice(0, position_end-1);//-1 por el '{'
-                                var secondPart_or = arr_or[i].slice(position_end-1);
+                                let firstPart_or = arr_or[i].slice(0, position_end-1);//-1 por el '{'
+                                let secondPart_or = arr_or[i].slice(position_end-1);
                                 arr_parts_word_orig[0] = firstPart_or;
                                 arr_parts_word_orig[1] = secondPart_or;
                                 //console.log(y+'). firstPart_or: ', firstPart_or);
@@ -17989,39 +18013,39 @@ function markRed(text_original, text_marcas){
                             }                            
                             //primera parte
                             if(y == 0){    
-                                var word_new = arr_parts_word_orig[y].substring(0,position_start) + 
+                                word_new = arr_parts_word_orig[y].substring(0,position_start) + 
                                         '<b class="f_red">'+ arr_parts_word_orig[y].substring(position_start,position_end-1) + '</b>' + 
                                         arr_parts_word_orig[y].substring(position_end, arr_parts_word_orig[y].length);
                             }
                             //segunda parte
                             if(y == 1){
-                                var word_new = arr_parts_word_orig[y].substring(0,position_start) + 
+                                word_new = arr_parts_word_orig[y].substring(0,position_start) + 
                                         '<b class="f_red">'+ arr_parts_word_orig[y].substring(position_start,position_end-1) + '</b>' + 
                                         arr_parts_word_orig[y].substring(position_end-1, arr_parts_word_orig[y].length);
                             }
                         }
                         //3. '...{RAPIDA}mente{Dios}...{PODEROSO}...'
                         if( (arr_marcas[i].match(/{|}/g).length / 2) == 3){
-                            var position_start = el.indexOf('{');//3
-                            var position_end   = el.length;//10 // no tiene '}' por eso el.length
+                            let position_start = el.indexOf('{');//3
+                            let position_end   = el.length;//10 // no tiene '}' por eso el.length
                             //console.log(y+'). position_start: ', position_start);
                             //console.log(y+'). position_end: ', position_end);
                             if(y == 0){
-                                var position1_start = arr_marcas[i].indexOf('{', 0);
+                                let position1_start = arr_marcas[i].indexOf('{', 0);
                                 //console.log('position1_start: ', position1_start);
-                                var position1_end   = arr_marcas[i].indexOf('}', position1_start);
+                                let position1_end   = arr_marcas[i].indexOf('}', position1_start);
                                 //console.log('position1_end: ', position1_end);
-                                var position2_start = arr_marcas[i].indexOf('{', position1_end);
+                                let position2_start = arr_marcas[i].indexOf('{', position1_end);
                                 //console.log('position2_start: ', position2_start);
-                                var position2_end   = arr_marcas[i].indexOf('}', position2_start);
+                                let position2_end   = arr_marcas[i].indexOf('}', position2_start);
                                 //console.log('position2_end: ', position2_end);
-                                var position3_start = arr_marcas[i].indexOf('{', position2_end);
+                                let position3_start = arr_marcas[i].indexOf('{', position2_end);
                                 //console.log('position3_start: ', position3_start);
-                                var position3_end   = arr_marcas[i].indexOf('}', position3_start);
+                                let position3_end   = arr_marcas[i].indexOf('}', position3_start);
                                 //console.log('position3_end: ', position3_end);
-                                var firstPart_or = arr_or[i].slice(0, position1_end-1);//'01234'
-                                var secondPart_or = arr_or[i].slice(position1_end-1, position2_end-1-2);
-                                var thirdPart_or = arr_or[i].slice(position2_end-1-2, arr_or[i].length);
+                                let firstPart_or = arr_or[i].slice(0, position1_end-1);//'01234'
+                                let secondPart_or = arr_or[i].slice(position1_end-1, position2_end-1-2);
+                                let thirdPart_or = arr_or[i].slice(position2_end-1-2, arr_or[i].length);
                                 //console.log(y+'). firstPart_or: ', firstPart_or);
                                 //console.log(y+'). secondPart_or: ', secondPart_or);
                                 //console.log(y+'). thirdPart_or: ', thirdPart_or);
@@ -18031,19 +18055,19 @@ function markRed(text_original, text_marcas){
                             }
                             //primera parte
                             if(y == 0){    
-                                var word_new = arr_parts_word_orig[y].substring(0,position_start) + 
+                                word_new = arr_parts_word_orig[y].substring(0,position_start) + 
                                         '<b class="f_red">'+ arr_parts_word_orig[y].substring(position_start,position_end-1) + '</b>' + 
                                         arr_parts_word_orig[y].substring(position_end, arr_parts_word_orig[y].length);
                             }
                             //segunda parte
                             if(y == 1){
-                                var word_new = arr_parts_word_orig[y].substring(0,position_start) + 
+                                word_new = arr_parts_word_orig[y].substring(0,position_start) + 
                                         '<b class="f_red">'+ arr_parts_word_orig[y].substring(position_start,position_end-1) + '</b>' + 
                                         arr_parts_word_orig[y].substring(position_end-1, arr_parts_word_orig[y].length);
                             }
                             //tercera parte
                             if(y == 2){
-                                var word_new = arr_parts_word_orig[y].substring(0,position_start) + 
+                                word_new = arr_parts_word_orig[y].substring(0,position_start) + 
                                         '<b class="f_red">'+ arr_parts_word_orig[y].substring(position_start,position_end-1) + '</b>' + 
                                         arr_parts_word_orig[y].substring(position_end-1, arr_parts_word_orig[y].length);
                             }
@@ -18071,7 +18095,7 @@ function markRed(text_original, text_marcas){
     //console.log('arr_parts_word_orig');
     //console.log(arr_parts_word_orig);
     //console.log(' ');
-    var text_red = arr_orig.join(' ');
+    let text_red = arr_orig.join(' ');
     return text_red;
 }
 
@@ -18113,16 +18137,16 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
     //console.log('=== function convertLinkFromRusToEsp() ===');
     //console.log('--- Convierto Псалом 118:63 en Psalmo 119:63 para TSK  u otra cosa.');
 
-    var book = parseInt(book);
-    var chapter = parseInt(chapter);
-    var verse = parseInt(verse);
-    var to_verse = parseInt(to_verse);
+    let book = parseInt(book);
+    let chapter = parseInt(chapter);
+    let verse = parseInt(verse);
+    let to_verse = parseInt(to_verse);
 
     //nuevos datos
-    var bookNumber = book;
-    var chapterNumber = chapter;
-    var verseNumber = verse;
-    var to_verseNumber = to_verse;
+    let bookNumber = book;
+    let chapterNumber = chapter;
+    let verseNumber = verse;
+    let to_verseNumber = to_verse;
 
 
     //Convierto link Ruso (Пс. 22:1) -> en Español (Ps. 23:1) 
@@ -18421,7 +18445,7 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
             break;
     }//fin switch
 
-    var result = [bookNumber, chapterNumber, verseNumber];
+    let result = [bookNumber, chapterNumber, verseNumber];
 
     return result;
 
@@ -18432,8 +18456,8 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     //console.log('=== function checkRefNav() ===');
 
     let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-    var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-    var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+    let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+    let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     let bookNumber = (book != null) ? book : 0 ;
     let chapterNumber = chapter;
@@ -18454,7 +18478,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
-        var trans_BookShortName = obj_trans_inpt.Books[book].ShortNames[0];
+        let trans_BookShortName = obj_trans_inpt.Books[book].ShortNames[0];
         
         //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
         if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
@@ -18465,7 +18489,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             //Modifico sólo los links de ruso a español
             //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
             //trans2 = rv60 clicked
-            var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante RusToEsp
+            let new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante RusToEsp
             
             //asigno nuevo valor
             bookNumber = new_result[0];
@@ -18486,7 +18510,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             //console.log('entro aki 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
 
             //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-            var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante EspToRus
+            let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);//importante EspToRus
             
             //asigno nuevo valor
             bookNumber = new_result[0];
@@ -18505,7 +18529,7 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
         return false;
     }
 
-    var result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
+    let result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
 
     return result;
 }
@@ -18672,7 +18696,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
             //si está seleccionado traducción
             if(typeof trans_head != 'undefined' && typeof obj_trans_head.Books[bookNumber] != 'undefined'){
 
-                var trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
+                let trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
             
                 //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
                 if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_head.EnglishPsalms == 'Y'){
@@ -18682,7 +18706,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                     //Modifico sólo los links de ruso a español
                     //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
                     //trans2 = rv60 clicked
-                    var new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
+                    let new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
                     
                     //asigno nuevo valor
                     bookNumber = new_result[0];
@@ -18701,7 +18725,7 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                     //console.log('head 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
 
                     //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-                    var new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
+                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
                     
                     //asigno nuevo valor
                     bookNumber = new_result[0];
@@ -18715,13 +18739,13 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                 }
 
                 //console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
-                var new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
+                let new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
 
                 el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
             
             }else{
-                var new_ref = '--. --:--';
+                let new_ref = '--. --:--';
 
                 el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
@@ -18733,9 +18757,9 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 
 
 function pageUp() {    
-    var colsAll = document.querySelectorAll('.colsInner');
+    let colsAll = document.querySelectorAll('.colsInner');
     colsAll.forEach(el=>{
-        var el_rect = el.getBoundingClientRect();
+        let el_rect = el.getBoundingClientRect();
         let clientHeight = el.clientHeight;
 
         //console.log('el.parentElement.id :'+el.parentElement.id);
@@ -18749,8 +18773,8 @@ function pageUp() {
         let newScrollTop = el.scrollTop - pageHeight;
         //console.log('newScrollTop: '+newScrollTop);
 
-        var newScrollTop_toVerse = false;
-        var arr_elps = [];
+        let newScrollTop_toVerse = false;
+        let arr_elps = [];
 
         el.querySelectorAll('p').forEach(elp=>{
             let elp_rect = elp.getBoundingClientRect();
@@ -18771,7 +18795,7 @@ function pageUp() {
         //console.log('arp_elps[0].bottom: '+arr_elps[0].getBoundingClientRect().bottom);
 
         if(arr_elps.length > 1){
-            var first_p_rect = arr_elps[0].getBoundingClientRect();
+            let first_p_rect = arr_elps[0].getBoundingClientRect();
             newScrollTop_toVerse = newScrollTop + (clientHeight - el_rect.top + first_p_rect.top);
             //console.log('newScrollTop_toVerse: ' + newScrollTop + ' + ('+ clientHeight + ' - '+ el_rect.top + ' + ' +  first_p_rect +') = '+newScrollTop_toVerse);
         }
@@ -18805,9 +18829,9 @@ function pageUp() {
 
 
 function pageDown() {
-    var colsAll = document.querySelectorAll('.colsInner');   
+    let colsAll = document.querySelectorAll('.colsInner');   
     colsAll.forEach(el=>{
-        var el_rect = el.getBoundingClientRect();
+        let el_rect = el.getBoundingClientRect();
         let scrollHeight = el.scrollHeight;
         let clientHeight = el.clientHeight;
         //console.log('el.parentElement.id :'+el.parentElement.id);
@@ -18822,7 +18846,7 @@ function pageDown() {
         let newScrollTop = el.scrollTop + pageHeight;
         //console.log('newScrollTop: '+newScrollTop);
 
-        var newScrollTop_toVerse = false;
+        let newScrollTop_toVerse = false;
 
         el.querySelectorAll('p').forEach(elp=>{
             let elp_rect =elp.getBoundingClientRect();
@@ -18837,7 +18861,7 @@ function pageDown() {
                     //console.log('------ elp.id: '+elp.id)
                 }
             }else{//segundo y posteriores clicks on pageDown
-                var el_rect_bottom = el.getBoundingClientRect().bottom;
+                let el_rect_bottom = el.getBoundingClientRect().bottom;
                 if(elp_rect.top <= el_rect_bottom && elp_rect.bottom > el_rect_bottom){
                     newScrollTop_toVerse = newScrollTop - (el_rect_bottom - elp_rect.top) ;
                     //console.log('---else------ newScrollTop_toVerse: '+newScrollTop + ' - ('+ el_rect_bottom + ' - '+ elp_rect.top +') = '+newScrollTop_toVerse);
