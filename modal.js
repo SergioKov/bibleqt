@@ -413,10 +413,12 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                                 myPromise_vc
                                 .then((data) => {//data = ok
-                                    //console.log(' --- if: ');
+                                    
+                                    //console.log(data);
 
+                                    let bookModule;
                                     if(data == 'ok'){//siempre ok
-                                        var bookModule = obj_bible_files[Translation].Books[book].fileContent;
+                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                     }            
                                                 
                                     let nb = bookModule.split('<h4>');//делю файл на главы

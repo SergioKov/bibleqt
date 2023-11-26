@@ -6,7 +6,7 @@
 
 
 /*
-var a = [];
+let a = [];
 for (let index = 3251; index < 3304; index++) {
     const el = index;
     a.push(`<h4>${index}</h4>\n\r\ --- `);   
@@ -201,35 +201,34 @@ function getRefToCompare(ref){
 
     let act_trans = eid_trans1.dataset.trans;
 
-    //var inpt_v = inpt.value.trim();//antes
-    var inpt_v = eid_inpt_nav.value.trim();
-    var book = null;//por defecto
-    var chapter = null;//por defecto
-    var verse = null;//por defecto
-    var to_verse = null;//por defecto
+    let inpt_v = eid_inpt_nav.value.trim();
+    let book = null;//por defecto
+    let chapter = null;//por defecto
+    let verse = null;//por defecto
+    let to_verse = null;//por defecto
     //console.log(inpt_v);
 
     //Solo book
     if(inpt_v.split(' ').length == 1){
-        var arr_book = inpt_v.split(' ');
+        let arr_book = inpt_v.split(' ');
         book = arr_book[0];
     }
 
     //Ejemplo: 'Jn.3:16' y Jn.3:16-18
     if(inpt_v.includes(':')){
-        var arr_v = inpt_v.split(':');
+        let arr_v = inpt_v.split(':');
         verse = arr_v[1];
         //console.log('verse: '+verse);
         
         if(verse.includes('-')){
-            var arr_verse = verse.split('-');
+            let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
         }
 
         if(arr_v[0].includes('.')){
-            var arr_ch = arr_v[0].split('.');
+            let arr_ch = arr_v[0].split('.');
 
             if(arr_ch.length == 2){
                 book = arr_ch[0] + '.';
@@ -244,7 +243,7 @@ function getRefToCompare(ref){
         }
 
         if(arr_v[0].includes(' ')){
-            var arr_ch = arr_v[0].split(' ');
+            let arr_ch = arr_v[0].split(' ');
             book = arr_ch[0];
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -254,19 +253,19 @@ function getRefToCompare(ref){
 
     //Ejemplo: 'Jn.3,16'
     if(inpt_v.includes(',')){
-        var arr_v = inpt_v.split(',');
+        let arr_v = inpt_v.split(',');
         verse = arr_v[1];
         //console.log('verse: '+verse);
         
         if(verse.includes('-')){
-            var arr_verse = verse.split('-');
+            let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
         }
 
         if(arr_v[0].includes('.')){
-            var arr_ch = arr_v[0].split('.');
+            let arr_ch = arr_v[0].split('.');
             book = arr_ch[0] + '.';
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -274,7 +273,7 @@ function getRefToCompare(ref){
         }
 
         if(arr_v[0].includes(' ')){
-            var arr_ch = arr_v[0].split(' ');
+            let arr_ch = arr_v[0].split(' ');
             book = arr_ch[0];
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -284,7 +283,7 @@ function getRefToCompare(ref){
 
     //Ejemplo: 'Jn. 3 16' y 'Jn 3 16-18' // sin ':'
     if(inpt_v.includes(' ') && !inpt_v.includes(':') && !inpt_v.includes(',')){
-        var arr_v = inpt_v.split(' ');
+        let arr_v = inpt_v.split(' ');
 
         if(arr_v.length > 3){
             arr_v = arr_v.filter(elem => elem);
@@ -299,7 +298,7 @@ function getRefToCompare(ref){
         if(arr_v.length == 3){
             verse = arr_v[2];
             if(verse.includes('-')){
-                var arr_verse = verse.split('-');
+                let arr_verse = verse.split('-');
                 verse = arr_verse[0];
                 to_verse = arr_verse[1];
                 //console.log('to_verse: '+to_verse);
@@ -323,8 +322,8 @@ function getRefToCompare(ref){
     if(book != null && chapter != null && verse != null){
         //console.log('getRef() --- book != null');
 
-        var Translation = trans;
-        var objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+        let Translation = trans;
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         //if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
@@ -332,7 +331,7 @@ function getRefToCompare(ref){
             //console.log(objTrans);
 
             //saco ajustes de este modulo en json               
-            var data = objTrans;
+            let data = objTrans;
             //console.log(data);
     
             window.dataBooksBtnOk = data.Books;
@@ -341,8 +340,8 @@ function getRefToCompare(ref){
                 for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
                     const el = dataBooksBtnOk[i].ShortNames[j];
                     if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
-                        var n_book = dataBooksBtnOk[i].BookNumber;
-                        var short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
+                        let n_book = dataBooksBtnOk[i].BookNumber;
+                        let short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
                         
                         chapter = (chapter != null) ? chapter : 1;//default si no hay
                         if(chapter > dataBooksBtnOk[i].ChapterQty) chapter = dataBooksBtnOk[i].ChapterQty;
@@ -357,8 +356,8 @@ function getRefToCompare(ref){
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
                                 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-                                var trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-                                var divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
+                                let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
+                                let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
                                 if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
                                     // Usa el método find para buscar el objeto que contiene 'rst' como nombre
@@ -366,7 +365,7 @@ function getRefToCompare(ref){
                                     const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
 
                                     if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-                                        var new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
+                                        let new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
                                         chapter = new_res[1];
                                         verse = new_res[2];
                                         to_verse = new_res[3];
@@ -375,7 +374,7 @@ function getRefToCompare(ref){
                                         //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
                                     }
                                     else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-                                        var new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
+                                        let new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
                                         chapter = new_res[1];
                                         verse = new_res[2];
                                         to_verse = new_res[3];
@@ -659,22 +658,22 @@ async function parseTextToArrRef(textRef, trans = null){
     console.log('=== function parseTextToArrRef(text) ===');
 
     let act_trans = eid_trans1.dataset.trans;
-    var trans_inpt = eid_inpt_nav.dataset.trans;
+    let trans_inpt = eid_inpt_nav.dataset.trans;
     const s_book = document.querySelector('#s_book');
 
     //Si no viene trans, lo cojo del div #trans1
     if(trans == null || trans == ''){
-        var trans = (trans_inpt != '') ? trans_inpt : act_trans;
+        trans = (trans_inpt != '') ? trans_inpt : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
         if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
-            var button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
-            var EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
+            let button_new_trans = document.querySelector('#footerInner button[value="'+trans+'"]');
+            let EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
 
             s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
-            var trans_buttons = document.querySelectorAll('#footerInner button');
+            let trans_buttons = document.querySelectorAll('#footerInner button');
             trans_buttons.forEach(el=>{
                 el.classList.remove('btn_active');
             });
@@ -740,14 +739,14 @@ async function parseTextToArrRef(textRef, trans = null){
         //console.log('verse: '+verse);
         
         if(verse.includes('-')){
-            var arr_verse = verse.split('-');
+            let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
         }
 
         if(arr_v[0].includes('.')){
-            var arr_ch = arr_v[0].split('.');
+            let arr_ch = arr_v[0].split('.');
             book = arr_ch[0] + '.';
             chapter = arr_ch[1];
             //console.log('book: '+book);
@@ -755,7 +754,7 @@ async function parseTextToArrRef(textRef, trans = null){
         }
 
         if(arr_v[0].includes(' ')){
-            var arr_ch = arr_v[0].split(' ');
+            let arr_ch = arr_v[0].split(' ');
             book = arr_ch[0];
             chapter = arr_ch[1];
             //console.log('book: '+book);
