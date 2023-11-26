@@ -3098,7 +3098,12 @@ fieldset {
     padding: 10px;
     width: 100%;
 }
-
-
+#footerInner .btn:not(:last-child) {
+    margin-right: 5px;
+}
+.colsInner h3 {
+    color: red;
+    text-align: center;
+}
 
 

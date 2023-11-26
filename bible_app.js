@@ -198,12 +198,13 @@ const ajuste1 = {
 const obj_ep = {
     //ruso
     'rstStrongRed': 'N',
-    //'rstStrong': 'N',
     'rstt': 'N',
     'rsti2': 'N',
     'rstm': 'N',
-    'nrt': 'N',
     'rstStrong_rv60': 'N',
+    'nrt': 'N',
+    'abi': 'N',
+    'mdri': 'N',
     'opnz': 'N',
 
     //ukr
@@ -226,12 +227,13 @@ const obj_ep = {
 //constant para crear arrFavTransObj
 const arrFavTrans = [
     "rstStrongRed",
-    //"rstStrong", desconecto por ser inecesario
     "rstt",
     "rsti2",
     "rstm",
-    "nrt",
     "rstStrong_rv60",
+    "nrt",
+    "abi",
+    "mdri",
     "opnz",
     
     "ukr_fil",
@@ -258,6 +260,28 @@ let aviso_load_success = [];
 const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 // console.log('abajo arrFavTransObj:');
 // console.log(arrFavTransObj);
+
+makeFooterBtnsFromArrFavTransObj();
+
+function makeFooterBtnsFromArrFavTransObj(){
+
+    eid_footerInner.innerHTML = '';//reset 
+
+    arrFavTransObj.forEach((el,i) => {
+        //ej.: <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrongRed">RST+r</button>
+        const btn = document.createElement('button');
+        btn.className = (i == 0) ? 'btn btn_active' : 'btn' ;
+        btn.onclick = (ev) => {
+            changeTrans(ev.target,el.Translation,el.BibleShortName,el.EnglishPsalms);
+        };
+        btn.ep = el.EnglishPsalms;
+        btn.value = el.Translation;
+        btn.innerHTML = el.BibleShortName;
+
+        eid_footerInner.append(btn);
+    })
+
+}
 
 const arrFavTskObj = makeTskObj();
 //console.log('abajo arrFavTskObj:');
@@ -839,6 +863,9 @@ function loadDefaultFunctions() {
 
     //simulo click  al 'kniga' por defecto
     //sel(document.querySelector('.bcv_active'),'b');//por defecto
+
+    //Botones Trans del footer
+    makeFooterBtnsFromArrFavTransObj();
     
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
     loadRefDefault('Быт. ', 'rstStrongRed');//first tab
