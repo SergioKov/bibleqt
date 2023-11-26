@@ -213,6 +213,7 @@ const obj_ep = {
     'ukr_hom': 'Y',
     'ukr_gyz': 'N',
     'ukr_tur': 'N',
+    'ukr_kul': 'N',
     'ukr_der': 'Y',
 
     //esp
@@ -241,6 +242,7 @@ const arrFavTrans = [
     "ukr_hom",
     "ukr_gyz",
     "ukr_tur",
+    "ukr_kul",
     "ukr_der",
     
     "rv60",
@@ -260,28 +262,6 @@ let aviso_load_success = [];
 const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 // console.log('abajo arrFavTransObj:');
 // console.log(arrFavTransObj);
-
-makeFooterBtnsFromArrFavTransObj();
-
-function makeFooterBtnsFromArrFavTransObj(){
-
-    eid_footerInner.innerHTML = '';//reset 
-
-    arrFavTransObj.forEach((el,i) => {
-        //ej.: <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrongRed">RST+r</button>
-        const btn = document.createElement('button');
-        btn.className = (i == 0) ? 'btn btn_active' : 'btn' ;
-        btn.onclick = (ev) => {
-            changeTrans(ev.target,el.Translation,el.BibleShortName,el.EnglishPsalms);
-        };
-        btn.ep = el.EnglishPsalms;
-        btn.value = el.Translation;
-        btn.innerHTML = el.BibleShortName;
-
-        eid_footerInner.append(btn);
-    })
-
-}
 
 const arrFavTskObj = makeTskObj();
 //console.log('abajo arrFavTskObj:');
@@ -849,7 +829,6 @@ function loadAllFavStrongFiles(){
     }
 }
 
-
 function agregarSeparadores(numero, separador) {
     return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separador);
 }
@@ -902,7 +881,25 @@ function loadDefaultFunctions() {
     document.onkeydown = checkKey;
 }
 
+function makeFooterBtnsFromArrFavTransObj(){
 
+    eid_footerInner.innerHTML = '';//reset 
+
+    arrFavTransObj.forEach((el,i) => {
+        //ej.: <button class="btn" onclick="changeTrans(this,this.value,this.innerHTML,this.getAttribute('ep'))" ep="N" value="rstStrongRed">RST+r</button>
+        const btn = document.createElement('button');
+        btn.className = (i == 0) ? 'btn btn_active' : 'btn' ;
+        btn.onclick = (ev) => {
+            changeTrans(ev.target,el.Translation,el.BibleShortName,el.EnglishPsalms);
+        };
+        btn.ep = el.EnglishPsalms;
+        btn.value = el.Translation;
+        btn.innerHTML = el.BibleShortName;
+
+        eid_footerInner.append(btn);
+    })
+
+}
 
 
 
@@ -1647,7 +1644,9 @@ function getTsk(e){
                                 //console.log(tb_arr_links);                  
                 
                                 tb_arr_links.forEach((el,i)=>{
-                                    //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                                    
+                                    console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                                    
                                     let tb_iter = i;
                 
                                     let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
@@ -3943,6 +3942,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                                 myPromise
                                 .then((data) => {//data = ok
+                                    
                                     //console.log(' --- if: ');
 
                                     let bookModule;
@@ -10754,7 +10754,7 @@ function selChapter(e, show_chapter = null){
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
-
+    let chapterNumber = param_show_chapter;//por defecto, luego se cambia si hace falta
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
     //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
@@ -10934,7 +10934,7 @@ function selVerse(e){
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
     }
 
-
+    let to_verse = null;//todavia no está seleccionado
 
     if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
 
@@ -10943,7 +10943,7 @@ function selVerse(e){
             let id_book = obj_nav.id_book;
             let chapter = obj_nav.show_chapter;
             let verse = obj_nav.show_verse; 
-            let to_verse = null;//todavia no está seleccionado
+            to_verse = null;//todavia no está seleccionado
             
             let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
 
@@ -11447,6 +11447,8 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(res == 'ok'){//siempre ok
                                 //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
                             }
+
+                            let chapterNumber = id_chapter + 1;//por deecto
                                             
                             if(document.querySelectorAll('.cols').length > 1){
                                 let chapter = obj_nav.show_chapter;
@@ -11458,7 +11460,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 if(res_new_link){
                                     //asigno nuevo valor
                                     let bookNumber = res_new_link[0];
-                                    let chapterNumber = res_new_link[1];
+                                    chapterNumber = res_new_link[1];
                                     let verseNumber = res_new_link[2];
                                     let to_verseNumber = res_new_link[3];
                                     let trans_BookShortName = res_new_link[4];
@@ -11717,7 +11719,8 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 chapterNumber = id_chapter + 1;
                                                 verseNumber = id_verse + 1;
                                             }
-                                    
+                                            
+                                            if(typeof chapterNumber == 'string' || isNaN(chapterNumber)) chapterNumber = 1;
                 
                                             window.arr_verses = obj_bible_files[trans].Books[id_book].fileContent.split('<h4>')[chapterNumber].split('<p>');
                                             //console.log('abajo arr_verses');
@@ -13851,10 +13854,10 @@ function makeTskObj(){
 function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
     //console.log('Convierto Psalmo 119:63 en Псалом 118:63 para menu u otras cosas.');
 
-    let book = parseInt(book);
-    let chapter = (chapter != null) ? parseInt(chapter) : null;
-    let verse = parseInt(verse);
-    let to_verse = parseInt(to_verse);
+    book = parseInt(book);
+    chapter = (chapter != null) ? parseInt(chapter) : null ;
+    verse = parseInt(verse);
+    to_verse = parseInt(to_verse);
 
     //nuevos datos
     let bookNumber = book;
@@ -14753,7 +14756,8 @@ function findWords(words_input){
 
                                     myPromise_find
                                     .then((data) => {//data = ok
-                                        //console.log(' --- if: ');
+                                        
+                                        //console.log(data);
                                         
                                         let bookModule;
                                         if(data == 'ok'){
@@ -14820,13 +14824,11 @@ function findWords(words_input){
                                                             }
                                                         }
                                 
-                    
+                                                        //tipos de busqueda
+                                                        let is_match = false;
+
                                                         //Si hay palabras para buscar...
                                                         if(arr_words.length > 0){
-                                                            
-                                                            //tipos de busqueda
-                                                            let is_match = false;
-                    
                     
                                                             //=======================================================================//  
                                                             //0. por defecto - nada marcado //ok
@@ -14937,7 +14939,7 @@ function findWords(words_input){
                                                                                     return '{' + x + '}';
                                                                                 });
                                                                                 let text_original = VerseText;
-                                                                                let text_marcas = prepararTextMarcas(text_marcas);
+                                                                                text_marcas = prepararTextMarcas(text_marcas);
                                                                                 VerseText = markRed(text_original, text_marcas);
                                                                             }
                                                                         }
@@ -14993,7 +14995,7 @@ function findWords(words_input){
                                                                                     return '{' + x + '}';
                                                                                 });
                                                                                 let text_original = VerseText;
-                                                                                let text_marcas = prepararTextMarcas(text_marcas);
+                                                                                text_marcas = prepararTextMarcas(text_marcas);
                                                                                 VerseText = markRed(text_original, text_marcas);
                                                                                 count_m_total += count_m;
                                                                                 arr_result_m_total.push(arr_result_m);
@@ -15779,13 +15781,12 @@ function findWords(words_input){
                                             }
 
         
+                                            //tipos de busqueda
+                                            let is_match = false;
         
                                             //Si hay palabras para buscar...
                                             if(arr_words.length > 0){
-                                                
-                                                //tipos de busqueda
-                                                let is_match = false;
-        
+                                                       
         
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
@@ -15896,7 +15897,7 @@ function findWords(words_input){
                                                                         return '{' + x + '}';
                                                                     });
                                                                     let text_original = VerseText;
-                                                                    let text_marcas = prepararTextMarcas(text_marcas);
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                 }
                                                             }
@@ -15952,7 +15953,7 @@ function findWords(words_input){
                                                                         return '{' + x + '}';
                                                                     });
                                                                     let text_original = VerseText;
-                                                                    let text_marcas = prepararTextMarcas(text_marcas);
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                     count_m_total += count_m;
                                                                     arr_result_m_total.push(arr_result_m);
@@ -16752,13 +16753,11 @@ function findWords(words_input){
                                                 }
                                             }
         
+                                            //tipos de busqueda
+                                            let is_match = false;
         
                                             //Si hay palabras para buscar...
                                             if(arr_words.length > 0){
-                                                
-                                                //tipos de busqueda
-                                                let is_match = false;
-        
         
                                                 //=======================================================================//  
                                                 //0. por defecto - nada marcado //ok
@@ -16869,7 +16868,7 @@ function findWords(words_input){
                                                                         return '{' + x + '}';
                                                                     });
                                                                     let text_original = VerseText;
-                                                                    let text_marcas = prepararTextMarcas(text_marcas);
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                 }
                                                             }
@@ -16925,7 +16924,7 @@ function findWords(words_input){
                                                                         return '{' + x + '}';
                                                                     });
                                                                     let text_original = VerseText;
-                                                                    let text_marcas = prepararTextMarcas(text_marcas);
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
                                                                     VerseText = markRed(text_original, text_marcas);
                                                                     count_m_total += count_m;
                                                                     arr_result_m_total.push(arr_result_m);
@@ -18137,10 +18136,10 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
     //console.log('=== function convertLinkFromRusToEsp() ===');
     //console.log('--- Convierto Псалом 118:63 en Psalmo 119:63 para TSK  u otra cosa.');
 
-    let book = parseInt(book);
-    let chapter = parseInt(chapter);
-    let verse = parseInt(verse);
-    let to_verse = parseInt(to_verse);
+    book = parseInt(book);
+    chapter = parseInt(chapter);
+    verse = parseInt(verse);
+    to_verse = parseInt(to_verse);
 
     //nuevos datos
     let bookNumber = book;
@@ -18448,7 +18447,6 @@ function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
     let result = [bookNumber, chapterNumber, verseNumber];
 
     return result;
-
 }
 
 
@@ -18525,13 +18523,12 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             // console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
         }
 
+        let result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
+        return result;
+
     }else{
         return false;
-    }
-
-    let result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
-
-    return result;
+    }    
 }
 
 
