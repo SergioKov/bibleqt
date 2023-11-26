@@ -10,7 +10,7 @@
 function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
     console.log('=== function getStrongNumberVersion2() ===');
     
-    var numberInt, numberStrShow, strongFile;
+    let numberInt, numberStrShow, strongFile;
 
     //si numero strong es clecked desde findWords y viene rojo... 
     if(numberStr.includes('<b class="f_red">') || numberStr.includes('</b>')){
@@ -58,16 +58,18 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             ){
                 //console.log(' --- typeof obj_strong_files[strongLang] EXISTE --- saco datos del objeto guardado ');
        
-                var myPromise_strong = new Promise(function(resolve, reject){
+                let myPromise_strong = new Promise(function(resolve, reject){
                     resolve('ok');
                 });
 
                 myPromise_strong
                 .then((data) => {
-                    //console.log(strong);
 
+                    //console.log(data);
+
+                    let strong;
                     if(data == 'ok'){//siempre es ok
-                        var strong = obj_strong_files[strongLang].fileContent;
+                        strong = obj_strong_files[strongLang].fileContent;
                     }
             
                     let obj_strong = strong.find(v => v.t === numberStr); 
@@ -196,8 +198,8 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         if(el.includes('<df>Словарь Дворецкого:</df>')){
                             el = el.replace('<df>Словарь Дворецкого:</df>','');//quito esta palabra ya que la añado luego en botón
                             
-                            var regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
-                            var resultado = el.match(regex);
+                            let regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
+                            let resultado = el.match(regex);
             
                             if(resultado){
                                 //console.log('abajo resultado:');
@@ -256,7 +258,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         //console.log(el);
                         arr_new.push(el);
                     });
-                    var new_strongText = arr_new.join(' ');
+                    let new_strongText = arr_new.join(' ');
             
                     const span_text_strong = document.createElement('span');
                     span_text_strong.className = 'text_strong';
@@ -473,8 +475,8 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 if(el.includes('<df>Словарь Дворецкого:</df>')){
                     el = el.replace('<df>Словарь Дворецкого:</df>','');//quito esta palabra ya que la añado luego en botón
                     
-                    var regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
-                    var resultado = el.match(regex);
+                    let regex = /\s(\d+)\)\s/gi;// ejemplo: ' 1) '
+                    let resultado = el.match(regex);
     
                     if(resultado){
                         //console.log('abajo resultado:');
@@ -533,7 +535,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 //console.log(el);
                 arr_new.push(el);
             });
-            var new_strongText = arr_new.join(' ');
+            let new_strongText = arr_new.join(' ');
 
             const span_text_strong = document.createElement('span');
             span_text_strong.className = 'text_strong';
