@@ -90,6 +90,10 @@ const eid_btn_ok_find = document.getElementById('btn_ok_find');
 const eid_btn_ok_stop = document.getElementById('btn_ok_stop');
 const eid_btn_strong = document.getElementById('btn_strong');
 
+const eid_m_btn_loadAllFavBibleFiles = document.getElementById('m_btn_loadAllFavBibleFiles');
+const eid_m_btn_loadAllFavTskFiles = document.getElementById('m_btn_loadAllFavTskFiles');
+const eid_m_btn_loadAllFavStrongFiles = document.getElementById('m_btn_loadAllFavStrongFiles');
+
 
 //const eid_sel_modules = document.getElementById('sel_modules');//?..
 
@@ -256,8 +260,6 @@ let arrFavTsk = [
     'tsk'//carpeta donde están ficheros '01_genesis.ini' para TSK
 ];
 
-let aviso_load_all_data = [];
-let aviso_load_success = [];
 
 const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 // console.log('abajo arrFavTransObj:');
@@ -399,30 +401,16 @@ function loadRefDefault(ref, trans = null) {
     getRefOfTab('tab1', ref, trans);
 }
 
-function loadAllFavData(param = null){
-    
-    //closeModal();//cierro menu top
-
-    if(param == null || param == 'bible'){
-        loadAllFavBibleFiles();//return obj_bible_files
-    }else if(param == 'tsk'){
-        loadAllFavTskFiles();//return obj_tsk_files
-    }else if(param == 'strong'){
-        loadAllFavStrongFiles();//return obj_strong_files
-    }
-}
 
 //BIBLE
 function loadAllFavBibleFiles(){
     //console.log('===function loadAllFavBibleFiles()===');
 
-    aviso_load_all_data = [];//reset
-
     //si ya está creado el objeto...
     if(arrFavTrans.length == Object.keys(obj_bible_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_bible_files) / 1000 / 1000).toFixed(1) + ' MB';
-        aviso_load_all_data.push(`Bibia: <span class="f_r">${tamanioMB}</span>`);
-        loadAllFavData('tsk');
+        let aviso_load = `Todos los módulos de las traducciones favoritas ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+        openModal('center','Aviso Modulos',aviso_load,'showAviso'); 
         return;
     }
 
@@ -511,6 +499,9 @@ function loadAllFavBibleFiles(){
                                 fileContent: dataBook
                             }
                             //console.log('obj_bible_files: ',obj_bible_files);
+                            let countModulesInObj = Object.keys(obj_bible_files).length;
+                            eid_m_btn_loadAllFavBibleFiles.innerHTML = `Modules (${countModulesInObj})`;
+
 
                             i_book++;
                             if(i_book < data.Books.length){
@@ -527,23 +518,15 @@ function loadAllFavBibleFiles(){
                                     for_eachTrans(i_trans, arrFavTrans);
                                 }
                                 
-                                if(i_trans == arrFavTrans.length - 1){
-                                    //console.log('9. final  --- (i_book == data.Books.length )');
+                                if(i_trans == arrFavTrans.length ){
+                                    console.log('9. final  --- (i_book == data.Books.length )');
                                     //console.log(`i_trans: ${i_trans}) --- (i_trans == arrFavTrans.length - 1). abajo obj_bible_files: '`);
-                                    //console.log(obj_bible_files);                
+                                    //console.log(obj_bible_files); 
                                     let tamanio = obtenerTamanioObjeto(obj_bible_files);
                                     let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                                     let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) +' MB';
-                                    //let aviso_load = `Todos los modulos de las traducciones favoritas se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. 
-                                    //<br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. 
-                                    //<br><br>Tamaño: ${tamanioMB.toFixed(1)} MB.
-                                    //`;
-
-                                    let aviso_load2 = `Biblia: <span class="f_r">${tamanioMB}</span>`; 
-                                    aviso_load_all_data.push(aviso_load2);
-                                    
-                                    //openModal('center','Aviso Bible',aviso_load,'showAviso');                
-                                    loadAllFavData('tsk');
+                                    let aviso_load = `Todos los módulos de las traducciones favoritas se han cargado con éxito <br><br>Tamaño:  <span class="f_r">${tamanioMB}</span>`;
+                                    openModal('center','Aviso Modulos',aviso_load,'showAviso');                
                                 }
                             }
                         })
@@ -572,10 +555,6 @@ function loadAllFavBibleFiles(){
                 for_eachTrans(i_trans, arrFavTrans);
             }
         }
-
-
-
-
     }
 }
 
@@ -587,8 +566,8 @@ function loadAllFavTskFiles(){
     //si ya está creado el objeto...
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_tsk_files) / 1000 / 1000).toFixed(1) + ' MB';
-        aviso_load_all_data.push(`TSK: <span class="f_r">${tamanioMB}</span>`);
-        loadAllFavData('strong');
+        let aviso_load = `Todos los módulos TSK favoritos ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+        openModal('center','Aviso TSK',aviso_load,'showAviso');
         return;
     }
 
@@ -672,6 +651,8 @@ function loadAllFavTskFiles(){
                             fileContent: dataBook
                         }
                         //console.log('obj_tsk_files: ',obj_tsk_files);
+                        let countTskInObj = Object.keys(obj_tsk_files).length;
+                        eid_m_btn_loadAllFavTskFiles.innerHTML = `TSK (${countTskInObj})`;
 
                         i_book++;
                         if(i_book < data.Books.length){
@@ -695,16 +676,9 @@ function loadAllFavTskFiles(){
                                 let tamanio = obtenerTamanioObjeto(obj_tsk_files);
                                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                                //let aviso_load = `Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline.
-                                //<br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. 
-                                //<br><br>Tamaño: ${tamanioMB.toFixed(1)} MB.
-                                //`;
-                                
-                                let aviso_load2 = `TSK: <span class="f_r">${tamanioMB}</span>`;                                
-                                aviso_load_all_data.push(aviso_load2);
-                                
-                                //openModal('center','Aviso TSK',aviso_load,'showAviso');                
-                                loadAllFavData('strong');
+                                let aviso_load = `Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. 
+                                <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+                                openModal('center','Aviso TSK',aviso_load,'showAviso');                
                             }
                         }
                     })
@@ -746,15 +720,8 @@ function loadAllFavStrongFiles(){
     //si ya está creado el objeto...
     if(arrFavStrongLangs.length == Object.keys(obj_strong_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_strong_files) / 1000 / 1000).toFixed(1) + ' MB';
-        aviso_load_all_data.push(`Strong: <span class="f_r">${tamanioMB}</span>`);
-        if(aviso_load_all_data.length == 3){
-            let aviso_load = 'Los datos ya están cargados. <br><br>Tamaño:';
-            aviso_load_all_data.forEach(el=>{
-                aviso_load += '<br>' + el;
-            });
-            console.log('aviso_load: ',aviso_load);
-            openModal('center','Aviso',aviso_load,'showAviso');
-        }
+        let aviso_load = `Los ficheros de Strong ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+        openModal('center','Aviso Strong',aviso_load,'showAviso');
         return;
     }
 
@@ -782,9 +749,14 @@ function loadAllFavStrongFiles(){
             }
 
             //añado info al objeto con los datos obtenidos por fetch()
-            obj_strong_files[strongLang] = {'fileName': strongFile, 'fileContent': data};
+            obj_strong_files[strongLang] = {
+                fileName: strongFile, 
+                fileContent: data
+            };
             //console.log('abajo obj_strong_files:');
             //console.log(obj_strong_files);
+            let countStrongInObj = Object.keys(obj_strong_files).length;
+            eid_m_btn_loadAllFavStrongFiles.innerHTML = `Strong (${countStrongInObj})`;
 
             i_strong++;
             if(i_strong < arrFavStrongLangs.length){
@@ -800,26 +772,8 @@ function loadAllFavStrongFiles(){
                 let tamanio = obtenerTamanioObjeto(obj_strong_files);
                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                //let aviso_load = `Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. 
-                //<br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. 
-                //<br><br>Tamaño: ${tamanioMB.toFixed(1)} MB.
-                //`;
-
-                let aviso_load2 = `Strong: <span class="f_r">${tamanioMB}</span>`; 
-                aviso_load_all_data.push(aviso_load2);
-
-                if(aviso_load_all_data.length == 3){
-                    let aviso_load = `
-                        Todos los ficheros de Módulos favoritos de la Biblia, TSK y Strong se han cargado con éxito. 
-                        <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo. 
-                        <br><br>Tamaño:
-                    `;
-                    aviso_load_all_data.forEach(el=>{
-                        aviso_load += '<br>' + el;
-                    });
-                    console.log('aviso_load: ',aviso_load);
-                    openModal('center','Aviso',aviso_load,'showAviso');
-                }
+                let aviso_load = `Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+                openModal('center','Aviso Strong',aviso_load,'showAviso');
             }
         })
         .catch(error => { 
