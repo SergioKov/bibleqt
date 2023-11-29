@@ -401,7 +401,6 @@ function loadRefDefault(ref, trans = null) {
     getRefOfTab('tab1', ref, trans);
 }
 
-
 //BIBLE
 function loadAllFavBibleFiles(){
     //console.log('===function loadAllFavBibleFiles()===');
@@ -558,7 +557,6 @@ function loadAllFavBibleFiles(){
     }
 }
 
-
 //TSK
 function loadAllFavTskFiles(){
     console.log('===function loadAllFavTskfiles()===');
@@ -702,7 +700,6 @@ function loadAllFavTskFiles(){
     }
 }
 
-
 //STRONG
 function loadAllFavStrongFiles(){
     console.log('===function loadAllFavStrongFiles()===');
@@ -803,7 +800,9 @@ function loadDefaultFunctions() {
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
     loadRefDefault('Быт. ', 'rstStrongRed');//first tab
     
-    getActTrans();    
+    getActTrans();
+
+    updateBtnActTransNavOnLoad();//actualizo btn negro por encima de la seleccion de book,chapter,verse
 
     // addTab('Быт. 1:1', 'act', null,'rstStrongRed');
     //addTab('Быт. 1:1', 'rstStrongRed');
@@ -824,7 +823,7 @@ function loadDefaultFunctions() {
 
     addListenerModule();
 
-    updateTransFromActiveCol();
+    updateTransOnClickOnActiveCol();
 
     setTimeout(()=>{    
         pintRefOnScroll();
@@ -847,6 +846,7 @@ function makeFooterBtnsFromArrFavTransObj(){
             changeTrans(ev.target,el.Translation,el.BibleShortName,el.EnglishPsalms);
         };
         btn.ep = el.EnglishPsalms;
+        btn.title = el.BibleName;
         btn.value = el.Translation;
         btn.innerHTML = el.BibleShortName;
 
@@ -9586,6 +9586,7 @@ function changeTransNav(trans, idCol_trans){
     eid_inpt_nav.dataset.trans = trans;
 
     let act_trans = arrFavTransObj.find(v => v.Translation === trans);
+    eid_act_trans_nav.title = act_trans.BibleName;
     eid_act_trans_nav.textContent = act_trans.BibleShortName;
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
@@ -9666,6 +9667,10 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
 
     eid_trans1.dataset.trans = trans;
     eid_trans1.dataset.base_ep = EnglishPsalms;
+
+    let este_trans = arrFavTransObj.find(v => v.Translation === trans);
+
+    eid_act_trans_nav.title = este_trans.BibleName;
     eid_act_trans_nav.textContent = BibleShortName;
 
     //meto la trans nueva en el array de trans
@@ -9795,20 +9800,24 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //console.log('function changeModule2. abajo thisDiv: ');
     //console.log(thisDiv);
 
+    let este_trans = arrFavTransObj.find(v => v.Translation === trans);
+
     thisDiv.dataset.trans = trans;
     thisDiv.setAttribute('data-base_ep', EnglishPsalms);
     if (thisDiv.id == 'trans1') {
         //meto BibleShortName en el primer div, ya que este no tiene 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-        eid_act_trans_nav.textContent = BibleShortName;
         eid_inpt_nav.dataset.divtrans = thisDiv.id;
+        eid_act_trans_nav.title = este_trans.BibleName;
+        eid_act_trans_nav.textContent = BibleShortName;
     } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-        eid_act_trans_nav.textContent = BibleShortName;
         eid_inpt_nav.dataset.divtrans = thisDiv.id;
+        eid_act_trans_nav.title = este_trans.BibleName;
+        eid_act_trans_nav.textContent = BibleShortName;
     }
 
     let trans_actual = thisDiv.dataset.trans;
@@ -10423,8 +10432,8 @@ function addTrans(addMode = null){
             //no hago nada. añado col vacio
         }
         setTimeout(()=>{
-            //console.log(' en 1 sec llamo updateTransFromActiveCol()');
-            updateTransFromActiveCol();
+            //console.log(' en 1 sec llamo updateTransOnClickOnActiveCol()');
+            updateTransOnClickOnActiveCol();
         },1000);
     }
     
@@ -10876,6 +10885,9 @@ function selVerse(e){
             verseNumber = e.srcElement.getAttribute('data-show_verse');
         }
 
+        obj_nav.id_chapter = chapterNumber - 1;
+        obj_nav.show_chapter = chapterNumber;
+
         obj_nav.id_verse = verseNumber - 1;//comprobar!
         obj_nav.show_verse = verseNumber;//comprobar!
 
@@ -10883,9 +10895,13 @@ function selVerse(e){
         eid_inpt_nav.setAttribute('data-show_verse',verseNumber); 
 
     }else{//si es trans1
+        
+        obj_nav.id_chapter = eid_inpt_nav.getAttribute('data-id_chapter');
+        obj_nav.show_chapter = eid_inpt_nav.getAttribute('data-show_chapter');
 
         obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
+    
     }
 
     let to_verse = null;//todavia no está seleccionado
@@ -10928,6 +10944,10 @@ function selVerse(e){
         }
 
     }else{//trans1
+        
+        obj_nav.id_chapter = eid_inpt_nav.getAttribute('data-id_chapter');
+        obj_nav.show_chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+        
         obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
     
@@ -18054,36 +18074,32 @@ function markRed(text_original, text_marcas){
 
 
 
-// updateTransFromActiveCol();
-
-function updateTransFromActiveCol(){
+function updateTransOnClickOnActiveCol(){
     document.querySelectorAll('.colsInner').forEach(el=>{
-        el.onclick = ()=>{
+        el.onclick = ()=> {
             let trans_of_col = el.parentElement.querySelector('.colsHead').dataset.trans;
             let id_of_col = el.parentElement.querySelector('.colsHead').id;
             //console.log('trans_of_col: '+trans_of_col+' --- id_of_col: '+id_of_col);
             if(typeof trans_of_col != 'undefined'){
                 eid_inpt_nav.dataset.divtrans = id_of_col;
                 eid_inpt_nav.dataset.trans = trans_of_col;
-                
                 let act_trans = arrFavTransObj.find(v => v.Translation === trans_of_col);
                 eid_act_trans_nav.title = act_trans.BibleName;
                 eid_act_trans_nav.textContent = act_trans.BibleShortName;
-
                 eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             }
         }
     });
 }
 
-
-
-
-
-
-
-
-
+function updateBtnActTransNavOnLoad(){
+    if(typeof eid_trans1.dataset.trans != 'undefined'){
+        let act_trans = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
+        eid_act_trans_nav.title = act_trans.BibleName;
+        eid_act_trans_nav.textContent = act_trans.BibleShortName;
+        //eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+    }
+}
 
 //convertir links de Ruso a Español // contrario a la anterior checkLink()
 function convertLinkFromRusToEsp(book, chapter, verse, to_verse = null){
