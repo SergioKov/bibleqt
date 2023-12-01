@@ -693,7 +693,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                 if(element.tagName == 'P'){   
                     const sp_btn_vm = document.createElement('span');
                     sp_btn_vm.className = 'btn_verse_menu';
-                    sp_btn_vm.textContent = '...';
+                    //sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
                 }                
                 el_colsInner.append(element);            
@@ -719,7 +719,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                     if(element.tagName == 'P'){   
                         const sp_btn_vm = document.createElement('span');
                         sp_btn_vm.className = 'btn_verse_menu';
-                        sp_btn_vm.textContent = '...';
+                        //sp_btn_vm.textContent = '...';
                         element.append(sp_btn_vm);
                     }
                     el_colsInner.append(element);            

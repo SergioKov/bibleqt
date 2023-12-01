@@ -208,6 +208,12 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn1.onclick = ()=>{
         console.log('llamo func para copiar');
         console.log(arr_p_id);
+        let idElement = arr_p_id.join('__');
+        copyTextFromIdElement(idElement);
+        btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
+        setTimeout(()=>{
+            closeModal();
+        },1000);
     }
 
     const btn2 = document.createElement('div');
@@ -261,6 +267,36 @@ function buildVerseMenu(arr_p_id,positionModal){
     //eid_bl_modalBottomInner.append(btn4);
     
 }
+
+function copyTextFromIdElement(idElement) {
+    let textoACopiar = document.getElementById(idElement).innerText;
+    console.log(textoACopiar.length);
+    if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
+        copyTextToClibboard(textoACopiar);
+    }
+}
+
+
+
+function copyTextToClibboard(text) {
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            console.log('Texto copiado al portapapeles: ', text);
+        })
+        .catch(err => {
+            console.error('Error al copiar al portapapeles: ', err);
+        });
+}
+
+
+
+
+
+
+
+
+
+
 
 function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
     console.log('===function buildVersesToCompare(arr_p_id)===');
@@ -346,6 +382,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             arr_verses_compare[iter_a]['BibleBookShortName'] = el_trans.Books[book].ShortNames[0];
             arr_verses_compare[iter_a]['EnglishPsalms'] = el_trans.EnglishPsalms;
             arr_verses_compare[iter_a]['BookQty'] = el_trans.BookQty;
+            arr_verses_compare[iter_a]['StrongNumbers'] = el_trans.StrongNumbers;
 
             let trans_obj_ref = arrFavTransObj.find(v => v.Translation === trans_ref);
 
@@ -1413,6 +1450,20 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         const v_trans = document.createElement('span');
         v_trans.className = 'v_trans';
         v_trans.innerHTML = el.verseText;
+
+        //NumbersStrong si hay
+        if(el.StrongNumbers == 'Y' && el.verseText.includes('<S') && el.verseText.includes('</S>') ){
+            if(v_trans.querySelectorAll('.vt s.show.strongActive').length > 0){
+                v_trans.querySelector('.vt').addEventListener('click', (e) => { 
+                    if(e.target.tagName === 'S'){
+                        getStrongNumber(e.target.innerText);
+                        if(window.innerWidth < pantallaTabletMinPx){
+                            closeModal();
+                        }
+                    }
+                })
+            }
+        }
 
         p.append(pv_inner);
 

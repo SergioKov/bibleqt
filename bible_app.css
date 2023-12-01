@@ -2829,7 +2829,7 @@ pr {
 .btn_verse_menu {
     background: #dcdcdc;
     color: grey;
-    padding: 0 3px;
+    padding: 2px 5px;
     position: absolute;
     transition: 0.3s;
     cursor: pointer;
@@ -2843,6 +2843,10 @@ pr {
     height: 24px;
     margin-top: -14px;
     text-align: center;
+    background-image: url(images/three_dots_vertical_icon.svg);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: repeat-x;
 }
 p:hover .btn_verse_menu{
     opacity: 0.5;
