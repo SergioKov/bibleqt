@@ -687,16 +687,35 @@ p a:hover:not(.a_sn) {
     color:grey;
     cursor: pointer;
 }
+.colsInner .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    background: #1875bf;
+    color: white;
+    width: 20px;
+    height: auto;
+    border-radius: 3px;
+    text-align: center;
+}
 .tooltiptext .trik{
       display:block;
       width:10px;
       height:10px;
       z-index:1;
       transform: rotate(45deg);
+      margin-left: -3px;
+}
+.colsInner .tooltiptext .trik{
+    margin-left: 5px;
+    background-color: transparent;
+    background-image: linear-gradient( to bottom right, #1875bf 0% 50%,  transparent 50% 100%);
+    box-shadow: -1px -1px 1px 0px white;
 }
 .tooltiptext .text {
     z-index: 2;
     position: relative;
+    /* background: red; */
     /* font-size: 14px; */
 }
 .tooltip .tooltiptext,
@@ -711,7 +730,7 @@ p a:hover:not(.a_sn) {
     color: #ffffff;
     text-align: left;
     border-radius: 3px;
-    padding: 5px 10px;
+    padding: 5px 5px;
     position: absolute;
     z-index: 1;
     top: 100%;
@@ -720,6 +739,17 @@ p a:hover:not(.a_sn) {
 }
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+.tooltip em {
+    color: orange;
+    margin-right: 10px;
+}
+.tooltiptext a{
+    color: #ffc107;
+    transition: 0.3s;
+}
+.tooltiptext a:hover{
+    color: yellow;
 }
 p S {
     text-decoration: none;
@@ -2836,11 +2866,10 @@ pr {
     border: 1px solid #b8b8b8;
     border-radius: 3px;
     opacity: 0;
-    /* top: 50%; */
     bottom: 5px;
     right: 5px;
-    width: 18px;
-    height: 24px;
+    width: 14px;
+    height: 20px;
     margin-top: -14px;
     text-align: center;
     background-image: url(images/three_dots_vertical_icon.svg);
@@ -3108,6 +3137,10 @@ fieldset {
 .colsInner h3 {
     color: red;
     text-align: center;
+}
+span.vt {
+    margin-right: 25px;
+    /* background: orange; */
 }
 
 

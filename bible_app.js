@@ -218,6 +218,7 @@ const obj_ep = {
     'ukr_gyz': 'N',
     'ukr_tur': 'N',
     'ukr_kul': 'N',
+    'ukr_umt': 'N',
     'ukr_der': 'Y',
 
     //esp
@@ -247,6 +248,7 @@ const arrFavTrans = [
     "ukr_gyz",
     "ukr_tur",
     "ukr_kul",
+    "ukr_umt",
     "ukr_der",
     
     "rv60",
@@ -358,6 +360,91 @@ async function obtenerDatosToJson(url_bq) {
     const datos = await respuesta.json();
     return datos;
 }
+
+
+
+var arrBooks = [];
+var arrText = [];
+let url = 'https://bolls.life/static/translations/UMT.json';
+//makeBibleTextFromJson(url);
+
+function makeBibleTextFromJson(url){
+
+    obtenerDatosToJson(url)
+    .then((data) => {
+
+        console.log(' abajo data:');
+        console.log(data);
+
+
+        data.forEach(el => {
+            
+            //console.log(el);
+
+            if(typeof arrBooks[el.book-1] == 'undefined'){
+                arrBooks[el.book-1] = {};
+                arrBooks[el.book-1].Chapters = {};
+                arrText[el.book-1] = `<h2>kniga ${el.book-1}</h2>`;
+            }
+            //console.log(arrBooks);
+
+            if(typeof arrBooks[el.book-1].Chapters[el.chapter] == 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter] = {};
+                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
+                arrText[el.book-1] += `<h4>Розділ ${el.chapter}</h4>`;
+
+            }
+            //console.log(arrBooks);
+
+
+            if(typeof arrBooks[el.book-1].Chapters[el.chapter].Verses == 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
+            }
+            //console.log(arrBooks);
+
+
+            if(typeof arrBooks[el.book-1] != 'undefined' && typeof arrBooks[el.book-1].Chapters[el.chapter] != 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter].Verses[el.verse] = {
+                    "verseId": el.verse,
+                    "text": el.text,
+                    "comment": el.comment
+                };
+
+                if(typeof el.comment != 'undefined'){
+                    arrText[el.book-1] += `<p>${el.verse} ${el.text} * [( ${el.comment} )]</p>`;
+                }else{
+                    arrText[el.book-1] += `<p>${el.verse} ${el.text}</p>`;
+                }
+
+
+            }
+            //console.log(arrBooks);
+
+
+
+            
+            
+        
+        
+        });
+
+        console.log('abajo arrBooks: ');
+        console.log(arrBooks);
+
+        console.log('abajo arrText: ');
+        console.log(arrText);
+    
+       
+    })
+    .catch(error => { 
+        console.log('data. error promesa: '+error);
+    });
+
+
+
+}
+
+
 
 function makeTransObj_new(arrFavTrans){
     //console.log('===function makeTransObj_new(arrFavTrans)===');
@@ -923,6 +1010,29 @@ function showTooltip(el){
                         </span>`;
     el.innerHTML += this_ttt_html;
     
+    if(el.innerHTML.includes('<a ') && el.innerHTML.includes('</a>')){
+        console.log('showTooltip contiene a');
+
+
+        let parent_p = el.parentElement.parentElement;
+        let arr_p_id = parent_p.id.split('__');//'ukr_umt__0__3__18'
+        let Translation = arr_p_id[0]; 
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2]; 
+        let verse = arr_p_id[3]; 
+        let to_verse = null; 
+        let ref = parent_p.querySelector('a').textContent;
+
+        el.querySelectorAll('.tooltiptext .text a').forEach(el_a =>{
+            el_a.addEventListener('click',(ev)=>{
+                ev.preventDefault(); 
+                console.log(el_a.innerHTML);
+                console.log(el_a.href);
+                addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                getRefByHref(el_a.getAttribute('href'),'/',1);
+            });
+        });
+    }    
 
     let elPosTop = el.getBoundingClientRect().top;
     let elPosLeft = el.getBoundingClientRect().left;
@@ -1448,6 +1558,11 @@ function getTsk(e){
     let el = e.srcElement.parentElement;
 
     let arr_v = el.id.split('__');//rstStrong__0__1__1 => ['rstStrong',0,1,1] => [rstStrong, Gen, 1, 1]
+    arr_v = arr_v.filter(elm => elm);
+    //si el array es vacio no hago nada. no busko tsk
+    if(arr_v.length == 0){
+        return;
+    } 
     let Translation = arr_v[0];//rstStrong
     let book = arr_v[1];//id_book
     let chapter = arr_v[2];//chapter
@@ -4121,6 +4236,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             });            
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                             span_vt.append(before_Note);
+
+
+                                                            
                                                             span_vt.append(span_t);
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_vt.append(after_Note);
@@ -11198,11 +11316,13 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
                                     //console.log('hago eid_v_book.querySelector(li_active).scrollIntoView');
-                                    eid_v_book.querySelector('.li_active').scrollIntoView({
-                                        behavior: "smooth",
-                                        block: "start",
-                                        inline: "nearest"
-                                    });
+                                    if(eid_v_book.getElementsByClassName('li_active').length > 0){
+                                        eid_v_book.querySelector('.li_active').scrollIntoView({
+                                            behavior: "smooth",
+                                            block: "start",
+                                            inline: "nearest"
+                                        });
+                                    }
                                 },100);//100
                             }
 
@@ -12807,13 +12927,54 @@ function getRef(trans = null){
 }
 
 
-function getRefByCode(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+
+
+function getRefByHref(code, separador = '/', first_book_index = 0){
+    //console.log('=== function getRefByCode() ===');
+
+    let act_trans = eid_trans1.dataset.trans;
+
+    // let arr_code = code.split('__');//antes ok
+    let arr_code = code.split(separador);//'__' por defecto o '/' que viene como parametro
+    arr_code = arr_code.filter(elm => elm);//elimino valores vacios del array
+    let trans = arr_code[0];
+    let book = (first_book_index == 0) ? arr_code[1] : Number(arr_code[1]) - 1 ;
+    let chapter = arr_code[2];
+    let verse = arr_code[3];
+    let to_verse = null;
+    if(arr_code[3].includes('-')){
+        verse = arr_code[3].split('-')[0];
+        to_verse = arr_code[3].split('-')[1];
+    }
+    //console.log(inpt_v);
+
+    //console.log('book: '+book);
+    //console.log('chapter: '+chapter);
+    //console.log('verse: '+verse);
+    //console.log('to_verse: '+to_verse);
+
+    //saco BibleShortName sabiendo su index de libro
+    let this_trans = arrFavTransObj.find(v => v.Translation === trans);
+    let ref = `${this_trans.Books[book].ShortNames[0]}${chapter}:${verse}`;
+    if(to_verse != null) ref += `-${to_verse}`;
+
+    eid_inpt_nav.value = ref;
+    getRef();
+}
+
+
+
+
+
+function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
     let act_trans = eid_trans1.dataset.trans;
 
-    let arr_code = code.split('__');
+    // let arr_code = code.split('__');//antes ok
+    let arr_code = code.split(separador);//'__' por defecto o '/' que viene como parametro
+    arr_code = arr_code.filter(elm => elm);//elimino valores vacios del array
     let trans = arr_code[0];
-    let book = arr_code[1];
+    let book = (first_book_index == 0) ? arr_code[1] : Number(arr_code[1]) - 1 ;
     let chapter = arr_code[2];
     let verse = arr_code[3];
     let to_verse = null;
@@ -13059,82 +13220,6 @@ function isInViewport(el) {
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
-}
-
-function selectModule(e){
-    let thisDiv = e.currentTarget;
-
-    let sk_test = true;//test...
-    if(sk_test){
-        thisDiv = e;
-    }
-    //console.log(thisDiv);
-    
-    Swal.fire({
-        title: '<p><strong>Выберите модуль Библии</strong></p>',
-        icon: 'info',
-        html: ` <select name="modules" id="sel_modules" >
-
-                    <optgroup label="Русский язык">
-                        <option data-trans="rstStrongRed" data-shortName="RST+r">(RU) Синодальная Библия (с номерами Стронга, слова Иисуса выделены красным)</option>
-                        <option data-trans="rstStrong" data-shortName="RST+">(RU) Русский Синодальный текст (с номерами Стронга)</option>
-                        <option data-trans="rstt" data-shortName="RSTt">(RU) Синодальная Библия (для переводчиков).</option>
-                        <option data-trans="rsti2" data-shortName="RSTi2*">(RU)* Уточненный синодальный перевод. Испр. 2 + неканонические.</option>
-                        <option data-trans="rstm" data-shortName="RSTm*">(RU)* Русский Синодальный текст (современная редакция) + неканонические.</option>
-                        <option data-trans="nrt" data-shortName="NRT">(RU) Новый русский перевод IBS 2006 Москва.</option>
-                        <option data-trans="rstStrong_rv60" data-shortName="RST+RV60">(RU+ES) Русский Синодальный текст (с номерами Стронга) + Reina Valera 1960</option>
-                        <option data-trans="opnz" data-shortName="OPNZ">(RU) Окрытый Перевод Новго Завета. 2013</option>
-                    </optgroup>
-                    <option disabled></option>
-
-                    <optgroup label="Українська мова">
-                        <option data-trans="ukr_fil" data-shortName="Ukr_Fil">(UA) Біблія. Патріарх Філарет (Денисено)</option>
-                        <option data-trans="ukr_ogi" data-shortName="Ukr_Ogi">(UA) Біблія у перекладі І. Огієнка</option>
-                        <option data-trans="ukr_hom" data-shortName="Ukr_Hom">(UA) Біблія у перекладі І. Хоменка</option>
-                        <option data-trans="ukr_gyz" data-shortName="Ukr_Gyz">(UA) Біблія у перекладі Олександра Гижи</option>
-                        <option data-trans="ukr_tur" data-shortName="Ukr_Tur">(UA) Біблія у перекладі з давньогрецької о. Р. Турконяка = UBT</option>
-                        <option data-trans="ukr_der" data-shortName="Ukr_Der">(UA) Новий Завіт у перекладі Г. Деркач</option>
-                    </optgroup>
-                    <option disabled></option>
-
-                    <optgroup label="Español">
-                        <option data-trans="rv60" data-shortName="RV60">(ES) Reina Valera 1960</option>
-                        <option data-trans="lbla" data-shortName="LBLA">(ES) La Biblia de las Américas</option>
-                    </optgroup>
-                    <option disabled></option>
-
-                    <optgroup style="display:none;" label="English">
-                        <option style="display:none;" data-trans="kjv" data-shortName="KJV">(EN) King James Version</option>
-                        <option style="display:none;" data-trans="nkjv" data-shortName="NKJV">(EN) New King James Version</option>
-                    </optgroup>
-                    <option disabled></option>
-
-                </select>
-                <br><br>
-                `,
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Ok',
-        confirmButtonAriaLabel: '',
-        cancelButtonText: 'Отмена',
-        cancelButtonAriaLabel: ''
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if(result.isConfirmed) {
-            let sel_modules = document.getElementById('sel_modules');
-            let i = sel_modules.selectedIndex;
-            let trans = sel_modules[i].dataset.trans;
-            let BibleShortName = sel_modules[i].getAttribute('data-shortName');
-            let BibleFullName = sel_modules[i].innerHTML;
-            //console.log(trans);
-            //console.log(thisDiv);
-
-            changeModule(thisDiv, trans, BibleShortName);
-        } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-        }
-      })
 }
 
 
