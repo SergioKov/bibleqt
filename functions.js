@@ -686,7 +686,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
         //si hay verses en array
         if(arrData[0].length != 0){
             for (let index = 0; index < arrData[0].length; index++) {//aquí siempre arrData[0]
-                const element = arrData[0][index];            
+                let element = arrData[0][index];            
                 //console.log('añado element con append. abajo element:');
                 //console.log(element);
                 //añado boton con '...' al verse para verseMenu de comparar traducciones
@@ -696,7 +696,8 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                     //sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
                 }                
-                el_colsInner.append(element);            
+                el_colsInner.append(element); 
+                element = htmlEntities(element);//test            
             }
         }else{
             el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
@@ -712,7 +713,7 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
             //si hay verses en array
             if(arrData[i].length != 0){
                 for (let index = 0; index < arrData[i].length; index++) {
-                    const element = arrData[i][index];            
+                    let element = arrData[i][index];            
                     //console.log('añado element con append. abajo element:');
                     //console.log(element);
                     //añado boton con '...' al verse para verseMenu de comparar traducciones
@@ -722,7 +723,8 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
                         //sp_btn_vm.textContent = '...';
                         element.append(sp_btn_vm);
                     }
-                    el_colsInner.append(element);            
+                    el_colsInner.append(element);
+                    element = htmlEntities(element);//test            
                 }
             }else{
                 el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
@@ -862,7 +864,6 @@ function onclick_p_nav(el){
 }
 
 
-
 const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
     console.log('=== const addWordsToHistFind ===');
 
@@ -934,6 +935,7 @@ const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
     });
 
 }
+
 
 function onclick_p_find(el){
     eid_inpt_nav.dataset.trans = el.trans;

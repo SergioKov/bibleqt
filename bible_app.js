@@ -218,7 +218,8 @@ const obj_ep = {
     'ukr_gyz': 'N',
     'ukr_tur': 'N',
     'ukr_kul': 'N',
-    'ukr_umt': 'N',
+    //'ukr_umt': 'Y',
+    'ukr_umts': 'Y',
     'ukr_der': 'Y',
 
     //esp
@@ -226,8 +227,8 @@ const obj_ep = {
     'lbla': 'Y',
     
     //eng
-    'kjv': 'Y',
-    'nkjv': 'Y',
+    //'kjv': 'Y',
+    //'nkjv': 'Y',
 }  
 
 //constant para crear arrFavTransObj
@@ -248,7 +249,8 @@ const arrFavTrans = [
     "ukr_gyz",
     "ukr_tur",
     "ukr_kul",
-    "ukr_umt",
+    //"ukr_umt",
+    "ukr_umts",
     "ukr_der",
     
     "rv60",
@@ -896,6 +898,9 @@ function loadDefaultFunctions() {
     addTab('Mat. 5:3', 'rstStrongRed');
 
     addTab('Ex. 2:2', 'rstStrongRed,rv60');
+    addTab('Psa. 3:1', 'rsti2,rv60,ukr_hom,ukr_umts');
+    addTab('Psa. 9:20', 'rstStrongRed,rv60,ukr_hom,ukr_umts');
+    addTab('Пс. 7:1', 'rstStrongRed,rv60,lbla,ukr_hom,ukr_umts');
 
     addTab('Числ. 13:1', 'rstStrongRed,rv60');
     addTab('Числ. 12:1', 'rv60,rstStrongRed');
@@ -4216,6 +4221,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
                                                         let before_Note = arr_t0[0];
+
+                                                        const span_before = document.createElement('span');
+                                                        const span_after = document.createElement('span');                                            
             
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
@@ -4233,15 +4241,29 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             });
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
-                                                            });            
+                                                            });
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                            span_vt.append(before_Note);
 
-
+                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                const h6_text = document.createElement('h6');
+                                                                h6_text.className = 'prim_h6';
+                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                span_before.append(h6_text);
+                                                                span_vt.append(span_before);
+                                                            }else{
+                                                                span_before.innerHTML = before_Note;
+                                                                span_vt.append(span_before);
+                                                            }
+                                                            //? span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;//para ukr_umt psalm 22:1
                                                             
                                                             span_vt.append(span_t);
+
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                            span_vt.append(after_Note);
+                                                            span_after.innerHTML = after_Note;
+                                                            span_vt.append(span_after);
                                                             //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                                                             p.append(span_vt);//antes
                                                         }
@@ -4290,6 +4312,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                     }
                                                 }
+
             
                                                 //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
                                                 if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
@@ -5417,6 +5440,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             let arr_t0 = t.split(bq.NoteSign);
                                             let before_Note = arr_t0[0];
 
+                                            const span_before = document.createElement('span');
+                                            const span_after = document.createElement('span');                                
+
                                             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
@@ -5434,24 +5460,33 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 span_t.addEventListener('mouseleave', function(){
                                                     hideTooltip(this);
                                                 });
-                                                /*
-                                                //antes
-                                                p.append(before_Note);
-                                                p.append(span_t);
-                                                p.append(after_Note);
-                                                */
-
                                                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                span_vt.append(before_Note);
-                                                span_vt.append(span_t);
-                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                span_vt.append(after_Note);
-                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
 
+                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                    const h6_text = document.createElement('h6');
+                                                    h6_text.className = 'prim_h6';
+                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                    let arr_text_bn = arr_bn[1].split('</h6>');
+                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                    h6_text.innerHTML = arr_text_bn[0];
+                                                    span_before.append(h6_text);
+                                                    span_vt.append(span_before);
+                                                }else{
+                                                    span_before.innerHTML = before_Note;
+                                                    span_vt.append(span_before);
+                                                }                               
+                                                //? span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;//para ukr_umt psalm 22:1
+                                                
+                                                span_vt.append(span_t);
+
+
+                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                span_after.innerHTML = after_Note;
+                                                span_vt.append(span_after);
+                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                                                 p.append(span_vt);//antes
                                             }
                                         }else{
-                                            //p.append(VerseText);//antes
                                             span_vt.append(VerseText);
                                             p.append(span_vt);
 
@@ -5459,7 +5494,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                             }
                                         }
-                                        //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
                                         arr_data_body.push(p);
@@ -5496,6 +5530,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
                                     }
+
 
                                     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
                                     if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
@@ -6680,6 +6715,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             let arr_t0 = t.split(bq.NoteSign);
                                             let before_Note = arr_t0[0];
 
+                                            const span_before = document.createElement('span');
+                                            const span_after = document.createElement('span');                                
+
                                             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
@@ -6697,18 +6735,31 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 span_t.addEventListener('mouseleave', function(){
                                                     hideTooltip(this);
                                                 });
-
-                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                span_vt.append(before_Note);
+                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;                                                
+                                                
+                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                    const h6_text = document.createElement('h6');
+                                                    h6_text.className = 'prim_h6';
+                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                    let arr_text_bn = arr_bn[1].split('</h6>');
+                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                    h6_text.innerHTML = arr_text_bn[0];
+                                                    span_before.append(h6_text);
+                                                    span_vt.append(span_before);
+                                                }else{
+                                                    span_before.innerHTML = before_Note;
+                                                    span_vt.append(span_before);
+                                                }
+                                
                                                 span_vt.append(span_t);
+                                
                                                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                span_vt.append(after_Note);
+                                                span_after.innerHTML = after_Note;
+                                                span_vt.append(span_after);
                                                 //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-
                                                 p.append(span_vt);//antes
                                             }
                                         }else{
-                                            //p.append(VerseText);//antes
                                             span_vt.append(VerseText);
                                             p.append(span_vt);
 
@@ -6716,7 +6767,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                             }
                                         }
-                                        //p.append(span_vt);//antes
                                         //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
                                         arr_data_body.push(p);
@@ -7949,41 +7999,51 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     let arr_t0 = t.split(bq.NoteSign);
                                     let before_Note = arr_t0[0];
 
+                                    const span_before = document.createElement('span');
+                                    const span_after = document.createElement('span');                        
+
                                     if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                         let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                         let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                         let text_Note = arr_t2[0];
                                         let after_Note = arr_t2[1];
-
+                        
                                         const span_t = document.createElement('span');
                                         span_t.className = 'tooltip';
                                         span_t.setAttribute('data-tooltip',text_Note);
                                         span_t.innerHTML = bq.NoteSign;
-
+                        
                                         span_t.addEventListener('mouseenter', function(){
                                             showTooltip(this);
                                         });
                                         span_t.addEventListener('mouseleave', function(){
                                             hideTooltip(this);
                                         });
-                                        /*
-                                        //antes
-                                        p.append(before_Note);
-                                        p.append(span_t);
-                                        p.append(after_Note);
-                                        */
-
                                         before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                        span_vt.append(before_Note);
+                        
+                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                            const h6_text = document.createElement('h6');
+                                            h6_text.className = 'prim_h6';
+                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                            h6_text.innerHTML = arr_text_bn[0];
+                                            span_before.append(h6_text);
+                                            span_vt.append(span_before);
+                                        }else{
+                                            span_before.innerHTML = before_Note;
+                                            span_vt.append(span_before);
+                                        }
+                        
                                         span_vt.append(span_t);
+                        
                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                        span_vt.append(after_Note);
+                                        span_after.innerHTML = after_Note;
+                                        span_vt.append(span_after);
                                         //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-
                                         p.append(span_vt);//antes
                                     }
                                 }else{
-                                    //p.append(VerseText);//antes
                                     span_vt.append(VerseText);
                                     p.append(span_vt);
 
@@ -7991,7 +8051,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         p.innerHTML = htmlEntities(p.innerHTML);
                                     }
                                 }
-                                //p.append(span_vt);//antes
                                 //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
                                 arr_data_body.push(p);
@@ -8028,6 +8087,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     p.innerHTML = htmlEntities(p.innerHTML);
                                 }
                             }
+
 
                             //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
                             if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
@@ -9132,195 +9192,195 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
     let arr_data_add = [];
     let p_Text = '';
 
-        if(el.includes('</p>')){
-            let arr_p_text = el.split('</p>');
-            p_Text = arr_p_text[0];
+    if(el.includes('</p>')){
+        let arr_p_text = el.split('</p>');
+        p_Text = arr_p_text[0];
+    }else{
+        p_Text = el;
+    }
+    //console.log('p_Text: '+p_Text); 
+
+    let arr_p = p_Text.split(' ');
+    let VerseId = arr_p[0];
+    //console.log('VerseId: '+VerseId);
+
+    let VerseText = '';
+    for(let index = 1; index < arr_p.length; index++){
+        VerseText += arr_p[index] + ' ';
+    }
+    //console.log('VerseText: '+VerseText);
+
+    const p = document.createElement('p');
+    p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+    //p.setAttribute('data-verse',data_verse_add);//meto el numero correspondiente a trans1
+
+    const a = document.createElement('a');
+    a.href = '#';
+    //a.classList.add('aki_clase');//de momento comento...
+    a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
+    p.append(a);
+    p.append(' '); 
+
+    const span_vt = document.createElement('span');
+    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+
+
+    //Номера Стронга в стихах (RST+)
+    if(bq.StrongNumbers == "Y"){
+        let t = VerseText;
+        let arr_t = t.split(' ');
+
+        arr_t.forEach((el,i) => {    
+            
+            //element of string is Strong Number
+            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                const span_strong = document.createElement('span');
+                span_strong.className = 'strong'; 
+                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+
+                //si ultimo carácter es string
+                if(last_char != '' && isNaN(last_char)){
+                    let el_number = el.substring(0,el.length-1);
+                    let el_string = last_char;
+                    span_strong.innerHTML = el_number;
+                    p.append(span_strong);
+                    p.append(el_string);
+                }else{//es number
+                    span_strong.innerHTML = el;
+                    p.append(span_strong);
+                }
+
+            }else{//is word
+                p.append(' ');
+                p.append(el);
+            }
+        });
+        p.innerHTML.trim();
+
+        //console.log('antes: ' + p.innerHTML);
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+        //console.log('despues: '+p.innerHTML);
+
+        arr_data_add.push(p);
+        //console.log(p);
+        
+        //добавляю стих в див
+        //divShow.append(p);
+    }
+
+    //Примечания редактора в стихах (RSTi2)
+    if(bq.Notes == 'Y'){
+        let t = VerseText;
+
+        if(t.includes(bq.NoteSign)){// '*'
+            let arr_t0 = t.split(bq.NoteSign);
+            let before_Note = arr_t0[0];
+
+            const span_before = document.createElement('span');
+            const span_after = document.createElement('span');
+
+            if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                let text_Note = arr_t2[0];
+                let after_Note = arr_t2[1];
+
+                const span_t = document.createElement('span');
+                span_t.className = 'tooltip';
+                span_t.setAttribute('data-tooltip',text_Note);
+                span_t.innerHTML = bq.NoteSign;
+
+                span_t.addEventListener('mouseenter', function(){
+                    showTooltip(this);
+                });
+                span_t.addEventListener('mouseleave', function(){
+                    hideTooltip(this);
+                });
+                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                    const h6_text = document.createElement('h6');
+                    h6_text.className = 'prim_h6';
+                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                    let arr_text_bn = arr_bn[1].split('</h6>');
+                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                    h6_text.innerHTML = arr_text_bn[0];
+                    span_before.append(h6_text);
+                    span_vt.append(span_before);
+                }else{
+                    span_before.innerHTML = before_Note;
+                    span_vt.append(span_before);
+                }
+
+                span_vt.append(span_t);
+
+                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                span_after.innerHTML = after_Note;
+                span_vt.append(span_after);
+                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                p.append(span_vt);//antes
+            }
         }else{
-            p_Text = el;
-        }
-        //console.log('p_Text: '+p_Text); 
-
-        let arr_p = p_Text.split(' ');
-        let VerseId = arr_p[0];
-        //console.log('VerseId: '+VerseId);
-
-        let VerseText = '';
-        for(let index = 1; index < arr_p.length; index++){
-            VerseText += arr_p[index] + ' ';
-        }
-        //console.log('VerseText: '+VerseText);
-
-        const p = document.createElement('p');
-        p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
-        //p.setAttribute('data-verse',data_verse_add);//meto el numero correspondiente a trans1
-
-        const a = document.createElement('a');
-        a.href = '#';
-        //a.classList.add('aki_clase');//de momento comento...
-        a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
-        p.append(a);
-        p.append(' '); 
-
-        const span_vt = document.createElement('span');
-        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-
-
-        //Номера Стронга в стихах (RST+)
-        if(bq.StrongNumbers == "Y"){
-            let t = VerseText;
-            let arr_t = t.split(' ');
-
-            arr_t.forEach((el,i) => {    
-                
-                //element of string is Strong Number
-                if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                    const span_strong = document.createElement('span');
-                    span_strong.className = 'strong'; 
-                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
-                    //si ultimo carácter es string
-                    if(last_char != '' && isNaN(last_char)){
-                        let el_number = el.substring(0,el.length-1);
-                        let el_string = last_char;
-                        span_strong.innerHTML = el_number;
-                        p.append(span_strong);
-                        p.append(el_string);
-                    }else{//es number
-                        span_strong.innerHTML = el;
-                        p.append(span_strong);
-                    }
-
-                }else{//is word
-                    p.append(' ');
-                    p.append(el);
-                }
-            });
-            p.innerHTML.trim();
-
-            //console.log('antes: ' + p.innerHTML);
-            if(bq.HTMLFilter == 'Y'){
-                p.innerHTML = htmlEntities(p.innerHTML);
-            }
-            //console.log('despues: '+p.innerHTML);
-
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-        }
-
-        //Примечания редактора в стихах (RSTi2)
-        if(bq.Notes == 'Y'){
-            let t = VerseText;
-
-            if(t.includes(bq.NoteSign)){// '*'
-                let arr_t0 = t.split(bq.NoteSign);
-                let before_Note = arr_t0[0];
-
-                if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                    let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                    let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                    let text_Note = arr_t2[0];
-                    let after_Note = arr_t2[1];
-
-                    const span_t = document.createElement('span');
-                    span_t.className = 'tooltip';
-                    span_t.setAttribute('data-tooltip',text_Note);
-                    span_t.innerHTML = bq.NoteSign;
-
-                    span_t.addEventListener('mouseenter', function(){
-                        showTooltip(this);
-                    });
-                    span_t.addEventListener('mouseleave', function(){
-                        hideTooltip(this);
-                    });
-                    /*
-                    //antes
-                    p.append(before_Note);
-                    p.append(span_t);
-                    p.append(after_Note);
-                    */
-
-                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                    span_vt.append(before_Note);
-                    span_vt.append(span_t);
-                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                    span_vt.append(after_Note);
-                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-
-                    p.append(span_vt);//antes
-                }
-            }else{
-                //p.append(VerseText);//antes
-                span_vt.append(VerseText);
-                p.append(span_vt);
-
-                if(bq.HTMLFilter == 'Y'){
-                    p.innerHTML = htmlEntities(p.innerHTML);
-                }
-            }
-            //p.append(span_vt);//antes
-            //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-        }
-
-        //Оглавления в стихах (NRT)
-        if(bq.Titles == 'Y'){
-            let t = VerseText;
-
-            if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                let before_Title = arr_t1[0];
-                let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                let text_Title = arr_t2[0];
-                let after_Title = arr_t2[1];
-
-                const span_title = document.createElement('span');
-                span_title.className = 'verse_title';
-                span_title.innerHTML = text_Title;
-
-                p.append(before_Title);
-                p.append(span_title);
-                p.append(after_Title);
-            }else{
-                p.append(VerseText);
-            }
-
-            arr_data_add.push(p);
-            //console.log(p);
-
-            //добавляю стих в див
-            //divShow.append(p);
-
-            if(bq.HTMLFilter == 'Y'){
-                p.innerHTML = htmlEntities(p.innerHTML);
-            }
-        }
-
-        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-        if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-            //p.append(VerseText);//antes
             span_vt.append(VerseText);
             p.append(span_vt);
 
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-
             if(bq.HTMLFilter == 'Y'){
                 p.innerHTML = htmlEntities(p.innerHTML);
             }
         }
+        //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
-        return arr_data_add;
+        arr_data_add.push(p);
+        //console.log(p);
+    }
+
+    //Оглавления в стихах (NRT)
+    if(bq.Titles == 'Y'){
+        let t = VerseText;
+
+        if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+            let arr_t1 = t.split(bq.StartTitleSign);//'[('
+            let before_Title = arr_t1[0];
+            let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+            let text_Title = arr_t2[0];
+            let after_Title = arr_t2[1];
+
+            const span_title = document.createElement('span');
+            span_title.className = 'verse_title';
+            span_title.innerHTML = text_Title;
+
+            p.append(before_Title);
+            p.append(span_title);
+            p.append(after_Title);
+        }else{
+            p.append(VerseText);
+        }
+
+        arr_data_add.push(p);
+        //console.log(p);
+
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+    }
+
+    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
+        //p.append(VerseText);//antes
+        span_vt.append(VerseText);
+        p.append(span_vt);
+
+        arr_data_add.push(p);
+        //console.log(p);
+
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+    }
+
+    return arr_data_add;
 
 }
 
@@ -9359,206 +9419,201 @@ function for_parseVerse(Translation, bq, bookModule, book, chapter, arr_verses )
 }
 
 function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
-    let verse_add;
-    if(typeof isTestPhp != 'undefined' && isTestPhp){       
-        verse_add = bookModule.split('<p>')[verseNumber];
-    }else{
-        verse_add = bookModule.split('<h4>')[chapter].split('<p>')[verseNumber];
-    }
+    let verse_add = bookModule.split('<h4>')[chapter].split('<p>')[verseNumber];
     
     let el = verse_add;
     let arr_data_add = [];
     let p_Text = '';
 
-        if(el.includes('</p>')){
-            let arr_p_text = el.split('</p>');
-            p_Text = arr_p_text[0];
+    if(el.includes('</p>')){
+        let arr_p_text = el.split('</p>');
+        p_Text = arr_p_text[0];
+    }else{
+        p_Text = el;
+    }
+    //console.log('p_Text: '+p_Text); 
+
+    let arr_p = p_Text.split(' ');
+    let VerseId = arr_p[0];
+    //console.log('VerseId: '+VerseId);
+
+    let VerseText = '';
+    for(let index = 1; index < arr_p.length; index++){
+        VerseText += arr_p[index] + ' ';
+    }
+    //console.log('VerseText: '+VerseText);
+
+    const p = document.createElement('p');
+    p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+    //p.setAttribute('data-verse',data_verse_add);//meto el numero correspondiente a trans1
+
+    const a = document.createElement('a');
+    a.href = '#';
+    //a.classList.add('aki_clase');//de momento comento...
+    a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
+    p.append(a);
+    p.append(' '); 
+
+    const span_vt = document.createElement('span');
+    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+
+
+    //Номера Стронга в стихах (RST+)
+    if(bq.StrongNumbers == "Y"){
+        let t = VerseText;
+        let arr_t = t.split(' ');
+
+        arr_t.forEach((el,i) => {    
+            
+            //element of string is Strong Number
+            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                const span_strong = document.createElement('span');
+                span_strong.className = 'strong'; 
+                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+
+                //si ultimo carácter es string
+                if(last_char != '' && isNaN(last_char)){
+                    let el_number = el.substring(0,el.length-1);
+                    let el_string = last_char;
+                    span_strong.innerHTML = el_number;
+                    p.append(span_strong);
+                    p.append(el_string);
+                }else{//es number
+                    span_strong.innerHTML = el;
+                    p.append(span_strong);
+                }
+
+            }else{//is word
+                p.append(' ');
+                p.append(el);
+            }
+        });
+        p.innerHTML.trim();
+
+        //console.log('antes: ' + p.innerHTML);
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+        //console.log('despues: '+p.innerHTML);
+
+        arr_data_add.push(p);
+        //console.log(p);
+        
+        //добавляю стих в див
+        //divShow.append(p);
+    }
+
+    //Примечания редактора в стихах (RSTi2)
+    if(bq.Notes == 'Y'){
+        let t = VerseText;
+
+        if(t.includes(bq.NoteSign)){// '*'
+            let arr_t0 = t.split(bq.NoteSign);
+            let before_Note = arr_t0[0];
+
+            const span_before = document.createElement('span');
+            const span_after = document.createElement('span');
+
+            if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                let text_Note = arr_t2[0];
+                let after_Note = arr_t2[1];
+
+                const span_t = document.createElement('span');
+                span_t.className = 'tooltip';
+                span_t.setAttribute('data-tooltip',text_Note);
+                span_t.innerHTML = bq.NoteSign;
+
+                span_t.addEventListener('mouseenter', function(){
+                    showTooltip(this);
+                });
+                span_t.addEventListener('mouseleave', function(){
+                    hideTooltip(this);
+                });
+                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                    const h6_text = document.createElement('h6');
+                    h6_text.className = 'prim_h6';
+                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                    let arr_text_bn = arr_bn[1].split('</h6>');
+                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                    h6_text.innerHTML = arr_text_bn[0];
+                    span_before.append(h6_text);
+                    span_vt.append(span_before);
+                }else{
+                    span_before.innerHTML = before_Note;
+                    span_vt.append(span_before);
+                }
+
+                span_vt.append(span_t);
+
+                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                span_after.innerHTML = after_Note;
+                span_vt.append(span_after);
+                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                p.append(span_vt);//antes
+            }
         }else{
-            p_Text = el;
-        }
-        //console.log('p_Text: '+p_Text); 
-
-        let arr_p = p_Text.split(' ');
-        let VerseId = arr_p[0];
-        //console.log('VerseId: '+VerseId);
-
-        let VerseText = '';
-        for(let index = 1; index < arr_p.length; index++){
-            VerseText += arr_p[index] + ' ';
-        }
-        //console.log('VerseText: '+VerseText);
-
-        const p = document.createElement('p');
-        p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
-        //p.setAttribute('data-verse',data_verse_add);//meto el numero correspondiente a trans1
-
-        const a = document.createElement('a');
-        a.href = '#';
-        //a.classList.add('aki_clase');//de momento comento...
-        a.innerHTML = bq.Books[book].ShortNames[0] + chapter + ':' + VerseId;
-        p.append(a);
-        p.append(' '); 
-
-        const span_vt = document.createElement('span');
-        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-
-
-        //Номера Стронга в стихах (RST+)
-        if(bq.StrongNumbers == "Y"){
-            let t = VerseText;
-            let arr_t = t.split(' ');
-
-            arr_t.forEach((el,i) => {    
-                
-                //element of string is Strong Number
-                if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                    const span_strong = document.createElement('span');
-                    span_strong.className = 'strong'; 
-                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
-                    //si ultimo carácter es string
-                    if(last_char != '' && isNaN(last_char)){
-                        let el_number = el.substring(0,el.length-1);
-                        let el_string = last_char;
-                        span_strong.innerHTML = el_number;
-                        p.append(span_strong);
-                        p.append(el_string);
-                    }else{//es number
-                        span_strong.innerHTML = el;
-                        p.append(span_strong);
-                    }
-
-                }else{//is word
-                    p.append(' ');
-                    p.append(el);
-                }
-            });
-            p.innerHTML.trim();
-
-            //console.log('antes: ' + p.innerHTML);
-            if(bq.HTMLFilter == 'Y'){
-                p.innerHTML = htmlEntities(p.innerHTML);
-            }
-            //console.log('despues: '+p.innerHTML);
-
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-        }
-
-        //Примечания редактора в стихах (RSTi2)
-        if(bq.Notes == 'Y'){
-            let t = VerseText;
-
-            if(t.includes(bq.NoteSign)){// '*'
-                let arr_t0 = t.split(bq.NoteSign);
-                let before_Note = arr_t0[0];
-
-                if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                    let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                    let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                    let text_Note = arr_t2[0];
-                    let after_Note = arr_t2[1];
-
-                    const span_t = document.createElement('span');
-                    span_t.className = 'tooltip';
-                    span_t.setAttribute('data-tooltip',text_Note);
-                    span_t.innerHTML = bq.NoteSign;
-
-                    span_t.addEventListener('mouseenter', function(){
-                        showTooltip(this);
-                    });
-                    span_t.addEventListener('mouseleave', function(){
-                        hideTooltip(this);
-                    });
-                    /*
-                    //antes
-                    p.append(before_Note);
-                    p.append(span_t);
-                    p.append(after_Note);
-                    */
-
-                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                    span_vt.append(before_Note);
-                    span_vt.append(span_t);
-                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                    span_vt.append(after_Note);
-                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-
-                    p.append(span_vt);//antes
-                }
-            }else{
-                //p.append(VerseText);//antes
-                span_vt.append(VerseText);
-                p.append(span_vt);
-
-                if(bq.HTMLFilter == 'Y'){
-                    p.innerHTML = htmlEntities(p.innerHTML);
-                }
-            }
-            //p.append(span_vt);//antes
-            //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-        }
-
-        //Оглавления в стихах (NRT)
-        if(bq.Titles == 'Y'){
-            let t = VerseText;
-
-            if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                let before_Title = arr_t1[0];
-                let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                let text_Title = arr_t2[0];
-                let after_Title = arr_t2[1];
-
-                const span_title = document.createElement('span');
-                span_title.className = 'verse_title';
-                span_title.innerHTML = text_Title;
-
-                p.append(before_Title);
-                p.append(span_title);
-                p.append(after_Title);
-            }else{
-                p.append(VerseText);
-            }
-
-            arr_data_add.push(p);
-            //console.log(p);
-
-            //добавляю стих в див
-            //divShow.append(p);
-
-            if(bq.HTMLFilter == 'Y'){
-                p.innerHTML = htmlEntities(p.innerHTML);
-            }
-        }
-
-        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-        if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-            //p.append(VerseText);//antes
             span_vt.append(VerseText);
             p.append(span_vt);
 
-            arr_data_add.push(p);
-            //console.log(p);
-            
-            //добавляю стих в див
-            //divShow.append(p);
-
             if(bq.HTMLFilter == 'Y'){
                 p.innerHTML = htmlEntities(p.innerHTML);
             }
         }
+        //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
 
-        return arr_data_add;
+        arr_data_add.push(p);
+        //console.log(p);
+    }
+
+    //Оглавления в стихах (NRT)
+    if(bq.Titles == 'Y'){
+        let t = VerseText;
+
+        if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+            let arr_t1 = t.split(bq.StartTitleSign);//'[('
+            let before_Title = arr_t1[0];
+            let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+            let text_Title = arr_t2[0];
+            let after_Title = arr_t2[1];
+
+            const span_title = document.createElement('span');
+            span_title.className = 'verse_title';
+            span_title.innerHTML = text_Title;
+
+            p.append(before_Title);
+            p.append(span_title);
+            p.append(after_Title);
+        }else{
+            p.append(VerseText);
+        }
+
+        arr_data_add.push(p);
+        //console.log(p);
+
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+    }
+
+    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
+        //p.append(VerseText);//antes
+        span_vt.append(VerseText);
+        p.append(span_vt);
+
+        arr_data_add.push(p);
+        //console.log(p);
+
+        if(bq.HTMLFilter == 'Y'){
+            p.innerHTML = htmlEntities(p.innerHTML);
+        }
+    }
+
+    return arr_data_add;
 
 }
 
@@ -11780,7 +11835,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             
                                             if(document.querySelectorAll('.cols').length > 1){
                                                 let chapter = obj_nav.show_chapter;
-                                                let verse = obj_nav.show_verse; 
+                                                let verse = (obj_nav.show_verse != '') ? obj_nav.show_verse : null ; 
                                                 let to_verse = null;//todavia no está seleccionado
                                                 
                                                 let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
@@ -15593,6 +15648,9 @@ function findWords(words_input){
                                                                 if(t.includes(bq.NoteSign)){// '*'
                                                                     let arr_t0 = t.split(bq.NoteSign);
                                                                     let before_Note = arr_t0[0];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');                                                        
                                     
                                                                     if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                                         let arr_t1 = t.split(bq.StartNoteSign);//'[('
@@ -15611,20 +15669,35 @@ function findWords(words_input){
                                                                         span_t.addEventListener('mouseleave', function(){
                                                                             hideTooltip(this);
                                                                         });
-                                                                                    
                                                                         before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                                        span_vt.append(before_Note);
+
+                                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                            const h6_text = document.createElement('h6');
+                                                                            h6_text.className = 'prim_h6';
+                                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                            h6_text.innerHTML = arr_text_bn[0];
+                                                                            span_before.append(h6_text);
+                                                                            span_vt.append(span_before);
+                                                                        }else{
+                                                                            span_before.innerHTML = before_Note;
+                                                                            span_vt.append(span_before);
+                                                                        }
+                                                        
                                                                         span_vt.append(span_t);
+
                                                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                                        span_vt.append(after_Note);
-                                    
+                                                                        span_after.innerHTML = after_Note;
+                                                                        span_vt.append(span_after);
+                                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                                                                         p.append(span_vt);//antes
+
                                                                         if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
                                                                             p.innerHTML = htmlEntities(p.innerHTML);
                                                                         }
                                                                     }
                                                                 }else{
-                                                                    //p.append(VerseText);//antes
                                                                     span_vt.append(VerseText);
                                                                     p.append(span_vt);
                                     
@@ -16552,6 +16625,9 @@ function findWords(words_input){
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
                                                         let before_Note = arr_t0[0];
+                                                        
+                                                        const span_before = document.createElement('span');
+                                                        const span_after = document.createElement('span');
                         
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
@@ -16570,20 +16646,35 @@ function findWords(words_input){
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
                                                             });
-                                                                        
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                            span_vt.append(before_Note);
+                                                                        
+                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                const h6_text = document.createElement('h6');
+                                                                h6_text.className = 'prim_h6';
+                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                span_before.append(h6_text);
+                                                                span_vt.append(span_before);
+                                                            }else{
+                                                                span_before.innerHTML = before_Note;
+                                                                span_vt.append(span_before);
+                                                            }
+                                            
                                                             span_vt.append(span_t);
+
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                            span_vt.append(after_Note);
-                        
+                                                            span_after.innerHTML = after_Note;
+                                                            span_vt.append(span_after);
+                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                                                             p.append(span_vt);//antes
+
                                                             if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
                                                         }
                                                     }else{
-                                                        //p.append(VerseText);//antes
                                                         span_vt.append(VerseText);
                                                         p.append(span_vt);
                         
@@ -17521,6 +17612,9 @@ function findWords(words_input){
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
                                                         let before_Note = arr_t0[0];
+                                                        
+                                                        const span_before = document.createElement('span');
+                                                        const span_after = document.createElement('span');
                         
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
@@ -17539,14 +17633,30 @@ function findWords(words_input){
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
                                                             });
-                                                                        
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                            span_vt.append(before_Note);
+                                                                        
+                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                const h6_text = document.createElement('h6');
+                                                                h6_text.className = 'prim_h6';
+                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                span_before.append(h6_text);
+                                                                span_vt.append(span_before);
+                                                            }else{
+                                                                span_before.innerHTML = before_Note;
+                                                                span_vt.append(span_before);
+                                                            }
+                                            
                                                             span_vt.append(span_t);
+                                            
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                            span_vt.append(after_Note);
-                        
-                                                            p.append(span_vt);//antes
+                                                            span_after.innerHTML = after_Note;
+                                                            span_vt.append(span_after);
+                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                            p.append(span_vt);//antes                                            
+
                                                             if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
