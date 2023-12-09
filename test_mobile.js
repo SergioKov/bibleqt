@@ -9,12 +9,12 @@ window.addEventListener('resize',function(d){
 });  
 
 document.querySelector("#myNav").addEventListener('click', function(e){
-  console.log('div 2 exterior');
+  //console.log('div 2 exterior');
   closeNav();
 });
 
 document.querySelector("#myNavInner").addEventListener('click', function(e){
-  console.log('-- div 1 interior');
+  //console.log('-- div 1 interior');
   e.stopPropagation();
 });
 
@@ -42,7 +42,7 @@ function closeNav() {
 
 
 function mySizeWindow() {
-    console.log('mySizeWindow');
+    //console.log('mySizeWindow');
 
     let header = document.querySelector('header');
     let secction = document.querySelector('section');

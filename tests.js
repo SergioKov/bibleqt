@@ -19,27 +19,27 @@ for (let index = 3251; index < 3304; index++) {
 //====================================================================//
 //paso 1
 const ejecutar0 = (url) => {
-    console.log('paso1 --- function ejecutar0()');
-    console.log(new Date);
+    //console.log('paso1 --- function ejecutar0()');
+    //console.log(new Date);
     const d = new Date();
-    console.log('d.getMilliseconds(): '+d.getMilliseconds());
+    //console.log('d.getMilliseconds(): '+d.getMilliseconds());
     
     obtenerDatos0(url)
     .then(datos => {
-        console.log(datos);
+        //console.log(datos);
     });
 }
 //paso 2
 async function obtenerDatos0(url) {
-    console.log('paso2 --- function obtenerDatos0(url)');
+    //console.log('paso2 --- function obtenerDatos0(url)');
     try {
-        console.log('paso2.0 --- dentro de try');
+        //console.log('paso2.0 --- dentro de try');
         const respuesta = await fetch(url);
         const datos = await respuesta.json();
-        console.log("paso2.1 --- retorno datos de la url: ", url);
-        console.log("paso2.2 --- datos: ", datos);
+        //console.log("paso2.1 --- retorno datos de la url: ", url);
+        //console.log("paso2.2 --- datos: ", datos);
         const d = new Date();
-        console.log('d.getMilliseconds(): '+d.getMilliseconds());
+        //console.log('d.getMilliseconds(): '+d.getMilliseconds());
         
         return datos;
     } catch (error) {
@@ -60,10 +60,10 @@ async function obtenerDatos0(url) {
 //ejecutar1();
 //paso 1
 async function ejecutar1() {
-    console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos1() ...' + new Date().getSeconds());
+    //console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos1() ...' + new Date().getSeconds());
     const resultado = await obtenerDatos1();
-    console.log('tengo el resultado del obtenerDatos1(). abajo resultado: ' + new Date().getSeconds());
-    console.log(resultado);
+    //console.log('tengo el resultado del obtenerDatos1(). abajo resultado: ' + new Date().getSeconds());
+    //console.log(resultado);
 }
 //paso 2
 function obtenerDatos1() {
@@ -88,18 +88,18 @@ setTimeout(()=>{
 
 //paso 1
 const ejecutar2 = (url,tipo) => {
-    console.log(`inicio func ejecutar2(${url},${tipo}). Espero resultado del obtenerDatos2(${url},${tipo}) ...`);
+    //console.log(`inicio func ejecutar2(${url},${tipo}). Espero resultado del obtenerDatos2(${url},${tipo}) ...`);
     
     const inicio = performance.now();
-    console.log(`--- start ejecutar2(${url}): ${inicio}`);
+    //console.log(`--- start ejecutar2(${url}): ${inicio}`);
 
     obtenerDatos2(url,tipo)
     .then(datos => {
         const fin = performance.now();
         const tiempo = fin - inicio;
-        console.log(`--- fin ejecutar2(${url}): ${fin}`);
-        console.log(`--- tiempo de ejecusion de ejecutar2(${url}): ${tiempo} milisec.`);
-        console.log(datos);
+        //console.log(`--- fin ejecutar2(${url}): ${fin}`);
+        //console.log(`--- tiempo de ejecusion de ejecutar2(${url}): ${tiempo} milisec.`);
+        //console.log(datos);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -122,20 +122,20 @@ async function obtenerDatos2(url,tipo) {
 //ejecutarFetch('/bibleqt/modules/text/nrt/nrt_01.htm', 'text')
 
 function ejecutarFetch(url, tipo_respuesta) {//tipo_respuesta: json(), text()
-    console.log('===function ejecutarFetch()===');
-    console.log(`inicio func ejecutarFetch(${url},${tipo_respuesta}). Espero resultado del fetchData(${url},${tipo_respuesta}) ...`);
+    //console.log('===function ejecutarFetch()===');
+    //console.log(`inicio func ejecutarFetch(${url},${tipo_respuesta}). Espero resultado del fetchData(${url},${tipo_respuesta}) ...`);
 
     const inicio = performance.now();
-    console.log(`--- start ejecutarFetch(${url}): ${inicio}`);
+    //console.log(`--- start ejecutarFetch(${url}): ${inicio}`);
 
     fetchData(url, tipo_respuesta)
         .then(datos => {
             const fin = performance.now();
             const tiempo = fin - inicio;
-            console.log(`--- fin ejecutarFetch(${url}): ${fin}`);
-            console.log(`--- tiempo de ejecusion de ejecutarFetch(${url}): ${tiempo} milisec.`);
+            //console.log(`--- fin ejecutarFetch(${url}): ${fin}`);
+            //console.log(`--- tiempo de ejecusion de ejecutarFetch(${url}): ${tiempo} milisec.`);
 
-            console.log(datos);
+            //console.log(datos);
         })
         .catch(error => {
             console.error('Error de .then() de promesa fetchData(): ', error);
@@ -157,11 +157,11 @@ async function fetchData(url, tipo_respuesta = null) { //tipo_respuesta: json(),
 //ejecutar1();
 //paso 1
 async function ejecutar7() {
-    console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos7() .... ahora segundos: ' + new Date().getSeconds());
+    //console.log('inicio func ejecutar... 5 sec Espero resultado del obtenerDatos7() .... ahora segundos: ' + new Date().getSeconds());
     const resultado = await obtenerDatos7();
-    console.log('tengo el resultado del obtenerDatos7(). ahora segundos: ' + new Date().getSeconds());
-    console.log('abajo resultado: ');
-    console.log(resultado);
+    //console.log('tengo el resultado del obtenerDatos7(). ahora segundos: ' + new Date().getSeconds());
+    //console.log('abajo resultado: ');
+    //console.log(resultado);
 }
 //paso 2
 function obtenerDatos7() {
@@ -196,8 +196,8 @@ async function ejecutarDatos8(){
 
 
 function getRefToCompare(ref){
-    console.log('=== function getRefToCompare(ref) ===');
-    console.log('ref: ',ref);
+    //console.log('=== function getRefToCompare(ref) ===');
+    //console.log('ref: ',ref);
 
     let act_trans = eid_trans1.dataset.trans;
 
@@ -464,7 +464,7 @@ function getRefToCompare(ref){
                             //meto Gen.1:1 en los head de cada trans
                             document.querySelectorAll('.partMob .mob_sh_link').forEach(el => {
                                 let verse_to_show = (verse > 0) ? parseInt(verse) : 1;
-                                putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
 
                             showTrans(n_book, chapter, verse, to_verse);
@@ -518,7 +518,7 @@ function getRefToCompare(ref){
                                 //meto Gen.1:1 en los head de cada trans
                                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
                                     let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                    putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                    putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                 });
         
                                 
@@ -600,7 +600,7 @@ function getRefToCompare(ref){
                                     //meto Gen.1:1 en los head de cada trans
                                     document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
                                         let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                        putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                        putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                     });
 
 
@@ -624,7 +624,7 @@ function getRefToCompare(ref){
                                 })
                                 .catch(error => { 
                                     // Código a realizar cuando se rechaza la promesa
-                                    console.log('VerseQty. error promesa: '+error);
+                                    console.error('VerseQty. error promesa: '+error);
                                 });
 
                             }
@@ -644,7 +644,7 @@ function getRefToCompare(ref){
 
 
     }else{
-        console.log('no existe book chapter y verse');
+        //console.log('no existe book chapter y verse');
     }
 }
 
@@ -655,7 +655,7 @@ function getRefToCompare(ref){
 
 
 async function parseTextToArrRef(textRef, trans = null){
-    console.log('=== function parseTextToArrRef(text) ===');
+    //console.log('=== function parseTextToArrRef(text) ===');
 
     let act_trans = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
@@ -801,7 +801,7 @@ async function parseTextToArrRef(textRef, trans = null){
 
     //Si exisate book busco chapter y verse/to_verse si hay
     if(book != null){
-        console.log('parseTextToArrRef --- book != null');
+        //console.log('parseTextToArrRef --- book != null');
 
         let Translation = trans;
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
@@ -878,7 +878,7 @@ async function parseTextToArrRef(textRef, trans = null){
                             
                             verse = 1 ;
                             arr_result = [n_book, parseInt(chapter), verse, to_verse];
-                            console.log('arr_result: ', arr_result);
+                            //console.log('arr_result: ', arr_result);
                             return arr_result;
                         }
                         
@@ -917,12 +917,12 @@ async function parseTextToArrRef(textRef, trans = null){
                                 }
 
                                 arr_result = [n_book, parseInt(chapter), verse, to_verse];
-                                console.log('arr_result: ', arr_result);
+                                //console.log('arr_result: ', arr_result);
                                 return arr_result; 
                             })
                             .catch(error => { 
                                 // Código a realizar cuando se rechaza la promesa
-                                console.log('VerseQty. error promesa: '+error);
+                                console.error('VerseQty. error promesa: '+error);
                             });
 
                         }                        
@@ -937,7 +937,7 @@ async function parseTextToArrRef(textRef, trans = null){
         }
 
     }else{
-        console.log('no existe book');
+        //console.log('no existe book');
     }
 }
 

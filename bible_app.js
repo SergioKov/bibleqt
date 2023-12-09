@@ -266,8 +266,8 @@ let arrFavTsk = [
 
 
 const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
-// console.log('abajo arrFavTransObj:');
-// console.log(arrFavTransObj);
+//console.log('abajo arrFavTransObj:');
+//console.log(arrFavTransObj);
 
 const arrFavTskObj = makeTskObj();
 //console.log('abajo arrFavTskObj:');
@@ -314,28 +314,28 @@ let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
 //'by_text' (old): getting all file '01_genesis.htm' and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
 let modo_fetch_verses_for_cols = 'by_text';//by_json, by_text
-console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
+//console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
 
 //'by_text' (old): getting all file and making array with .split() and showing only needed verses,
 //'by_json' (new): por php solo el capitulo
 let modo_fetch_verses_for_tsk_block = 'by_text';//by_json, by_text
-console.log('modo_fetch_verses_for_tsk_block: ',modo_fetch_verses_for_tsk_block);
+//console.log('modo_fetch_verses_for_tsk_block: ',modo_fetch_verses_for_tsk_block);
 
 //'by_text' (old): getting all file and showing only needed verses, //creado después
 //'by_json' (new): getting only verses to show by json (lento)//creado primero
 let modo_fetch_verses_compare = 'by_text';//by_json, by_text
-console.log('modo_fetch_verses_compare: ',modo_fetch_verses_compare);
+//console.log('modo_fetch_verses_compare: ',modo_fetch_verses_compare);
 
 
 //crear obj_tsk_files[tskName].Books[book] = {'fileName': tsk.Books[book].PathName, 'fileContent': tskModule}
 //para sacar refs de links TSK sin cargarlos por fetch
 let crear_objeto_obj_tsk_files = true;//true, false
-console.log('crear_objeto_obj_tsk_files: ',crear_objeto_obj_tsk_files);
+//console.log('crear_objeto_obj_tsk_files: ',crear_objeto_obj_tsk_files);
 
 //crear obj_bible_files[Translation].Books[bookNumber] = {'fileName': bq.Books[bookNumber].PathName, 'fileContent': bookModule}
 //para sacar textos de libros sin cargarlos por fetch
 let crear_objeto_obj_bible_files = true;//true, false
-console.log('crear_objeto_obj_bible_files: ',crear_objeto_obj_bible_files);
+//console.log('crear_objeto_obj_bible_files: ',crear_objeto_obj_bible_files);
 
 
 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
@@ -375,8 +375,8 @@ function makeBibleTextFromJson(url){
     obtenerDatosToJson(url)
     .then((data) => {
 
-        console.log(' abajo data:');
-        console.log(data);
+        //console.log(' abajo data:');
+        //console.log(data);
 
 
         data.forEach(el => {
@@ -430,16 +430,16 @@ function makeBibleTextFromJson(url){
         
         });
 
-        console.log('abajo arrBooks: ');
-        console.log(arrBooks);
+        //console.log('abajo arrBooks: ');
+        //console.log(arrBooks);
 
-        console.log('abajo arrText: ');
-        console.log(arrText);
+        //console.log('abajo arrText: ');
+        //console.log(arrText);
     
        
     })
     .catch(error => { 
-        console.log('data. error promesa: '+error);
+        console.error('data. error promesa: '+error);
     });
 
 
@@ -475,7 +475,7 @@ function makeTransObj_new(arrFavTrans){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            console.log('makeTransObj_new. error promesa: '+error);
+            console.error('makeTransObj_new. error promesa: '+error);
         });        
     }
     //console.log('1. abajo arrTransObj:');
@@ -508,7 +508,7 @@ function loadAllFavBibleFiles(){
     function for_eachTrans(i_trans, arrFavTrans){
         
         const el = arrFavTrans[i_trans];
-        console.log(`${i_trans} --- ${el}`);
+        //console.log(`${i_trans} --- ${el}`);
 
         let this_trans = arrFavTransObj.find(v => v.Translation === el);
 
@@ -607,7 +607,7 @@ function loadAllFavBibleFiles(){
                                 }
                                 
                                 if(i_trans == arrFavTrans.length ){
-                                    console.log('9. final  --- (i_book == data.Books.length )');
+                                    //console.log('9. final  --- (i_book == data.Books.length )');
                                     //console.log(`i_trans: ${i_trans}) --- (i_trans == arrFavTrans.length - 1). abajo obj_bible_files: '`);
                                     //console.log(obj_bible_files); 
                                     let tamanio = obtenerTamanioObjeto(obj_bible_files);
@@ -625,7 +625,7 @@ function loadAllFavBibleFiles(){
                         
                     }else{
                         i_book++;
-                        console.log(`aumentado i_book: ${i_book}`);
+                        //console.log(`aumentado i_book: ${i_book}`);
                         for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
                     }
 
@@ -639,7 +639,7 @@ function loadAllFavBibleFiles(){
         }else{
             if(i_trans < arrFavTrans.length){
                 i_trans++;
-                console.log('else ---aumento i_trans ya que existe este trans en obj_bible_files: ');
+                //console.log('else ---aumento i_trans ya que existe este trans en obj_bible_files: ');
                 for_eachTrans(i_trans, arrFavTrans);
             }
         }
@@ -648,7 +648,7 @@ function loadAllFavBibleFiles(){
 
 //TSK
 function loadAllFavTskFiles(){
-    console.log('===function loadAllFavTskfiles()===');
+    //console.log('===function loadAllFavTskfiles()===');
     
     //si ya está creado el objeto...
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
@@ -757,7 +757,7 @@ function loadAllFavTskFiles(){
                             }
                             
                             if(i_tsk == arrFavTsk.length){
-                                console.log('9. final  --- (i_book == data.Books.length )');
+                                //console.log('9. final  --- (i_book == data.Books.length )');
                                 //console.log(`i_tsk: ${i_tsk}) --- (i_tsk == arrFavTsk.length - 1). abajo obj_tsk_files: '`);
                                 //console.log(obj_tsk_files);                
                                 let tamanio = obtenerTamanioObjeto(obj_tsk_files);
@@ -791,7 +791,7 @@ function loadAllFavTskFiles(){
 
 //STRONG
 function loadAllFavStrongFiles(){
-    console.log('===function loadAllFavStrongFiles()===');
+    //console.log('===function loadAllFavStrongFiles()===');
     
     let arrFavStrongLangs = [
         'hebrew',
@@ -853,7 +853,7 @@ function loadAllFavStrongFiles(){
                 //console.log('fin for');
                 //console.log('9. final  --- (i_strong == arrFavStrongLangs.length )');
                 //console.log(`i_strong: ${i_strong}) --- es ultimo elemento. abajo obj_strong_files: `);
-                console.log('obj_strong_files: ',obj_strong_files);
+                //console.log('obj_strong_files: ',obj_strong_files);
 
                 let tamanio = obtenerTamanioObjeto(obj_strong_files);
                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
@@ -898,9 +898,13 @@ function loadDefaultFunctions() {
     addTab('Mat. 5:3', 'rstStrongRed');
 
     addTab('Ex. 2:2', 'rstStrongRed,rv60');
-    addTab('Psa. 3:1', 'rsti2,rv60,ukr_hom,ukr_umts');
-    addTab('Psa. 9:20', 'rstStrongRed,rv60,ukr_hom,ukr_umts');
-    addTab('Пс. 7:1', 'rstStrongRed,rv60,lbla,ukr_hom,ukr_umts');
+
+    addTab('Psa. 22:1', 'rstStrongRed,nrt,abi');
+    addTab('Psa. 23:1', 'rv60,lbla,ukr_hom,ukr_der,ukr_umts');
+    
+    addTab('Psa. 22:2', 'rstStrongRed,rv60,lbla,ukr_hom,ukr_der,ukr_umts');
+    addTab('Psa. 23:3', 'rv60,rstStrongRed,nrt,abi');
+
 
     addTab('Числ. 13:1', 'rstStrongRed,rv60');
     addTab('Числ. 12:1', 'rv60,rstStrongRed');
@@ -989,7 +993,7 @@ function changeModo(param){
         eid_m_btnByText.classList.add('btn_active');
         eid_m_btnByJson.classList.remove('btn_active');
     }
-    console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
+    //console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
     //alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
     closeModal();
 }
@@ -1016,7 +1020,7 @@ function showTooltip(el){
     el.innerHTML += this_ttt_html;
     
     if(el.innerHTML.includes('<a ') && el.innerHTML.includes('</a>')){
-        console.log('showTooltip contiene a');
+        //console.log('showTooltip contiene a');
 
 
         let parent_p = el.parentElement.parentElement;
@@ -1031,8 +1035,8 @@ function showTooltip(el){
         el.querySelectorAll('.tooltiptext .text a').forEach(el_a =>{
             el_a.addEventListener('click',(ev)=>{
                 ev.preventDefault(); 
-                console.log(el_a.innerHTML);
-                console.log(el_a.href);
+                //console.log(el_a.innerHTML);
+                //console.log(el_a.href);
                 addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
                 getRefByHref(el_a.getAttribute('href'),'/',1);
             });
@@ -1364,7 +1368,7 @@ eid_wrapper.ontouchmove = function(e) {
         /* do drag things */ 
         eid_sidebar.removeAttribute('class');
         eid_sidebar.style.width = e.touches[0].pageX - 3 + 'px';
-        console.log('eid_wrapper.ontouchmove');
+        //console.log('eid_wrapper.ontouchmove');
     }
 };
 eid_v_line.ontouchend = function() { 
@@ -1551,13 +1555,13 @@ function setBaseEnglishPsalms(){
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
-        console.log('error promesa: '+error);
+        console.error('error promesa: '+error);
     });
 }
 
 
 function getTsk(e){
-    console.log('===function getTsk(e)===');
+    //console.log('===function getTsk(e)===');
     
     //console.log(e);
     let el = e.srcElement.parentElement;
@@ -1719,7 +1723,7 @@ function getTsk(e){
                 
                                 tb_arr_links.forEach((el,i)=>{
                                     
-                                    console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                                    //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
                                     
                                     let tb_iter = i;
                 
@@ -2334,7 +2338,7 @@ function getTsk(e){
                                                     })
                                                     .catch(error => { 
                                                         // Código a realizar cuando se rechaza la promesa
-                                                        console.log('4. error promesa: '+error);
+                                                        console.error('4. error promesa: '+error);
                                                     });
 
                                                 }//end else
@@ -2372,11 +2376,11 @@ function getTsk(e){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('2. error promesa tsk: '+error);
+                            console.error('2. error promesa tsk: '+error);
                         });
 
                     }else{
-                        console.log('No coincide el nombre del fichero o fileContent está vacío');
+                        //console.log('No coincide el nombre del fichero o fileContent está vacío');
                     }
                 }
             }
@@ -2812,7 +2816,7 @@ function getTsk(e){
                                        
                                         //todo el libro
                                         if(modo_fetch_verses_for_tsk_block == 'by_text'){
-                                            console.log('modo_fetch_verses_for_tsk_block == by_text');
+                                            //console.log('modo_fetch_verses_for_tsk_block == by_text');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
@@ -3090,7 +3094,7 @@ function getTsk(e){
                                             })
                                             .catch(error => { 
                                                 // Código a realizar cuando se rechaza la promesa
-                                                console.log('2.2210 error promesa: '+error);
+                                                console.error('2.2210 error promesa: '+error);
                                             });
 
                                         }// end modo_fetch_verses_for_tsk_block old
@@ -3098,7 +3102,7 @@ function getTsk(e){
 
                                         //por php solo el capitulo
                                         if(modo_fetch_verses_for_tsk_block == 'by_json'){
-                                            console.log('modo_fetch_verses_for_tsk_block == by_json');
+                                            //console.log('modo_fetch_verses_for_tsk_block == by_json');
 
                                             //url del libro necesario
                                             url = `modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
@@ -3371,7 +3375,7 @@ function getTsk(e){
                                             })
                                             .catch(error => { 
                                                 // Código a realizar cuando se rechaza la promesa
-                                                console.log('2.new 2662 error promesa: '+error);
+                                                console.error('2.new 2662 error promesa: '+error);
                                             });
 
                                         }// end modo_fetch_verses_for_tsk_block by_json
@@ -3411,7 +3415,7 @@ function getTsk(e){
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                console.log('2. error promesa tsk: '+error);
+                console.error('2. error promesa tsk: '+error);
             });
 
         }//end - //si no existe objeto con Translation. hago fetch()
@@ -3419,7 +3423,7 @@ function getTsk(e){
     }else{//modo old
 
         //alert('tsk modo old');
-        console.log('tsk modo old');
+        //console.log('tsk modo old');
 
         url = `modules/text/tsk/bibleqt.json`;//tsk'; 
         fetch(url)
@@ -3842,7 +3846,7 @@ function getTsk(e){
                                             })
                                             .catch(error => { 
                                                 // Código a realizar cuando se rechaza la promesa
-                                                console.log('4. error promesa: '+error);
+                                                console.error('4. error promesa: '+error);
                                             });
                                             break;
                                         }
@@ -3854,7 +3858,7 @@ function getTsk(e){
                             })
                             .catch(error => { 
                                 // Código a realizar cuando se rechaza la promesa
-                                console.log('3. error promesa: '+error);
+                                console.error('3. error promesa: '+error);
                             });
         
                         });//fin forEach de tb_arr_links
@@ -3883,12 +3887,12 @@ function getTsk(e){
                 })
                 .catch(error => { 
                     // Código a realizar cuando se rechaza la promesa
-                    console.log('2. error promesa: '+error);
+                    console.error('2. error promesa: '+error);
                 });
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            console.log('1. error promesa: '+error);
+            console.error('1. error promesa: '+error);
         });
 
     }//end else de modo old
@@ -3913,8 +3917,8 @@ function showTextInAllDivShow(text){
 
 
 function showChapterText4(Translation, divId, book, chapter, verseNumber = null, to_verseNumber = null, verseView = null, indexColToBuild = null){
-    console.log('');
-    console.log('=== function showChapterText4() new === divId: ' + divId);
+    //console.log('');
+    //console.log('=== function showChapterText4() new === divId: ' + divId);
 
     if(modo_fetch_verses_for_cols == 'by_text'){
         viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild);
@@ -3928,7 +3932,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
 
 function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
-    console.log('=== viaByText_showChapterText4 ===');
+    //console.log('=== viaByText_showChapterText4 ===');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -3957,7 +3961,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     if(Translation != null){
                 
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
-        console.log('objTrans: ',objTrans);
+        //console.log('objTrans: ',objTrans);
 
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
@@ -4068,7 +4072,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
                                         let only_verses_length = nb_chapter_verses.length - 1;
                                         //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
-                                        // console.log('only_ divId: '+divId);
+                                        //console.log('only_ divId: '+divId);
             
                                         if(divId == '#col1'){
                                             window.col1_p_length = only_verses_length;
@@ -5195,13 +5199,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     //mostrarTamanioObjeto(obj_bible_files);
 
                                 })
-                                .catch((error) => {
+                                .catch(error => {
                                     // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.log('error promesa en myPromise con obj_bible_files. error: '+error);
+                                    console.error('error promesa en myPromise con obj_bible_files. error: '+error);
                                 });
 
                             }else{
-                                console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                //console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
 
                         }else{
@@ -5280,7 +5284,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             let only_verses_length = nb_chapter_verses.length - 1;
                             //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
-                            // console.log('only_ divId: '+divId);
+                            //console.log('only_ divId: '+divId);
 
                             if(divId == '#col1'){
                                 window.col1_p_length = only_verses_length;
@@ -6419,7 +6423,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     })
                     .catch(error => { 
                         //Código a realizar cuando se rechaza la promesa
-                        console.log('error promesa en fetch() con obj_bible_files. error: '+error);
+                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
                     });                    
                 }
                 //console.log('despues de fetch --- abajo obj_bible_files:');
@@ -6460,7 +6464,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     
         }else{//MODO OLD. como en Text3()
             
-            console.log('MODO OLD. como en Text3(). hago fetch() para sacar texto del capítulo');
+            //console.log('MODO OLD. como en Text3(). hago fetch() para sacar texto del capítulo');
 
             //saco ajustes de este modulo en json
             url_bq = `modules/text/${Translation}/bibleqt.json`;
@@ -6496,7 +6500,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         }
         
                         arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                        console.log('6343. arrDataDivShow: ',arrDataDivShow);
+                        //console.log('6343. arrDataDivShow: ',arrDataDivShow);
         
                         //si es ultimo elemento del array...
                         if(countElementsInArray(arrDataDivShow) == arr_trans.length){
@@ -6557,7 +6561,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             let only_verses_length = nb_chapter_verses.length - 1;
                             //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
-                            // console.log('only_ divId: '+divId);
+                            //console.log('only_ divId: '+divId);
 
                             if(divId == '#col1'){
                                 window.col1_p_length = only_verses_length;
@@ -7677,9 +7681,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
                     })
-                    .catch((error) => {
+                    .catch(error => {
                         // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                        console.log('error promesa en fetch() modo old. error: '+error);
+                        console.error('error promesa en fetch() modo old. error: '+error);
                     });
 
                 }else{//si no está el id de book en el modulo...
@@ -7697,14 +7701,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }            
             })
             .catch(error => {
-                console.log('14212. Error: ', error);
+                console.error('14212. Error: ', error);
             });
 
         }//fin - modo old
 
     }//end --- typeof Translation
     else{
-        console.log('la traducción no está seleccionada. Translation: '+Translation); 
+        //console.log('la traducción no está seleccionada. Translation: '+Translation); 
         //alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
     }    
 
@@ -7716,7 +7720,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
 function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
-    console.log('=== viaByJson_showChapterText4 === ');
+    //console.log('=== viaByJson_showChapterText4 === ');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -7749,7 +7753,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
         
         if(typeof objTrans == 'undefined'){
-            console.log('objTrans todavia no existe. return false.');
+            //console.log('objTrans todavia no existe. return false.');
             return false;//test
         }
 
@@ -7784,7 +7788,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }
 
                 arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                console.log('7588. arrDataDivShow: ',arrDataDivShow);
+                //console.log('7588. arrDataDivShow: ',arrDataDivShow);
 
                 //si es ultimo elemento del array...
                 if(countElementsInArray(arrDataDivShow) == arr_trans.length){
@@ -7851,7 +7855,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                     let only_verses_length = nb_chapter_verses.length - 1;
                     //console.log(`Translation: ${divId} --- divId: ${divId} --- book: ${book} --- chapter: ${chapter} --- only_verses_length: ${only_verses_length}`);
-                    // console.log('only_ divId: '+divId);
+                    //console.log('only_ divId: '+divId);
 
                     if(divId == '#col1'){
                         window.col1_p_length = only_verses_length;
@@ -9035,9 +9039,9 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                 mySizeVerse();
                 addListenerToPA();//listen links p > a
             })
-            .catch((error) => {
+            .catch(error => {
                 // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                console.log('error promesa en fetch() modo old. error: '+error);
+                console.error('error promesa en fetch() modo old. error: '+error);
             });
 
         }else{//si no está el id de book en el modulo...
@@ -9057,7 +9061,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
     }//end --- typeof Translation
     else{
-        console.log('la traducción no está seleccionada. Translation: '+Translation); 
+        //console.log('la traducción no está seleccionada. Translation: '+Translation); 
         //alert(`La traducción no está seleccionada. Selecciónala presionando sobre el símbolo '+' o nombre corto de la traducción.`);       
     }
 
@@ -9742,9 +9746,9 @@ function getActTrans(){
 }
 
 function changeTransNav(trans, idCol_trans){
-    // console.log('=== function changeTransNav ===');
-    // console.log('trans to change en nav. trans: '+trans);
-    // console.log('trans to change en nav. idCol_trans: '+idCol_trans);
+    //console.log('=== function changeTransNav ===');
+    //console.log('trans to change en nav. trans: '+trans);
+    //console.log('trans to change en nav. idCol_trans: '+idCol_trans);
 
     if(typeof trans == 'undefined'){
         trans = eid_trans1.dataset.trans;
@@ -9787,12 +9791,12 @@ function changeTransNav(trans, idCol_trans){
                     let to_verseNumber = res_new_link[3];
                     let trans_BookShortName = res_new_link[4];
                     
-                    // console.log('---despues---');
-                    // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                    // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                    // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                    // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);
+                    //console.log('---despues---');
+                    //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                    //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                    //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                    //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                    //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);
 
                     let new_ref_text = trans_BookShortName;
                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -9820,7 +9824,7 @@ function changeTransNav(trans, idCol_trans){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
 
 }
@@ -10123,9 +10127,9 @@ function mySizeWindow() {
         eid_sidebar.removeAttribute('class');
     }
     let marginSidebar_h = marginSidebar * 2;//arriba y abajo
-    // console.log('window_w: '+window_w);
-    // console.log('pantalla: '+pantalla);
-    // console.log('marginSidebar: '+marginSidebar);
+    //console.log('window_w: '+window_w);
+    //console.log('pantalla: '+pantalla);
+    //console.log('marginSidebar: '+marginSidebar);
 
 
     let wrCols_h = 
@@ -10134,8 +10138,8 @@ function mySizeWindow() {
     - footer_h //46
     - headerContainer_h
     ;
-    // console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
-    // console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
+    //console.log('formula: window_h - + header_h - footer_h - marginSidebar_h = wrCols_h');
+    //console.log('wrCols_h: ' + window_h +' - ' + header_h +' - ' + footer_h +' = ' + wrCols_h );
 
     let sidebar_h = 
       window_h //960
@@ -10266,7 +10270,7 @@ function mySizeNav(){
     ;
     eid_sidebarInner.style.height = sidebarInner_h + 'px';
     eid_nav_body.style.height = nav_body_h + 'px';
-    // console.log('nav_body_h: '+nav_body_h);    
+    //console.log('nav_body_h: '+nav_body_h);    
 }
 
 function mySizeFind(){
@@ -10338,8 +10342,8 @@ function mySizeStrong(){
         }
     }
     let padding_StrongCard = 2;//siempre 2px por el border
-    // console.log('hasStrongCard: '+hasStrongCard);
-    // console.log('padding_StrongCard: '+padding_StrongCard);
+    //console.log('hasStrongCard: '+hasStrongCard);
+    //console.log('padding_StrongCard: '+padding_StrongCard);
 
     let strong_body_h = 
       sidebar_h
@@ -10599,7 +10603,7 @@ function addTrans(addMode = null){
         
         if(addMode == 'askForTrans'){
             //propongo selección del modulo
-            console.log('addMode: ',addMode);
+            //console.log('addMode: ',addMode);
             openModal('full','Избранныe модули Библии',htmlTrans,'showModules');//contiene dentro selectModule2()
         }else{
             //no hago nada. añado col vacio
@@ -10734,7 +10738,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
             arr_str_trans.push(el.dataset.trans); 
         });
         str_trans = arr_str_trans.join();
-        console.log('new str_trans: '+str_trans);
+        //console.log('new str_trans: '+str_trans);
     }
 
     if(countTabs < maxTabs){
@@ -10961,12 +10965,12 @@ function selChapter(e, show_chapter = null){
                 let to_verseNumber = res_new_link[3];
                 let trans_BookShortName = res_new_link[4];
                 
-                // console.log('---despues---');
-                // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                //console.log('---despues---');
+                //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
 
                 let new_ref_text = trans_BookShortName;
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -11098,12 +11102,12 @@ function selVerse(e){
                 let to_verseNumber = res_new_link[3];
                 let trans_BookShortName = res_new_link[4];
                 
-                // console.log('---despues---');
-                // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                //console.log('---despues---');
+                //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
 
                 let new_ref_text = trans_BookShortName;
                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -11151,7 +11155,7 @@ function selVerse(e){
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
 function sel(e, par, show_chapter = null, trans = null){
-    console.log('===function sel()===');
+    //console.log('===function sel()===');
     
     let trans_base = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
@@ -11174,9 +11178,9 @@ function sel(e, par, show_chapter = null, trans = null){
         //console.log(this_trans_obj);
     }
 
-    // console.log(' === en function sel(). trans1 (trans_base): '+trans_base);
-    // console.log(' === en function sel(). param trans: '+trans);
-    // console.log(' === en function sel(). trans2 (inpt): '+eid_inpt_nav.dataset.trans);
+    //console.log(' === en function sel(). trans1 (trans_base): '+trans_base);
+    //console.log(' === en function sel(). param trans: '+trans);
+    //console.log(' === en function sel(). trans2 (inpt): '+eid_inpt_nav.dataset.trans);
 
     document.querySelectorAll('.v_bcv').forEach(el=>{
         el.classList.remove('bcv_active');
@@ -11389,7 +11393,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('error promesa myPromise_b: '+error);
+                            console.error('error promesa myPromise_b: '+error);
                         });
 
                     }else{//modo old. no existe arrFavTransObj
@@ -11564,7 +11568,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            //console.log('error promesa: '+error);
+                            console.error('error promesa: '+error);
                         });
 
                     }
@@ -11614,12 +11618,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                     let to_verseNumber = res_new_link[3];
                                     let trans_BookShortName = res_new_link[4];
                                     
-                                    // console.log('---despues---');
-                                    // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                    // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                    // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                    // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                    // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                    //console.log('---despues---');
+                                    //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                    //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                    //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                    //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                    //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
             
                                     let new_ref_text = trans_BookShortName;
                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -11676,7 +11680,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('error promesa chapter. error: '+error);
+                            console.error('error promesa chapter. error: '+error);
                         });
             
                     }else{//modo old. no existe arrFavTransObj
@@ -11713,12 +11717,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                         let to_verseNumber = res_new_link[3];
                                         let trans_BookShortName = res_new_link[4];
                                         
-                                        // console.log('---despues---');
-                                        // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                        // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                        //console.log('---despues---');
+                                        //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                        //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                 
                                         let new_ref_text = trans_BookShortName;
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -11778,13 +11782,13 @@ function sel(e, par, show_chapter = null, trans = null){
                             })
                             .catch(error => { 
                                 // Código a realizar cuando se rechaza la promesa
-                                //console.log('error promesa module: '+error);
+                                console.error('error promesa module: '+error);
                             });
 
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            //console.log('error promesa chapter: '+error);
+                            console.error('error promesa chapter: '+error);
                         });
             
                     }
@@ -11848,12 +11852,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     let to_verseNumber = res_new_link[3];
                                                     let trans_BookShortName = res_new_link[4];
                                                     
-                                                    // console.log('---despues---');
-                                                    // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                                    // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                                    // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                                    // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                                    // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                                    //console.log('---despues---');
+                                                    //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                                    //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                    //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                                    //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                                    //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                             
                                                     let new_ref_text = trans_BookShortName;
                                                     if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -11906,7 +11910,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                             eid_v_verse.append(wr_grid_v);
             
                                         }else{
-                                            console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                            //console.log('No coincide el nombre del fichero o fileContent está vacío');
                                         }
             
                                     }
@@ -11960,12 +11964,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 let to_verseNumber = res_new_link[3];
                                                 let trans_BookShortName = res_new_link[4];
                                                 
-                                                // console.log('---despues---');
-                                                // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                                // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                                //console.log('---despues---');
+                                                //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                                //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                         
                                                 let new_ref_text = trans_BookShortName;
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -12029,13 +12033,13 @@ function sel(e, par, show_chapter = null, trans = null){
                                     })
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
-                                        console.log('error promesa: '+error);
+                                        console.error('error promesa: '+error);
                                     });    
 
 
                                 }else{
                                     
-                                    console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
+                                    //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
 
                                     let url = './modules/text/'+trans+'/' + chapter_PathName;// "./modules/text/rstStrongRed/02_exodus.htm"
                                     fetch(url)
@@ -12061,12 +12065,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 let to_verseNumber = res_new_link[3];
                                                 let trans_BookShortName = res_new_link[4];
                                                 
-                                                // console.log('---despues---');
-                                                // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                                // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                                // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                                //console.log('---despues---');
+                                                //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                                //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                                //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                         
                                                 let new_ref_text = trans_BookShortName;
                                                 if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -12083,7 +12087,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                         }
                                 
                                         window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
-                                        // console.log('abajo arr_verses');
+                                        //console.log('abajo arr_verses');
                                         //console.log(arr_verses);
                         
                                         eid_v_verse.innerHTML = '';//reset botones de versiculos
@@ -12132,7 +12136,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     })
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
-                                        console.log('error promesa: '+error);
+                                        console.error('error promesa: '+error);
                                     });    
 
                                 }                                
@@ -12156,7 +12160,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('error promesa: '+error);
+                            console.error('error promesa: '+error);
                         });//end myPromise_v
             
                     }else{//modo old. no existe arrFavTransObj
@@ -12194,12 +12198,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                         let to_verseNumber = res_new_link[3];
                                         let trans_BookShortName = res_new_link[4];
                                         
-                                        // console.log('---despues---');
-                                        // console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                        // console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                        // console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
+                                        //console.log('---despues---');
+                                        //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                                        //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                        //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
                 
                                         let new_ref_text = trans_BookShortName;
                                         if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
@@ -12263,13 +12267,13 @@ function sel(e, par, show_chapter = null, trans = null){
                             })
                             .catch(error => { 
                                 // Código a realizar cuando se rechaza la promesa
-                                console.log('error promesa: '+error);
+                                console.error('error promesa: '+error);
                             });
 
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('error promesa: '+error);
+                            console.error('error promesa: '+error);
                         });
             
                     }
@@ -12316,7 +12320,7 @@ function getRefForTsk(Translation, bookShortName){
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
-        //console.log('error promesa: '+error);
+        console.error('error promesa: '+error);
     });
     return bookNumber;
 }
@@ -12568,7 +12572,7 @@ function getRef(trans = null){
                         
                         //modo old. getting all file '01genesis.htmn' and showing only needed verses (with .split())
                         if(modo_fetch_verses_for_cols == 'by_text'){
-                            console.log('modo_fetch_verses_for_cols == by_text');
+                            //console.log('modo_fetch_verses_for_cols == by_text');
 
                                                         
                             //verse
@@ -12625,7 +12629,7 @@ function getRef(trans = null){
                             //meto Gen.1:1 en los head de cada trans
                             document.querySelectorAll('.partMob .mob_sh_link').forEach(el => {
                                 let verse_to_show = (verse > 0) ? parseInt(verse) : 1;
-                                putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
 
                             showTrans(n_book, chapter, verse, to_verse);
@@ -12648,7 +12652,7 @@ function getRef(trans = null){
 
                         //modo new. getting only verses to show by json
                         if(modo_fetch_verses_for_cols == 'by_json'){
-                            console.log('modo_fetch_verses_for_cols == by_json');
+                            //console.log('modo_fetch_verses_for_cols == by_json');
                             
                             //1. solo hay capitulo y no hay verse //funciona
                             if(chapter && verse == null){//no hay verse //funciona
@@ -12679,7 +12683,7 @@ function getRef(trans = null){
                                 //meto Gen.1:1 en los head de cada trans
                                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
                                     let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                    putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                    putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                 });
 
                                 
@@ -12765,7 +12769,7 @@ function getRef(trans = null){
                                     //meto Gen.1:1 en los head de cada trans
                                     document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
                                         let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                        putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                        putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                     });
 
                                     //meto ref encontrado en el historial de navegacion
@@ -12790,7 +12794,7 @@ function getRef(trans = null){
                                 })
                                 .catch(error => { 
                                     // Código a realizar cuando se rechaza la promesa
-                                    console.log('VerseQty. error promesa: '+error);
+                                    console.error('VerseQty. error promesa: '+error);
                                 });
 
                             }
@@ -12808,10 +12812,10 @@ function getRef(trans = null){
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
             alert(0);//no entra nunca ya que tengo objeto arrFavTransObj
-            console.log('modo old --- en getRef() ');
+            //console.log('modo old --- en getRef() ');
 
             let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
-            console.log('modo old --- en getRef() --- url: '+ url);
+            //console.log('modo old --- en getRef() --- url: '+ url);
             fetch(url)
             .then(response => {
               return response.json(); // Devuelve una promesa
@@ -12956,7 +12960,7 @@ function getRef(trans = null){
                             //meto Gen.1:1 en los head de cada trans
                             document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
                                 let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                putRefvisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
+                                putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
     
                             showTrans(n_book, chapter, verse, to_verse);
@@ -12970,7 +12974,7 @@ function getRef(trans = null){
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                //console.log('error promesa: '+error);
+                console.error('error promesa: '+error);
             });
 
         }
@@ -13116,7 +13120,7 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
     }else{
         //console.log('no existe book');
@@ -13217,7 +13221,7 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
     }else{
         //console.log('no existe book');
@@ -13373,7 +13377,7 @@ function addListenerModule(){
 
 
 function hist(param){
-    console.log('funcion en desarrollo. param: '+param);
+    //console.log('funcion en desarrollo. param: '+param);
 }
 
 
@@ -13441,7 +13445,7 @@ function bookGo(dir){
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = next_id_book;
@@ -13475,7 +13479,7 @@ function bookGo(dir){
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = prev_id_book;
@@ -13490,7 +13494,7 @@ function bookGo(dir){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
 
     }else{//MODO OLD. si hace falta!
@@ -13527,7 +13531,7 @@ function bookGo(dir){
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = next_id_book;
@@ -13561,7 +13565,7 @@ function bookGo(dir){
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = prev_id_book;
@@ -13576,7 +13580,7 @@ function bookGo(dir){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
 
     }
@@ -13663,7 +13667,7 @@ function chapterGo(dir){
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = next_id_book;
@@ -13702,7 +13706,7 @@ function chapterGo(dir){
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = prev_id_book;
@@ -13721,7 +13725,7 @@ function chapterGo(dir){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
 
     }else{//MODO OLD. si hace falta!
@@ -13768,7 +13772,7 @@ function chapterGo(dir){
                 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = next_id_book;
@@ -13805,7 +13809,7 @@ function chapterGo(dir){
 
                 //meto Gen.1:1 en los head de cada trans
                 document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefvisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
                 obj_nav.id_book = prev_id_book;
@@ -13822,7 +13826,7 @@ function chapterGo(dir){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            //console.log('error promesa: '+error);
+            console.error('error promesa: '+error);
         });
 
     }
@@ -13948,7 +13952,7 @@ function makeTskObj(){
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            console.log('makeTskObj. error promesa: '+error);
+            console.error('makeTskObj. error promesa: '+error);
         });        
     }
 
@@ -14476,7 +14480,7 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
-        //console.log('error promesa strong: '+error);
+        console.error('error promesa strong: '+error);
     });
 }
 
@@ -14566,7 +14570,9 @@ function guardWordsFind(words){
                 //getGuardWordsFind();
             }
         })
-        .catch(error => console.log('error de guard: '+ error));    
+        .catch(error => {
+            console.log('error de guard: '+ error)
+        });    
     }
 }
 
@@ -14857,8 +14863,8 @@ function findWords(words_input){
                                     obj_bible_files[Translation].Books[book].fileContent != ' '
                                 ){
 
-                                    console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
-                                    console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
+                                    //console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
+                                    //console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
                                     
                                     // Registra el tiempo de inicio
                                     const tiempoInicio = new Date().getTime();
@@ -15825,11 +15831,11 @@ function findWords(words_input){
                                     })                                
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
-                                        console.log('2. error promesa find: '+error);
+                                        console.error('2. error promesa find: '+error);
                                     });
 
                                 }else{
-                                    console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                    //console.log('No coincide el nombre del fichero o fileContent está vacío');
                                 }
 
                             }
@@ -15840,7 +15846,7 @@ function findWords(words_input){
                     //si no existe objeto obj_bible_files con Translation. hago fetch()
                     if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
 
-                        console.log(' --- NO EXISTE objeto obj_bible_files con Translation. hago fetch() --- ');
+                        //console.log(' --- NO EXISTE objeto obj_bible_files con Translation. hago fetch() --- ');
                         //console.log('abajo bq: ');
                         //console.log(bq);
 
@@ -16801,11 +16807,11 @@ function findWords(words_input){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('2. error promesa find: '+error);
+                            console.error('2. error promesa find: '+error);
                         }); 
                         
                         /*if(window.doFind){
-                            console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
+                            //console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
                         }else{
                             alert(index+') fin for. stop doFind. window.doFind: '+window.doFind);
                             break;
@@ -16818,7 +16824,7 @@ function findWords(words_input){
 
         }else{//MODO OLD. como en Text3()
             
-            console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
+            //console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
 
             fetch(`modules/text/${Translation}/bibleqt.json`)
             .then((response) => response.json())
@@ -17789,11 +17795,11 @@ function findWords(words_input){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.log('2. error promesa find: '+error);
+                            console.error('2. error promesa find: '+error);
                         }); 
                         
                         /*if(window.doFind){
-                            console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
+                            //console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
                         }else{
                             alert(index+') fin for. stop doFind. window.doFind: '+window.doFind);
                             break;
@@ -17809,13 +17815,13 @@ function findWords(words_input){
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                console.log('error promesa find: '+error);
+                console.error('error promesa find: '+error);
             });
 
         }
 
     }else{
-        console.log('Translation no está seleccionada');
+        //console.log('Translation no está seleccionada');
     }
     
 }//end - findWords()
@@ -18627,10 +18633,10 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
     let verseNumber = verse;
     let to_verseNumber = to_verse;
 
-    // console.log('0. antes bookNumber: '+bookNumber);//empezando de 1
-    // console.log('0. antes chapterNumber: '+chapterNumber);//empezando de 1
-    // console.log('0. antes verseNumber: '+verseNumber);//empezando de 1
-    // console.log('0. antes to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
+    //console.log('0. antes bookNumber: '+bookNumber);//empezando de 1
+    //console.log('0. antes chapterNumber: '+chapterNumber);//empezando de 1
+    //console.log('0. antes verseNumber: '+verseNumber);//empezando de 1
+    //console.log('0. antes to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
 
 
     if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
@@ -18660,11 +18666,11 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             verseNumber = new_result[2];
             to_verseNumber = new_result[3];
 
-            // console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
-            // console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
-            // console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
-            // console.log('1. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
-            // console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
+            //console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
+            //console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
+            //console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
+            //console.log('1. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber 
+            //console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
         }
 
         //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
@@ -18681,11 +18687,11 @@ function checkRefNav(book, chapter = null, verse = null, to_verse = null){
             verseNumber = new_result[2];
             to_verseNumber = new_result[3];
 
-            // console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
-            // console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
-            // console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
-            // console.log('2. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-            // console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
+            //console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
+            //console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
+            //console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
+            //console.log('2. ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+            //console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
         }
 
         let result = [bookNumber, chapterNumber, verseNumber, to_verseNumber, trans_BookShortName];
@@ -18816,13 +18822,13 @@ function pintRefOnScroll(){
                 //console.log("primerElementoVisible.tagName: " + primerElementoVisible.tagName);
                 //console.log(primerElementoVisible.querySelector('a').innerHTML);
                 if(colsAll_length > 0){
-                    putRefvisibleToHead(primerElementoVisible.id,0);//añado ref de todos cols en el header de trans
+                    putRefVisibleToHead(primerElementoVisible.id,0);//añado ref de todos cols en el header de trans
                 }
             }else if(primerElementoVisible.tagName === 'H4' || primerElementoVisible.tagName === 'H2'){
                 //console.log("else if --- primerElementoVisible.tagName: " + primerElementoVisible.tagName);
                 let p_first = eid_col1.querySelector('.colsInner p');
                 if(colsAll_length > 0){
-                    putRefvisibleToHead(p_first.id,0);
+                    putRefVisibleToHead(p_first.id,0);
                 }    
             }  
         }
@@ -18831,23 +18837,34 @@ function pintRefOnScroll(){
 
 
 //Si startingFromIndexCol es 0 se actualizan todos los heads, si es 1 -> todos menos cols[0] que es #col1
-function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0__1__1 // trans__book__chapter__verse
-    //console.log('=== function putRefvisibleToHead(ref) ===');
+function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0__1__1 // trans__book__chapter__verse
+    //console.log('=== function putRefVisibleToHead(ref) ===');
     //console.log('id_ref: ' +id_ref);
     //console.log('startingFromIndexCol: ' +startingFromIndexCol);
+
     let arr_ref = id_ref.split('__');
     let bookNumber = arr_ref[1];
     let chapterNumber = arr_ref[2];
     let verseNumber = arr_ref[3];
+
+    let bookNumber_init = bookNumber;
+    let chapterNumber_init = chapterNumber;
+    let verseNumber_init = verseNumber;
     
     let colsAll = document.querySelectorAll('.cols');
 
     colsAll.forEach((el,i)=>{
         //console.log(el);
 
+        //vuelvo a cojer valores iniciales para no calcular otra vez y resetear el valor cambiado por el código abajo (si es cambiado)
+        bookNumber = bookNumber_init;
+        chapterNumber = chapterNumber_init;
+        verseNumber = verseNumber_init;    
+
         //si no es #col1
         if(i >= startingFromIndexCol){
 
+            let trans_base = eid_trans1.dataset.trans;//importante para cojer el valor actual
             let trans_head = el.querySelector('.colsHead').dataset.trans;
 
             // preparo le ref
@@ -18894,10 +18911,10 @@ function putRefvisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                     chapterNumber = new_result[1];
                     verseNumber = new_result[2];
 
-                    // console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
-                    // console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    // console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
-                    // console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
+                    //console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
+                    //console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
+                    //console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
+                    //console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
                 }
 
                 //console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
@@ -19060,12 +19077,12 @@ function pageDown() {
 function bbb(n){
 
     document.querySelectorAll('.colsInner').forEach(el=>{
-        console.log('voy al :nth-child: '+n);
+        //console.log('voy al :nth-child: '+n);
 
             el.querySelector(`:nth-child(${n})`)
             //.scrollIntoView();
             .scrollIntoView({behavior: "smooth",block: "start",inline: "nearest"});
-            console.log('end -- voy al :nth-child: '+n);
+            //console.log('end -- voy al :nth-child: '+n);
     });
  return n;
 }
@@ -19087,7 +19104,7 @@ async function obtenerDatosDeAPI() {
       const datos = await respuesta.text();
   
       // Haz algo con los datos, por ejemplo, imprímelos en la consola
-      console.log(datos);
+      //console.log(datos);
   
       // Puedes realizar más acciones aquí con los datos obtenidos
   

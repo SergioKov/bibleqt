@@ -6,8 +6,8 @@ fnTextToJson('h2','h4','p');
 
 function fnTextToJson(tagBook = null,tagChapter,tagVerse){
 
-    console.log('abajo arr_books');
-    console.log(arr_books);
+    //console.log('abajo arr_books');
+    //console.log(arr_books);
     
     var bible = {};
    
@@ -99,7 +99,7 @@ function fnTextToJson(tagBook = null,tagChapter,tagVerse){
     });
     
     
-    console.log(bible);  
+    //console.log(bible);  
     return bible;      
 }
 

@@ -1,6 +1,6 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-    console.log('===function openModal()===');
-    console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
+    //console.log('===function openModal()===');
+    //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
     //Reset
     eid_myModalContent.removeAttribute('class');
@@ -52,21 +52,21 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                 case 'buildVerseMenu':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar buildVerseMenu()');
+                    //console.log('aki llamar buildVerseMenu()');
                     buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
                     break;
 
                 case 'showAviso':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar showAviso()');
+                    //console.log('aki llamar showAviso()');
                     //alert('aki showAviso()');
                     showAviso(htmlTrans, param);//es arr_p_id en este caso
                     break;
             
             
                 default:
-                    console.log('indica action en openModal()');
+                    //console.log('indica action en openModal()');
                     break;
             }
             break;
@@ -83,13 +83,13 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                 case 'buildVerseMenu':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar buildVerseMenu()');
+                    //console.log('aki llamar buildVerseMenu()');
                     buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
                     break;
             
             
                 default:
-                    console.log('indica action en openModal()');
+                    //console.log('indica action en openModal()');
                     break;
             }
             break;
@@ -113,21 +113,21 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                 case 'showHistoryNav':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar showHistoryNav()');
+                    //console.log('aki llamar showHistoryNav()');
                     showHistoryNav();
                     break;
             
                 case 'showHistoryFind':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar showHistoryFind()');
+                    //console.log('aki llamar showHistoryFind()');
                     showHistoryFind();
                     break;
             
                 case 'showHistoryStrong':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll 
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar showHistoryStrong()');
+                    //console.log('aki llamar showHistoryStrong()');
                     showHistoryStrong();
                     break;
 
@@ -135,12 +135,12 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'hidden';//desabilita scroll de head 
                     eid_modcont_body.classList.add('theme_white');  
                     eid_btn_sp_atras.style.display = 'none';
-                    console.log('aki llamar buildVersesToCompare()');
+                    //console.log('aki llamar buildVersesToCompare()');
                     buildVersesToCompare(htmlTrans);//aki htmlTrans = arr_p_id = ['rstStrongRed',0,1,1]
                     break;
             
                 default:
-                    console.log('indica action en openModal()');
+                    //console.log('indica action en openModal()');
                     break;
             }
             break;
@@ -158,14 +158,14 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             break;
 
         default:
-            console.log('---case default: nada---');
+            //console.log('---case default: nada---');
             break;
     }
 }
 
 
 function showAviso(htmlTrans, positionModal){
-    console.log('=== showAviso(htmlTrans, param) ===');
+    //console.log('=== showAviso(htmlTrans, param) ===');
 
     if(positionModal == 'center'){
         eid_bl_modalCenterInner.innerHTML = '';
@@ -191,7 +191,7 @@ function showAviso(htmlTrans, positionModal){
 
 
 function buildVerseMenu(arr_p_id,positionModal){
-    console.log('=== function buildVerseMenu(arr_p_id) ===');
+    //console.log('=== function buildVerseMenu(arr_p_id) ===');
 
     
     if(positionModal == 'center'){
@@ -206,8 +206,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn1.title = 'Copiar el texto del versículo.';
     btn1.innerHTML = '<img src="./images/copy_icon_white.svg">';
     btn1.onclick = ()=>{
-        console.log('llamo func para copiar');
-        console.log(arr_p_id);
+        //console.log('llamo func para copiar');
+        //console.log(arr_p_id);
         let idElement = arr_p_id.join('__');
         copyTextFromIdElement(idElement);
         btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
@@ -222,8 +222,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn2.title = 'Marker el texto del versículo.';
     btn2.innerHTML = '<img src="./images/marker_icon_white.svg">';
     btn2.onclick = ()=>{
-        console.log('llamo func para añadir marker-закладку');
-        console.log(arr_p_id);
+        //console.log('llamo func para añadir marker-закладку');
+        //console.log(arr_p_id);
     }
 
     const btn3 = document.createElement('div');
@@ -232,8 +232,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn3.title = 'Comparar el versiculo en diferentes traducciones.';
     btn3.innerHTML = '<img src="./images/compare_icon_white.svg">';
     btn3.onclick = ()=>{
-        console.log('llamo func para comparar');
-        console.log(arr_p_id);
+        //console.log('llamo func para comparar');
+        //console.log(arr_p_id);
         eid_bl_modalFullInner.innerHTML = '<div id="wr_vc">cargando...</div>';//reset
         openModal('full', 'Сравнение переводов', arr_p_id, 'compareVerse');
     }
@@ -244,8 +244,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn4.title = 'Compartir el versiculo en redes sociales.';
     btn4.innerHTML = '<img src="./images/share_icon_white.svg">';
     btn4.onclick = ()=>{
-        console.log('llamo func para compartir');
-        console.log(arr_p_id);
+        //console.log('llamo func para compartir');
+        //console.log(arr_p_id);
     }
 
     if(positionModal == 'center'){
@@ -270,7 +270,7 @@ function buildVerseMenu(arr_p_id,positionModal){
 
 function copyTextFromIdElement(idElement) {
     let textoACopiar = document.getElementById(idElement).innerText;
-    console.log(textoACopiar.length);
+    //console.log(textoACopiar.length);
     if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
         copyTextToClibboard(textoACopiar);
     }
@@ -281,10 +281,10 @@ function copyTextFromIdElement(idElement) {
 function copyTextToClibboard(text) {
     navigator.clipboard.writeText(text)
         .then(() => {
-            console.log('Texto copiado al portapapeles: ', text);
+            //console.log('Texto copiado al portapapeles: ', text);
         })
-        .catch(err => {
-            console.error('Error al copiar al portapapeles: ', err);
+        .catch(error => {
+            console.error('Error al copiar al portapapeles: ', error);
         });
 }
 
@@ -299,7 +299,7 @@ function copyTextToClibboard(text) {
 
 
 function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
-    console.log('===function buildVersesToCompare(arr_p_id)===');
+    //console.log('===function buildVersesToCompare(arr_p_id)===');
 
     //creo array de p's de un verse de todas las trans favoritas
     arr_verses_compare = [];//reset
@@ -327,11 +327,11 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
         let verseNumber = verse;
 
         if(iter_a < arrFavTransObj.length){
-            console.log(`iter_a: ${iter_a}`);
+            //console.log(`iter_a: ${iter_a}`);
 
             el_trans = arrFavTransObj[iter_a];
-            console.log(`abajo el_trans:`);
-            console.log(el_trans);
+            //console.log(`abajo el_trans:`);
+            //console.log(el_trans);
 
             //si existe traduccion, el libro de trans y book del libro
             if(typeof el_trans.Translation != 'undefined' && typeof el_trans.Books[bookNumber] != 'undefined'){
@@ -339,14 +339,14 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 url = `modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
 
                 if(url.includes('no_disponible.htm')){
-                    console.log('url includes no_disponible.htm');
+                    //console.log('url includes no_disponible.htm');
     
                     iter_a++;
-                    console.log(`aumentado iter_a: ${iter_a}`);
+                    //console.log(`aumentado iter_a: ${iter_a}`);
                     arr_verses_compare.push('');//item vacio. luego lo quito
 
                     if(iter_a == arrFavTransObj.length){
-                        console.log('1. final  --- llamo buildVersesFromArr()');
+                        //console.log('1. final  --- llamo buildVersesFromArr()');
                         arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
     
                         buildVersesFromArr(arr_p_id, arr_verses_compare);
@@ -357,14 +357,14 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 }
 
             }else{
-                console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
+                //console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
 
                 iter_a++;
-                console.log(`aumentado iter_a: ${iter_a}`);
+                //console.log(`aumentado iter_a: ${iter_a}`);
                 arr_verses_compare.push('');//item vacio. luego lo quito
 
                 if(iter_a == arrFavTransObj.length){
-                    console.log('2. final  --- llamo buildVersesFromArr()');
+                    //console.log('2. final  --- llamo buildVersesFromArr()');
                     arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
 
                     buildVersesFromArr(arr_p_id, arr_verses_compare);
@@ -391,17 +391,17 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 bookNumber = res[0];
                 chapterNumber = res[1];
                 verseNumber = res[2];
-                console.log(`modifico chapter y verse de rus a esp`);        
+                //console.log(`modifico chapter y verse de rus a esp`);        
             }
             else if(trans_obj_ref.EnglishPsalms == 'Y' && el_trans.EnglishPsalms == 'N'){//Sal 23 | Пс 22
                 let res = convertLinkFromEspToRus(book, chapter, verse);
                 bookNumber = res[0];
                 chapterNumber = res[1];
                 verseNumber = res[2];
-                console.log(`modifico chapter y verse de esp a rus`);
+                //console.log(`modifico chapter y verse de esp a rus`);
             }
             else{
-                console.log('--- 335 chapter y verse no se modifican. se pasan tal cual.');
+                //console.log('--- 335 chapter y verse no se modifican. se pasan tal cual.');
             }
 
             arr_verses_compare[iter_a].book = bookNumber;
@@ -413,7 +413,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             verse = verseNumber;
 
             if(modo_fetch_verses_compare == 'by_text'){
-                console.log(`modo_fetch_verses_compare == 'by_text'`);
+                //console.log(`modo_fetch_verses_compare == 'by_text'`);
 
                 //saco ajustes de este modulo en json               
                 let bq = el_trans;
@@ -438,7 +438,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 obj_bible_files[Translation].Books[book].fileContent != '' && 
                                 obj_bible_files[Translation].Books[book].fileContent != ' '
                             ){
-                                console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
+                                //console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
                                 
                                 // Registra el tiempo de inicio
                                 const tiempoInicio = new Date().getTime();
@@ -486,7 +486,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                         
                                             let arr_p = p_Text.split(' ');
                                             let VerseId = arr_p[0];
-                                            console.log('VerseId: '+VerseId);
+                                            //console.log('VerseId: '+VerseId);
                         
                                             arr_p.shift(0);//elimino index 0
                                             VerseText = arr_p.join(' '); 
@@ -534,8 +534,8 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                                     arr_verse_words.push(el);
                                                 }
                                             });
-                                            console.log('arr_verse_words: ');
-                                            console.log(arr_verse_words);
+                                            //console.log('arr_verse_words: ');
+                                            //console.log(arr_verse_words);
                                             let new_VerseText = arr_verse_words.join(' ');
                                             arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
                                         }
@@ -589,15 +589,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         
                             
                                         iter_a++;
-                                        console.log(`aumentado iter_a: ${iter_a}`);
+                                        //console.log(`aumentado iter_a: ${iter_a}`);
                     
                                         if(iter_a < arrFavTransObj.length){
-                                            console.log(' llamo makeArrVersesToCompare()');
+                                            //console.log(' llamo makeArrVersesToCompare()');
                                             makeArrVersesToCompare(iter_a, arr_p_id);
                                         }
                     
                                         if(iter_a == arrFavTransObj.length){
-                                            console.log(' final  --- llamo buildVersesFromArr()');
+                                            //console.log(' final  --- llamo buildVersesFromArr()');
                                             arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
                     
                                             buildVersesFromArr(arr_p_id, arr_verses_compare);
@@ -609,13 +609,13 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         alert(aviso_text);
                                     }
                                 })
-                                .catch((error) => {
+                                .catch(error => {
                                     // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.log('error promesa en myPromise con obj_bible_files. error: '+error);
+                                    console.error('error promesa en myPromise con obj_bible_files. error: '+error);
                                 });
 
                             }else{
-                                console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                //console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
 
                         }else{
@@ -627,7 +627,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                 //si no existe objeto con Translation. hago fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
-                    console.log('--- vc --- no existe objeto con Translation. hago fetch()');
+                    //console.log('--- vc --- no existe objeto con Translation. hago fetch()');
 
                     //start de tiempo para calcular cuanto tarda
                     const tiempoInicioFetch = new Date().getTime();
@@ -678,7 +678,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             
                                 let arr_p = p_Text.split(' ');
                                 let VerseId = arr_p[0];
-                                console.log('VerseId: '+VerseId);
+                                //console.log('VerseId: '+VerseId);
             
                                 arr_p.shift(0);//elimino index 0
                                 VerseText = arr_p.join(' '); 
@@ -726,8 +726,8 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         arr_verse_words.push(el);
                                     }
                                 });
-                                console.log('arr_verse_words: ');
-                                console.log(arr_verse_words);
+                                //console.log('arr_verse_words: ');
+                                //console.log(arr_verse_words);
                                 let new_VerseText = arr_verse_words.join(' ');
                                 arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
                             }
@@ -781,15 +781,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             
                 
                             iter_a++;
-                            console.log(`aumentado iter_a: ${iter_a}`);
+                            //console.log(`aumentado iter_a: ${iter_a}`);
         
                             if(iter_a < arrFavTransObj.length){
-                                console.log(' llamo makeArrVersesToCompare()');
+                                //console.log(' llamo makeArrVersesToCompare()');
                                 makeArrVersesToCompare(iter_a, arr_p_id);
                             }
         
                             if(iter_a == arrFavTransObj.length){
-                                console.log(' final  --- llamo buildVersesFromArr()');
+                                //console.log(' final  --- llamo buildVersesFromArr()');
                                 arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
         
                                 buildVersesFromArr(arr_p_id, arr_verses_compare);
@@ -803,12 +803,12 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     })
                     .catch(error => { 
                         //Código a realizar cuando se rechaza la promesa
-                        console.log('error promesa en fetch() con obj_bible_files. error: '+error);
+                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
                     });                    
                 }//end - if(typeof obj_bible_files[Translation].Books[book] == 'undefined')
 
-                console.log('despues de fetch --- abajo obj_bible_files:');
-                console.log(obj_bible_files); 
+                //console.log('despues de fetch --- abajo obj_bible_files:');
+                //console.log(obj_bible_files); 
 
             }//end - modo_fetch_verses_compare == 'by_text'
 
@@ -819,7 +819,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
 
             if(modo_fetch_verses_compare == 'by_json'){
-                console.log(`modo_fetch_verses_compare == 'by_json'`);
+                //console.log(`modo_fetch_verses_compare == 'by_json'`);
 
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                 let formData = new FormData();
@@ -839,12 +839,12 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 .then((response) => response.json())
                 .then((dataRead) => {
         
-                    console.log(dataRead);
+                    //console.log(dataRead);
 
                     arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
                     arr_verses_compare[iter_a].VerseQty = dataRead.chapterData.VerseQty;
                     
-                    console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
+                    //console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
                     let bq = el_trans;
 
 
@@ -891,8 +891,8 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 arr_verse_words.push(el);
                             }
                         });
-                        console.log('arr_verse_words: ');
-                        console.log(arr_verse_words);
+                        //console.log('arr_verse_words: ');
+                        //console.log(arr_verse_words);
                         let new_VerseText = arr_verse_words.join(' ');
                         arr_verses_compare[iter_a].verseText = `<span class="vt">${new_VerseText}</span>`;
                     }
@@ -946,15 +946,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     
         
                     iter_a++;
-                    console.log(`aumentado iter_a: ${iter_a}`);
+                    //console.log(`aumentado iter_a: ${iter_a}`);
 
                     if(iter_a < arrFavTransObj.length){
-                        console.log(' llamo makeArrVersesToCompare()');
+                        //console.log(' llamo makeArrVersesToCompare()');
                         makeArrVersesToCompare(iter_a, arr_p_id);
                     }
 
                     if(iter_a == arrFavTransObj.length){
-                        console.log(' final  --- llamo buildVersesFromArr()');
+                        //console.log(' final  --- llamo buildVersesFromArr()');
                         arr_verses_compare = arr_verses_compare.filter(elem => elem);//quito items vacios
 
                         buildVersesFromArr(arr_p_id, arr_verses_compare);
@@ -962,7 +962,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
         
                 })
                 .catch(error => {
-                    console.log('Error fetch versesCompare. error: ', error);
+                    console.error('Error fetch versesCompare. error: ', error);
                 });
 
             }//end - modo_fetch_verses_compare == 'by_json'
@@ -978,10 +978,10 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 }
 
 function buildVersesFromArr(arr_p_id, arr_verses_compare){
-    console.log('=== buildVersesFromArr() ===');
+    //console.log('=== buildVersesFromArr() ===');
 
-    console.log('arr_p_id: ', arr_p_id);
-    console.log('arr_verses_compare: ', arr_verses_compare);
+    //console.log('arr_p_id: ', arr_p_id);
+    //console.log('arr_verses_compare: ', arr_verses_compare);
 
     let trans_ref = arr_p_id[0];
     let book = arr_p_id[1];
@@ -1485,9 +1485,9 @@ function updateArrTrans(){
     arr_trans = [];//reset
     colsHeadAll.forEach((el) =>{
         arr_trans.push(el.dataset.trans);
-        console.log(arr_trans);
+        //console.log(arr_trans);
     });
-    console.log('arr_trans: ',arr_trans);
+    //console.log('arr_trans: ',arr_trans);
 
 
     let btns_footer_trans_all = document.querySelectorAll('#footerInner button');
@@ -1723,7 +1723,7 @@ function filterTransCompare(e, param = 'all'){
                 arr_lang_noact.push(el.dataset.lang);
             }
         });
-        console.log('arr_lang_act: ',arr_lang_act );
+        //console.log('arr_lang_act: ',arr_lang_act );
         //console.log('arr_lang_noact: ',arr_lang_noact);
 
         ajuste1.arr_lang_act = arr_lang_act;
@@ -1731,7 +1731,7 @@ function filterTransCompare(e, param = 'all'){
         
         //btns_trans
         btns_trans_all.forEach(el=>{
-            console.log(`${el.dataset.lang} --- ${el.dataset.trans}`);
+            //console.log(`${el.dataset.lang} --- ${el.dataset.trans}`);
 
             if(arr_lang_act.indexOf(el.dataset.lang) >= 0){
                 el.style.display = 'block';        
@@ -1753,14 +1753,14 @@ function filterTransCompare(e, param = 'all'){
 
         pv_all.forEach((el,i) => {   
             if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
-                console.log(`${el.dataset.verse_lang} --- ${el.dataset.verse_trans}`);
+                //console.log(`${el.dataset.verse_lang} --- ${el.dataset.verse_trans}`);
 
                 //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
                 if(ajuste1.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
-                    console.log('muestro pv');
+                    //console.log('muestro pv');
                     el.style.display = 'block';
                 }else{
-                    console.log('--- NO muestro pv');
+                    //console.log('--- NO muestro pv');
                     el.style.display = 'none';
                 }
             }
@@ -1772,7 +1772,7 @@ function filterTransCompare(e, param = 'all'){
 
 
 function filterTransCompareBtns(e){
-    console.log('===function filterTransCompareBtns()===');
+    //console.log('===function filterTransCompareBtns()===');
 
     const btns_trans = document.getElementById('btns_trans');
     let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados
@@ -1797,28 +1797,28 @@ function filterTransCompareBtns(e){
         if(el.className.includes('btn_active')){
             arr_trans_act.push(el.dataset.trans);
             arr_trans_lang.push(el.dataset.lang);
-            console.log('arr_trans_lang: ',arr_trans_lang );
+            //console.log('arr_trans_lang: ',arr_trans_lang );
         }else{
             arr_trans_noact.push(el.dataset.trans);
         }
     });
-    console.log('arr_trans_act: ',arr_trans_act );
+    //console.log('arr_trans_act: ',arr_trans_act );
     //console.log('arr_trans_noact: ',arr_trans_noact);
 
     arr_trans_lang = [... new Set(arr_trans_lang)];//quito elementos duplicados 
-    console.log('sin duplicados --- arr_trans_lang: ',arr_trans_lang );
+    //console.log('sin duplicados --- arr_trans_lang: ',arr_trans_lang );
 
     ajuste1.arr_trans_act = arr_trans_act;
     ajuste1.arr_trans_noact = arr_trans_noact;    
     
     btns_lang_all.forEach(el => {
         if(el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) == -1 ){
-            console.log(' noo ok. --- quito act');
+            //console.log(' noo ok. --- quito act');
             el.classList.remove('btn_active');
             ajuste1.arr_lang_act.splice(ajuste1.arr_lang_act.indexOf(el.dataset.lang),1)
         }
         else if(!el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) >= 0 ){
-            console.log(' todo ok. no quito act');
+            //console.log(' todo ok. no quito act');
             el.classList.add('btn_active');
             ajuste1.arr_lang_act.push(el.dataset.lang);
         }       
@@ -1932,7 +1932,7 @@ function closeModal() {
 
 // When the user clicks anywhere outside of the eid_myModal, close it
 window.onclick = function(event) {
-    // console.log('window.onclick on eid_myModal');
+    //console.log('window.onclick on eid_myModal');
     if(event.target == eid_myModal || event.target == eid_myModalContent){
         closeModal();
     }
@@ -1944,8 +1944,8 @@ function verseGo(dir, obj_to_send_string){
     
     let this_json = JSON.parse(obj_to_send_string);
 
-    console.log('abajo this_json: ');    
-    console.log(this_json);  
+    //console.log('abajo this_json: ');    
+    //console.log(this_json);  
 
     //desestructuracion de objeto this_json
     const { 
@@ -1960,13 +1960,13 @@ function verseGo(dir, obj_to_send_string){
         VerseQty
     } = this_json;
 
-    console.log(`${trans_ref} --- ${book} ---${chapter} ---${verse}`);
+    //console.log(`${trans_ref} --- ${book} ---${chapter} ---${verse}`);
 
     let this_objTrans = arrFavTransObj.find(v => v.Translation === trans_ref);  
     
     
     if(dir == 'next'){
-        console.log('show next verse');    
+        //console.log('show next verse');    
 
         let next_book = book;
         let next_chapter = chapter; 
@@ -1992,7 +1992,7 @@ function verseGo(dir, obj_to_send_string){
             next_verse = verse + 1;
         }
 
-        console.log(`${next_book} ---${next_chapter} ---${next_verse}`);
+        //console.log(`${next_book} ---${next_chapter} ---${next_verse}`);
 
         openModal('full', 'Сравнение переводов', [trans_ref, next_book, next_chapter, next_verse], 'compareVerse', false);// modalFadeIn = false
 
@@ -2000,7 +2000,7 @@ function verseGo(dir, obj_to_send_string){
 
 
     if(dir == 'prev'){
-        console.log('show prev verse');    
+        //console.log('show prev verse');    
 
         let prev_book = book;
         let prev_chapter = chapter; 
@@ -2047,12 +2047,12 @@ function verseGo(dir, obj_to_send_string){
             })
             .catch(error => { 
                 // Código a realizar cuando se rechaza la promesa
-                console.log('VerseQty. error promesa: '+error);
+                console.error('VerseQty. error promesa: '+error);
             });
 
         }else{
             prev_verse = verse - 1;
-            console.log(`${prev_book} ---${prev_chapter} ---${prev_verse}`);
+            //console.log(`${prev_book} ---${prev_chapter} ---${prev_verse}`);
             
             openModal('full', 'Сравнение переводов', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
         }
@@ -2063,7 +2063,7 @@ function verseGo(dir, obj_to_send_string){
 
 function openModalForActTrans(){
     let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
-    // console.log(divtrans_to_change);    
+    //console.log(divtrans_to_change);    
     openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
 }
 

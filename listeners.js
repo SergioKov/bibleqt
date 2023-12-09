@@ -32,7 +32,7 @@ const handlerListenColsInnerAClick = (e) => {
         getTsk(e);//ok new
     }
     if(e.target.className == 'btn_verse_menu'){
-        console.log(`--- es btn_verse_menu ---`);
+        //console.log(`--- es btn_verse_menu ---`);
         showVerseMenu(e);//muestro botones: añadir zametku, añadir marcador, copiar, comparar, compartir link
     }
 }

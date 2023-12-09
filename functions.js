@@ -8,7 +8,7 @@
 
 
 function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
-    console.log('=== function getStrongNumberVersion2() ===');
+    //console.log('=== function getStrongNumberVersion2() ===');
     
     let numberInt, numberStrShow, strongFile;
 
@@ -228,7 +228,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                                 }
                             
                             }else{
-                                console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                                //console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
                             }
             
                             el = `<span class="btn btn_dvor" onclick="showHideDvor()">
@@ -326,11 +326,11 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                 })
                 .catch(error => { 
                     // Código a realizar cuando se rechaza la promesa
-                    console.log('error promesa strong2: '+error);
+                    console.error('error promesa strong2: '+error);
                 });        
         
             }else{
-                console.log('No coincide el nombre del fichero o fileContent está vacío');
+                //console.log('No coincide el nombre del fichero o fileContent está vacío');
             }
         } 
     }
@@ -505,7 +505,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         }
                     
                     }else{
-                        console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                        //console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
                     }
     
                     el = `<span class="btn btn_dvor" onclick="showHideDvor()">
@@ -603,7 +603,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
-            console.log('error promesa strong2: '+error);
+            console.error('error promesa strong2: '+error);
         });
 
     }
@@ -790,9 +790,9 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
         arr_hist_nav.unshift(itemHist);
-        console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+        //console.log('meto item. arr_hist_nav: ', arr_hist_nav);
     }else{
-        console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
+        //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
     
     eid_wr_hist_nav_inner.innerHTML = '';    
@@ -865,7 +865,7 @@ function onclick_p_nav(el){
 
 
 const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
-    console.log('=== const addWordsToHistFind ===');
+    //console.log('=== const addWordsToHistFind ===');
 
     //console.log('trans: ', trans);
     //console.log('words: ', words);
@@ -912,9 +912,9 @@ const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
         arr_hist_find.unshift(itemHist);
-        console.log('meto item. arr_hist_find: ', arr_hist_find);
+        //console.log('meto item. arr_hist_find: ', arr_hist_find);
     }else{
-        console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
+        //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
     }
     
     eid_wr_hist_find_inner.innerHTML = '';
@@ -957,7 +957,7 @@ function onclick_p_find(el){
 }
 
 const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
-    console.log('=== const addStrongNumberToHistStrong ===');
+    //console.log('=== const addStrongNumberToHistStrong ===');
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -988,9 +988,9 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
 
     if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
         arr_hist_strong.unshift(itemHist);
-        console.log('arr_hist_strong: ', arr_hist_strong);
+        //console.log('arr_hist_strong: ', arr_hist_strong);
     }else{
-        console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
+        //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
     }
     
     eid_wr_hist_strong_inner.innerHTML = '';
@@ -1010,7 +1010,7 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
 function onclick_p_strong(el){
 
     eid_inpt_strong.value = el.strongIndex;
-    console.log('llamo getStrongNumber()...');
+    //console.log('llamo getStrongNumber()...');
     getStrongNumber(el.strongIndex);
 
     eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
@@ -1025,12 +1025,13 @@ function toTitleCase(str) {
 
 
 function showVerseMenu(e){
-    console.log('===function showVerseMenu(e)===');
-    console.log(e);
+    //console.log('===function showVerseMenu(e)===');
+    //console.log(e);
+
     let p_id = e.srcElement.parentElement.id;
     let ref = e.srcElement.parentElement.querySelector('a').textContent;
     let arr_p_id = p_id.split('__');
-    console.log(arr_p_id);
+    //console.log(arr_p_id);
 
     let trans = arr_p_id[0];
     let book = arr_p_id[1];
