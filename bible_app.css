@@ -3144,3 +3144,74 @@ span.vt {
 }
 
 
+
+
+
+.tooltip .trik {
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 10px;
+    height: 10px;
+    z-index: 1;
+    transform: rotate(45deg);
+    margin-left: 5px;
+    background-color: transparent;
+    background-image: linear-gradient( to bottom right, #1875bf 0% 50%,  transparent 50% 100%);
+    box-shadow: -1px -1px 1px 0px white;
+    opacity: 0;
+    transition: 0.3s;
+}
+.comment {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    width: 100%;
+    transition: 0.3s;
+    opacity: 0;
+    /* background: #ffc107; */
+}
+.commentInner {
+    display: block;
+    border-radius: 3px;
+    background: #1875bf;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    margin: 0px 5px;
+    /* transition: 0.3s;
+    opacity: 0; */
+}
+.comment .close {
+    /* background: red; */
+    width: 15px;
+    height: 15px;
+    font-size: 16px;
+    color: #74c1ff;
+    transition: 0.3s;
+    position: relative;
+    cursor: pointer;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-left: 5px;
+}
+.comment .close:hover{
+    /* background: red; */
+    color: white;
+}
+.comment a {
+    color: #ffc107;
+    transition: 0.3s;
+    text-wrap: nowrap;
+}
+.comment a:hover {
+    color: yellow;
+}
+.comment em {
+    color: orange;
+    margin-right: 10px;
+}

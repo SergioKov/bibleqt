@@ -887,7 +887,8 @@ function loadDefaultFunctions() {
     makeFooterBtnsFromArrFavTransObj();
     
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
-    loadRefDefault('Быт. ', 'rstStrongRed');//first tab
+    //este -> //loadRefDefault('Быт. ', 'rstStrongRed');//first tab
+
     
     getActTrans();
 
@@ -12988,7 +12989,7 @@ function getRef(trans = null){
 
 
 
-function getRefByHref(code, separador = '/', first_book_index = 0){
+function getRefByHref(code, separador = '/', first_book_index = 0){//href='UMT/1/2/5' = Gen.2:5
     //console.log('=== function getRefByCode() ===');
 
     let act_trans = eid_trans1.dataset.trans;
@@ -13022,7 +13023,13 @@ function getRefByHref(code, separador = '/', first_book_index = 0){
 }
 
 
-
+function getRefByBibleRef(ref){//ref: 'Gen.2:5'
+    //console.log('=== function getRefByBibleRef() ===');
+    let act_trans = eid_trans1.dataset.trans;
+    eid_inpt_nav.dataset.trans = act_trans;
+    eid_inpt_nav.value = ref.trim();
+    getRef();
+}
 
 
 function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
