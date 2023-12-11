@@ -999,7 +999,10 @@ function changeModo(param){
     closeModal();
 }
 
-function showTooltip(el){
+
+function showTooltipOnMouseHover(el){//old //hover
+    console.log('=== function showTooltipOnMouseHover(el)===');
+    
     //console.log(el);
     //console.log(el.getAttribute('data-tooltip'));
     if(el.children[0] != null){
@@ -1069,6 +1072,92 @@ function showTooltip(el){
         }else{
             el.children[0].style.left = elPosLeft - ttW/2 + elW/2+ 'px';
         }
+    }    
+}
+
+
+function showTooltipOnClick(el){//new
+    console.log('=== function showTooltipOnClick(el)===');
+
+    console.log(el);
+    console.log(el.getAttribute('data-tooltip'));
+    if(el.children[0] != null){
+        el.children[0].remove();
+    }
+    
+
+    
+    //modo 2 - ok (mas entendible)
+    let this_ttt_html = `<span class="tooltiptext">
+                            <span class="trik"></span>
+                            <span class="text">${el.getAttribute('data-tooltip')}</span>
+                        </span>`;
+    el.innerHTML += this_ttt_html;
+    
+    if(el.innerHTML.includes('<a ') && el.innerHTML.includes('</a>')){
+        //console.log('showTooltip contiene a');
+
+
+        let parent_p = el.parentElement.parentElement;
+        let arr_p_id = parent_p.id.split('__');//'ukr_umt__0__3__18'
+        let Translation = arr_p_id[0]; 
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2]; 
+        let verse = arr_p_id[3]; 
+        let to_verse = null; 
+        let ref = parent_p.querySelector('a').textContent;
+
+        el.querySelectorAll('.tooltiptext .text a').forEach(el_a =>{
+            el_a.addEventListener('click',(ev)=>{
+                ev.preventDefault(); 
+                //console.log(el_a.innerHTML);
+                //console.log(el_a.href);
+                addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                getRefByHref(el_a.getAttribute('href'),'/',1);
+            });
+        });
+    }    
+
+    let elPosTop = el.getBoundingClientRect().top;
+    let elPosLeft = el.getBoundingClientRect().left;
+    let elH = el.offsetHeight;//altura de *
+    let elW = el.offsetWidth;//anchura de *
+    let ttH = el.children[0].offsetHeight;//altura de tooltip
+    let ttW = el.children[0].offsetWidth;//anchura de tooltip
+
+    //tooltip (cuerpo)
+    el.children[0].style.position = 'fixed';
+    el.children[0].style.top = elPosTop + elH + 'px';
+    el.children[0].style.left = elPosLeft - ttW/2 + elW/2+ 'px';
+    
+    //trikutnyk
+    el.children[0].children[0].style.position = 'fixed';
+    el.children[0].children[0].style.top = elPosTop + elH - 5 + 'px';
+    el.children[0].children[0].style.left = elPosLeft + 'px';
+
+    if(elPosLeft < ttW/2){
+        el.children[0].style.left = elPosLeft - elW/2 + 'px';
+    }else{
+        if(document.documentElement.offsetWidth - elPosLeft < ttW){
+            el.children[0].style.left = document.documentElement.offsetWidth - ttW+ 'px';
+        }else{
+            el.children[0].style.left = elPosLeft - ttW/2 + elW/2+ 'px';
+        }
+    }    
+
+}
+
+function showTooltip(el){
+
+    let is_modo_old = false;//false,true
+    if(is_modo_old){
+        console.log('is_modo_old: '+is_modo_old);
+        //onmouseenter, onmouseleave
+        showTooltipOnMouseHover(el);
+    }else{
+        console.log('is_modo_old: '+is_modo_old);
+        //new. onclick
+        showTooltipOnClick(el);
     }
 }
 
@@ -4222,6 +4311,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 //Примечания редактора в стихах (RSTi2)
                                                 if(bq.Notes == 'Y'){
                                                     let t = VerseText;
+
+                                                    console.log('4225 tooltip new');
             
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
@@ -4280,7 +4371,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             p.innerHTML = htmlEntities(p.innerHTML);
                                                         }
                                                     }
-                                                    //p.append(span_vt);//antes
                                                     //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
             
                                                     arr_data_body.push(p);
