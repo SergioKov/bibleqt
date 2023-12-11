@@ -1117,7 +1117,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         //title_filter
         const div_title_filter = document.createElement('div');
         div_title_filter.id = 'title_filter';
-        div_title_filter.innerHTML = 'Фильтр:';
+        let cl_filter_img = (ajuste1.wr_filter.display == 'block') ? 'razv' : '' ;
+        div_title_filter.innerHTML = `Фильтр: <img src="images/icon_razvernut.png" class="${cl_filter_img}">`;
         div_title_filter.onclick = () => {
             hideShowWrFilter();
         }
@@ -1531,13 +1532,16 @@ function mySizeVersesCompare(){
 function hideShowWrFilter(){
     let wr_filter = document.getElementById('wr_filter');
     let val;
+    let title_filter_img = document.getElementById('title_filter').querySelector('img');
 
     if(esVisible(wr_filter)){
         //wr_filter.style.display = 'none';
         val = 'none';
+        title_filter_img.classList.remove('razv');
     }else{
         //wr_filter.style.display = 'block';
         val = 'block';
+        title_filter_img.classList.add('razv');
     }
 
     wr_filter.style.display = val;

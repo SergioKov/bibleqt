@@ -971,8 +971,6 @@ function hideShowComment(ev){
             close_comment(elem);        
         }
     }
-
-       
 }
 function show_comment(elem){
     let trik = elem.querySelector('.trik');

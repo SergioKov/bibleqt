@@ -1801,7 +1801,9 @@ select  optgroup option {
     outline: 1px solid #1b89e1;
 }
 
-.title_par img {
+.title_par img, 
+#title_filter img 
+{
     width: 10px;
     float: right;
     top: 2px;
@@ -1811,7 +1813,9 @@ select  optgroup option {
     margin-left: 10px;
     transition: 0.3s;
 }
-.title_par img.razv{
+.title_par img.razv,
+#title_filter img.razv
+{
     transform: rotate(0deg);
 }
 .pf {
@@ -2951,9 +2955,15 @@ p:hover .btn_verse_menu{
     color: white;
     cursor: pointer;
     transition: 0.3s;
+    font-size: 14px;
 }
 #title_filter:hover {
     background: #499cdd;
+}
+
+#title_filter img {
+    top: 3px;
+    right: 0px;
 }
 
 #wr_filter_inner {
@@ -3114,7 +3124,7 @@ fieldset {
     /* background: #ffc107; */
     display: inline-block;
     min-width: 95px;
-    color: #929292;
+    color: #ff0000;
 }
 .a_ref{
     margin-right: 15px;
