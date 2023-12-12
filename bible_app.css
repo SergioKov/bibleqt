@@ -368,6 +368,9 @@ body{
     position: relative;
     transition: 0.3s;
 }
+p.with_notes{
+    padding: 5px 35px 5px 5px;
+}
 .colsInner p:hover {
     background: #f1f1f1;
     border-radius: 3px;
@@ -2105,7 +2108,7 @@ select  optgroup option {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 10; /* Sit on top */
     padding-top: 10vh; /* Location of the box */
     left: 0;
     top: 0;
@@ -2806,9 +2809,6 @@ pr {
     margin-left: 7px;
 }
 
-#wrColCompare{
-    background-color: white;
-}
 .sp_atras {
     float: left;
     margin-right: 5px;
@@ -3149,14 +3149,16 @@ fieldset {
     text-align: center;
 }
 span.vt {
-    margin-right: 25px;
+    /* margin-right: 25px; */
     /* background: orange; */
 }
 
 
 
 
-
+.wr_tooltip{
+    /* margin-right: 30px; */
+}
 .tooltip .trik {
     position: absolute;
     left: 0;
@@ -3185,7 +3187,6 @@ span.vt {
     display: block;
     border-radius: 3px;
     background: #1875bf;
-    color: white;
     padding: 5px;
     font-size: 16px;
     margin: 0px 5px;
@@ -3208,6 +3209,9 @@ span.vt {
     justify-content: center;
     flex-wrap: nowrap;
     margin-left: 5px;
+}
+.comment .text{
+    color: white;
 }
 .comment .close:hover{
     /* background: red; */

@@ -1004,3 +1004,57 @@ function close_comment_x(elem, event){
     event.stopPropagation();
     close_comment(elem);
 }
+
+
+
+
+
+// Obtener el botón
+var myButton = document.getElementById('myButton');
+
+//Desktop
+var pressTimer;
+
+// Agregar eventos de mousedown y mouseup al botón
+myButton.addEventListener('mousedown', startPress);
+myButton.addEventListener('mouseup', stopPress);
+myButton.addEventListener('mouseout', stopPress); // Manejar el caso en que el mouse salga del área del botón
+
+function startPress() {
+    // Establecer un temporizador después de 500 milisegundos (ajusta el valor según tus necesidades)
+    pressTimer = setTimeout(function () {
+        // Aquí se ejecuta tu función o código cuando se detecta una pulsación larga
+        alert('Pulsación larga detectada en Desktop');
+    }, 1000);
+}
+
+function stopPress() {
+    // Limpiar el temporizador si se libera el botón antes de que transcurran 500 milisegundos
+    clearTimeout(pressTimer);
+}
+
+
+//Movil
+var touchTimer;
+
+function startPressMob() {
+    touchTimer = setTimeout(function () {
+        // Aquí se ejecuta tu función o código cuando se detecta una pulsación larga
+        alert('Pulsación larga detectada en móvil');
+    }, 1000); // Ajusta la duración según tus necesidades
+}
+
+function stopPressMob() {
+    clearTimeout(touchTimer);
+}
+
+// Agregar evento touchstart para iniciar el temporizador
+myButton.addEventListener('touchstart', startPressMob);
+// Agregar evento touchend para cancelar el temporizador si se levanta el dedo antes de la duración establecida
+myButton.addEventListener('touchend', stopPressMob);
+
+
+
+
+
+

@@ -887,7 +887,7 @@ function loadDefaultFunctions() {
     makeFooterBtnsFromArrFavTransObj();
     
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
-    //este -> //loadRefDefault('Быт. ', 'rstStrongRed');//first tab
+    loadRefDefault('Быт. ', 'rstStrongRed');//first tab
 
     
     getActTrans();
@@ -1076,6 +1076,104 @@ function showTooltipOnMouseHover(el){//old //hover
 }
 
 
+
+
+
+
+function buildWrTooltip(bq_NoteSign,text_Note,p_id,a_ref){
+
+    const span_wr_tooltip = document.createElement('span');
+    span_wr_tooltip.className = 'wr_tooltip';
+    span_wr_tooltip.addEventListener('click', (event)=>{
+        //showTooltipOnClick(this);
+        hideShowComment(event);
+    });
+
+    const span_tooltip = document.createElement('span');
+    span_tooltip.className = 'tooltip';
+    //span_tooltip.setAttribute('data-tooltip',text_Note);//no hace falta
+
+    const span_asterisco = document.createElement('span');
+    span_asterisco.className = 'asterisco';
+    span_asterisco.innerHTML = bq_NoteSign;
+    
+    const span_trik = document.createElement('span');
+    span_trik.className = 'trik d-none';
+
+    const span_comment = document.createElement('span');
+    span_comment.className = 'comment d-none';
+
+    const span_commentInner = document.createElement('span');
+    span_commentInner.className = 'commentInner';
+
+    const span_close = document.createElement('span');
+    span_close.className = 'close';
+    span_close.onclick = (event) => {
+        close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+    }
+    span_close.innerHTML = '&#10005;';//<!--X-->
+
+    const span_text = document.createElement('span');
+    span_text.className = 'text';
+    span_text.innerHTML = text_Note;
+
+
+    //ejemplo HTML
+    //<span class="wr_tooltip" onclick="hideShowComment(event)">
+    //    <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+    //        <span class="asterisco">*</span>
+    //        <span class="trik d-none"></span>
+    //    </span>
+    //    <span class="comment d-none">
+    //        <span class="commentInner">
+    //            <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+    //            <span class="text">
+    //                <em>морській безодні </em>Або <a href="">aaa</a> «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+    //            </span>
+    //        </span>
+    //    </span>
+    //</span>
+          
+
+    //construyo html
+    span_wr_tooltip.append(span_tooltip);
+        span_tooltip.append(span_asterisco);
+        span_tooltip.append(span_trik);
+
+    span_wr_tooltip.append(span_comment);
+        span_comment.append(span_commentInner);
+            span_commentInner.append(span_close);
+            span_commentInner.append(span_text);
+    
+
+    //console.log(span_wr_tooltip);
+
+    if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
+        //console.log('showTooltip contiene a');
+        let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
+        let Translation = arr_p_id[0]; 
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2]; 
+        let verse = arr_p_id[3]; 
+        let to_verse = null; 
+        let ref = a_ref;
+
+        span_text.querySelectorAll('a').forEach(el_a =>{
+            el_a.addEventListener('click',(ev)=>{
+                ev.preventDefault(); 
+                //console.log(el_a.innerHTML);
+                //console.log(el_a.href);
+                addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                getRefByHref(el_a.getAttribute('href'),'/',1);
+            });
+        });
+    }
+
+    return span_wr_tooltip;
+}
+
+
+
 function showTooltipOnClick(el){//new
     console.log('=== function showTooltipOnClick(el)===');
 
@@ -1146,6 +1244,13 @@ function showTooltipOnClick(el){//new
     }    
 
 }
+
+
+
+
+
+
+
 
 function showTooltip(el){
 
@@ -4311,9 +4416,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 //Примечания редактора в стихах (RSTi2)
                                                 if(bq.Notes == 'Y'){
                                                     let t = VerseText;
-
-                                                    console.log('4225 tooltip new');
-            
+                                                                
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
                                                         let before_Note = arr_t0[0];
@@ -4322,11 +4425,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                         const span_after = document.createElement('span');                                            
             
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                            p.className = 'with_notes';
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                             let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                             let text_Note = arr_t2[0];
                                                             let after_Note = arr_t2[1];
             
+                                                            /*
+                                                            //antes
                                                             const span_t = document.createElement('span');
                                                             span_t.className = 'tooltip';
                                                             span_t.setAttribute('data-tooltip',text_Note);
@@ -4338,6 +4444,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
                                                             });
+                                                            */
+
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                             if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -4355,7 +4463,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             }
                                                             //? span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;//para ukr_umt psalm 22:1
                                                             
-                                                            span_vt.append(span_t);
+                                                            // span_vt.append(span_t);//antes old
+                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;
@@ -5539,11 +5648,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             const span_after = document.createElement('span');                                
 
                                             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                p.className = 'with_notes';
                                                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                 let text_Note = arr_t2[0];
                                                 let after_Note = arr_t2[1];
 
+                                                /*
                                                 const span_t = document.createElement('span');
                                                 span_t.className = 'tooltip';
                                                 span_t.setAttribute('data-tooltip',text_Note);
@@ -5555,6 +5666,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 span_t.addEventListener('mouseleave', function(){
                                                     hideTooltip(this);
                                                 });
+                                                */                                               
+                                               
                                                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -5572,7 +5685,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 }                               
                                                 //? span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;//para ukr_umt psalm 22:1
                                                 
-                                                span_vt.append(span_t);
+                                                //span_vt.append(span_t);
+                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
 
                                                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
@@ -6814,11 +6928,13 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             const span_after = document.createElement('span');                                
 
                                             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                p.className = 'with_notes';
                                                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                 let text_Note = arr_t2[0];
                                                 let after_Note = arr_t2[1];
 
+                                                /*
                                                 const span_t = document.createElement('span');
                                                 span_t.className = 'tooltip';
                                                 span_t.setAttribute('data-tooltip',text_Note);
@@ -6830,6 +6946,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 span_t.addEventListener('mouseleave', function(){
                                                     hideTooltip(this);
                                                 });
+                                                */
+                                                
                                                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;                                                
                                                 
                                                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -6846,7 +6964,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     span_vt.append(span_before);
                                                 }
                                 
-                                                span_vt.append(span_t);
+                                                //span_vt.append(span_t);
+                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                                 
                                                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                 span_after.innerHTML = after_Note;
@@ -8098,11 +8217,13 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     const span_after = document.createElement('span');                        
 
                                     if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                        p.className = 'with_notes';
                                         let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                         let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                         let text_Note = arr_t2[0];
                                         let after_Note = arr_t2[1];
                         
+                                        /*
                                         const span_t = document.createElement('span');
                                         span_t.className = 'tooltip';
                                         span_t.setAttribute('data-tooltip',text_Note);
@@ -8114,6 +8235,8 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         span_t.addEventListener('mouseleave', function(){
                                             hideTooltip(this);
                                         });
+                                        */
+
                                         before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                         
                                         if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -8131,6 +8254,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         }
                         
                                         span_vt.append(span_t);
+                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                         
                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                         span_after.innerHTML = after_Note;
@@ -9377,11 +9501,13 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
             const span_after = document.createElement('span');
 
             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                p.className = 'with_notes';
                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                 let text_Note = arr_t2[0];
                 let after_Note = arr_t2[1];
 
+                /*
                 const span_t = document.createElement('span');
                 span_t.className = 'tooltip';
                 span_t.setAttribute('data-tooltip',text_Note);
@@ -9393,6 +9519,8 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
                 span_t.addEventListener('mouseleave', function(){
                     hideTooltip(this);
                 });
+                */
+
                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -9409,7 +9537,8 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
                     span_vt.append(span_before);
                 }
 
-                span_vt.append(span_t);
+                //span_vt.append(span_t);
+                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                 span_after.innerHTML = after_Note;
@@ -9610,11 +9739,13 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
             const span_after = document.createElement('span');
 
             if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                p.className = 'with_notes';
                 let arr_t1 = t.split(bq.StartNoteSign);//'[('
                 let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                 let text_Note = arr_t2[0];
                 let after_Note = arr_t2[1];
 
+                /*
                 const span_t = document.createElement('span');
                 span_t.className = 'tooltip';
                 span_t.setAttribute('data-tooltip',text_Note);
@@ -9626,6 +9757,8 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
                 span_t.addEventListener('mouseleave', function(){
                     hideTooltip(this);
                 });
+                */
+
                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -9642,7 +9775,8 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
                     span_vt.append(span_before);
                 }
 
-                span_vt.append(span_t);
+                //span_vt.append(span_t);
+                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                 span_after.innerHTML = after_Note;
@@ -15756,11 +15890,13 @@ function findWords(words_input){
                                                                     const span_after = document.createElement('span');                                                        
                                     
                                                                     if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                                        p.className = 'with_notes';
                                                                         let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                                         let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                                         let text_Note = arr_t2[0];
                                                                         let after_Note = arr_t2[1];
                                     
+                                                                        /*
                                                                         const span_t = document.createElement('span');
                                                                         span_t.className = 'tooltip';
                                                                         span_t.setAttribute('data-tooltip',text_Note);
@@ -15772,6 +15908,8 @@ function findWords(words_input){
                                                                         span_t.addEventListener('mouseleave', function(){
                                                                             hideTooltip(this);
                                                                         });
+                                                                        */
+
                                                                         before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                                         if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -15788,7 +15926,8 @@ function findWords(words_input){
                                                                             span_vt.append(span_before);
                                                                         }
                                                         
-                                                                        span_vt.append(span_t);
+                                                                        //span_vt.append(span_t);
+                                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                                         span_after.innerHTML = after_Note;
@@ -16733,11 +16872,13 @@ function findWords(words_input){
                                                         const span_after = document.createElement('span');
                         
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                            p.className = 'with_notes';
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                             let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                             let text_Note = arr_t2[0];
                                                             let after_Note = arr_t2[1];
                         
+                                                            /*
                                                             const span_t = document.createElement('span');
                                                             span_t.className = 'tooltip';
                                                             span_t.setAttribute('data-tooltip',text_Note);
@@ -16749,6 +16890,8 @@ function findWords(words_input){
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
                                                             });
+                                                            */
+
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                                         
                                                             if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -16765,7 +16908,8 @@ function findWords(words_input){
                                                                 span_vt.append(span_before);
                                                             }
                                             
-                                                            span_vt.append(span_t);
+                                                            //span_vt.append(span_t);
+                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;
@@ -17720,11 +17864,13 @@ function findWords(words_input){
                                                         const span_after = document.createElement('span');
                         
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                            p.className = 'with_notes';
                                                             let arr_t1 = t.split(bq.StartNoteSign);//'[('
                                                             let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                             let text_Note = arr_t2[0];
                                                             let after_Note = arr_t2[1];
                         
+                                                            /*
                                                             const span_t = document.createElement('span');
                                                             span_t.className = 'tooltip';
                                                             span_t.setAttribute('data-tooltip',text_Note);
@@ -17736,6 +17882,8 @@ function findWords(words_input){
                                                             span_t.addEventListener('mouseleave', function(){
                                                                 hideTooltip(this);
                                                             });
+                                                            */
+                                                            
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                                         
                                                             if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -17752,7 +17900,8 @@ function findWords(words_input){
                                                                 span_vt.append(span_before);
                                                             }
                                             
-                                                            span_vt.append(span_t);
+                                                            //span_vt.append(span_t);
+                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                                             
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;

@@ -28,7 +28,7 @@
         [
             {
                 "BookNumber": 0,
-                "PathName": "01_test.htm",
+                "PathName": "01.htm",
                 "FullName": "Буття",
                 "ShortNames": [
                     "Бут.",
@@ -1367,9 +1367,9 @@
                 "PathName": "65.htm",
                 "FullName": "До Євреїв",
                 "ShortNames": [
-                    "Жид.",
-                    "Жид",
-                    "Жидів",
+                    "Євр.",
+                    "Євр",
+                    "Євреїв",
                     "Евр.",
                     "Евр",
                     "Евреям",
