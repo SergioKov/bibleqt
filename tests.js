@@ -1054,7 +1054,28 @@ myButton.addEventListener('touchstart', startPressMob);
 myButton.addEventListener('touchend', stopPressMob);
 
 
+//iniciarSession('Sergio',123);
 
+function iniciarSession(user, pass){
+    console.log('===function iniciarSession(user, pass)===');
 
+    let formData = new FormData();
+    formData.append('user',user);
+    formData.append('pass',pass);
 
+    fetch('session_start.php',{
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        
+        console.log(data);
+
+    })
+    .catch(error => {
+        console.error('error fetch ', error);
+    });
+
+}
 

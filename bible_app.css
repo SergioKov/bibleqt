@@ -690,7 +690,9 @@ p a:hover:not(.a_sn) {
     color:grey;
     cursor: pointer;
 }
-.colsInner .tooltip {
+/* .colsInner .tooltip */
+.tooltip:not(#find_head .tooltip)
+ {
     position: relative;
     display: inline-block;
     cursor: pointer;

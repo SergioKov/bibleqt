@@ -172,13 +172,10 @@ function showAviso(htmlTrans, positionModal){
     }else if(positionModal == 'bottom'){
         eid_bl_modalBottomInner.innerHTML = '';
     }
-
-
+    
     const p = document.createElement('p');
     p.className = 'p_aviso';
     p.innerHTML = htmlTrans;
-
-
 
     if(positionModal == 'center'){
         eid_bl_modalCenterInner.append(p);
@@ -271,6 +268,13 @@ function buildVerseMenu(arr_p_id,positionModal){
 function copyTextFromIdElement(idElement) {
     let textoACopiar = document.getElementById(idElement).innerText;
     //console.log(textoACopiar.length);
+    let copy_with_trans = true;
+    if(copy_with_trans){
+        let trans = idElement.split('__')[0];
+        let this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
+        let BibleShortName = this_trans_obj.BibleShortName;
+        textoACopiar = `(${BibleShortName}) ${textoACopiar}`;
+    }
     if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
         copyTextToClibboard(textoACopiar);
     }
