@@ -27,6 +27,33 @@ session_start();
 </head>
 <body>
 
+
+
+
+
+<?php
+if (isset($_SESSION['usuario_logueado'])) {
+    // El usuario está logueado, muestra el contenido protegido
+    echo "<h1>Bienvenido, " . $_SESSION['usuario_logueado'] . "!</h1>";
+    echo "<p>Contenido protegido...</p>";
+    echo '<button onclick="cerrarSesion2()">Cerrar Sesión2</button>';
+} else {
+    // El usuario no está logueado, muestra el formulario de inicio de sesión
+    echo '<h1>Iniciar Sesión</h1>';
+    echo '<form id="formulario_login">';
+    echo '    <label for="usuario">Usuario:</label>';
+    echo '    <input type="text" id="usuario" name="usuario" required>';
+    echo '    <label for="contrasena">Contraseña:</label>';
+    echo '    <input type="password" id="contrasena" name="contrasena" required>';
+    echo '    <button type="button" onclick="iniciarSesion2()">Iniciar Sesión2</button>';
+    echo '</form>';
+}
+?>
+
+
+
+
+
     <div id="header">
 
         <div id="headerMain">
@@ -820,7 +847,7 @@ session_start();
     }else{
         echo "<p>NO isset $ _SESSION";
     }
-    die();
+    //die();
 ?>
 
 <!-- Javascript para este html -->

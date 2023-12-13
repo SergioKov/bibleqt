@@ -896,6 +896,9 @@ function loadDefaultFunctions() {
         loadRefDefault('Gn. 1:1', arrFavTrans[0]);//first tab en mi caso es 'rstStrongRed'
     }
 
+    //var sess = "<?=$_SESSION[username]?>";
+    //if()
+
     
     getActTrans();
 

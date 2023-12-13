@@ -1100,3 +1100,56 @@ function cerrarSession(){
 
 
 
+
+
+
+
+
+
+
+
+function iniciarSesion2() {
+    var usuario = document.getElementById("usuario").value;
+    var contrasena = document.getElementById("contrasena").value;
+
+    // Realiza una petición al servidor para verificar las credenciales
+    // y actualiza la página si el inicio de sesión es exitoso.
+    // Aquí utilizamos Fetch API para hacer la petición AJAX.
+    fetch('verificar_sesion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'usuario=' + encodeURIComponent(usuario) + '&contrasena=' + encodeURIComponent(contrasena),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.autenticado) {
+            alert("Inicio de sesión exitoso");
+            location.reload();
+        } else {
+            alert("Inicio de sesión fallido");
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function cerrarSesion2() {
+    // Realiza una petición al servidor para cerrar la sesión
+    // y actualiza la página después de cerrar la sesión.
+    // Aquí utilizamos Fetch API para hacer la petición AJAX.
+    fetch('cerrar_sesion.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.cerrada) {
+            alert("Sesión cerrada exitosamente");
+            location.reload();
+        } else {
+            alert("Error al cerrar sesión");
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+

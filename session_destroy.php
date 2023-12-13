@@ -6,7 +6,9 @@ session_start();
 // Limpiar la cookie de sesión
 setcookie(session_name(), "", time() - 3600, "/");
 
-$status_sess = session_destroy();
+session_unset(); // Elimina todas las variables de sesión
+
+$status_sess = session_destroy();// Destruye la sesión
 
 if($status_sess){
     echo "session destroed";
