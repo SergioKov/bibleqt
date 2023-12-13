@@ -2078,7 +2078,7 @@ function getTsk(e){
                                                                     let after_Note = arr_t2[1];
 
                                                                     const span_before = document.createElement('span');
-                                                                    const span_after = document.createElement('span');            
+                                                                    const span_after = document.createElement('span');
                                                                     
                                                                     /*
                                                                     const span_t = document.createElement('span');
@@ -4529,9 +4529,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     if(t.includes(bq.NoteSign)){// '*'
                                                         let arr_t0 = t.split(bq.NoteSign);
                                                         let before_Note = arr_t0[0];
-
-                                                        const span_before = document.createElement('span');
-                                                        const span_after = document.createElement('span');
             
                                                         if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
                                                             p.className = 'with_notes';
@@ -4539,6 +4536,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                             let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                             let text_Note = arr_t2[0];
                                                             let after_Note = arr_t2[1];
+
+                                                            const span_before = document.createElement('span');
+                                                            const span_after = document.createElement('span');    
             
                                                             before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 

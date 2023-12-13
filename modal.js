@@ -387,6 +387,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             arr_verses_compare[iter_a]['EnglishPsalms'] = el_trans.EnglishPsalms;
             arr_verses_compare[iter_a]['BookQty'] = el_trans.BookQty;
             arr_verses_compare[iter_a]['StrongNumbers'] = el_trans.StrongNumbers;
+            arr_verses_compare[iter_a]['Notes'] = el_trans.Notes;
 
             let trans_obj_ref = arrFavTransObj.find(v => v.Translation === trans_ref);
 
@@ -498,7 +499,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                                         arr_verses_compare[iter_a].ChapterQty = bq.Books[book].ChapterQty;
                                         arr_verses_compare[iter_a].VerseQty = nb_chapter_verses.length - 1;
-                                                           
+                                                          
                     
                                         //========================================================//
                                         //start - modificado
@@ -556,9 +557,33 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                                     let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
                                                     let text_Note = arr_t2[0];
                                                     let after_Note = arr_t2[1];
+
                                                     before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                    arr_verses_compare[iter_a].verseText = `<span class="vt">${before_Note}<span class="tooltip" data-tooltip="${text_Note}">${bq.NoteSign}</span>${after_Note}</span>`;
+
+                                                    let p_id = `${Translation}__${book}__${chapter}__${verse}`;
+                                                    let a_ref = `${el_trans.Books[book].ShortNames[0]}${chapter}:${verse}`;
+
+                                                    let wr_tooltip = buildWrTooltip(bq.NoteSign,text_Note,p_id,a_ref);                                                    
+                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ; 
+                                                                                                        
+                                                    /*
+                                                    arr_verses_compare[iter_a].verseText = `
+                                                    <span class="vt">
+                                                        ${before_Note}
+                                                        <span class="tooltip" data-tooltip="${text_Note}">
+                                                            ${bq.NoteSign}
+                                                        </span>
+                                                        ${after_Note}
+                                                    </span>
+                                                    `;
+                                                    */
+                                                    arr_verses_compare[iter_a].verseText = `
+                                                    <span class="vt">
+                                                        ${before_Note}
+                                                        ${wr_tooltip.outerHTML}
+                                                        ${after_Note}
+                                                    </span>
+                                                    `;
                                                 }
                                             }else{
                                                 arr_verses_compare[iter_a].verseText = `<span class="vt">${VerseText}</span>`;
@@ -1467,6 +1492,39 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                         }
                     }
                 })
+            }
+        }
+
+        //Примечания редактора в стихах (RSTi2,Ukr_UMTs)
+        if(el.Notes == 'Y' && el.verseText.includes('<span class="wr_tooltip">') ){
+            if(v_trans.querySelectorAll('.vt span.tooltip').length > 0){
+                
+                v_trans.querySelector('.vt .wr_tooltip').onclick = (event) => {
+                    //event.stopPropagation();
+                    hideShowComment(event);
+                };
+
+                v_trans.querySelector('.vt .wr_tooltip .comment .close').onclick = (event) => {
+                    close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+                }
+
+                v_trans.querySelectorAll('.vt .wr_tooltip .comment .text a').forEach(el_a =>{
+                    let Translation = el.Translation; 
+                    let book = el.book; 
+                    let chapter = el.chapter; 
+                    let verse = el.verse; 
+                    let to_verse = null; 
+                    let ref = refLink;
+                    
+                    el_a.addEventListener('click',(ev)=>{
+                        ev.preventDefault(); 
+                        //console.log(el_a.innerHTML);
+                        //console.log(el_a.href);
+                        addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                        getRefByHref(el_a.getAttribute('href'),'/',1);
+                        closeModal();
+                    });
+                });
             }
         }
 

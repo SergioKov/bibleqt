@@ -3091,9 +3091,10 @@ fieldset {
     min-width: 100px;
 }
 
-#vc_body{
+#vc_body {
     /* background: #e0e0e0; */
     overflow-y: scroll;
+    position: relative;
 }
 
 

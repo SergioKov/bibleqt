@@ -796,15 +796,20 @@
     </div><!--/myModal-->
 
 <?php 
-    if(isset($_GET)){
+    if(isset($_GET) && !empty($_GET) ){
+        echo "<p>isset $ _GET";
+        
         $trans = $_GET['trans'];
         $ref = $_GET['ref'];
         //echo "$ str_trans: $str_trans";
         //echo "$ ref: $ref";
     }else{
+        echo "<p>NO isset $ _GET";
+        
         $trans = null;
         $ref = null; 
     }
+    //die();
 ?>
 
 <!-- Javascript para este html -->
