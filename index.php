@@ -1,3 +1,7 @@
+<?php 
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -799,8 +803,8 @@
     if(isset($_GET) && !empty($_GET) ){
         echo "<p>isset $ _GET";
         
-        $trans = $_GET['trans'];
-        $ref = $_GET['ref'];
+        $trans = (isset($_GET['trans'])) ? $_GET['trans'] : null ;
+        $ref = (isset($_GET['ref'])) ? $_GET['ref'] : null ;
         //echo "$ str_trans: $str_trans";
         //echo "$ ref: $ref";
     }else{
@@ -810,6 +814,13 @@
         $ref = null; 
     }
     //die();
+
+    if(isset($_SESSION) && !empty($_SESSION) && !empty($_SESSION['username'])){
+        echo "<p>isset $ _SESSION. $ _SESSION[username]: " . $_SESSION['username'];
+    }else{
+        echo "<p>NO isset $ _SESSION";
+    }
+    die();
 ?>
 
 <!-- Javascript para este html -->

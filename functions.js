@@ -750,6 +750,21 @@ const countElementsInArray = arr => {
     return countElements;    
 }
 
+function pushStateToHistNav(trans,ref){
+
+    // Obtener la base URL
+    let baseUrl = window.location.protocol + "//" + window.location.host;
+    console.log("Base URL:", baseUrl);
+    // Obtener la URL completa
+    let fullUrl = baseUrl + window.location.pathname;
+    console.log("URL completa:", fullUrl);
+    
+    let fullUrl_ref = `${fullUrl}?trans=${trans}&ref=${ref}`;
+    console.log("URL completa con ref:", fullUrl_ref);
+
+    window.history.pushState(null, "Título de la página", fullUrl_ref);
+}
+
 const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = null) => {
     //console.log('=== const addRefToHistNav ===');
 
@@ -786,6 +801,8 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
         'fecha': fechaFormateada, 
         'hora': horaActual 
     };
+
+    pushStateToHistNav(trans,ref);
 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){

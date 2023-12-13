@@ -1079,3 +1079,24 @@ function iniciarSession(user, pass){
 
 }
 
+
+//cerrarSession();
+
+function cerrarSession(){
+    console.log('===function cerrarSession()===');
+
+    fetch('session_destroy.php')
+    .then(response => response.text())
+    .then(data => {
+        
+        console.log(data);
+
+    })
+    .catch(error => {
+        console.error('error fetch ', error);
+    });
+
+}
+
+
+

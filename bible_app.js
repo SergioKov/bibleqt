@@ -893,7 +893,7 @@ function loadDefaultFunctions() {
         
         loadRefDefault(get_ref, get_trans);//first tab
     }else{
-        loadRefDefault('Gn. 1:1', 'rstStrongRed');//first tab
+        loadRefDefault('Gn. 1:1', arrFavTrans[0]);//first tab en mi caso es 'rstStrongRed'
     }
 
     
@@ -901,8 +901,9 @@ function loadDefaultFunctions() {
 
     updateBtnActTransNavOnLoad();//actualizo btn negro por encima de la seleccion de book,chapter,verse
 
-
-    if(!hay_get_data){
+    //si user está logueado le muestro sus tabs (vkladki)
+    //si no - solo le muestro una tab (vkladka) con los trans que estan en get_trans
+    //if(!hay_get_data){
         // addTab('Быт. 1:1', 'act', null,'rstStrongRed');
         //addTab('Быт. 1:1', 'rstStrongRed');
         addTab('Mat. 5:3', 'rstStrongRed');
@@ -926,7 +927,7 @@ function loadDefaultFunctions() {
         addTab('Лук. 7:16', 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
         addTab('Is. 8:9', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
         addTab('Psa. 118:1', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
-    }
+    //}
 
 
     addListenerModule();
@@ -11047,6 +11048,7 @@ function updateArrTabs(){
 
         //saco BibleShortName por Translation desde string
         let arr_trans_names = [];
+        let arr_str_trans_new = [];
         let arr_el_trans = el.dataset.str_trans.split(','); 
         arr_el_trans.forEach(el_tr => {
             el_tr = el_tr.trim();
@@ -11054,17 +11056,20 @@ function updateArrTabs(){
             
             const el_tr_obj = getObjTransByName(el_tr);
             //console.log(el_tr_obj);
+            if(typeof el_tr_obj != 'undefined') arr_str_trans_new.push(el_tr_obj.Translation);
             if(typeof el_tr_obj != 'undefined') arr_trans_names.push(el_tr_obj.BibleShortName);
         });
         let str_trans_names = arr_trans_names.join(', ');
+        let str_trans_new = arr_str_trans_new.join(', ');
         //console.log('end --- str_trans_names: '+str_trans_names); 
         
         el.title = str_trans_names;
+        el.dataset.str_trans = str_trans_new;
 
         const el_obj = {
             id: el.id,
             className: el.getAttribute('class'),
-            str_trans: el.dataset.str_trans,
+            str_trans: str_trans_new,
             title: str_trans_names,
             btn_close: has_btn_close,
             ref: el.querySelector('span').innerHTML
