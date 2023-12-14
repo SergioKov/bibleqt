@@ -27,33 +27,6 @@ session_start();
 </head>
 <body>
 
-
-
-
-
-<?php
-if (isset($_SESSION['usuario_logueado'])) {
-    // El usuario está logueado, muestra el contenido protegido
-    echo "<h1>Bienvenido, " . $_SESSION['usuario_logueado'] . "!</h1>";
-    echo "<p>Contenido protegido...</p>";
-    echo '<button onclick="cerrarSesion2()">Cerrar Sesión2</button>';
-} else {
-    // El usuario no está logueado, muestra el formulario de inicio de sesión
-    echo '<h1>Iniciar Sesión</h1>';
-    echo '<form id="formulario_login">';
-    echo '    <label for="usuario">Usuario:</label>';
-    echo '    <input type="text" id="usuario" name="usuario" required>';
-    echo '    <label for="contrasena">Contraseña:</label>';
-    echo '    <input type="password" id="contrasena" name="contrasena" required>';
-    echo '    <button type="button" onclick="iniciarSesion2()">Iniciar Sesión2</button>';
-    echo '</form>';
-}
-?>
-
-
-
-
-
     <div id="header">
 
         <div id="headerMain">
@@ -118,12 +91,66 @@ if (isset($_SESSION['usuario_logueado'])) {
                     
                 </div>
 
+
+
+<?php
+    if(isset($_SESSION['username'])) {
+        // El usuario está logueado, muestra el contenido protegido
+        $st_bl_sesion_iniciada = 'block';
+        $st_bl_sesion_cerrada = 'none';
+        $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
+        echo "<script>alert('js session iniciada')</script>";
+        
+        //echo "<h1>---Bienvenido, " . $_SESSION['username'] . "!</h1>";
+        //echo "<p>Contenido protegido...</p>";
+        //echo '<div class="mensaje"></div>';
+        //echo '<button class="btn" type="button" style="width: 100px;" onclick="cerrarSesion()">Cerrar Sesión</button>';
+    }else{
+        // El usuario no está logueado, muestra el formulario de inicio de sesión
+        $st_bl_sesion_iniciada = 'none';
+        $st_bl_sesion_cerrada = 'block';
+        $frase_bienvenida = "No estás logueado.";
+        echo "<script>alert('js session cerrada')</script>";
+
+        //echo '<h1>---Iniciar Sesión</h1>';
+        //echo '<div id="mensaje"></div>';
+        //echo '<form id="formulario_login">';
+        //echo '    <label for="username">Usuario:</label>';
+        //echo '    <input type="text" id="username" name="username" required>';
+        //echo '    <label for="password">Contraseña:</label>';
+        //echo '    <input type="password" id="password" name="password" required>';
+        //echo '    <button class="btn" type="button" style="width: 100px;" onclick="iniciarSesion()">Iniciar Sesión</button>';
+        //echo '</form>';
+    }
+
+print<<<HERE
+    <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
+        <h1>$frase_bienvenida!</h1>
+        <p>Contenido protegido...</p>
+        <div class="mensaje"></div>
+        <button class="btn" type="button" style="width: 100px;" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+
+
+    <div id="bl_sesion_cerrada" style="display:$st_bl_sesion_cerrada;">
+        <h1>Iniciar Sesión</h1>
+        <div class="mensaje"></div>
+        <form id="formulario_login">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <button class="btn" type="button" style="width: 100px;" onclick="iniciarSesion()">Iniciar Sesión</button>
+        </form>
+    </div>
+HERE;
+?>
+
+
+
                 <div class="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню')">
                     <img src="images/tres_puntos2_white.svg" style="width:24px;">
                 </div>
-
-
-
 
             </div>
         </div>

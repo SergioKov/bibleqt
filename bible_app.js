@@ -345,6 +345,103 @@ let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
 // FUNCIONES
 //===================================================================//
 
+function iniciarSesion(){//antes login() //username,password
+    console.log('=== function iniciarSesion() ===');
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if(username == '' || password == ''){
+        alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
+        return;
+    }
+
+    // Enviar los datos al servidor para la autenticación
+    fetch("iniciar_sesion.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        console.log(data);
+        
+        if (data.success) {
+            console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+
+            // Actualizar el contenido después del inicio de sesión exitoso
+            document.getElementById("bl_sesion_iniciada").style.display = "block";
+            document.getElementById("bl_sesion_cerrada").style.display = "none";
+
+            document.querySelector("#bl_sesion_iniciada .mensaje").innerHTML = 'Cargo los ajustes y datos del usuario ' + username + '! ';
+
+            //document.getElementById("mensaje").innerHTML += '<button class="btn" style="width:100px;" onclick="cerrarSesion()">Cerrar Sesión</button>';
+
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
+            alert(error_text);
+            console.error(error_text);
+        }
+
+        mySizeWindow();
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });    
+
+}
+
+
+//cerrarSession();
+function cerrarSesion(){
+    console.log('===function cerrarSession()===');
+
+    // Realizar una petición al servidor para cerrar la sesión
+    // y actualizar el contenido después de cerrar la sesión.
+    // Aquí utilizamos Fetch API para hacer la petición AJAX.
+    fetch('cerrar_sesion.php')
+    .then(response => response.json())
+    .then(data => {
+
+        console.log(data);
+
+        if (data.cerrada) {
+            
+            let text_mensaje = 'Sesión cerrada con exito!';
+            alert('Sesión cerrada con exito!');
+
+            document.getElementById("bl_sesion_iniciada").style.display = "none";
+            document.getElementById("bl_sesion_cerrada").style.display = "block";
+
+            document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
+
+            
+            // Actualizar el contenido después de cerrar la sesión
+            //document.getElementById("mensaje").innerHTML = '';
+            //document.getElementById("formulario_login").style.display = "block";
+        } else {
+            // Mostrar un mensaje de error si hay problemas al cerrar la sesión
+            console.error('Error al cerrar sesión');
+        }
+
+        mySizeWindow();
+    })
+    .catch(error => {
+        console.error('error fetch ', error);
+    });
+}
+
+
+
+
 async function obtenerDatosTrans(url_bq) {
     const respuesta = await fetch(url_bq);
     const datos = await respuesta.json();
