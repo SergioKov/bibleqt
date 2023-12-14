@@ -371,15 +371,19 @@ function iniciarSesion(){//antes login() //username,password
     .then(data => {
         
         console.log(data);
+
+        let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+        let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
         
         if (data.success) {
             console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
 
             // Actualizar el contenido después del inicio de sesión exitoso
-            document.getElementById("bl_sesion_iniciada").style.display = "block";
-            document.getElementById("bl_sesion_cerrada").style.display = "none";
+            eid_bl_sesion_iniciada.style.display = 'block';
+            eid_bl_sesion_cerrada.style.display = 'none';
 
-            document.querySelector("#bl_sesion_iniciada .mensaje").innerHTML = 'Cargo los ajustes y datos del usuario ' + username + '! ';
+            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `Bienvenido, ${username}!`;
+            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Cargo los ajustes y datos del usuario ${username}!`;
 
             //document.getElementById("mensaje").innerHTML += '<button class="btn" style="width:100px;" onclick="cerrarSesion()">Cerrar Sesión</button>';
 
@@ -389,6 +393,10 @@ function iniciarSesion(){//antes login() //username,password
             let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
             alert(error_text);
             console.error(error_text);
+
+            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `Autenticación fallida.`;
+            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `Hubo problemas al iniciar sesión para el usuario ${username}!`;
+
         }
 
         mySizeWindow();
