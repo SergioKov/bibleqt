@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2023 a las 16:33:25
+-- Tiempo de generación: 15-12-2023 a las 16:16:20
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -44,6 +44,21 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id_user`, `username`, `password_text`, `password`, `salt`, `email`, `created_at`) VALUES
 (1, 'Sergio', '123123', '$2y$10$pc6Ob0U8USc2EBE5wI32R.HjSLObySLsmTfoMtmprzFyiamlSL.a6', '32303030', 'sergiokovalchuk@gmail.com', '2023-12-13 13:08:15');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vkladki`
+--
+
+CREATE TABLE `vkladki` (
+  `id_vkladka` int(11) NOT NULL,
+  `id_user` int(10) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `arr` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
@@ -57,6 +72,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `vkladki`
+--
+ALTER TABLE `vkladki`
+  ADD PRIMARY KEY (`id_vkladka`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -65,6 +86,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `vkladki`
+--
+ALTER TABLE `vkladki`
+  MODIFY `id_vkladka` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
