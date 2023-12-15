@@ -2,8 +2,9 @@
 // Iniciar sesión
 session_start();
 
+include('connect_db.php');
 
-
+/*
 // Conexión a la base de datos (reemplaza con tus propios detalles)
 $servername = "localhost";
 $username = "root";
@@ -16,6 +17,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
+*/
 
 
 
@@ -43,6 +45,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // Usuario encontrado, verificar la contraseña
     $row = $result->fetch_assoc();
+    $storedId_user = $row["id_user"];//1
     $storedUsername = $row["username"];//Sergio
     $storedHashedPassword = $row["password"];//123123
     $storedSalt = $row["salt"];//32303030
@@ -58,6 +61,7 @@ if ($result->num_rows > 0) {
     if(password_verify($storedSalt . $password, $hashedPassword)) {
         //echo "¡Contraseña correcta! Usuario autenticado.";
         // Autenticación exitosa
+        $_SESSION['id_user'] = $storedId_user;
         $_SESSION['username'] = $storedUsername;
         echo json_encode(['success' => true]);
 

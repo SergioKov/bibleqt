@@ -99,15 +99,15 @@ session_start();
         $st_bl_sesion_iniciada = 'block';
         $st_bl_sesion_cerrada = 'none';
         $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
-        echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
+        //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
 <script>
 
-    let hay_sesion = false;
+    let hay_sesion = true;
     let username = '$_SESSION[username]';
     let text = 'print js: session iniciada. Bienvenido, ' +  username + '.';
     
-    alert(text);
+    console.log(text);
     
 </script>
 HERE;
@@ -121,13 +121,13 @@ HERE;
         $st_bl_sesion_iniciada = 'none';
         $st_bl_sesion_cerrada = 'block';
         $frase_bienvenida = "No estás logueado.";
-        echo "<script>alert('js session cerrada')</script>";
+        //echo "<script>alert('js session cerrada')</script>";
 print<<<HERE
     <script>
 
-        let hay_sesion = true;
+        let hay_sesion = false;
         
-        alert('print js: session cerrada. hay que iniciar la sesión.');
+        console.log('print js: session cerrada. hay que iniciar la sesión.');
         
     </script>
 HERE;

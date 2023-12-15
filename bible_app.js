@@ -425,6 +425,7 @@ function cerrarSesion(){
             
             let text_mensaje = 'Sesión cerrada con exito!';
             alert('Sesión cerrada con exito!');
+            hay_sesion = false;
 
             document.getElementById("bl_sesion_iniciada").style.display = "none";
             document.getElementById("bl_sesion_cerrada").style.display = "block";
@@ -11186,7 +11187,110 @@ function updateArrTabs(){
         arrTabs.push(el_obj);
     });
     //console.log(arrTabs);
+
+    saveInDb_ArrTabs();
 }
+
+async function saveInDb_ArrTabs(){
+    console.log(' === saveInDb_ArrTabs() ===');
+
+    try {
+        console.log('Inicio de la función externa');
+
+        // Llamada a la función interna
+        //await funcionInterna();
+
+        if(await verificarAutenticacion()){
+            console.log('js: true --- El usuario está autenticado.');
+            console.log(' guardo datos en bd');
+            //insertIntoBd(tabla, datos);
+            console.log(arrTabs);
+
+            insertarDatos(arrTabs);//test
+        }else{
+            console.log('js: false --- El usuario no está autenticado.');
+        }
+
+        console.log('Fin de la función externa');
+    } catch (error) {
+        console.error('Error en la función externa:', error);
+    }
+
+
+}
+
+
+function insertarDatos(arr) {
+    //const nombre = document.getElementById('nombre').value;
+    //const correo = document.getElementById('correo').value;
+
+    const datos = {
+        //username: "<?=$_SESSION[username]?>",
+        arr: arr
+    };
+
+    console.log(datos);
+
+
+    fetch('insertar_datos.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // Puedes realizar acciones adicionales después de la inserción, si es necesario
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+/*
+// Verificar autenticación
+function old_verificarAutenticacion(){
+    fetch('verificar_autenticacion.php', {
+        method: 'GET',
+        credentials: 'include' // Asegura que las cookies de sesión se incluyan en la solicitud
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('El usuario está autenticado.');
+        } else {
+            console.log('El usuario no está autenticado.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error)
+    });
+}
+*/
+
+//verificarAutenticacion();
+
+async function verificarAutenticacion() {//ok
+    try {
+        const response = await fetch('verificar_autenticacion.php', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.mensaje);
+            return true;
+        } else {
+            const data = await response.json();
+            console.log(data.mensaje);
+            return false;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
+}
+
 
 function showTabs(){
     //console.log('function showTabs()');
