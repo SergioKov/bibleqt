@@ -803,6 +803,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
     };
 
     pushStateToHistNav(trans,ref);
+    updateRefInTabActive(ref);
 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){

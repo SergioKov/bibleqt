@@ -1,10 +1,9 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
-       
+if (/*$_SERVER['REQUEST_METHOD'] === 'POST' ||*/ true) {
     // Recuperar datos JSON
-    $json = file_get_contents('php://input');
+    /*$json = file_get_contents('php://input');
     $datos = json_decode($json, true);
 
     // Verificar que se decodificó correctamente
@@ -13,10 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         echo json_encode(['mensaje' => 'Error al decodificar los datos JSON']);
         exit;
     }
-    
 
     // Recuperar los valores
-    if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ) {
+    if(isset($_SESSION['username'])) {
         $id_user_logged = $_SESSION['id_user'];
         $username_logged = $_SESSION['username'];
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
@@ -25,34 +23,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         $username_logged = 'nobody';
         //echo json_encode(['mensaje' => $username_logged]);
     }
-
-    /*
-    foreach ($datos['arr'] as $arr_k => $arr_v) {
-
-        foreach ($arr_v as $k => $v) {
-            if($k == 'ref'){
-                //echo "<p>$k: $v </p>";
-                // $datos['arr'][$arr_k][$k] = agregarBarrasUnicode($v);
-                $datos['arr'][$arr_k][$k] = addslashes($v);
-                //echo "<p>$ datos['arr'][$arr_k][$k]:" . $datos['arr'][$arr_k][$k];
-            }
-        }
-    }
+    $arr = json_encode($datos['arr']);
     */
 
-    //print_r($datos['arr']);
-    //die();
 
 
-    $arr = json_encode($datos['arr']);
-    
-    
-    //$arr = json_encode(agregarBarrasUnicode($datos['arr']));
     //exit;
+    $id_user_logged = 1;
+    $username_logged = 'Sergio';
+    $arr = 'es_arr';
 
     // Obtener la fecha y hora actual
     $fechaHoraActual = date("Y-m-d H:i:s");
-
 
     include('connect_db.php');
 
@@ -62,18 +44,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
     //busco si hay registro
     $sql = "SELECT * FROM vkladki where id_user = '$id_user_logged' ";
-    $result = $conn->query($sql);
+    $result = $conn->query($sql);  
+
+
 
     if($result->num_rows > 0){
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         $storedId_user = $rows[0]["id_user"];//1
-        $hay_id_user_en_vkladki = true;
-        //echo"11";
-        //var_dump($rows[0]);
-        //die();
+        $hay_id_user = true;
+        echo"11";
     }else{
-        $hay_id_user_en_vkladki = false;
-        //echo"00";
+        $hay_id_user = false;
+        echo"00";
     }
 
 
@@ -82,12 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
 
 
-
-
-
-
-    // Realizar la inserción o (update) en la base de datos 
-    if($hay_id_user_en_vkladki){
+    // Realizar la inserción en la base de datos 
+    
+    if($hay_id_user){
         //hago update
         $sql2 = "UPDATE vkladki SET 
                 arr = '$arr',
@@ -100,24 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                  VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
     }
-    //echo"$sql2";
     $result2 = $conn->query($sql2);
+
+    //var_dump($sql2);
     //die();
 
 
 
-    if($result2 === TRUE) {
-        if($hay_id_user_en_vkladki){
-            $respuesta = ['mensaje' => 'Datos actualizados correctamente'];
-        }else{
-            $respuesta = ['mensaje' => 'Datos insertados correctamente'];
-        }
+    if ($result2 === TRUE) {
+        $respuesta = ['mensaje' => 'Datos insertados correctamente'];
     } else {
-        if($hay_id_user_en_vkladki){
-            $respuesta = ['mensaje' => 'Error al actualizar datos: ' . $conn->error];
-        }else{
-            $respuesta = ['mensaje' => 'Error al insertar datos: ' . $conn->error];
-        }
+        $respuesta = ['mensaje' => 'Error al insertar datos: ' . $conn->error];
     }
 
     $conn->close();
@@ -132,15 +104,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     http_response_code(400);
     echo json_encode(['mensaje' => 'Solicitud incorrecta']);
 }
-
-
-
-function agregarBarrasUnicode($cadena) {
-    // Aplicar addslashes solo a los caracteres 'uXXXX'
-    $cadena = preg_replace('/(u[0-9A-Fa-f]{4})/i', '\\\\$1', $cadena);
-
-    return $cadena;
-}
-
-
 ?>

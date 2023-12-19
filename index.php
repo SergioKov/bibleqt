@@ -147,7 +147,6 @@ HERE;
 print<<<HERE
     <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
         <h1>$frase_bienvenida!</h1>
-        <p>Contenido protegido...</p>
         <div class="mensaje"></div>
         <button class="btn" type="button" style="width: 100px;" onclick="cerrarSesion()">Cerrar Sesión</button>
     </div>
