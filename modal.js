@@ -561,7 +561,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                                     before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                     let p_id = `${Translation}__${book}__${chapter}__${verse}`;
-                                                    let a_ref = `${el_trans.Books[book].ShortNames[0]}${chapter}:${verse}`;
+                                                    let a_ref = `${el_trans.Books[book].ShortNames[0]} ${chapter}:${verse}`;
 
                                                     let wr_tooltip = buildWrTooltip(bq.NoteSign,text_Note,p_id,a_ref);                                                    
                                                     after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ; 
@@ -1441,7 +1441,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         a_ref.className = 'a_ref';
         a_ref.href = '#';
         a_ref.style.display = ajuste1.a_ref.display;
-        let refLink = `${el.BibleBookShortName}${el.chapter}:${el.verse}`;
+        let refLink = `${el.BibleBookShortName} ${el.chapter}:${el.verse}`;
         a_ref.innerHTML = refLink;
         a_ref.onclick = (e) => {
             

@@ -3129,9 +3129,10 @@ fieldset {
     min-width: 95px;
     color: #ff0000;
 }
-.a_ref{
+.a_ref {
     margin-right: 15px;
     display: none;
+    text-wrap: nowrap;
 }
 .v_trans {
     /* margin-left: 15px; */
