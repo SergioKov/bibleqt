@@ -672,8 +672,8 @@ const handlerListenTsk = (ev, Translation ) => {
 }
 
 
-const buildDivShow = (arrData, indexColToBuild = null) => {
-    //console.log('function buildDivShow');
+function buildDivShow(arrData, indexColToBuild = null){
+    console.log('function buildDivShow');
     //console.log('arrData: ', arrData);
 
     //si solo hay que construir una columna
@@ -739,6 +739,10 @@ const buildDivShow = (arrData, indexColToBuild = null) => {
     //console.log('build. eid_wrCols: ', eid_wrCols);
 
     arrDataDivShow = [];//reset despues de build
+
+    //cuando se pintan todos los trans permito usar showTrans()
+    allowUseShowTrans = true;
+    console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
 }
 
 

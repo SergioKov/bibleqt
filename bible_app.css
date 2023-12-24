@@ -3,6 +3,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=GFS+Didot&family=GFS+Neohellenic:wght@400;700&family=Noto+Serif+Hebrew:wght@400;500;600;700&display=swap');
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 
 
 *{
@@ -2267,6 +2269,23 @@ span.prim_tsk {
     justify-content: flex-start;
     align-items: center;
 }
+#topLogin{
+    width: 100%;
+}
+#topLoginInner {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+#topMenuInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 #bl_modalCenterInner {
     display: flex;
     flex-direction: row;
@@ -2336,6 +2355,11 @@ span.prim_tsk {
     width: 22px;
     height: 22px;
 }
+#m_btn_login img {
+    width: 20px;
+    height: 20px;
+    border-radius: 20%;
+}
 
 #headerMainInner button {
     height: 28px;
@@ -2362,6 +2386,36 @@ span.prim_tsk {
     cursor: pointer;
     min-width: 50px;
     min-height: 30px;
+}
+
+
+
+.wr_menu_r{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.login_menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 10%;
+    /* border: 1px solid red; */
+    overflow: hidden;
+    padding: 0px;
+}
+.login_menu img{
+    width: 20px;
 }
 .tres_puntos_menu{
     display: flex;
@@ -2458,7 +2512,9 @@ p.cl_tab:hover {
 .cl_tab:hover .sh_nl {
     color: #737373;
 }
-.cl_tab_active {
+.cl_trans_active,
+.cl_tab_active
+ {
     background: red;
     color: white;
     transition: 0.3s;
@@ -2466,7 +2522,9 @@ p.cl_tab:hover {
 .cl_tab_active .sh_nl{
     color: white !important;
 }
-.cl_tab_active:hover{
+.cl_trans_active:hover,
+.cl_tab_active:hover
+{
     background: #ff3636 !important;
 }
 .cl_tab_active .btn_tab_x:hover{
@@ -3232,4 +3290,106 @@ span.vt {
 .comment em {
     color: orange;
     margin-right: 10px;
+}
+
+
+#formulario_login {
+    padding: 10px;
+    background: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.login-page {
+    /* width: 360px;
+    padding: 8% 0 0;
+    margin: auto; */
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    /* background: #FFFFFF; */
+    background: #000000;
+    max-width: 360px;
+    /* margin: 0 auto 1px; */
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;    
+    background: #43A047;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+    background: #4CAF50;
+}
+.form button.cerr_ses {
+    background: red;
+    transition: 0.3s;
+}
+.form button.cerr_ses:hover{
+    background: #fa4141;
+}
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+
+.form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+.form p {
+    padding: 5px;
+    margin: 0 0 10px;
+    color: grey
+}
+.btn_wide{
+    width: 100%;
+}
+.register-form h1,
+.login-form h1
+ {
+    color: green;
+}
+#bl_sesion_iniciada h1 {
+    color: #1875bf;
 }

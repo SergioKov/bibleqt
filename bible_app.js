@@ -199,45 +199,13 @@ const ajuste1 = {
 };
 
 
-const obj_ep = {
-    //ruso
-    'rstStrongRed': 'N',
-    'rstt': 'N',
-    'rsti2': 'N',
-    'rstm': 'N',
-    'rstStrong_rv60': 'N',
-    'nrt': 'N',
-    'abi': 'N',
-    'mdri': 'N',
-    'opnz': 'N',
-
-    //ukr
-    'ukr_fil': 'N',
-    'ukr_ogi': 'N',
-    'ukr_hom': 'Y',
-    'ukr_gyz': 'N',
-    'ukr_tur': 'N',
-    'ukr_kul': 'N',
-    //'ukr_umt': 'Y',
-    'ukr_umts': 'Y',
-    'ukr_der': 'Y',
-
-    //esp
-    'rv60': 'Y',
-    'lbla': 'Y',
-    
-    //eng
-    //'kjv': 'Y',
-    //'nkjv': 'Y',
-}  
-
 //constant para crear arrFavTransObj
 const arrFavTrans = [
     "rstStrongRed",
     "rstt",
     "rsti2",
     "rstm",
-    "rstStrong_rv60",
+    //"rstStrong_rv60",
     "nrt",
     "abi",
     "mdri",
@@ -340,6 +308,11 @@ let crear_objeto_obj_bible_files = true;//true, false
 
 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
 
+let allowUseShowTrans = true;//permitir o no usar function showTrans()
+console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
+
+let strongAction = null;
+
 
 //===================================================================//
 // FUNCIONES
@@ -374,6 +347,7 @@ function iniciarSesion(){//antes login() //username,password
 
         let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
         let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+        let eid_login_menu = document.querySelector('.login_menu');
         
         if (data.success) {
             console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
@@ -382,12 +356,18 @@ function iniciarSesion(){//antes login() //username,password
             eid_bl_sesion_iniciada.style.display = 'block';
             eid_bl_sesion_cerrada.style.display = 'none';
 
-            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `Bienvenido, ${username}!`;
-            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Cargo los ajustes y datos del usuario ${username}!`;
+            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
+            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Sesión iniciada correctamente. Se cargan tus ajustes personales.`;
+            eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+
+            allowUseShowTrans = true;
+            console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
 
             obtenerDatosDeVkladki();
 
-            //document.getElementById("mensaje").innerHTML += '<button class="btn" style="width:100px;" onclick="cerrarSesion()">Cerrar Sesión</button>';
+            setTimeout(()=>{
+                closeModal();
+            },5000);
 
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
@@ -398,6 +378,7 @@ function iniciarSesion(){//antes login() //username,password
 
             eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `Autenticación fallida.`;
             eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `Hubo problemas al iniciar sesión para el usuario ${username}!`;
+            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
 
         }
 
@@ -422,17 +403,19 @@ function cerrarSesion(){
     .then(data => {
 
         console.log(data);
+        let eid_login_menu = document.querySelector('.login_menu');
 
         if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
-            alert('Sesión cerrada con exito!');
+            console.log(text_mensaje);
             hay_sesion = false;
 
             document.getElementById("bl_sesion_iniciada").style.display = "none";
             document.getElementById("bl_sesion_cerrada").style.display = "block";
 
             document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
+            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
 
             eid_partDeskTabs.innerHTML = '';
             addTab(null,null,null,'tab_new');
@@ -453,8 +436,41 @@ function cerrarSesion(){
     });
 }
 
+function mostrarRegisterForm(){
+    console.log('===function mostrarRegisterForm()===');
+
+    let eid_bl_register_form = document.getElementById('bl_register_form');
+    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+
+    eid_bl_register_form.style.display = 'block';
+    eid_bl_sesion_iniciada.style.display = 'none';
+    eid_bl_sesion_cerrada.style.display = 'none';
 
 
+}
+
+function mostrarLoginForm(){
+    console.log('===function mostrarLoginForm()===');
+
+    let eid_bl_register_form = document.getElementById('bl_register_form');
+    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+
+    eid_bl_register_form.style.display = 'none';
+    eid_bl_sesion_iniciada.style.display = 'none';
+    eid_bl_sesion_cerrada.style.display = 'block';
+
+
+}
+
+function crearCuenta(){
+    console.log('===function crearCuenta()===');
+
+
+
+
+}
 
 async function obtenerDatosTrans(url_bq) {
     const respuesta = await fetch(url_bq);
@@ -699,6 +715,7 @@ function loadAllFavBibleFiles(){
                             }
                             //console.log('obj_bible_files: ',obj_bible_files);
                             let countModulesInObj = Object.keys(obj_bible_files).length;
+                            let eid_m_btn_loadAllFavBibleFiles = document.getElementById('m_btn_loadAllFavBibleFiles');
                             eid_m_btn_loadAllFavBibleFiles.innerHTML = `Modules (${countModulesInObj})`;
 
 
@@ -850,6 +867,7 @@ function loadAllFavTskFiles(){
                         }
                         //console.log('obj_tsk_files: ',obj_tsk_files);
                         let countTskInObj = Object.keys(obj_tsk_files).length;
+                        let eid_m_btn_loadAllFavTskFiles = document.getElementById('m_btn_loadAllFavTskFiles');
                         eid_m_btn_loadAllFavTskFiles.innerHTML = `TSK (${countTskInObj})`;
 
                         i_book++;
@@ -953,6 +971,7 @@ function loadAllFavStrongFiles(){
             //console.log('abajo obj_strong_files:');
             //console.log(obj_strong_files);
             let countStrongInObj = Object.keys(obj_strong_files).length;
+            let eid_m_btn_loadAllFavStrongFiles = document.getElementById('m_btn_loadAllFavStrongFiles');
             eid_m_btn_loadAllFavStrongFiles.innerHTML = `Strong (${countStrongInObj})`;
 
             i_strong++;
@@ -1639,7 +1658,11 @@ function makeStrongNumbersActiveFind(){
 
 function showHideStrongNumbers(){
     let strongAll = document.querySelectorAll('.strong, .colsInner p S');
-    let strongAction = null;
+    //let strongAction = null;//antes
+
+    let eid_btnStrong = document.getElementById('btnStrong');
+    let eid_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
+
 
     if(strongAll.length != 0){
 
@@ -1741,17 +1764,35 @@ function clearColsEmpty(){
     });    
 }
 
-
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    //console.log('===function showTrans()===');
+    console.log('===function showTrans()===');
+
+    console.log('en showTrans() --- allowUseShowTrans: ',allowUseShowTrans);
+
     
     //creo array de trans desde los que hay en cols
     makeArrTransFromCols();
 
+
+
+    if(allowUseShowTrans){
+        //cuando se llama showTrans() bloqueo la posibilidad de ejecutar showChapterText4() hasta que termine de pintar los trans en el bucle. Lo vuelvo a permitir en function buildDivShow()
+        allowUseShowTrans = false;
+        console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
+
+        //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
+        window.iter_i = 0;
+        showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);// solo file_read_to_json.php
+        //console.log('iter_i: ' + iter_i + ' --- start en showTrans()');
+    }
+
+
+    /*
     //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
     window.iter_i = 0;
     showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);// solo file_read_to_json.php
     //console.log('iter_i: ' + iter_i + ' --- start en showTrans()');
+    */
 }
 
 function decode_html_2(str) {
@@ -1814,7 +1855,9 @@ function getTsk(e){
     //console.log('chapter: '+chapter);
     //console.log('verse: '+verse);
 
-    let verseEnglishPsalms = obj_ep[Translation];//devuelve 'Y' o 'N'
+    let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+
+    let verseEnglishPsalms = objTrans.EnglishPsalms;//devuelve 'Y' o 'N'
 
     //si clico Psa 118:63 ruso tiene que convertirse en Sal. 119:63 español
     //ya que tsk está en español(ingles);
@@ -1845,7 +1888,6 @@ function getTsk(e){
     //console.log('abajo tsk: ');
     //console.log(tsk);
 
-    let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
 
     //modo new
     if(typeof tsk != 'undefined'){//en este caso: true
@@ -6676,7 +6718,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             arr_data_all = arr_data_head.concat(arr_data_body);
                             //console.log('12861. arr_data_all: ',arr_data_all);
 
-                            arrDataDivShow.push(arr_data_all);
+                            //arrDataDivShow.push(arr_data_all);//antes
+                            arrDataDivShow[window.iter_i] = arr_data_all;
                             //console.log('12864. arrDataDivShow:',arrDataDivShow);
 
                             arr_data_head = [];
@@ -10471,19 +10514,25 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
 
 function changePositionShow(el){//row,col, default = col   
+    let eid_btn_changePositionShowHeader = document.getElementById('btn_changePositionShowHeader');
+    let eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
+    
     if(positionShow == 'row'){
         positionShow = 'col';
-        // el.innerText = 'Row';
         //si element tiene dentro un div, es el boton del modalTop
-        el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Row</span>' : 'Row';
+        //el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Row</span>' : 'Row';
+        eid_btn_changePositionShowHeader.innerHTML = '<span>Row</span>';
+        eid_btn_changePositionShowModal.innerHTML = '<span>Row</span>';
         //hago scroll to top en columna para todos cols
         document.querySelectorAll('.colsInner').forEach(el=>{
             el.scrollTop = 0;
         });
     }else{
         positionShow = 'row';
-        // el.innerText = 'Col';
-        el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Col</span>' : 'Col';
+        //el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Col</span>' : 'Col';
+        eid_btn_changePositionShowHeader.innerHTML = '<span>Col</span>';
+        eid_btn_changePositionShowModal.innerHTML = '<span>Col</span>';
+
     }
     mySizeWindow();
     mySizeVerse();
@@ -13042,7 +13091,10 @@ function getRefForTsk(Translation, bookShortName){
 
 
 function getRef(trans = null){
-    //console.log('=== function getRef() ===');
+    console.log('=== function getRef() ===');
+
+    allowUseShowTrans = true;
+    console.log('en getRef() --- allowUseShowTrans: ',allowUseShowTrans);
 
     let act_trans = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
@@ -14031,9 +14083,11 @@ function selectModule2(htmlTrans){
     //console.log('abajo htmlTrans: ');
     //console.log(htmlTrans);
 
+    let transActive = eid_trans1.dataset.trans;
+
     arrFavTransObj.forEach((el,i)=>{
         const p = document.createElement('p');
-        p.className = 'cl_trans';
+        p.className = (el.Translation == transActive) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
         p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
         p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
         p.onclick = function(){
@@ -14123,6 +14177,11 @@ function hist(param){
 
 
 function bookGo(dir){
+    console.log('=== function chapterGo(dir) ===');
+
+    allowUseShowTrans = true;
+    console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
+
     //console.log('bookGo dir: '+dir);    
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
@@ -14351,6 +14410,11 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
+    console.log('=== function chapterGo(dir) ===');
+
+    allowUseShowTrans = true;
+    console.log('en chapterGo() --- allowUseShowTrans: ',allowUseShowTrans);
+
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     let act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;

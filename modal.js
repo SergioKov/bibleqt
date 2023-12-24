@@ -1,5 +1,5 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-    //console.log('===function openModal()===');
+    console.log('===function openModal()===');
     //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
     //Reset
@@ -33,11 +33,46 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
         case 'top':
             eid_modcont_body.style.overflow = 'auto';//habilita scroll  
             eid_modcont_body.classList.add('theme_grey');   
-            eid_h4_text.innerHTML = headerTitle;//'Меню';
+            //eid_h4_text.innerHTML = headerTitle;//'Меню';
             eid_btn_sp_atras.style.display = 'none'; //mo muestro flecha atras
             eid_myModal.style.paddingTop = '0px';
             eid_myModalContent.classList.add('modalContentTop');
             eid_bl_modalTop.style.display = 'block';
+
+            let eid_topLogin = document.getElementById('topLogin');
+            let eid_topMenu = document.getElementById('topMenu');
+
+            switch (action) {
+            
+                case 'showLogin':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');  
+                    eid_h4_text.innerHTML = headerTitle;//'Меню'; 
+                    console.log('aki llamar showMenu()');
+
+                    eid_topLogin.style.display = 'block';
+                    eid_topMenu.style.display = 'none';
+
+                    //showLogin(htmlTrans, param);
+                    break;
+
+                case 'showMenu':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');  
+                    eid_h4_text.innerHTML = headerTitle;//'Меню'; 
+                    console.log('aki llamar showMenu()');
+
+                    eid_topLogin.style.display = 'none';
+                    eid_topMenu.style.display = 'block';
+                    
+                    //showMenu(htmlTrans, param);//es arr_p_id en este caso
+                    break;
+            
+            
+                default:
+                    //console.log('indica action en openModal()');
+                    break;
+            }
             break;
 
         //pendiente de desarrollo
@@ -164,6 +199,489 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 }
 
 
+
+
+function showMenu(htmlTrans){
+    console.log('=== showMenu(htmlTrans) ===');
+
+    eid_bl_modalTopInner.innerHTML = '';
+
+    //<div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+    //    <div>Tr -</div>
+    //</div>
+    const dbtn_tr_rem = document.createElement('div');
+    dbtn_tr_rem.id = 'tr_rem';
+    dbtn_tr_rem.className = 'dbtn';
+    dbtn_tr_rem.title = 'Remove Bible Translation';
+    dbtn_tr_rem.dataset.fn = "removeTrans()";
+    dbtn_tr_rem.innerHTML = '<div>Tr -</div>';
+    dbtn_tr_rem.onclick = ()=>{
+        removeTrans();
+    };
+
+    //<div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+    //        <div>Tr +</div>
+    //</div>
+    const dbtn_tr_add = document.createElement('div');
+    dbtn_tr_add.id = 'tr_add';
+    dbtn_tr_add.className = 'dbtn';
+    dbtn_tr_add.title = 'Add Bible Translation';
+    dbtn_tr_add.dataset.fn = "addTrans('askForTrans')";
+    dbtn_tr_add.innerHTML = '<div>Tr +</div>';
+    dbtn_tr_add.onclick = ()=>{
+        addTrans('askForTrans')
+    };
+
+
+
+    //<div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+    //    <div>Vk -</div>
+    //</div>
+    const dbtn_vk_rem = document.createElement('div');
+    dbtn_vk_rem.id = 'vk_rem';
+    dbtn_vk_rem.className = 'dbtn';
+    dbtn_vk_rem.title = 'Quitar Pestaña';
+    dbtn_vk_rem.dataset.fn = "removeTab()";
+    dbtn_vk_rem.innerHTML = '<div>Vk -</div>';
+    dbtn_vk_rem.onclick = ()=>{
+        removeTab();
+    };
+
+    //<div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+    //    <div>Vk +</div>
+    //</div>
+    const dbtn_vk_add = document.createElement('div');
+    dbtn_vk_add.id = 'vk_add';
+    dbtn_vk_add.className = 'dbtn';
+    dbtn_vk_add.title = 'Añadir Pestaña';
+    dbtn_vk_add.dataset.fn = "addTab(null,null,null,'tab_new')";
+    dbtn_vk_add.innerHTML = '<div>Vk +</div>';
+    dbtn_vk_add.onclick = ()=>{
+        addTab(null,null,null,'tab_new');
+    };
+
+
+
+    //<div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+    //    <img src="images/arrow_backward_white.svg">
+    //</div>
+    const dbtn_bg_prev = document.createElement('div');
+    dbtn_bg_prev.id = 'bg_prev';
+    dbtn_bg_prev.className = 'dbtn';
+    dbtn_bg_prev.title = 'Previous book';
+    dbtn_bg_prev.dataset.fn = "bookGo('prev')";
+    dbtn_bg_prev.innerHTML = '<img src="images/arrow_backward_white.svg">';
+    dbtn_bg_prev.onclick = ()=>{
+        bookGo('prev');
+    };
+
+    //<div class="dbtn" title="Next book"onclick="bookGo('next')">
+    //    <img src="images/arrow_forward_white.svg">
+    //</div>   
+    const dbtn_bg_next = document.createElement('div');
+    dbtn_bg_next.id = 'bg_next';
+    dbtn_bg_next.className = 'dbtn';
+    dbtn_bg_next.title = 'Next book';
+    dbtn_bg_next.dataset.fn = "bookGo('next')";
+    dbtn_bg_next.innerHTML = '<img src="images/arrow_backward_white.svg">';
+    dbtn_bg_next.onclick = ()=>{
+        bookGo('next');
+    };
+
+
+
+    //<div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+    //    <img src="images/arrow_chevron_left_white.svg">                            
+    //</div>
+    const dbtn_chg_prev = document.createElement('div');
+    dbtn_chg_prev.id = 'bg_prev';
+    dbtn_chg_prev.className = 'dbtn';
+    dbtn_chg_prev.title = 'Previous chapter';
+    dbtn_chg_prev.dataset.fn = "chapterGo('prev')";
+    dbtn_chg_prev.innerHTML = '<img src="images/arrow_chevron_left_white.svg">';
+    dbtn_chg_prev.onclick = ()=>{
+        chapterGo('prev');
+    };
+
+    //<div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+    //    <img src="images/arrow_chevron_right_white.svg">
+    //</div>
+    const dbtn_chg_next = document.createElement('div');
+    dbtn_chg_next.id = 'bg_next';
+    dbtn_chg_next.className = 'dbtn';
+    dbtn_chg_next.title = 'Next chapter';
+    dbtn_chg_next.dataset.fn = "chapterGo('next')";
+    dbtn_chg_next.innerHTML = '<img src="images/arrow_chevron_right_white.svg">';
+    dbtn_chg_next.onclick = ()=>{
+        chapterGo('next');
+    };
+
+
+
+    //<div class="dbtn" title="History previous register" onclick="hist('prev')">
+    //    <div>< H</div>
+    //</div>
+    const dbtn_h_prev = document.createElement('div');
+    dbtn_h_prev.id = 'h_prev';
+    dbtn_h_prev.className = 'dbtn';
+    dbtn_h_prev.title = 'History previous register';
+    dbtn_h_prev.dataset.fn = "hist('prev')";
+    dbtn_h_prev.innerHTML = '<div>< H</div>';
+    dbtn_h_prev.onclick = ()=>{
+        hist('prev');
+    };
+    
+    //<div class="dbtn" title="History next register" onclick="hist('next')">
+    //    <div>H ></div>
+    //</div>
+    const dbtn_h_next = document.createElement('div');
+    dbtn_h_next.id = 'h_next';
+    dbtn_h_next.className = 'dbtn';
+    dbtn_h_next.title = 'History next register';
+    dbtn_h_next.dataset.fn = "hist('next')";
+    dbtn_h_next.innerHTML = '<div>H ></div>';
+    dbtn_h_next.onclick = ()=>{
+        hist('next');
+    };
+
+
+
+    //<div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+    //    <div>Row</div>
+    //</div>
+    const dbtn_ch_pos = document.createElement('div');
+    dbtn_ch_pos.id = 'btn_changePositionShowModal';
+    dbtn_ch_pos.className = 'dbtn';
+    dbtn_ch_pos.title = 'Change position: Columns or Rows';
+    dbtn_ch_pos.dataset.fn = "changePositionShow(this)";
+    dbtn_ch_pos.innerHTML = '<div>Row</div>';
+    dbtn_ch_pos.onclick = (ev)=>{
+        changePositionShow(ev.target);
+    };    
+    
+    //<div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+    //    <div>S#</div>
+    //</div>
+    const dbtn_s_num = document.createElement('div');
+    dbtn_s_num.id = 'm_btnStrong';
+    dbtn_s_num.className = 'dbtn';
+    dbtn_s_num.title = 'Show / Hide Strong Numbers';
+    dbtn_s_num.dataset.fn = "showHideStrongNumbers()";
+    dbtn_s_num.innerHTML = '<div>S#</div>';
+    dbtn_s_num.onclick = ()=>{
+        showHideStrongNumbers();
+    };
+
+
+
+    //<div class="dbtn" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+    //    <div>Модули</div>
+    //</div>
+    const dbtn_moduli = document.createElement('div');
+    dbtn_moduli.id = 'm_moduli';
+    dbtn_moduli.className = 'dbtn';
+    dbtn_moduli.title = 'Избранныe модули Библии';
+    dbtn_moduli.style = 'width:50%;';
+    dbtn_moduli.dataset.fn = "openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')";
+    dbtn_moduli.innerHTML = '<div>Модули</div>';
+    dbtn_moduli.onclick = ()=>{
+        openModal('full','Избранныe модули Библии',eid_trans1,'showModules');
+    };
+
+    //<div class="dbtn" title="Вкладки" onclick="showTabs()" style="width:50%;">
+    //    <div>Вкладки</div>
+    //</div>
+    const dbtn_vkladki = document.createElement('div');
+    dbtn_vkladki.id = 'm_vkladki';
+    dbtn_vkladki.className = 'dbtn';
+    dbtn_vkladki.title = 'Вкладки';
+    dbtn_vkladki.style = 'width:50%;';
+    dbtn_vkladki.dataset.fn = "showTabs()";
+    dbtn_vkladki.innerHTML = '<div>Вкладки</div>';
+    dbtn_vkladki.onclick = ()=>{
+        showTabs();
+    };
+
+
+
+    //<div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
+    //    <div>by_text</div>
+    //</div>
+    const dbtn_by_text = document.createElement('div');
+    dbtn_by_text.id = 'm_btnByText';
+    dbtn_by_text.className = 'dbtn';
+    dbtn_by_text.title = 'modo de cargar modules';
+    dbtn_by_text.style = 'width:50%;';
+    dbtn_by_text.dataset.fn = "changeModo('by_text')";
+    dbtn_by_text.innerHTML = '<div>by_text</div>';
+    dbtn_by_text.onclick = ()=>{
+        changeModo('by_text');
+    };
+
+    //<div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:50%;">
+    //    <div>by_json</div>
+    //</div>
+    const dbtn_by_json = document.createElement('div');
+    dbtn_by_json.id = 'm_btnByJson';
+    dbtn_by_json.className = 'dbtn';
+    dbtn_by_json.title = 'modo de cargar modules';
+    dbtn_by_json.style = 'width:50%;';
+    dbtn_by_json.dataset.fn = "changeModo('by_json')";
+    dbtn_by_json.innerHTML = '<div>by_json</div>';
+    dbtn_by_json.onclick = ()=>{
+        changeModo('by_json');
+    };
+
+
+
+    //<div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
+    //    <div>Modules</div>
+    //</div>
+    const dbtn_load_bib = document.createElement('div');
+    dbtn_load_bib.id = 'm_btn_loadAllFavBibleFiles';
+    dbtn_load_bib.className = 'dbtn';
+    dbtn_load_bib.title = 'cargar a memoria ram';
+    dbtn_load_bib.style = 'width:33.33%;';
+    dbtn_load_bib.dataset.fn = "loadAllFavBibleFiles()";
+    dbtn_load_bib.innerHTML = '<div>Modules</div>';
+    dbtn_load_bib.onclick = ()=>{
+        loadAllFavBibleFiles();
+    };
+
+    //<div id="m_btn_loadAllFavTskFiles" class="dbtn" onclick="loadAllFavTskFiles()" style="width:33.33%;">
+    //    <div>TSK</div>
+    //</div>
+    const dbtn_load_tsk = document.createElement('div');
+    dbtn_load_tsk.id = 'm_btn_loadAllFavTskFiles';
+    dbtn_load_tsk.className = 'dbtn';
+    dbtn_load_tsk.title = 'cargar a memoria ram';
+    dbtn_load_tsk.style = 'width:33.33%;';
+    dbtn_load_tsk.dataset.fn = "loadAllFavTskFiles()";
+    dbtn_load_tsk.innerHTML = '<div>TSK</div>';
+    dbtn_load_tsk.onclick = ()=>{
+        loadAllFavTskFiles();
+    };
+
+    //<div id="m_btn_loadAllFavStrongFiles" class="dbtn" onclick="loadAllFavStrongFiles()" style="width:33.33%;">
+    //    <div>Strong</div>
+    //</div>
+    const dbtn_load_strong = document.createElement('div');
+    dbtn_load_strong.id = 'm_btn_loadAllFavStrongFiles';
+    dbtn_load_strong.className = 'dbtn';
+    dbtn_load_strong.title = 'cargar a memoria ram';
+    dbtn_load_strong.style = 'width:33.33%;';
+    dbtn_load_strong.dataset.fn = "loadAllFavStrongFiles()";
+    dbtn_load_strong.innerHTML = '<div>Strong</div>';
+    dbtn_load_strong.onclick = ()=>{
+        loadAllFavStrongFiles();
+    };
+
+
+
+    //<div class="dbtn" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
+    //    <div class="dbtn_inner">
+    //        <img src="./images/history_icon_white.svg">
+    //        <span>Nav.</span>
+    //    </div>
+    //</div>
+    const dbtn_h_nav = document.createElement('div');
+    dbtn_h_nav.id = 'm_h_nav';
+    dbtn_h_nav.className = 'dbtn';
+    dbtn_h_nav.title = 'История навигации';
+    dbtn_h_nav.style = 'width:33.33%;';
+    dbtn_h_nav.dataset.fn = "openModal('full','История навигации',null,'showHistoryNav')";
+    dbtn_h_nav.innerHTML = `
+    <div class="dbtn_inner">
+        <img src="./images/history_icon_white.svg">
+        <span>Nav.</span>
+    </div>
+    `;
+    dbtn_h_nav.onclick = ()=>{
+        openModal('full','История навигации',null,'showHistoryNav');
+    };
+
+    //<div class="dbtn" title="История поиска" onclick="openModal('full','История поиска',null,'showHistoryFind')" style="width:33.33%;">
+    //    <div class="dbtn_inner">
+    //        <img src="./images/history_icon_white.svg">    
+    //        <span>Find</span>
+    //    </div>
+    //</div>
+    const dbtn_h_find = document.createElement('div');
+    dbtn_h_find.id = 'm_h_find';
+    dbtn_h_find.className = 'dbtn';
+    dbtn_h_find.title = 'История поиска';
+    dbtn_h_find.style = 'width:33.33%;';
+    dbtn_h_find.dataset.fn = "openModal('full','История поиска',null,'showHistoryFind')";
+    dbtn_h_find.innerHTML = `
+    <div class="dbtn_inner">
+        <img src="./images/history_icon_white.svg">
+        <span>Find</span>
+    </div>
+    `;
+    dbtn_h_find.onclick = ()=>{
+        openModal('full','История поиска',null,'showHistoryFind');
+    };
+
+    //<div class="dbtn" title="История номеров Стронга" onclick="openModal('full','История номеров Стронга',null,'showHistoryStrong')" style="width:33.33%;">
+    //    <div class="dbtn_inner">
+    //        <img src="./images/history_icon_white.svg">    
+    //        <span>Strong</span>
+    //    </div>
+    //</div>
+    const dbtn_h_strong = document.createElement('div');
+    dbtn_h_strong.id = 'm_h_strong';
+    dbtn_h_strong.className = 'dbtn';
+    dbtn_h_strong.title = 'История номеров Стронга';
+    dbtn_h_strong.style = 'width:33.33%;';
+    dbtn_h_strong.dataset.fn = "openModal('full','История номеров Стронга',null,'showHistoryStrong')";
+    dbtn_h_strong.innerHTML = `
+    <div class="dbtn_inner">
+        <img src="./images/history_icon_white.svg">
+        <span>Strong</span>
+    </div>
+    `;
+    dbtn_h_strong.onclick = ()=>{
+        openModal('full','История номеров Стронга',null,'showHistoryStrong');
+    };
+
+
+    eid_bl_modalTopInner.append(dbtn_tr_rem);
+    eid_bl_modalTopInner.append(dbtn_tr_add);    
+    eid_bl_modalTopInner.append(dbtn_vk_rem);
+    eid_bl_modalTopInner.append(dbtn_vk_add);
+
+    eid_bl_modalTopInner.append(dbtn_bg_prev);
+    eid_bl_modalTopInner.append(dbtn_bg_next);
+    eid_bl_modalTopInner.append(dbtn_chg_prev);
+    eid_bl_modalTopInner.append(dbtn_chg_next);
+
+    eid_bl_modalTopInner.append(dbtn_h_prev);
+    eid_bl_modalTopInner.append(dbtn_h_next);
+    eid_bl_modalTopInner.append(dbtn_ch_pos);
+    eid_bl_modalTopInner.append(dbtn_s_num);
+    
+    eid_bl_modalTopInner.append(dbtn_moduli);
+    eid_bl_modalTopInner.append(dbtn_vkladki);
+
+    eid_bl_modalTopInner.append(dbtn_by_text);
+    eid_bl_modalTopInner.append(dbtn_by_json);
+
+    eid_bl_modalTopInner.append(dbtn_load_bib);
+    eid_bl_modalTopInner.append(dbtn_load_tsk);
+    eid_bl_modalTopInner.append(dbtn_load_strong);
+
+    eid_bl_modalTopInner.append(dbtn_h_nav);
+    eid_bl_modalTopInner.append(dbtn_h_find);
+    eid_bl_modalTopInner.append(dbtn_h_strong);
+
+
+    //const htmlMenu = document.createElement('div');
+    const htmlMenu = `
+        
+        <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+            <div>Tr -</div>
+        </div>
+        <div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+            <div>Tr +</div>
+        </div>
+
+        
+        <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+            <div>Vk -</div>
+        </div>
+        <div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+            <div>Vk +</div>
+        </div>
+
+
+        <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+            <img src="images/arrow_backward_white.svg">
+        </div>
+        <div class="dbtn" title="Next book"onclick="bookGo('next')">
+            <img src="images/arrow_forward_white.svg">
+        </div>
+
+
+        <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+            <img src="images/arrow_chevron_left_white.svg">                            
+        </div>
+        <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+            <img src="images/arrow_chevron_right_white.svg">
+        </div>
+
+
+        <div class="dbtn" title="History previous register" onclick="hist('prev')">
+            <div>< H</div>
+        </div>
+        <div class="dbtn" title="History next register" onclick="hist('next')">
+            <div>H ></div>
+        </div>                        
+
+
+        <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+            <div>Row</div>
+        </div>
+        <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+            <div>S#</div>
+        </div>
+
+
+        <div class="dbtn" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+            <div>Модули</div>
+        </div>
+        <div class="dbtn" title="Вкладки" onclick="showTabs()" style="width:50%;">
+            <div>Вкладки</div>
+        </div>
+
+
+        <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
+            <div>by_text</div>
+        </div>
+        <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:50%;">
+            <div>by_json</div>
+        </div>
+
+
+        <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
+            <div>Modules</div>
+        </div>
+        <div id="m_btn_loadAllFavTskFiles" class="dbtn" onclick="loadAllFavTskFiles()" style="width:33.33%;">
+            <div>TSK</div>
+        </div>
+        <div id="m_btn_loadAllFavStrongFiles" class="dbtn" onclick="loadAllFavStrongFiles()" style="width:33.33%;">
+            <div>Strong</div>
+        </div>
+
+
+        <div class="dbtn" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
+            <div class="dbtn_inner">
+                <img src="./images/history_icon_white.svg">    
+                <span>Nav.</span>
+            </div>
+        </div>
+        <div class="dbtn" title="История поиска" onclick="openModal('full','История поиска',null,'showHistoryFind')" style="width:33.33%;">
+            <div class="dbtn_inner">
+                <img src="./images/history_icon_white.svg">    
+                <span>Find</span>
+            </div>
+        </div>
+        <div class="dbtn" title="История номеров Стронга" onclick="openModal('full','История номеров Стронга',null,'showHistoryStrong')" style="width:33.33%;">
+            <div class="dbtn_inner">
+                <img src="./images/history_icon_white.svg">    
+                <span>Strong</span>
+            </div>
+        </div>
+    `;
+    //eid_bl_modalTopInner.innerHTML = htmlMenu;
+
+}
+
+
+
+
+
+
+
 function showAviso(htmlTrans, positionModal){
     //console.log('=== showAviso(htmlTrans, param) ===');
 
@@ -185,7 +703,6 @@ function showAviso(htmlTrans, positionModal){
     }
 
 }
-
 
 function buildVerseMenu(arr_p_id,positionModal){
     //console.log('=== function buildVerseMenu(arr_p_id) ===');

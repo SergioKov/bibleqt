@@ -80,7 +80,7 @@ session_start();
                         <div>S#</div>
                     </div>
 
-                    <h3>BQ test (beta)</h3>
+                    <h3>BQ</h3>
 
                     <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
@@ -92,84 +92,13 @@ session_start();
                 </div>
 
 
-
-<?php
-    if(isset($_SESSION['username'])) {
-        // El usuario está logueado, muestra el contenido protegido
-        $st_bl_sesion_iniciada = 'block';
-        $st_bl_sesion_cerrada = 'none';
-        $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
-        //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
-print<<<HERE
-<script>
-
-    let hay_sesion = true;
-    let username = '$_SESSION[username]';
-    let text = 'print js: session iniciada. Bienvenido, ' +  username + '.';
-    
-    console.log(text);
-    
-</script>
-HERE;
-            
-        //echo "<h1>---Bienvenido, " . $_SESSION['username'] . "!</h1>";
-        //echo "<p>Contenido protegido...</p>";
-        //echo '<div class="mensaje"></div>';
-        //echo '<button class="btn" type="button" style="width: 100px;" onclick="cerrarSesion()">Cerrar Sesión</button>';
-    }else{
-        // El usuario no está logueado, muestra el formulario de inicio de sesión
-        $st_bl_sesion_iniciada = 'none';
-        $st_bl_sesion_cerrada = 'block';
-        $frase_bienvenida = "No estás logueado.";
-        //echo "<script>alert('js session cerrada')</script>";
-print<<<HERE
-    <script>
-
-        let hay_sesion = false;
-        
-        console.log('print js: session cerrada. hay que iniciar la sesión.');
-        
-    </script>
-HERE;
-
-
-        //echo '<h1>---Iniciar Sesión</h1>';
-        //echo '<div id="mensaje"></div>';
-        //echo '<form id="formulario_login">';
-        //echo '    <label for="username">Usuario:</label>';
-        //echo '    <input type="text" id="username" name="username" required>';
-        //echo '    <label for="password">Contraseña:</label>';
-        //echo '    <input type="password" id="password" name="password" required>';
-        //echo '    <button class="btn" type="button" style="width: 100px;" onclick="iniciarSesion()">Iniciar Sesión</button>';
-        //echo '</form>';
-    }
-
-print<<<HERE
-    <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
-        <h1>$frase_bienvenida!</h1>
-        <div class="mensaje"></div>
-        <button class="btn" type="button" style="width: 100px;" onclick="cerrarSesion()">Cerrar Sesión</button>
-    </div>
-
-
-    <div id="bl_sesion_cerrada" style="display:$st_bl_sesion_cerrada;">
-        <h1>Iniciar Sesión</h1>
-        <div class="mensaje"></div>
-        <form id="formulario_login">
-            <label for="username">Usuario:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-            <button class="btn" type="button" style="width: 100px;" onclick="iniciarSesion()">Iniciar Sesión</button>
-        </form>
-    </div>
-HERE;
-?>
-
-
-
-                <div class="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню')">
-                    <img src="images/tres_puntos2_white.svg" style="width:24px;">
+                <div class="wr_menu_r">
+                    <div class="login_menu" title="login" onclick="openModal('top','Login',null,'showLogin')">
+                        <img src="images/login2_white.svg" style="width:24px;">
+                    </div>
+                    <div class="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
+                        <img src="images/tres_puntos2_white.svg" style="width:24px;">
+                    </div>
                 </div>
 
             </div>
@@ -564,7 +493,7 @@ HERE;
                                 </div>
                                 
                                 <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>
-                                <button class="btn btn_svg" title="Меню" onclick="openModal('top','Меню')"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
+                                <button class="btn btn_svg" title="Меню" onclick="openModal('top','Меню',null,'showMenu')"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
 
                             </div>
                         </div>
@@ -574,7 +503,7 @@ HERE;
                 </div>
 
                                 
-                <div id="wrCols" style="dis-play:none;">
+                <div id="wrCols">
                
                     <div id="col1" class="cols">
                         <div id="trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
@@ -616,7 +545,7 @@ HERE;
                                         </div>
                                         
                                         <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter"><img src="images/arrow_chevron_right_white.svg"></button>
-                                        <button class="btn btn_svg" title="Меню" onclick="openModal('top','Меню')"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
+                                        <button class="btn btn_svg" title="Меню" onclick="openModal('top','Меню',null,'showMenu')"><img src="images/tres_puntos2_white.svg" style="width:24px;"></button>
                                         
                                     </div>
                                 </div>
@@ -731,7 +660,7 @@ HERE;
                 <div class="inner">
                     <h4>
                         <span class="close" onclick="closeModal()">&#10005;</span><!-- x -->
-                        <span id="btn_sp_atras" class="sp_atras" onclick="openModal('top','Меню')"></span>
+                        <span id="btn_sp_atras" class="sp_atras" onclick="openModal('top','Меню',null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>
                     </h4>
                 </div>
@@ -740,98 +669,207 @@ HERE;
             <div id="modcont_body">
                 <div class="inner">
 
+
+
+
                     <div id="bl_modalTop" class="body_bls" style="display:none;">
                         <div id="bl_modalTopInner">
 
-                            <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
-                                <div>Tr -</div>
-                            </div>
-                            <div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
-                                <div>Tr +</div>
-                            </div>
+                            <div id="topLogin" style="display:none;">
+                                <div id="topLoginInner">
 
-                            <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
-                                <div>Vk -</div>
-                            </div>
-                            <div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
-                                <div>Vk +</div>
-                            </div>
+<?php
+    if(isset($_SESSION['username'])) {
+        // El usuario está logueado, muestra el contenido protegido
+        $st_bl_sesion_iniciada = 'block';
+        $st_bl_sesion_cerrada = 'none';
+        $st_bl_register_form = 'none';
+        $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
+        $mensaje = "Sesión iniciada correctamente. Se cargan tus ajustes personales.";
+        //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
+print<<<HERE
+<script>
+    let hay_sesion = true;
+    let username = '$_SESSION[username]';
+    let text = 'print js: session iniciada. Bienvenido, ' +  username + '.';
+    document.querySelector('.login_menu').innerHTML = '<img src="images/login2_white.svg">';
+    console.log(text);
+</script>
+HERE;
+    }else{
+        // El usuario no está logueado, muestra el formulario de inicio de sesión
+        $st_bl_sesion_iniciada = 'none';
+        $st_bl_sesion_cerrada = 'block';
+        $st_bl_register_form = 'none';
+        $frase_bienvenida = "No estás logueado.";
+        $mensaje = "Sesión no iniciada.";
+        //echo "<script>alert('js session cerrada')</script>";
+print<<<HERE
+    <script>
+        let hay_sesion = false;        
+        console.log('print js: session cerrada. hay que iniciar la sesión.'); 
+        document.querySelector('.login_menu').innerHTML = '<img src="images/login2_grey.svg">';
+    </script>
+HERE;
+    }
+
+print<<<HERE
+
+    <div class="login-page">
+
+        <div class="form">
+
+            <div id="bl_register_form" style="display:$st_bl_register_form;">
+                <form class="register-form">
+                    <h1>Crear cuenta</h1>
+                    <p class="mensaje">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
+                    <input type="text" placeholder="name"/>
+                    <input type="password" placeholder="password"/>
+                    <input type="text" placeholder="email address"/>
+                    <button class="btn_wide" type="button" onclick="crearCuenta()">Crear cuenta</button>
+                    <p class="message">¿Ya estás registrado? <a href="#" onclick="mostrarLoginForm()">Entrar</a></p>
+                </form>
+            </div>
+            
+            <div id="bl_sesion_cerrada" style="display:$st_bl_sesion_cerrada;">
+                <form class="login-form">
+                    <h1>Iniciar sesión</h1>
+                    <p class="mensaje">Tendrás acceso a tus ajustes personales.</p>
+                    <input id="username" name="username" type="text" placeholder="username" required/>
+                    <input id="password" name="password" type="password" placeholder="password" required/>
+                    <button class="btn_wide" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
+                    <p class="message">¿No estás registrado? <a href="#" onclick="mostrarRegisterForm()">Crear una cuenta</a></p>
+                </form>
+            </div>
+
+            <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
+                <h1>$frase_bienvenida!</h1>
+                <p class="mensaje">$mensaje</p>
+                <br>
+                <button class="cerr_ses" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+
+        </div>
+
+  </div>
+HERE;
+?>
 
 
-                            <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
-                                <img src="images/arrow_backward_white.svg">
-                            </div>
-                            <div class="dbtn" title="Next book"onclick="bookGo('next')">
-                                <img src="images/arrow_forward_white.svg">
-                            </div>
-
-                            <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
-                                <img src="images/arrow_chevron_left_white.svg">                            
-                            </div>
-                            <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
-                                <img src="images/arrow_chevron_right_white.svg">
-                            </div>
-
-                            <div class="dbtn" title="History previous register" onclick="hist('prev')">
-                                <div>< H</div>
-                            </div>
-                            <div class="dbtn" title="History next register" onclick="hist('next')">
-                                <div>H ></div>
-                            </div>                        
-
-                            <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
-                                <div>Row</div>
-                            </div>
-                            <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
-                                <div>S#</div>
-                            </div>
-
-                            <div class="dbtn" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
-                                <div>Модули</div>
-                            </div>
-                            <div class="dbtn" title="Вкладки" onclick="showTabs()" style="width:50%;">
-                                <div>Вкладки</div>
-                            </div>
-
-                            <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
-                                <div>by_text</div>
-                            </div>
-                            <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:50%;">
-                                <div>by_json</div>
-                            </div>
 
 
-                            <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
-                                <div>Modules</div>
-                            </div>
-                            <div id="m_btn_loadAllFavTskFiles" class="dbtn" onclick="loadAllFavTskFiles()" style="width:33.33%;">
-                                <div>TSK</div>
-                            </div>
-                            <div id="m_btn_loadAllFavStrongFiles" class="dbtn" onclick="loadAllFavStrongFiles()" style="width:33.33%;">
-                                <div>Strong</div>
-                            </div>
 
-
-                            <div class="dbtn" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
-                                <div class="dbtn_inner">
-                                    <img src="./images/history_icon_white.svg">    
-                                    <span>Nav.</span>
                                 </div>
-                            </div>
-                            <div class="dbtn" title="История поиска" onclick="openModal('full','История поиска',null,'showHistoryFind')" style="width:33.33%;">
-                                <div class="dbtn_inner">
-                                    <img src="./images/history_icon_white.svg">    
-                                    <span>Find</span>
-                                </div>
-                            </div>
-                            <div class="dbtn" title="История номеров Стронга" onclick="openModal('full','История номеров Стронга',null,'showHistoryStrong')" style="width:33.33%;">
-                                <div class="dbtn_inner">
-                                    <img src="./images/history_icon_white.svg">    
-                                    <span>Strong</span>
-                                </div>
-                            </div>
-                            
-                            
+                            </div><!--/#topLogin-->
+
+
+                            <div id="topMenu" style="display:none;">
+                                <div id="topMenuInner">
+
+                                    <div id="m_btn_login" class="dbtn" title="Sesion" onclick="openModal('top','Меню',null,'showLogin')" style="width:100%;">
+                                    <div class="dbtn_inner">
+                                            <img src="./images/login2_white.svg">    
+                                            <span>Login</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
+                                        <div>Tr -</div>
+                                    </div>
+                                    <div class="dbtn" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+                                        <div>Tr +</div>
+                                    </div>
+
+                                    <div class="dbtn" title="Quitar Pestaña" onclick="removeTab()">
+                                        <div>Vk -</div>
+                                    </div>
+                                    <div class="dbtn" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+                                        <div>Vk +</div>
+                                    </div>
+
+
+                                    <div class="dbtn" title="Previous book" onclick="bookGo('prev')">
+                                        <img src="images/arrow_backward_white.svg">
+                                    </div>
+                                    <div class="dbtn" title="Next book"onclick="bookGo('next')">
+                                        <img src="images/arrow_forward_white.svg">
+                                    </div>
+
+                                    <div class="dbtn" title="Previous chapter" onclick="chapterGo('prev')">
+                                        <img src="images/arrow_chevron_left_white.svg">                            
+                                    </div>
+                                    <div class="dbtn" title="Next chapter" onclick="chapterGo('next')">
+                                        <img src="images/arrow_chevron_right_white.svg">
+                                    </div>
+
+                                    <div class="dbtn" title="History previous register" onclick="hist('prev')">
+                                        <div>< H</div>
+                                    </div>
+                                    <div class="dbtn" title="History next register" onclick="hist('next')">
+                                        <div>H ></div>
+                                    </div>                        
+
+                                    <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                                        <div>Row</div>
+                                    </div>
+                                    <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                                        <div>S#</div>
+                                    </div>
+
+                                    <div class="dbtn" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+                                        <div>Модули</div>
+                                    </div>
+                                    <div class="dbtn" title="Вкладки" onclick="showTabs()" style="width:50%;">
+                                        <div>Вкладки</div>
+                                    </div>
+
+                                    <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
+                                        <div>by_text</div>
+                                    </div>
+                                    <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:50%;">
+                                        <div>by_json</div>
+                                    </div>
+
+
+                                    <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
+                                        <div>Modules</div>
+                                    </div>
+                                    <div id="m_btn_loadAllFavTskFiles" class="dbtn" onclick="loadAllFavTskFiles()" style="width:33.33%;">
+                                        <div>TSK</div>
+                                    </div>
+                                    <div id="m_btn_loadAllFavStrongFiles" class="dbtn" onclick="loadAllFavStrongFiles()" style="width:33.33%;">
+                                        <div>Strong</div>
+                                    </div>
+
+
+                                    <div class="dbtn" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
+                                        <div class="dbtn_inner">
+                                            <img src="./images/history_icon_white.svg">    
+                                            <span>Nav.</span>
+                                        </div>
+                                    </div>
+                                    <div class="dbtn" title="История поиска" onclick="openModal('full','История поиска',null,'showHistoryFind')" style="width:33.33%;">
+                                        <div class="dbtn_inner">
+                                            <img src="./images/history_icon_white.svg">    
+                                            <span>Find</span>
+                                        </div>
+                                    </div>
+                                    <div class="dbtn" title="История номеров Стронга" onclick="openModal('full','История номеров Стронга',null,'showHistoryStrong')" style="width:33.33%;">
+                                        <div class="dbtn_inner">
+                                            <img src="./images/history_icon_white.svg">    
+                                            <span>Strong</span>
+                                        </div>
+                                    </div>
+
+                                </div><!--/#topMenuInner-->
+                            </div><!--/#topMenu-->
+
+
+                            <div id="topOtraCosa" style="display:none;">
+                                ...
+                            </div><!--/#topOtraCosa-->
+
+                                            
                         </div>
                     </div>
 
@@ -853,7 +891,7 @@ HERE;
 
                     <div id="bl_modalFull" class="body_bls" style="display:none;">
                         <div id="bl_modalFullInner" class="vyb_trans">
-                            
+                            ...
                         </div>
                     </div>
 

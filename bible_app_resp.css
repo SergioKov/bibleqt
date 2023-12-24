@@ -2,9 +2,10 @@
 @media screen and (min-width: 1024px){
     .partMob,
     #arrowBack,
-    #closeBack
+    #closeBack,
+    #m_btn_login
     {
-        display:none;
+        display:none !important;
     }
 
     #sidebar,
@@ -12,7 +13,7 @@
     #headerContainer,
     .partDesk
     {
-        display:block;
+        display:block !important;
     }
 
     .sideHide, .sideShow {
@@ -34,14 +35,15 @@
 
     .partMob,
     #arrowBack,
-    #closeBack
+    #closeBack,
+    #m_btn_login
     {
-        display:none;
+        display:none !important;
     }
 
     .partDesk
     {
-        display:block;
+        display:block !important;
     }
 
     .sideHide, .sideShow {
@@ -83,7 +85,9 @@
         display:none;
     }
 
-    .partMob{
+    .partMob,
+    #m_btn_login
+    {
         display:block;
     }
 
