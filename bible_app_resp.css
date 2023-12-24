@@ -3,7 +3,7 @@
     .partMob,
     #arrowBack,
     #closeBack,
-    #m_btn_login
+    #m_login_menu
     {
         display:none !important;
     }
@@ -36,7 +36,7 @@
     .partMob,
     #arrowBack,
     #closeBack,
-    #m_btn_login
+    #m_login_menu
     {
         display:none !important;
     }
@@ -86,7 +86,7 @@
     }
 
     .partMob,
-    #m_btn_login
+    #m_login_menu
     {
         display:block;
     }

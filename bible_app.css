@@ -2355,7 +2355,7 @@ span.prim_tsk {
     width: 22px;
     height: 22px;
 }
-#m_btn_login img {
+#m_login_menu img {
     width: 20px;
     height: 20px;
     border-radius: 20%;
@@ -2399,7 +2399,7 @@ span.prim_tsk {
     align-items: center;
     gap: 5px;
 }
-.login_menu {
+#login_menu {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -2414,7 +2414,7 @@ span.prim_tsk {
     overflow: hidden;
     padding: 0px;
 }
-.login_menu img{
+#login_menu img{
     width: 20px;
 }
 .tres_puntos_menu{

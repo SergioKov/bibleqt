@@ -93,7 +93,7 @@ session_start();
 
 
                 <div class="wr_menu_r">
-                    <div class="login_menu" title="login" onclick="openModal('top','Login',null,'showLogin')">
+                    <div id="login_menu" title="login" onclick="openModal('top','Login',null,'showLogin')">
                         <img src="images/login2_white.svg" style="width:24px;">
                     </div>
                     <div class="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
@@ -686,13 +686,17 @@ session_start();
         $st_bl_register_form = 'none';
         $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
         $mensaje = "Sesión iniciada correctamente. Se cargan tus ajustes personales.";
+        $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
 <script>
     let hay_sesion = true;
     let username = '$_SESSION[username]';
     let text = 'print js: session iniciada. Bienvenido, ' +  username + '.';
-    document.querySelector('.login_menu').innerHTML = '<img src="images/login2_white.svg">';
+
+    let eid_login_menu = document.getElementById('login_menu');
+    eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+
     console.log(text);
 </script>
 HERE;
@@ -703,12 +707,16 @@ HERE;
         $st_bl_register_form = 'none';
         $frase_bienvenida = "No estás logueado.";
         $mensaje = "Sesión no iniciada.";
+        $login_img_src = './images/login2_grey2.svg';
         //echo "<script>alert('js session cerrada')</script>";
 print<<<HERE
     <script>
         let hay_sesion = false;        
-        console.log('print js: session cerrada. hay que iniciar la sesión.'); 
-        document.querySelector('.login_menu').innerHTML = '<img src="images/login2_grey.svg">';
+        console.log('print js: session cerrada. hay que iniciar la sesión.');
+
+        let eid_login_menu = document.getElementById('login_menu');
+        eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+    
     </script>
 HERE;
     }
@@ -765,13 +773,16 @@ HERE;
 
                             <div id="topMenu" style="display:none;">
                                 <div id="topMenuInner">
-
-                                    <div id="m_btn_login" class="dbtn" title="Sesion" onclick="openModal('top','Меню',null,'showLogin')" style="width:100%;">
+<?php
+print<<<HERE
+                                    <div id="m_login_menu" class="dbtn" title="Sesion" onclick="openModal('top','Меню',null,'showLogin')" style="width:100%;">
                                     <div class="dbtn_inner">
-                                            <img src="./images/login2_white.svg">    
+                                            <img src="$login_img_src">    
                                             <span>Login</span>
                                         </div>
                                     </div>
+HERE;
+?>                                    
 
                                     <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
                                         <div>Tr -</div>
@@ -913,14 +924,14 @@ HERE;
 
 <?php 
     if(isset($_GET) && !empty($_GET) ){
-        echo "<p>isset $ _GET";
+        //echo "<p>isset $ _GET";
         
         $trans = (isset($_GET['trans'])) ? $_GET['trans'] : null ;
         $ref = (isset($_GET['ref'])) ? $_GET['ref'] : null ;
         //echo "$ str_trans: $str_trans";
         //echo "$ ref: $ref";
     }else{
-        echo "<p>NO isset $ _GET";
+        //echo "<p>NO isset $ _GET";
         
         $trans = null;
         $ref = null; 
@@ -928,9 +939,9 @@ HERE;
     //die();
 
     if(isset($_SESSION) && !empty($_SESSION) && !empty($_SESSION['username'])){
-        echo "<p>isset $ _SESSION. $ _SESSION[username]: " . $_SESSION['username'];
+        //echo "<p>isset $ _SESSION. $ _SESSION[username]: " . $_SESSION['username'];
     }else{
-        echo "<p>NO isset $ _SESSION";
+        //echo "<p>NO isset $ _SESSION";
     }
     //die();
 ?>

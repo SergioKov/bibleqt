@@ -347,7 +347,8 @@ function iniciarSesion(){//antes login() //username,password
 
         let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
         let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-        let eid_login_menu = document.querySelector('.login_menu');
+        let eid_login_menu = document.getElementById('login_menu');
+        let eid_m_login_menu = document.getElementById('m_login_menu');
         
         if (data.success) {
             console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
@@ -359,6 +360,7 @@ function iniciarSesion(){//antes login() //username,password
             eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
             eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Sesión iniciada correctamente. Se cargan tus ajustes personales.`;
             eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+            eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
 
             allowUseShowTrans = true;
             console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -403,7 +405,8 @@ function cerrarSesion(){
     .then(data => {
 
         console.log(data);
-        let eid_login_menu = document.querySelector('.login_menu');
+        let eid_login_menu = document.getElementById('login_menu');
+        let eid_m_login_menu = document.getElementById('m_login_menu');
 
         if (data.cerrada) {
             
@@ -416,6 +419,7 @@ function cerrarSesion(){
 
             document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
             eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+            eid_m_login_menu.querySelector('img').src = './images/login2_grey2.svg';
 
             eid_partDeskTabs.innerHTML = '';
             addTab(null,null,null,'tab_new');
