@@ -361,6 +361,7 @@ function iniciarSesion(){//antes login() //username,password
             eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Sesión iniciada correctamente. Se cargan tus ajustes personales.`;
             eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
             eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
+            eid_login_menu.title = `${username}`;
 
             allowUseShowTrans = true;
             console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -420,10 +421,10 @@ function cerrarSesion(){
             document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
             eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
             eid_m_login_menu.querySelector('img').src = './images/login2_grey2.svg';
+            eid_login_menu.title = `Login`;            
 
             eid_partDeskTabs.innerHTML = '';
             addTab(null,null,null,'tab_new');
-
             
             // Actualizar el contenido después de cerrar la sesión
             //document.getElementById("mensaje").innerHTML = '';
@@ -444,35 +445,159 @@ function mostrarRegisterForm(){
     console.log('===function mostrarRegisterForm()===');
 
     let eid_bl_register_form = document.getElementById('bl_register_form');
+    let eid_bl_email_form = document.getElementById('bl_email_form');
     let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
     let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
 
     eid_bl_register_form.style.display = 'block';
+    eid_bl_email_form.style.display = 'none';
     eid_bl_sesion_iniciada.style.display = 'none';
     eid_bl_sesion_cerrada.style.display = 'none';
-
-
 }
+
+function mostrarEmailForm(){
+    console.log('===function mostrarEmailForm()===');
+
+    let eid_bl_register_form = document.getElementById('bl_register_form');
+    let eid_bl_email_form = document.getElementById('bl_email_form');
+    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+
+    eid_bl_register_form.style.display = 'none';
+    eid_bl_email_form.style.display = 'block';
+    eid_bl_sesion_iniciada.style.display = 'none';
+    eid_bl_sesion_cerrada.style.display = 'none';
+}
+
 
 function mostrarLoginForm(){
     console.log('===function mostrarLoginForm()===');
 
     let eid_bl_register_form = document.getElementById('bl_register_form');
+    let eid_bl_email_form = document.getElementById('bl_email_form');
     let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
     let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
 
     eid_bl_register_form.style.display = 'none';
+    eid_bl_email_form.style.display = 'none';
     eid_bl_sesion_iniciada.style.display = 'none';
     eid_bl_sesion_cerrada.style.display = 'block';
-
-
 }
 
 function crearCuenta(){
     console.log('===function crearCuenta()===');
 
+    let username = document.getElementById("reg_username").value;
+    let password = document.getElementById("reg_password").value;
+    let email = document.getElementById("reg_email").value;
 
+    if(username == '' || password == '' || email == ''){
+        alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
+        return;
+    }
 
+    // Enviar los datos al servidor para la autenticación
+    fetch("crear_cuenta.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+            email: email
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        console.log(data);
+        
+        let eid_bl_register_form = document.getElementById('bl_register_form');
+        
+        if (data.success) {
+            
+            console.log(`Usuario registrado con éxito.`);
+
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span style="color:green;">Usuario ${username} se ha registrado con éxito.</span>`;
+
+            setTimeout(()=>{
+                mostrarLoginForm();
+            },3000);
+
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            let error_text = "Error al registrar el usuario";
+            console.error(data.error);
+            console.error(error_text);
+
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span style="color:red;">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>`;
+        }
+
+        mySizeWindow();
+        
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });
+}
+
+function enviarEmail(){
+    console.log('===function enviarEmail()===');
+
+    let email = document.getElementById("rec_email").value;
+
+    if(email == ''){
+        alert('El campo email es obligatorio. Introduce tu email por favor.');
+        return;
+    }
+
+    // Enviar los datos al servidor para la autenticación
+    fetch("generar_token.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email
+        })
+    })
+    // .then(response => response.json())
+    .then(response => response.text())
+    .then(data => {
+        
+        console.log(data);
+        
+        let eid_bl_email_form = document.getElementById('bl_email_form');
+        
+        if(data.success) {
+            
+            console.log(`Email enviado con éxito.`);
+
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span style="color:green;">Email ${email} se ha enviado con éxito.</span>`;
+
+            setTimeout(()=>{
+                mostrarLoginForm();
+            },3000);
+            
+
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            let error_text = "Error al enviar el email";
+            console.error(data.error);
+            console.error(error_text);
+
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span style="color:red;">Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}</span>`;
+        }
+
+        mySizeWindow();
+        
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });
 
 }
 
@@ -644,7 +769,7 @@ function loadAllFavBibleFiles(){
         let this_trans = arrFavTransObj.find(v => v.Translation === el);
 
         //si no existe objeto lo creo
-        if(i_trans < arrFavTrans.length && (typeof obj_bible_files[el] == 'undefined' || countElementsInArray(obj_bible_files.rstStrongRed.Books) < this_trans.BookQty) ){
+        if(i_trans < arrFavTrans.length && (typeof obj_bible_files[el] == 'undefined' || countElementsInArray(obj_bible_files[el].Books) < this_trans.BookQty) ){
 
             //saco ajustes de este modulo en json
             let url_bq = `modules/text/${el}/bibleqt.json`;
@@ -1044,7 +1169,8 @@ async function loadDefaultFunctions() {
             
             loadRefDefault(get_ref, get_trans);//first tab
         }else{
-            loadRefDefault('Быт. 1:1', arrFavTrans[0]);//first tab en mi caso es 'rstStrongRed'
+            let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
+            loadRefDefault(`${trans_def.Books[0].ShortNames[0]} 1:1`, trans_def.Translation);//first tab en mi caso es 'rstStrongRed'
         }
         console.log('hay_get_data: ',hay_get_data);
     }
@@ -1173,7 +1299,7 @@ function showTooltip(el){//old //hover //find parameters
     
     //modo 2 - ok (mas entendible)
     let this_ttt_html = `<span class="tooltiptext">
-                            <span class="trik"></span>
+                            <span class="trik1"></span>
                             <span class="text">${el.getAttribute('data-tooltip')}</span>
                         </span>`;
     el.innerHTML += this_ttt_html;
@@ -1771,18 +1897,20 @@ function clearColsEmpty(){
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
     console.log('===function showTrans()===');
 
-    console.log('en showTrans() --- allowUseShowTrans: ',allowUseShowTrans);
-
+    console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
     
     //creo array de trans desde los que hay en cols
     makeArrTransFromCols();
 
-
-
     if(allowUseShowTrans){
+    
+
         //cuando se llama showTrans() bloqueo la posibilidad de ejecutar showChapterText4() hasta que termine de pintar los trans en el bucle. Lo vuelvo a permitir en function buildDivShow()
+        
         allowUseShowTrans = false;
         console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
+        console.log('dentro del bucle --- arr_trans: ',arr_trans);
+        console.log('dentro del bucle --- arrDataDivShow: ',arrDataDivShow);
 
         //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
         window.iter_i = 0;
@@ -4404,7 +4532,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     let divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     let divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
-    //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
     if(indexColToBuild == null){
@@ -4467,6 +4594,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                 //si existe objeto con Translation. Saco datos del objeto
                 if(typeof obj_bible_files[Translation] != 'undefined'){
+                    console.log(`typeof obj_bible_files[Translation] != 'undefined'`);
+                    
                     if(typeof obj_bible_files[Translation].Books != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
 
@@ -4495,7 +4624,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }            
                                     
                                     //console.log(bookModule);
-                                    divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
+                                    //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
             
                                     let nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
@@ -5673,6 +5802,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 
                 //si no existe objeto con Translation. hago fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
+                    console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
 
                     //start de tiempo para calcular cuanto tarda
                     const tiempoInicioFetch = new Date().getTime();
@@ -5697,7 +5827,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         }
                         
                         //console.log(bookModule);
-                        divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
+                        //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
                         let nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
@@ -6722,9 +6852,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             arr_data_all = arr_data_head.concat(arr_data_body);
                             //console.log('12861. arr_data_all: ',arr_data_all);
 
-                            //arrDataDivShow.push(arr_data_all);//antes
-                            arrDataDivShow[window.iter_i] = arr_data_all;
-                            //console.log('12864. arrDataDivShow:',arrDataDivShow);
+                            arrDataDivShow.push(arr_data_all);//antes
+                            //arrDataDivShow[window.iter_i] = arr_data_all;//da fallo!
+                            console.log('12864. arrDataDivShow:',arrDataDivShow);
+                            console.log('12864. arrDataDivShow  [window.iter_i]:',window.iter_i);
 
                             arr_data_head = [];
                             arr_data_body = [];
@@ -6964,7 +7095,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     .then((bookModule) => {
                         
                         //console.log(bookModule);
-                        divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
+                        //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
                         let nb = bookModule.split('<h4>');//делю файл на главы
                         //console.log(nb);
@@ -8163,7 +8294,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
     let divTransDesk = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
     let divTransMob = document.querySelector(divId+' .colsHead .colsHeadInner .partMob .mob_trans');
     let divShow = document.querySelector(divId+' .colsInner');//donde se ve el texto de la Biblia
-    //divShow.innerHTML = '';//antes
     
     //reseteo todas las columnas con sig. func
     if(indexColToBuild == null){
@@ -8258,7 +8388,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                 //console.log('10197. abajo dataRead');
                 //console.log(dataRead);
                 
-                divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
+                //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!//antes
                 //console.log('lo reseteo en buildDivShow'); 
 
                 let BookName = dataRead.chapterData.h2_text;
@@ -10316,6 +10446,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
         });
         //si hay errores de comparacion_ recargo todas las columnas
         if(arr_error_compare.length > 0 || arr_cols_empty.length > 0){
+            allowUseShowTrans = true;
             showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
         }else{//solo recargo col1
             window.arr_trans = [];//reset array de trans para formar uno nuevo
@@ -10325,6 +10456,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
         }  
     
     }else{//EnglishPsalms actual es distinto. recargo todos los trans abiertos            
+        allowUseShowTrans = true;
         showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
     }            
 }
@@ -10502,6 +10634,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     });
     //si hay errores de comparacion_ recargo todas las columnas
     if (arr_error_compare.length > 0 || arr_cols_empty.length > 0) {
+        allowUseShowTrans = true;
         showTrans(id_book, chapter, verseNumber, to_verseNumber, verseView);
     } else {//solo recargo col de la trans nueva
         window.arr_trans = [];//reset array de trans para formar uno nuevo
@@ -11123,7 +11256,10 @@ function updateTransInTab(trans,tabActive,n){
 
 
 function getRefOfTab(tab_id, ref, str_trans = null){
-    //alert(str_trans);
+    console.log('===function getRefOfTab()===');
+
+    allowUseShowTrans = true;
+
     let this_tab = document.getElementById(tab_id);
     //console.log(this_tab);
     
@@ -11135,6 +11271,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
     let colsAll = document.querySelectorAll('.cols');
     eid_inpt_nav.value = ref;
+    eid_inpt_nav.dataset.trans = this_tab.dataset.ref_trans;
 
     str_trans = (str_trans != null) ? str_trans : eid_inpt_nav.dataset.trans;
     arr_trans = str_trans.split(',');
@@ -11155,6 +11292,10 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
         if(typeof obj_el_trans != 'undefined'){            
             if(colsAll[i] != null){//existe una columna
+                if(el == this_tab.dataset.ref_trans){
+                    eid_inpt_nav.dataset.divtrans = colsAll[i].querySelector('.colsHead').id;//'trans3' o 'trans1'
+                }
+                
                 colsAll[i].querySelector('.colsHead').dataset.trans = obj_el_trans.Translation;
                 colsAll[i].querySelector('.colsHead').dataset.base_ep = obj_el_trans.EnglishPsalms;
             }else{//no existe columna. añado una trans 
@@ -11175,7 +11316,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
                     el.scrollIntoView();
                 }
             });
-            if(typeof obj_el_trans != 'undefined'){
+            if(typeof obj_el_trans != 'undefined' && this_tab.dataset.ref_trans == arr_trans[0]){//trans del col1
                 //cambio trans del eid_inpt_nav
                 eid_inpt_nav.dataset.trans = obj_el_trans.Translation;
             }
@@ -11183,14 +11324,17 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
     });
 
-    //ejecuto click sobre el boton ok en eid_inpt_nav para que se muestren botones de verses
-    eid_btn_ok.click();
+    getRef(this_tab.dataset.ref_trans);
+
+    //ejecuto click sobre el boton 'Stij' para que se muestren botones de verses
     setTimeout(()=>{
         eid_s_verse.click();
     },100);
 }
 
 function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null){
+    console.log('=== function addTab() ===');
+    
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
     //console.log(countTabs);
@@ -11229,6 +11373,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.id = 'tab' + next_n;
         htmlTab.className = 'tabs';
         htmlTab.dataset.str_trans = str_trans;
+        htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
             getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
             updateArrTabs();
@@ -11319,6 +11464,7 @@ function updateArrTabs(){
             str_trans: str_trans_new,
             title: str_trans_names,
             btn_close: has_btn_close,
+            ref_trans: el.dataset.ref_trans,
             ref: el.querySelector('span').innerHTML
         };
         //console.log(el_obj);
@@ -11353,8 +11499,6 @@ async function saveInDb_ArrTabs(){
     } catch (error) {
         console.error('Error en la función externa:', error);
     }
-
-
 }
 
 
@@ -11401,32 +11545,51 @@ async function obtenerDatosDeVkladki() {
         const data = await response.json();
         // const data = await response.text();
         console.log('Datos de vkladki:', data);
+
+        if(data == 'no_tiene_vkladki'){
+            console.log('no_tiene_vkladki');
+            //arrTabs por defecto
+            let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
+            arrTabs = [
+                {
+                    "id": "tab1",
+                    "className": "tabs tab_active",
+                    "str_trans": trans_def.Translation,
+                    "title": trans_def.BibleShortName,
+                    "btn_close": true,
+                    "ref_trans": trans_def.Translation,
+                    "ref": `${trans_def.Books[0].ShortNames[0]} 1:1`
+                }
+            ]
+        }else{
+            console.log('Si. tiene_vkladki');
+
+            // arrTabs = JSON.parse(data.arr);
+            let arrTabs_work = JSON.parse(data);
+            console.log('user arrTabs_work:', arrTabs_work);
+
+            arrTabs_work.forEach((el,i,arr)=>{ 
+                //console.log(el.ref);
+
+                let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
+                let coincidencias = el.ref.match(expresionRegular);
+
+                if(coincidencias){
+                    console.log('antes el.ref: ',el.ref);
+
+                    el.ref = el.ref.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    
+                    arrTabs_work[i].ref = convertirUnicodeALetras(el.ref);                
+                }     
+            });
+            console.log('2. user arrTabs_work:', arrTabs_work);
+            
+            arrTabs = arrTabs_work;
+            console.log('new arrTabs:', arrTabs);
+        }
         
-        // arrTabs = JSON.parse(data.arr);
-        let arrTabs_work = JSON.parse(data);
-        console.log('user arrTabs_work:', arrTabs_work);
-
-        arrTabs_work.forEach((el,i,arr)=>{ 
-            //console.log(el.ref);
-
-            let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
-            let coincidencias = el.ref.match(expresionRegular);
-
-            if(coincidencias){
-                console.log('antes el.ref: ',el.ref);
-
-                el.ref = el.ref.replace(expresionRegular, function (x) {
-                    return '\\' + x;
-                });
-                
-                arrTabs_work[i].ref = convertirUnicodeALetras(el.ref);                
-            }     
-        });
-        console.log('2. user arrTabs_work:', arrTabs_work);
-        
-        arrTabs = arrTabs_work;
-        console.log('new arrTabs:', arrTabs);
-
         makeTabsFromDatosDeVkladki();
 
     } catch (error) {
@@ -11452,6 +11615,7 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.id = el.id;
                 htmlTab.className = el.className;
                 htmlTab.dataset.str_trans = el.str_trans;
+                htmlTab.dataset.ref_trans = el.ref_trans;
                 htmlTab.onclick = function(e){
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
@@ -11638,17 +11802,22 @@ function selBook(e){
     //eid_v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
     eid_v_verse.innerHTML = 'cargando versículos...';            
 
+    addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
 
     e.srcElement.classList.add('active');//añado bg red al boton 'Sal.'
     eid_s_chapter.click();// me muevo a la pestaña 'Glava'
     //en #eid_s_chapter se llama sel(this,'ch',trans)...
     //en #eid_v_chapter se quitan todos los li's botones de chapters para crear nuevos li's
     //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
+
+    //allowUseShowTrans = true;
     showTrans(e.srcElement.getAttribute('data-id_book'), 1);//cargo con fetch chapter 1 por defecto    
 }
 
 //Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e, show_chapter = null){
+    console.log('=== function selChapter(e, show_chapter = null) ===');
+
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
@@ -11744,6 +11913,8 @@ function selChapter(e, show_chapter = null){
             }
         }
 
+        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
+
         addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
         
         if(show_chapter == null){
@@ -11753,7 +11924,8 @@ function selChapter(e, show_chapter = null){
         //en #eid_s_verse se llama sel(this,'v',trans)...
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
-    
+        
+        //allowUseShowTrans = true;
         showTrans(eid_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
 
     }else{//trans1
@@ -11774,19 +11946,23 @@ function selChapter(e, show_chapter = null){
         //en #eid_s_verse se llama sel(this,'v',trans)...
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
-    
+        
+        //allowUseShowTrans = true;
         showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1    
     }    
 }
 
 
-function updateRefInTabActive(ref){
+function updateRefInTabActive(trans,ref){
+    document.querySelector('.tab_active').dataset.ref_trans = trans;
     document.querySelector('.tab_active span').textContent = ref;
 }
 
 
 //Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
+    console.log('=== function selVerse(e) ===');
+
     //console.log(e.srcElement.innerText);
 
     //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
@@ -11797,7 +11973,7 @@ function selVerse(e){
     let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
     let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
-    //asigno chapter por defecto si no hay cha`ter y se selecciona verse
+    //asigno chapter por defecto si no hay chapter y se selecciona verse
     if(eid_inpt_nav.getAttribute('data-id_chapter') == '' && eid_inpt_nav.getAttribute('data-show_chapter') == ''){
         eid_inpt_nav.setAttribute('data-id_chapter', 0);
         eid_inpt_nav.setAttribute('data-show_chapter', 1);
@@ -11845,7 +12021,10 @@ function selVerse(e){
 
         obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
-    
+
+        eid_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
+        eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));   
+
     }
 
     let to_verse = null;//todavia no está seleccionado
@@ -11882,8 +12061,8 @@ function selVerse(e){
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                 eid_inpt_nav.value = new_ref_text;
 
-                eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);//REVISAR!!!
-                eid_inpt_nav.setAttribute('data-show_verse',verseNumber); //REVISAR!!!
+                eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);
+                eid_inpt_nav.setAttribute('data-show_verse',verseNumber);
             }
         }
 
@@ -11896,10 +12075,11 @@ function selVerse(e){
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
     
         eid_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
-        eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));
-        
-        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');    
-    } 
+        eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));   
+    }
+
+    
+    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');
    
     
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
@@ -11989,6 +12169,7 @@ function sel(e, par, show_chapter = null, trans = null){
 
                             if(res == 'ok'){
                                 window.arr_books = this_trans_obj.Books;
+                                if(typeof this_trans_obj.Books == 'undefined') alert('this_trans_obj.Books undefined');
                                 //console.log(arr_books);
                             }
                 
@@ -12175,6 +12356,7 @@ function sel(e, par, show_chapter = null, trans = null){
                 
                             window.arr_books = data.Books;
                             //console.log(arr_books);
+                            if(typeof data.Books == 'undefined') alert('data.Books undefined');
                 
                             eid_v_book.innerHTML = '';//reset botones de books
                 
@@ -12367,6 +12549,8 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(res == 'ok'){//siempre ok
                                 //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
                             }
+                            if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
+
 
                             let chapterNumber = id_chapter + 1;//por deecto
                                             
@@ -12403,6 +12587,9 @@ function sel(e, par, show_chapter = null, trans = null){
                             eid_v_chapter.innerHTML = '';//reset todos los botones de chapter  
                             const wr_grid_ch = document.createElement('div');
                             wr_grid_ch.className = 'wr_grid_ch';
+
+                            if(typeof this_trans_obj.Books[id_book].ChapterQty == 'undefined') alert('this_trans_obj.Books[id_book].ChapterQty undefined');
+
                             
                             for(let index = 1; index <= this_trans_obj.Books[id_book].ChapterQty; index++) {
                                 const li_ch = document.createElement('li');
@@ -12590,6 +12777,8 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(res == 'ok'){//siempre ok
                                 //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
                             }
+                            if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
+
                             //console.log('trans: '+trans)
                             //console.log('id_book: '+id_book)
             
@@ -12645,6 +12834,9 @@ function sel(e, par, show_chapter = null, trans = null){
                                             window.arr_verses = obj_bible_files[trans].Books[id_book].fileContent.split('<h4>')[chapterNumber].split('<p>');
                                             //console.log('abajo arr_verses');
                                             //console.log(arr_verses);
+
+                                            if(typeof obj_bible_files[trans].Books == 'undefined') alert('obj_bible_files[trans].Books undefined');
+
                                             
                             
                                             eid_v_verse.innerHTML = '';//reset botones de versiculos
@@ -12692,6 +12884,8 @@ function sel(e, par, show_chapter = null, trans = null){
             
                                 window.chapter_PathName = this_trans_obj.Books[id_book].PathName;
                                 //console.log('chapter_PathName: '+chapter_PathName);
+
+                                if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
 
 
                                 let modo_get_VerseQty = 'por_json';
@@ -13104,18 +13298,13 @@ function getRef(trans = null){
     let trans_inpt = eid_inpt_nav.dataset.trans;
 
     //Si no viene trans, lo cojo del div #trans1
-    if(trans == null || trans == ''){
-        trans = (trans_inpt != '') ? trans_inpt : act_trans;
+    if(trans == null || trans == '' || trans == 'undefined'){
+        trans = (trans_inpt != '' && trans_inpt != 'undefined') ? trans_inpt : act_trans;
     }else{//si viene trans...        
         //si trans es distinto del actual y es en tablet o desktop
-        if(trans != act_trans && window.innerWidth >= pantallaTabletMinPx){
+        if(trans != act_trans && eid_inpt_nav.dataset.divtrans == 'trans1' && window.innerWidth >= pantallaTabletMinPx){
             //lo cojo del parametro y grabo en div #trans1
             let button_new_trans = eid_footerInner.querySelector('button[value="'+trans+'"]');
-            let EnglishPsalms = button_new_trans.getAttribute('ep');//EnglishPsalms
-
-            //eid_trans1.dataset.trans = trans;//antes
-            //eid_trans1.dataset.base_ep = EnglishPsalms;//antes
-            //eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = button_new_trans.innerHTML;//meto  BibleShortName (RST+);//antes
 
             eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             
@@ -13145,7 +13334,7 @@ function getRef(trans = null){
         let regex = /\.\d+/g;//busca '.1' en 'Am.1'
         let result = book.match(regex);
 
-        if(result.length == 1){
+        if(result != null && result.length == 1){
             let arr_book = book.split('.');
             book = arr_book[0] + '.';//'Am.'
             chapter = arr_book[1];
@@ -13373,7 +13562,7 @@ function getRef(trans = null){
                                 e_virtual.setAttribute('data-id_chapter', 0);
                                 e_virtual.setAttribute('data-show_chapter', 1);
                                 setTimeout(() => {
-                                    //e_virtual.click();
+                                    allowUseShowTrans = true;
                                     selChapter(e_virtual, chapter);
                                 }, 50);
 
@@ -13413,6 +13602,7 @@ function getRef(trans = null){
                                 putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
 
+                            allowUseShowTrans = true;
                             showTrans(n_book, chapter, verse, to_verse);
                             //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
@@ -13444,6 +13634,7 @@ function getRef(trans = null){
                                 e_virtual.setAttribute('data-id_chapter',0);
                                 e_virtual.setAttribute('data-show_chapter',1);
                                 setTimeout(()=>{
+                                    allowUseShowTrans = true;
                                     selChapter(e_virtual, chapter);                           
                                 },50);
 
@@ -13470,7 +13661,7 @@ function getRef(trans = null){
                                 //meto ref encontrado en el historial de navegacion
                                 addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse);
                                 
-                                
+                                allowUseShowTrans = true;
                                 showTrans(n_book, chapter, verse, to_verse);
                                 //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
@@ -13554,7 +13745,8 @@ function getRef(trans = null){
 
                                     //meto ref encontrado en el historial de navegacion
                                     addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse); 
-
+                                    
+                                    allowUseShowTrans = true;
                                     showTrans(n_book, chapter, verse, to_verse);
                                     //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
         
@@ -13602,7 +13794,7 @@ function getRef(trans = null){
 
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
-            alert(0);//no entra nunca ya que tengo objeto arrFavTransObj
+            alert('getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
             //console.log('modo old --- en getRef() ');
 
             let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
@@ -13706,11 +13898,8 @@ function getRef(trans = null){
                                 e_virtual.id = 'e_virt';
                                 e_virtual.setAttribute('data-id_chapter',0);
                                 e_virtual.setAttribute('data-show_chapter',1);
-                                //e_virtual.onclick = function(){
-                                    //selChapter(e_virtual,1);
-                                //};
                                 setTimeout(()=>{
-                                    //e_virtual.click();
+                                    allowUseShowTrans = true;
                                     selChapter(e_virtual, chapter);                           
                                 },50);
                             }
@@ -13753,7 +13942,8 @@ function getRef(trans = null){
                                 let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
                                 putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
-    
+                            
+                            allowUseShowTrans = true;
                             showTrans(n_book, chapter, verse, to_verse);
                             //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
                             break;
@@ -13911,7 +14101,8 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
 
             eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
             eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
-
+            
+            allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
             //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
         })
@@ -14012,7 +14203,8 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
 
             eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
             eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
-
+            
+            allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
             //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
         })
@@ -14087,12 +14279,13 @@ function selectModule2(htmlTrans){
     //console.log('abajo htmlTrans: ');
     //console.log(htmlTrans);
 
-    let transActive = eid_trans1.dataset.trans;
+    //let transActive = eid_trans1.dataset.trans;//trans1 del col1
+    let transSelected = thisDiv.dataset.trans;//trans selected con el click on menu
 
     arrFavTransObj.forEach((el,i)=>{
         const p = document.createElement('p');
-        p.className = (el.Translation == transActive) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
-        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span> `;
+        p.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
+        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
         p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
         p.onclick = function(){
             changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName, arrFavTransObj[i].EnglishPsalms);
@@ -14102,6 +14295,14 @@ function selectModule2(htmlTrans){
 
         eid_bl_modalFullInner.appendChild(p);
     });
+
+    if(typeof document.querySelector('.cl_trans_active') != 'undefined'){
+        document.querySelector('.cl_trans_active').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+        });
+    }
 }
 
 
@@ -14262,7 +14463,8 @@ function bookGo(dir){
 
                 let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
                 addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
-
+                
+                allowUseShowTrans = true;
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -14300,6 +14502,7 @@ function bookGo(dir){
                 let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
                 addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
                 
+                allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
             }            
         })
@@ -14356,7 +14559,8 @@ function bookGo(dir){
 
                 let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
                 addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
-
+                
+                allowUseShowTrans = true;
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -14393,7 +14597,8 @@ function bookGo(dir){
 
                 let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
                 addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
-
+                
+                allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
             }            
         })
@@ -14507,6 +14712,7 @@ function chapterGo(dir){
                 let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
                 addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
                 
+                allowUseShowTrans = true;
                 showTrans(next_id_book, next_show_chapter);
             }
 
@@ -14549,7 +14755,8 @@ function chapterGo(dir){
 
                 let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
                 addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
-
+                
+                allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
@@ -14617,7 +14824,8 @@ function chapterGo(dir){
 
                 let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
                 addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
-
+                
+                allowUseShowTrans = true;
                 showTrans(next_id_book, next_show_chapter); 
             }
 
@@ -14659,6 +14867,7 @@ function chapterGo(dir){
                 let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
                 addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
                 
+                allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
@@ -14726,6 +14935,8 @@ function goToLink(trans, refLink){
     let chapter = link[2];
     let verse = link[3];
     let to_verse = link[4];
+
+    allowUseShowTrans = true;
     showTrans(book, chapter, verse, to_verse);
     */
 }

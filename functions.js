@@ -770,7 +770,7 @@ function pushStateToHistNav(trans,ref){
 }
 
 const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = null) => {
-    //console.log('=== const addRefToHistNav ===');
+    console.log('=== const addRefToHistNav ===');
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -807,7 +807,7 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
     };
 
     pushStateToHistNav(trans,ref);
-    updateRefInTabActive(ref);
+    updateRefInTabActive(trans,ref);
 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
@@ -865,14 +865,17 @@ function onclick_p_nav(el){
     
     if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
         let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
+        allowUseShowTrans = true;
         showTrans(res[0], res[1],res[2],res[3]);
     }
     else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
         let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
+        allowUseShowTrans = true;
         showTrans(res[0], res[1],res[2],res[3]);
     }
     else{   
         //console.log('llamo showTrans()');
+        allowUseShowTrans = true;
         showTrans(el.book, el.chapter, el.verse, el.to_verse);
     }
 

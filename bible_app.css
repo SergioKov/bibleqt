@@ -1113,6 +1113,11 @@ li.active {
     font-size: 14px;
     display: block;
 }
+.prim_blue {
+    color: blue;
+    /* font-size: 14px; */
+    /* display: block; */
+}
 .prim_error_compare {
     color: red;
     font-size: 16px;
@@ -3236,6 +3241,20 @@ span.vt {
     opacity: 0;
     transition: 0.3s;
 }
+.tooltip .trik1 {
+    position: absolute;
+    left: -2px;
+    top:-4px;
+    margin-left: -2px;
+    width: 10px;
+    height: 10px;
+    z-index: 1;
+    transform: rotate(45deg);
+    background-color: transparent;
+    background-image: linear-gradient( to bottom right, #1875bf 0% 50%,  transparent 50% 100%);
+    box-shadow: -1px -1px 1px 0px white;
+
+}
 .comment {
     position: absolute;
     z-index: 2;
@@ -3386,6 +3405,7 @@ span.vt {
     width: 100%;
 }
 .register-form h1,
+.email-form h1,
 .login-form h1
  {
     color: green;

@@ -4,22 +4,6 @@ session_start();
 
 include('connect_db.php');
 
-/*
-// Conexión a la base de datos (reemplaza con tus propios detalles)
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "db_bibleqt";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión a la base de datos
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-*/
-
-
 
 // Obtener datos del cuerpo de la solicitud (en formato JSON)
 $inputJSON = file_get_contents('php://input');
@@ -39,7 +23,10 @@ $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
 
 
 //saco datos de user de la bd.
-$sql = "SELECT `id_user`, `username`, `password_text`, `password`, `salt` FROM users WHERE username = '$username' ";
+$sql = "SELECT `id_user`, `username`, `password_text`, `password`, `salt` 
+        FROM users 
+        WHERE BINARY username = '$username' 
+";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

@@ -467,6 +467,7 @@ function getRefToCompare(ref){
                                 putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
 
+                            allowUseShowTrans = true;
                             showTrans(n_book, chapter, verse, to_verse);
                             //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
@@ -521,7 +522,7 @@ function getRefToCompare(ref){
                                     putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                                 });
         
-                                
+                                allowUseShowTrans = true;
                                 showTrans(n_book, chapter, verse, to_verse);
                                 //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
@@ -604,7 +605,7 @@ function getRefToCompare(ref){
                                     });
 
 
-
+                                    allowUseShowTrans = true;
                                     showTrans(n_book, chapter, verse, to_verse);
                                     //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
         
@@ -1107,3 +1108,171 @@ function old_iniciarSession(user, pass){//test
 
 
 
+// Función que retorna una promesa
+async function retornarMiPromesa() {
+    console.log('=== async function retornarMiPromesa() ===');
+    
+    // Crea una nueva promesa dentro de la función
+    return new Promise((resolve, reject) => {
+        console.log('creando promesa');
+        
+        // Simula una operación asincrónica, por ejemplo, una solicitud HTTP
+        setTimeout(() => {
+            // Resuelve la promesa con éxito después de 2 segundos
+            resolve(' en SetTimeout() --- ¡La operación fue exitosa!');
+        }, 5000);
+    });
+}
+
+
+// Uso de async/await para manejar la promesa
+async function ejecutarMiPromesa(){
+    console.log('=== async function ejecutarMiPromesa() ===');
+
+    try {
+        console.log('ejecutarMiPromesa() --- Iniciando operación...');
+        // Espera a que la promesa se resuelva antes de continuar
+        const resultado = await retornarMiPromesa();
+        console.log(resultado);
+        console.log('Despues de obtener resultado. Operación completada.');
+    } catch (error) {
+        // Manejo de errores si la promesa es rechazada
+        console.error('Error:', error);
+    }
+}
+//ejecutarMiPromesa();
+
+
+setTimeout(()=>{
+    //compare2modules('rv60','ukr_umts'); 
+},2000);
+
+let arr_refs = [];
+let add_condition = true; 
+
+function compare2modules(trans1, trans2){
+    //console.log('=== function compare2modules(modul1, module2) ===');
+    
+    arr_refs = [];//reset
+
+    let objTrans1 = arrFavTransObj.find(v => v.Translation === trans1);
+    let objTrans2 = arrFavTransObj.find(v => v.Translation === trans2);
+            
+    for (let b = 0; b < objTrans1.Books.length; b++) {
+        console.log(`objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
+
+        let condition; 
+        if(add_condition){
+            condition = (typeof obj_bible_files[trans1].Books[b] != 'undefined' && typeof obj_bible_files[trans2].Books[b] != 'undefined');
+        }else{
+            condition = true;
+        }
+
+        if(
+            typeof obj_bible_files[trans1] != 'undefined' && typeof obj_bible_files[trans2] != 'undefined' && condition
+            //&& typeof obj_bible_files[trans1].Books[b].fileName != 'undefined' && typeof obj_bible_files[trans2].Books[b].fileName != 'undefined'
+        ){
+
+            //console.log('fileName1: ', obj_bible_files[trans1].Books[b].fileName);
+            //console.log('fileName2: ', obj_bible_files[trans2].Books[b].fileName);
+
+            bookModule1 = obj_bible_files[trans1].Books[b].fileContent;
+            bookModule2 = obj_bible_files[trans2].Books[b].fileContent;
+
+            let nb1 = bookModule1.split('<h4>');//делю файл на главы
+            let nb2 = bookModule2.split('<h4>');//делю файл на главы
+            //console.log(nb1);
+            
+            nb1 = nb1.filter(elem => elem);//удаляю пустые елементы массива
+            nb2 = nb2.filter(elem => elem);//удаляю пустые елементы массива
+            //console.log(nb1);
+
+
+            for (let chapter = 1; chapter < nb1.length; chapter++) {
+                //console.log(chapter);
+
+                if(typeof nb1[chapter] !== 'undefined' && typeof nb2[chapter] !== 'undefined'){
+
+                    let nb1_verses = nb1[chapter].split('<p>');
+                    let nb1_count_verses = nb1_verses.length;
+
+                    let nb2_verses = nb2[chapter].split('<p>');
+                    let nb2_count_verses = nb2_verses.length;
+
+                    if(nb1_count_verses != nb2_count_verses){
+                        
+                        //console.log(`--- objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
+                        //console.log(`chapter: ${chapter} --- nb1_count_verses: ${nb1_count_verses} --- nb2_count_verses: ${nb2_count_verses}`);
+
+                        for (let i = 0; i < nb1_verses.length; i++) {
+                            const el = nb1_verses[i];
+                            
+                            if(i != 0){//Verse
+                                
+                                //console.log('el es Verse: '+el);
+
+                                let p_Text1 = nb1_verses[i];
+                                let p_Text2 = nb2_verses[i];                                        
+
+                                //console.log('p_Text1: '+p_Text1);
+                                //console.log('p_Text2: '+p_Text2);
+
+                                let arr_p1 = (typeof p_Text1 != 'undefined') ? p_Text1.split(' ') : ['no_hay','p_Text1_undefined'];
+                                let VerseId1 = arr_p1[0];
+                                //console.log('VerseId1: '+VerseId1);
+
+                                let arr_p2 = (typeof p_Text2 != 'undefined') ? p_Text2.split(' ') : ['no_hay','p_Text2_undefined'];
+                                let VerseId2 = arr_p2[0];
+                                //console.log('VerseId2: '+VerseId2);
+
+                                if(VerseId1 != VerseId2 && VerseId2 != 'no_hay'){
+                                    let ref1 = `${objTrans1.Books[b].ShortNames[0]} ${chapter}:${VerseId1}`;
+                                    let ref2 = `${objTrans2.Books[b].ShortNames[0]} ${chapter}:${VerseId2}`;
+                                    
+                                    console.log(`--- --- chapter: ${chapter} --- NO ok --- objTrans1.Books[${b}] --- ref1: (${ref1}) --- ref2: (${ref2})`);
+                                    //let obj_diff_refs = {
+                                    //    trans1: ref1,
+                                    //    trans2: ref2
+                                    //};
+                                    arr_refs.push(ref1);
+                                    
+                                    break;
+                                }
+                            }                                    
+                        }//end for
+                    }else{
+                        console.log(`--- chapter: ${chapter} --- ok`);
+
+                    }
+                }else{
+                    console.log(`chapter ${chapter} no se puede comparar`);
+                }
+            }
+            //console.log('arr_refs: ',arr_refs);
+
+
+        }else{
+            console.log('--- no existe objeto con estos modulos en obj_bible_files. no los comparo.');
+        }                            
+    }//end for
+
+    console.log('fin. arr_refs: ', arr_refs);
+}
+
+//getRefByBibleRef(arr_refs[0]);
+
+function recorrerArrRefs(arr_refs){
+
+    for (let index = 0; index < arr_refs.length; index++) {
+        const ref = arr_refs[index];
+        console.log(ref);
+
+        getRefByBibleRef(ref);
+        
+    }
+}
+
+//getIndexFromArrRefs(0);
+function getIndexFromArrRefs(index){
+    return getRefByBibleRef(arr_refs[index]);
+}

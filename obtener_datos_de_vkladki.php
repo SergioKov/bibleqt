@@ -32,6 +32,7 @@ if (true) {
         //die();
     }else{
         $hay_id_user_en_vkladki = false;
+        $data = 'no_tiene_vkladki';
         //echo"(else)";
     }
     //die();

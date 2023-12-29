@@ -349,21 +349,21 @@ session_start();
                                         <label>
                                             <input id="cbox1" type="checkbox" onclick="cboxChange(this)"> 
                                             <span>1. Искомое содержит хотя бы одно слово</span>
-                                            <span class="tooltip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox2" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>2. Cлова идут в заданном порядке</span>
-                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox3" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>3. Искать точную фразу</span>
-                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
 
                                         </label>
                                     </p>
@@ -371,28 +371,28 @@ session_start();
                                         <label>
                                             <input id="cbox4" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>4. Выражения не могут быть частями слов</span>
-                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox5" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>5. Различать прописные и ЗАГЛАВНЫЕ буквы</span>
-                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>6. Различать буквы с ударениями (если есть)</span>
-                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span>7. Искать только номер Стронга (если есть)</span>
-                                            <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
 
                                         </label>
                                     </p>                                    
@@ -679,12 +679,14 @@ session_start();
                                 <div id="topLoginInner">
 
 <?php
-    if(isset($_SESSION['username'])) {
+    if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
         // El usuario está logueado, muestra el contenido protegido
         $st_bl_sesion_iniciada = 'block';
         $st_bl_sesion_cerrada = 'none';
         $st_bl_register_form = 'none';
+        $st_bl_email_form = 'none';
         $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
+        $frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
         $mensaje = "Sesión iniciada correctamente. Se cargan tus ajustes personales.";
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
@@ -705,6 +707,7 @@ HERE;
         $st_bl_sesion_iniciada = 'none';
         $st_bl_sesion_cerrada = 'block';
         $st_bl_register_form = 'none';
+        $st_bl_email_form = 'none';
         $frase_bienvenida = "No estás logueado.";
         $mensaje = "Sesión no iniciada.";
         $login_img_src = './images/login2_grey2.svg';
@@ -731,11 +734,21 @@ print<<<HERE
                 <form class="register-form">
                     <h1>Crear cuenta</h1>
                     <p class="mensaje">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
-                    <input type="text" placeholder="name"/>
-                    <input type="password" placeholder="password"/>
-                    <input type="text" placeholder="email address"/>
+                    <input id="reg_username" name="username" type="text" placeholder="name"/>
+                    <input id="reg_password" name="password" type="password" placeholder="password"/>
+                    <input id="reg_email" name="email" type="text" placeholder="email address"/>
                     <button class="btn_wide" type="button" onclick="crearCuenta()">Crear cuenta</button>
                     <p class="message">¿Ya estás registrado? <a href="#" onclick="mostrarLoginForm()">Entrar</a></p>
+                </form>
+            </div>
+
+            <div id="bl_email_form" style="display:$st_bl_email_form;">
+                <form class="email-form">
+                    <h1>Recuperar contraseña</h1>
+                    <p class="mensaje">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
+                    <input id="rec_email" name="email" type="text" placeholder="email address"/>
+                    <button class="btn_wide" type="button" onclick="enviarEmail()">Enviar</button>
+                    <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
                 </form>
             </div>
             
@@ -746,7 +759,10 @@ print<<<HERE
                     <input id="username" name="username" type="text" placeholder="username" required/>
                     <input id="password" name="password" type="password" placeholder="password" required/>
                     <button class="btn_wide" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
-                    <p class="message">¿No estás registrado? <a href="#" onclick="mostrarRegisterForm()">Crear una cuenta</a></p>
+                    <p class="message">
+                        ¿No estás registrado? <a href="#" onclick="mostrarRegisterForm()">Crear una cuenta</a>
+                        <br>¿Has olvidado la contraseña? <a href="#" onclick="mostrarEmailForm()">Recuperar contraseña</a>
+                    </p>
                 </form>
             </div>
 

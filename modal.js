@@ -2644,13 +2644,18 @@ function verseGo(dir, obj_to_send_string){
 }
 
 
-function openModalForActTrans(){
+function openModalForActTrans(){//trans del col1
     let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
     //console.log(divtrans_to_change);    
     openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
 }
 
-
+//trans seleccionado con el click de la col de una trans sin cambiar trans1 en col1del col1
+function openModalForSelectedTrans(){
+    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
+    //console.log(divtrans_to_change);    
+    openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
+}
 
 
 eid_myModal.addEventListener('click', function(e){
