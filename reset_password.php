@@ -1,7 +1,7 @@
 <?php
 include('connect_db.php');
 
-echo "0. estoy en reset-password";
+echo "file: reset_password.php";
 //die();
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -26,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         // Construir la URL base
         $baseUrl = "$protocol://$host$basePath/";
-        echo "<br>La URL base es: $baseUrl";
+        //echo "<br>La URL base es: $baseUrl";
         
         $location = "Location: " . $baseUrl . "reset_password_form.php?email=$email&token=$token";
-        echo "<br>$ location: $location";
+        //echo "<br>$ location: $location";
         
-        echo "1. redirijo...";
-        die();
+        //echo "<br>1. redirijo...";
+        //die();
         
         // Permitir al usuario restablecer la contraseña
         // Puedes redirigir al usuario a un formulario para ingresar la nueva contraseña

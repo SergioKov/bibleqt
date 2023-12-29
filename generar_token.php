@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
         // Almacenar el token y la fecha de expiración en la base de datos
-        $updateQuery = "UPDATE users SET reset_token = '$resetToken', reset_token_expiry = '$resetTokenExpiry' WHERE email = '$email'";
+        $updateQuery = "UPDATE users SET reset_token = '$resetToken', reset_token_expiry = '$resetTokenExpiry' WHERE email = '$email' ";
         $result_up = mysqli_query($conn, $updateQuery);
 
 
@@ -61,21 +61,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
         
-        //DESCOMENTAR EN PRODUCCION
-        /*
-        $result_mail = mail($email, $subject, $message, $headers);
 
-        if ($result_mail) {
-            //echo "1. El correo electrónico se envió correctamente.";
-            echo json_encode(['success' => true, 'resetLink' => 'resetLink', 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
-        } else {
-            //echo "2. Error al enviar el correo electrónico.";
-            echo json_encode(['success' => false, 'mensaje' => 'Error al enviar el correo electrónico']);
+        if($host == 'localhost'){//produccion
+
+            echo json_encode([
+                'success' => true, 
+                'localhost' => true, 
+                'resetLink' => $resetLink
+            ]);
+            //exit;
+
+        }else{//produccion
+            $result_mail = mail($email, $subject, $message, $headers);
+
+            if ($result_mail) {
+                //echo "1. El correo electrónico se envió correctamente.";
+                echo json_encode(['success' => true, 'resetLink' => 'resetLink', 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
+            } else {
+                //echo "2. Error al enviar el correo electrónico.";
+                echo json_encode(['success' => false, 'mensaje' => 'Error al enviar el correo electrónico']);
+            }
         }
-        */
-        
-        echo json_encode(['info' => $resetLink]);
-        exit;
 
     } else {
         //echo "El correo electrónico no está registrado en nuestro sistema.";

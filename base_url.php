@@ -11,6 +11,6 @@ $basePath = dirname($_SERVER['SCRIPT_NAME']);
 // Construir la URL base
 $baseUrl = "$protocol://$host$basePath/";
 
-echo "La URL base es: $baseUrl";
+//echo "La URL base es: $baseUrl";
 
 ?>

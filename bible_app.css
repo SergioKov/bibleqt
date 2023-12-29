@@ -3405,6 +3405,7 @@ span.vt {
     width: 100%;
 }
 .register-form h1,
+.reset-pwd-form h1,
 .email-form h1,
 .login-form h1
  {
@@ -3413,3 +3414,24 @@ span.vt {
 #bl_sesion_iniciada h1 {
     color: #1875bf;
 }
+
+
+
+
+#body_reset_pwd {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom right, white 0%, #9dd3fd 10%, #1875bf 45%, #012643 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+#wrapper_pwd_form {
+    background: #303030;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 10px;
+}
+

@@ -563,11 +563,16 @@ function enviarEmail(){
             email: email
         })
     })
-    // .then(response => response.json())
-    .then(response => response.text())
+    .then(response => response.json())
+    // .then(response => response.text()) //test
     .then(data => {
         
         console.log(data);
+        
+        if(typeof data.localhost != 'undefined'){
+            console.log(data.localhost);
+            console.log(data.resetLink);
+        }
         
         let eid_bl_email_form = document.getElementById('bl_email_form');
         

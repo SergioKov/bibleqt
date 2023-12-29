@@ -679,6 +679,18 @@ session_start();
                                 <div id="topLoginInner">
 
 <?php
+    
+    if(isset($_GET['reset_pwd_ok'])){
+print<<<HERE
+<script>
+    setTimeout(()=>{
+        openModal('top','Login',null,'showLogin');
+    },3000);
+</script>
+HERE;
+    }
+    
+    
     if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
         // El usuario está logueado, muestra el contenido protegido
         $st_bl_sesion_iniciada = 'block';
