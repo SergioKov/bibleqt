@@ -270,12 +270,15 @@ let arrTabs = [];//array de objetos de tabs (Vkladki)
 
 //array de objetos de historia de navegacion
 let arr_hist_nav = [];//se añade en addRefToHistNav();
+let arr_hist_nav_limit = 100;//limit de tener items en el historial
 
 //array de objetos de historia de navegacion
 let arr_hist_find = [];//se añade en addWordsToHistFind();
+let arr_hist_find_limit = 100;//limit de tener items en el historial
 
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
+let arr_hist_strong_limit = 100;//limit de tener items en el historial
 
 //by_text es mas rápido y más optimizado
 // en funcion showChaptertext4() hay 2 vias
@@ -341,7 +344,7 @@ function iniciarSesion(){//antes login() //username,password
         })
     })
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
         
         console.log(data);
 
@@ -358,7 +361,7 @@ function iniciarSesion(){//antes login() //username,password
             eid_bl_sesion_cerrada.style.display = 'none';
 
             eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
-            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `Sesión iniciada correctamente. Se cargan tus ajustes personales.`;
+            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
             eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
             eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
             eid_login_menu.title = `${username}`;
@@ -366,7 +369,10 @@ function iniciarSesion(){//antes login() //username,password
             allowUseShowTrans = true;
             console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
 
-            obtenerDatosDeVkladki();
+            await obtenerDatosDeBD('vkladki','arrTabs');
+            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+            await obtenerDatosDeBD('hist_find','arr_hist_find');
+            await obtenerDatosDeBD('hist_strong','arr_hist_strong');
 
             setTimeout(()=>{
                 closeModal();
@@ -376,11 +382,10 @@ function iniciarSesion(){//antes login() //username,password
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
             let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-            alert(error_text);
-            console.error(error_text);
+            console.log(error_text);
 
-            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `Autenticación fallida.`;
-            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `Hubo problemas al iniciar sesión para el usuario ${username}!`;
+            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
+            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
             eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
 
         }
@@ -482,6 +487,9 @@ function mostrarLoginForm(){
     eid_bl_email_form.style.display = 'none';
     eid_bl_sesion_iniciada.style.display = 'none';
     eid_bl_sesion_cerrada.style.display = 'block';
+
+    eid_bl_sesion_cerrada.querySelector("h1").innerHTML = 'Iniciar sesión.';
+    eid_bl_sesion_cerrada.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
 }
 
 function crearCuenta(){
@@ -519,7 +527,7 @@ function crearCuenta(){
             
             console.log(`Usuario registrado con éxito.`);
 
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span style="color:green;">Usuario ${username} se ha registrado con éxito.</span>`;
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
 
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -532,7 +540,7 @@ function crearCuenta(){
             console.error(data.error);
             console.error(error_text);
 
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span style="color:red;">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>`;
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>.`;
         }
 
         mySizeWindow();
@@ -580,7 +588,7 @@ function enviarEmail(){
             
             console.log(`Email enviado con éxito.`);
 
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span style="color:green;">Email ${email} se ha enviado con éxito.</span>`;
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Email ${email} se ha enviado con éxito.</span>`;
 
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -594,7 +602,7 @@ function enviarEmail(){
             console.error(data.error);
             console.error(error_text);
 
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span style="color:red;">Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}</span>`;
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}</span>.`;
         }
 
         mySizeWindow();
@@ -1163,7 +1171,15 @@ async function loadDefaultFunctions() {
         //insertIntoBd(tabla, datos);
         console.log(arrTabs);
 
-        obtenerDatosDeVkladki();//creo array arrTabs desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arrTabs desde datos de usuario sacados de bd 
+        
+        console.log(arrTabs);
+        console.log(arr_hist_nav);
+        console.log(arr_hist_find);
+        console.log(arr_hist_strong);
 
         //insertarDatos(arrTabs);//test
     }else{
@@ -11360,7 +11376,6 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         }
     }
 
-    bibShortRef = (bibShortRef != null) ? bibShortRef : eid_trans1.querySelector('.desk_sh_link').innerHTML ;
 
     //si se añade nueva tab 
     if(str_trans == null){
@@ -11394,6 +11409,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
             htmlTab.classList.add('tab_active');
         }
 
+        bibShortRef = (bibShortRef != null) ? bibShortRef : inpt_nav.value ;
 
         const spanBibShortRef = document.createElement("span");
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
@@ -11477,11 +11493,11 @@ function updateArrTabs(){
     });
     //console.log(arrTabs);
 
-    saveInDb_ArrTabs();
+    guardarEnBd('vkladki', 'arrTabs', arrTabs);
 }
 
-async function saveInDb_ArrTabs(){
-    console.log(' === saveInDb_ArrTabs() ===');
+async function guardarEnBd(tabla, campo, arr){
+    console.log(' === guardarEnBd(tabla, campo, arr) ===');
 
     try {
         console.log('Inicio de la función externa');
@@ -11495,7 +11511,7 @@ async function saveInDb_ArrTabs(){
             //insertIntoBd(tabla, datos);
             console.log(arrTabs);
 
-            insertarDatos(arrTabs);//test
+            insertarDatos(tabla, campo, arr);
         }else{
             console.log('js: false --- El usuario no está autenticado.');
         }
@@ -11507,11 +11523,13 @@ async function saveInDb_ArrTabs(){
 }
 
 
-function insertarDatos(arr) {
+function insertarDatos(tabla, campo, arr) {
     //const nombre = document.getElementById('nombre').value;
     //const correo = document.getElementById('correo').value;
 
     const datos = {
+        tabla: tabla,
+        campo: campo,
         arr: arr
     };
 
@@ -11540,66 +11558,179 @@ function insertarDatos(arr) {
 
 
 
-async function obtenerDatosDeVkladki() {
+async function obtenerDatosDeBD(tabla, campo){
+    console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
+
     try {
-        const response = await fetch('obtener_datos_de_vkladki.php');
+
+        // Definir la URL del servidor
+        const url = 'obtener_datos_de_bd.php';
+        
+        //datos para hacer consulta a bd
+        const datos = {
+            tabla: tabla,
+            campo: campo
+        };    
+
+        // Crear el objeto de opciones para la solicitud POST
+        const paramsToFetch = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Especificar el tipo de contenido como JSON
+            },
+            body: JSON.stringify(datos), // Convertir los datos a formato JSON
+        };
+
+        const response = await fetch(url, paramsToFetch);
+
         if (!response.ok) {
             throw new Error('Error al obtener datos');
         }
 
         const data = await response.json();
-        // const data = await response.text();
-        console.log('Datos de vkladki:', data);
+        // const data = await response.text();//test
+        console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
+        console.log(data);
 
-        if(data == 'no_tiene_vkladki'){
-            console.log('no_tiene_vkladki');
-            //arrTabs por defecto
-            let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
-            arrTabs = [
-                {
-                    "id": "tab1",
-                    "className": "tabs tab_active",
-                    "str_trans": trans_def.Translation,
-                    "title": trans_def.BibleShortName,
-                    "btn_close": true,
-                    "ref_trans": trans_def.Translation,
-                    "ref": `${trans_def.Books[0].ShortNames[0]} 1:1`
+        switch (tabla) {
+            case 'vkladki':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    //arrTabs por defecto
+                    let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
+                    arrTabs = [
+                        {
+                            "id": "tab1",
+                            "className": "tabs tab_active",
+                            "str_trans": trans_def.Translation,
+                            "title": trans_def.BibleShortName,
+                            "btn_close": true,
+                            "ref_trans": trans_def.Translation,
+                            "ref": `${trans_def.Books[0].ShortNames[0]} 1:1`
+                        }
+                    ];
+                    makeTabsFromDatosDeVkladki();
+                }else{
+                    console.log('Si. tiene_vkladki');
+                    arrTabs = convertArrBdToArrOk('arrTabs',data);
+                    makeTabsFromDatosDeVkladki();
                 }
-            ]
-        }else{
-            console.log('Si. tiene_vkladki');
+                break;
+                
+            case 'hist_nav':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_nav);
+                }else{
+                    console.log('Si. hist_nav tiene_datos');
+                    arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data);
+                    console.log('editado arr_hist_nav: ', arr_hist_nav);
+                    buildHistoryNavDesktop();
+                }
+                break;
 
-            // arrTabs = JSON.parse(data.arr);
-            let arrTabs_work = JSON.parse(data);
-            console.log('user arrTabs_work:', arrTabs_work);
+            case 'hist_find':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_find);
+                }else{
+                    console.log('Si. hist_find tiene_datos');
+                    arr_hist_find = convertArrBdToArrOk('arr_hist_find',data);
+                    console.log('editado arr_hist_nav: ', arr_hist_find);
+                    buildHistoryFindDesktop();
+                }
+                break;
 
-            arrTabs_work.forEach((el,i,arr)=>{ 
-                //console.log(el.ref);
+            case 'hist_strong':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_strong);
+                }else{
+                    console.log('Si. hist_strong tiene_datos');
+                    arr_hist_strong = JSON.parse(data);
+                    console.log('editado arr_hist_strong: ', arr_hist_strong);
+                    buildHistoryStrongDesktop();
+                }
+                break;
 
-                let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
-                let coincidencias = el.ref.match(expresionRegular);
-
-                if(coincidencias){
-                    console.log('antes el.ref: ',el.ref);
-
-                    el.ref = el.ref.replace(expresionRegular, function (x) {
-                        return '\\' + x;
-                    });
-                    
-                    arrTabs_work[i].ref = convertirUnicodeALetras(el.ref);                
-                }     
-            });
-            console.log('2. user arrTabs_work:', arrTabs_work);
-            
-            arrTabs = arrTabs_work;
-            console.log('new arrTabs:', arrTabs);
+            default:
+                break;
         }
-        
-        makeTabsFromDatosDeVkladki();
+
+
 
     } catch (error) {
         console.error('Error: ', error.message);
     }
+}
+
+
+
+function convertArrBdToArrOk(arrName, arr){
+    console.log('=== function convertArrBdToArrOk(arr) ===');
+
+    let arr_work = JSON.parse(arr);
+    console.log('user arr_work:', arr_work);
+    let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
+    let coincidencias, coincidencias2;
+
+    arr_work.forEach((el, i) => {
+        //console.log(el);
+
+        switch (arrName) {
+            case 'arrTabs':
+                coincidencias = el.ref.match(expresionRegular);
+                if (coincidencias) {
+                    console.log('antes el.ref: ', el.ref);
+                    el.ref = el.ref.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].ref = convertirUnicodeALetras(el.ref);//ref
+                }        
+                break;
+        
+            case 'arr_hist_nav':
+                coincidencias = el.ref.match(expresionRegular);
+                if (coincidencias) {
+                    console.log('antes el.ref: ', el.ref);
+                    el.ref = el.ref.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].ref = convertirUnicodeALetras(el.ref);//ref
+                }        
+                coincidencias2 = el.BookShortName.match(expresionRegular);
+                if (coincidencias2) {
+                    console.log('antes el.BookShortName: ', el.BookShortName);
+                    el.BookShortName = el.BookShortName.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].BookShortName = convertirUnicodeALetras(el.BookShortName);//ref
+                }        
+                break;
+        
+            case 'arr_hist_find':
+                coincidencias = el.words.match(expresionRegular);
+                if (coincidencias) {
+                    console.log('antes el.words: ', el.words);
+                    el.words = el.words.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].words = convertirUnicodeALetras(el.words);//words
+                }        
+                break;
+            
+            case 'arr_hist_strong':
+                //no hace falta. no tiene unicode...       
+                break;
+            
+            default:
+                break;
+        }        
+    });
+    console.log('2. user arr_work:', arr_work);
+    let new_arr = arr_work;
+    console.log('new arr:', new_arr);
+    return new_arr;
 }
 
 
@@ -11691,27 +11822,6 @@ function convertirUnicodeALetras(cadena) {
     return JSON.parse('"' + cadena + '"');
 }
 
-/*
-// Verificar autenticación
-function old_verificarAutenticacion(){
-    fetch('verificar_autenticacion.php', {
-        method: 'GET',
-        credentials: 'include' // Asegura que las cookies de sesión se incluyan en la solicitud
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('El usuario está autenticado.');
-        } else {
-            console.log('El usuario no está autenticado.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error)
-    });
-}
-*/
-
-//verificarAutenticacion();
 
 async function verificarAutenticacion() {//ok
     try {
@@ -14373,8 +14483,7 @@ function selectTab(){//Vkladki
 function addListenerModule(){
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
         if(i > 0){
-            el.addEventListener('click',selectModule);//antes
-            //el.addEventListener('click',selectModule2);//new
+            el.addEventListener('click',selectModule2);
         }
     });
 }
@@ -15818,9 +15927,6 @@ function findWords(words_input){
     if(eid_btnStrong.classList.contains('btn_active')){
         btnStrongIsActive = true;
     }
-
-    //añado el texto de búsqueda en el historial
-    //addWordsToHistFind(Translation, words_input);
 
 
     //Antes de buscar, muestro esto...

@@ -769,8 +769,13 @@ function pushStateToHistNav(trans,ref){
     window.history.pushState(null, "Título de la página", fullUrl_ref);
 }
 
-const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = null) => {
+const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
     console.log('=== const addRefToHistNav ===');
+
+    if(arr_hist_nav.length == 0){
+        await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+        console.log(arr_hist_nav);
+    }
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -811,26 +816,43 @@ const addRefToHistNav = (trans, ref, book, chapter, verse = null, to_verse = nul
 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
-        arr_hist_nav.unshift(itemHist);
-        //console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+        arr_hist_nav.unshift(itemHist);//añado item al principio
+        console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+
+        if(arr_hist_nav.length > arr_hist_nav_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_nav.splice(arr_hist_nav_limit); 
+        }
+        guardarEnBd('hist_nav','arr_hist_nav',arr_hist_nav);
     }else{
         //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
     
-    eid_wr_hist_nav_inner.innerHTML = '';    
+    buildHistoryNavDesktop();//from arr_hist_nav   
 
-    arr_hist_nav.forEach((el,i)=>{
+}
+
+
+function buildHistoryNavDesktop(){
+    eid_wr_hist_nav_inner.innerHTML = '';
+    
+    if(arr_hist_nav.length > 0){
+        arr_hist_nav.forEach((el,i)=>{
                
-        const p = document.createElement('p');       
-        p.onclick = () => {
-            onclick_p_nav(el);
-        }
-        p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            const p = document.createElement('p');       
+            p.onclick = () => {
+                onclick_p_nav(el);
+            }
+            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            eid_wr_hist_nav_inner.append(p);
+    
+        });    
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории навигации.</span>';
         eid_wr_hist_nav_inner.append(p);
-
-    });
-
+    }
 }
 
 
@@ -889,8 +911,13 @@ function onclick_p_nav(el){
 }
 
 
-const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
-    //console.log('=== const addWordsToHistFind ===');
+const addWordsToHistFind = async (trans, words, count_verses, count_matches) => {
+    console.log('=== const addWordsToHistFind ===');
+
+    if(arr_hist_find.length == 0){
+        await obtenerDatosDeBD('hist_find','arr_hist_find');
+        console.log(arr_hist_find);
+    }
 
     //console.log('trans: ', trans);
     //console.log('words: ', words);
@@ -937,27 +964,46 @@ const addWordsToHistFind = (trans, words, count_verses, count_matches) => {
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
         arr_hist_find.unshift(itemHist);
-        //console.log('meto item. arr_hist_find: ', arr_hist_find);
+        console.log('meto item. arr_hist_find: ', arr_hist_find);
+        if(arr_hist_find.length > arr_hist_find_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_find.splice(arr_hist_find_limit); 
+        }
+        guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
+
     }else{
         //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
     }
+
+    buildHistoryFindDesktop();
+}
+
+function buildHistoryFindDesktop(){
     
     eid_wr_hist_find_inner.innerHTML = '';
 
-    arr_hist_find.forEach((el,i)=>{
+    if(arr_hist_find.length > 0){
+        arr_hist_find.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.onclick = () => {
+                onclick_p_find(el);
+            }
+            p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
+                                <span class="wr_fecha_hora">
+                                    <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                                    <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+                                </span>
+                            </span>`;
+            p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
+            eid_wr_hist_find_inner.append(p);
+
+        });        
+    }else{
         const p = document.createElement('p');
-        p.onclick = () => {
-            onclick_p_find(el);
-        }
-        p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-                            <span class="wr_fecha_hora">
-                                <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-                                <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-                            </span>
-                        </span>`;
-        p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
+        p.innerHTML = '<span class="prim">Нет записей в истории поиска.</span>';
         eid_wr_hist_find_inner.append(p);
-    });
+    }
 
 }
 
@@ -981,8 +1027,13 @@ function onclick_p_find(el){
     eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
 }
 
-const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
+const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
     //console.log('=== const addStrongNumberToHistStrong ===');
+    
+    if(arr_hist_strong.length == 0){
+        await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+        console.log(arr_hist_strong);
+    }
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -1013,24 +1064,43 @@ const addStrongNumberToHistStrong = (strongLang, strongIndex) => {
 
     if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
         arr_hist_strong.unshift(itemHist);
-        //console.log('arr_hist_strong: ', arr_hist_strong);
+        console.log('arr_hist_strong: ', arr_hist_strong);
+        if(arr_hist_strong.length > arr_hist_strong_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_strong.splice(arr_hist_strong_limit); 
+        }
+        guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
+
     }else{
         //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
     }
     
+    buildHistoryStrongDesktop();
+}
+
+function buildHistoryStrongDesktop(){
+    
     eid_wr_hist_strong_inner.innerHTML = '';
 
-    arr_hist_strong.forEach((el,i)=>{
-        const p = document.createElement('p');
-        p.onclick = () => {
-            onclick_p_strong(el);            
-        }
-        p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-        p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
-        eid_wr_hist_strong_inner.append(p);
-    });
+    if(arr_hist_strong.length > 0){
+        arr_hist_strong.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.onclick = () => {
+                onclick_p_strong(el);            
+            }
+            p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            eid_wr_hist_strong_inner.append(p);
 
+        });    
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории номеров Стронга.</span>';
+        eid_wr_hist_strong_inner.append(p);
+    }
 }
+
 
 function onclick_p_strong(el){
 

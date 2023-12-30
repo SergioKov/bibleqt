@@ -1687,7 +1687,7 @@ select  optgroup option {
     position: relative;
     top: 0px;
     height: 182px;
-    overflow-y: scroll;
+    overflow-y: auto;
     font-size: 14px;
 }
 .wr_hist_inner p {
@@ -3434,4 +3434,9 @@ span.vt {
     margin: 0 auto;
     padding: 10px;
 }
-
+.clr_green{
+    color:green;
+}
+.clr_red{
+    color:red;
+}

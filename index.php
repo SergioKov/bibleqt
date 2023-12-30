@@ -698,8 +698,8 @@ HERE;
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
-        $frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
-        $mensaje = "Sesión iniciada correctamente. Se cargan tus ajustes personales.";
+        //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
+        $mensaje = '<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE

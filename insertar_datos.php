@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     //die();
 
 
-    $arr = json_encode($datos['arr']);
+    $tabla = $datos['tabla'];//vkladki
+    $campo = $datos['campo'];//arrTabs
+    $arr = json_encode($datos['arr']);//arrTabs
     
     
     //$arr = json_encode(agregarBarrasUnicode($datos['arr']));
@@ -57,46 +59,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     include('connect_db.php');
 
 
-
-
-
-    //busco si hay registro
-    $sql = "SELECT * FROM vkladki where id_user = '$id_user_logged' ";
+    //busco si hay registro en la tabla a donde insertar array
+    $sql = "SELECT * FROM $tabla where id_user = '$id_user_logged' ";
     $result = $conn->query($sql);
 
     if($result->num_rows > 0){
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         $storedId_user = $rows[0]["id_user"];//1
-        $hay_id_user_en_vkladki = true;
+        $hay_id_user_en_tabla = true;
         //echo"11";
         //var_dump($rows[0]);
         //die();
     }else{
-        $hay_id_user_en_vkladki = false;
+        $hay_id_user_en_tabla = false;
         //echo"00";
     }
 
 
 
 
-
-
-
-
-
-
-
     // Realizar la inserción o (update) en la base de datos 
-    if($hay_id_user_en_vkladki){
+    if($hay_id_user_en_tabla){
         //hago update
-        $sql2 = "UPDATE vkladki SET 
-                arr = '$arr',
+        $sql2 = "UPDATE $tabla SET 
+                $campo = '$arr',
                 updated_at = '$fechaHoraActual'
                 WHERE id_user = '$id_user_logged'
-                ";
+        ";
     }else{
         //hago insert
-        $sql2 = "INSERT INTO vkladki (id_user, username, arr, created_at) 
+        $sql2 = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
                  VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
     }
@@ -105,15 +97,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     //die();
 
 
-
+    //Update o insert datos en la tabla $tabla
     if($result2 === TRUE) {
-        if($hay_id_user_en_vkladki){
+        if($hay_id_user_en_tabla){
             $respuesta = ['mensaje' => 'Datos actualizados correctamente'];
         }else{
             $respuesta = ['mensaje' => 'Datos insertados correctamente'];
         }
     } else {
-        if($hay_id_user_en_vkladki){
+        if($hay_id_user_en_tabla){
             $respuesta = ['mensaje' => 'Error al actualizar datos: ' . $conn->error];
         }else{
             $respuesta = ['mensaje' => 'Error al insertar datos: ' . $conn->error];

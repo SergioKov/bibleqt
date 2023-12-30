@@ -43,7 +43,7 @@ function saveNewPassword(){
             
             console.log(`La contraseña se ha guardado correctamente.`);
 
-            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span style="color:green;">La contraseña se ha guardado correctamente.</span>`;
+            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">La contraseña se ha guardado correctamente.</span>`;
 
             setTimeout(()=>{
                 window.location.href = "index.php?reset_pwd_ok";  //de momento comento para no hacer la redirección...
@@ -57,7 +57,7 @@ function saveNewPassword(){
             console.error(data.error);
             console.error(error_text);
 
-            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span style="color:red;">Hubo problemas al guardar la contraseña. Revisa todos los datos. <br>Error: ${data.error}</span>`;
+            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al guardar la contraseña. Revisa todos los datos. <br>Error: ${data.error}</span>`;
         }
         
     })
