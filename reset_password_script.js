@@ -57,7 +57,7 @@ function saveNewPassword(){
             console.error(data.error);
             console.error(error_text);
 
-            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al guardar la contraseña. Revisa todos los datos. <br>Error: ${data.error}</span>`;
+            eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al guardar la contraseña. Revisa todos los datos. <br>Error: ${data.error}.</span>.`;
         }
         
     })
