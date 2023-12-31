@@ -1066,7 +1066,7 @@ myButton.addEventListener('touchend', stopPressMob);
 //iniciarSession('Sergio',123);
 
 function old_iniciarSession(user, pass){//test
-    console.log('===function iniciarSession(user, pass)===');
+    //console.log('===function iniciarSession(user, pass)===');
 
     let formData = new FormData();
     formData.append('user',user);
@@ -1079,7 +1079,7 @@ function old_iniciarSession(user, pass){//test
     .then(response => response.text())
     .then(data => {
         
-        console.log(data);
+        //console.log(data);
 
     })
     .catch(error => {
@@ -1110,11 +1110,11 @@ function old_iniciarSession(user, pass){//test
 
 // Función que retorna una promesa
 async function retornarMiPromesa() {
-    console.log('=== async function retornarMiPromesa() ===');
+    //console.log('=== async function retornarMiPromesa() ===');
     
     // Crea una nueva promesa dentro de la función
     return new Promise((resolve, reject) => {
-        console.log('creando promesa');
+        //console.log('creando promesa');
         
         // Simula una operación asincrónica, por ejemplo, una solicitud HTTP
         setTimeout(() => {
@@ -1127,14 +1127,14 @@ async function retornarMiPromesa() {
 
 // Uso de async/await para manejar la promesa
 async function ejecutarMiPromesa(){
-    console.log('=== async function ejecutarMiPromesa() ===');
+    //console.log('=== async function ejecutarMiPromesa() ===');
 
     try {
-        console.log('ejecutarMiPromesa() --- Iniciando operación...');
+        //console.log('ejecutarMiPromesa() --- Iniciando operación...');
         // Espera a que la promesa se resuelva antes de continuar
         const resultado = await retornarMiPromesa();
-        console.log(resultado);
-        console.log('Despues de obtener resultado. Operación completada.');
+        //console.log(resultado);
+        //console.log('Despues de obtener resultado. Operación completada.');
     } catch (error) {
         // Manejo de errores si la promesa es rechazada
         console.error('Error:', error);
@@ -1159,7 +1159,7 @@ function compare2modules(trans1, trans2){
     let objTrans2 = arrFavTransObj.find(v => v.Translation === trans2);
             
     for (let b = 0; b < objTrans1.Books.length; b++) {
-        console.log(`objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
+        //console.log(`objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
 
         let condition; 
         if(add_condition){
@@ -1229,7 +1229,7 @@ function compare2modules(trans1, trans2){
                                     let ref1 = `${objTrans1.Books[b].ShortNames[0]} ${chapter}:${VerseId1}`;
                                     let ref2 = `${objTrans2.Books[b].ShortNames[0]} ${chapter}:${VerseId2}`;
                                     
-                                    console.log(`--- --- chapter: ${chapter} --- NO ok --- objTrans1.Books[${b}] --- ref1: (${ref1}) --- ref2: (${ref2})`);
+                                    //console.log(`--- --- chapter: ${chapter} --- NO ok --- objTrans1.Books[${b}] --- ref1: (${ref1}) --- ref2: (${ref2})`);
                                     //let obj_diff_refs = {
                                     //    trans1: ref1,
                                     //    trans2: ref2
@@ -1241,22 +1241,22 @@ function compare2modules(trans1, trans2){
                             }                                    
                         }//end for
                     }else{
-                        console.log(`--- chapter: ${chapter} --- ok`);
+                        //console.log(`--- chapter: ${chapter} --- ok`);
 
                     }
                 }else{
-                    console.log(`chapter ${chapter} no se puede comparar`);
+                    //console.log(`chapter ${chapter} no se puede comparar`);
                 }
             }
             //console.log('arr_refs: ',arr_refs);
 
 
         }else{
-            console.log('--- no existe objeto con estos modulos en obj_bible_files. no los comparo.');
+            //console.log('--- no existe objeto con estos modulos en obj_bible_files. no los comparo.');
         }                            
     }//end for
 
-    console.log('fin. arr_refs: ', arr_refs);
+    //console.log('fin. arr_refs: ', arr_refs);
 }
 
 //getRefByBibleRef(arr_refs[0]);
@@ -1265,7 +1265,7 @@ function recorrerArrRefs(arr_refs){
 
     for (let index = 0; index < arr_refs.length; index++) {
         const ref = arr_refs[index];
-        console.log(ref);
+        //console.log(ref);
 
         getRefByBibleRef(ref);
         

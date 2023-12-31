@@ -312,7 +312,7 @@ let crear_objeto_obj_bible_files = true;//true, false
 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
 
 let allowUseShowTrans = true;//permitir o no usar function showTrans()
-console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
+//console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
 
 let strongAction = null;
 
@@ -322,7 +322,7 @@ let strongAction = null;
 //===================================================================//
 
 function iniciarSesion(){//antes login() //username,password
-    console.log('=== function iniciarSesion() ===');
+    //console.log('=== function iniciarSesion() ===');
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -346,7 +346,7 @@ function iniciarSesion(){//antes login() //username,password
     .then(response => response.json())
     .then(async data => {
         
-        console.log(data);
+        //console.log(data);
 
         let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
         let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
@@ -354,7 +354,7 @@ function iniciarSesion(){//antes login() //username,password
         let eid_m_login_menu = document.getElementById('m_login_menu');
         
         if (data.success) {
-            console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+            //console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
 
             // Actualizar el contenido después del inicio de sesión exitoso
             eid_bl_sesion_iniciada.style.display = 'block';
@@ -367,7 +367,7 @@ function iniciarSesion(){//antes login() //username,password
             eid_login_menu.title = `${username}`;
 
             allowUseShowTrans = true;
-            console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
+            //console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
 
             await obtenerDatosDeBD('vkladki','arrTabs');
             await obtenerDatosDeBD('hist_nav','arr_hist_nav');
@@ -382,7 +382,7 @@ function iniciarSesion(){//antes login() //username,password
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
             let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-            console.log(error_text);
+            //console.log(error_text);
 
             eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
             eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
@@ -401,7 +401,7 @@ function iniciarSesion(){//antes login() //username,password
 
 //cerrarSession();
 function cerrarSesion(){
-    console.log('===function cerrarSession()===');
+    //console.log('===function cerrarSession()===');
 
     // Realizar una petición al servidor para cerrar la sesión
     // y actualizar el contenido después de cerrar la sesión.
@@ -410,14 +410,14 @@ function cerrarSesion(){
     .then(response => response.json())
     .then(data => {
 
-        console.log(data);
+        //console.log(data);
         let eid_login_menu = document.getElementById('login_menu');
         let eid_m_login_menu = document.getElementById('m_login_menu');
 
         if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
-            console.log(text_mensaje);
+            //console.log(text_mensaje);
             hay_sesion = false;
 
             document.getElementById("bl_sesion_iniciada").style.display = "none";
@@ -447,7 +447,7 @@ function cerrarSesion(){
 }
 
 function mostrarRegisterForm(){
-    console.log('===function mostrarRegisterForm()===');
+    //console.log('===function mostrarRegisterForm()===');
 
     let eid_bl_register_form = document.getElementById('bl_register_form');
     let eid_bl_email_form = document.getElementById('bl_email_form');
@@ -461,7 +461,7 @@ function mostrarRegisterForm(){
 }
 
 function mostrarEmailForm(){
-    console.log('===function mostrarEmailForm()===');
+    //console.log('===function mostrarEmailForm()===');
 
     let eid_bl_register_form = document.getElementById('bl_register_form');
     let eid_bl_email_form = document.getElementById('bl_email_form');
@@ -476,7 +476,7 @@ function mostrarEmailForm(){
 
 
 function mostrarLoginForm(){
-    console.log('===function mostrarLoginForm()===');
+    //console.log('===function mostrarLoginForm()===');
 
     let eid_bl_register_form = document.getElementById('bl_register_form');
     let eid_bl_email_form = document.getElementById('bl_email_form');
@@ -493,7 +493,7 @@ function mostrarLoginForm(){
 }
 
 function crearCuenta(){
-    console.log('===function crearCuenta()===');
+    //console.log('===function crearCuenta()===');
 
     let username = document.getElementById("reg_username").value;
     let password = document.getElementById("reg_password").value;
@@ -519,13 +519,13 @@ function crearCuenta(){
     .then(response => response.json())
     .then(data => {
         
-        console.log(data);
+        //console.log(data);
         
         let eid_bl_register_form = document.getElementById('bl_register_form');
         
         if (data.success) {
             
-            console.log(`Usuario registrado con éxito.`);
+            //console.log(`Usuario registrado con éxito.`);
 
             eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
 
@@ -552,7 +552,7 @@ function crearCuenta(){
 }
 
 function enviarEmail(){
-    console.log('===function enviarEmail()===');
+    //console.log('===function enviarEmail()===');
 
     let email = document.getElementById("rec_email").value;
 
@@ -575,18 +575,18 @@ function enviarEmail(){
     // .then(response => response.text()) //test
     .then(data => {
         
-        console.log(data);
+        //console.log(data);
         
         if(typeof data.localhost != 'undefined'){
-            console.log(data.localhost);
-            console.log(data.resetLink);
+            //console.log(data.localhost);
+            //console.log(data.resetLink);
         }
         
         let eid_bl_email_form = document.getElementById('bl_email_form');
         
         if(data.success) {
             
-            console.log(`Email enviado con éxito.`);
+            //console.log(`Email enviado con éxito.`);
 
             eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Email ${email} se ha enviado con éxito.</span>`;
 
@@ -1166,24 +1166,24 @@ async function loadDefaultFunctions() {
 
 
     if(await verificarAutenticacion()){
-        console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
+        //console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
         //console.log(' guardo datos en bd');
         //insertIntoBd(tabla, datos);
-        console.log(arrTabs);
+        //console.log(arrTabs);
 
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arrTabs desde datos de usuario sacados de bd 
         
-        console.log(arrTabs);
-        console.log(arr_hist_nav);
-        console.log(arr_hist_find);
-        console.log(arr_hist_strong);
+        //console.log(arrTabs);
+        //console.log(arr_hist_nav);
+        //console.log(arr_hist_find);
+        //console.log(arr_hist_strong);
 
         //insertarDatos(arrTabs);//test
     }else{
-        console.log('js: verificarAutenticacion: false --- El usuario no está autenticado.');
+        //console.log('js: verificarAutenticacion: false --- El usuario no está autenticado.');
 
         if(hay_get_data ){
             get_trans = (typeof get_trans != '') ? get_trans : arrFavTrans[0] ;
@@ -1193,7 +1193,7 @@ async function loadDefaultFunctions() {
             let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
             loadRefDefault(`${trans_def.Books[0].ShortNames[0]} 1:1`, trans_def.Translation);//first tab en mi caso es 'rstStrongRed'
         }
-        console.log('hay_get_data: ',hay_get_data);
+        //console.log('hay_get_data: ',hay_get_data);
     }
 
 
@@ -1916,9 +1916,9 @@ function clearColsEmpty(){
 }
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    console.log('===function showTrans()===');
+    //console.log('===function showTrans()===');
 
-    console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
     
     //creo array de trans desde los que hay en cols
     makeArrTransFromCols();
@@ -1929,9 +1929,9 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
         //cuando se llama showTrans() bloqueo la posibilidad de ejecutar showChapterText4() hasta que termine de pintar los trans en el bucle. Lo vuelvo a permitir en function buildDivShow()
         
         allowUseShowTrans = false;
-        console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
-        console.log('dentro del bucle --- arr_trans: ',arr_trans);
-        console.log('dentro del bucle --- arrDataDivShow: ',arrDataDivShow);
+        //console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
+        //console.log('dentro del bucle --- arr_trans: ',arr_trans);
+        //console.log('dentro del bucle --- arrDataDivShow: ',arrDataDivShow);
 
         //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
         window.iter_i = 0;
@@ -4615,7 +4615,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                 //si existe objeto con Translation. Saco datos del objeto
                 if(typeof obj_bible_files[Translation] != 'undefined'){
-                    console.log(`typeof obj_bible_files[Translation] != 'undefined'`);
+                    //console.log(`typeof obj_bible_files[Translation] != 'undefined'`);
                     
                     if(typeof obj_bible_files[Translation].Books != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
@@ -5823,7 +5823,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 
                 //si no existe objeto con Translation. hago fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
-                    console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
+                    //console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
 
                     //start de tiempo para calcular cuanto tarda
                     const tiempoInicioFetch = new Date().getTime();
@@ -6875,8 +6875,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             arrDataDivShow.push(arr_data_all);//antes
                             //arrDataDivShow[window.iter_i] = arr_data_all;//da fallo!
-                            console.log('12864. arrDataDivShow:',arrDataDivShow);
-                            console.log('12864. arrDataDivShow  [window.iter_i]:',window.iter_i);
+                            //console.log('12864. arrDataDivShow:',arrDataDivShow);
+                            //console.log('12864. arrDataDivShow  [window.iter_i]:',window.iter_i);
 
                             arr_data_head = [];
                             arr_data_body = [];
@@ -10307,7 +10307,7 @@ function getActTrans(){
 }
 
 function changeTransNav(trans, idCol_trans){
-    console.log('=== function changeTransNav ===');
+    //console.log('=== function changeTransNav ===');
     //console.log('trans to change en nav. trans: '+trans);
     //console.log('trans to change en nav. idCol_trans: '+idCol_trans);
 
@@ -10393,7 +10393,7 @@ function changeTransNav(trans, idCol_trans){
 
 
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
-    console.log('===function changeTrans()===');
+    //console.log('===function changeTrans()===');
     
     let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
@@ -10539,7 +10539,7 @@ function changeModule(thisDiv,trans,BibleShortName){
 }
 
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
-    console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
+    //console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
 
     let prev_trans = thisDiv.dataset.trans;
@@ -11211,7 +11211,7 @@ function addTrans(addMode = null){
 }
 
 function removeTrans(){
-    console.log('=== function removeTrans() ===');
+    //console.log('=== function removeTrans() ===');
     let countCols = document.querySelectorAll('.cols').length;
     //console.log(countCols);
     if(countCols != 1){
@@ -11248,7 +11248,7 @@ function closeTrans(el,event, param = null){
 }
 
 function removeTransFromTab(trans,tabActive,n){
-    console.log('=== function removeTransFromInTab(trans,tab) ===');
+    //console.log('=== function removeTransFromInTab(trans,tab) ===');
 
     let arr_str_trans = tabActive.dataset.str_trans.split(',');
     arr_str_trans.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
@@ -11261,7 +11261,7 @@ function removeTransFromTab(trans,tabActive,n){
 }
 
 function updateTransInTab(trans,tabActive,n){
-    console.log('=== updateTransInTab(trans,tabActive,n) ===');
+    //console.log('=== updateTransInTab(trans,tabActive,n) ===');
 
     let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
 
@@ -11277,7 +11277,7 @@ function updateTransInTab(trans,tabActive,n){
 
 
 function getRefOfTab(tab_id, ref, str_trans = null){
-    console.log('===function getRefOfTab()===');
+    //console.log('===function getRefOfTab()===');
 
     allowUseShowTrans = true;
 
@@ -11354,7 +11354,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 }
 
 function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null){
-    console.log('=== function addTab() ===');
+    //console.log('=== function addTab() ===');
     
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
@@ -11497,26 +11497,26 @@ function updateArrTabs(){
 }
 
 async function guardarEnBd(tabla, campo, arr){
-    console.log(' === guardarEnBd(tabla, campo, arr) ===');
+    //console.log(' === guardarEnBd(tabla, campo, arr) ===');
 
     try {
-        console.log('Inicio de la función externa');
+        //console.log('Inicio de la función externa');
 
         // Llamada a la función interna
         //await funcionInterna();
 
         if(await verificarAutenticacion()){
-            console.log('js: true --- El usuario está autenticado.');
-            console.log(' guardo datos en bd');
+            //console.log('js: true --- El usuario está autenticado.');
+            //console.log(' guardo datos en bd');
             //insertIntoBd(tabla, datos);
-            console.log(arrTabs);
+            //console.log(arrTabs);
 
             insertarDatos(tabla, campo, arr);
         }else{
-            console.log('js: false --- El usuario no está autenticado.');
+            //console.log('js: false --- El usuario no está autenticado.');
         }
 
-        console.log('Fin de la función externa');
+        //console.log('Fin de la función externa');
     } catch (error) {
         console.error('Error en la función externa:', error);
     }
@@ -11533,7 +11533,7 @@ function insertarDatos(tabla, campo, arr) {
         arr: arr
     };
 
-    console.log(datos);
+    //console.log(datos);
 
 
     fetch('insertar_datos.php', {
@@ -11547,7 +11547,7 @@ function insertarDatos(tabla, campo, arr) {
     // .then(response => response.text())//test
     .then(data => {
 
-        console.log(data);
+        //console.log(data);
         // Puedes realizar acciones adicionales después de la inserción, si es necesario
 
     })
@@ -11559,7 +11559,7 @@ function insertarDatos(tabla, campo, arr) {
 
 
 async function obtenerDatosDeBD(tabla, campo){
-    console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
+    //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
 
@@ -11589,13 +11589,13 @@ async function obtenerDatosDeBD(tabla, campo){
 
         const data = await response.json();
         // const data = await response.text();//test
-        console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
-        console.log(data);
+        //console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
+        //console.log(data);
 
         switch (tabla) {
             case 'vkladki':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
+                    //console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
                     arrTabs = [
@@ -11611,7 +11611,7 @@ async function obtenerDatosDeBD(tabla, campo){
                     ];
                     makeTabsFromDatosDeVkladki();
                 }else{
-                    console.log('Si. tiene_vkladki');
+                    //console.log('Si. tiene_vkladki');
                     arrTabs = convertArrBdToArrOk('arrTabs',data);
                     makeTabsFromDatosDeVkladki();
                 }
@@ -11619,36 +11619,36 @@ async function obtenerDatosDeBD(tabla, campo){
                 
             case 'hist_nav':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_nav);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_nav);
                 }else{
-                    console.log('Si. hist_nav tiene_datos');
+                    //console.log('Si. hist_nav tiene_datos');
                     arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data);
-                    console.log('editado arr_hist_nav: ', arr_hist_nav);
+                    //console.log('editado arr_hist_nav: ', arr_hist_nav);
                     buildHistoryNavDesktop();
                 }
                 break;
 
             case 'hist_find':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_find);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_find);
                 }else{
-                    console.log('Si. hist_find tiene_datos');
+                    //console.log('Si. hist_find tiene_datos');
                     arr_hist_find = convertArrBdToArrOk('arr_hist_find',data);
-                    console.log('editado arr_hist_nav: ', arr_hist_find);
+                    //console.log('editado arr_hist_nav: ', arr_hist_find);
                     buildHistoryFindDesktop();
                 }
                 break;
 
             case 'hist_strong':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_strong);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_strong);
                 }else{
-                    console.log('Si. hist_strong tiene_datos');
+                    //console.log('Si. hist_strong tiene_datos');
                     arr_hist_strong = JSON.parse(data);
-                    console.log('editado arr_hist_strong: ', arr_hist_strong);
+                    //console.log('editado arr_hist_strong: ', arr_hist_strong);
                     buildHistoryStrongDesktop();
                 }
                 break;
@@ -11667,10 +11667,10 @@ async function obtenerDatosDeBD(tabla, campo){
 
 
 function convertArrBdToArrOk(arrName, arr){
-    console.log('=== function convertArrBdToArrOk(arr) ===');
+    //console.log('=== function convertArrBdToArrOk(arr) ===');
 
     let arr_work = JSON.parse(arr);
-    console.log('user arr_work:', arr_work);
+    //console.log('user arr_work:', arr_work);
     let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
     let coincidencias, coincidencias2;
 
@@ -11681,7 +11681,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arrTabs':
                 coincidencias = el.ref.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.ref: ', el.ref);
+                    //console.log('antes el.ref: ', el.ref);
                     el.ref = el.ref.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11692,7 +11692,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_hist_nav':
                 coincidencias = el.ref.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.ref: ', el.ref);
+                    //console.log('antes el.ref: ', el.ref);
                     el.ref = el.ref.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11700,7 +11700,7 @@ function convertArrBdToArrOk(arrName, arr){
                 }        
                 coincidencias2 = el.BookShortName.match(expresionRegular);
                 if (coincidencias2) {
-                    console.log('antes el.BookShortName: ', el.BookShortName);
+                    //console.log('antes el.BookShortName: ', el.BookShortName);
                     el.BookShortName = el.BookShortName.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11711,7 +11711,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_hist_find':
                 coincidencias = el.words.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.words: ', el.words);
+                    //console.log('antes el.words: ', el.words);
                     el.words = el.words.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11727,15 +11727,15 @@ function convertArrBdToArrOk(arrName, arr){
                 break;
         }        
     });
-    console.log('2. user arr_work:', arr_work);
+    //console.log('2. user arr_work:', arr_work);
     let new_arr = arr_work;
-    console.log('new arr:', new_arr);
+    //console.log('new arr:', new_arr);
     return new_arr;
 }
 
 
 function makeTabsFromDatosDeVkladki(){
-    console.log(' === makeTabsFromDatosDeVkladki() ===');
+    //console.log(' === makeTabsFromDatosDeVkladki() ===');
 
     eid_partDeskTabs.innerHTML = '';//reset vkladki
     
@@ -11788,7 +11788,7 @@ function makeTabsFromDatosDeVkladki(){
                     document.querySelector('.tab_active').scrollIntoView();
                     
                     let htmlTab = tabsAll[i];
-                    console.log('tiene active. htmlTab');
+                    //console.log('tiene active. htmlTab');
                     
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
@@ -11832,11 +11832,11 @@ async function verificarAutenticacion() {//ok
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data.mensaje);
+            //console.log(data.mensaje);
             return true;
         } else {
             const data = await response.json();
-            console.log(data.mensaje);
+            //console.log(data.mensaje);
             return false;
         }
     } catch (error) {
@@ -11858,7 +11858,7 @@ function removeTab(){
 }
 
 function closeTab(el, ev = null){       
-    console.log('=== function closeTab(el, ev) ===');
+    //console.log('=== function closeTab(el, ev) ===');
 
     if(ev != null) ev.stopPropagation();
 
@@ -11931,7 +11931,7 @@ function selBook(e){
 
 //Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e, show_chapter = null){
-    console.log('=== function selChapter(e, show_chapter = null) ===');
+    //console.log('=== function selChapter(e, show_chapter = null) ===');
 
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
@@ -12076,7 +12076,7 @@ function updateRefInTabActive(trans,ref){
 
 //Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
-    console.log('=== function selVerse(e) ===');
+    //console.log('=== function selVerse(e) ===');
 
     //console.log(e.srcElement.innerText);
 
@@ -13404,10 +13404,10 @@ function getRefForTsk(Translation, bookShortName){
 
 
 function getRef(trans = null){
-    console.log('=== function getRef() ===');
+    //console.log('=== function getRef() ===');
 
     allowUseShowTrans = true;
-    console.log('en getRef() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en getRef() --- allowUseShowTrans: ',allowUseShowTrans);
 
     let act_trans = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
@@ -14496,10 +14496,10 @@ function hist(param){
 
 
 function bookGo(dir){
-    console.log('=== function chapterGo(dir) ===');
+    //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
-    console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
 
     //console.log('bookGo dir: '+dir);    
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
@@ -14733,10 +14733,10 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    console.log('=== function chapterGo(dir) ===');
+    //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
-    console.log('en chapterGo() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en chapterGo() --- allowUseShowTrans: ',allowUseShowTrans);
 
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     let act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
@@ -15736,7 +15736,7 @@ function guardWordsFind(words){
             }
         })
         .catch(error => {
-            console.log('error de guard: '+ error)
+            //console.log('error de guard: '+ error)
         });    
     }
 }

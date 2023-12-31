@@ -673,7 +673,7 @@ const handlerListenTsk = (ev, Translation ) => {
 
 
 function buildDivShow(arrData, indexColToBuild = null){
-    console.log('function buildDivShow');
+    //console.log('function buildDivShow');
     //console.log('arrData: ', arrData);
 
     //si solo hay que construir una columna
@@ -742,7 +742,7 @@ function buildDivShow(arrData, indexColToBuild = null){
 
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
-    console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
 }
 
 
@@ -758,23 +758,23 @@ function pushStateToHistNav(trans,ref){
 
     // Obtener la base URL
     let baseUrl = window.location.protocol + "//" + window.location.host;
-    console.log("Base URL:", baseUrl);
+    //console.log("Base URL:", baseUrl);
     // Obtener la URL completa
     let fullUrl = baseUrl + window.location.pathname;
-    console.log("URL completa:", fullUrl);
+    //console.log("URL completa:", fullUrl);
     
     let fullUrl_ref = `${fullUrl}?trans=${trans}&ref=${ref}`;
-    console.log("URL completa con ref:", fullUrl_ref);
+    //console.log("URL completa con ref:", fullUrl_ref);
 
     window.history.pushState(null, "Título de la página", fullUrl_ref);
 }
 
 const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
-    console.log('=== const addRefToHistNav ===');
+    //console.log('=== const addRefToHistNav ===');
 
     if(arr_hist_nav.length == 0){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-        console.log(arr_hist_nav);
+        //console.log(arr_hist_nav);
     }
 
     //console.log('trans: ', trans);
@@ -817,7 +817,7 @@ const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
         arr_hist_nav.unshift(itemHist);//añado item al principio
-        console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+        //console.log('meto item. arr_hist_nav: ', arr_hist_nav);
 
         if(arr_hist_nav.length > arr_hist_nav_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
@@ -912,11 +912,11 @@ function onclick_p_nav(el){
 
 
 const addWordsToHistFind = async (trans, words, count_verses, count_matches) => {
-    console.log('=== const addWordsToHistFind ===');
+    //console.log('=== const addWordsToHistFind ===');
 
     if(arr_hist_find.length == 0){
         await obtenerDatosDeBD('hist_find','arr_hist_find');
-        console.log(arr_hist_find);
+        //console.log(arr_hist_find);
     }
 
     //console.log('trans: ', trans);
@@ -964,7 +964,7 @@ const addWordsToHistFind = async (trans, words, count_verses, count_matches) => 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
         arr_hist_find.unshift(itemHist);
-        console.log('meto item. arr_hist_find: ', arr_hist_find);
+        //console.log('meto item. arr_hist_find: ', arr_hist_find);
         if(arr_hist_find.length > arr_hist_find_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_find.splice(arr_hist_find_limit); 
@@ -1032,7 +1032,7 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
     
     if(arr_hist_strong.length == 0){
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-        console.log(arr_hist_strong);
+        //console.log(arr_hist_strong);
     }
 
     //console.log('trans: ', trans);
@@ -1064,7 +1064,7 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
 
     if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
         arr_hist_strong.unshift(itemHist);
-        console.log('arr_hist_strong: ', arr_hist_strong);
+        //console.log('arr_hist_strong: ', arr_hist_strong);
         if(arr_hist_strong.length > arr_hist_strong_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_strong.splice(arr_hist_strong_limit); 

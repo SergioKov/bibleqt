@@ -1,5 +1,5 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-    console.log('===function openModal()===');
+    //console.log('===function openModal()===');
     //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
     //Reset
@@ -48,7 +48,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');  
                     eid_h4_text.innerHTML = headerTitle;//'Меню'; 
-                    console.log('aki llamar showMenu()');
+                    //console.log('aki llamar showMenu()');
 
                     eid_topLogin.style.display = 'block';
                     eid_topMenu.style.display = 'none';
@@ -60,7 +60,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');  
                     eid_h4_text.innerHTML = headerTitle;//'Меню'; 
-                    console.log('aki llamar showMenu()');
+                    //console.log('aki llamar showMenu()');
 
                     eid_topLogin.style.display = 'none';
                     eid_topMenu.style.display = 'block';
@@ -202,7 +202,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
 
 function showMenu(htmlTrans){
-    console.log('=== showMenu(htmlTrans) ===');
+    //console.log('=== showMenu(htmlTrans) ===');
 
     eid_bl_modalTopInner.innerHTML = '';
 

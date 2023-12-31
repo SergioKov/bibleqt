@@ -1,5 +1,5 @@
 function saveNewPassword(){
-    console.log('===function saveNewPassword()===');
+    //console.log('===function saveNewPassword()===');
 
     let email = document.getElementById("email").value;
     let token = document.getElementById("token").value;
@@ -35,13 +35,13 @@ function saveNewPassword(){
     // .then(response => response.text()) //test
     .then(data => {
         
-        console.log(data);
+        //console.log(data);
         
         let eid_bl_reset_pwd_form = document.getElementById('bl_reset_pwd_form');
         
         if(data.success) {
             
-            console.log(`La contraseña se ha guardado correctamente.`);
+            //console.log(`La contraseña se ha guardado correctamente.`);
 
             eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">La contraseña se ha guardado correctamente.</span>`;
 

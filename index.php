@@ -711,7 +711,7 @@ print<<<HERE
     let eid_login_menu = document.getElementById('login_menu');
     eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
 
-    console.log(text);
+    //console.log(text);
 </script>
 HERE;
     }else{
@@ -727,7 +727,7 @@ HERE;
 print<<<HERE
     <script>
         let hay_sesion = false;        
-        console.log('print js: session cerrada. hay que iniciar la sesión.');
+        //console.log('print js: session cerrada. hay que iniciar la sesión.');
 
         let eid_login_menu = document.getElementById('login_menu');
         eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
@@ -981,8 +981,8 @@ HERE;
     let get_ref = <?=json_encode($ref)?>;
     
     // Utilizar la variable en JavaScript
-    console.log("Valor de la variable en JavaScript - get_trans:", get_trans);
-    console.log("Valor de la variable en JavaScript - get_ref:", get_ref);
+    //console.log("Valor de la variable en JavaScript - get_trans:", get_trans);
+    //console.log("Valor de la variable en JavaScript - get_ref:", get_ref);
     
     let hay_get_data = false;//por defecto
     if(get_ref != null){
