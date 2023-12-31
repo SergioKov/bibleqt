@@ -1,7 +1,7 @@
 <?php
 include('connect_db.php');
 
-echo "file: reset_password.php";
+//echo "file: reset_password.php";
 //die();
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {

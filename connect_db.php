@@ -1,16 +1,16 @@
 <?php 
 
-include('base_url.php');
-
 // Conexión a la base de datos
-if($baseUrl == 'https://bibleqt.es/'){//HOSTALIA
-    $servername = "PMYSQL120.dns-servicio.com:3306";
+if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
+    //echo"hostalia";
+	$servername = "PMYSQL120.dns-servicio.com:3306";
     $username = "admin_bibleqt";
     $password = "&admin_bibleqt&";
     $dbname = "7229353_db_bibleqt";
     
 }else{//LOCALHOST
-    $servername = "localhost";
+    //echo"localhost";
+	$servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "db_bibleqt";    
@@ -24,4 +24,3 @@ if ($conn->connect_error) {
 }
 
 ?>
-

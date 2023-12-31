@@ -11589,13 +11589,13 @@ async function obtenerDatosDeBD(tabla, campo){
 
         const data = await response.json();
         // const data = await response.text();//test
-        //console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
-        //console.log(data);
+        console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
+        console.log(data);
 
         switch (tabla) {
             case 'vkladki':
                 if(data == 'no_tiene_datos'){
-                    //console.log('no_tiene_datos');
+                    console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
                     arrTabs = [
@@ -11611,7 +11611,7 @@ async function obtenerDatosDeBD(tabla, campo){
                     ];
                     makeTabsFromDatosDeVkladki();
                 }else{
-                    //console.log('Si. tiene_vkladki');
+                    console.log('Si. tiene_vkladki');
                     arrTabs = convertArrBdToArrOk('arrTabs',data);
                     makeTabsFromDatosDeVkladki();
                 }
@@ -11619,34 +11619,34 @@ async function obtenerDatosDeBD(tabla, campo){
                 
             case 'hist_nav':
                 if(data == 'no_tiene_datos'){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_nav);
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_nav);
                 }else{
-                    //console.log('Si. hist_nav tiene_datos');
+                    console.log('Si. hist_nav tiene_datos');
                     arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data);
-                    //console.log('editado arr_hist_nav: ', arr_hist_nav);
+                    console.log('editado arr_hist_nav: ', arr_hist_nav);
                     buildHistoryNavDesktop();
                 }
                 break;
 
             case 'hist_find':
                 if(data == 'no_tiene_datos'){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_find);
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_find);
                 }else{
                     //console.log('Si. hist_find tiene_datos');
                     arr_hist_find = convertArrBdToArrOk('arr_hist_find',data);
-                    //console.log('editado arr_hist_nav: ', arr_hist_find);
+                    console.log('editado arr_hist_nav: ', arr_hist_find);
                     buildHistoryFindDesktop();
                 }
                 break;
 
             case 'hist_strong':
                 if(data == 'no_tiene_datos'){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_strong);
+                    console.log('no_tiene_datos');
+                    console.log(arr_hist_strong);
                 }else{
-                    //console.log('Si. hist_strong tiene_datos');
+                    console.log('Si. hist_strong tiene_datos');
                     arr_hist_strong = JSON.parse(data);
                     //console.log('editado arr_hist_strong: ', arr_hist_strong);
                     buildHistoryStrongDesktop();
