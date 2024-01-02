@@ -38,13 +38,24 @@ if (true) {
 
 
     //busco si hay registro
+    // Preparar y ejecutar la consulta
     $sql = "SELECT $campo FROM $tabla where id_user = '$id_user_logged' ";
-    $result = $conn->query($sql);
+    $result = mysqli_query($conn, $sql);
+    
 
-    if($result->num_rows > 0){
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+    //$consulta = $conn->prepare($sql);//new
+    //$consulta->execute();//new
+    //$result = $consulta->get_result();
+
+    //$result = $conn->query($sql);//antes
+
+    if(mysqli_num_rows($result) /*$result->num_rows*/ > 0){
+        //$rows = $result->fetch_all(MYSQLI_ASSOC);
+        $myrow = mysqli_fetch_assoc($result);
+        
         $hay_id_user_en_tabla = true;
-        $data = $rows[0][$campo];
+        //$data = $rows[0][$campo];
+        $data = $myrow[0][$campo];
 
         //echo json_encode(['tabla' => $tabla, 'campo' => $campo, '$sql' => $sql, 'data' => $data]);
         //die();
@@ -53,6 +64,9 @@ if (true) {
         //echo"(if)";
         //var_dump($rows[0]);
         //die();
+
+        // Liberar el resultado
+        $result->free_result();
     }else{
         $hay_id_user_en_tabla = false;
         $data = 'no_tiene_datos';
