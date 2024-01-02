@@ -710,6 +710,7 @@ print<<<HERE
 
     let eid_login_menu = document.getElementById('login_menu');
     eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+    eid_login_menu.title = username;
 
     //console.log(text);
 </script>
@@ -731,6 +732,7 @@ print<<<HERE
 
         let eid_login_menu = document.getElementById('login_menu');
         eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+        eid_login_menu.title = 'Login';
     
     </script>
 HERE;

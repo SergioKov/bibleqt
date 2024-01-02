@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result_mail) {
                 //echo "1. El correo electrónico se envió correctamente.";
-                echo json_encode(['success' => true, 'resetLink' => 'resetLink', 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
+                echo json_encode(['success' => true, 'resetLink' => $resetLink, 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
             } else {
                 //echo "2. Error al enviar el correo electrónico.";
                 echo json_encode(['success' => false, 'mensaje' => 'Error al enviar el correo electrónico']);
