@@ -8,8 +8,8 @@ $reply_to_email = "sergiokovalchuk@gmail.com";
 // Для отправки HTML-письма должен быть установлен заголовок Content-type
 $headers  = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-$headers .= "From: mitest - YOOOO <$from_email>" . "\r\n"; 
-$headers .= "Reply-To: Sergio <$reply_to_email>" . "\r\n"; 
+$headers .= "From: mitest - YOOOO <" . $from_email . ">" . "\r\n"; 
+$headers .= "Reply-To: Sergio <" . $reply_to_email . ">" . "\r\n"; 
 
 try {
     $result = mail($para, $asunto, $mensaje, $headers);
