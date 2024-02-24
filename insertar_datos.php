@@ -6,6 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     // Recuperar datos JSON
     $json = file_get_contents('php://input');
     $datos = json_decode($json, true);
+	//echo json_encode(['$datos' => $datos]);
+	//die();
 
     // Verificar que se decodificó correctamente
     if ($datos === null) {
@@ -21,10 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         $username_logged = $_SESSION['username'];
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
     } else {
-        $id_user_logged = 0;
-        $username_logged = 'nobody';
+        $id_user_logged = 5;
+        $username_logged = 'user_test';
         //echo json_encode(['mensaje' => $username_logged]);
+        
+        // Manejar solicitudes incorrectas
+        http_response_code(400);
+        echo json_encode(['mensaje' => 'No existe session. Para insertar datos hay que loguearse antes. Solicitud incorrecta']);
+        die();
     }
+	//echo json_encode(['$id_user_logged' => $id_user_logged]);
+	//die();
 
     /*
     foreach ($datos['arr'] as $arr_k => $arr_v) {
@@ -61,21 +70,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
     //busco si hay registro en la tabla a donde insertar array
     $sql = "SELECT * FROM $tabla where id_user = '$id_user_logged' ";
-    $result = $conn->query($sql);
+	$result = mysqli_query($conn, $sql);
 
-    if($result->num_rows > 0){
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $storedId_user = $rows[0]["id_user"];//1
+    if(mysqli_num_rows($result) > 0){
+		$myrow = mysqli_fetch_assoc($result);
+		//echo json_encode(['$myrow' => $myrow]);
+		//die();
+		
+        $storedId_user = $myrow["id_user"];//1
         $hay_id_user_en_tabla = true;
-        //echo"11";
-        //var_dump($rows[0]);
-        //die();
     }else{
         $hay_id_user_en_tabla = false;
-        //echo"00";
     }
 
-
+	//echo json_encode(['$hay_id_user_en_tabla' => $hay_id_user_en_tabla]);
+	//die();
 
 
     // Realizar la inserción o (update) en la base de datos 
@@ -92,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                  VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
     }
-    //echo"$sql2";
-    $result2 = $conn->query($sql2);
-    //die();
+	$result2 = mysqli_query($conn, $sql2);	
+	//echo json_encode(['$result2' => $result2]);
+	//die();
 
 
     //Update o insert datos en la tabla $tabla
@@ -112,15 +121,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         }
     }
 
+    //Cierro conexion con bd
     $conn->close();
-
-
+	
 
     // Enviar respuesta al cliente en formato JSON
     header('Content-Type: application/json');
     echo json_encode($respuesta);
+	
 } else {
-    // Manejar solicitudes incorrectas
+    
+	// Manejar solicitudes incorrectas
     http_response_code(400);
     echo json_encode(['mensaje' => 'Solicitud incorrecta']);
 }
@@ -133,6 +144,5 @@ function agregarBarrasUnicode($cadena) {
 
     return $cadena;
 }
-
 
 ?>

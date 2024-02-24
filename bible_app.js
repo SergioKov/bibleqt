@@ -11562,10 +11562,7 @@ async function obtenerDatosDeBD(tabla, campo){
     console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
-
-        // Definir la URL del servidor
-        const url = 'obtener_datos_de_bd.php';
-        
+       
         //datos para hacer consulta a bd
         const datos = {
             tabla: tabla,
@@ -11581,7 +11578,7 @@ async function obtenerDatosDeBD(tabla, campo){
             body: JSON.stringify(datos), // Convertir los datos a formato JSON
         };
 
-        const response = await fetch(url, paramsToFetch);
+        const response = await fetch('obtener_datos_de_bd.php', paramsToFetch);
 
         if (!response.ok) {
             throw new Error('Error al obtener datos');
@@ -11825,10 +11822,14 @@ function convertirUnicodeALetras(cadena) {
 
 async function verificarAutenticacion() {//ok
     try {
-        const response = await fetch('verificar_autenticacion.php', {
+        
+        // Crear el objeto de opciones para la solicitud POST
+        const paramsToFetch = {
             method: 'GET',
             credentials: 'include'
-        });
+        };
+        
+        const response = await fetch('verificar_autenticacion.php', paramsToFetch);
 
         if (response.ok) {
             const data = await response.json();
@@ -11840,7 +11841,7 @@ async function verificarAutenticacion() {//ok
             return false;
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error: ', error);
         return false;
     }
 }

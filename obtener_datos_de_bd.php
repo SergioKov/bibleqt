@@ -3,10 +3,21 @@ session_start();//importante para ver al usuario logueado
 
 if (true) {
 
+    //hacer test en postman
+    //metodo: POST
+    //ruta web: https://bibleqt.es/obtener_datos_de_bd.php
+    //o ruta local: http://localhost/bibleqt/obtener_datos_de_bd.php
+    //Body
+    //raw
+    //JSON
+    
     // Recuperar datos JSON
     $json = file_get_contents('php://input');
-    $datos = json_decode($json, true);
+    //echo json_encode(['$json' => $json]);
     
+    $datos = json_decode($json, true);
+    //echo json_encode(['$datos' => $datos]);
+
     // Verificar que se decodificó correctamente
     if ($datos === null) {
         http_response_code(400);
@@ -16,10 +27,10 @@ if (true) {
 
     $tabla = $datos['tabla'];//vkladki
     $campo = $datos['campo'];//arrTabs
-    $tabla2 = json_encode($datos['tabla']);//vkladki
-    $campo2 = json_encode($datos['campo']);//arrTabs
     //echo json_encode(['tabla' => $tabla, 'campo' => $campo, 'tabla2' => $tabla2, 'campo2' => $campo2]);
-    //die();
+    //die();	
+	
+
 
 
     // Recuperar los valores
@@ -28,31 +39,34 @@ if (true) {
         $username_logged = $_SESSION['username'];
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
     } else {
-        $id_user_logged = 0;
-        $username_logged = 'nobody';
+        $id_user_logged = 5;//0
+        $username_logged = 'user_test';//'nobody';
         //echo json_encode(['mensaje' => $username_logged]);
     }
-
+	//die();
 
     include('connect_db.php');
 
 
     //busco si hay registro
+    // Preparar y ejecutar la consulta
     $sql = "SELECT $campo FROM $tabla where id_user = '$id_user_logged' ";
-    $result = $conn->query($sql);
+    $result = mysqli_query($conn, $sql);
+	
+	//echo json_encode(['sql' => $sql, 'num_rows' => mysqli_num_rows($result)]);
+    //die();
 
-    if($result->num_rows > 0){
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+    if(mysqli_num_rows($result) > 0){
+        $myrow = mysqli_fetch_assoc($result);
+		//echo json_encode(['$myrow' => $myrow]);
+		//die();
+        
         $hay_id_user_en_tabla = true;
-        $data = $rows[0][$campo];
+        $data = $myrow[$campo];
 
         //echo json_encode(['tabla' => $tabla, 'campo' => $campo, '$sql' => $sql, 'data' => $data]);
         //die();
 
-        //$data = $campo;//test
-        //echo"(if)";
-        //var_dump($rows[0]);
-        //die();
     }else{
         $hay_id_user_en_tabla = false;
         $data = 'no_tiene_datos';
@@ -60,7 +74,7 @@ if (true) {
     }
     //die();
 
-
+    //Cierro conexion con bd
     $conn->close();
 
 
