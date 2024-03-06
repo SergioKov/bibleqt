@@ -10541,8 +10541,14 @@ function changeModule(thisDiv,trans,BibleShortName){
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
+    let prev_trans;
 
-    let prev_trans = thisDiv.dataset.trans;
+    if(thisDiv.tagName === 'DIV'){
+        prev_trans = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} 
+    }else{
+        prev_trans = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
+    }
+
     let new_trans = trans;
 
     let este_trans = arrFavTransObj.find(v => v.Translation === trans);
@@ -14388,37 +14394,48 @@ function isInViewport(el) {
 
 
 function selectModule2(htmlTrans){
-    //console.log(arrFavTransObj);
-    eid_bl_modalFullInner.innerHTML = '';//reset
+    //console.log('=== function selectModule2(htmlTrans) ===');    
 
     let thisDiv = htmlTrans;//test
     //console.log('abajo htmlTrans: ');
     //console.log(htmlTrans);
-
-    //let transActive = eid_trans1.dataset.trans;//trans1 del col1
-    let transSelected = thisDiv.dataset.trans;//trans selected con el click on menu
-
-    arrFavTransObj.forEach((el,i)=>{
-        const p = document.createElement('p');
-        p.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
-        p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
-        p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
-        p.onclick = function(){
-            changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName, arrFavTransObj[i].EnglishPsalms);
-            //console.log('p.onclick llamando changeModule2 ');
-            closeModal();
-        }        
-
-        eid_bl_modalFullInner.appendChild(p);
-    });
-
-    if(typeof document.querySelector('.cl_trans_active') != 'undefined'){
-        document.querySelector('.cl_trans_active').scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-            inline: "nearest"
+    
+    if(thisDiv.tagName === 'DIV'){
+        eid_bl_modalFullInner.innerHTML = '';//reset
+        
+        let transSelected;
+        transSelected = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} //trans selected con el click on menu
+        
+        arrFavTransObj.forEach((el,i)=>{
+            const p = document.createElement('p');
+            p.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
+            p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
+            p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+            p.onclick = function(){
+                
+                //thisDiv = (thisDiv.tagName === 'DIV') ? thisDiv : thisDiv.currentTarget ;  //no funciona...     
+                
+                changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName, arrFavTransObj[i].EnglishPsalms);
+                //console.log('p.onclick llamando changeModule2 ');
+                closeModal();
+            }        
+    
+            eid_bl_modalFullInner.appendChild(p);
         });
+    
+        if(document.querySelector('.cl_trans_active') != null){
+            document.querySelector('.cl_trans_active').scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+                inline: "nearest"
+            });
+        }    
+    
+    }else{
+        //transSelected = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
+        console.log('thisDiv = PointerEvent {}. no hago nada');
     }
+
 }
 
 
