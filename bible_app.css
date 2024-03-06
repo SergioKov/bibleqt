@@ -1115,7 +1115,7 @@ li.active {
 }
 .prim_blue {
     color: blue;
-    /* font-size: 14px; */
+    font-size: 18px;
     /* display: block; */
 }
 .prim_error_compare {
