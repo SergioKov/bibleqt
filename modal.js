@@ -346,17 +346,17 @@ function showMenu(htmlTrans){
 
 
 
-    //<div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+    //<div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
     //    <div>Row</div>
     //</div>
     const dbtn_ch_pos = document.createElement('div');
     dbtn_ch_pos.id = 'btn_changePositionShowModal';
     dbtn_ch_pos.className = 'dbtn';
     dbtn_ch_pos.title = 'Change position: Columns or Rows';
-    dbtn_ch_pos.dataset.fn = "changePositionShow(this)";
+    dbtn_ch_pos.dataset.fn = "changePositionShow()";
     dbtn_ch_pos.innerHTML = '<div>Row</div>';
     dbtn_ch_pos.onclick = (ev)=>{
-        changePositionShow(ev.target);
+        changePositionShow();
     };    
     
     //<div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
@@ -618,7 +618,7 @@ function showMenu(htmlTrans){
         </div>                        
 
 
-        <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+        <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
             <div>Row</div>
         </div>
         <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">

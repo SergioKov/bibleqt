@@ -73,7 +73,7 @@ session_start();
                         <div>H ></div>
                     </div>                        
 
-                    <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                    <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
                         <div>Row</div>
                     </div>
                     <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
@@ -848,7 +848,7 @@ HERE;
                                         <div>H ></div>
                                     </div>                        
 
-                                    <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow(this)">
+                                    <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
                                         <div>Row</div>
                                     </div>
                                     <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">

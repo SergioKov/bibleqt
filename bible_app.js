@@ -647,7 +647,6 @@ function makeBibleTextFromJson(url){
         //console.log(' abajo data:');
         //console.log(data);
 
-
         data.forEach(el => {
             
             //console.log(el);
@@ -689,22 +688,14 @@ function makeBibleTextFromJson(url){
 
 
             }
-            //console.log(arrBooks);
-
-
-
-            
-            
-        
-        
+            //console.log(arrBooks);        
         });
 
         //console.log('abajo arrBooks: ');
         //console.log(arrBooks);
 
         //console.log('abajo arrText: ');
-        //console.log(arrText);
-    
+        //console.log(arrText);   
        
     })
     .catch(error => { 
@@ -1145,7 +1136,7 @@ function agregarSeparadores(numero, separador) {
     return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separador);
 }
 
-async function loadDefaultFunctions() {
+async function loadDefaultFunctions(){
     //console.log('function loadDefaultFunctions()');
     //console.log(' --- empiezo a llamar funcciones por defecto ---');    
 
@@ -1226,18 +1217,28 @@ async function loadDefaultFunctions() {
     //}
     */
 
-
     addListenerModule();
-
     updateTransOnClickOnActiveCol();
+    checkPositionShowForMob();
 
     setTimeout(()=>{    
         pintRefOnScroll();
     },100);
 
     doPageDownOnScroll();
-
     document.onkeydown = checkKey;
+}
+
+function checkPositionShowForMob(){
+    console.log('=== function checkPositionShowForMob() ===');
+    
+    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+        positionShow = 'row';
+        console.log('new positionShow: ', positionShow);
+        changePositionShow(positionShow);
+    }else{//si es desktop o tablet
+        //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
+    }
 }
 
 function makeFooterBtnsFromArrFavTransObj(){
@@ -10191,6 +10192,7 @@ window.addEventListener('load',function(d){
 
 window.addEventListener('resize',function(d){
     //console.log('resize - window.innerWidth: '+window.innerWidth);
+    checkPositionShowForMob();
     mySizeWindow();
     mySizeVerse();
 });
@@ -10677,29 +10679,62 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 }
 
 
-function changePositionShow(el){//row,col, default = col   
+function changePositionShow(param_positionShow = null){//row,col, default = col   
     let eid_btn_changePositionShowHeader = document.getElementById('btn_changePositionShowHeader');
     let eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
+
+    let textPositionShow;
+    let new_positionShow;
+
+    if(param_positionShow != null){//row
+        
+        new_positionShow = param_positionShow;//new valor row
+        if(new_positionShow == 'row'){
+            textPositionShow = 'Col';//futura acción
+            //hago scroll to top en columna para todos cols
+            document.querySelectorAll('.colsInner').forEach(el=>{
+                el.scrollTop = 0;
+            });
+        }else if(new_positionShow == 'col'){
+            textPositionShow = 'Row';//futura acción
+        }  
+
+    }else{
+
+        if(positionShow == 'row'){//actual
+            new_positionShow = 'col';//new valor
+            textPositionShow = 'Row';//futura acción
+            //hago scroll to top en columna para todos cols
+            document.querySelectorAll('.colsInner').forEach(el=>{
+                el.scrollTop = 0;
+            });
+        }else if(positionShow == 'col'){
+            new_positionShow = 'row';//new valor
+            textPositionShow = 'Col';//futura acción
+        }
+    }
+    eid_btn_changePositionShowHeader.innerHTML = `<span>${textPositionShow}</span>`;//futura acción
+    eid_btn_changePositionShowModal.innerHTML = `<span>${textPositionShow}</span>`;//futura acción
+    positionShow = new_positionShow;//importante
     
-    if(positionShow == 'row'){
-        positionShow = 'col';
-        //si element tiene dentro un div, es el boton del modalTop
-        //el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Row</span>' : 'Row';
-        eid_btn_changePositionShowHeader.innerHTML = '<span>Row</span>';
-        eid_btn_changePositionShowModal.innerHTML = '<span>Row</span>';
+    /*if(positionShow == 'row'){
+        positionShow = 'col';//new valor
+        eid_btn_changePositionShowHeader.innerHTML = '<span>Row</span>';//futura acción
+        eid_btn_changePositionShowModal.innerHTML = '<span>Row</span>';//futura acción
         //hago scroll to top en columna para todos cols
         document.querySelectorAll('.colsInner').forEach(el=>{
             el.scrollTop = 0;
         });
-    }else{
-        positionShow = 'row';
-        //el.innerHTML = (el.querySelector(':scope > span') !== null) ? '<span>Col</span>' : 'Col';
-        eid_btn_changePositionShowHeader.innerHTML = '<span>Col</span>';
-        eid_btn_changePositionShowModal.innerHTML = '<span>Col</span>';
-
+    }else if(positionShow == 'col'){
+        positionShow = 'row';//new valor
+        eid_btn_changePositionShowHeader.innerHTML = '<span>Col</span>';//futura acción
+        eid_btn_changePositionShowModal.innerHTML = '<span>Col</span>';//futura acción
     }
-    mySizeWindow();
-    mySizeVerse();
+    */
+   setTimeout(()=>{
+       mySizeWindow();
+       mySizeVerse();
+    },100);
 }
 
 
