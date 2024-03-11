@@ -321,6 +321,19 @@ let strongAction = null;
 // FUNCIONES
 //===================================================================//
 
+function checkPositionShowForMob(){
+    console.log('=== function checkPositionShowForMob() ===');
+    
+    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+        positionShow = 'row';
+        console.log('new positionShow: ', positionShow);
+        changePositionShow(positionShow);
+    }else{//si es desktop o tablet
+        //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
+    }
+}
+checkPositionShowForMob();
+
 function iniciarSesion(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
 
@@ -1219,7 +1232,7 @@ async function loadDefaultFunctions(){
 
     addListenerModule();
     updateTransOnClickOnActiveCol();
-    checkPositionShowForMob();
+    //checkPositionShowForMob();
 
     setTimeout(()=>{    
         pintRefOnScroll();
@@ -1227,18 +1240,6 @@ async function loadDefaultFunctions(){
 
     doPageDownOnScroll();
     document.onkeydown = checkKey;
-}
-
-function checkPositionShowForMob(){
-    console.log('=== function checkPositionShowForMob() ===');
-    
-    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
-        positionShow = 'row';
-        console.log('new positionShow: ', positionShow);
-        changePositionShow(positionShow);
-    }else{//si es desktop o tablet
-        //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
-    }
 }
 
 function makeFooterBtnsFromArrFavTransObj(){
@@ -12986,6 +12987,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 verseNumber = id_verse + 1;
                                             }
                                             
+                                            chapterNumber = parseInt(chapterNumber);
                                             if(typeof chapterNumber == 'string' || isNaN(chapterNumber)) chapterNumber = 1;
                 
                                             window.arr_verses = obj_bible_files[trans].Books[id_book].fileContent.split('<h4>')[chapterNumber].split('<p>');
