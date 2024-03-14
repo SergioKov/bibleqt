@@ -1276,3 +1276,35 @@ function recorrerArrRefs(arr_refs){
 function getIndexFromArrRefs(index){
     return getRefByBibleRef(arr_refs[index]);
 }
+
+
+/*
+let ukr_ogi = [];
+
+but.forEach((el,i)=>{ 
+  
+  
+                     
+    if(el.chapter == 1 && el.verse == 1){
+        //console.log('<h2>libro '  + el.book_number+ '</h2>');
+        arr.push(`<h2>${ukr_ogi[i].FullName}</h2>`);
+        arr.push(`<h4>${el.chapter}</h4>`);
+        arr.push(`<p>${el.verse} ${el.text}`);
+    }else{
+        
+        if(el.verse == 1){
+            console.log('<h4>capitulo '  + el.chapter+ '</h4>');
+            arr.push(`<h4>${el.chapter}</h4>`);
+            arr.push(`<p>${el.verse} ${el.text}`);
+        }else{
+            arr.push(`<p>${el.verse} ${el.text}`);
+        }                      
+        
+
+    }
+
+    
+    
+    
+});
+*/

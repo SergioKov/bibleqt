@@ -1,6 +1,6 @@
 {
     "type": "settings",
-    "BibleName": "(UA) Біблія у перекладі І. Огієнка",
+    "BibleName": "(UA) Біблія у перекладі І. Огієнка. 1962 р.",
     "BibleShortName": "Ukr_Ogi",
     "Bible": "Y",
     "OldTestament": "Y",
@@ -28,6 +28,7 @@
         [
             {
                 "BookNumber": 0,
+                "BookNumber_mb": 10,
                 "PathName": "GENESIS.HTM",
                 "FullName": "Буття",
                 "ShortNames": [
@@ -53,6 +54,7 @@
             },
             {
                 "BookNumber": 1,
+                "BookNumber_mb": 20,
                 "PathName": "EXODUS.HTM",
                 "FullName": "Вихід",
                 "ShortNames": [
@@ -76,6 +78,7 @@
             },
             {
                 "BookNumber": 2,
+                "BookNumber_mb": 30,
                 "PathName": "LEVITICUS.HTM",
                 "FullName": "Левит",
                 "ShortNames": [
@@ -100,6 +103,7 @@
             },
             {
                 "BookNumber": 3,
+                "BookNumber_mb": 40,
                 "PathName": "NUMBERS.HTM",
                 "FullName": "Числа",
                 "ShortNames": [
@@ -126,6 +130,7 @@
             },
             {
                 "BookNumber": 4,
+                "BookNumber_mb": 50,
                 "PathName": "DEUTERONOMY.HTM",
                 "FullName": "Повторення Закону",
                 "ShortNames": [
@@ -159,6 +164,7 @@
             },
             {
                 "BookNumber": 5,
+                "BookNumber_mb": 60,
                 "PathName": "JOSHUA.HTM",
                 "FullName": "Iсус Навин",
                 "ShortNames": [
@@ -182,6 +188,7 @@
             },
             {
                 "BookNumber": 6,
+                "BookNumber_mb": 70,
                 "PathName": "JUDGES.HTM",
                 "FullName": "Книга Суддiв",
                 "ShortNames": [
@@ -203,6 +210,7 @@
             },
             {
                 "BookNumber": 7,
+                "BookNumber_mb": 80,
                 "PathName": "RUTH.HTM",
                 "FullName": "Рут",
                 "ShortNames": [
@@ -225,6 +233,7 @@
             },
             {
                 "BookNumber": 8,
+                "BookNumber_mb": 90,
                 "PathName": "1SAMUEL.HTM",
                 "FullName": "1-а Самуїлова",
                 "ShortNames": [
@@ -252,6 +261,7 @@
             },
             {
                 "BookNumber": 9,
+                "BookNumber_mb": 100,
                 "PathName": "2SAMUEL.HTM",
                 "FullName": "2-а Самуїлова",
                 "ShortNames": [
@@ -279,6 +289,7 @@
             },
             {
                 "BookNumber": 10,
+                "BookNumber_mb": 110,
                 "PathName": "1KINGS.HTM",
                 "FullName": "1-а царiв",
                 "ShortNames": [
@@ -317,6 +328,7 @@
             },
             {
                 "BookNumber": 11,
+                "BookNumber_mb": 120,
                 "PathName": "2KINGS.HTM",
                 "FullName": "2-а царiв",
                 "ShortNames": [
@@ -355,6 +367,7 @@
             },
             {
                 "BookNumber": 12,
+                "BookNumber_mb": 130,
                 "PathName": "1CHRONICLES.HTM",
                 "FullName": "1-а хронiки",
                 "ShortNames": [
@@ -378,6 +391,7 @@
             },
             {
                 "BookNumber": 13,
+                "BookNumber_mb": 140,
                 "PathName": "2CHRONICLES.HTM",
                 "FullName": "2-а хронiки",
                 "ShortNames": [
@@ -401,6 +415,7 @@
             },
             {
                 "BookNumber": 14,
+                "BookNumber_mb": 150,
                 "PathName": "EZRA.HTM",
                 "FullName": "Ездра",
                 "ShortNames": [
@@ -419,6 +434,7 @@
             },
             {
                 "BookNumber": 15,
+                "BookNumber_mb": 160,
                 "PathName": "NEHEMIAH.HTM",
                 "FullName": "Неемія",
                 "ShortNames": [
@@ -440,6 +456,7 @@
             },
             {
                 "BookNumber": 16,
+                "BookNumber_mb": 190,
                 "PathName": "ESTHER.HTM",
                 "FullName": "Естер",
                 "ShortNames": [
@@ -461,6 +478,7 @@
             },
             {
                 "BookNumber": 17,
+                "BookNumber_mb": 220,
                 "PathName": "JOB.HTM",
                 "FullName": "Йов",
                 "ShortNames": [
@@ -479,6 +497,7 @@
             },
             {
                 "BookNumber": 18,
+                "BookNumber_mb": 230,
                 "PathName": "PSALMS.HTM",
                 "FullName": "Псалми",
                 "ShortNames": [
@@ -507,6 +526,7 @@
             },
             {
                 "BookNumber": 19,
+                "BookNumber_mb": 240,
                 "PathName": "PROVERBS.HTM",
                 "FullName": "Приповiстi",
                 "ShortNames": [
@@ -534,6 +554,7 @@
             },
             {
                 "BookNumber": 20,
+                "BookNumber_mb": 250,
                 "PathName": "ECCLESIASTES.HTM",
                 "FullName": "Екклезiяст",
                 "ShortNames": [
@@ -560,6 +581,7 @@
             },
             {
                 "BookNumber": 21,
+                "BookNumber_mb": 260,
                 "PathName": "SONG.HTM",
                 "FullName": "Пiсня над пiснями",
                 "ShortNames": [
@@ -586,6 +608,7 @@
             },
             {
                 "BookNumber": 22,
+                "BookNumber_mb": 290,
                 "PathName": "ISAIAH.HTM",
                 "FullName": "Iсая",
                 "ShortNames": [
@@ -608,6 +631,7 @@
             },
             {
                 "BookNumber": 23,
+                "BookNumber_mb": 300,
                 "PathName": "JEREMIAH.HTM",
                 "FullName": "Єремiя",
                 "ShortNames": [
@@ -633,6 +657,7 @@
             },
             {
                 "BookNumber": 24,
+                "BookNumber_mb": 310,
                 "PathName": "LAMENTATIONS.HTM",
                 "FullName": "Плач Єремiї",
                 "ShortNames": [
@@ -663,6 +688,7 @@
             },
             {
                 "BookNumber": 25,
+                "BookNumber_mb": 330,
                 "PathName": "EZEKIEL.HTM",
                 "FullName": "Єзекiїль",
                 "ShortNames": [
@@ -690,6 +716,7 @@
             },
             {
                 "BookNumber": 26,
+                "BookNumber_mb": 340,
                 "PathName": "DANIEL.HTM",
                 "FullName": "Даниїл",
                 "ShortNames": [
@@ -711,6 +738,7 @@
             },
             {
                 "BookNumber": 27,
+                "BookNumber_mb": 350,
                 "PathName": "HOSEA.HTM",
                 "FullName": "Осiя",
                 "ShortNames": [
@@ -728,6 +756,7 @@
             },
             {
                 "BookNumber": 28,
+                "BookNumber_mb": 360,
                 "PathName": "JOEL.HTM",
                 "FullName": "Йоїл",
                 "ShortNames": [
@@ -747,6 +776,7 @@
             },
             {
                 "BookNumber": 29,
+                "BookNumber_mb": 370,
                 "PathName": "AMOS.HTM",
                 "FullName": "Амос",
                 "ShortNames": [
@@ -765,6 +795,7 @@
             },
             {
                 "BookNumber": 30,
+                "BookNumber_mb": 380,
                 "PathName": "OBADIAH.HTM",
                 "FullName": "Овдiй",
                 "ShortNames": [
@@ -786,6 +817,7 @@
             },
             {
                 "BookNumber": 31,
+                "BookNumber_mb": 390,
                 "PathName": "JONAH.HTM",
                 "FullName": "Йона",
                 "ShortNames": [
@@ -808,6 +840,7 @@
             },
             {
                 "BookNumber": 32,
+                "BookNumber_mb": 400,
                 "PathName": "MICAH.HTM",
                 "FullName": "Михей",
                 "ShortNames": [
@@ -826,6 +859,7 @@
             },
             {
                 "BookNumber": 33,
+                "BookNumber_mb": 410,
                 "PathName": "NAHUM.HTM",
                 "FullName": "Наум",
                 "ShortNames": [
@@ -841,6 +875,7 @@
             },
             {
                 "BookNumber": 34,
+                "BookNumber_mb": 420,
                 "PathName": "HABAKKUK.HTM",
                 "FullName": "Авакум",
                 "ShortNames": [
@@ -861,6 +896,7 @@
             },
             {
                 "BookNumber": 35,
+                "BookNumber_mb": 430,
                 "PathName": "ZEPHANIAH.HTM",
                 "FullName": "Софонiя",
                 "ShortNames": [
@@ -880,6 +916,7 @@
             },
             {
                 "BookNumber": 36,
+                "BookNumber_mb": 440,
                 "PathName": "HAGGAI.HTM",
                 "FullName": "Огiй",
                 "ShortNames": [
@@ -899,6 +936,7 @@
             },
             {
                 "BookNumber": 37,
+                "BookNumber_mb": 450,
                 "PathName": "ZECHARIAH.HTM",
                 "FullName": "Захарiя",
                 "ShortNames": [
@@ -922,6 +960,7 @@
             },
             {
                 "BookNumber": 38,
+                "BookNumber_mb": 460,
                 "PathName": "MALACHI.HTM",
                 "FullName": "Малахiї",
                 "ShortNames": [
@@ -940,6 +979,7 @@
             },
             {
                 "BookNumber": 39,
+                "BookNumber_mb": 470,
                 "PathName": "MATTHEW.HTM",
                 "FullName": "Вiд Матвiя",
                 "ShortNames": [
@@ -977,6 +1017,7 @@
             },
             {
                 "BookNumber": 40,
+                "BookNumber_mb": 480,
                 "PathName": "MARK.HTM",
                 "FullName": "Вiд Марка",
                 "ShortNames": [
@@ -1007,6 +1048,7 @@
             },
             {
                 "BookNumber": 41,
+                "BookNumber_mb": 490,
                 "PathName": "LUKE.HTM",
                 "FullName": "Вiд Луки",
                 "ShortNames": [
@@ -1028,6 +1070,7 @@
             },
             {
                 "BookNumber": 42,
+                "BookNumber_mb": 500,
                 "PathName": "JOHN.HTM",
                 "FullName": "Вiд Iвана",
                 "ShortNames": [
@@ -1058,6 +1101,7 @@
             },
             {
                 "BookNumber": 43,
+                "BookNumber_mb": 510,
                 "PathName": "ACTS.HTM",
                 "FullName": "Дiї",
                 "ShortNames": [
@@ -1092,6 +1136,7 @@
 
             {
                 "BookNumber": 44,
+                "BookNumber_mb": 520,
                 "PathName": "ROMANS.HTM",
                 "FullName": "До римлян",
                 "ShortNames": [
@@ -1111,6 +1156,7 @@
             },
             {
                 "BookNumber": 45,
+                "BookNumber_mb": 530,
                 "PathName": "1COR.HTM",
                 "FullName": "1-е до коринтян",
                 "ShortNames": [
@@ -1136,6 +1182,7 @@
             },
             {
                 "BookNumber": 46,
+                "BookNumber_mb": 540,
                 "PathName": "2COR.HTM",
                 "FullName": "2-е до коринтян",
                 "ShortNames": [
@@ -1161,6 +1208,7 @@
             },
             {
                 "BookNumber": 47,
+                "BookNumber_mb": 550,
                 "PathName": "GALAT.HTM",
                 "FullName": "До галатiв",
                 "ShortNames": [
@@ -1182,6 +1230,7 @@
             },
             {
                 "BookNumber": 48,
+                "BookNumber_mb": 560,
                 "PathName": "EPHES.HTM",
                 "FullName": "До ефесян",
                 "ShortNames": [
@@ -1203,6 +1252,7 @@
             },
             {
                 "BookNumber": 49,
+                "BookNumber_mb": 570,
                 "PathName": "PHILIP.HTM",
                 "FullName": "До филип'ян",
                 "ShortNames": [
@@ -1229,6 +1279,7 @@
             },
             {
                 "BookNumber": 50,
+                "BookNumber_mb": 580,
                 "PathName": "COLOS.HTM",
                 "FullName": "До колоссян",
                 "ShortNames": [
@@ -1248,6 +1299,7 @@
             },
             {
                 "BookNumber": 51,
+                "BookNumber_mb": 590,
                 "PathName": "1THESS.HTM",
                 "FullName": "1-е до солунян",
                 "ShortNames": [
@@ -1274,6 +1326,7 @@
             },
             {
                 "BookNumber": 52,
+                "BookNumber_mb": 600,
                 "PathName": "2THESS.HTM",
                 "FullName": "2-е до солунян",
                 "ShortNames": [
@@ -1300,6 +1353,7 @@
             },
             {
                 "BookNumber": 53,
+                "BookNumber_mb": 610,
                 "PathName": "1TIM.HTM",
                 "FullName": "1-е Тимофiю",
                 "ShortNames": [
@@ -1319,8 +1373,9 @@
             },
             {
                 "BookNumber": 54,
+                "BookNumber_mb": 620,
                 "PathName": "2TIM.HTM",
-                "FullName": "1-е Тимофiю",
+                "FullName": "2-е Тимофiю",
                 "ShortNames": [
                     "2Тим.",
                     "2Тим",
@@ -1338,6 +1393,7 @@
             },
             {
                 "BookNumber": 55,
+                "BookNumber_mb": 630,
                 "PathName": "TITUS.HTM",
                 "FullName": "До Тита",
                 "ShortNames": [
@@ -1355,6 +1411,7 @@
             },
             {
                 "BookNumber": 56,
+                "BookNumber_mb": 640,
                 "PathName": "PHILIM.HTM",
                 "FullName": "До Филимона",
                 "ShortNames": [
@@ -1378,6 +1435,7 @@
             },
             {
                 "BookNumber": 57,
+                "BookNumber_mb": 650,
                 "PathName": "HEBREWS.HTM",
                 "FullName": "До євреїв",
                 "ShortNames": [
@@ -1406,6 +1464,7 @@
 
             {
                 "BookNumber": 58,
+                "BookNumber_mb": 660,
                 "PathName": "JAMES.HTM",
                 "FullName": "Якова",
                 "ShortNames": [
@@ -1436,6 +1495,7 @@
             },
             {
                 "BookNumber": 59,
+                "BookNumber_mb": 670,
                 "PathName": "1PETER.HTM",
                 "FullName": "1-е Петра",
                 "ShortNames": [
@@ -1458,6 +1518,7 @@
             },
             {
                 "BookNumber": 60,
+                "BookNumber_mb": 680,
                 "PathName": "2PETER.HTM",
                 "FullName": "2-е Петра",
                 "ShortNames": [
@@ -1480,6 +1541,7 @@
             },
             {
                 "BookNumber": 61,
+                "BookNumber_mb": 690,
                 "PathName": "1JOHN.HTM",
                 "FullName": "1-е Iвана",
                 "ShortNames": [
@@ -1512,6 +1574,7 @@
             },
             {
                 "BookNumber": 62,
+                "BookNumber_mb": 700,
                 "PathName": "2JOHN.HTM",
                 "FullName": "2-е Iвана",
                 "ShortNames": [
@@ -1544,6 +1607,7 @@
             },
             {
                 "BookNumber": 63,
+                "BookNumber_mb": 710,
                 "PathName": "3JOHN.HTM",
                 "FullName": "3-е Iвана",
                 "ShortNames": [
@@ -1576,6 +1640,7 @@
             },
             {
                 "BookNumber": 64,
+                "BookNumber_mb": 720,
                 "PathName": "JUDE.HTM",
                 "FullName": "Юда",
                 "ShortNames": [
@@ -1607,6 +1672,7 @@
 
             {
                 "BookNumber": 65,
+                "BookNumber_mb": 730,
                 "PathName": "REV.HTM",
                 "FullName": "Об'явлення",
                 "ShortNames": [

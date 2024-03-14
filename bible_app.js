@@ -213,6 +213,7 @@ const arrFavTrans = [
     
     "ukr_fil",
     "ukr_ogi",
+    "ukr_ogi88",
     "ukr_hom",
     "ukr_gyz",
     "ukr_tur",
