@@ -1307,4 +1307,38 @@ but.forEach((el,i)=>{
     
     
 });
+
+function alert1(e){
+    alert(e);
+}
+
+
+Array.from(document.querySelectorAll('f')).forEach(el=>{    
+    let id_verse = el.parentNode.parentNode.id;    
+    console.log(id_verse); 
+
+    el.removeEventListener('click', alert1); 
+    el.addEventListener('click', alert(e.target))); 
+    
+    // Crear el nuevo elemento que deseas agregar 
+    let nuevoElemento = document.createElement('span');
+    nuevoElemento.className = 'wr_tooltip';
+    nuevoElemento.innerHTML = `
+                                    <span class="tooltip">
+                                        <span class="asterisco">*</span>
+                                        <span class="trik d-none"></span>
+                                    </span>
+                                    <span class="comment d-none">
+                                        <span class="commentInner">
+                                            <span class="close">✕</span>
+                                            <span class="text"> 
+                                                <em>Коли Бог… землю </em>Або «С початку Бог створив небо і землю». 
+                                            </span>
+                                        </span>
+                                    </span>
+                                `;
+
+    // Insertar el nuevo elemento después de <f>
+    el.parentNode.insertBefore(nuevoElemento, el.nextSibling);
+});
 */
