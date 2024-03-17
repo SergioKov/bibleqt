@@ -682,9 +682,20 @@ function buildDivShow(arrData, indexColToBuild = null){
 
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
+        let show_comments_in_col = false;//por defecto
 
         //si hay verses en array
         if(arrData[0].length != 0){
+            let trans = arr_trans[0];
+            console.log(' de columna trans: ', trans);
+            //compruebo si la traducción tiene comentarios dentro en '<f>[1]</f>'
+            //busco objeto de trans
+            let trans_col = arrFavTransObj.find(v => v.Translation === trans);
+            console.log('trans_col: ', trans_col);
+            if(trans_col.Commentaries == 'Y' ){
+                show_comments_in_col = true;
+            }
+            
             for (let index = 0; index < arrData[0].length; index++) {//aquí siempre arrData[0]
                 let element = arrData[0][index];            
                 //console.log('añado element con append. abajo element:');
@@ -703,6 +714,13 @@ function buildDivShow(arrData, indexColToBuild = null){
             el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
         }                
         //console.log('one col --- el_colsInner: ', el_colsInner);
+        //console.log('all cols --- el_colsInner: ', el_colsInner);
+        if(show_comments_in_col){
+            //si hay comentarios de myBible, llamo esto
+            console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
+            let idCol = el_colsInner.parentElement.id;
+            makeCommentsLinks(idCol);
+        }
 
     }else{//construir todas columnas
         
@@ -717,7 +735,6 @@ function buildDivShow(arrData, indexColToBuild = null){
                 let trans = arr_trans[i];
                 console.log(' de columna trans: ', trans);
                 //compruebo si la traducción tiene comentarios dentro en '<f>[1]</f>'
-
                 //busco objeto de trans
                 let trans_col = arrFavTransObj.find(v => v.Translation === trans);
                 console.log('trans_col: ', trans_col);
