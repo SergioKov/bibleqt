@@ -693,8 +693,7 @@ p a:hover:not(.a_sn) {
     cursor: pointer;
 }
 /* .colsInner .tooltip */
-.tooltip:not(#find_head .tooltip)
- {
+.tooltip:not(#find_head .tooltip) {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -704,6 +703,7 @@ p a:hover:not(.a_sn) {
     height: auto;
     border-radius: 3px;
     text-align: center;
+    margin: 0 2px;
 }
 .tooltiptext .trik{
       display:block;

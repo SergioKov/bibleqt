@@ -1308,37 +1308,174 @@ but.forEach((el,i)=>{
     
 });
 
-function alert1(e){
-    alert(e);
+*/
+
+
+function ejecutar_alert1(str){
+    alert(str);
 }
 
+function llamar_alert1(ev, f_number){
+    let id_verse2 = ev.currentTarget.parentNode.parentNode.id;
 
-Array.from(document.querySelectorAll('f')).forEach(el=>{    
-    let id_verse = el.parentNode.parentNode.id;    
-    console.log(id_verse); 
+    let str = 'onclick: ' + id_verse2 + ' f_number: ' + f_number;
+    ejecutar_alert1(str);
+}
 
-    el.removeEventListener('click', alert1); 
-    el.addEventListener('click', alert(e.target))); 
+setTimeout(()=>{
+    makeCommentsLinks();
+},3000);
+
+function makeCommentsLinks(){
+    const los_f_all = document.querySelectorAll('f');
+
+    Array.from(los_f_all).forEach(el=>{    
+        console.log(el);
+        let marker = el.innerText;
+        console.log('marker: ', marker);
+
+        let f_number = el.innerText.replace('[','').replace(']','');
+        console.log('f_number: ', f_number);
+
+        let p_id = el.parentNode.parentNode.id;
+        let arr_p_id = p_id.split('__');
+        let trans = arr_p_id[0];    
+        let book = arr_p_id[1];    
+        let chapter = arr_p_id[2];    
+        let verse = arr_p_id[3];    
+        console.log('arr_p_id: ', arr_p_id);
+
+        let url_comments = './modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json';
+ 
+
     
-    // Crear el nuevo elemento que deseas agregar 
-    let nuevoElemento = document.createElement('span');
-    nuevoElemento.className = 'wr_tooltip';
-    nuevoElemento.innerHTML = `
-                                    <span class="tooltip">
-                                        <span class="asterisco">*</span>
-                                        <span class="trik d-none"></span>
-                                    </span>
-                                    <span class="comment d-none">
-                                        <span class="commentInner">
-                                            <span class="close">✕</span>
-                                            <span class="text"> 
-                                                <em>Коли Бог… землю </em>Або «С початку Бог створив небо і землю». 
+        //el.removeEventListener('click', llamar_alert1); 
+        //el.addEventListener('click', llamar_alert1);
+
+        //el.onclick = (ev)=> {    
+        //    let id_verse2 = ev.currentTarget.parentNode.parentNode.id;
+        //    let str = 'onclick: ' + id_verse2;
+        //    alert1(str);
+        //}; 
+
+        //let este_comm = getCommentFromMB(url_comments,book,chapter,verse,marker);
+        //console.log('este_comm: ', este_comm);
+
+
+        let wr_tooltip = buildWrTooltipComm(marker,'un texto1',p_id,'a_ref'); 
+        console.log(wr_tooltip.outerHTML);
+        
+        // Crear el nuevo elemento que deseas agregar 
+        let nuevoElemento = document.createElement('span');
+        nuevoElemento.className = 'wr_tooltip';
+        //nuevoElemento.dataset. = 'wr_tooltip';
+        nuevoElemento.addEventListener('click', llamar_alert1);
+        nuevoElemento.innerHTML = `
+                                        <span class="tooltip">
+                                            <span class="asterisco">${f_number}</span>
+                                            <span class="trik d-none"></span>
+                                        </span>
+                                        <span class="comment d-none">
+                                            <span class="commentInner">
+                                                <span class="close">✕</span>
+                                                <span class="text"> 
+                                                    aki un texto...
+                                                </span>
                                             </span>
                                         </span>
-                                    </span>
-                                `;
+                                    `;
+    
+        // Insertar el nuevo elemento después de <f>
+        //el.parentNode.insertBefore(nuevoElemento, el.nextSibling);
 
-    // Insertar el nuevo elemento después de <f>
-    el.parentNode.insertBefore(nuevoElemento, el.nextSibling);
-});
-*/
+        // Reemplazar el elemento existente con el nuevo elemento
+        //el.replaceWith(nuevoElemento);
+        el.replaceWith(wr_tooltip);
+    });
+}
+
+async function getCommentFromMB(url_comments,book_number,chapter_number_from,verse_number_from,marker){
+
+    try {
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch(url_comments);
+
+        // Verifica si la solicitud fue exitosa
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener datos de la API');
+        }
+
+        // Convierte la respuesta a formato JSON
+        const datos = await respuesta.json();
+
+        // Haz algo con los datos, por ejemplo, imprímelos en la consola
+        console.log(url_comments);
+        console.log(datos);
+
+        let this_comm = datos.find(v => {
+            if (v.book_number === book_number &&
+                v.chapter_number_from === chapter_number_from &&
+                v.verse_number_from === verse_number_from &&
+                v.marker === marker) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        console.log('this_comm: ');
+        console.log(this_comm);
+
+        // Puedes realizar más acciones aquí con los datos obtenidos
+        return this_comm;
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
+getCommentFromMB('./modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json',10,1,1,1);
+
+
+async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','mb_to_bq'
+    try {
+        console.log('book_index: ', book_index);
+        console.log('direction: ', direction);
+        
+        let url_BibleIndex = './modules/json/BibleIndex.json';
+        
+        
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch(url_BibleIndex);
+
+        // Verifica si la solicitud fue exitosa
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener datos de la API');
+        }
+
+        // Convierte la respuesta a formato JSON
+        const datos = await respuesta.json();
+
+        // Haz algo con los datos, por ejemplo, imprímelos en la consola
+        console.log(url_BibleIndex);
+        console.log(datos);
+        
+        let this_book,book_number_converted;
+        if(direction == 'bq_to_mb'){
+            this_book = datos.find(v => v.book_number_bq === book_index);
+            book_number_converted = this_book.book_number_mb;
+        }else if(direction == 'mb_to_bq'){
+            this_book = datos.find(v => v.book_number_mb === book_index);
+            book_number_converted = this_book.book_number_bq;
+        }
+        console.log('this_book: ');
+        console.log(this_book);
+        console.log('book_number_converted: ',book_number_converted);
+
+        // Puedes realizar más acciones aquí con los datos obtenidos
+        return book_number_converted;
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+
+}

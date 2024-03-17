@@ -198,7 +198,6 @@ const ajuste1 = {
     aaa: 'aaa'
 };
 
-
 //constant para crear arrFavTransObj
 const arrFavTrans = [
     "rstStrongRed",
@@ -1386,7 +1385,7 @@ function hideTooltip(el){
 }
 
 
-function buildWrTooltip(bq_NoteSign,text_Note,p_id,a_ref){
+function buildWrTooltip(bq_NoteSign,text_Note = null,p_id,a_ref){
 
     const span_wr_tooltip = document.createElement('span');
     span_wr_tooltip.className = 'wr_tooltip';
@@ -1402,6 +1401,150 @@ function buildWrTooltip(bq_NoteSign,text_Note,p_id,a_ref){
     const span_asterisco = document.createElement('span');
     span_asterisco.className = 'asterisco';
     span_asterisco.innerHTML = bq_NoteSign;
+    
+    const span_trik = document.createElement('span');
+    span_trik.className = 'trik d-none';
+
+    const span_comment = document.createElement('span');
+    span_comment.className = 'comment d-none';
+
+    const span_commentInner = document.createElement('span');
+    span_commentInner.className = 'commentInner';
+
+    const span_close = document.createElement('span');
+    span_close.className = 'close';
+    span_close.onclick = (event) => {
+        close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+    }
+    span_close.innerHTML = '&#10005;';//<!--X-->
+
+    const span_text = document.createElement('span');
+    span_text.className = 'text';
+    span_text.innerHTML = text_Note;
+
+
+    //ejemplo HTML
+    //<span class="wr_tooltip" onclick="hideShowComment(event)">
+    //    <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+    //        <span class="asterisco">*</span>
+    //        <span class="trik d-none"></span>
+    //    </span>
+    //    <span class="comment d-none">
+    //        <span class="commentInner">
+    //            <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+    //            <span class="text">
+    //                <em>морській безодні </em>Або <a href="">aaa</a> «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+    //            </span>
+    //        </span>
+    //    </span>
+    //</span>
+          
+
+    //construyo html
+    span_wr_tooltip.append(span_tooltip);
+        span_tooltip.append(span_asterisco);
+        span_tooltip.append(span_trik);
+
+    span_wr_tooltip.append(span_comment);
+        span_comment.append(span_commentInner);
+            span_commentInner.append(span_close);
+            span_commentInner.append(span_text);
+    
+
+    //console.log(span_wr_tooltip);
+
+    if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
+        //console.log('showTooltip contiene a');
+        let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
+        let Translation = arr_p_id[0]; 
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2]; 
+        let verse = arr_p_id[3]; 
+        let to_verse = null; 
+        let ref = a_ref;
+
+        span_text.querySelectorAll('a').forEach(el_a =>{
+            el_a.addEventListener('click',(ev)=>{
+                ev.preventDefault(); 
+                //console.log(el_a.innerHTML);
+                //console.log(el_a.href);
+                addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                getRefByHref(el_a.getAttribute('href'),'/',1);
+            });
+        });
+    }
+
+    return span_wr_tooltip;
+}
+
+
+
+
+
+function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
+    console.log(' === function buildWrTooltipComm() ==');
+
+    let arr_p_id = p_id.split('__');
+    let trans = arr_p_id[0];    
+    let book = arr_p_id[1];    
+    let chapter = arr_p_id[2];    
+    let verse = arr_p_id[3];    
+    console.log('arr_p_id: ', arr_p_id);
+    
+    let marker_number = marker.replace('[','').replace(']','');
+    console.log('marker_number: ', marker_number);
+
+
+    const span_wr_tooltip = document.createElement('span');
+    span_wr_tooltip.className = 'wr_tooltip';
+    span_wr_tooltip.dataset.p_id = p_id;
+    span_wr_tooltip.dataset.marker = marker;
+
+    span_wr_tooltip.addEventListener('click', (event) => {
+        console.log(event);
+        console.log(event.currentTarget);
+        let p_id = event.currentTarget.dataset.p_id;
+        let marker = event.currentTarget.dataset.marker;
+        let arr_p_id = p_id.split('__');
+        let trans = arr_p_id[0];    
+        let book = Number(arr_p_id[1]);    
+        let chapter = Number(arr_p_id[2]);    
+        let verse = Number(arr_p_id[3]);    
+        console.log('onclick arr_p_id: ', arr_p_id);
+    
+        let url_comments = './modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json';
+
+
+        // Definir una función asíncrona dentro del event listener
+        async function ejecutar_getCommentFromMB(){
+            console.log('Inicio de la tarea asíncrona --- ejecutar_getCommentFromMB()');
+
+            let book_mb = await convertBookIndex(book,'bq_to_mb');
+            console.log('book_mb: ', book_mb);
+
+            
+            // Esperar a que la tarea asíncrona se complete
+            let este_comm = await getCommentFromMB(url_comments,book_mb,chapter,verse,marker);
+            console.log('este_comm: ', este_comm);
+            console.log('este_comm.text: ', este_comm.text);
+
+            document.querySelector(`.wr_tooltip[data-marker="${marker}"]`).querySelector('.text').innerHTML = este_comm.text;
+
+            console.log('Fin de la tarea asíncrona');
+        }
+
+        // Llamar a la función asíncrona
+        ejecutar_getCommentFromMB();
+
+        hideShowComment(event);
+    });
+
+    const span_tooltip = document.createElement('span');
+    span_tooltip.className = 'tooltip';
+
+    const span_asterisco = document.createElement('span');
+    span_asterisco.className = 'asterisco';
+    span_asterisco.innerHTML = marker_number;
     
     const span_trik = document.createElement('span');
     span_trik.className = 'trik d-none';
@@ -5814,7 +5957,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 });
 
                             }else{
-                                //console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
 
                         }else{
@@ -6878,8 +7021,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             arrDataDivShow.push(arr_data_all);//antes
                             //arrDataDivShow[window.iter_i] = arr_data_all;//da fallo!
-                            console.log('12864. arrDataDivShow:',arrDataDivShow);
-                            console.log('12864. arrDataDivShow  [window.iter_i]:',window.iter_i);
+                            console.log('7025. arrDataDivShow:',arrDataDivShow);
+                            console.log('7025. arrDataDivShow  [window.iter_i]:',window.iter_i);
 
                             arr_data_head = [];
                             arr_data_body = [];
@@ -11977,6 +12120,11 @@ function selBook(e){
 function selChapter(e, show_chapter = null){
     console.log('=== function selChapter(e, show_chapter = null) ===');
 
+    if(e.id == 'e_virt'){
+        //alert('e_virt');
+        console.log('e_virt');
+    }
+
     //console.log(e.srcElement.innerText); 
     let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
@@ -12084,7 +12232,6 @@ function selChapter(e, show_chapter = null){
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
         
-        //allowUseShowTrans = true;
         showTrans(eid_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
 
     }else{//trans1
@@ -12106,8 +12253,14 @@ function selChapter(e, show_chapter = null){
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
         //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
         
-        //allowUseShowTrans = true;
-        showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1    
+        //showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1 //antes
+        //si se hace click sobre elemento virtual, no hago showTrans para que no se llame 2 veces
+        if(e.id == 'e_virt'){
+            //alert('e.id == e_virt. no llamo a showTrans()');
+            console.log('e.id == e_virt. no llamo a showTrans()');    
+        }else{
+            showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1 //antes
+        }
     }    
 }
 
@@ -13762,7 +13915,7 @@ function getRef(trans = null){
                                 putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
                             });
 
-                            allowUseShowTrans = true;
+                            allowUseShowTrans = true;//importante para que funcione el inpt_nav (boton ok)
                             showTrans(n_book, chapter, verse, to_verse);
                             //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 

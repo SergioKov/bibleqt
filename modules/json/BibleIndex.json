@@ -1,0 +1,332 @@
+[
+    {
+        "book_number_bq": 0,
+        "book_number_mb": 10,
+        "FullName": "Бытие"
+    },
+    {
+        "book_number_bq": 1,
+        "book_number_mb": 20,
+        "FullName": "Исход"
+    },
+    {
+        "book_number_bq": 2,
+        "book_number_mb": 30,
+        "FullName": "Левит"
+    },
+    {
+        "book_number_bq": 3,
+        "book_number_mb": 40,
+        "FullName": "Числа"
+    },
+    {
+        "book_number_bq": 4,
+        "book_number_mb": 50,
+        "FullName": "Второзаконие"
+    },
+    {
+        "book_number_bq": 5,
+        "book_number_mb": 60,
+        "FullName": "Иисус Навин"
+    },
+    {
+        "book_number_bq": 6,
+        "book_number_mb": 70,
+        "FullName": "Судьи"
+    },
+    {
+        "book_number_bq": 7,
+        "book_number_mb": 80,
+        "FullName": "Руфь"
+    },
+    {
+        "book_number_bq": 8,
+        "book_number_mb": 90,
+        "FullName": "1 Царств"
+    },
+    {
+        "book_number_bq": 9,
+        "book_number_mb": 100,
+        "FullName": "2 Царств"
+    },
+    {
+        "book_number_bq": 10,
+        "book_number_mb": 110,
+        "FullName": "3 Царств"
+    },
+    {
+        "book_number_bq": 11,
+        "book_number_mb": 120,
+        "FullName": "4 Царств"
+    },
+    {
+        "book_number_bq": 12,
+        "book_number_mb": 130,
+        "FullName": "1 Паралипоменон"
+    },
+    {
+        "book_number_bq": 13,
+        "book_number_mb": 140,
+        "FullName": "2 Паралипоменон"
+    },
+    {
+        "book_number_bq": 14,
+        "book_number_mb": 150,
+        "FullName": "Ездра"
+    },
+    {
+        "book_number_bq": 15,
+        "book_number_mb": 160,
+        "FullName": "Неемия"
+    },
+    {
+        "book_number_bq": 16,
+        "book_number_mb": 190,
+        "FullName": "Есфирь"
+    },
+    {
+        "book_number_bq": 17,
+        "book_number_mb": 220,
+        "FullName": "Иов"
+    },
+    {
+        "book_number_bq": 18,
+        "book_number_mb": 230,
+        "FullName": "Псалтирь"
+    },
+    {
+        "book_number_bq": 19,
+        "book_number_mb": 240,
+        "FullName": "Притчи"
+    },
+    {
+        "book_number_bq": 20,
+        "book_number_mb": 250,
+        "FullName": "Екклесиаст"
+    },
+    {
+        "book_number_bq": 21,
+        "book_number_mb": 260,
+        "FullName": "Песни Песней"
+    },
+    {
+        "book_number_bq": 22,
+        "book_number_mb": 290,
+        "FullName": "Исаия"
+    },
+    {
+        "book_number_bq": 23,
+        "book_number_mb": 300,
+        "FullName": "Иеремия"
+    },
+    {
+        "book_number_bq": 24,
+        "book_number_mb": 310,
+        "FullName": "Плач Иеремии"
+    },
+    {
+        "book_number_bq": 25,
+        "book_number_mb": 330,
+        "FullName": "Иезекииль"
+    },
+    {
+        "book_number_bq": 26,
+        "book_number_mb": 340,
+        "FullName": "Даниил"
+    },
+    {
+        "book_number_bq": 27,
+        "book_number_mb": 350,
+        "FullName": "Осия"
+    },
+    {
+        "book_number_bq": 28,
+        "book_number_mb": 360,
+        "FullName": "Иоиль"
+    },
+    {
+        "book_number_bq": 29,
+        "book_number_mb": 370,
+        "FullName": "Амос"
+    },
+    {
+        "book_number_bq": 30,
+        "book_number_mb": 380,
+        "FullName": "Авдий"
+    },
+    {
+        "book_number_bq": 31,
+        "book_number_mb": 390,
+        "FullName": "Иона"
+    },
+    {
+        "book_number_bq": 32,
+        "book_number_mb": 400,
+        "FullName": "Михей"
+    },
+    {
+        "book_number_bq": 33,
+        "book_number_mb": 410,
+        "FullName": "Наум"
+    },
+    {
+        "book_number_bq": 34,
+        "book_number_mb": 420,
+        "FullName": "Аввакум"
+    },
+    {
+        "book_number_bq": 35,
+        "book_number_mb": 430,
+        "FullName": "Софония"
+    },
+    {
+        "book_number_bq": 36,
+        "book_number_mb": 440,
+        "FullName": "Аггей"
+    },
+    {
+        "book_number_bq": 37,
+        "book_number_mb": 450,
+        "FullName": "Захария"
+    },
+    {
+        "book_number_bq": 38,
+        "book_number_mb": 460,
+        "FullName": "Малахия"
+    },
+    {
+        "book_number_bq": 39,
+        "book_number_mb": 470,
+        "FullName": "Матфея"
+    },
+    {
+        "book_number_bq": 40,
+        "book_number_mb": 480,
+        "FullName": "Марка"
+    },
+    {
+        "book_number_bq": 41,
+        "book_number_mb": 490,
+        "FullName": "Луки"
+    },
+    {
+        "book_number_bq": 42,
+        "book_number_mb": 500,
+        "FullName": "Иоанна"
+    },
+    {
+        "book_number_bq": 43,
+        "book_number_mb": 510,
+        "FullName": "Деяния"
+    },
+    {
+        "book_number_bq": 44,
+        "book_number_mb": 520,
+        "FullName": "Римлянам"
+    },
+    {
+        "book_number_bq": 45,
+        "book_number_mb": 530,
+        "FullName": "1 Коринфянам"
+    },
+    {
+        "book_number_bq": 46,
+        "book_number_mb": 540,
+        "FullName": "2 Коринфянам"
+    },
+    {
+        "book_number_bq": 47,
+        "book_number_mb": 550,
+        "FullName": "Галатам"
+    },
+    {
+        "book_number_bq": 48,
+        "book_number_mb": 560,
+        "FullName": "Ефесянам"
+    },
+    {
+        "book_number_bq": 49,
+        "book_number_mb": 570,
+        "FullName": "Филиппийцам"
+    },
+    {
+        "book_number_bq": 50,
+        "book_number_mb": 580,
+        "FullName": "Колоссянам"
+    },
+    {
+        "book_number_bq": 51,
+        "book_number_mb": 590,
+        "FullName": "1 Фессалоникийцам"
+    },
+    {
+        "book_number_bq": 52,
+        "book_number_mb": 600,
+        "FullName": "2 Фессалоникийцам"
+    },
+    {
+        "book_number_bq": 53,
+        "book_number_mb": 610,
+        "FullName": "1 Тимофею"
+    },
+    {
+        "book_number_bq": 54,
+        "book_number_mb": 620,
+        "FullName": "2 Тимофею"
+    },
+    {
+        "book_number_bq": 55,
+        "book_number_mb": 630,
+        "FullName": "Титу"
+    },
+    {
+        "book_number_bq": 56,
+        "book_number_mb": 640,
+        "FullName": "Филимону"
+    },
+    {
+        "book_number_bq": 57,
+        "book_number_mb": 650,
+        "FullName": "Евреям"
+    },
+    {
+        "book_number_bq": 58,
+        "book_number_mb": 660,
+        "FullName": "Иакова"
+    },
+    {
+        "book_number_bq": 59,
+        "book_number_mb": 670,
+        "FullName": "1 Петра"
+    },
+    {
+        "book_number_bq": 60,
+        "book_number_mb": 680,
+        "FullName": "2 Петра"
+    },
+    {
+        "book_number_bq": 61,
+        "book_number_mb": 690,
+        "FullName": "1 Иоанна"
+    },
+    {
+        "book_number_bq": 62,
+        "book_number_mb": 700,
+        "FullName": "2 Иоанна"
+    },
+    {
+        "book_number_bq": 63,
+        "book_number_mb": 710,
+        "FullName": "3 Иоанна"
+    },
+    {
+        "book_number_bq": 64,
+        "book_number_mb": 720,
+        "FullName": "Иуды"
+    },
+    {
+        "book_number_bq": 65,
+        "book_number_mb": 730,
+        "FullName": "Откровение"
+    }
+]

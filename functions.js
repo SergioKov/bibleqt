@@ -735,6 +735,9 @@ function buildDivShow(arrData, indexColToBuild = null){
         if(eid_v_verse.innerHTML == ''){
             eid_s_verse.click();
         }
+        //si hay comentarios de myBible, llamo esto
+        console.log(' --- si hay comentarios de myBible, llamo makeCommentsLinks() ');
+        makeCommentsLinks();
     }
     //console.log('build. eid_wrCols: ', eid_wrCols);
 
