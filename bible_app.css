@@ -699,11 +699,15 @@ p a:hover:not(.a_sn) {
     cursor: pointer;
     background: #1875bf;
     color: white;
-    width: 20px;
+    width: auto;
+    min-width: 20px;
     height: auto;
     border-radius: 3px;
     text-align: center;
     margin: 0 2px;
+}
+.asterisco {
+    padding: 0 3px;
 }
 .tooltiptext .trik{
       display:block;
@@ -3229,7 +3233,7 @@ span.vt {
 .tooltip .trik {
     position: absolute;
     left: 0;
-    bottom: -6px;
+    bottom: -8px;
     width: 10px;
     height: 10px;
     z-index: 1;
@@ -3263,6 +3267,7 @@ span.vt {
     transition: 0.3s;
     opacity: 0;
     /* background: #ffc107; */
+    margin-top: 2px;
 }
 .commentInner {
     display: block;
