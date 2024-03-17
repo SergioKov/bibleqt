@@ -22,6 +22,7 @@
     "StartTitleSign": "",
     "EndTitleSign": "",
     "Translation": "ukr_gyz",
+    "Commentaries": "N",
     "Lang": "ua",
     "HTMLFilter": "Y",
     "Books":
@@ -442,7 +443,7 @@
             "FullName": "Неємія",
             "ShortNames": [
                 "Неем.",
-                "Неем.",
+                "Неем",
                 "Неемія",
                 "Нм.",
                 "Нм",

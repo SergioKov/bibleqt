@@ -1322,12 +1322,12 @@ function llamar_alert1(ev, f_number){
     ejecutar_alert1(str);
 }
 
-setTimeout(()=>{
-    makeCommentsLinks();
-},3000);
 
-function makeCommentsLinks(){
-    const los_f_all = document.querySelectorAll('f');
+function makeCommentsLinks(idCol){
+    console.log('idCol: ', idCol);
+
+    const los_f_all = document.getElementById(idCol).querySelectorAll('f');
+    console.log('los_f_all: ', los_f_all);
 
     Array.from(los_f_all).forEach(el=>{    
         console.log(el);
@@ -1338,58 +1338,22 @@ function makeCommentsLinks(){
         console.log('f_number: ', f_number);
 
         let p_id = el.parentNode.parentNode.id;
+        let a_ref = el.parentNode.parentNode.querySelector('a').innerText;
         let arr_p_id = p_id.split('__');
-        let trans = arr_p_id[0];    
-        let book = arr_p_id[1];    
-        let chapter = arr_p_id[2];    
-        let verse = arr_p_id[3];    
+        let trans = arr_p_id[0];
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2];
+        let verse = arr_p_id[3];
         console.log('arr_p_id: ', arr_p_id);
-
-        let url_comments = './modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json';
  
-
-    
         //el.removeEventListener('click', llamar_alert1); 
         //el.addEventListener('click', llamar_alert1);
 
-        //el.onclick = (ev)=> {    
-        //    let id_verse2 = ev.currentTarget.parentNode.parentNode.id;
-        //    let str = 'onclick: ' + id_verse2;
-        //    alert1(str);
-        //}; 
-
-        //let este_comm = getCommentFromMB(url_comments,book,chapter,verse,marker);
-        //console.log('este_comm: ', este_comm);
-
-
-        let wr_tooltip = buildWrTooltipComm(marker,'un texto1',p_id,'a_ref'); 
-        console.log(wr_tooltip.outerHTML);
-        
-        // Crear el nuevo elemento que deseas agregar 
-        let nuevoElemento = document.createElement('span');
-        nuevoElemento.className = 'wr_tooltip';
-        //nuevoElemento.dataset. = 'wr_tooltip';
-        nuevoElemento.addEventListener('click', llamar_alert1);
-        nuevoElemento.innerHTML = `
-                                        <span class="tooltip">
-                                            <span class="asterisco">${f_number}</span>
-                                            <span class="trik d-none"></span>
-                                        </span>
-                                        <span class="comment d-none">
-                                            <span class="commentInner">
-                                                <span class="close">✕</span>
-                                                <span class="text"> 
-                                                    aki un texto...
-                                                </span>
-                                            </span>
-                                        </span>
-                                    `;
-    
-        // Insertar el nuevo elemento después de <f>
-        //el.parentNode.insertBefore(nuevoElemento, el.nextSibling);
+        //nuevo elemento
+        let wr_tooltip = buildWrTooltipComm(marker,' ',p_id,a_ref); 
+        console.log(wr_tooltip.outerHTML);        
 
         // Reemplazar el elemento existente con el nuevo elemento
-        //el.replaceWith(nuevoElemento);
         el.replaceWith(wr_tooltip);
     });
 }
@@ -1438,6 +1402,7 @@ getCommentFromMB('./modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.
 
 async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','mb_to_bq'
     try {
+        book_index = Number(book_index);
         console.log('book_index: ', book_index);
         console.log('direction: ', direction);
         

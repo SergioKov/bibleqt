@@ -708,6 +708,8 @@ p a:hover:not(.a_sn) {
 }
 .asterisco {
     padding: 0 3px;
+    font-size: 10px;
+    vertical-align: super;
 }
 .tooltiptext .trik{
       display:block;
@@ -1865,7 +1867,7 @@ select  optgroup option {
 .sideHide, .sideShow{
     transition: 0.3s;
     display: block !important;
-    z-index: 1;
+    z-index: 5;
     position: absolute;
     width: 100%!important;
 }
@@ -3236,7 +3238,7 @@ span.vt {
     bottom: -8px;
     width: 10px;
     height: 10px;
-    z-index: 1;
+    z-index: 3;
     transform: rotate(45deg);
     margin-left: 5px;
     background-color: transparent;
@@ -3252,7 +3254,7 @@ span.vt {
     margin-left: -2px;
     width: 10px;
     height: 10px;
-    z-index: 1;
+    z-index: 3;
     transform: rotate(45deg);
     background-color: transparent;
     background-image: linear-gradient( to bottom right, #1875bf 0% 50%,  transparent 50% 100%);
@@ -3276,8 +3278,8 @@ span.vt {
     padding: 5px;
     font-size: 16px;
     margin: 0px 5px;
-    /* transition: 0.3s;
-    opacity: 0; */
+    box-shadow: 0 0 2px 1px #e3e3e3;
+    transition: 0.3s;
 }
 .comment .close {
     /* background: red; */

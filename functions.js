@@ -705,17 +705,31 @@ function buildDivShow(arrData, indexColToBuild = null){
         //console.log('one col --- el_colsInner: ', el_colsInner);
 
     }else{//construir todas columnas
+        
         //eid_wrCols es constanta y está declarada al inicio
         Array.from(eid_wrCols.children).forEach((el,i)=>{
             let el_colsInner = el.querySelector('.colsInner');
             el_colsInner.innerHTML = '';
+            let show_comments_in_col = false;//por defecto
 
             //si hay verses en array
             if(arrData[i].length != 0){
+                let trans = arr_trans[i];
+                console.log(' de columna trans: ', trans);
+                //compruebo si la traducción tiene comentarios dentro en '<f>[1]</f>'
+
+                //busco objeto de trans
+                let trans_col = arrFavTransObj.find(v => v.Translation === trans);
+                console.log('trans_col: ', trans_col);
+                if(trans_col.Commentaries == 'Y' ){
+                    show_comments_in_col = true;
+                }
+                
                 for (let index = 0; index < arrData[i].length; index++) {
                     let element = arrData[i][index];            
                     //console.log('añado element con append. abajo element:');
                     //console.log(element);
+
                     //añado boton con '...' al verse para verseMenu de comparar traducciones
                     if(element.tagName == 'P'){   
                         const sp_btn_vm = document.createElement('span');
@@ -730,14 +744,20 @@ function buildDivShow(arrData, indexColToBuild = null){
                 el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
             }                    
             //console.log('all cols --- el_colsInner: ', el_colsInner);
+            if(show_comments_in_col){
+                //si hay comentarios de myBible, llamo esto
+                console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
+                let idCol = el_colsInner.parentElement.id;
+                makeCommentsLinks(idCol);
+            }
         });
         //si no hay botones de verses, simulo click para cargarlos
         if(eid_v_verse.innerHTML == ''){
             eid_s_verse.click();
         }
         //si hay comentarios de myBible, llamo esto
-        console.log(' --- si hay comentarios de myBible, llamo makeCommentsLinks() ');
-        makeCommentsLinks();
+        //console.log(' --- si hay comentarios de myBible, llamo makeCommentsLinks() ');
+        //makeCommentsLinks();
     }
     //console.log('build. eid_wrCols: ', eid_wrCols);
 

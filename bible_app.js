@@ -1494,7 +1494,6 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     let marker_number = marker.replace('[','').replace(']','');
     console.log('marker_number: ', marker_number);
 
-
     const span_wr_tooltip = document.createElement('span');
     span_wr_tooltip.className = 'wr_tooltip';
     span_wr_tooltip.dataset.p_id = p_id;
@@ -1512,8 +1511,12 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
         let verse = Number(arr_p_id[3]);    
         console.log('onclick arr_p_id: ', arr_p_id);
     
-        let url_comments = './modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json';
-
+        //let url_comments = './modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json';
+        let url_comments = `./modules/commentaries/${trans}.json`;
+        console.log('url_comments: ',url_comments);
+        
+        // Llamar a la función asíncrona
+        ejecutar_getCommentFromMB();
 
         // Definir una función asíncrona dentro del event listener
         async function ejecutar_getCommentFromMB(){
@@ -1521,20 +1524,47 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
 
             let book_mb = await convertBookIndex(book,'bq_to_mb');
             console.log('book_mb: ', book_mb);
-
             
             // Esperar a que la tarea asíncrona se complete
             let este_comm = await getCommentFromMB(url_comments,book_mb,chapter,verse,marker);
             console.log('este_comm: ', este_comm);
             console.log('este_comm.text: ', este_comm.text);
 
-            document.querySelector(`.wr_tooltip[data-marker="${marker}"]`).querySelector('.text').innerHTML = este_comm.text;
+            if(document.querySelector(`.wr_tooltip[data-marker="${marker}"]`) != null){
+                document.querySelector(`.wr_tooltip[data-marker="${marker}"]`).querySelector('.text').innerHTML = este_comm.text;
+            
+                if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
+                    console.log('showTooltip contiene a');
+                    let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
+                    let Translation = arr_p_id[0]; 
+                    let book = arr_p_id[1]; 
+                    let chapter = arr_p_id[2]; 
+                    let verse = arr_p_id[3]; 
+                    let to_verse = null; 
+                    let ref = a_ref;
+            
+                    span_text.querySelectorAll('a').forEach(el_a =>{
+                        console.log('el_a: ', el_a);
+        
+                        //let href = el_a.getAttribute('href');
+                        //el_a.removeAttribute('href');
+                        //el_a.setAttribute('onclick','alert(5)');
+                        
+                        el_a.addEventListener('click',(ev)=>{
+                            ev.preventDefault();
+                            console.log(el_a.innerHTML);
+                            console.log(el_a.href);
+    
+                            addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                            getRefByHrefMB(Translation,el_a.getAttribute('href'),' ',0);
+                        });
+                        
+                    });
+                }
+            }
 
             console.log('Fin de la tarea asíncrona');
-        }
-
-        // Llamar a la función asíncrona
-        ejecutar_getCommentFromMB();
+        }    
 
         hideShowComment(event);
     });
@@ -1596,28 +1626,6 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     
 
     //console.log(span_wr_tooltip);
-
-    if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
-        //console.log('showTooltip contiene a');
-        let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
-        let Translation = arr_p_id[0]; 
-        let book = arr_p_id[1]; 
-        let chapter = arr_p_id[2]; 
-        let verse = arr_p_id[3]; 
-        let to_verse = null; 
-        let ref = a_ref;
-
-        span_text.querySelectorAll('a').forEach(el_a =>{
-            el_a.addEventListener('click',(ev)=>{
-                ev.preventDefault(); 
-                //console.log(el_a.innerHTML);
-                //console.log(el_a.href);
-                addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
-                getRefByHref(el_a.getAttribute('href'),'/',1);
-            });
-        });
-    }
-
     return span_wr_tooltip;
 }
 
@@ -10790,11 +10798,6 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         });
     }
 
-    //si es mobile, pongo 'row'
-    if (window.innerWidth < pantallaTabletMinPx) {
-        positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick
-        changePositionShow(eid_btn_changePositionShowModal);
-    }
 
     let arr_error_compare = [];
     let arr_cols_empty = [];
@@ -14282,7 +14285,7 @@ function getRef(trans = null){
 
 
 
-function getRefByHref(code, separador = '/', first_book_index = 0){//href='UMT/1/2/5' = Gen.2:5
+function getRefByHref(code, separador = '/', first_book_index = 0){//href='UMT/1/2/5' => Gen.2:5
     //console.log('=== function getRefByCode() ===');
 
     let act_trans = eid_trans1.dataset.trans;
@@ -14313,6 +14316,87 @@ function getRefByHref(code, separador = '/', first_book_index = 0){//href='UMT/1
 
     eid_inpt_nav.value = ref;
     getRef();
+}
+
+function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//href='B:230 19:2' => Sal.19:2
+    console.log('=== function getRefByHrefMB() ===');
+
+    let act_trans = eid_trans1.dataset.trans;    
+    code = code.replace('B:','');
+    let arr_code = code.split(separador);//'__' por defecto o '/' que viene como parametro
+    arr_code = arr_code.filter(elm => elm);//elimino valores vacios del array
+    let book_number_mb = Number(arr_code[0]);
+    let chapter_verse = arr_code[1];
+    let arr_chapter_verse = chapter_verse.split(':');
+    let chapter = Number(arr_chapter_verse[0]);
+    let verse = arr_chapter_verse[1];
+
+    ejecutar_convertBookIndex();
+
+    async function ejecutar_convertBookIndex(){
+        console.log('=== ejecutar_convertBookIndex() === ');
+        
+        let book = await convertBookIndex(book_number_mb,'mb_to_bq');
+        console.log('book: ', book);
+
+        let to_verse = null;
+        if(arr_chapter_verse[1].includes('-')){
+            verse = arr_chapter_verse[1].split('-')[0];
+            to_verse = arr_chapter_verse[1].split('-')[1];
+        }
+        //console.log(inpt_v);
+    
+        console.log('book: '+book);
+        console.log('chapter: '+chapter);
+        console.log('verse: '+verse);
+        console.log('to_verse: '+to_verse);
+
+        let obj_trans_base = arrFavTransObj.find(v => v.Translation === act_trans);    
+        let obj_trans_this = arrFavTransObj.find(v => v.Translation === trans);
+        
+        if(window.innerWidth >= pantallaTabletMinPx){
+            if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_this.EnglishPsalms == 'Y'){
+                let new_res = convertLinkFromEspToRus(book, chapter, verse, to_verse);//importante EspToRus
+                chapter = new_res[1];
+                verse = new_res[2];
+                to_verse = new_res[3];
+                //console.log('en getRefByHrefMB() --- convertido chapter: '+chapter);//empezando de 1
+                //console.log('en getRefByHrefMB() --- convertido verse: '+verse);//empezando de 1
+                //console.log('en getRefByHrefMB() --- convertido to_verse: '+to_verse);//empezando de 1
+            }
+            else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_this.EnglishPsalms == 'N'){
+                let new_res = convertLinkFromRusToEsp(book, chapter, verse, to_verse);//importante RusToEsp
+                chapter = new_res[1];
+                verse = new_res[2];
+                to_verse = new_res[3];
+                //console.log('en getRefByHrefMB() --- convertido chapter: '+chapter);//empezando de 1
+                //console.log('en getRefByHrefMB() --- convertido verse: '+verse);//empezando de 1
+                //console.log('en getRefByHrefMB() --- convertido to_verse: '+to_verse);//empezando de 1
+            }
+        }
+
+        //si es mobile 
+        //if(window.innerWidth < pantallaTabletMinPx){
+        //    eid_inpt_nav.dataset.divtrans = 'trans1';
+        //    eid_inpt_nav.dataset.trans = trans;
+        //}
+
+        //si no es movil
+        if(window.innerWidth < pantallaTabletMinPx){
+            console.log(' es mobile');
+            //eid_inpt_nav.dataset.divtrans = 'trans1';
+            //eid_inpt_nav.dataset.trans = trans;
+        }
+
+
+        let ref = `${obj_trans_this.Books[book].ShortNames[0]}${chapter}:${verse}`;
+        if(to_verse != null) ref += `-${to_verse}`;
+    
+        eid_inpt_nav.value = ref;
+        getRef();
+        console.log('=== finalizado ejecutar_convertBookIndex() === ');
+    }
+
 }
 
 
