@@ -12143,7 +12143,7 @@ function selChapter(e, show_chapter = null){
 
     let is_changedChapter = false;
 
-    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
+    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){//si no es trans1
         // Usa el método find para buscar el objeto que contiene 'rst' como nombre
         const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
         const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
@@ -12238,6 +12238,7 @@ function selChapter(e, show_chapter = null){
         showTrans(eid_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
 
     }else{//trans1
+        
         eid_inpt_nav.setAttribute('data-id_chapter', param_show_chapter - 1);
         eid_inpt_nav.setAttribute('data-show_chapter', param_show_chapter); 
 
@@ -14099,13 +14100,13 @@ function getRef(trans = null){
 
             if(!result_ref_finded && hay_get_data){
                 
-                let text_aviso = `Nada encontrado segun la referencia: ${inpt_v} <br>Introduce el valor correcto por favor. Ejemplo: 'Gn.1:5' o 'Jn.3:16-17' <br>En 5 segundos serás redirigido a la traduccion por defecto...`;
+                let text_aviso = `Nada encontrado segun la referencia '<b>${inpt_v}</b>' en la traducción '<b>${trans}</b>' <br>Selecciona la traducción y la referencia correctas por favor. Por ejemplo: la traducción '<b>RV60</b>' y la referencia '<b>Sal 23:3</b>.'`;
                 //console.error(text_aviso);
                 openModal('center','Aviso Error',text_aviso,'showAviso'); 
-                setTimeout(()=>{
-                    closeModal();
-                    getRefByBibleRef('Jn.3:16-17');
-                },5000);
+                //setTimeout(()=>{
+                //    closeModal();
+                //    getRefByBibleRef('Jn.3:16-17');
+                //},5000);
             }
 
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'

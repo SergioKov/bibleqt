@@ -3214,6 +3214,9 @@ fieldset {
     padding: 10px;
     width: 100%;
 }
+.p_aviso b {
+    color: red;
+}
 #footerInner .btn:not(:last-child) {
     margin-right: 5px;
 }
