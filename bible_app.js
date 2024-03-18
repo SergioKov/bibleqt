@@ -289,7 +289,7 @@ let obj_nav = {
     divtrans: '',
     trans: '',
     id_book: '',
-    show_book: '',
+    book_short_name: '',
     id_chapter: '',
     show_chapter: '',
     id_verse: '',
@@ -10552,7 +10552,7 @@ function changeTransNav(trans, idCol_trans){
                     eid_inpt_nav.value = new_ref_text;
                 }
             }else{// un trans1
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[id_book].ShortNames[0]);
                 eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
     
                 if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
@@ -10633,7 +10633,7 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     let Translation = trans;
     let bq = arrFavTransObj.find(v => v.Translation == Translation);
 
-    eid_inpt_nav.setAttribute('data-show_book', bq.Books[id_book].ShortNames[0]);
+    eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[id_book].ShortNames[0]);
     eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
     if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
     if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
@@ -12116,7 +12116,7 @@ function selBook(e){
     obj_nav.divtrans = eid_inpt_nav.dataset.divtrans;
     obj_nav.trans = eid_inpt_nav.dataset.trans;
     obj_nav.id_book = e.srcElement.getAttribute('data-id_book');
-    obj_nav.show_book = e.srcElement.getAttribute('data-show_book');
+    obj_nav.book_short_name = e.srcElement.getAttribute('data-book_short_name');
     obj_nav.id_chapter = '';
     obj_nav.show_chapter = '';
     obj_nav.id_verse = '';
@@ -12124,7 +12124,7 @@ function selBook(e){
 
 
     eid_inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
-    eid_inpt_nav.setAttribute('data-show_book',e.srcElement.getAttribute('data-show_book'));//Gen. Ex. Lev.
+    eid_inpt_nav.setAttribute('data-book_short_name',e.srcElement.getAttribute('data-book_short_name'));//Gen. Ex. Lev.
 
     eid_inpt_nav.setAttribute('data-id_chapter','');
     eid_inpt_nav.setAttribute('data-show_chapter','');
@@ -12132,7 +12132,7 @@ function selBook(e){
     eid_inpt_nav.setAttribute('data-id_verse','');
     eid_inpt_nav.setAttribute('data-show_verse','');
     
-    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ';
+    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
     //eid_v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
@@ -12254,7 +12254,7 @@ function selChapter(e, show_chapter = null){
             }
         }
 
-        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
+        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
 
         addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
         
@@ -12276,7 +12276,7 @@ function selChapter(e, show_chapter = null){
         eid_inpt_nav.setAttribute('data-id_verse','');
         eid_inpt_nav.setAttribute('data-show_verse','');
     
-        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
+        eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
         
         addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
 
@@ -12426,7 +12426,7 @@ function selVerse(e){
     }
 
     
-    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-show_book') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');
+    eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');
    
     
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
@@ -12593,7 +12593,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 li.id = 'li' + arr_b[i_b].BookNumber;
                                 li.title = arr_b[i_b].FullName;
                                 li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
-                                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                                li.setAttribute('data-book_short_name',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
                                 li.className = 'v_li b_li '+ el_b.cl_book;
                                 if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
                                     li.classList.add('li_active');                    
@@ -12778,7 +12778,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                 li.id = 'li' + arr_b[i_b].BookNumber;
                                 li.title = arr_b[i_b].FullName;
                                 li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
-                                li.setAttribute('data-show_book',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                                li.setAttribute('data-book_short_name',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
                                 li.className = 'v_li b_li '+ el_b.cl_book;
                                 if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
                                     li.classList.add('li_active');                    
@@ -13868,13 +13868,13 @@ function getRef(trans = null){
                         } 
                     
                         eid_inpt_nav.setAttribute('data-id_book',n_book);
-                        eid_inpt_nav.setAttribute('data-show_book',short_name);
+                        eid_inpt_nav.setAttribute('data-book_short_name',short_name);
 
                         eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
                         eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
                         eid_inpt_nav.value = short_name;
-                        obj_nav.show_book = short_name;
+                        obj_nav.book_short_name = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
@@ -14333,7 +14333,7 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
             let short_name = data.Books[book].ShortNames[0];
                     
             eid_inpt_nav.setAttribute('data-id_book',book);
-            eid_inpt_nav.setAttribute('data-show_book',short_name);
+            eid_inpt_nav.setAttribute('data-book_short_name',short_name);
 
             eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
             eid_inpt_nav.setAttribute('data-show_chapter',chapter);
@@ -14435,7 +14435,7 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
             let short_name = data.Books[book].ShortNames[0];
                     
             eid_inpt_nav.setAttribute('data-id_book',book);
-            eid_inpt_nav.setAttribute('data-show_book',short_name);
+            eid_inpt_nav.setAttribute('data-book_short_name',short_name);
 
             eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
             eid_inpt_nav.setAttribute('data-show_chapter',chapter);
@@ -14717,7 +14717,7 @@ function bookGo(dir){
                 }            
 
                 eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
@@ -14730,7 +14730,7 @@ function bookGo(dir){
                 });
 
                 obj_nav.id_book = next_id_book;
-                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
@@ -14755,7 +14755,7 @@ function bookGo(dir){
                 }
 
                 eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
@@ -14768,7 +14768,7 @@ function bookGo(dir){
                 });
 
                 obj_nav.id_book = prev_id_book;
-                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
@@ -14812,7 +14812,7 @@ function bookGo(dir){
                 }            
 
                 eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
@@ -14825,7 +14825,7 @@ function bookGo(dir){
                 });
 
                 obj_nav.id_book = next_id_book;
-                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
@@ -14851,7 +14851,7 @@ function bookGo(dir){
                 }
 
                 eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
@@ -14864,7 +14864,7 @@ function bookGo(dir){
                 });
 
                 obj_nav.id_book = prev_id_book;
-                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
@@ -14963,7 +14963,7 @@ function chapterGo(dir){
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
                 eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
@@ -14976,7 +14976,7 @@ function chapterGo(dir){
                 });
 
                 obj_nav.id_book = next_id_book;
-                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
@@ -15007,7 +15007,7 @@ function chapterGo(dir){
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
                 eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
@@ -15020,7 +15020,7 @@ function chapterGo(dir){
                 });
 
                 obj_nav.id_book = prev_id_book;
-                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;
@@ -15078,7 +15078,7 @@ function chapterGo(dir){
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
                 eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[next_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
@@ -15091,7 +15091,7 @@ function chapterGo(dir){
                 });
 
                 obj_nav.id_book = next_id_book;
-                obj_nav.show_book = bq.Books[next_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
                 obj_nav.show_chapter = next_show_chapter;
@@ -15120,7 +15120,7 @@ function chapterGo(dir){
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
                 eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_book', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
 
                 eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
@@ -15133,7 +15133,7 @@ function chapterGo(dir){
                 });
 
                 obj_nav.id_book = prev_id_book;
-                obj_nav.show_book = bq.Books[prev_id_book].ShortNames[0];
+                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
 
                 obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
                 obj_nav.show_chapter = prev_show_chapter;

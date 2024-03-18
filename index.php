@@ -148,7 +148,7 @@ session_start();
                                     data-trans="" 
                                     data-divtrans="" 
                                     data-id_book="0" 
-                                    data-show_book="Быт." 
+                                    data-book_short_name="Быт." 
                                     data-id_chapter="" 
                                     data-show_chapter="" 
                                     data-id_verse="" 

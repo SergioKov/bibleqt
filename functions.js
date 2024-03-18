@@ -901,7 +901,7 @@ function onclick_p_nav(el){
     eid_inpt_nav.dataset.trans = el.trans;
 
     eid_inpt_nav.dataset.id_book = el.book;
-    eid_inpt_nav.dataset.show_book = el.BookShortName;
+    eid_inpt_nav.dataset.book_short_name = el.BookShortName;
 
     eid_inpt_nav.dataset.id_chapter = el.chapter - 1;
     eid_inpt_nav.dataset.show_chapter = el.chapter;

@@ -391,13 +391,13 @@ function getRefToCompare(ref){
                         } 
                     
                         eid_inpt_nav.setAttribute('data-id_book',n_book);
-                        eid_inpt_nav.setAttribute('data-show_book',short_name);
+                        eid_inpt_nav.setAttribute('data-book_short_name',short_name);
 
                         eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
                         eid_inpt_nav.setAttribute('data-show_chapter',chapter);
 
                         eid_inpt_nav.value = short_name;
-                        obj_nav.show_book = short_name;
+                        obj_nav.book_short_name = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
