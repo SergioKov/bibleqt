@@ -390,24 +390,19 @@ function getRefToCompare(ref){
                         
                         } 
                     
-                        eid_inpt_nav.setAttribute('data-id_book',n_book);
                         eid_inpt_nav.setAttribute('data-book_short_name',short_name);
-
-                        eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                        eid_inpt_nav.setAttribute('data-id_book',n_book);
                         eid_inpt_nav.setAttribute('data-show_chapter',chapter);
-
                         eid_inpt_nav.value = short_name;
                         obj_nav.book_short_name = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
                             eid_inpt_nav.value += ' ' + chapter;
-                            obj_nav.id_chapter = parseInt(chapter) - 1;
                             obj_nav.show_chapter = chapter;
                             eid_v_chapter.innerHTML = '';
                         }else{
                             eid_v_chapter.innerHTML = 'selecciona el capítulo';
-                            obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
 
@@ -419,9 +414,7 @@ function getRefToCompare(ref){
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
                                 eid_inpt_nav.value += ':' + verse;
-                                obj_nav.id_verse = parseInt(verse) - 1;
                                 obj_nav.show_verse = verse;
-                                eid_inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
                                 eid_inpt_nav.setAttribute('data-show_verse', verse);
                                 eid_v_verse.innerHTML = '';
                             } else {
@@ -429,7 +422,6 @@ function getRefToCompare(ref){
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
-                                e_virtual.setAttribute('data-id_chapter', 0);
                                 e_virtual.setAttribute('data-show_chapter', 1);
                                 setTimeout(() => {
                                     //e_virtual.click();
@@ -496,7 +488,6 @@ function getRefToCompare(ref){
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
-                                e_virtual.setAttribute('data-id_chapter',0);
                                 e_virtual.setAttribute('data-show_chapter',1);
                                 setTimeout(()=>{
                                     selChapter(e_virtual, chapter);                           
@@ -565,9 +556,7 @@ function getRefToCompare(ref){
                                     //console.log('15047. verse: ',verse);
 
                                     eid_inpt_nav.value += ':' + verse;
-                                    obj_nav.id_verse = parseInt(verse) - 1;
                                     obj_nav.show_verse = verse;
-                                    eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
                                     eid_inpt_nav.setAttribute('data-show_verse',verse);
                                     eid_v_verse.innerHTML = '';
 

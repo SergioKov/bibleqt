@@ -897,21 +897,17 @@ function buildHistoryNavDesktop(){
 
 
 function onclick_p_nav(el){
-    eid_inpt_nav.value = el.ref;            
+    
     eid_inpt_nav.dataset.trans = el.trans;
-
-    eid_inpt_nav.dataset.id_book = el.book;
     eid_inpt_nav.dataset.book_short_name = el.BookShortName;
-
-    eid_inpt_nav.dataset.id_chapter = el.chapter - 1;
+    eid_inpt_nav.dataset.id_book = el.book;
     eid_inpt_nav.dataset.show_chapter = el.chapter;
+    eid_inpt_nav.value = el.ref;            
     
     if(el.verse != null){
-        eid_inpt_nav.dataset.id_verse = el.verse - 1;
         eid_inpt_nav.dataset.show_verse = el.verse;
         eid_s_verse.click();
     }else{
-        eid_inpt_nav.dataset.id_verse = '';
         eid_inpt_nav.dataset.show_verse = '';
         eid_s_verse.click();
     }

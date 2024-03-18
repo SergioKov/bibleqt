@@ -284,15 +284,12 @@ const obj_tsk_files = {};
 let positionShow = 'col';//por defecto posicion de columnas
 let countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
-// window.obj_nav = {//antes
 let obj_nav = {
-    divtrans: '',
     trans: '',
-    id_book: '',
+    divtrans: '',
     book_short_name: '',
-    id_chapter: '',
+    id_book: '',
     show_chapter: '',
-    id_verse: '',
     show_verse: '',
     show_to_verse: ''
 } 
@@ -10558,7 +10555,6 @@ function changeTransNav(trans, idCol_trans){
                 if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
                 if(typeof chapter == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_chapter > 0) eid_inpt_nav.value += ' ' + eid_inpt_nav.dataset.show_chapter;
     
-    
                 if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
                 if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_verse > 0) eid_inpt_nav.value += ':' + eid_inpt_nav.dataset.show_verse;
     
@@ -10715,7 +10711,6 @@ function changeModule(thisDiv,trans,BibleShortName){
         });
     }
  
-    //showChapterText3(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
     showChapterText4(trans,'#'+thisDiv.parentElement.getAttribute('id'), id_book, chapter, verseNumber, to_verseNumber, verseView);
 
     setTimeout(() => {
@@ -12113,29 +12108,20 @@ function closeTab(el, ev = null){
 function selBook(e){
     //console.log(e.srcElement.innerText);
     
-    obj_nav.divtrans = eid_inpt_nav.dataset.divtrans;
     obj_nav.trans = eid_inpt_nav.dataset.trans;
-    obj_nav.id_book = e.srcElement.getAttribute('data-id_book');
+    obj_nav.divtrans = eid_inpt_nav.dataset.divtrans;
     obj_nav.book_short_name = e.srcElement.getAttribute('data-book_short_name');
-    obj_nav.id_chapter = '';
+    obj_nav.id_book = e.srcElement.getAttribute('data-id_book');
     obj_nav.show_chapter = '';
-    obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
-
-    eid_inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
     eid_inpt_nav.setAttribute('data-book_short_name',e.srcElement.getAttribute('data-book_short_name'));//Gen. Ex. Lev.
-
-    eid_inpt_nav.setAttribute('data-id_chapter','');
+    eid_inpt_nav.setAttribute('data-id_book',e.srcElement.getAttribute('data-id_book'));//0, 1, 2
     eid_inpt_nav.setAttribute('data-show_chapter','');
-
-    eid_inpt_nav.setAttribute('data-id_verse','');
     eid_inpt_nav.setAttribute('data-show_verse','');
-    
     eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ';
 
     //reseteo los botones li de versiculos ya que todavia no estan seleccionados los chapters
-    //eid_v_verse.innerHTML = '<span class="prim_verse">test: Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';            //antes
     eid_v_verse.innerHTML = 'cargando versículos...';            
 
     addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
@@ -12144,7 +12130,7 @@ function selBook(e){
     eid_s_chapter.click();// me muevo a la pestaña 'Glava'
     //en #eid_s_chapter se llama sel(this,'ch',trans)...
     //en #eid_v_chapter se quitan todos los li's botones de chapters para crear nuevos li's
-    //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
+    //en for se crean li's y si hay show_chapter => al li se le añade bg red class '.active'
 
     //allowUseShowTrans = true;
     showTrans(e.srcElement.getAttribute('data-id_book'), 1);//cargo con fetch chapter 1 por defecto    
@@ -12160,7 +12146,6 @@ function selChapter(e, show_chapter = null){
     }
 
     //console.log(e.srcElement.innerText); 
-    let param_id_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-id_chapter') : show_chapter - 1 ;
     let param_show_chapter = (show_chapter == null) ? e.srcElement.getAttribute('data-show_chapter') : show_chapter ;
     let chapterNumber = param_show_chapter;//por defecto, luego se cambia si hace falta
 
@@ -12195,21 +12180,14 @@ function selChapter(e, show_chapter = null){
             chapterNumber = param_show_chapter;
         }
 
-        obj_nav.id_chapter = chapterNumber - 1;
         obj_nav.show_chapter = chapterNumber;
-        obj_nav.id_verse = '';
         obj_nav.show_verse = '';
 
-        eid_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);
         eid_inpt_nav.setAttribute('data-show_chapter',chapterNumber); 
 
     }else{//si es trans1
 
-        //obj_nav.id_chapter = e.srcElement.getAttribute('data-id_chapter');
-        //obj_nav.show_chapter = e.srcElement.getAttribute('data-show_chapter');
-        obj_nav.id_chapter = param_show_chapter - 1;
         obj_nav.show_chapter = param_show_chapter;
-        obj_nav.id_verse = '';
         obj_nav.show_verse = '';
     }
 
@@ -12246,10 +12224,7 @@ function selChapter(e, show_chapter = null){
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                 eid_inpt_nav.value = new_ref_text;
 
-                eid_inpt_nav.setAttribute('data-id_chapter',chapterNumber - 1);//REVISAR!!!
                 eid_inpt_nav.setAttribute('data-show_chapter',chapterNumber); //REVISAR!!!
-        
-                eid_inpt_nav.setAttribute('data-id_verse','');
                 eid_inpt_nav.setAttribute('data-show_verse','');
             }
         }
@@ -12264,18 +12239,14 @@ function selChapter(e, show_chapter = null){
         eid_s_verse.click();// me muevo a la pestaña 'Stij'
         //en #eid_s_verse se llama sel(this,'v',trans)...
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
-        //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
+        //en for se crean li's y si hay show_chapter => al li se le añade bg red class '.active'
         
         showTrans(eid_inpt_nav.getAttribute('data-id_book'), chapterNumber);//chapter def 1 
 
     }else{//trans1
         
-        eid_inpt_nav.setAttribute('data-id_chapter', param_show_chapter - 1);
         eid_inpt_nav.setAttribute('data-show_chapter', param_show_chapter); 
-
-        eid_inpt_nav.setAttribute('data-id_verse','');
         eid_inpt_nav.setAttribute('data-show_verse','');
-    
         eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter'); 
         
         addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, null, null);
@@ -12286,9 +12257,8 @@ function selChapter(e, show_chapter = null){
         eid_s_verse.click();// me muevo a la pestaña 'Stij'
         //en #eid_s_verse se llama sel(this,'v',trans)...
         //en #eid_v_verse se quitan todos los li's botones de verses para crear nuevos li's
-        //en for se crean li's y si hay id_chapter -> al li que es igual a (id_chapter +1)=show_chapter se añade bg red class '.active'
+        //en for se crean li's y si hay show_chapter => al li se le añade bg red class '.active'
         
-        //showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1 //antes
         //si se hace click sobre elemento virtual, no hago showTrans para que no se llame 2 veces
         if(e.id == 'e_virt'){
             //alert('e.id == e_virt. no llamo a showTrans()');
@@ -12321,8 +12291,7 @@ function selVerse(e){
     let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
     //asigno chapter por defecto si no hay chapter y se selecciona verse
-    if(eid_inpt_nav.getAttribute('data-id_chapter') == '' && eid_inpt_nav.getAttribute('data-show_chapter') == ''){
-        eid_inpt_nav.setAttribute('data-id_chapter', 0);
+    if(eid_inpt_nav.getAttribute('data-show_chapter') == ''){
         eid_inpt_nav.setAttribute('data-show_chapter', 1);
     }
 
@@ -12352,24 +12321,16 @@ function selVerse(e){
             verseNumber = e.srcElement.getAttribute('data-show_verse');
         }
 
-        obj_nav.id_chapter = chapterNumber - 1;
         obj_nav.show_chapter = chapterNumber;
-
-        obj_nav.id_verse = verseNumber - 1;//comprobar!
         obj_nav.show_verse = verseNumber;//comprobar!
 
-        eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);
         eid_inpt_nav.setAttribute('data-show_verse',verseNumber); 
 
     }else{//si es trans1
         
-        obj_nav.id_chapter = eid_inpt_nav.getAttribute('data-id_chapter');
         obj_nav.show_chapter = eid_inpt_nav.getAttribute('data-show_chapter');
-
-        obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
         obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
 
-        eid_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
         eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));   
 
     }
@@ -12408,26 +12369,19 @@ function selVerse(e){
                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                 eid_inpt_nav.value = new_ref_text;
 
-                eid_inpt_nav.setAttribute('data-id_verse',verseNumber - 1);
                 eid_inpt_nav.setAttribute('data-show_verse',verseNumber);
             }
         }
 
     }else{//trans1
         
-        obj_nav.id_chapter = eid_inpt_nav.getAttribute('data-id_chapter');
         obj_nav.show_chapter = eid_inpt_nav.getAttribute('data-show_chapter');
+        obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');   
         
-        obj_nav.id_verse = e.srcElement.getAttribute('data-id_verse');
-        obj_nav.show_verse = e.srcElement.getAttribute('data-show_verse');
-    
-        eid_inpt_nav.setAttribute('data-id_verse',e.srcElement.getAttribute('data-id_verse'));
         eid_inpt_nav.setAttribute('data-show_verse',e.srcElement.getAttribute('data-show_verse'));   
     }
 
-    
     eid_inpt_nav.value = eid_inpt_nav.getAttribute('data-book_short_name') + ' ' + eid_inpt_nav.getAttribute('data-show_chapter') + ':' +eid_inpt_nav.getAttribute('data-show_verse');
-   
     
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
@@ -12448,7 +12402,7 @@ function selVerse(e){
 
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
-function sel(e, par, show_chapter = null, trans = null){
+function sel(e, par, param_show_chapter = null, trans = null){
     //console.log('===function sel()===');
     
     let trans_base = eid_trans1.dataset.trans;
@@ -12485,7 +12439,7 @@ function sel(e, par, show_chapter = null, trans = null){
         el.classList.remove('ul_active');
     });
 
-    let id_book, id_chapter;
+    let id_book, show_chapter;
 
 
     switch (par) {
@@ -12592,8 +12546,8 @@ function sel(e, par, show_chapter = null, trans = null){
                                 const li = document.createElement('div');
                                 li.id = 'li' + arr_b[i_b].BookNumber;
                                 li.title = arr_b[i_b].FullName;
-                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.setAttribute('data-book_short_name',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.className = 'v_li b_li '+ el_b.cl_book;
                                 if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
                                     li.classList.add('li_active');                    
@@ -12777,8 +12731,8 @@ function sel(e, par, show_chapter = null, trans = null){
                                 const li = document.createElement('div');
                                 li.id = 'li' + arr_b[i_b].BookNumber;
                                 li.title = arr_b[i_b].FullName;
-                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.setAttribute('data-book_short_name',arr_b[i_b].ShortNames[0]);//Gen. Ex. Lev.
+                                li.setAttribute('data-id_book',arr_b[i_b].BookNumber);//0, 1, 2
                                 li.className = 'v_li b_li '+ el_b.cl_book;
                                 if(arr_b[i_b].BookNumber == id_book){// antes i_b == id_book
                                     li.classList.add('li_active');                    
@@ -12878,7 +12832,7 @@ function sel(e, par, show_chapter = null, trans = null){
                     eid_bcv_line.classList.add('c_line');
             
                     id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
-                    id_chapter = parseInt(eid_inpt_nav.getAttribute('data-id_chapter')); 
+                    show_chapter = parseInt(eid_inpt_nav.getAttribute('data-show_chapter')); 
                     
                     
                     //modo new
@@ -12899,7 +12853,7 @@ function sel(e, par, show_chapter = null, trans = null){
                             if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
 
 
-                            let chapterNumber = id_chapter + 1;//por deecto
+                            let chapterNumber = show_chapter;//por defecto
                                             
                             if(document.querySelectorAll('.cols').length > 1){
                                 let chapter = obj_nav.show_chapter;
@@ -12941,26 +12895,22 @@ function sel(e, par, show_chapter = null, trans = null){
                             for(let index = 1; index <= this_trans_obj.Books[id_book].ChapterQty; index++) {
                                 const li_ch = document.createElement('li');
                                 li_ch.id = 'li_ch' + index;
-                                li_ch.setAttribute('data-id_chapter',index - 1);
                                 li_ch.setAttribute('data-show_chapter',index);
                                 li_ch.className = 'v_li c_li';
             
                                 //si el menu fue clickeado desde no la trans1 (trans base) 
                                 if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
                                     //console.log(index+') if --- obj_nav.divtrans != trans1');
-                                    //id_chapter = chapterNumber - 1;
-                                    //show_chapter = chapterNumber;
                                     if(index == chapterNumber){
                                         //console.log('--- --- modifico chapter: ' + chapterNumber);
                                         li_ch.classList.add('li_active');
                                     }    
                                 }else{
                                     //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                    if(index == id_chapter + 1){
+                                    if(index == show_chapter){
                                         li_ch.classList.add('li_active');
                                     }    
                                 }
-                                //li_ch.innerHTML = index;
                                 li_ch.innerHTML = index + '<span class="ch_count_v"></span><span class="ch_count_v chv2"></span>';//por ahora vacio. luego 20
                                 li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
                                 wr_grid_ch.append(li_ch);
@@ -12985,113 +12935,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         });
             
                     }else{//modo old. no existe arrFavTransObj
-            
                         alert('chapter modo old. no salta nunca...');
-            
-                        let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
-                        fetch(url_bq)
-                        .then(response => response.json())
-                        .then(data => {
-                            
-                            window.chapter_PathName = data.Books[id_book].PathName;
-                            //console.log(chapter_PathName);
-                
-                            let url = './modules/text/'+trans+'/' + chapter_PathName;//rsti2
-                            fetch(url)
-                            .then(response => response.text())
-                            .then(data => {
-                                //console.log('abajo chapter_PathName');
-                                //console.log(data);        
-                                
-                                if(document.querySelectorAll('.cols').length > 1){
-                                    let chapter = obj_nav.show_chapter;
-                                    let verse = obj_nav.show_verse; 
-                                    let to_verse = null;//todavia no está seleccionado
-                                    
-                                    let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
-                
-                                    if(res_new_link){
-                                        //asigno nuevo valor
-                                        let bookNumber = res_new_link[0];
-                                        let chapterNumber = res_new_link[1];
-                                        let verseNumber = res_new_link[2];
-                                        let to_verseNumber = res_new_link[3];
-                                        let trans_BookShortName = res_new_link[4];
-                                        
-                                        //console.log('---despues---');
-                                        //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                        //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
-                
-                                        let new_ref_text = trans_BookShortName;
-                                        if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
-                                        if(verseNumber > 0) new_ref_text += ':' + verseNumber;
-                                        if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        eid_inpt_nav.value = new_ref_text;
-                                    }
-                                } 
-                                                
-                                window.arr_chapters = data.split('<h4>');
-                                //console.log('abajo arr_chapters');
-                                //console.log(arr_chapters);
-                
-                                eid_v_chapter.innerHTML = '';//reset todos los botones de chapter                            
-                                const wr_grid_ch = document.createElement('div');
-                                wr_grid_ch.className = 'wr_grid_ch';
-                    
-                                for(let index = 1; index <= arr_chapters.length - 1; index++) {
-                                    const li_ch = document.createElement('li');
-                                    li_ch.id = 'li_ch' + index;
-                                    li_ch.setAttribute('data-id_chapter',index - 1);
-                                    li_ch.setAttribute('data-show_chapter',index);
-                                    li_ch.className = 'v_li c_li';
-                
-                                    //si el menu fue clickeado desde no la trans1 (trans base) 
-                                    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
-                                        //console.log(index+') if --- obj_nav.divtrans != trans1');
-                                        //id_chapter = chapterNumber - 1;
-                                        //show_chapter = chapterNumber;
-                                        if(index == chapterNumber){
-                                            //console.log('--- --- modifico chapter: ' + chapterNumber);
-                                            li_ch.classList.add('li_active');
-                                        }    
-                                    }else{
-                                        //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                        if(index == id_chapter + 1){
-                                            li_ch.classList.add('li_active');
-                                        }    
-                                    }
-                                    li_ch.innerHTML = index + '<span class="ch_count_v">22</span>';
-                                    li_ch.addEventListener('click',selChapter);//click sobre li boton de chapter
-                                    wr_grid_ch.append(li_ch);
-                                }
-                                eid_v_chapter.append(wr_grid_ch);
-                            })
-                            .then(()=>{
-                                //si hay un boton li activo me muevo alli
-                                if(eid_v_chapter.getElementsByClassName('li_active').length > 0){
-                                    setTimeout(()=>{
-                                        eid_v_chapter.querySelector('.li_active').scrollIntoView({
-                                            behavior: "smooth",
-                                            block: "start",
-                                            inline: "nearest"
-                                        });
-                                    },100);
-                                }
-                            })
-                            .catch(error => { 
-                                // Código a realizar cuando se rechaza la promesa
-                                console.error('error promesa module: '+error);
-                            });
-
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa chapter: '+error);
-                        });
-            
                     }
                 
             break;
@@ -13103,9 +12947,9 @@ function sel(e, par, show_chapter = null, trans = null){
                     eid_bcv_line.classList.add('v_line');
             
                     id_book = parseInt(eid_inpt_nav.getAttribute('data-id_book'));
-                    id_chapter = (eid_inpt_nav.getAttribute('data-id_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-id_chapter')) : 0 ;
-                    if(id_chapter < 0) id_chapter = 0;
-                    let id_verse = parseInt(eid_inpt_nav.getAttribute('data-id_verse'));
+                    show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') !== '') ? Number(eid_inpt_nav.getAttribute('data-show_chapter')) : 1 ;
+                    if(show_chapter < 1) show_chapter = 1;
+                    let show_verse = parseInt(eid_inpt_nav.getAttribute('data-show_verse'));
                     eid_v_verse.innerHTML = '';//reset botones de versiculos
             
             
@@ -13168,12 +13012,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                     eid_inpt_nav.value = new_ref_text;
                                                 }else{//si no hay que cambiar el chapter 
-                                                    chapterNumber = id_chapter + 1;
-                                                    verseNumber = id_verse + 1;    
+                                                    chapterNumber = show_chapter;
+                                                    verseNumber = show_verse;    
                                                 }
                                             }else{
-                                                chapterNumber = id_chapter + 1;
-                                                verseNumber = id_verse + 1;
+                                                chapterNumber = show_chapter;
+                                                verseNumber = show_verse;
                                             }
                                             
                                             chapterNumber = parseInt(chapterNumber);
@@ -13194,7 +13038,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                             for(let index = 1; index <= window.arr_verses.length - 1; index++) {
                                                 const li_v = document.createElement('li');
                                                 li_v.id = 'li_v' + index;
-                                                li_v.setAttribute('data-id_verse',index - 1);
                                                 li_v.setAttribute('data-show_verse',index);
                                                 li_v.className = 'v_li';                            
                                                 //si el menu fue clickeado desde no la trans1 (trans base) 
@@ -13206,7 +13049,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                     }    
                                                 }else{
                                                     //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                                    if(index == id_verse + 1){
+                                                    if(index == show_verse){
                                                         li_v.classList.add('li_active');
                                                     }    
                                                 }                            
@@ -13246,7 +13089,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                     let formData = new FormData();
                                     formData.append('url','../'+url);
                                     formData.append('book', id_book);
-                                    formData.append('chapter', id_chapter + 1);
+                                    formData.append('chapter', show_chapter);
     
                                     fetch('app/read_file_get_VerseQty_to_json.php',{
                                         method: 'POST',
@@ -13286,12 +13129,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                 eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
-                                                chapterNumber = id_chapter + 1;
-                                                verseNumber = id_verse + 1;    
+                                                chapterNumber = show_chapter;
+                                                verseNumber = show_verse;    
                                             }
                                         }else{
-                                            chapterNumber = id_chapter + 1;
-                                            verseNumber = id_verse + 1;
+                                            chapterNumber = show_chapter;
+                                            verseNumber = show_verse;
                                         }
                                                         
                                         eid_v_verse.innerHTML = '';//reset botones de versiculos
@@ -13301,7 +13144,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                         for(let index = 1; index <= data.VerseQty; index++) {
                                             const li_v = document.createElement('li');
                                             li_v.id = 'li_v' + index;
-                                            li_v.setAttribute('data-id_verse',index - 1);
                                             li_v.setAttribute('data-show_verse',index);
                                             li_v.className = 'v_li';
                         
@@ -13314,7 +13156,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 }    
                                             }else{
                                                 //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                                if(index == id_verse + 1){
+                                                if(index == show_verse){
                                                     li_v.classList.add('li_active');
                                                 }    
                                             }
@@ -13387,12 +13229,12 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
                                                 eid_inpt_nav.value = new_ref_text;
                                             }else{//si no hay que cambiar el chapter 
-                                                chapterNumber = id_chapter + 1;
-                                                verseNumber = id_verse + 1;    
+                                                chapterNumber = show_chapter;
+                                                verseNumber = show_verse;    
                                             }
                                         }else{
-                                            chapterNumber = id_chapter + 1;
-                                            verseNumber = id_verse + 1;
+                                            chapterNumber = show_chapter;
+                                            verseNumber = show_verse;
                                         }
                                 
                                         window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
@@ -13406,7 +13248,6 @@ function sel(e, par, show_chapter = null, trans = null){
                                         for(let index = 1; index <= window.arr_verses.length - 1; index++) {
                                             const li_v = document.createElement('li');
                                             li_v.id = 'li_v' + index;
-                                            li_v.setAttribute('data-id_verse',index - 1);
                                             li_v.setAttribute('data-show_verse',index);
                                             li_v.className = 'v_li';
                         
@@ -13419,7 +13260,7 @@ function sel(e, par, show_chapter = null, trans = null){
                                                 }    
                                             }else{
                                                 //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                                if(index == id_verse + 1){
+                                                if(index == show_verse){
                                                     li_v.classList.add('li_active');
                                                 }    
                                             }
@@ -13473,118 +13314,7 @@ function sel(e, par, show_chapter = null, trans = null){
                         });//end myPromise_v
             
                     }else{//modo old. no existe arrFavTransObj
-            
                         alert('modo old verse. no salta nunca...');
-                        
-                        let url_bq = './modules/text/'+trans+'/bibleqt.json';//rsti2
-                        fetch(url_bq)
-                        .then(response => response.json())
-                        .then(data => {
-            
-                            window.chapter_PathName = data.Books[id_book].PathName;
-                            //console.log(chapter_PathName);
-                
-                            let url = './modules/text/'+trans+'/' + chapter_PathName;//rsti2
-                            fetch(url)
-                            .then(response => response.text())
-                            .then(data => {
-                                //console.log('abajo chapter_PathName');
-                                //console.log(data);
-                                let chapterNumber,verseNumber;
-                                
-                                if(document.querySelectorAll('.cols').length > 1){
-                                    let chapter = obj_nav.show_chapter;
-                                    let verse = obj_nav.show_verse; 
-                                    let to_verse = null;//todavia no está seleccionado
-                                    
-                                    let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
-                
-                                    if(res_new_link){
-                                        //asigno nuevo valor
-                                        let bookNumber = res_new_link[0];
-                                        chapterNumber = res_new_link[1];
-                                        verseNumber = res_new_link[2];
-                                        let to_verseNumber = res_new_link[3];
-                                        let trans_BookShortName = res_new_link[4];
-                                        
-                                        //console.log('---despues---');
-                                        //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                                        //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                        //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);//mayor que verseNumber
-                
-                                        let new_ref_text = trans_BookShortName;
-                                        if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
-                                        if(verseNumber > 0) new_ref_text += ':' + verseNumber;
-                                        if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                                        eid_inpt_nav.value = new_ref_text;
-                                    }else{//si no hay que cambiar el chapter 
-                                        chapterNumber = id_chapter + 1;
-                                        verseNumber = id_verse + 1;    
-                                    }
-                                }else{
-                                    chapterNumber = id_chapter + 1;
-                                    verseNumber = id_verse + 1;
-                                }
-                        
-                                window.arr_verses = data.split('<h4>')[chapterNumber].split('<p>');
-                                //console.log('abajo arr_verses');
-                                //console.log(arr_verses);
-                
-                                eid_v_verse.innerHTML = '';//reset botones de versiculos
-                                const wr_grid_v = document.createElement('div');
-                                wr_grid_v.className = 'wr_grid_v';
-                                
-                                for(let index = 1; index <= window.arr_verses.length - 1; index++) {
-                                    const li_v = document.createElement('li');
-                                    li_v.id = 'li_v' + index;
-                                    li_v.setAttribute('data-id_verse',index - 1);
-                                    li_v.setAttribute('data-show_verse',index);
-                                    li_v.className = 'v_li';                
-                                    //si el menu fue clickeado desde no la trans1 (trans base) 
-                                    if(eid_inpt_nav.dataset.divtrans != '' && eid_inpt_nav.dataset.divtrans != 'trans1'){
-                                        //console.log(index+') if --- obj_nav.divtrans != trans1');
-                                        if(index == verseNumber){
-                                            //console.log('--- --- modifico verse: ' + verseNumber);
-                                            li_v.classList.add('li_active');
-                                        }    
-                                    }else{
-                                        //console.log(index+') else --- obj_nav.divtrans == trans1');
-                                        if(index == id_verse + 1){
-                                            li_v.classList.add('li_active');
-                                        }    
-                                    }
-                                    li_v.innerHTML = index;
-                                    li_v.addEventListener('click',selVerse);//al click sobre boton de verse
-                                    wr_grid_v.append(li_v);
-                                }
-                                eid_v_verse.append(wr_grid_v);
-            
-                            })
-                            .then(()=>{
-                                //si hay un boton li activo me muevo alli
-                                if(eid_v_verse.getElementsByClassName('li_active').length > 0){
-                                    setTimeout(()=>{
-                                        eid_v_verse.querySelector('.li_active').scrollIntoView({
-                                            behavior: "smooth",
-                                            block: "start",
-                                            inline: "nearest"
-                                        });
-                                    },100);
-                                }
-                            })
-                            .catch(error => { 
-                                // Código a realizar cuando se rechaza la promesa
-                                console.error('error promesa: '+error);
-                            });
-
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa: '+error);
-                        });
-            
                     }
             break;
     
@@ -13867,24 +13597,19 @@ function getRef(trans = null){
                         
                         } 
                     
-                        eid_inpt_nav.setAttribute('data-id_book',n_book);
                         eid_inpt_nav.setAttribute('data-book_short_name',short_name);
-
-                        eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+                        eid_inpt_nav.setAttribute('data-id_book',n_book);
                         eid_inpt_nav.setAttribute('data-show_chapter',chapter);
-
                         eid_inpt_nav.value = short_name;
                         obj_nav.book_short_name = short_name;
                         
                         //chapter
                         if(chapter != null && parseInt(chapter) > 0){
                             eid_inpt_nav.value += ' ' + chapter;
-                            obj_nav.id_chapter = parseInt(chapter) - 1;
                             obj_nav.show_chapter = chapter;
                             eid_v_chapter.innerHTML = '';
                         }else{
                             eid_v_chapter.innerHTML = 'selecciona el capítulo';
-                            obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
                             obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
                         }
 
@@ -13897,9 +13622,7 @@ function getRef(trans = null){
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
                                 eid_inpt_nav.value += ':' + verse;
-                                obj_nav.id_verse = parseInt(verse) - 1;
                                 obj_nav.show_verse = verse;
-                                eid_inpt_nav.setAttribute('data-id_verse', parseInt(verse) - 1);
                                 eid_inpt_nav.setAttribute('data-show_verse', verse);
                                 eid_v_verse.innerHTML = '';
                             } else {
@@ -13907,7 +13630,6 @@ function getRef(trans = null){
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
-                                e_virtual.setAttribute('data-id_chapter', 0);
                                 e_virtual.setAttribute('data-show_chapter', 1);
                                 setTimeout(() => {
                                     allowUseShowTrans = true;
@@ -13979,7 +13701,6 @@ function getRef(trans = null){
                                 //creo virtual e
                                 const e_virtual = document.createElement('li');
                                 e_virtual.id = 'e_virt';
-                                e_virtual.setAttribute('data-id_chapter',0);
                                 e_virtual.setAttribute('data-show_chapter',1);
                                 setTimeout(()=>{
                                     allowUseShowTrans = true;
@@ -14052,9 +13773,7 @@ function getRef(trans = null){
                                     //console.log('15047. verse: ',verse);
 
                                     eid_inpt_nav.value += ':' + verse;
-                                    obj_nav.id_verse = parseInt(verse) - 1;
                                     obj_nav.show_verse = verse;
-                                    eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
                                     eid_inpt_nav.setAttribute('data-show_verse',verse);
                                     eid_v_verse.innerHTML = '';
 
@@ -14330,17 +14049,11 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
         .then(data => {
             //console.log(data);
     
-            let short_name = data.Books[book].ShortNames[0];
-                    
-            eid_inpt_nav.setAttribute('data-id_book',book);
+            let short_name = data.Books[book].ShortNames[0];                    
             eid_inpt_nav.setAttribute('data-book_short_name',short_name);
-
-            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
+            eid_inpt_nav.setAttribute('data-id_book',book);
             eid_inpt_nav.setAttribute('data-show_chapter',chapter);
-
-            eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
             eid_inpt_nav.setAttribute('data-show_verse',verse);
-
             eid_inpt_nav.value = short_name ;
 
             if(chapter != null && parseInt(chapter) > 0){
@@ -14433,16 +14146,10 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
             //console.log(data);
     
             let short_name = data.Books[book].ShortNames[0];
-                    
             eid_inpt_nav.setAttribute('data-id_book',book);
             eid_inpt_nav.setAttribute('data-book_short_name',short_name);
-
-            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
             eid_inpt_nav.setAttribute('data-show_chapter',chapter);
-
-            eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
             eid_inpt_nav.setAttribute('data-show_verse',verse);
-
             eid_inpt_nav.value = short_name ;
 
             if(chapter != null && parseInt(chapter) > 0){
@@ -14668,17 +14375,13 @@ function bookGo(dir){
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
-    eid_inpt_nav.setAttribute('data-id_chapter', '0');
     eid_inpt_nav.setAttribute('data-show_chapter', '1');
-    eid_inpt_nav.setAttribute('data-id_verse', '');
     eid_inpt_nav.setAttribute('data-show_verse', '');
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
     });
 
-    obj_nav.id_chapter = 0;
     obj_nav.show_chapter = 1;
-    obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
     let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
@@ -14716,12 +14419,9 @@ function bookGo(dir){
                     next_id_book = parseInt(act_id_book) + 1;
                 }            
 
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
@@ -14729,10 +14429,8 @@ function bookGo(dir){
                     putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = next_id_book;
                 obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.id_book = next_id_book;
                 obj_nav.show_chapter = next_show_chapter;
 
                 sel(eid_s_chapter,'ch',next_show_chapter);//chapter
@@ -14754,12 +14452,9 @@ function bookGo(dir){
                     prev_id_book = parseInt(act_id_book) - 1;
                 }
 
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
@@ -14767,10 +14462,8 @@ function bookGo(dir){
                     putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = prev_id_book;
                 obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.id_book = prev_id_book;
                 obj_nav.show_chapter = prev_show_chapter;
 
                 sel(eid_s_chapter,'ch',prev_show_chapter);//chapter
@@ -14811,12 +14504,9 @@ function bookGo(dir){
                     next_id_book = parseInt(act_id_book) + 1;
                 }            
 
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
@@ -14824,12 +14514,9 @@ function bookGo(dir){
                     putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = next_id_book;
                 obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.id_book = next_id_book;
                 obj_nav.show_chapter = next_show_chapter;
-
 
                 sel(eid_s_chapter,'ch',next_show_chapter);//chapter
 
@@ -14850,12 +14537,9 @@ function bookGo(dir){
                     prev_id_book = parseInt(act_id_book) - 1;
                 }
 
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
@@ -14863,10 +14547,8 @@ function bookGo(dir){
                     putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = prev_id_book;
                 obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.id_book = prev_id_book;
                 obj_nav.show_chapter = prev_show_chapter;
 
                 sel(eid_s_chapter,'ch',prev_show_chapter);//chapter
@@ -14905,13 +14587,11 @@ function chapterGo(dir){
     Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
 
     //reset de verse en rojo ya que hay que escojer el verse...
-    eid_inpt_nav.setAttribute('data-id_verse', '');
     eid_inpt_nav.setAttribute('data-show_verse', '');
     document.querySelectorAll('#v_verse .v_li').forEach(el=>{
         el.classList.remove('li_active');
     });
 
-    obj_nav.id_verse = '';
     obj_nav.show_verse = '';
 
     //por defecto muevo el scroll al top
@@ -14962,12 +14642,10 @@ function chapterGo(dir){
                 }else{
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
@@ -14975,10 +14653,8 @@ function chapterGo(dir){
                     putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = next_id_book;
                 obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.id_book = next_id_book;
                 obj_nav.show_chapter = next_show_chapter;
 
                 setTimeout(()=>{
@@ -15006,12 +14682,10 @@ function chapterGo(dir){
                 }else{
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
 
                 //meto Gen.1:1 en los head de cada trans
@@ -15019,10 +14693,8 @@ function chapterGo(dir){
                     putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = prev_id_book;
                 obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.id_book = prev_id_book;
                 obj_nav.show_chapter = prev_show_chapter;
 
                 setTimeout(()=>{
@@ -15077,12 +14749,10 @@ function chapterGo(dir){
                 }else{
                     next_show_chapter = parseInt(act_show_chapter) + 1;
                 }
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+
                 eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(next_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-
                 eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
                 
                 //meto Gen.1:1 en los head de cada trans
@@ -15090,10 +14760,8 @@ function chapterGo(dir){
                     putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = next_id_book;
                 obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(next_show_chapter) - 1;
+                obj_nav.id_book = next_id_book;
                 obj_nav.show_chapter = next_show_chapter;
 
                 sel(eid_s_verse,'v',Translation);//verse
@@ -15119,10 +14787,9 @@ function chapterGo(dir){
                 }else{
                     prev_show_chapter = parseInt(act_show_chapter) - 1;
                 }
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
 
-                eid_inpt_nav.setAttribute('data-id_chapter', parseInt(prev_show_chapter) - 1);
+                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
+                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
                 eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
 
                 eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
@@ -15132,10 +14799,8 @@ function chapterGo(dir){
                     putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
                 });
 
-                obj_nav.id_book = prev_id_book;
                 obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-
-                obj_nav.id_chapter = parseInt(prev_show_chapter) - 1;
+                obj_nav.id_book = prev_id_book;
                 obj_nav.show_chapter = prev_show_chapter;
 
                 sel(eid_s_verse,'v',Translation);//verse
