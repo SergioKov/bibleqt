@@ -198,6 +198,37 @@ const ajuste1 = {
     aaa: 'aaa'
 };
 
+const obj_ref = {
+    "input": {
+        "trans": null,
+        "divtrans": null,
+        "EnglishPsalms": null,
+        "ref": null,
+        "book": null,
+        "chapter": null,
+        "verse": null,
+        "to_verse": null
+    },
+    "rus": {
+        "trans": null,
+        "ShortName": null,
+        "ref": null,
+        "book": null,
+        "chapter": null,
+        "verse": null,
+        "to_verse": null
+    },
+    "esp": {
+        "trans": null,
+        "ShortName": null,
+        "ref": null,
+        "book": null,
+        "chapter": null,
+        "verse": null,
+        "to_verse": null
+    }
+};
+
 //constant para crear arrFavTransObj
 const arrFavTrans = [
     "rstStrongRed",
@@ -13769,8 +13800,8 @@ function getRef(trans = null){
         let Translation = trans;
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
         
-        //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
-        if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
+        //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'.
+        if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){//siempre es true
             //console.log('getRef() --- objTrans está creado. abajo objTrans: ');
             //console.log(objTrans);
 
@@ -14113,170 +14144,7 @@ function getRef(trans = null){
             
             alert('getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
             //console.log('modo old --- en getRef() ');
-
-            let url = './modules/text/'+trans+'/bibleqt.json';//rsti2
-            //console.log('modo old --- en getRef() --- url: '+ url);
-            fetch(url)
-            .then(response => {
-              return response.json(); // Devuelve una promesa
-            })
-            .then(data => {
-                //console.log(data);
-        
-                window.dataBooksBtnOk = data.Books;
-    
-                for (let i = 0; i < dataBooksBtnOk.length; i++) {
-                    for (let j = 0; j < dataBooksBtnOk[i].ShortNames.length; j++) {
-                        const el = dataBooksBtnOk[i].ShortNames[j];
-                        if(book.toLowerCase() == el.toLowerCase() || book.toLowerCase()+'.' == el.toLowerCase()){//añado '.' por si viene 'Sal' y en ShortNames hay 'Sal.'
-                            let n_book = dataBooksBtnOk[i].BookNumber;
-                            let short_name = dataBooksBtnOk[i].ShortNames[0];//siempre el primer nombre del array
-    
-    
-                            //reviso desde qué divtrans se llega a introducir la referencia para preparar la ref correspondiente para trans1 si se accede desde otros trans's en mobile
-                            if(window.innerWidth < pantallaTabletMinPx){//mobile
-                                //checkRefNav(n_book, chapter, verse, to_verse);                        
-                            
-                                if(document.querySelectorAll('.cols').length > 1){
-    
-                                    //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
-                                    //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
-                                    
-                                    let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
-                                    trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
-                                    let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
-    
-                                    if(divtrans_inpt != '' && divtrans_inpt != 'trans1'){
-                                        // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-                                        const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
-                                        const obj_trans_inpt = arrFavTransObj.find(v => v.Translation === trans_inpt);
-    
-                                        if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_inpt.EnglishPsalms == 'Y'){
-                                            let new_res = convertLinkFromEspToRus(n_book, chapter, verse, to_verse);//importante EspToRus
-                                            chapter = new_res[1];
-                                            verse = new_res[2];
-                                            to_verse = new_res[3];
-                                            //console.log('en getRef() --- convertido chapter: '+chapter);//empezando de 1
-                                            //console.log('en getRef() --- convertido verse: '+verse);//empezando de 1
-                                            //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
-                                        }
-                                        else if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_inpt.EnglishPsalms == 'N'){
-                                            let new_res = convertLinkFromRusToEsp(n_book, chapter, verse, to_verse);//importante RusToEsp
-                                            chapter = new_res[1];
-                                            verse = new_res[2];
-                                            to_verse = new_res[3];
-                                            //console.log('en getRef() --- convertido chapter: '+chapter);//empezando de 1
-                                            //console.log('en getRef() --- convertido verse: '+verse);//empezando de 1
-                                            //console.log('en getRef() --- convertido to_verse: '+to_verse);//empezando de 1
-                                        }else{
-                                            //console.log('en getRef() --- no hago nada. chapter verse to_verse se quedan igual como en input.');
-                                        }
-    
-                                    }
-                                }                        
-                            
-                            } 
-    
-                            chapter = (chapter != null) ? chapter : 1;//default si no hay
-                        
-                            eid_inpt_nav.setAttribute('data-id_book',n_book);
-                            eid_inpt_nav.setAttribute('data-show_book',short_name);
-    
-                            eid_inpt_nav.setAttribute('data-id_chapter',parseInt(chapter) - 1);
-                            eid_inpt_nav.setAttribute('data-show_chapter',chapter);
-    
-                            eid_inpt_nav.value = short_name;
-                            obj_nav.show_book = short_name;
-                            
-                            //chapter
-                            if(chapter != null && parseInt(chapter) > 0){
-                                eid_inpt_nav.value += ' ' + chapter;
-                                obj_nav.id_chapter = parseInt(chapter) - 1;
-                                obj_nav.show_chapter = chapter;
-                                eid_v_chapter.innerHTML = '';
-                            }else{
-                                eid_v_chapter.innerHTML = 'selecciona el capítulo';
-                                obj_nav.id_chapter = parseInt(chapter) - 1;//por defecto para que no dé fallo
-                                obj_nav.show_chapter = chapter;//por defecto para que no dé fallo
-                            }
-                            
-                            //verse
-                            if(verse != null && parseInt(verse) > 0){
-                                eid_inpt_nav.value += ':' + verse;
-                                obj_nav.id_verse = parseInt(verse) - 1;
-                                obj_nav.show_verse = verse;
-                                eid_inpt_nav.setAttribute('data-id_verse',parseInt(verse) - 1);
-                                eid_inpt_nav.setAttribute('data-show_verse',verse);
-                                eid_v_verse.innerHTML = '';
-                            }else{
-                                //eid_v_verse.innerHTML = '<span class="prim_verse">2. Antes de seleccionar el versículo, selecciona el capítulo por favor.</span>';
-                                //creo virtual e
-                                const e_virtual = document.createElement('li');
-                                e_virtual.id = 'e_virt';
-                                e_virtual.setAttribute('data-id_chapter',0);
-                                e_virtual.setAttribute('data-show_chapter',1);
-                                setTimeout(()=>{
-                                    allowUseShowTrans = true;
-                                    selChapter(e_virtual, chapter);                           
-                                },50);
-                            }
-    
-                            //hay to_verse
-                            if(to_verse != null && parseInt(to_verse) > 0 && parseInt(verse) < parseInt(to_verse)){
-                                eid_inpt_nav.value += '-' + to_verse;
-                                eid_inpt_nav.setAttribute('data-show_to_verse',to_verse);
-                                obj_nav.show_to_verse = to_verse;
-                            }else{
-                                eid_inpt_nav.setAttribute('data-show_to_verse','');
-                                obj_nav.show_to_verse = '';
-                            }
-    
-                            
-                            //no hay chapter, no hay verse
-                            if(chapter == null && verse == null){
-                                eid_s_chapter.click();//propongo seleccionar el chapter
-                            }
-                            //hay chapter, no hay verse
-                            if(chapter != null && parseInt(chapter) > 0 && verse == null){
-                                eid_s_verse.click();// se cargan verses del chapter indicado para elegir el verse
-                            }
-                            //hay chapter, hay verse
-                            if(parseInt(chapter) > 0 && parseInt(verse) > 0){
-                                eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
-                            }
-    
-                            eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
-                            eid_v_book.querySelector('div[data-id_book="'+n_book+'"]').classList.add('li_active');//añado book
-    
-                            //si es mobile, cierro menu
-                            if(window.innerWidth < pantallaTabletMinPx){
-                                //console.log(' btn ok. cierro menu en mobile.');
-                                closeSidebar();
-                            }
-    
-                            //meto Gen.1:1 en los head de cada trans
-                            document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                                let verse_to_show = (verse > 0) ? parseInt(verse) : 1 ;
-                                putRefVisibleToHead(`00__${n_book}__${chapter}__${verse_to_show}`, 0);//todos los heads de cols
-                            });
-                            
-                            allowUseShowTrans = true;
-                            showTrans(n_book, chapter, verse, to_verse);
-                            //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
-                            break;
-                        }else{
-                            //console.log('no hay coincidencia en el nombre corto de la Biblia... ');
-                        }
-                    }//end for                
-                }//end for   
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('error promesa: '+error);
-            });
-
         }
-
 
     }else{
         //console.log('no existe book');
