@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -13,8 +12,8 @@ session_start();
     <link rel="icon" type="image/png" href="./images/bq.png">
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
 
-    <link rel="stylesheet" href="bible_app.css">
-    <link rel="stylesheet" href="bible_app_resp.css">
+    <link rel="stylesheet" href="./css/bible_app.css">
+    <link rel="stylesheet" href="./css/bible_app_resp.css">
    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1001,12 +1000,12 @@ HERE;
     
 </script>
 
-<script src="./bible_app.js"></script>
-<script src="./functions.js"></script>
-<script src="./functions2.js"></script>
-<script src="./tests.js"></script>
-<script src="./modal.js"></script>
-<script src="./listeners.js"></script>
+<script src="./js/bible_app.js"></script>
+<script src="./js/functions.js"></script>
+<script src="./js/functions2.js"></script>
+<script src="./js/tests.js"></script>
+<script src="./js/modal.js"></script>
+<script src="./js/listeners.js"></script>
 </body>
 </html>
 

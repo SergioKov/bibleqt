@@ -1,6 +1,6 @@
 
 <?php
-include('base_url.php');
+include('./php/base_url.php');
 
 $email = (isset($_GET['email']) && $_GET['email'] != '') ? $_GET['email'] : '';
 $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
@@ -12,13 +12,10 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar contraseña</title>
-    <link rel="stylesheet" href="bible_app.css">
-    <link rel="stylesheet" href="bible_app_resp.css">
+    <link rel="stylesheet" href="./css/bible_app.css">
+    <link rel="stylesheet" href="./css/bible_app_resp.css">
     <link rel="icon" type="image/png" href="./images/bq.png">
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
-
-    <link rel="stylesheet" href="bible_app.css">
-    <link rel="stylesheet" href="bible_app_resp.css">
    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +35,7 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
             <div class="form">
 
                 <div id="bl_reset_pwd_form">
-                    <form class="reset-pwd-form" action="reset_password_action.php" method="post">
+                    <form class="reset-pwd-form" action="./php/reset_password_action.php" method="post">
                         <h1>Recuperar contraseña</h1>
                         <p class="mensaje">Introduce tu contraseña nueva.</p>
                         <input id="email" name="email" type="hidden" value="<?=$email?>"/>
@@ -58,7 +55,7 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
     </div>
 
 
-<script src="./reset_password_script.js"></script>
+<script src="./js/reset_password_script.js"></script>
 
 </body>
 </html>
