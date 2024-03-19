@@ -13,7 +13,7 @@
     #headerContainer,
     .partDesk
     {
-        display:block !important;
+        /* display:block !important; */
     }
 
     .sideHide, .sideShow {
