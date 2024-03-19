@@ -114,7 +114,10 @@ if($url && $chapter){
     fclose($myfile);
 
 }else{
-    echo "Error. No está indicado el parametro de la url o chapter.";
+    $arr_data = [];
+    $arr_data['Error'] = "No está indicado el parametro de la url o chapter.";
+    $json_data = json_encode($arr_data);
+    echo $json_data;
 }
 //echo "<p>$ chapter: $chapter</p>";
 

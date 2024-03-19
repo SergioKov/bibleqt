@@ -535,10 +535,11 @@ function getRefToCompare(ref){
                             //hay capitulo y hay verse //funciona
                             if(chapter && verse != null && parseInt(verse) > 0){
 
-                                let url = `../modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// `../modules/text/rstStrongRed/02_exodus.htm`                                
+                                let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// `../modules/text/rstStrongRed/02_exodus.htm`                                
                                 
                                 let formData = new FormData();
-                                formData.append('url', url);
+                                // formData.append('url', url);//antes
+                                formData.append('url', '../'+url);//importante '../' delante de la url
                                 formData.append('book', n_book);
                                 formData.append('chapter', chapter);
         
@@ -875,10 +876,11 @@ async function parseTextToArrRef(textRef, trans = null){
                         //hay capitulo y hay verse //funciona
                         if(chapter && verse != null && parseInt(verse) > 0){
 
-                            let url = `../modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// `../modules/text/rstStrongRed/02_exodus.htm`
+                            let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// `../modules/text/rstStrongRed/02_exodus.htm`
                             
                             let formData = new FormData();
-                            formData.append('url', url);
+                            // formData.append('url', url);//antes
+                            formData.append('url', '../'+url);//importante '../' delante de la url
                             formData.append('book', n_book);
                             formData.append('chapter', chapter);
 
@@ -1434,3 +1436,65 @@ async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','m
 //    alert('pasados 5 seg. hago redirect desde test.js a index.php');
 //    window.location.href = "index.php?reset_pwd_ok";// no hace falta '../index.php...'
 //},5000);
+
+
+
+
+
+
+
+
+                                
+/*
+//test
+setTimeout(()=>{
+    
+    let url = "./modules/text/nrt/nrt_01.htm";//test
+    let book = 2;
+    let chapter = 5;
+    alert('pasados 5 seg. ejecuto desde test.js --- url: ' + url);
+
+    ejecutar_getVerseQty(url,book,chapter);
+},5000);
+*/
+
+async function ejecutar_getVerseQty(url,book,chapter){
+    console.log('Inicio de la tarea asíncrona --- ejecutar_getVerseQty()');
+
+    let result_getVerseQty = await getVerseQty(url,book,chapter);
+    console.log('result_getVerseQty: ',result_getVerseQty);
+} 
+
+async function getVerseQty(url,book,chapter){
+    try {
+        console.log('=== async function getVerseQty() ===');
+        console.log('url: ', url);
+        console.log('book: ', book);
+        console.log('chapter: ', chapter);
+
+        let formData = new FormData();
+        formData.append('url', '../'+url);//importante '../' delante de la url
+        formData.append('book', book);
+        formData.append('chapter', chapter);
+
+        
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch('./app/read_file_get_VerseQty_to_json.php',{
+            method: 'POST',
+            body: formData
+        });
+
+        // Convierte la respuesta a formato JSON
+        const data = await respuesta.json();
+        // const data = await respuesta.text();
+        console.log(' en getVerseQty() --- data:');
+        console.log(data);
+
+        console.log('=== fin de --- async function getVerseQty() ===');
+
+        return data;
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}

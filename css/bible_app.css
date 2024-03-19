@@ -333,11 +333,11 @@ body{
     color: white;
 }
 #footerInner {
-    background: #2b88d2;
-    margin: 10px;
-    overflow: hidden;
-    overflow-x: scroll;
-    white-space: nowrap;
+	background: #2b88d2;
+	margin: 10px;
+	overflow: hidden;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
 .cols {
@@ -931,10 +931,10 @@ span.verse_title {
 }
 
 .wr_bcv_uls {
-    background: #373737;
-    padding: 0px;/*5px*/
-    height: 100%;
-    overflow-y: scroll;
+	background: #373737;
+	padding: 0px;
+	height: 100%;
+	overflow-y: auto;
 }
 .wr_bcv_uls ul {
     padding-bottom: 50px;
@@ -1200,12 +1200,12 @@ span.h4_ch {
 }
  
 #tsk_head {
-    max-height: 100px;
-    min-height: 10px;
-    padding: 5px 5px 0;
-    overflow-y: scroll;
-    margin-bottom: 5px;
-    color: white;
+	max-height: 100px;
+	min-height: 10px;
+	padding: 5px 5px 0;
+	overflow-y: auto;
+	margin-bottom: 5px;
+	color: white;
 }
 
 #strong_head {
@@ -1217,10 +1217,11 @@ span.h4_ch {
     padding: 0 5px;
 }
 #find_head {
-    min-height: 10px;
-    padding: 5px 5px 0;
-    overflow-y: scroll;
-    /* margin-bottom: 5px; */
+	min-height: 10px;
+	padding: 5px 10px 0 5px;
+	overflow-y: auto;
+	/* margin-bottom: 5px; */
+	/* max-height: 200px; */
 }
 #find_body,
 #tsk_body,
@@ -1229,7 +1230,7 @@ span.h4_ch {
     background: #373737;
     padding: 5px;
     min-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #vklad_strong{
@@ -1971,11 +1972,11 @@ select  optgroup option {
     color: white;
     opacity: 1;
 }
-#partDeskTabs{
-    overflow-x: scroll;
-    white-space: nowrap;
+#partDeskTabs {
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 100%;
 }
-
 
 
 .colsHeadInner .partDeskInner {
@@ -2228,7 +2229,7 @@ span.prim_tsk {
     border: 1px solid #5a5a5a;
     font-size: medium;
     display: block;
-    margin-right: -3px;
+    /* margin-right: -3px; */
 }
 .modalContentTop {
     width: 100%;
