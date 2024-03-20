@@ -1506,9 +1506,6 @@ function buildWrTooltip(bq_NoteSign,text_Note = null,p_id,a_ref){
 }
 
 
-
-
-
 function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     console.log(' === function buildWrTooltipComm() ==');
 
@@ -1559,38 +1556,63 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
             console.log('este_comm.text: ', este_comm.text);
 
             if(document.querySelector(`.wr_tooltip[data-marker="${marker}"]`) != null){
-                document.querySelector(`.wr_tooltip[data-marker="${marker}"]`).querySelector('.text').innerHTML = este_comm.text;
+
+                let text_ch_v_show;
+                if(este_comm.chapter_number_from === este_comm.chapter_number_to){//si es el mismo capitulo => '4:5-7'
+                    if(este_comm.verse_number_from === este_comm.verse_number_to){
+                        text_ch_v_show = `${este_comm.chapter_number_from}:${este_comm.verse_number_from}`;//4:5
+                    }else{
+                        text_ch_v_show = `${este_comm.chapter_number_from}:${este_comm.verse_number_from} - ${este_comm.verse_number_to}`;//4:5-7
+                    }
+                }else if(este_comm.chapter_number_from !== este_comm.chapter_number_to){//si son diferentes capitulos => '4:25-5:3'
+                    text_ch_v_show = `${este_comm.chapter_number_from}:${este_comm.verse_number_from} — ${este_comm.chapter_number_to}:${este_comm.verse_number_to}`;
+                }
+
+                let wr_tooltip_markerAll = document.querySelectorAll(`.wr_tooltip[data-marker="${marker}"]`);
+                
+                if(wr_tooltip_markerAll.length > 0){
+
+                    for (let index = 0; index < wr_tooltip_markerAll.length; index++) {
+                        const element = wr_tooltip_markerAll[index];
+
+                        element.querySelector('.text').innerHTML = `
+                                                                    <span>
+                                                                        <span class="text_ch_v">${text_ch_v_show}</span>
+                                                                        <span>${este_comm.text}</span>
+                                                                    </span>
+                        `;
+                    
+                        if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
+                            console.log('showTooltip contiene a');
+                            let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
+                            let Translation = arr_p_id[0]; 
+                            let book = arr_p_id[1]; 
+                            let chapter = arr_p_id[2]; 
+                            let verse = arr_p_id[3]; 
+                            let to_verse = null; 
+                            let ref = a_ref;
+                    
+                            span_text.querySelectorAll('a').forEach(el_a =>{
+                                console.log('el_a: ', el_a);
+                
+                                //let href = el_a.getAttribute('href');
+                                //el_a.removeAttribute('href');
+                                //el_a.setAttribute('onclick','alert(5)');
+                                
+                                el_a.addEventListener('click',(ev)=>{
+                                    ev.preventDefault();
+                                    console.log(el_a.innerHTML);
+                                    console.log(el_a.href);
             
-                if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
-                    console.log('showTooltip contiene a');
-                    let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
-                    let Translation = arr_p_id[0]; 
-                    let book = arr_p_id[1]; 
-                    let chapter = arr_p_id[2]; 
-                    let verse = arr_p_id[3]; 
-                    let to_verse = null; 
-                    let ref = a_ref;
-            
-                    span_text.querySelectorAll('a').forEach(el_a =>{
-                        console.log('el_a: ', el_a);
-        
-                        //let href = el_a.getAttribute('href');
-                        //el_a.removeAttribute('href');
-                        //el_a.setAttribute('onclick','alert(5)');
-                        
-                        el_a.addEventListener('click',(ev)=>{
-                            ev.preventDefault();
-                            console.log(el_a.innerHTML);
-                            console.log(el_a.href);
-    
-                            addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
-                            getRefByHrefMB(Translation,el_a.getAttribute('href'),' ',0);
-                        });
-                        
-                    });
+                                    addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+                                    getRefByHrefMB(Translation,el_a.getAttribute('href'),' ',0);
+                                });
+                                
+                            });
+                        }                        
+                    }
                 }
             }
-
             console.log('Fin de la tarea asíncrona');
         }    
 
@@ -1624,7 +1646,6 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     span_text.className = 'text';
     span_text.innerHTML = text_Note;
 
-
     //ejemplo HTML
     //<span class="wr_tooltip" onclick="hideShowComment(event)">
     //    <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
@@ -1639,8 +1660,7 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     //            </span>
     //        </span>
     //    </span>
-    //</span>
-          
+    //</span>          
 
     //construyo html
     span_wr_tooltip.append(span_tooltip);
@@ -1650,8 +1670,7 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     span_wr_tooltip.append(span_comment);
         span_comment.append(span_commentInner);
             span_commentInner.append(span_close);
-            span_commentInner.append(span_text);
-    
+            span_commentInner.append(span_text);    
 
     //console.log(span_wr_tooltip);
     return span_wr_tooltip;
@@ -12101,7 +12120,8 @@ function closeTab(el, ev = null){
         }
 
         el.parentElement.remove();        
-        updateArrTabs();        
+        updateArrTabs();
+        mySizeWindow();        
     }
 }
 

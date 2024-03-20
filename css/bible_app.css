@@ -1200,12 +1200,13 @@ span.h4_ch {
 }
  
 #tsk_head {
-	max-height: 100px;
-	min-height: 10px;
-	padding: 5px 5px 0;
-	overflow-y: auto;
-	margin-bottom: 5px;
-	color: white;
+    max-height: 100px;
+    min-height: 10px;
+    padding: 5px 5px 0;
+    overflow-y: auto;
+    margin-bottom: 5px;
+    color: white;
+    position: relative;
 }
 
 #strong_head {
@@ -1951,10 +1952,12 @@ select  optgroup option {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: baseline;
 }
-#partDeskPlus{
+#partDeskPlus {
+    /* background: purple; */
     display: flex;
+    margin-left: 10px;
 }
 #btnPlus {
     background: transparent;
@@ -1964,7 +1967,7 @@ select  optgroup option {
     /* width: 15px; */
     min-width: 24px!important;
     position: relative;
-    top: -2px;
+    /* top: -2px; */
     border: none;
 }
 #btnPlus:hover {
@@ -3450,4 +3453,10 @@ span.vt {
 }
 .clr_red{
     color:red;
+}
+
+.text_ch_v {
+    font-weight: bold;
+    color: #FF9800;
+    margin: 0 5px 0 2px;
 }

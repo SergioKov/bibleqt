@@ -1349,9 +1349,17 @@ function makeCommentsLinks(idCol){
     });
 }
 
-async function getCommentFromMB(url_comments,book_number,chapter_number_from,verse_number_from,marker){
+async function getCommentFromMB(url_comments,book,chapter,verse,marker){
+    console.log('=== function getCommentFromMB() ===');
+
+    console.log('url_comments: ', url_comments);
+    console.log('book: ', book);
+    console.log('chapter: ', chapter);
+    console.log('verse: ', verse);
+    console.log('marker: ', marker);
 
     try {
+        
         // Realiza una solicitud GET a una API
         const respuesta = await fetch(url_comments);
 
@@ -1364,18 +1372,15 @@ async function getCommentFromMB(url_comments,book_number,chapter_number_from,ver
         const datos = await respuesta.json();
 
         // Haz algo con los datos, por ejemplo, imprímelos en la consola
-        console.log(url_comments);
-        console.log(datos);
+        //console.log(datos);
 
         let this_comm = datos.find(v => {
-            if (v.book_number === book_number &&
-                v.chapter_number_from === chapter_number_from &&
-                v.verse_number_from === verse_number_from &&
-                v.marker === marker) {
-                return true;
-            } else {
-                return false;
-            }
+            return (
+                v.book_number === book &&
+                (v.chapter_number_from === chapter || v.chapter_number_to === chapter) &&
+                (v.verse_number_from === verse || v.verse_number_to === verse) &&
+                v.marker === marker
+            );
         });
         console.log('this_comm: ');
         console.log(this_comm);
