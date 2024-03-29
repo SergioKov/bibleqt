@@ -1875,13 +1875,13 @@ function fnScrollCol(el,i){
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
     
-    document.querySelectorAll('.active').forEach(el => {
+    document.querySelectorAll('#wrCols .active').forEach(el => {
         el.classList.remove('active');
         el.classList.remove('active_first');
         el.classList.remove('active_middle');
         el.classList.remove('active_last');
     });
-    document.querySelectorAll('.active_one').forEach(el => {
+    document.querySelectorAll('#wrCols .active_one').forEach(el => {
         el.classList.remove('active_one');
     });
 
