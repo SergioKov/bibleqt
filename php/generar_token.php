@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Для отправки HTML-письма должен быть установлен заголовок Content-type
         $headers  = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-        $headers .= "From: bibleqt.es - admin <$from_email>" . "\r\n"; 
-        $headers .= "Reply-To: admin <$reply_to_email>" . "\r\n"; 
+        $headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n"; 
+        $headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n"; 
 
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result_mail) {
                 //echo "1. El correo electrónico se envió correctamente.";
-                echo json_encode(['success' => true, 'resetLink' => 'resetLink', 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
+                echo json_encode(['success' => true, 'resetLink' => $resetLink, 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
             } else {
                 //echo "2. Error al enviar el correo electrónico.";
                 echo json_encode(['success' => false, 'mensaje' => 'Error al enviar el correo electrónico']);
