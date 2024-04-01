@@ -11169,7 +11169,7 @@ function mySizeTsk(){
 }
 
 function mySizeStrong(){
-    let padding_strong_body = 10;//antes 15 // 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    let padding_strong_body = 3;//antes 15 // 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
 
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
@@ -19607,7 +19607,11 @@ function updateBtnActTransNavOnLoad(){
     if(typeof eid_trans1.dataset.trans != 'undefined'){
         let act_trans = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
         eid_act_trans_nav.title = act_trans.BibleName;
+        eid_act_trans_find.title = act_trans.BibleName;
+        eid_act_trans_strong.title = act_trans.BibleName;
         eid_act_trans_nav.textContent = act_trans.BibleShortName;
+        eid_act_trans_find.textContent = act_trans.BibleShortName;
+        eid_act_trans_strong.textContent = act_trans.BibleShortName;
         //eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
     }
 }
