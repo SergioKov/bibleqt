@@ -171,7 +171,6 @@ session_start();
                             </div>
                         </div>
 
-
                         <div class="wr_bcv">
                             <div id="s_book" class="v_bcv bcv_active" onclick="sel(this,'b',null,document.querySelector('#inpt_nav').dataset.trans)">
                                 <div>Книга</div>
@@ -218,10 +217,18 @@ session_start();
                             <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
                             <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
                         </div>
+
                         <div id="find_head">
+                            
                             <div id="wr_hist_find" style="display:none;">
                                 <div class="wr_hist_inner"></div>
-                            </div>                       
+                            </div>
+
+                            <div id="wr_act_trans_find">
+                                <div id="act_trans_find" onclick="openModalForActTrans()">
+                                    RST+r
+                                </div>
+                            </div>
 
                             <div class="wr_op">
                                 <div class="bl_trig title_par" onclick="hideShowFindParams()">
@@ -443,6 +450,13 @@ session_start();
                             <div id="wr_hist_strong" style="display:none;">
                                 <div class="wr_hist_inner"></div>
                             </div>
+
+                            <div id="wr_act_trans_strong">
+                                <div id="act_trans_strong" onclick="openModalForActTrans()">
+                                    RST+r
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 

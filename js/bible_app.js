@@ -37,6 +37,8 @@ const eid_inpt_nav = document.getElementById('inpt_nav');
 const eid_hist_nav = document.getElementById('hist_nav');
 
 const eid_act_trans_nav = document.getElementById('act_trans_nav');
+const eid_act_trans_find = document.getElementById('act_trans_find');
+const eid_act_trans_strong = document.getElementById('act_trans_strong');
 
 const eid_wr_hist_nav = document.getElementById('wr_hist_nav');
 const eid_wr_hist_find = document.getElementById('wr_hist_find');
@@ -10529,7 +10531,11 @@ function changeTransNav(trans, idCol_trans){
 
     let act_trans = arrFavTransObj.find(v => v.Translation === trans);
     eid_act_trans_nav.title = act_trans.BibleName;
+    eid_act_trans_find.title = act_trans.BibleName;
+    eid_act_trans_strong.title = act_trans.BibleName;
     eid_act_trans_nav.textContent = act_trans.BibleShortName;
+    eid_act_trans_find.textContent = act_trans.BibleShortName;
+    eid_act_trans_strong.textContent = act_trans.BibleShortName;
 
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
@@ -10612,7 +10618,11 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     let este_trans = arrFavTransObj.find(v => v.Translation === trans);
 
     eid_act_trans_nav.title = este_trans.BibleName;
+    eid_act_trans_find.title = este_trans.BibleName;
+    eid_act_trans_strong.title = este_trans.BibleName;
     eid_act_trans_nav.textContent = BibleShortName;
+    eid_act_trans_find.textContent = BibleShortName;
+    eid_act_trans_strong.textContent = BibleShortName;
 
     //meto la trans nueva en el array de trans
     arr_trans[0] = trans;
@@ -10779,14 +10789,22 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
         eid_inpt_nav.dataset.divtrans = thisDiv.id;
         eid_act_trans_nav.title = este_trans.BibleName;
+        eid_act_trans_find.title = este_trans.BibleName;
+        eid_act_trans_strong.title = este_trans.BibleName;
         eid_act_trans_nav.textContent = BibleShortName;
+        eid_act_trans_find.textContent = BibleShortName;
+        eid_act_trans_strong.textContent = BibleShortName;
     } else {
         //meto BibleShortName en el segundo div, ya que el primero es 'x' close
         thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
         thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
         eid_inpt_nav.dataset.divtrans = thisDiv.id;
         eid_act_trans_nav.title = este_trans.BibleName;
+        eid_act_trans_find.title = este_trans.BibleName;
+        eid_act_trans_strong.title = este_trans.BibleName;
         eid_act_trans_nav.textContent = BibleShortName;
+        eid_act_trans_find.textContent = BibleShortName;
+        eid_act_trans_strong.textContent = BibleShortName;
     }
 
 
@@ -19574,7 +19592,11 @@ function updateTransOnClickOnActiveCol(){
                 eid_inpt_nav.dataset.trans = trans_of_col;
                 let act_trans = arrFavTransObj.find(v => v.Translation === trans_of_col);
                 eid_act_trans_nav.title = act_trans.BibleName;
+                eid_act_trans_find.title = act_trans.BibleName;
+                eid_act_trans_strong.title = act_trans.BibleName;
                 eid_act_trans_nav.textContent = act_trans.BibleShortName;
+                eid_act_trans_find.textContent = act_trans.BibleShortName;
+                eid_act_trans_strong.textContent = act_trans.BibleShortName;
                 eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
             }
         }

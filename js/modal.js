@@ -1985,6 +1985,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
             
             eid_inpt_nav.dataset.trans = el.Translation;
             eid_act_trans_nav.textContent = el.BibleShortName;            
+            eid_act_trans_find.textContent = el.BibleShortName;            
+            eid_act_trans_strong.textContent = el.BibleShortName;            
             
             goToLink(el.Translation, refLink);
             updateArrTrans();
