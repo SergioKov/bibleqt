@@ -150,7 +150,10 @@
     .pv_inner{
         flex-direction: column; 
     }
-    #find_head {
+    #wr_hist_nav,
+    #find_head,
+    #wr_hist_strong
+    {
         border-left: 1px solid #2c7fc1;
         border-right: 1px solid #2c7fc1;
         /* border-bottom: 1px solid #2c7fc1; */
