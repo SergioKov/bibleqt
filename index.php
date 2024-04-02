@@ -480,6 +480,9 @@ session_start();
                 <div id="headerContainer">
                     <div id="headerContainerInner">
 
+                        <noscript>
+                            <p>Por favor, activa JavaScript para ver este sitio web correctamente.</p>
+                        </noscript>
 
                         <div class="partDesk">
                             <div class="partDeskInner">
