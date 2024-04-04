@@ -1,11 +1,20 @@
-const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
-//console.log('abajo arrFavTransObj:');
+//const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
 //console.log(arrFavTransObj);
 
 const arrFavTskObj = makeTskObj();
 //console.log('abajo arrFavTskObj:');
 //console.log(arrFavTskObj);
 
+
+
+let arrFavTransObj = {};
+crear_arrFavTransObj(); // Llamamos a la función para que se crea arrFavTransObj
+
+async function crear_arrFavTransObj() {
+    arrFavTransObj = await makeTransObj_new2(arrFavTrans);
+    console.log(arrFavTransObj);
+    await loadDefaultFunctions();
+}
 
 
 //===================================================================//
@@ -393,12 +402,7 @@ async function makeTransObj_new2(arrFavTrans){
             const bq = await obtenerDatosToJson(url_bq);
             
             arrTransObj[i] = bq;
-            //console.log(arrTransObj);
-            //cuando es el ultimo elemento lanzo showTrans(0,1)
-            if(i == arrFavTrans.length - 1){
-                //console.log('es ultimo elemento. llamo showTrans(0,1)');
-                loadDefaultFunctions();
-            }   
+            //console.log(arrTransObj);  
         }
         //console.log('1. abajo arrTransObj:');
         //console.log(arrTransObj);
@@ -815,7 +819,7 @@ async function loadDefaultFunctions(){
     //sel(document.querySelector('.bcv_active'),'b');//por defecto
 
     //Botones Trans del footer
-    await makeFooterBtnsFromArrFavTransObj();
+    makeFooterBtnsFromArrFavTransObj();
     
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
    
@@ -897,7 +901,7 @@ async function loadDefaultFunctions(){
     document.onkeydown = checkKey;
 }
 
-async function makeFooterBtnsFromArrFavTransObj(){
+function makeFooterBtnsFromArrFavTransObj(){
 
     eid_footerInner.innerHTML = '';//reset 
 
