@@ -1503,3 +1503,72 @@ async function getVerseQty(url,book,chapter){
         console.error('Error: ', error);
     }
 }
+
+var arrBooks = [];
+var arrText = [];
+let url = 'https://bolls.life/static/translations/UMT.json';
+//makeBibleTextFromJson(url);
+
+function makeBibleTextFromJson(url){
+
+    obtenerDatosToJson(url)
+    .then((data) => {
+
+        //console.log(' abajo data:');
+        //console.log(data);
+
+        data.forEach(el => {
+            
+            //console.log(el);
+
+            if(typeof arrBooks[el.book-1] == 'undefined'){
+                arrBooks[el.book-1] = {};
+                arrBooks[el.book-1].Chapters = {};
+                arrText[el.book-1] = `<h2>kniga ${el.book-1}</h2>`;
+            }
+            //console.log(arrBooks);
+
+            if(typeof arrBooks[el.book-1].Chapters[el.chapter] == 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter] = {};
+                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
+                arrText[el.book-1] += `<h4>Розділ ${el.chapter}</h4>`;
+
+            }
+            //console.log(arrBooks);
+
+
+            if(typeof arrBooks[el.book-1].Chapters[el.chapter].Verses == 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
+            }
+            //console.log(arrBooks);
+
+
+            if(typeof arrBooks[el.book-1] != 'undefined' && typeof arrBooks[el.book-1].Chapters[el.chapter] != 'undefined'){
+                arrBooks[el.book-1].Chapters[el.chapter].Verses[el.verse] = {
+                    "verseId": el.verse,
+                    "text": el.text,
+                    "comment": el.comment
+                };
+
+                if(typeof el.comment != 'undefined'){
+                    arrText[el.book-1] += `<p>${el.verse} ${el.text} * [( ${el.comment} )]</p>`;
+                }else{
+                    arrText[el.book-1] += `<p>${el.verse} ${el.text}</p>`;
+                }
+
+
+            }
+            //console.log(arrBooks);        
+        });
+
+        //console.log('abajo arrBooks: ');
+        //console.log(arrBooks);
+
+        //console.log('abajo arrText: ');
+        //console.log(arrText);   
+       
+    })
+    .catch(error => { 
+        console.error('data. error promesa: '+error);
+    });
+}

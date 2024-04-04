@@ -1,3 +1,13 @@
+const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
+//console.log('abajo arrFavTransObj:');
+//console.log(arrFavTransObj);
+
+const arrFavTskObj = makeTskObj();
+//console.log('abajo arrFavTskObj:');
+//console.log(arrFavTskObj);
+
+
+
 //===================================================================//
 // FUNCIONES
 //===================================================================//
@@ -327,81 +337,6 @@ async function obtenerDatosToJson(url_bq) {
 }
 
 
-
-var arrBooks = [];
-var arrText = [];
-let url = 'https://bolls.life/static/translations/UMT.json';
-//makeBibleTextFromJson(url);
-
-function makeBibleTextFromJson(url){
-
-    obtenerDatosToJson(url)
-    .then((data) => {
-
-        //console.log(' abajo data:');
-        //console.log(data);
-
-        data.forEach(el => {
-            
-            //console.log(el);
-
-            if(typeof arrBooks[el.book-1] == 'undefined'){
-                arrBooks[el.book-1] = {};
-                arrBooks[el.book-1].Chapters = {};
-                arrText[el.book-1] = `<h2>kniga ${el.book-1}</h2>`;
-            }
-            //console.log(arrBooks);
-
-            if(typeof arrBooks[el.book-1].Chapters[el.chapter] == 'undefined'){
-                arrBooks[el.book-1].Chapters[el.chapter] = {};
-                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
-                arrText[el.book-1] += `<h4>Розділ ${el.chapter}</h4>`;
-
-            }
-            //console.log(arrBooks);
-
-
-            if(typeof arrBooks[el.book-1].Chapters[el.chapter].Verses == 'undefined'){
-                arrBooks[el.book-1].Chapters[el.chapter].Verses = {};
-            }
-            //console.log(arrBooks);
-
-
-            if(typeof arrBooks[el.book-1] != 'undefined' && typeof arrBooks[el.book-1].Chapters[el.chapter] != 'undefined'){
-                arrBooks[el.book-1].Chapters[el.chapter].Verses[el.verse] = {
-                    "verseId": el.verse,
-                    "text": el.text,
-                    "comment": el.comment
-                };
-
-                if(typeof el.comment != 'undefined'){
-                    arrText[el.book-1] += `<p>${el.verse} ${el.text} * [( ${el.comment} )]</p>`;
-                }else{
-                    arrText[el.book-1] += `<p>${el.verse} ${el.text}</p>`;
-                }
-
-
-            }
-            //console.log(arrBooks);        
-        });
-
-        //console.log('abajo arrBooks: ');
-        //console.log(arrBooks);
-
-        //console.log('abajo arrText: ');
-        //console.log(arrText);   
-       
-    })
-    .catch(error => { 
-        console.error('data. error promesa: '+error);
-    });
-
-
-
-}
-
-
-
 function makeTransObj_new(arrFavTrans){
     //console.log('===function makeTransObj_new(arrFavTrans)===');
 
@@ -437,6 +372,45 @@ function makeTransObj_new(arrFavTrans){
 
     return arrTransObj;
 }
+
+
+async function makeTransObj_new2(arrFavTrans){
+    console.log('===function makeTransObj_new2(arrFavTrans)===');
+    try {
+
+        let arrTransObj = [];
+
+        //paso 1. Creo array de Dato de todos Trans
+        for (let i = 0; i < arrFavTrans.length; i++) {
+            const el = arrFavTrans[i];
+            //console.log(i);
+            //console.log(el);
+
+            //saco ajustes de este modulo en json
+            url_bq = `./modules/text/${el}/bibleqt.json`;
+            //console.log(url_bq);
+
+            const bq = await obtenerDatosToJson(url_bq);
+            
+            arrTransObj[i] = bq;
+            //console.log(arrTransObj);
+            //cuando es el ultimo elemento lanzo showTrans(0,1)
+            if(i == arrFavTrans.length - 1){
+                //console.log('es ultimo elemento. llamo showTrans(0,1)');
+                loadDefaultFunctions();
+            }   
+        }
+        //console.log('1. abajo arrTransObj:');
+        //console.log(arrTransObj);
+
+        return arrTransObj;
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('makeTransObj_new2. error: ',error);
+    }
+}
+
 
 function loadRefDefault(ref, trans = null) {
     if (trans == null) trans = arrFavTrans[0];
@@ -841,7 +815,7 @@ async function loadDefaultFunctions(){
     //sel(document.querySelector('.bcv_active'),'b');//por defecto
 
     //Botones Trans del footer
-    makeFooterBtnsFromArrFavTransObj();
+    await makeFooterBtnsFromArrFavTransObj();
     
     //loadRefDefault('Jn. 3:16','rstStrongRed');//first tab
    
@@ -923,7 +897,7 @@ async function loadDefaultFunctions(){
     document.onkeydown = checkKey;
 }
 
-function makeFooterBtnsFromArrFavTransObj(){
+async function makeFooterBtnsFromArrFavTransObj(){
 
     eid_footerInner.innerHTML = '';//reset 
 
@@ -1817,18 +1791,35 @@ function htmlEntities(str) {
     return String(str).replace(/&lt;/gi, '<').replace(/&gt;/gi, '>');// cambia '<' por '<' y '>' por '>'
 }
 
-function setBaseEnglishPsalms(){
+function setBaseEnglishPsalms(){//no se usa en la app
     let Translation = eid_trans1.dataset.trans;
 
     fetch(`./modules/text/${Translation}/bibleqt.json`)
     .then((response) => response.json())
     .then((bq) => {
-        eid_trans1.dataset.trans = bq.EnglishPsalms;
+        eid_trans1.dataset.base_ep = bq.EnglishPsalms;
     })
     .catch(error => { 
         // Código a realizar cuando se rechaza la promesa
         console.error('error promesa: '+error);
     });
+}
+
+async function setBaseEnglishPsalms2(){//no se usa en la app
+    try{
+        let Translation = eid_trans1.dataset.trans;
+
+        const response = await fetch(`./modules/text/${Translation}/bibleqt.json`);// = fetch(...)
+        console.log(response);
+        
+        const bq = await response.json();// = .then((response) => response.json())
+        console.log(bq);
+
+        eid_trans1.dataset.base_ep = bq.EnglishPsalms;
+        
+    }catch(error){
+        console.log(error.message);
+    }
 }
 
 

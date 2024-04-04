@@ -1017,6 +1017,7 @@ HERE;
     
 </script>
 
+<script src="./js/config.js"></script>
 <script src="./js/bible_app.js"></script>
 <script src="./js/functions.js"></script>
 <script src="./js/functions2.js"></script>

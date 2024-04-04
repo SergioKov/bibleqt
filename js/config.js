@@ -1,5 +1,5 @@
 //====================================================================//
-//  V A R I A B L E S
+//  C O N S T A N T A S
 //====================================================================//
 
 // prefijo 'eid_' se usa para lod elementos html con su id.
@@ -166,8 +166,7 @@ const pantallaDesktopSmallMinPx = 1024;
 //const pantallaDesktopSmallMaxPx = 1999;
 //const pantallaDesktopBigMinPx = 1200;
 
-let arr_verses_compare = [];
-let arr_verses_lang = [];
+const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
 const ajuste1 = {
     wr_filter: {
@@ -266,14 +265,6 @@ let arrFavTsk = [
 ];
 
 
-const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
-//console.log('abajo arrFavTransObj:');
-//console.log(arrFavTransObj);
-
-const arrFavTskObj = makeTskObj();
-//console.log('abajo arrFavTskObj:');
-//console.log(arrFavTskObj);
-
 //objeto de ficheros de todas las traducciones de Biblia cargados como text
 const obj_bible_files = {};
 
@@ -283,8 +274,11 @@ const obj_strong_files = {};
 //objeto de ficheros de Tsk
 const obj_tsk_files = {};
 
+
+//====================================================================//
+//  V A R I A B L E S
+//====================================================================//
 let positionShow = 'col';//por defecto posicion de columnas
-let countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
 let obj_nav = {
     trans: '',
@@ -345,3 +339,6 @@ let allowUseShowTrans = true;//permitir o no usar function showTrans()
 console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
 
 let strongAction = null;
+
+let arr_verses_compare = [];
+let arr_verses_lang = [];
