@@ -1,5 +1,2 @@
-# Ignora archivos del sistema Mac 
-.DS_store
-
 # Ignora las siguientes carpetas
-make_moduls/
+make_modules/
