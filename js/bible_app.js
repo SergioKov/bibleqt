@@ -27,9 +27,23 @@ checkPositionShowForMob();
 
 
 
+
+
+
 //===================================================================//
 // FUNCIONES
 //===================================================================//
+
+function pintLoginImg(hay_sesion){
+    let ruta_img_login;
+    if(hay_sesion){
+        ruta_img_login = './images/login2_white.svg';
+    }else{
+        ruta_img_login = './images/login2_grey.svg';
+    }    
+    eid_login_menu.querySelector('img').src = ruta_img_login;
+    eid_m_login_menu.querySelector('img').src = ruta_img_login;
+}
 
 async function fetchDataToText(url_bq) {
     const response = await fetch(url_bq);
@@ -218,24 +232,19 @@ function iniciarSesion_old(){//antes login() //username,password
     .then(async data => {
         
         console.log(data);
-
-        let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-        let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-        let eid_login_menu = document.getElementById('login_menu');
-        let eid_m_login_menu = document.getElementById('m_login_menu');
         
         if (data.success) {
             console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
 
             // Actualizar el contenido después del inicio de sesión exitoso
-            eid_bl_sesion_iniciada.style.display = 'block';
-            eid_bl_sesion_cerrada.style.display = 'none';
+            mostrarForm('bl_sesion_iniciada');
 
             eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
             eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
-            eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
-            eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
             eid_login_menu.title = `${username}`;
+
+            hay_sesion = true;
+            pintLoginImg(hay_sesion);
 
             allowUseShowTrans = true;
             console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -255,10 +264,11 @@ function iniciarSesion_old(){//antes login() //username,password
             let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
             console.log(error_text);
 
-            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
-            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
-            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+            eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
+            eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
 
+            hay_sesion = false;
+            pintLoginImg(hay_sesion);
         }
 
         mySizeWindow();
@@ -303,24 +313,19 @@ async function iniciarSesion(){//antes login() //username,password
         async function work_with_data(data){
             
             console.log(data);
-    
-            let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-            let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-            let eid_login_menu = document.getElementById('login_menu');
-            let eid_m_login_menu = document.getElementById('m_login_menu');
-            
+                
             if (data.success) {
                 console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
     
                 // Actualizar el contenido después del inicio de sesión exitoso
-                eid_bl_sesion_iniciada.style.display = 'block';
-                eid_bl_sesion_cerrada.style.display = 'none';
+                mostrarForm('bl_sesion_iniciada');
     
                 eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
                 eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
-                eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
-                eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
                 eid_login_menu.title = `${username}`;
+    
+                hay_sesion = true;
+                pintLoginImg(hay_sesion);
     
                 allowUseShowTrans = true;
                 console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -340,10 +345,11 @@ async function iniciarSesion(){//antes login() //username,password
                 let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
                 console.log(error_text);
     
-                eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
-                eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>`;
-                eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+                eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
+                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
     
+                hay_sesion = false;
+                pintLoginImg(hay_sesion);
             }
     
             mySizeWindow();
@@ -367,21 +373,17 @@ function cerrarSesion_old(){
     .then(data => {
 
         console.log(data);
-        let eid_login_menu = document.getElementById('login_menu');
-        let eid_m_login_menu = document.getElementById('m_login_menu');
 
         if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
             console.log(text_mensaje);
+            
+            mostrarForm('bl_login');
             hay_sesion = false;
+            pintLoginImg(hay_sesion);
 
-            document.getElementById("bl_sesion_iniciada").style.display = "none";
-            document.getElementById("bl_sesion_cerrada").style.display = "block";
-
-            document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
-            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
-            eid_m_login_menu.querySelector('img').src = './images/login2_grey2.svg';
+            document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
             eid_login_menu.title = `Login`;            
 
             eid_partDeskTabs.innerHTML = '';
@@ -414,21 +416,16 @@ async function cerrarSesion(){
         const data = await response.json();
         console.log(data);
 
-        let eid_login_menu = document.getElementById('login_menu');
-        let eid_m_login_menu = document.getElementById('m_login_menu');
-
-        if(data.cerrada){
+        if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
             console.log(text_mensaje);
+            
+            mostrarForm('bl_login');
             hay_sesion = false;
+            pintLoginImg(hay_sesion);
 
-            document.getElementById("bl_sesion_iniciada").style.display = "none";
-            document.getElementById("bl_sesion_cerrada").style.display = "block";
-
-            document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
-            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
-            eid_m_login_menu.querySelector('img').src = './images/login2_grey2.svg';
+            document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
             eid_login_menu.title = `Login`;            
 
             eid_partDeskTabs.innerHTML = '';
@@ -450,7 +447,6 @@ async function cerrarSesion(){
     }    
 }
 
-
 function mostrarForm(id_form){
     console.log('=== function mostrarForm() ===');
     console.log(id_form);
@@ -460,15 +456,14 @@ function mostrarForm(id_form){
     document.getElementById(id_form).style.display = 'block';
 }
 
-
 function mostrarLoginForm(){
     console.log('=== function mostrarLoginForm() ===');
 
     //cuando Sesion está cerrada, se muestra Formulario de Inicio de Sesión
-    mostrarForm('bl_sesion_cerrada');
+    mostrarForm('bl_login');
 
-    eid_bl_sesion_cerrada.querySelector("h1").innerHTML = 'Iniciar sesión.';
-    eid_bl_sesion_cerrada.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
+    eid_bl_login.querySelector("h1").innerHTML = 'Iniciar sesión.';
+    eid_bl_login.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
 }
 
 
@@ -482,6 +477,63 @@ function mostrarLoginForm(){
 
 
 
+
+function crearCuenta_old(){
+    console.log('=== function crearCuenta() ===');
+
+    let username = document.getElementById("reg_username").value;
+    let password = document.getElementById("reg_password").value;
+    let email = document.getElementById("reg_email").value;
+
+    if(username == '' || password == '' || email == ''){
+        alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
+        return;
+    }
+
+    // Enviar los datos al servidor para la autenticación
+    fetch("./php/crear_cuenta.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+            email: email
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        console.log(data);
+                
+        if (data.success) {
+            
+            console.log(`Usuario registrado con éxito.`);
+
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
+
+            setTimeout(()=>{
+                mostrarLoginForm();
+            },3000);
+
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            let error_text = "Error al registrar el usuario";
+            console.error(data.error);
+            console.error(error_text);
+
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>.`;
+        }
+
+        mySizeWindow();
+        
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });
+}
 
 function crearCuenta(){
     console.log('=== function crearCuenta() ===');
@@ -511,9 +563,7 @@ function crearCuenta(){
     .then(data => {
         
         console.log(data);
-        
-        let eid_bl_register_form = document.getElementById('bl_register_form');
-        
+                
         if (data.success) {
             
             console.log(`Usuario registrado con éxito.`);
@@ -541,6 +591,16 @@ function crearCuenta(){
         console.error("Error: ", error);
     });
 }
+
+
+
+
+
+
+
+
+
+
 
 function enviarEmail(){
     console.log('=== function enviarEmail() ===');
@@ -572,9 +632,7 @@ function enviarEmail(){
             console.log(data.localhost);
             console.log(data.resetLink);
         }
-        
-        let eid_bl_email_form = document.getElementById('bl_email_form');
-        
+                
         if(data.success) {
             
             console.log(`Email enviado con éxito.`);
@@ -583,8 +641,7 @@ function enviarEmail(){
 
             setTimeout(()=>{
                 mostrarLoginForm();
-            },3000);
-            
+            },3000);            
 
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...

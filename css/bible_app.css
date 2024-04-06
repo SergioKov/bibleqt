@@ -2442,7 +2442,7 @@ span.prim_tsk {
 #login_menu img{
     width: 20px;
 }
-.tres_puntos_menu{
+#tres_puntos_menu{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -2452,6 +2452,9 @@ span.prim_tsk {
     color: white;
     transition: 0.3s;
     cursor: pointer;    
+}
+#tres_puntos_menu img{
+    width: 24px;
 }
 .vyb_trans {
     background: black;

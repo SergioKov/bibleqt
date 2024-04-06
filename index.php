@@ -93,10 +93,10 @@ session_start();
 
                 <div class="wr_menu_r">
                     <div id="login_menu" title="login" onclick="openModal('top','Login',null,'showLogin')">
-                        <img src="images/login2_white.svg" style="width:24px;">
+                        <img src="images/login2_white.svg">
                     </div>
-                    <div class="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
-                        <img src="images/tres_puntos2_white.svg" style="width:24px;">
+                    <div id="tres_puntos_menu" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
+                        <img src="images/tres_puntos2_white.svg">
                     </div>
                 </div>
 
@@ -720,7 +720,7 @@ HERE;
     if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
         // El usuario está logueado, muestra el contenido protegido
         $st_bl_sesion_iniciada = 'block';
-        $st_bl_sesion_cerrada = 'none';
+        $st_bl_login = 'none';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
@@ -733,18 +733,18 @@ print<<<HERE
 <script>
     let hay_sesion = true;
     let username = '$_SESSION[username]';
-    let text = 'print js: session iniciada. Bienvenido, ' +  username + '.';
+    console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
 
-    let eid_login_menu = document.getElementById('login_menu');
-    eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+    document.addEventListener("DOMContentLoaded", () => {
+        pintLoginImg(hay_sesion);
+    });
 
-    console.log(text);
 </script>
 HERE;
     }else{
         // El usuario no está logueado, muestra el formulario de inicio de sesión
         $st_bl_sesion_iniciada = 'none';
-        $st_bl_sesion_cerrada = 'block';
+        $st_bl_login = 'block';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
@@ -757,8 +757,9 @@ print<<<HERE
         let hay_sesion = false;        
         console.log('print js: session cerrada. hay que iniciar la sesión.');
 
-        let eid_login_menu = document.getElementById('login_menu');
-        eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+        document.addEventListener("DOMContentLoaded", () => {
+            pintLoginImg(hay_sesion);
+        });   
     
     </script>
 HERE;
@@ -805,7 +806,7 @@ print<<<HERE
                 </form>
             </div>
             
-            <div id="bl_sesion_cerrada" style="display:$st_bl_sesion_cerrada;">
+            <div id="bl_login" style="display:$st_bl_login;">
                 <form class="login-form">
                     <h1>Iniciar sesión</h1>
                     <p class="mensaje">Tendrás acceso a tus ajustes personales.</p>
