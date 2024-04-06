@@ -288,77 +288,87 @@ function iniciarSesion_old(){//antes login() //username,password
 async function iniciarSesion(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
 
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    try {
 
-    if(username == '' || password == ''){
-        alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
-        return;
-    }
-
-    // Enviar los datos al servidor para la autenticación
-    fetch("./php/iniciar_sesion.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    })
-    .then(response => response.json())
-    .then(async data => {
-        
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+    
+        if(username == '' || password == ''){
+            alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
+            return;
+        }
+    
+        // Enviar los datos al servidor para la autenticación
+        const response = await fetch("./php/iniciar_sesion.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+    
+        const data = await response.json();
         console.log(data);
-
-        let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-        let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-        let eid_login_menu = document.getElementById('login_menu');
-        let eid_m_login_menu = document.getElementById('m_login_menu');
-        
-        if (data.success) {
-            console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
-
-            // Actualizar el contenido después del inicio de sesión exitoso
-            eid_bl_sesion_iniciada.style.display = 'block';
-            eid_bl_sesion_cerrada.style.display = 'none';
-
-            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
-            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
-            eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
-            eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
-            eid_login_menu.title = `${username}`;
-
-            allowUseShowTrans = true;
-            console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
-
-            await obtenerDatosDeBD('vkladki','arrTabs');
-            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-            await obtenerDatosDeBD('hist_find','arr_hist_find');
-            await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-
-            setTimeout(()=>{
-                closeModal();
-            },5000);
-
-            // Redirigir a la página de inicio si la autenticación es exitosa
-            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
-        } else {
-            let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-            console.log(error_text);
-
-            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
-            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
-            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
-
+    
+        //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
+        work_with_data(data);
+    
+        async function work_with_data(data){
+            
+            console.log(data);
+    
+            let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+            let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+            let eid_login_menu = document.getElementById('login_menu');
+            let eid_m_login_menu = document.getElementById('m_login_menu');
+            
+            if (data.success) {
+                console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+    
+                // Actualizar el contenido después del inicio de sesión exitoso
+                eid_bl_sesion_iniciada.style.display = 'block';
+                eid_bl_sesion_cerrada.style.display = 'none';
+    
+                eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
+                eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
+                eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+                eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
+                eid_login_menu.title = `${username}`;
+    
+                allowUseShowTrans = true;
+                console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
+    
+                await obtenerDatosDeBD('vkladki','arrTabs');
+                await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+                await obtenerDatosDeBD('hist_find','arr_hist_find');
+                await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+    
+                setTimeout(()=>{
+                    closeModal();
+                },5000);
+    
+                // Redirigir a la página de inicio si la autenticación es exitosa
+                //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+            } else {
+                let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
+                console.log(error_text);
+    
+                eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
+                eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>`;
+                eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+    
+            }
+    
+            mySizeWindow();
         }
 
-        mySizeWindow();
-    })
-    .catch(error => {
-        console.error("Error: ", error);
-    });    
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('iniciarSesion. error: ',error);
+    }
 
 }
 

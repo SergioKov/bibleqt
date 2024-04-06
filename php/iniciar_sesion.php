@@ -13,8 +13,13 @@ $input = json_decode($inputJSON, true);
 $username = isset($input['username']) ? $input['username'] : '';
 $password = isset($input['password']) ? $input['password'] : '';
 
+if($username == '' && $password == ''){
+    echo json_encode(['success' => false, 'error' => 'Usuario y contraseña vacios']);
+    return;
+}
+
 //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
-$salt = bin2hex(2000);
+$salt = bin2hex(2000);//32303030 lo mismo que en bd por ahora...
 
 // Concatenar el salt con la contraseña y aplicar el hash bcrypt
 $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
@@ -28,6 +33,8 @@ $sql = "SELECT `id_user`, `username`, `password_text`, `password`, `salt`
         WHERE BINARY username = '$username' 
 ";
 $result = $conn->query($sql);
+//echo json_encode(['info' => $sql]);
+//die();
 
 if ($result->num_rows > 0) {
     // Usuario encontrado, verificar la contraseña
@@ -43,13 +50,15 @@ if ($result->num_rows > 0) {
     //echo print_r($row);
     //echo"</pre>";
 
-    //if(verifyPasswordMd5($password, $storedHashedPassword)) {
+    //echo json_encode(['info' => password_verify($storedSalt . $password, $storedHashedPassword) ]);
+    //die();
     
-    if(password_verify($storedSalt . $password, $hashedPassword)) {
+    //funcción password_verify(contraseña_input, contraseña_hasheada_de_bd)
+    if(password_verify($storedSalt . $password, $storedHashedPassword)) { 
         //echo "¡Contraseña correcta! Usuario autenticado.";
-        // Autenticación exitosa
         $_SESSION['id_user'] = $storedId_user;
         $_SESSION['username'] = $storedUsername;
+    
         echo json_encode(['success' => true]);
 
         //echo"<hr>$ _SESSION <pre>";
@@ -60,17 +69,13 @@ if ($result->num_rows > 0) {
         //echo "Contraseña incorrecta. Usuario no autenticado.";
         // Autenticación fallida
         echo json_encode(['success' => false, 'error' => 'Contrasena incorrecta']);
-
-
     }
 }else{
     //echo "Usuario no encontrado.";
     // Autenticación fallida
     echo json_encode(['success' => false, 'error' => 'Usuario no encontrado']);
-
 }
 
 $conn->close();
-
 
 ?>
