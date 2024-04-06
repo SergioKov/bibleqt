@@ -43,7 +43,6 @@ async function fetchDataToJson(url_bq) {
     return data;
 }
 
-
 function make_arrFavTransObj_old(arrFavTrans){
     //console.log('===function make_arrFavTransObj(arrFavTrans)===');
 
@@ -80,7 +79,6 @@ function make_arrFavTransObj_old(arrFavTrans){
     return arrTransObj;
 }
 
-
 async function make_arrFavTransObj(arrFavTrans){
     console.log('=== function make_arrFavTransObj2(arrFavTrans) ===');
     try {
@@ -112,7 +110,6 @@ async function make_arrFavTransObj(arrFavTrans){
         console.error('make_arrFavTransObj. error: ',error);
     }
 }
-
 
 function make_arrFavTskObj_old(){
     let arrTsk = [
@@ -146,7 +143,6 @@ function make_arrFavTskObj_old(){
 
     return arrTskObj;
 }
-
 
 async function make_arrFavTskObj(){
     console.log('=== function make_arrFavTskObj() ===');
@@ -184,7 +180,6 @@ async function make_arrFavTskObj(){
     }
 }
 
-
 function checkPositionShowForMob(){
     console.log('=== function checkPositionShowForMob() ===');
     
@@ -196,17 +191,6 @@ function checkPositionShowForMob(){
         //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function iniciarSesion_old(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
@@ -372,29 +356,7 @@ async function iniciarSesion(){//antes login() //username,password
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//cerrarSession();
-function cerrarSesion(){
+function cerrarSesion_old(){
     console.log('===function cerrarSession()===');
 
     // Realizar una petición al servidor para cerrar la sesión
@@ -440,6 +402,54 @@ function cerrarSesion(){
     });
 }
 
+async function cerrarSesion(){
+    console.log('===function cerrarSession()===');
+
+    try {
+        // Realizar una petición al servidor para cerrar la sesión
+        // y actualizar el contenido después de cerrar la sesión.
+        // Aquí utilizamos Fetch API para hacer la petición AJAX.
+
+        const response = await fetch('./php/cerrar_sesion.php');
+        const data = await response.json();
+        console.log(data);
+
+        let eid_login_menu = document.getElementById('login_menu');
+        let eid_m_login_menu = document.getElementById('m_login_menu');
+
+        if(data.cerrada){
+            
+            let text_mensaje = 'Sesión cerrada con exito!';
+            console.log(text_mensaje);
+            hay_sesion = false;
+
+            document.getElementById("bl_sesion_iniciada").style.display = "none";
+            document.getElementById("bl_sesion_cerrada").style.display = "block";
+
+            document.querySelector("#bl_sesion_cerrada .mensaje").innerHTML = text_mensaje;
+            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+            eid_m_login_menu.querySelector('img').src = './images/login2_grey2.svg';
+            eid_login_menu.title = `Login`;            
+
+            eid_partDeskTabs.innerHTML = '';
+            addTab(null,null,null,'tab_new');
+            
+            // Actualizar el contenido después de cerrar la sesión
+            //document.getElementById("mensaje").innerHTML = '';
+            //document.getElementById("formulario_login").style.display = "block";
+        } else {
+            // Mostrar un mensaje de error si hay problemas al cerrar la sesión
+            console.error('Error al cerrar sesión');
+        }
+
+        mySizeWindow();
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('iniciarSesion. error: ',error);
+    }    
+}
+
 function mostrarRegisterForm(){
     console.log('===function mostrarRegisterForm()===');
 
@@ -467,7 +477,6 @@ function mostrarEmailForm(){
     eid_bl_sesion_iniciada.style.display = 'none';
     eid_bl_sesion_cerrada.style.display = 'none';
 }
-
 
 function mostrarLoginForm(){
     console.log('===function mostrarLoginForm()===');
@@ -1026,7 +1035,6 @@ async function loadDefaultFunctions(){
     if(await verificarAutenticacion()){
         console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
         //console.log(' guardo datos en bd');
-        //insertIntoBd(tabla, datos);
         console.log(arrTabs);
 
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
@@ -11603,7 +11611,6 @@ async function guardarEnBd(tabla, campo, arr){
         if(await verificarAutenticacion()){
             console.log('js: true --- El usuario está autenticado.');
             console.log(' guardo datos en bd');
-            //insertIntoBd(tabla, datos);
             console.log(arrTabs);
 
             insertarDatos(tabla, campo, arr);
@@ -11611,7 +11618,6 @@ async function guardarEnBd(tabla, campo, arr){
             console.log('js: false --- El usuario no está autenticado.');
         }
 
-        console.log('Fin de la función externa');
     } catch (error) {
         console.error('Error en la función externa:', error);
     }
@@ -11915,28 +11921,26 @@ function convertirUnicodeALetras(cadena) {
 }
 
 
-async function verificarAutenticacion() {//ok
+async function verificarAutenticacion() {
+    console.log('=== function verificarAutenticacion() ===');
+
     try {
-        
-        // Crear el objeto de opciones para la solicitud POST
-        const paramsToFetch = {
+               
+        const response = await fetch('./php/verificar_autenticacion.php', {
             method: 'GET',
             credentials: 'include'
-        };
-        
-        const response = await fetch('./php/verificar_autenticacion.php', paramsToFetch);
+        });
+        const data = await response.json();
+        console.log(data);
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.mensaje);
+        if(response.ok) {
             return true;
         } else {
-            const data = await response.json();
-            console.log(data.mensaje);//data.mensaje : 'php -> El usuario no está autenticado.' //no lo muestro 
             return false;
         }
+
     } catch (error) {
-        console.error('Error: ', error);
+        console.error('verificarAutenticacion. error: ', error);
         return false;
     }
 }
