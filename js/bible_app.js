@@ -466,168 +466,90 @@ function mostrarLoginForm(){
     eid_bl_login.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-function crearCuenta_old(){
+async function crearCuenta(){
     console.log('=== function crearCuenta() ===');
 
-    let username = document.getElementById("reg_username").value;
-    let password = document.getElementById("reg_password").value;
-    let email = document.getElementById("reg_email").value;
+    try {
 
-    if(username == '' || password == '' || email == ''){
-        alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
-        return;
-    }
-
-    // Enviar los datos al servidor para la autenticación
-    fetch("./php/crear_cuenta.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-            email: email
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        
+        let username = document.getElementById("reg_username").value;
+        let password = document.getElementById("reg_password").value;
+        let email = document.getElementById("reg_email").value;
+    
+        if(username == '' || password == '' || email == ''){
+            alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
+            return;
+        }
+    
+        // Enviar los datos al servidor para la autenticación
+        const response = await fetch("./php/crear_cuenta.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email
+            })
+        });
+    
+        const data = await response.json();
         console.log(data);
+    
+        if(data.success){
                 
-        if (data.success) {
-            
             console.log(`Usuario registrado con éxito.`);
-
+    
             eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
-
+    
             setTimeout(()=>{
                 mostrarLoginForm();
             },3000);
-
+    
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
             let error_text = "Error al registrar el usuario";
             console.error(data.error);
             console.error(error_text);
-
+    
             eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>.`;
         }
-
+    
         mySizeWindow();
-        
-    })
-    .catch(error => {
-        console.error("Error: ", error);
-    });
-}
 
-function crearCuenta(){
-    console.log('=== function crearCuenta() ===');
-
-    let username = document.getElementById("reg_username").value;
-    let password = document.getElementById("reg_password").value;
-    let email = document.getElementById("reg_email").value;
-
-    if(username == '' || password == '' || email == ''){
-        alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
-        return;
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('iniciarSesion. error: ',error);
     }
-
-    // Enviar los datos al servidor para la autenticación
-    fetch("./php/crear_cuenta.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-            email: email
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        
-        console.log(data);
-                
-        if (data.success) {
-            
-            console.log(`Usuario registrado con éxito.`);
-
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
-
-            setTimeout(()=>{
-                mostrarLoginForm();
-            },3000);
-
-            // Redirigir a la página de inicio si la autenticación es exitosa
-            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
-        } else {
-            let error_text = "Error al registrar el usuario";
-            console.error(data.error);
-            console.error(error_text);
-
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>.`;
-        }
-
-        mySizeWindow();
-        
-    })
-    .catch(error => {
-        console.error("Error: ", error);
-    });
 }
-
-
-
-
-
-
-
-
-
-
-
-function enviarEmail(){
+async function enviarEmail(){
     console.log('=== function enviarEmail() ===');
 
-    let email = document.getElementById("rec_email").value;
-
-    if(email == ''){
-        alert('El campo email es obligatorio. Introduce tu email por favor.');
-        return;
-    }
-
-    // Enviar los datos al servidor para la autenticación
-    fetch("./php/generar_token.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email
-        })
-    })
-    .then(response => response.json())
-    // .then(response => response.text()) //test
-    .then(data => {
+    try {
         
+        let email = document.getElementById("rec_email").value;
+
+        if(email == ''){
+            alert('El campo email es obligatorio. Introduce tu email por favor.');
+            return;
+        }
+    
+        // Enviar los datos al servidor para la autenticación
+        const response = await fetch("./php/generar_token.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+    
+        const data = await response.json();
+        //const data = await response.text();//test
         console.log(data);
-        
+    
         if(typeof data.localhost != 'undefined'){
             console.log(data.localhost);
             console.log(data.resetLink);
@@ -636,30 +558,29 @@ function enviarEmail(){
         if(data.success) {
             
             console.log(`Email enviado con éxito.`);
-
+    
             eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Email ${email} se ha enviado con éxito.</span>`;
-
+    
             setTimeout(()=>{
                 mostrarLoginForm();
             },3000);            
-
+    
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
             let error_text = "Error al enviar el email";
             console.error(data.error);
             console.error(error_text);
-
+    
             eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}</span>.`;
         }
-
+    
         mySizeWindow();
-        
-    })
-    .catch(error => {
-        console.error("Error: ", error);
-    });
 
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('iniciarSesion. error: ',error);
+    }
 }
 
 
@@ -1116,30 +1037,11 @@ async function loadDefaultFunctions(){
         addTab('Mat. 5:3', 'rstStrongRed');
 
         addTab('Ex. 2:2', 'rstStrongRed,rv60');
-
-        addTab('Psa. 22:1', 'rstStrongRed,nrt,abi');
-        addTab('Psa. 23:1', 'rv60,lbla,ukr_hom,ukr_der,ukr_umts');
-        
-        addTab('Psa. 22:2', 'rstStrongRed,rv60,lbla,ukr_hom,ukr_der,ukr_umts');
-        addTab('Psa. 23:3', 'rv60,rstStrongRed,nrt,abi');
-
-
-        addTab('Числ. 13:1', 'rstStrongRed,rv60');
-        addTab('Числ. 12:1', 'rv60,rstStrongRed');
-
-        addTab('Lev. 3:3', 'rstStrongRed,rv60,ukr_ogi');
-        addTab('Прит. 4:23', 'rstStrongRed,ukr_ogi,rv60,lbla');
-        addTab('Матф. 5:8', 'rstStrongRed,ukr_ogi,ukr_hom,rv60,lbla');
-        addTab('Рим. 6:10', 'rstStrongRed, rv60 ,lbla, ukr_gyz, ukr_fil, ukr_tur');
-        addTab('Лук. 7:16', 'ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur, rstStrongRed, rv60 ');
-        addTab('Is. 8:9', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
-        addTab('Psa. 118:1', 'rstStrongRed, nrt, rv60, lbla, ukr_ogi, ukr_hom ,ukr_gyz, ukr_fil, ukr_tur');
     //}
     */
 
     addListenerModule();
     updateTransOnClickOnActiveCol();
-    //checkPositionShowForMob();
 
     setTimeout(()=>{    
         pintRefOnScroll();
@@ -1166,12 +1068,8 @@ function makeFooterBtnsFromArrFavTransObj(){
         btn.innerHTML = el.BibleShortName;
 
         eid_footerInner.append(btn);
-    })
-
+    });
 }
-
-
-
 
 function obtenerTamanioObjeto(objeto) {
     const objetoEnJSON = JSON.stringify(objeto);
@@ -1187,30 +1085,22 @@ function mostrarTamanioObjeto(objeto){
 function changeModo(param){
     const eid_m_btnByText = document.getElementById('m_btnByText');
     const eid_m_btnByJson = document.getElementById('m_btnByJson');
-    
-    if(param == 'by_text'){
-        modo_fetch_verses_for_cols = 'by_text';
-        modo_fetch_verses_for_tsk_block = 'by_text';
-        modo_fetch_verses_compare = 'by_text';
+    // console.log(param);
 
-        eid_m_btnByText.classList.add('btn_active');
-        eid_m_btnByJson.classList.remove('btn_active');
-    }
-    else if(param == 'by_json'){
-        modo_fetch_verses_for_cols = 'by_json';
-        modo_fetch_verses_for_tsk_block = 'by_json';
-        modo_fetch_verses_compare = 'by_json';
+    let arr_params = ['by_text','by_json'];
 
-        eid_m_btnByText.classList.remove('btn_active');
-        eid_m_btnByJson.classList.add('btn_active');
-    }
-    else{//default 
-        modo_fetch_verses_for_cols = 'by_text';
-        modo_fetch_verses_for_tsk_block = 'by_text';
-        modo_fetch_verses_compare = 'by_text';
+    if(arr_params.includes(param)){
+        modo_fetch_verses_for_cols = param;
+        modo_fetch_verses_for_tsk_block = param;
+        modo_fetch_verses_compare = param;
 
-        eid_m_btnByText.classList.add('btn_active');
-        eid_m_btnByJson.classList.remove('btn_active');
+        if(param == 'by_json'){
+            eid_m_btnByText.classList.remove('btn_active');
+            eid_m_btnByJson.classList.add('btn_active');    
+        }else{//'by_text' y por defecto...
+            eid_m_btnByText.classList.add('btn_active');
+            eid_m_btnByJson.classList.remove('btn_active');    
+        }
     }
     //console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
     //alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
@@ -1455,10 +1345,10 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
                         const element = wr_tooltip_markerAll[index];
 
                         element.querySelector('.text').innerHTML = `
-                                                                    <span>
-                                                                        <span class="text_ch_v">${text_ch_v_show}</span>
-                                                                        <span>${este_comm.text}</span>
-                                                                    </span>
+                            <span>
+                                <span class="text_ch_v">${text_ch_v_show}</span>
+                                <span>${este_comm.text}</span>
+                            </span>
                         `;
                     
                         if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
