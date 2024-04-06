@@ -151,6 +151,19 @@ const eid_bl_modalFullInner = document.getElementById('bl_modalFullInner');
 //end - modal.js
 
 
+const eid_bl_register_form = document.getElementById('bl_register_form');
+const eid_bl_email_form = document.getElementById('bl_email_form');
+const eid_bl_change_email_form = document.getElementById('bl_change_email_form');
+const eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+const eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+const arrIdForms = [
+    'bl_register_form',
+    'bl_email_form',
+    'bl_change_email_form',
+    'bl_sesion_iniciada',
+    'bl_sesion_cerrada'
+];
+
 
 
 //Medidas de pantallas para Media Queries

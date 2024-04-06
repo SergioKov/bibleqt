@@ -1156,7 +1156,7 @@ function toTitleCase(str) {
 
 
 function showVerseMenu(e){
-    //console.log('===function showVerseMenu(e)===');
+    //console.log('=== function showVerseMenu(e) ===');
     //console.log(e);
 
     let p_id = e.srcElement.parentElement.id;

@@ -166,7 +166,7 @@ function save_find(){
 }
 
 function guard(){
-    //console.log('===guard()===');
+    //console.log('===guard() ===');
 
     var inpt_find = document.querySelector('#inpt_find');
     var txt = inpt_find.value.trim();
@@ -200,7 +200,7 @@ setTimeout(()=>{
 
 
 function readFile(url, chapter, verse = null, to_verse = null){
-    //console.log('===readFile()===');
+    //console.log('===readFile() ===');
 
     let formData = new FormData();
     formData.append('url', url );
@@ -240,7 +240,7 @@ setTimeout(()=>{
 
 
 function readFileToJson(url, book, chapter, verse = null, to_verse = null){
-    //console.log('===readFile()===');
+    //console.log('===readFile() ===');
 
     let formData = new FormData();
     formData.append('url', url );
@@ -288,7 +288,7 @@ function readFileToJson(url, book, chapter, verse = null, to_verse = null){
 //readAllFile('nrt_01.htm');
 
 function readAllFile(url){
-    //console.log('===readAllFile()===');
+    //console.log('===readAllFile() ===');
 
     fetch(url)
     .then(response => response.text())//aki .text()
@@ -334,7 +334,7 @@ function getGuard(){
 
 
 function guardVkl(id_div, trans, ref, status){
-    //console.log('===guard()===');
+    //console.log('===guard() ===');
 
     var inpt_find = document.querySelector('#inpt_find');
     var txt = inpt_find.value.trim();

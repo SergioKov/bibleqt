@@ -1,5 +1,5 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-    console.log('===function openModal()===');
+    console.log('=== function openModal() ===');
     //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
     //Reset
@@ -820,7 +820,7 @@ function copyTextToClibboard(text) {
 
 
 function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
-    //console.log('===function buildVersesToCompare(arr_p_id)===');
+    //console.log('=== function buildVersesToCompare(arr_p_id) ===');
 
     //creo array de p's de un verse de todas las trans favoritas
     arr_verses_compare = [];//reset
@@ -2357,7 +2357,7 @@ function filterTransCompare(e, param = 'all'){
 
 
 function filterTransCompareBtns(e){
-    //console.log('===function filterTransCompareBtns()===');
+    //console.log('=== function filterTransCompareBtns() ===');
 
     const btns_trans = document.getElementById('btns_trans');
     let pv_all = document.querySelectorAll('.pv');//todos los parafos de verses mostrados

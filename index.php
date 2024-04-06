@@ -723,6 +723,7 @@ HERE;
         $st_bl_sesion_cerrada = 'none';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
+        $st_bl_change_email_form = 'none';
         $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
         //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
         $mensaje = '<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.';
@@ -746,6 +747,7 @@ HERE;
         $st_bl_sesion_cerrada = 'block';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
+        $st_bl_change_email_form = 'none';
         $frase_bienvenida = "No estás logueado.";
         $mensaje = "Sesión no iniciada.";
         $login_img_src = './images/login2_grey2.svg';
@@ -789,6 +791,19 @@ print<<<HERE
                     <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
                 </form>
             </div>
+
+            <div id="bl_change_email_form" style="display:$st_bl_change_email_form;">
+                <form class="change-email-form">
+                    <h1>Cambiar contraseña</h1>
+                    <p class="mensaje">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
+                    <input id="act_email" name="email" type="text" placeholder="actual email address"/>
+                    <input id="act_password" name="password" type="password" placeholder="actual password"/>
+                    <input id="new_password" name="password" type="password" placeholder="new password"/>
+                    <input id="new_password_rep" name="password" type="password" placeholder="repeat new password"/>
+                    <button class="btn_wide" type="button" onclick="enviarChangeEmail()">Cambiar</button>
+                    <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
+                </form>
+            </div>
             
             <div id="bl_sesion_cerrada" style="display:$st_bl_sesion_cerrada;">
                 <form class="login-form">
@@ -798,8 +813,9 @@ print<<<HERE
                     <input id="password" name="password" type="password" placeholder="password" required/>
                     <button class="btn_wide" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
                     <p class="message">
-                        ¿No estás registrado? <a href="#" onclick="mostrarRegisterForm()">Crear una cuenta</a>
-                        <br>¿Has olvidado la contraseña? <a href="#" onclick="mostrarEmailForm()">Recuperar contraseña</a>
+                        ¿No estás registrado? <a href="#" onclick="mostrarForm('bl_register_form')">Crear una cuenta</a>
+                        <br>¿Has olvidado la contraseña? <a href="#" onclick="mostrarForm('bl_email_form')">Recuperar contraseña</a>
+                        <br>¿Quieres cambiar la contraseña? <a href="#" onclick="mostrarForm('bl_change_email_form')">Cambiar contraseña</a>
                     </p>
                 </form>
             </div>

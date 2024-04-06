@@ -44,7 +44,7 @@ async function fetchDataToJson(url_bq) {
 }
 
 function make_arrFavTransObj_old(arrFavTrans){
-    //console.log('===function make_arrFavTransObj(arrFavTrans)===');
+    //console.log('=== function make_arrFavTransObj(arrFavTrans) ===');
 
     let arrTransObj = [];
 
@@ -357,7 +357,7 @@ async function iniciarSesion(){//antes login() //username,password
 }
 
 function cerrarSesion_old(){
-    console.log('===function cerrarSession()===');
+    console.log('=== function cerrarSession() ===');
 
     // Realizar una petición al servidor para cerrar la sesión
     // y actualizar el contenido después de cerrar la sesión.
@@ -403,7 +403,7 @@ function cerrarSesion_old(){
 }
 
 async function cerrarSesion(){
-    console.log('===function cerrarSession()===');
+    console.log('=== function cerrarSession() ===');
 
     try {
         // Realizar una petición al servidor para cerrar la sesión
@@ -450,53 +450,41 @@ async function cerrarSesion(){
     }    
 }
 
-function mostrarRegisterForm(){
-    console.log('===function mostrarRegisterForm()===');
 
-    let eid_bl_register_form = document.getElementById('bl_register_form');
-    let eid_bl_email_form = document.getElementById('bl_email_form');
-    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-
-    eid_bl_register_form.style.display = 'block';
-    eid_bl_email_form.style.display = 'none';
-    eid_bl_sesion_iniciada.style.display = 'none';
-    eid_bl_sesion_cerrada.style.display = 'none';
+function mostrarForm(id_form){
+    console.log('=== function mostrarForm() ===');
+    console.log(id_form);
+    arrIdForms.forEach(el => {
+        document.getElementById(el).style.display = 'none';
+    });
+    document.getElementById(id_form).style.display = 'block';
 }
 
-function mostrarEmailForm(){
-    console.log('===function mostrarEmailForm()===');
-
-    let eid_bl_register_form = document.getElementById('bl_register_form');
-    let eid_bl_email_form = document.getElementById('bl_email_form');
-    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-
-    eid_bl_register_form.style.display = 'none';
-    eid_bl_email_form.style.display = 'block';
-    eid_bl_sesion_iniciada.style.display = 'none';
-    eid_bl_sesion_cerrada.style.display = 'none';
-}
 
 function mostrarLoginForm(){
-    console.log('===function mostrarLoginForm()===');
+    console.log('=== function mostrarLoginForm() ===');
 
-    let eid_bl_register_form = document.getElementById('bl_register_form');
-    let eid_bl_email_form = document.getElementById('bl_email_form');
-    let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-    let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
-
-    eid_bl_register_form.style.display = 'none';
-    eid_bl_email_form.style.display = 'none';
-    eid_bl_sesion_iniciada.style.display = 'none';
-    eid_bl_sesion_cerrada.style.display = 'block';
+    //cuando Sesion está cerrada, se muestra Formulario de Inicio de Sesión
+    mostrarForm('bl_sesion_cerrada');
 
     eid_bl_sesion_cerrada.querySelector("h1").innerHTML = 'Iniciar sesión.';
     eid_bl_sesion_cerrada.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 function crearCuenta(){
-    console.log('===function crearCuenta()===');
+    console.log('=== function crearCuenta() ===');
 
     let username = document.getElementById("reg_username").value;
     let password = document.getElementById("reg_password").value;
@@ -555,7 +543,7 @@ function crearCuenta(){
 }
 
 function enviarEmail(){
-    console.log('===function enviarEmail()===');
+    console.log('=== function enviarEmail() ===');
 
     let email = document.getElementById("rec_email").value;
 
@@ -628,7 +616,7 @@ function loadRefDefault(ref, trans = null) {
 
 //BIBLE
 function loadAllFavBibleFiles(){
-    //console.log('===function loadAllFavBibleFiles()===');
+    //console.log('=== function loadAllFavBibleFiles() ===');
 
     //si ya está creado el objeto...
     if(arrFavTrans.length == Object.keys(obj_bible_files).length){
@@ -785,7 +773,7 @@ function loadAllFavBibleFiles(){
 
 //TSK
 function loadAllFavTskFiles(){
-    //console.log('===function loadAllFavTskfiles()===');
+    //console.log('=== function loadAllFavTskfiles() ===');
     
     //si ya está creado el objeto...
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
@@ -929,7 +917,7 @@ function loadAllFavTskFiles(){
 
 //STRONG
 function loadAllFavStrongFiles(){
-    //console.log('===function loadAllFavStrongFiles()===');
+    //console.log('=== function loadAllFavStrongFiles() ===');
     
     let arrFavStrongLangs = [
         'hebrew',
@@ -1174,7 +1162,7 @@ function changeModo(param){
 
 
 function showTooltip(el){//old //hover //find parameters
-    //console.log('=== function showTooltipOnMouseHover(el)===');
+    //console.log('=== function showTooltipOnMouseHover(el) ===');
     
     //console.log(el);
     //console.log(el.getAttribute('data-tooltip'));
@@ -1632,7 +1620,7 @@ function getArrSumLineH(){
 
 
 function fnScrollCol(el,i){
-    //console.log('===function fnScrollCol()===');
+    //console.log('=== function fnScrollCol() ===');
    
     //console.log('scrolling: '+ i);
     //console.log('abajo arr2_sum_line_h: ');
@@ -1951,7 +1939,7 @@ function clearColsEmpty(){
 }
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    console.log('===function showTrans()===');
+    console.log('=== function showTrans() ===');
 
     console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
     
@@ -2031,7 +2019,7 @@ async function setBaseEnglishPsalms2(){//no se usa en la app
 
 
 function getTsk(e){
-    //console.log('===function getTsk(e)===');
+    //console.log('=== function getTsk(e) ===');
     
     //console.log(e);
     let el = e.srcElement.parentElement;
@@ -4569,14 +4557,14 @@ function getTsk(e){
 
 
 function clearAllDivShow(){
-    //console.log('===function clearAllDivShow()===');
+    //console.log('=== function clearAllDivShow() ===');
     Array.from(eid_wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = 'cargando...';
     });
 }
 
 function showTextInAllDivShow(text){
-    //console.log('===function showTextInAllDivShow()===');
+    //console.log('=== function showTextInAllDivShow() ===');
     //console.log('text: ', text);
     Array.from(eid_wrCols.children).forEach((el)=>{
         el.querySelector('.colsInner').innerHTML = text;
@@ -10451,7 +10439,7 @@ function changeTransNav(trans, idCol_trans){
 
 
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
-    console.log('===function changeTrans()===');
+    console.log('=== function changeTrans() ===');
     
     let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
@@ -11380,7 +11368,7 @@ function updateTransInTab(trans,tabActive,n){
 
 
 function getRefOfTab(tab_id, ref, str_trans = null){
-    console.log('===function getRefOfTab()===');
+    console.log('=== function getRefOfTab() ===');
 
     allowUseShowTrans = true;
 
@@ -12288,7 +12276,7 @@ function selVerse(e){
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
 function sel(e, par, param_show_chapter = null, trans = null){
-    //console.log('===function sel()===');
+    //console.log('=== function sel() ===');
     
     let trans_base = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;

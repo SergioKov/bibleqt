@@ -122,7 +122,7 @@ async function obtenerDatos2(url,tipo) {
 //ejecutarFetch('/bibleqt/modules/text/nrt/nrt_01.htm', 'text')
 
 function ejecutarFetch(url, tipo_respuesta) {//tipo_respuesta: json(), text()
-    //console.log('===function ejecutarFetch()===');
+    //console.log('=== function ejecutarFetch() ===');
     //console.log(`inicio func ejecutarFetch(${url},${tipo_respuesta}). Espero resultado del fetchData(${url},${tipo_respuesta}) ...`);
 
     const inicio = performance.now();
@@ -1057,7 +1057,7 @@ myButton.addEventListener('touchend', stopPressMob);
 //iniciarSession('Sergio',123);
 
 function old_iniciarSession(user, pass){//test
-    console.log('===function iniciarSession(user, pass)===');
+    console.log('=== function iniciarSession(user, pass) ===');
 
     let formData = new FormData();
     formData.append('user',user);

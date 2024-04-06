@@ -3412,12 +3412,14 @@ span.vt {
     margin: 15px 0 0;
     color: #b3b3b3;
     font-size: 12px;
+    text-wrap: pretty;
 }
 
 .form .message a {
     color: #4CAF50;
     text-decoration: none;
     padding: 0 5px;
+    text-wrap: nowrap;
 }
 
 .form p {
@@ -3430,6 +3432,7 @@ span.vt {
 }
 .register-form h1,
 .reset-pwd-form h1,
+.change-email-form h1,
 .email-form h1,
 .login-form h1
  {

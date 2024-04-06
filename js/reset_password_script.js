@@ -1,5 +1,5 @@
 function saveNewPassword(){
-    console.log('===function saveNewPassword()===');
+    console.log('=== function saveNewPassword() ===');
 
     let email = document.getElementById("email").value;
     let token = document.getElementById("token").value;
