@@ -1,25 +1,189 @@
-//const arrFavTransObj = makeTransObj_new(arrFavTrans);//dentro llamo loadDefaultFunctions() para mostrar texto de Gn 1:1 por defecto
-//console.log(arrFavTransObj);
-
-const arrFavTskObj = makeTskObj();
-//console.log('abajo arrFavTskObj:');
-//console.log(arrFavTskObj);
-
-
+//==================================================================//
+// VARIABLES QUE SE CREAN CON FETCH (ASYNC /AWAIT)
+//==================================================================//
 
 let arrFavTransObj = {};
-crear_arrFavTransObj(); // Llamamos a la función para que se crea arrFavTransObj
+crear_arrFavTransObj(); // Llamamos a la función para que crea arrFavTransObj
 
 async function crear_arrFavTransObj() {
-    arrFavTransObj = await makeTransObj_new2(arrFavTrans);
+    arrFavTransObj = await make_arrFavTransObj(arrFavTrans);
     console.log(arrFavTransObj);
     await loadDefaultFunctions();
 }
 
 
+let arrFavTskObj = {};
+crear_arrFavTskObj(); // Llamamos a la función para que crea arrFavTskObj
+
+async function crear_arrFavTskObj() {
+    arrFavTskObj = await make_arrFavTskObj();
+    console.log(arrFavTskObj);
+}
+
+//===================================================================//
+// LLAMADAS DE FUNCIONES POR DEFECTO
+//===================================================================//
+checkPositionShowForMob();
+
+
+
 //===================================================================//
 // FUNCIONES
 //===================================================================//
+
+async function fetchDataToText(url_bq) {
+    const response = await fetch(url_bq);
+    const data = await response.text();
+    return data;
+}
+
+async function fetchDataToJson(url_bq) {
+    const response = await fetch(url_bq);
+    const data = await response.json();
+    return data;
+}
+
+
+function make_arrFavTransObj_old(arrFavTrans){
+    //console.log('===function make_arrFavTransObj(arrFavTrans)===');
+
+    let arrTransObj = [];
+
+    //paso 1. Creo array de Dato de todos Trans
+    for (let i = 0; i < arrFavTrans.length; i++) {
+        const el = arrFavTrans[i];
+        //console.log(i);
+        //console.log(el);
+
+        //saco ajustes de este modulo en json
+        url_bq = `./modules/text/${el}/bibleqt.json`;
+        //console.log(url_bq);
+
+        fetchDataToJson(url_bq)
+        .then((bq) => {
+            arrTransObj[i] = bq;
+            //console.log(arrTransObj);
+            //cuando es el ultimo elemento lanzo showTrans(0,1)
+            if(i == arrFavTrans.length - 1){
+                //console.log('es ultimo elemento. llamo showTrans(0,1)');
+                loadDefaultFunctions();
+            }
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.error('make_arrFavTransObj_old. error promesa: '+error);
+        });        
+    }
+    //console.log('1. abajo arrTransObj:');
+    //console.log(arrTransObj);
+
+    return arrTransObj;
+}
+
+
+async function make_arrFavTransObj(arrFavTrans){
+    console.log('=== function make_arrFavTransObj2(arrFavTrans) ===');
+    try {
+
+        let arrTransObj = [];
+
+        //paso 1. Creo array de Dato de todos Trans
+        for (let i = 0; i < arrFavTrans.length; i++) {
+            const el = arrFavTrans[i];
+            //console.log(el);
+            //console.log(i);
+
+            //saco ajustes de este modulo en json
+            url_bq = `./modules/text/${el}/bibleqt.json`;
+            //console.log(url_bq);
+
+            const bq = await fetchDataToJson(url_bq);
+            
+            arrTransObj[i] = bq;
+            //console.log(arrTransObj);  
+        }
+        //console.log('1. abajo arrTransObj:');
+        //console.log(arrTransObj);
+
+        return arrTransObj;
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('make_arrFavTransObj. error: ',error);
+    }
+}
+
+
+function make_arrFavTskObj_old(){
+    let arrTsk = [
+        "tsk"
+        //"tsk_gromov",
+        //"tsk_otro",
+    ];
+
+    let arrTskObj = [];
+
+    for (let i = 0; i < arrTsk.length; i++) {
+        const el = arrTsk[i];
+        //console.log(i);
+        //console.log(el);
+
+        //saco ajustes de este modulo en json
+        url_bq = `./modules/text/${el}/bibleqt.json`;
+        //console.log(url_bq);
+
+        fetch(url_bq)
+        .then((response) => response.json())
+        .then((bq) => {
+            arrTskObj[i] = bq;
+            //console.log(arrTskObj);
+        })
+        .catch(error => { 
+            // Código a realizar cuando se rechaza la promesa
+            console.error('make_arrFavTskObj_old. error promesa: '+error);
+        });        
+    }
+
+    return arrTskObj;
+}
+
+
+async function make_arrFavTskObj(){
+    console.log('=== function make_arrFavTskObj() ===');
+    
+    try {
+        
+        let arrTsk = [
+            "tsk"
+            //"tsk_gromov",
+            //"tsk_otro",
+        ];
+    
+        let arrTskObj = [];
+    
+        for (let i = 0; i < arrTsk.length; i++) {
+            const el = arrTsk[i];
+            //console.log(el);
+            //console.log(i);
+    
+            //saco ajustes de este modulo en json
+            url_bq = `./modules/text/${el}/bibleqt.json`;
+            //console.log(url_bq);
+    
+            const bq = await fetchDataToJson(url_bq);
+    
+            arrTskObj[i] = bq;
+            //console.log(arrTskObj);      
+        }
+    
+        return arrTskObj;
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('make_arrFavTskObj. error: ',error);
+    }
+}
+
 
 function checkPositionShowForMob(){
     console.log('=== function checkPositionShowForMob() ===');
@@ -32,9 +196,19 @@ function checkPositionShowForMob(){
         //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
     }
 }
-checkPositionShowForMob();
 
-function iniciarSesion(){//antes login() //username,password
+
+
+
+
+
+
+
+
+
+
+
+function iniciarSesion_old(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
 
     let username = document.getElementById("username").value;
@@ -110,6 +284,103 @@ function iniciarSesion(){//antes login() //username,password
     });    
 
 }
+
+async function iniciarSesion(){//antes login() //username,password
+    console.log('=== function iniciarSesion() ===');
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if(username == '' || password == ''){
+        alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
+        return;
+    }
+
+    // Enviar los datos al servidor para la autenticación
+    fetch("./php/iniciar_sesion.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(async data => {
+        
+        console.log(data);
+
+        let eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
+        let eid_bl_sesion_cerrada = document.getElementById('bl_sesion_cerrada');
+        let eid_login_menu = document.getElementById('login_menu');
+        let eid_m_login_menu = document.getElementById('m_login_menu');
+        
+        if (data.success) {
+            console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+
+            // Actualizar el contenido después del inicio de sesión exitoso
+            eid_bl_sesion_iniciada.style.display = 'block';
+            eid_bl_sesion_cerrada.style.display = 'none';
+
+            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
+            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
+            eid_login_menu.innerHTML = '<img src="images/login2_white.svg">';
+            eid_m_login_menu.querySelector('img').src = './images/login2_white.svg';
+            eid_login_menu.title = `${username}`;
+
+            allowUseShowTrans = true;
+            console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
+
+            await obtenerDatosDeBD('vkladki','arrTabs');
+            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+            await obtenerDatosDeBD('hist_find','arr_hist_find');
+            await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+
+            setTimeout(()=>{
+                closeModal();
+            },5000);
+
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
+            console.log(error_text);
+
+            eid_bl_sesion_cerrada.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
+            eid_bl_sesion_cerrada.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
+            eid_login_menu.innerHTML = '<img src="images/login2_grey.svg">';
+
+        }
+
+        mySizeWindow();
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //cerrarSession();
@@ -327,93 +598,7 @@ function enviarEmail(){
 
 }
 
-async function obtenerDatosTrans(url_bq) {
-    const respuesta = await fetch(url_bq);
-    const datos = await respuesta.json();
-    return datos;
-}
 
-async function obtenerDatosToText(url_bq) {
-    const respuesta = await fetch(url_bq);
-    const datos = await respuesta.text();
-    return datos;
-}
-
-async function obtenerDatosToJson(url_bq) {
-    const respuesta = await fetch(url_bq);
-    const datos = await respuesta.json();
-    return datos;
-}
-
-
-function makeTransObj_new(arrFavTrans){
-    //console.log('===function makeTransObj_new(arrFavTrans)===');
-
-    let arrTransObj = [];
-
-    //paso 1. Creo array de Dato de todos Trans
-    for (let i = 0; i < arrFavTrans.length; i++) {
-        const el = arrFavTrans[i];
-        //console.log(i);
-        //console.log(el);
-
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;
-        //console.log(url_bq);
-
-        obtenerDatosToJson(url_bq)
-        .then((bq) => {
-            arrTransObj[i] = bq;
-            //console.log(arrTransObj);
-            //cuando es el ultimo elemento lanzo showTrans(0,1)
-            if(i == arrFavTrans.length - 1){
-                //console.log('es ultimo elemento. llamo showTrans(0,1)');
-                loadDefaultFunctions();
-            }
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('makeTransObj_new. error promesa: '+error);
-        });        
-    }
-    //console.log('1. abajo arrTransObj:');
-    //console.log(arrTransObj);
-
-    return arrTransObj;
-}
-
-
-async function makeTransObj_new2(arrFavTrans){
-    console.log('===function makeTransObj_new2(arrFavTrans)===');
-    try {
-
-        let arrTransObj = [];
-
-        //paso 1. Creo array de Dato de todos Trans
-        for (let i = 0; i < arrFavTrans.length; i++) {
-            const el = arrFavTrans[i];
-            //console.log(i);
-            //console.log(el);
-
-            //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${el}/bibleqt.json`;
-            //console.log(url_bq);
-
-            const bq = await obtenerDatosToJson(url_bq);
-            
-            arrTransObj[i] = bq;
-            //console.log(arrTransObj);  
-        }
-        //console.log('1. abajo arrTransObj:');
-        //console.log(arrTransObj);
-
-        return arrTransObj;
-
-    } catch (error) {
-        // Código a realizar cuando se rechaza la promesa
-        console.error('makeTransObj_new2. error: ',error);
-    }
-}
 
 
 function loadRefDefault(ref, trans = null) {
@@ -451,7 +636,7 @@ function loadAllFavBibleFiles(){
             let url_bq = `./modules/text/${el}/bibleqt.json`;
             //console.log(url_bq);
 
-            obtenerDatosToJson(url_bq)
+            fetchDataToJson(url_bq)
             .then((data) => {            
                                 
                 //console.log('data: ',data);
@@ -509,7 +694,7 @@ function loadAllFavBibleFiles(){
                             return false;//importante
                         }
                         
-                        obtenerDatosToText(url_PathName)
+                        fetchDataToText(url_PathName)
                         .then(dataBook => {
 
                             //console.log('dataBook: ',dataBook);
@@ -603,7 +788,7 @@ function loadAllFavTskFiles(){
         url_bq = `./modules/text/${el}/bibleqt.json`;//modules/text/tsk/bibleqt.json
         //console.log(url_bq);
 
-        obtenerDatosToJson(url_bq)
+        fetchDataToJson(url_bq)
         .then((data) => {            
                             
             //console.log('data: ',data);
@@ -661,7 +846,7 @@ function loadAllFavTskFiles(){
                         return false;//importante
                     }
                     
-                    obtenerDatosToText(url_PathName)
+                    fetchDataToText(url_PathName)
                     .then(dataBook => {
 
                         //console.log('dataBook: ',dataBook);
@@ -758,7 +943,7 @@ function loadAllFavStrongFiles(){
         let url_strong = `./modules/text/strongs/${strongFile}`;//modules/text/strongs/hebrew_short.json | greek_short.json
         //console.log(url_strong);
 
-        obtenerDatosToJson(url_strong)
+        fetchDataToJson(url_strong)
         .then((data) => {            
                             
             //console.log('data: ',data);
@@ -14868,38 +15053,6 @@ function showTabMob(btn_id, param, el){
 
 
 
-function makeTskObj(){
-    let arrTsk = [
-        "tsk"
-        //"tsk_gromov",
-        //"tsk_otro",
-    ];
-
-    let arrTskObj = [];
-
-    for (let i = 0; i < arrTsk.length; i++) {
-        const el = arrTsk[i];
-        //console.log(i);
-        //console.log(el);
-
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;
-        //console.log(url_bq);
-
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-            arrTskObj[i] = bq;
-            //console.log(arrTskObj);
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('makeTskObj. error promesa: '+error);
-        });        
-    }
-
-    return arrTskObj;
-}
 
 
 

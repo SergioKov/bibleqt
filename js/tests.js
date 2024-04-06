@@ -1511,7 +1511,7 @@ let url = 'https://bolls.life/static/translations/UMT.json';
 
 function makeBibleTextFromJson(url){
 
-    obtenerDatosToJson(url)
+    fetchDataToJson(url)
     .then((data) => {
 
         //console.log(' abajo data:');
