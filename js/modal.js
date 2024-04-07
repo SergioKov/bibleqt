@@ -1149,7 +1149,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         }                                         
             
                                     }else{
-                                        //console.log(' no existe capítulo '+chapter+' del módulo '+book);
+                                        console.log(`1. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                                         let aviso_text = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
                                         alert(aviso_text);
                                     }
@@ -1341,7 +1341,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             }
 
                         }else{
-                            //console.log(' no existe capítulo '+chapter+' del módulo '+book);
+                            console.log(`2. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                             let aviso_text = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
                             alert(aviso_text);
                         }
