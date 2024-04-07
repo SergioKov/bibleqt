@@ -523,6 +523,7 @@ async function crearCuenta(){
         console.error('iniciarSesion. error: ',error);
     }
 }
+
 async function enviarEmail(){
     console.log('=== function enviarEmail() ===');
 
@@ -582,9 +583,6 @@ async function enviarEmail(){
         console.error('iniciarSesion. error: ',error);
     }
 }
-
-
-
 
 function loadRefDefault(ref, trans = null) {
     if (trans == null) trans = arrFavTrans[0];
@@ -4633,7 +4631,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     }            
                                     
                                     //console.log(bookModule);
-                                    //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
             
                                     let nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
@@ -7096,7 +7093,6 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         
                         return false;
                     }
-
 
 
                     fetch(url)
