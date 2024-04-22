@@ -264,6 +264,7 @@ const arrFavTrans = [
     "ukr_hom",
     "ukr_gyz",
     "ukr_tur",
+    "ukr_tur2",
     "ukr_kul",
     //"ukr_umt",
     "ukr_umts",
