@@ -256,6 +256,7 @@ const arrFavTrans = [
     "nrt",
     "abi",
     "mdri",
+    "rsp",
     "opnz",
     
     "ukr_fil",
