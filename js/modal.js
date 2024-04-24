@@ -782,15 +782,23 @@ function buildVerseMenu(arr_p_id,positionModal){
     
 }
 
-function copyTextFromIdElement(idElement) {
-    let textoACopiar = document.getElementById(idElement).innerText;
+function copyTextFromIdElement(idElement) {//"rstStrongRed__22__66__2"
+    let textoAll = document.getElementById(idElement).innerText;
+    let textoRef = document.getElementById(idElement).querySelectorAll('a')[0].innerText;
+    let textoACopiar = textoAll.replace(textoRef, '').trim();
     //console.log(textoACopiar.length);
     let copy_with_trans = true;
     if(copy_with_trans){
-        let trans = idElement.split('__')[0];
+        let arr = idElement.split('__');
+        let trans = arr[0];
+        let book = arr[1];
+        let chapter = arr[2];
+        let verse = arr[3];
         let this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
         let BibleShortName = this_trans_obj.BibleShortName;
-        textoACopiar = `(${BibleShortName}) ${textoACopiar}`;
+        let BookShortName = this_trans_obj.Books[book].ShortNames[0];
+        let ref = `${BookShortName} ${chapter}:${verse}`;
+        textoACopiar = `${textoACopiar} \n(${ref} ${BibleShortName})`;
     }
     if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
         copyTextToClibboard(textoACopiar);
