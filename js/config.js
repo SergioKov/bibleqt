@@ -43,10 +43,12 @@ const eid_act_trans_strong = document.getElementById('act_trans_strong');
 const eid_wr_hist_nav = document.getElementById('wr_hist_nav');
 const eid_wr_hist_find = document.getElementById('wr_hist_find');
 const eid_wr_hist_strong = document.getElementById('wr_hist_strong');
+const eid_wr_markers = document.getElementById('wr_markers');
 
 const eid_wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
 const eid_wr_hist_find_inner = eid_wr_hist_find.querySelector('.wr_hist_inner');
 const eid_wr_hist_strong_inner = eid_wr_hist_strong.querySelector('.wr_hist_inner');
+const eid_wr_markers_inner = eid_wr_markers.querySelector('.wr_markers_inner');
 
 const eid_s_book = document.getElementById('s_book');
 const eid_s_chapter = document.getElementById('s_chapter');
@@ -84,6 +86,9 @@ const eid_cbox7 = document.getElementById('cbox7');//7. Номер Стронг�
 const eid_tsk_head = document.getElementById('tsk_head');
 const eid_tsk_body = document.getElementById('tsk_body');
 
+const eid_markers_head = document.getElementById('markers_head');
+const eid_markers_body = document.getElementById('markers_body');
+
 //botones
 const eid_btn_nav = document.getElementById('btn_nav');
 const eid_btn_tsk = document.getElementById('btn_tsk');
@@ -108,6 +113,7 @@ const eid_vklad_nav = document.getElementById('vklad_nav');
 const eid_vklad_find = document.getElementById('vklad_find');
 const eid_vklad_tsk = document.getElementById('vklad_tsk');
 const eid_vklad_strong = document.getElementById('vklad_strong');
+const eid_vklad_markers = document.getElementById('vklad_markers');
 
 
 
@@ -186,7 +192,7 @@ const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columna
 
 const ajuste1 = {
     wr_filter: {
-        display: 'block'
+        display: 'none'
     },
     btn_lang_all: {
         display: 'block',
@@ -321,6 +327,10 @@ let arr_hist_find_limit = 100;//limit de tener items en el historial
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
 let arr_hist_strong_limit = 100;//limit de tener items en el historial
+
+//array de objetos de historia de navegacion
+let arr_markers = [];//se añade en addRefToHistNav();
+let arr_markers_limit = 100;//limit de tener items en el historial
 
 //by_text es mas rápido y más optimizado
 // en funcion showChaptertext4() hay 2 vias

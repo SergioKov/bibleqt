@@ -122,10 +122,21 @@ session_start();
 
                         <div id="restoTabs" class="f_r">                    
                             <div class="wr_btns_scr f_l">
-                                <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">Nav</button>
-                                <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">Find</button>
-                                <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="Перекрестные Ссылки">TSK</button>
-                                <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарт Стронга">Strong</button>
+                                <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" title="Навигация">
+                                    <img class="btn_img" src="./images/open_book_white.png">
+                                </button>
+                                <button id="btn_find" class="btn" onclick="showTab(this,'find')" title="Поиск">
+                                    <img class="btn_img" src="./images/search_zoom_icon_white.svg">
+                                </button>
+                                <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" title="TSK - Перекрестные Ссылки">
+                                    <img class="btn_img" src="./images/book_reference_white.svg">
+                                </button>
+                                <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарь Стронга">
+                                    <span>S#</span>
+                                </button>
+                                <button id="btn_marker" class="btn" onclick="showTab(this,'markers')" title="Маркеры / Закладки">
+                                    <img class="btn_img" src="./images/book_marker_white.svg">
+                                </button>
                                 <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
                                 <button id="btn_dic" class="btn d-none" onclick="" title="Словари">Dic</button>
                             </div>
@@ -424,7 +435,7 @@ session_start();
 
                 <div id="vklad_tsk" style="display: none;">
                     <div id="tsk_head">
-                        <h4>Pasajes paralelos</h4>
+                        <h4>TSK - Перекрестные Ссылки</h4>
                     </div>
                     <div id="tsk_body">
                         <span class="prim_tsk">Para ver pasajes paralelos del versículo, presiona la referencia. Por ejemplo: Gen.1:1</span>
@@ -464,6 +475,20 @@ session_start();
                         <span class="prim_tsk">Introduce el número de Strong para ver su significado y dónde se encuenta.</span>
                     </div>
                 </div><!--/vklad_strong-->
+
+                <div id="vklad_markers" style="display: none;">
+                    <div id="markers_head">
+                        <h4>Маркеры / Закладки</h4>
+                    </div>
+                    <div id="markers_body">
+    
+                        <div id="wr_markers" style="dis-play:none;">
+                            <div class="wr_markers_inner"></div>
+                        </div>                   
+                    
+                    </div>
+                </div><!--/vklad_markers-->
+
 
 
 
@@ -905,6 +930,15 @@ HERE;
                                         <div>Вкладки</div>
                                     </div>
 
+
+                                    <div class="dbtn" title="Маркеры / Закладки" onclick="openModal('full','Маркеры',null,'showMarkers')" style="width:50%;">
+                                        <div>Маркеры</div>
+                                    </div>
+                                    <div class="dbtn" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
+                                        <div>Заметки</div>
+                                    </div>
+
+
                                     <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
                                         <div>by_text</div>
                                     </div>
@@ -942,6 +976,8 @@ HERE;
                                             <span>Strong</span>
                                         </div>
                                     </div>
+
+
 
                                 </div><!--/#topMenuInner-->
                             </div><!--/#topMenu-->

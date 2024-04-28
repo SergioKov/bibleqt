@@ -46,6 +46,9 @@ if($url && $chapter){
 
     // $filename = "miarchivo.htm";
     $filename = $url;
+    //echo json_encode($filename);
+    //die();
+
 
     //Abrimos el fichero $filename y el resultado lo metemos en $myfile
     $myfile = fopen($filename, "r") or die("Unable to open file!");

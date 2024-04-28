@@ -150,6 +150,15 @@
     .pv_inner{
         flex-direction: column; 
     }
+    .wr_b_trans_a_ref {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .wr_b_trans_a_ref .b_trans{
+        min-width: auto;
+    }
     #wr_hist_nav,
     #find_head,
     #wr_hist_strong

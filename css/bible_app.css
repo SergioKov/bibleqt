@@ -507,11 +507,12 @@ p a {
     font-weight: bold;
 }
 p a:hover:not(.a_sn) {
-    color: rgb(71, 97, 246);
+    color: #4761f6;
     background: orange;
     outline: 1px solid #bf7507;
     border-radius: 2px;
 }
+
 
 /* width */
 #sidebarInner::-webkit-scrollbar {
@@ -537,6 +538,7 @@ p a:hover:not(.a_sn) {
 
 /* width */
 .wr_hist_inner::-webkit-scrollbar, 
+.wr_markers_inner::-webkit-scrollbar, 
 #tsk_head::-webkit-scrollbar, 
 #tsk_body::-webkit-scrollbar, 
 #find_head::-webkit-scrollbar, 
@@ -556,6 +558,7 @@ p a:hover:not(.a_sn) {
 
 /* Handle */
 .wr_hist_inner::-webkit-scrollbar-thumb,
+.wr_markers_inner::-webkit-scrollbar-thumb,
 #tsk_head::-webkit-scrollbar-thumb,
 #tsk_body::-webkit-scrollbar-thumb,
 #find_head::-webkit-scrollbar-thumb,
@@ -1119,6 +1122,15 @@ li.active {
     font-size: 14px;
     display: block;
 }
+.prim_error_verse_compare {
+    color: #FFEB3B;
+    background: brown;
+    display: block;
+    padding: 5px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+}
 .prim_blue {
     color: blue;
     font-size: 18px;
@@ -1192,14 +1204,16 @@ span.h4_ch {
 #vklad_nav,
 #vklad_find,
 #vklad_tsk,
-#vklad_strong
+#vklad_strong,
+#vklad_markers
   {
     background: #2196F3;
     border-radius: 3px;
     outline: 1px solid #2c7fc1;
 }
  
-#tsk_head {
+#tsk_head, 
+#markers_head {
     max-height: 100px;
     min-height: 10px;
     padding: 5px 5px 0;
@@ -1213,7 +1227,9 @@ span.h4_ch {
     background: #373737;
 }
 
-#tsk_head h4 {
+#tsk_head h4,
+#markers_head h4
+ {
     color: white;
     padding: 0 5px;
 }
@@ -1231,6 +1247,10 @@ span.h4_ch {
     background: #373737;
     padding: 5px;
     min-height: 200px;
+    overflow-y: auto;
+}
+#markers_body{
+    background: #373737;
     overflow-y: auto;
 }
 #strong_body{
@@ -1696,7 +1716,7 @@ select  optgroup option {
     padding: 5px;
     border-top: 1px solid #2c7fc1;
 }
-.wr_hist_inner {
+.wr_hist_inner{
     background: #373737;
     /* border: 1px solid #2196F3; */
     border-radius: 3px;
@@ -1708,7 +1728,19 @@ select  optgroup option {
     overflow-y: auto;
     font-size: 14px;
 }
-.wr_hist_inner p {
+.wr_markers_inner{
+    background: #373737;
+    border-radius: 0px;
+    padding: 5px;
+    position: relative;
+    top: 0px;
+    height: auto;
+    overflow-y: auto;
+    font-size: 14px;
+}
+.wr_hist_inner p,
+.wr_markers_inner p
+{
     /* margin: 0 0 1px; */
     cursor: pointer;
     padding: 5px;
@@ -1716,9 +1748,13 @@ select  optgroup option {
     background: black;
     border-bottom: 1px solid #373737;
 }
-.wr_hist_inner p:hover{
+.wr_hist_inner p:hover,
+.wr_markers_inner p:hover
+{
     background: #424242;
 }
+
+
 
 .wr_fecha_hora {
     display: inline-block;
@@ -2938,8 +2974,16 @@ pr {
 }
 #bl_modalFullInner p{
     padding: 5px;
-    cursor:pointer;
     transition: 0.3s;
+}
+#bl_modalFullInner .p_pointer{
+    cursor:pointer;
+}
+.p_pointer:hover span{
+    color:yellow;
+}
+.v_trans {
+    cursor: default;
 }
 #bl_modalFullInner p:not(:last-child):not(.pv_active) {
     border-bottom: 1px solid #404040;
@@ -3182,7 +3226,14 @@ fieldset {
     overflow-y: scroll;
     position: relative;
 }
-
+.wr_b_trans_a_ref {
+    color: black;
+    display: flex;
+    /* background: #d2fcd4; */
+    flex-direction: column;
+    /* min-width: 100px; */
+    margin-right: 10px;
+}
 
 .pv_inner {
     display: flex;
@@ -3211,18 +3262,28 @@ fieldset {
 
 .b_trans {
     /* background: #ffc107; */
-    display: inline-block;
-    min-width: 95px;
+    min-width: 100px;
     color: #ff0000;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.b_trans:hover {
+    color: #4761f6;
+    background: orange;
+    outline: 1px solid #bf7507;
+    border-radius: 2px;
 }
 .a_ref {
-    margin-right: 15px;
     display: none;
     text-wrap: nowrap;
+}
+.a_ref, .b_trans{
+    padding: 0 1px;
 }
 .v_trans {
     /* margin-left: 15px; */
     color: black;
+    width: 100%;
 }
 
 .p_aviso {
@@ -3475,4 +3536,30 @@ span.vt {
     font-weight: bold;
     color: #FF9800;
     margin: 0 5px 0 2px;
+}
+.btn_img{
+    width: 24px;
+    height: 24px;
+}
+#btn_nav img,
+#btn_find img
+{
+    position: relative;
+    top: 2px;
+}
+
+#btn_tsk img{
+    position: relative;
+    top: 2px;
+    height: 21px;
+    width: 21px;
+}
+#btn_strong span{
+    font-size: 21px;
+}
+#btn_marker img{
+    position: relative;
+    top: 1px;
+    height: 20px;
+    width: 20px;
 }

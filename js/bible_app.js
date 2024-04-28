@@ -253,6 +253,7 @@ function iniciarSesion_old(){//antes login() //username,password
             await obtenerDatosDeBD('hist_nav','arr_hist_nav');
             await obtenerDatosDeBD('hist_find','arr_hist_find');
             await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+            await obtenerDatosDeBD('markers','arr_markers');
 
             setTimeout(()=>{
                 closeModal();
@@ -1005,11 +1006,13 @@ async function loadDefaultFunctions(){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arrTabs desde datos de usuario sacados de bd 
+        await obtenerDatosDeBD('markers','arr_markers');//creo array arr_markers desde datos de usuario sacados de bd 
         
         console.log(arrTabs);
         console.log(arr_hist_nav);
         console.log(arr_hist_find);
         console.log(arr_hist_strong);
+        console.log(arr_markers);
 
         //insertarDatos(arrTabs);//test
     }else{
@@ -10986,6 +10989,29 @@ function mySizeStrong(){
     //console.log('strong_body_h: '+strong_body_h);    
 }
 
+function mySizeMarkers(){
+    let padding_markers_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
+    
+    // Get the height of the element, including margins
+    const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
+
+    let sidebar_h = eid_sidebar.offsetHeight;
+    let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
+    let menuTabs_h = eid_menuTabs.offsetHeight;
+    let markers_head_h = eid_markers_head.offsetHeight;
+
+    let markers_body_h = 
+      sidebar_h
+    - sidebarInner_margins_h
+    - menuTabs_h
+    - markers_head_h
+    - padding_markers_body
+    ;
+    eid_sidebarInner.style.height = sidebarInner_h + 'px';
+    //eid_markers_body.style.height = markers_body_h + 'px';
+    eid_wr_markers_inner.style.height = markers_body_h + 'px';
+    //console.log('tsk_body_h: '+tsk_body_h);
+}
 
 function mySizeVerse(){
     //console.log('mySizeVerse');
@@ -11682,6 +11708,19 @@ async function obtenerDatosDeBD(tabla, campo){
                 }
                 break;
 
+            case 'markers':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    console.log(arr_markers);
+                }else{
+                    console.log('Si. markers tiene_datos');
+                    arr_markers = convertArrBdToArrOk('arr_markers',data);
+                    console.log('editado arr_markers: ', arr_markers);
+                    // buildHistoryNavDesktop();
+                    buildMarkersDesktop();
+                }
+                break;
+    
             default:
                 break;
         }
@@ -11751,6 +11790,26 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_hist_strong':
                 //no hace falta. no tiene unicode...       
                 break;
+
+            case 'arr_markers':
+                coincidencias = el.ref.match(expresionRegular);
+                if (coincidencias) {
+                    console.log('antes el.ref: ', el.ref);
+                    el.ref = el.ref.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].ref = convertirUnicodeALetras(el.ref);//ref
+                }        
+                coincidencias2 = el.BookShortName.match(expresionRegular);
+                if (coincidencias2) {
+                    console.log('antes el.BookShortName: ', el.BookShortName);
+                    el.BookShortName = el.BookShortName.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].BookShortName = convertirUnicodeALetras(el.BookShortName);//ref
+                }        
+                break;
+                    
             
             default:
                 break;
@@ -14916,6 +14975,7 @@ function showTab(e, param){
         eid_vklad_find.style.display = 'none';
         eid_vklad_tsk.style.display = 'none';
         eid_vklad_strong.style.display = 'none';
+        eid_vklad_markers.style.display = 'none';
         mySizeNav();
     }
     if(param == 'find'){
@@ -14923,6 +14983,7 @@ function showTab(e, param){
         eid_vklad_find.style.display = 'block';
         eid_vklad_tsk.style.display = 'none';
         eid_vklad_strong.style.display = 'none';
+        eid_vklad_markers.style.display = 'none';
         mySizeFind();
     }
     if(param == 'tsk'){
@@ -14930,6 +14991,7 @@ function showTab(e, param){
         eid_vklad_find.style.display = 'none';
         eid_vklad_tsk.style.display = 'block';
         eid_vklad_strong.style.display = 'none';
+        eid_vklad_markers.style.display = 'none';
         mySizeTsk();
     }
     if(param == 'strong'){
@@ -14937,8 +14999,18 @@ function showTab(e, param){
         eid_vklad_find.style.display = 'none';
         eid_vklad_tsk.style.display = 'none';
         eid_vklad_strong.style.display = 'block';
+        eid_vklad_markers.style.display = 'none';
         mySizeStrong();
     }
+    if(param == 'markers'){
+        eid_vklad_nav.style.display = 'none';
+        eid_vklad_find.style.display = 'none';
+        eid_vklad_tsk.style.display = 'none';
+        eid_vklad_strong.style.display = 'none';
+        eid_vklad_markers.style.display = 'block';
+        mySizeMarkers();
+    }
+
             
 }
 

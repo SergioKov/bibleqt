@@ -794,6 +794,12 @@ const countElementsInArray = arr => {
     return countElements;    
 }
 
+
+
+
+
+
+
 function pushStateToHistNav(trans,ref){
 
     // Obtener la base URL
@@ -879,7 +885,8 @@ function buildHistoryNavDesktop(){
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
                
-            const p = document.createElement('p');       
+            const p = document.createElement('p');
+            p.className = 'p_pointer';       
             p.onclick = () => {
                 onclick_p_nav(el);
             }
@@ -945,6 +952,173 @@ function onclick_p_nav(el){
         closeSidebar();
     }    
 }
+
+
+
+
+
+
+
+
+
+
+
+const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
+    console.log('=== const addRefToMarker ===');
+
+    if(arr_markers.length == 0){
+        await obtenerDatosDeBD('markers','arr_markers');
+        console.log(arr_markers);
+    }
+
+    //console.log('trans: ', trans);
+    //console.log('ref: ', ref);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    //console.log("Fecha actual: " + fechaFormateada);
+
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    //console.log("Hora actual: " + horaActual);
+
+    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
+
+    let itemHist = { 
+        'trans': trans, 
+        'BibleShortName': esteTrans.BibleShortName, 
+        'ref': ref,
+        'BookShortName': esteTrans.Books[book].ShortNames[0],
+        'book': book,
+        'chapter': chapter,
+        'verse': verse,
+        'to_verse': to_verse,
+        'fecha': fechaFormateada, 
+        'hora': horaActual 
+    };
+
+    //updateRefInTabActive(trans,ref);
+
+    //meto item si es primer index o si no se repite trans y words
+    //if(arr_markers.length == 0 || (arr_markers.length > 0 && (trans != arr_markers[0].trans || ref != arr_markers[0].ref )) ){
+    if(true){
+        arr_markers.unshift(itemHist);//añado item al principio
+        console.log('meto item. arr_markers: ', arr_markers);
+
+        if(arr_markers.length > arr_markers_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_markers.splice(arr_markers_limit); 
+        }
+        guardarEnBd('markers','arr_markers',arr_markers);
+    }else{
+        //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
+    }
+    
+    buildMarkersDesktop();//from arr_markers   
+
+}
+
+
+function buildMarkersDesktop(){
+    eid_wr_markers_inner.innerHTML = '';
+    
+    if(arr_markers.length > 0){
+        arr_markers.forEach((el,i)=>{
+               
+            const p = document.createElement('p');
+            p.className = 'p_pointer';       
+            p.onclick = () => {
+                onclick_p_marker(el);
+            }
+            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            eid_wr_markers_inner.append(p);
+    
+        });    
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в закладках.</span>';
+        eid_wr_markers_inner.append(p);
+    }
+}
+
+
+function onclick_p_marker(el){
+    
+    eid_inpt_nav.dataset.trans = el.trans;
+    eid_inpt_nav.dataset.book_short_name = el.BookShortName;
+    eid_inpt_nav.dataset.id_book = el.book;
+    eid_inpt_nav.dataset.show_chapter = el.chapter;
+    eid_inpt_nav.value = el.ref; 
+    
+    
+    
+    
+    if(el.verse != null){
+        eid_inpt_nav.dataset.show_verse = el.verse;
+        eid_s_verse.click();
+    }else{
+        eid_inpt_nav.dataset.show_verse = '';
+        eid_s_verse.click();
+    }
+
+    if(el.to_verse != null){
+        eid_inpt_nav.dataset.show_to_verse = el.to_verse;
+    }else{
+        eid_inpt_nav.dataset.show_to_verse = '';
+    }
+
+    let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
+    let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
+
+
+    let thisDiv = eid_trans1;//test
+    changeModule2(thisDiv, trans_item.Translation, trans_item.BibleShortName, trans_item.EnglishPsalms);    
+    
+    if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
+        let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
+        allowUseShowTrans = true;
+        showTrans(res[0], res[1],res[2],res[3]);
+    }
+    else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
+        let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
+        allowUseShowTrans = true;
+        showTrans(res[0], res[1],res[2],res[3]);
+    }
+    else{   
+        //console.log('llamo showTrans()');
+        allowUseShowTrans = true;
+        showTrans(el.book, el.chapter, el.verse, el.to_verse);
+    }
+
+    eid_wr_markers_inner.scrollTop = 0;//scroll al inicio de div
+
+    //si es mobile, ciero menu
+    if(window.innerWidth < pantallaTabletMinPx){
+        //console.log('func selVerse(). mobile.');
+        closeSidebar();
+    }    
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const addWordsToHistFind = async (trans, words, count_verses, count_matches) => {
@@ -1022,6 +1196,7 @@ function buildHistoryFindDesktop(){
         arr_hist_find.forEach((el,i)=>{
             
             const p = document.createElement('p');
+            p.className = 'p_pointer';
             p.onclick = () => {
                 onclick_p_find(el);
             }
@@ -1122,6 +1297,7 @@ function buildHistoryStrongDesktop(){
         arr_hist_strong.forEach((el,i)=>{
             
             const p = document.createElement('p');
+            p.className = 'p_pointer';
             p.onclick = () => {
                 onclick_p_strong(el);            
             }
