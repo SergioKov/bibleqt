@@ -680,14 +680,14 @@ p a:hover:not(.a_sn) {
     
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
     gap: 5px
 }
 .wr_btns_scr button:last-child {
     margin-right: 50px;
 }
 .wr_btns_scr .btn {
-    padding: 5px 5px;
+    /* padding: 5px 5px; */
 }
 .tooltip {
     position: relative;
@@ -1989,9 +1989,6 @@ select  optgroup option {
     width: 100%;
     position: relative;
     top: 2px;
-}
-.wr_btns_scr .btn {
-    padding: 5px 5px;
 }
 .partDeskInner {
     display: flex;
