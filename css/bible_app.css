@@ -2976,7 +2976,7 @@ pr {
 #bl_modalFullInner .p_pointer{
     cursor:pointer;
 }
-.p_pointer:hover span{
+.p_pointer:hover span.sp_vtext{
     color:yellow;
 }
 .v_trans {
@@ -3559,4 +3559,11 @@ span.vt {
     top: 1px;
     height: 20px;
     width: 20px;
+}
+.sp_vtext{
+    font-size: 18px;
+    color: orange;
+}
+.fs16{
+    font-size: 16px;
 }

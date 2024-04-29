@@ -754,8 +754,12 @@ function buildVerseMenu(arr_p_id,positionModal){
         let verse = arr_p_id[3];
         let id_p = arr_p_id.join('__');
         let ref = document.getElementById(id_p).querySelector('a').innerText;
+        let a_verseText = document.getElementById(id_p).cloneNode(true); // Clonar el nodo para preservar su estructura
+        a_verseText.querySelectorAll('a')[0].remove(); // Eliminar 1-r el elemento <a> del clon
+        a_verseText = removeTagsOfElement(a_verseText,'S');//Strong Numbers
+        let verseText = a_verseText.textContent.trim(); // Obtener el texto limpio del clon
 
-        addRefToMarker(trans, ref, book, chapter, verse, null);
+        addRefToMarker(trans, ref, book, chapter, verse, null, verseText);
         btn2.innerHTML = '<img src="./images/icon_ok_white.svg">';
         setTimeout(()=>{
             closeModal();
@@ -2630,6 +2634,7 @@ function showMarkers(){
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
             p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            p.innerHTML += `<span class="sp_vtext fs16">${el.verseText}</span>`;            
             eid_bl_modalFullInner.append(p);
         });
     }else{

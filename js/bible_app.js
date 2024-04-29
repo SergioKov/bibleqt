@@ -335,6 +335,7 @@ async function iniciarSesion(){//antes login() //username,password
                 await obtenerDatosDeBD('hist_nav','arr_hist_nav');
                 await obtenerDatosDeBD('hist_find','arr_hist_find');
                 await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+                await obtenerDatosDeBD('markers','arr_markers');
     
                 setTimeout(()=>{
                     closeModal();
@@ -11739,8 +11740,8 @@ function convertArrBdToArrOk(arrName, arr){
 
     let arr_work = JSON.parse(arr);
     console.log('user arr_work:', arr_work);
-    let expresionRegular = /u\d{3}/g;//buscar caracteres unicode que me da bd.
-    let coincidencias, coincidencias2;
+    let expresionRegular = /u\d{2}/g;//buscar caracteres unicode que me da bd.
+    let coincidencias, coincidencias2, coincidencias3;
 
     arr_work.forEach((el, i) => {
         //console.log(el);
@@ -11807,6 +11808,14 @@ function convertArrBdToArrOk(arrName, arr){
                         return '\\' + x;
                     });
                     arr_work[i].BookShortName = convertirUnicodeALetras(el.BookShortName);//ref
+                }        
+                coincidencias3 = el.verseText.match(expresionRegular);
+                if (coincidencias3) {
+                    console.log('antes el.verseText: ', el.verseText);
+                    el.verseText = el.verseText.replace(expresionRegular, function (x) {
+                        return '\\' + x;
+                    });
+                    arr_work[i].verseText = convertirUnicodeALetras(el.verseText);//verseText
                 }        
                 break;
                     

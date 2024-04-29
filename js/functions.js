@@ -963,7 +963,7 @@ function onclick_p_nav(el){
 
 
 
-const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
+const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse = null, verseText) => {
     console.log('=== const addRefToMarker ===');
 
     if(arr_markers.length == 0){
@@ -1000,6 +1000,7 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
         'book': book,
         'chapter': chapter,
         'verse': verse,
+        'verseText': verseText,
         'to_verse': to_verse,
         'fecha': fechaFormateada, 
         'hora': horaActual 
@@ -1040,6 +1041,7 @@ function buildMarkersDesktop(){
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
             p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            p.innerHTML += `<span class="sp_vtext">${el.verseText}</span>`;
             eid_wr_markers_inner.append(p);
     
         });    
