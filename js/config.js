@@ -278,7 +278,9 @@ const arrFavTrans = [
     "ukr_der",
     
     "rv60",
-    "lbla"
+    "lbla",
+
+    "egr"
 
     //"kjv",
     //"nkjv",
