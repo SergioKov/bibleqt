@@ -1443,7 +1443,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                 let formData = new FormData();
                 // formData.append('url', url );//antes
-                formData.append('url', '../'+url);//importante '../' delante de la url
+                formData.append('url', './'+url);//importante './' delante de la url
                 formData.append('base_ep', base_ep);
                 formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
                 if(book != null) formData.append('book', bookNumber);
