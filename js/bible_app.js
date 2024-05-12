@@ -1877,6 +1877,19 @@ function makeArrTransFromCols(){
     window.arr_trans = window.arr_trans.filter(el=>el);    
 }
 
+function makeArrColsFromCols(){
+    window.arr_cols = [];
+
+    clearColsEmpty();
+    
+    document.querySelectorAll('.cols').forEach((el)=>{
+        window.arr_cols.push(el.id);
+        console.log('el.id: ', el.id);
+    });
+    window.arr_cols = window.arr_cols.filter(el=>el); 
+    console.log('arr_cols: ', arr_cols);
+}
+
 function clearColsEmpty(){
     document.querySelectorAll('.colsHead').forEach((el,i)=>{
         if(typeof el.dataset.trans == 'undefined'){
@@ -5796,7 +5809,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 })
                                 .catch(error => {
                                     // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('error promesa en myPromise con obj_bible_files. error: '+error);
+                                    console.error('1. error promesa en myPromise con obj_bible_files. error: '+error);
                                 });
 
                             }else{
@@ -10567,30 +10580,16 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
     thisDiv.dataset.trans = trans;
     thisDiv.setAttribute('data-base_ep', EnglishPsalms);
-    if (thisDiv.id == 'trans1') {
-        //meto BibleShortName en el primer div, ya que este no tiene 'x' close
-        thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
-        thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-        eid_inpt_nav.dataset.divtrans = thisDiv.id;
-        eid_act_trans_nav.title = este_trans.BibleName;
-        eid_act_trans_find.title = este_trans.BibleName;
-        eid_act_trans_strong.title = este_trans.BibleName;
-        eid_act_trans_nav.textContent = BibleShortName;
-        eid_act_trans_find.textContent = BibleShortName;
-        eid_act_trans_strong.textContent = BibleShortName;
-    } else {
-        //meto BibleShortName en el segundo div, ya que el primero es 'x' close
-        thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
-        thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
-        eid_inpt_nav.dataset.divtrans = thisDiv.id;
-        eid_act_trans_nav.title = este_trans.BibleName;
-        eid_act_trans_find.title = este_trans.BibleName;
-        eid_act_trans_strong.title = este_trans.BibleName;
-        eid_act_trans_nav.textContent = BibleShortName;
-        eid_act_trans_find.textContent = BibleShortName;
-        eid_act_trans_strong.textContent = BibleShortName;
-    }
+    thisDiv.querySelector('.desk_trans').innerHTML = BibleShortName;
+    thisDiv.querySelector('.mob_trans').innerHTML = BibleShortName;
 
+    eid_inpt_nav.dataset.divtrans = thisDiv.id;
+    eid_act_trans_nav.title = este_trans.BibleName;
+    eid_act_trans_find.title = este_trans.BibleName;
+    eid_act_trans_strong.title = este_trans.BibleName;
+    eid_act_trans_nav.textContent = BibleShortName;
+    eid_act_trans_find.textContent = BibleShortName;
+    eid_act_trans_strong.textContent = BibleShortName;
 
     let trans_actual = thisDiv.dataset.trans;
     let act_base_ep = eid_trans1.getAttribute('data-base_ep');
@@ -10600,9 +10599,11 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //saco id de la columna de la trans
     let idColToBuild = thisDiv.parentElement.id;
     //let indexColToBuild = arr_trans.indexOf(trans_actual);//no vale. si se repite coje el primero que coincide y rompe la logica
-    let indexColToBuild = Number(idColToBuild.slice(3)) - 1;//de 'col3' -> quito tres preimeros caracteres -> '3' //'col12' -> '12'
-
-    //console.log(' indexColToBuild: ', indexColToBuild);
+    //da error si se añade [col1,col3,col2]            //let indexColToBuild = Number(idColToBuild.slice(3)) - 1;//de 'col3' -> quito tres preimeros caracteres -> '3' //'col12' -> '12'
+    
+    makeArrColsFromCols();
+    let indexColToBuild = arr_cols.indexOf(idColToBuild);
+    console.log(' indexColToBuild: ', indexColToBuild);
     
     //console.log(' actual arr_trans: ', arr_trans);
     //modifico arr_trans 
@@ -11199,7 +11200,7 @@ function addTrans(addMode = null){
                                             <div class="centralPart">
                                                 <div class="desk_trans"><span class="sp_plus_trans"> + </span></div>
                                                 <div class="separ_line"></div>
-                                                <div class="desk_sh_link"> --. --:-- </div>
+                                                <div class="desk_sh_link"> ---. --:-- </div>
                                             </div>
                                             <button class="btn btn_xsm f_r" onclick="closeTrans(this,event)">&#10005;</button><!--X-->    
 
@@ -11219,7 +11220,7 @@ function addTrans(addMode = null){
                                                 </button>
                                                 <div class="separ_line"></div>
                                                 <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
-                                                    <span class="mob_sh_link">Jn.3:16</span>
+                                                    <span class="mob_sh_link"> ---.--:-- </span>
                                                 </button>
                                             </div>
                                             

@@ -756,6 +756,15 @@ function buildVerseMenu(arr_p_id,positionModal){
         let ref = document.getElementById(id_p).querySelector('a').innerText;
         let a_verseText = document.getElementById(id_p).cloneNode(true); // Clonar el nodo para preservar su estructura
         a_verseText.querySelectorAll('a')[0].remove(); // Eliminar 1-r el elemento <a> del clon
+        
+        //si hay yooltips, los quito del texto
+        let wr_tooltip_all = a_verseText.querySelectorAll('.wr_tooltip');
+        if(wr_tooltip_all != null){
+            wr_tooltip_all.forEach(el=>{
+                el.remove();
+            });
+        }
+        
         a_verseText = removeTagsOfElement(a_verseText,'S');//Strong Numbers
         let verseText = a_verseText.textContent.trim(); // Obtener el texto limpio del clon
 
@@ -1211,7 +1220,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 })
                                 .catch(error => {
                                     // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('error promesa en myPromise con obj_bible_files. error: '+error);
+                                    console.error('2. error promesa en myPromise con obj_bible_files. error: '+error);
                                 });
 
                             }else{

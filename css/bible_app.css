@@ -1730,7 +1730,7 @@ select  optgroup option {
     overflow-y: auto;
     font-size: 14px;
 }
-.wr_markers_inner{
+.wr_markers_inner {
     background: #373737;
     border-radius: 0px;
     padding: 5px;
@@ -1739,6 +1739,9 @@ select  optgroup option {
     height: auto;
     overflow-y: auto;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 .wr_hist_inner p,
 .wr_markers_inner p
@@ -1749,6 +1752,7 @@ select  optgroup option {
     transition: 0.3s;
     background: black;
     border-bottom: 1px solid #373737;
+    position: relative;
 }
 .wr_hist_inner p:hover,
 .wr_markers_inner p:hover
@@ -3562,10 +3566,71 @@ span.vt {
     height: 20px;
     width: 20px;
 }
-.sp_vtext{
+.sp_vtext {
     font-size: 18px;
     color: orange;
+    /* background: green; */
+    display: flex;
+    /* margin-right: 27px; */
+    position: relative;
+    justify-content: space-between;
+    gap: 5px;
 }
 .fs16{
     font-size: 16px;
+}
+
+.mark.btn_verse_menu {
+    height: 15px;
+    width: 10px;
+    background-size: 85%;
+    opacity: 0.5;
+    transition: 0.3s;
+    top: 15px;
+    right: 0;
+}
+.p_pointer:hover .mark.btn_verse_menu{
+    opacity: 1;
+}
+
+.wr_3_btns {
+    /* display: flex; */
+    flex-direction: column;
+    width: max-content;
+    background: #dcdcdc;
+    position: absolute;
+    flex-wrap: nowrap;
+    position: absolute;
+    right: -1px;
+    padding: 5px;
+    z-index: 1;
+    top: 26px;
+    display: none;
+    border-radius: 3px;
+    border: 1px solid grey;
+    color: black;
+    gap: 2px;
+}
+.wr_3_btns span {
+    /* background: #cfcfcf; */
+    /* outline: 1px solid #ffffff; */
+    border-radius: 3px;
+    padding: 3px 5px;
+    transition: 0.3s;
+    display: block;
+    transition: 0.3s;
+    text-align: center;
+}
+.wr_3_btns span:hover {
+    background: #b1b1b1;
+    cursor: pointer;
+}
+
+.sam_text {
+    /* background: purple; */
+    display: block;
+    margin-right: 22px;
+}
+.wr_both {
+    position: relative;
 }

@@ -706,9 +706,17 @@ function buildDivShow(arrData, indexColToBuild = null){
                     sp_btn_vm.className = 'btn_verse_menu';
                     //sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
+
+                    //cojo primer element versiculo p y su referencia la meto en colHead Ej.: => 'Mat.7:1'
+                    if(index == 2){//tercer element. [h2,h4, p]
+                        let ref_colHead = element.querySelector('a').innerText;
+                        //alert(ref_colHead);
+                        el.querySelector('.colsHeadInner .partDesk .desk_sh_link').innerText = ref_colHead;
+                        el.querySelector('.colsHeadInner .partMob .mob_sh_link').innerText = ref_colHead;
+                    } 
                 }                
                 el_colsInner.append(element); 
-                element = htmlEntities(element);//test            
+                element = htmlEntities(element);//test                          
             }
         }else{
             el_colsInner.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
@@ -1036,12 +1044,111 @@ function buildMarkersDesktop(){
                
             const p = document.createElement('p');
             p.className = 'p_pointer';       
-            p.onclick = () => {
+
+            const sam_mk_head = document.createElement('span');
+            sam_mk_head.className = 'sam_mk_head';
+            sam_mk_head.innerHTML = `
+                <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
+                <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+            `;
+            sam_mk_head.onclick = () => {
                 onclick_p_marker(el);
             }
-            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-            p.innerHTML += `<span class="sp_vtext">${el.verseText}</span>`;
+            p.append(sam_mk_head);
+
+            const sp_vtext = document.createElement('span');
+            sp_vtext.className = 'sp_vtext';
+
+            const sam_text = document.createElement('span');
+            sam_text.className = 'sam_text';
+            sam_text.innerHTML = el.verseText;
+            sam_text.onclick = () => {
+                onclick_p_marker(el);
+            }
+
+            sp_vtext.append(sam_text);
+
+            const btn_verse_menu = document.createElement('span');
+            btn_verse_menu.className = 'mark btn_verse_menu';
+            btn_verse_menu.onclick = (e)=>{
+                console.log('llamo a hideShow3Btns()');
+                hideShow3Btns(e.currentTarget);
+            }
+            //btn_verse_menu.innerHTML = `<span class="wr_3_btns" style="display: none;">
+            //                                <span>Ver</span>
+            //                                <span>Compartir</span>
+            //                                <span>Eliminar</span>
+            //                            </span>
+            //`;
+
+            const wr_3_btns = document.createElement('span');
+            wr_3_btns.className = 'wr_3_btns';
+            wr_3_btns.style.display = 'none';
+            //wr_3_btns.innerHTML = ` <span>Ver</span>
+            //                        <span>Compartir</span>
+            //                        <span>Eliminar</span>
+            //`;
+
+            const btn_ver = document.createElement('span');
+            btn_ver.className = 'btn_ver';
+            btn_ver.innerHTML = 'Ver';
+            btn_ver.dataset.indexMarker = i;
+            btn_ver.onclick = (e) =>{
+                let index = e.currentTarget.dataset.indexMarker;
+                console.log(e.currentTarget.dataset.indexMarker);
+                console.log('1. index de arr_markers. index: ',index);
+                onclick_p_marker(el);
+            }
+            wr_3_btns.append(btn_ver);
+
+            const btn_compartir = document.createElement('span');
+            btn_compartir.className = 'btn_compartir';
+            btn_compartir.innerHTML = 'Compartir';
+            btn_compartir.dataset.indexMarker = i;
+            btn_compartir.onclick = (e) =>{
+                let index = e.currentTarget.dataset.indexMarker;
+                console.log(e.currentTarget.dataset.indexMarker);
+                console.log('2. index de arr_markers. index: ',index);
+                alert('funcción en desarrollo.');
+            }
+            wr_3_btns.append(btn_compartir);
+
+            const btn_eliminar = document.createElement('span');
+            btn_eliminar.className = 'btn_eliminar';
+            btn_eliminar.innerHTML = 'Eliminar';
+            btn_eliminar.dataset.indexMarker = i;
+            btn_eliminar.onclick = (e) =>{
+                let index = e.currentTarget.dataset.indexMarker;
+                console.log(e.currentTarget.dataset.indexMarker);
+                console.log('3. index de arr_markers. index: ',index);
+                arr_markers.splice(index, 1);//elimino elemento del array
+                guardarEnBd('markers','arr_markers',arr_markers);
+                buildMarkersDesktop();
+            }
+            wr_3_btns.append(btn_eliminar);
+
+
+            const wr_both = document.createElement('span');
+            wr_both.className = 'wr_both';
+
+            p.append(sp_vtext);
+            sp_vtext.append(wr_both);
+            wr_both.append(btn_verse_menu);
+            wr_both.append(wr_3_btns);
+
+
+
+
+            //p.innerHTML += `<span class="sp_vtext">${el.verseText}
+            //                    <span class="btn_verse_menu" onclick="hideShow3Btns(${p.querySelector('.btn_verse_menu')})">
+            //                        <span class="wr_3_btns" style="display: none;">
+            //                            <span>ver</span>
+            //                            <span>compartir</span>
+            //                            <span>eliminar</span>
+            //                        </span>
+            //                    </span>
+            //                </span>`;
+
             eid_wr_markers_inner.append(p);
     
         });    
@@ -1050,8 +1157,51 @@ function buildMarkersDesktop(){
         p.innerHTML = '<span class="prim">Нет записей в закладках.</span>';
         eid_wr_markers_inner.append(p);
     }
+
+    document.removeEventListener('click', handlerListenMarkers);
+    document.addEventListener('click', handlerListenMarkers);
 }
 
+function hideShow3Btns(el){ 
+    console.log(el);
+    let wr_3_btns = el.parentElement.querySelector('.wr_3_btns');
+
+    document.querySelectorAll('.wr_3_btns').forEach(el => {
+        console.log('item el', el);
+        
+        if(el !== wr_3_btns){
+            el.style.display = 'none';
+        }
+    });
+
+    let disp = wr_3_btns.style.display;
+    if(disp != 'none' || wr_3_btns.offsetWidth > 0){//si se ve
+        disp = 'none';//lo oculto
+    }else{
+        disp = 'flex';//lo muestro
+    }
+    wr_3_btns.style.display = disp;
+}
+
+function close_all_wr_3_btns(){
+    document.querySelectorAll('.wr_3_btns').forEach(el => {
+        el.style.display = 'none';
+    });
+}
+
+const handlerListenMarkers = (ev) => {
+    console.log(ev);
+    console.log(ev.target);
+
+    let wr_3_btnsAll = document.querySelectorAll('.wr_3_btns');
+
+    wr_3_btnsAll.forEach(function (element) {
+        // Verificar si el clic no se realizó dentro de un elemento con la clase "wr_3_btns"
+        if (ev.target.className !== 'mark btn_verse_menu' && ev.target.className !== 'wr_3_btns' ) {
+            element.style.display = "none"; // Ocultar el elemento
+        }
+    });
+}
 
 function onclick_p_marker(el){
     
@@ -1059,10 +1209,7 @@ function onclick_p_marker(el){
     eid_inpt_nav.dataset.book_short_name = el.BookShortName;
     eid_inpt_nav.dataset.id_book = el.book;
     eid_inpt_nav.dataset.show_chapter = el.chapter;
-    eid_inpt_nav.value = el.ref; 
-    
-    
-    
+    eid_inpt_nav.value = el.ref;
     
     if(el.verse != null){
         eid_inpt_nav.dataset.show_verse = el.verse;
