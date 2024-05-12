@@ -252,8 +252,8 @@ const obj_ref = {
     }
 };
 
-//constant para crear arrFavTransObj
-const arrFavTrans = [
+//variable para crear arrFavTransObj
+let arrFavTransDef = [
     "rstStrongRed",
     "rstt",
     "rsti2",
@@ -276,16 +276,18 @@ const arrFavTrans = [
     //"ukr_umt",
     "ukr_umts",
     "ukr_der",
-    "ukr_pop",
+    //"ukr_pop",
     
     "rv60",
-    "lbla",
+    "lbla"
 
-    "egr"
+    //"egr"
 
     //"kjv",
     //"nkjv",
 ];
+
+let arrFavTrans = arrFavTransDef;
 
 let arrFavTsk = [
     'tsk'//carpeta donde están ficheros '01_genesis.ini' para TSK

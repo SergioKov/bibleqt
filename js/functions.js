@@ -805,7 +805,17 @@ const countElementsInArray = arr => {
 
 
 
+function pushStateHome(){
 
+    // Obtener la base URL
+    let baseUrl = window.location.protocol + "//" + window.location.host;
+    console.log("Base URL:", baseUrl);
+    // Obtener la URL completa
+    let fullUrl = baseUrl + window.location.pathname;
+    console.log("URL completa:", fullUrl);
+
+    window.history.pushState(null, "Título de la página", fullUrl);
+}
 
 
 function pushStateToHistNav(trans,ref){
@@ -1124,6 +1134,7 @@ function buildMarkersDesktop(){
                 arr_markers.splice(index, 1);//elimino elemento del array
                 guardarEnBd('markers','arr_markers',arr_markers);
                 buildMarkersDesktop();
+                showMarkers();
             }
             wr_3_btns.append(btn_eliminar);
 

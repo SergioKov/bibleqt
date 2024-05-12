@@ -206,7 +206,7 @@ function checkPositionShowForMob(){
     }
 }
 
-function iniciarSesion_old(){//antes login() //username,password
+/*function iniciarSesion_old(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
 
     let username = document.getElementById("username").value;
@@ -248,7 +248,7 @@ function iniciarSesion_old(){//antes login() //username,password
 
             allowUseShowTrans = true;
             console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
-
+            
             await obtenerDatosDeBD('vkladki','arrTabs');
             await obtenerDatosDeBD('hist_nav','arr_hist_nav');
             await obtenerDatosDeBD('hist_find','arr_hist_find');
@@ -279,6 +279,7 @@ function iniciarSesion_old(){//antes login() //username,password
     });    
 
 }
+*/
 
 async function iniciarSesion(){//antes login() //username,password
     console.log('=== function iniciarSesion() ===');
@@ -331,6 +332,7 @@ async function iniciarSesion(){//antes login() //username,password
                 allowUseShowTrans = true;
                 console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
     
+                await obtenerDatosDeBD('fav_trans','arrFavTrans');
                 await obtenerDatosDeBD('vkladki','arrTabs');
                 await obtenerDatosDeBD('hist_nav','arr_hist_nav');
                 await obtenerDatosDeBD('hist_find','arr_hist_find');
@@ -432,7 +434,7 @@ async function cerrarSesion(){
 
             eid_partDeskTabs.innerHTML = '';
             addTab(null,null,null,'tab_new');
-            
+
             // Actualizar el contenido después de cerrar la sesión
             //document.getElementById("mensaje").innerHTML = '';
             //document.getElementById("formulario_login").style.display = "block";
@@ -440,6 +442,11 @@ async function cerrarSesion(){
             // Mostrar un mensaje de error si hay problemas al cerrar la sesión
             console.error('Error al cerrar sesión');
         }
+
+        arrFavTrans = arrFavTransDef;
+        pushStateHome();
+        location.reload();
+        crear_arrFavTransObj();
 
         mySizeWindow();
 
@@ -1003,6 +1010,7 @@ async function loadDefaultFunctions(){
         //console.log(' guardo datos en bd');
         console.log(arrTabs);
 
+        //NO PONER  aquí 'await obtenerDatosDeBD' con 'arrFavTrans' YA QUE SE HACE UN BUCLE INFINITO!
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
@@ -2842,6 +2850,21 @@ function getTsk(e){
                                     }//end for inner
                 
                                 });//fin forEach de tb_arr_links
+
+                                if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                                    //alert('es menor');
+                                    console.log('es menor1');
+                                    buildVersesTsk(arr_tsk_p, Translation);
+                                    
+                                    if(countElementsInArray(arr_tsk_p) == 0){
+                                        eid_tsk_body.innerHTML = '';//reset
+                                        const p = document.createElement('p');
+                                        p.className = 'tsk tsk_nolink';
+                                        p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                                        //console.log(p);
+                                        eid_tsk_body.append(p);
+                                    }
+                                }
                 
                             }else{//no hay links
                                 eid_tsk_body.innerHTML = '';//reset
@@ -3974,6 +3997,22 @@ function getTsk(e){
                         }//end for inner 
     
                     });//fin forEach de tb_arr_links
+
+                    if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                        //alert('es menor');
+                        console.log('es menor2');
+                        buildVersesTsk(arr_tsk_p, Translation);
+                        
+                        if(countElementsInArray(arr_tsk_p) == 0){
+                            eid_tsk_body.innerHTML = '';//reset
+                            const p = document.createElement('p');
+                            p.className = 'tsk tsk_nolink';
+                            p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                            //console.log(p);
+                            eid_tsk_body.append(p);
+                        }
+                    }
+
     
                 }else{//no hay links
                     eid_tsk_body.innerHTML = '';//reset
@@ -4480,7 +4519,23 @@ function getTsk(e){
                             });
         
                         });//fin forEach de tb_arr_links
-    
+
+                        if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                            //alert('es menor');
+                            console.log('es menor3');
+                            buildVersesTsk(arr_tsk_p, Translation);
+                            
+                            if(countElementsInArray(arr_tsk_p) == 0){
+                                eid_tsk_body.innerHTML = '';//reset
+                                const p = document.createElement('p');
+                                p.className = 'tsk tsk_nolink';
+                                p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                                //console.log(p);
+                                eid_tsk_body.append(p);
+                            }
+                        }
+
+
                     }else{//no hay links
                         eid_tsk_body.innerHTML = '';//reset
                         const p = document.createElement('p');
@@ -11722,6 +11777,21 @@ async function obtenerDatosDeBD(tabla, campo){
                     buildMarkersDesktop();
                 }
                 break;
+
+            case 'fav_trans':
+                if(data == 'no_tiene_datos'){
+                    console.log('no_tiene_datos');
+                    console.log(arrFavTrans);
+                    arrFavTrans = arrFavTransDef;
+                }else{
+                    console.log('Si. fav_trans tiene_datos');
+                    arrFavTrans = convertArrBdToArrOk('arrFavTrans',data);
+                    console.log('1. editado arrFavTrans: ', arrFavTrans);
+                    arrFavTrans = [... new Set(arrFavTrans)];//quito elementos duplicados
+                    console.log('2. editado arrFavTrans: ', arrFavTrans);
+                    crear_arrFavTransObj();
+                }
+                break;
     
             default:
                 break;
@@ -11819,7 +11889,11 @@ function convertArrBdToArrOk(arrName, arr){
                     arr_work[i].verseText = convertirUnicodeALetras(el.verseText);//verseText
                 }        
                 break;
-                    
+
+            case 'arrFavTrans':
+                //no hace falta. no tiene unicode...       
+                break;
+                        
             
             default:
                 break;
@@ -14010,8 +14084,10 @@ function getRef(trans = null){
 
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
+            console.log('modo old --- en getRef() ');
+            console.log('arrFavTrans: ',arrFavTrans);
             alert('getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
-            //console.log('modo old --- en getRef() ');
+        
         }
 
     }else{

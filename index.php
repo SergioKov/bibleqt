@@ -160,12 +160,12 @@ session_start();
                                     id="inpt_nav" 
                                     data-trans="" 
                                     data-divtrans="" 
-                                    data-book_short_name="Быт." 
-                                    data-id_book="0" 
+                                    data-book_short_name="Ин." 
+                                    data-id_book="42" 
                                     data-show_chapter="" 
                                     data-show_verse="" 
                                     data-show_to_verse="" 
-                                    value="Быт."
+                                    value="Ин."
                                 >
                                 <div id="clear_inpt" onclick="clear_inpt('nav')">&times;</div>
                             </div>

@@ -2731,6 +2731,7 @@ function showMarkers(){
                 arr_markers.splice(index, 1);//elimino elemento del array
                 guardarEnBd('markers','arr_markers',arr_markers);
                 buildMarkersDesktop();
+                showMarkers();
             }
             wr_3_btns.append(btn_eliminar);
 
