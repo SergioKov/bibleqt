@@ -1136,9 +1136,6 @@ function buildMarkersDesktop(){
             wr_both.append(btn_verse_menu);
             wr_both.append(wr_3_btns);
 
-
-
-
             //p.innerHTML += `<span class="sp_vtext">${el.verseText}
             //                    <span class="btn_verse_menu" onclick="hideShow3Btns(${p.querySelector('.btn_verse_menu')})">
             //                        <span class="wr_3_btns" style="display: none;">
