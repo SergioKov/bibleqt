@@ -3634,3 +3634,12 @@ span.vt {
 .wr_both {
     position: relative;
 }
+
+
+p.p_pointer.c_red {
+    background:red;
+    /* transition: 0.3s; */
+}
+p.p_pointer.c_red span {
+    color: #f3f5f3;
+}

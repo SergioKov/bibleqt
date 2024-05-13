@@ -256,7 +256,7 @@ function checkPositionShowForMob(){
             await obtenerDatosDeBD('markers','arr_markers');
 
             setTimeout(()=>{
-                closeModal();
+                closeModal('Login');
             },5000);
 
             // Redirigir a la página de inicio si la autenticación es exitosa
@@ -340,7 +340,7 @@ async function iniciarSesion(){//antes login() //username,password
                 await obtenerDatosDeBD('markers','arr_markers');
     
                 setTimeout(()=>{
-                    closeModal();
+                    closeModal('Login');
                 },5000);
     
                 // Redirigir a la página de inicio si la autenticación es exitosa
@@ -365,7 +365,7 @@ async function iniciarSesion(){//antes login() //username,password
     }
 
 }
-
+/*
 function cerrarSesion_old(){
     console.log('=== function cerrarSession() ===');
 
@@ -407,6 +407,7 @@ function cerrarSesion_old(){
         console.error('error fetch ', error);
     });
 }
+*/
 
 async function cerrarSesion(){
     console.log('=== function cerrarSession() ===');
@@ -425,7 +426,7 @@ async function cerrarSesion(){
             let text_mensaje = 'Sesión cerrada con exito!';
             console.log(text_mensaje);
             
-            mostrarForm('bl_login');
+            //mostrarForm('bl_login');
             hay_sesion = false;
             pintLoginImg(hay_sesion);
 
@@ -444,9 +445,17 @@ async function cerrarSesion(){
         }
 
         arrFavTrans = arrFavTransDef;
+        console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
         pushStateHome();
-        location.reload();
-        crear_arrFavTransObj();
+
+        let aviso_sesion = `Sesión cerrada correctamente`;
+        openModal('center','Sesión',aviso_sesion,'showAviso'); 
+
+        setTimeout(()=>{
+            //closeModal('Login');//no hace falta ya que al abrir openModal() se cierra automaticamente
+            location.reload();
+            //crear_arrFavTransObj();//no hace falta ya que al reload se carga
+        },3000);
 
         mySizeWindow();
 
@@ -1114,7 +1123,7 @@ function changeModo(param){
     }
     //console.log('modo_fetch_verses_for_cols: ',modo_fetch_verses_for_cols);
     //alert('modo_fetch_verses_for_cols: ' +modo_fetch_verses_for_cols);
-    closeModal();
+    closeModal(null,true);
 }
 
 
@@ -13532,7 +13541,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa: '+error);
+                            console.error('13536. error promesa: '+error);
                         });//end myPromise_v
             
                     }else{//modo old. no existe arrFavTransObj
@@ -13751,6 +13760,7 @@ function getRef(trans = null){
 
         let Translation = trans;
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+        //alert('13755. objTrans: ',objTrans);//testing
         
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'.
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){//siempre es true
@@ -14074,20 +14084,24 @@ function getRef(trans = null){
             if(!result_ref_finded && hay_get_data){
                 
                 let text_aviso = `Nada encontrado segun la referencia '<b>${inpt_v}</b>' en la traducción '<b>${trans}</b>' <br>Selecciona la traducción y la referencia correctas por favor. Por ejemplo: la traducción '<b>RV60</b>' y la referencia '<b>Sal 23:3</b>.'`;
-                //console.error(text_aviso);
                 openModal('center','Aviso Error',text_aviso,'showAviso'); 
-                //setTimeout(()=>{
-                //    closeModal();
-                //    getRefByBibleRef('Jn.3:16-17');
-                //},5000);
             }
 
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
             console.log('modo old --- en getRef() ');
             console.log('arrFavTrans: ',arrFavTrans);
-            alert('getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
-        
+            //alert('14090. getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
+            //alert(`No fue posible encontrar la traducción ${Translation}. Se te va a mostrar un módulo que existe.`);
+            Translation = arrFavTrans[0];
+            trans = arrFavTrans[0];
+            eid_inpt_nav.dataset.trans = arrFavTrans[0];
+
+            let aviso_text = `No fue posible encontrar la traducción ${Translation}. Se te va a mostrar un módulo que existe.`;
+            openModal('center','Aviso Corrección',aviso_text,'showAviso');
+            setTimeout(()=>{
+                getRef(trans);
+            },5000);        
         }
 
     }else{
@@ -14493,7 +14507,7 @@ function selectModule2(htmlTrans){
                 
                 changeModule2(thisDiv, arrFavTransObj[i].Translation, arrFavTransObj[i].BibleShortName, arrFavTransObj[i].EnglishPsalms);
                 //console.log('p.onclick llamando changeModule2 ');
-                closeModal();
+                closeModal(null,true);
             }        
     
             eid_bl_modalFullInner.appendChild(p);
@@ -14565,7 +14579,7 @@ function selectTab(){//Vkladki
                 this_tab.scrollIntoView();
             }
             //console.log('p.onclick llamando changeModule2 ');
-            closeModal();
+            closeModal(null,true);
             updateArrTabs();
         }
         eid_bl_modalFullInner.appendChild(p);
@@ -14582,10 +14596,58 @@ function addListenerModule(){
     });
 }
 
-
+let go_to_hist_item = 0;
 
 function hist(param){
-    //console.log('funcion en desarrollo. param: '+param);
+    console.log('=== function hist() === ');
+    console.log(' param: ',param);
+    console.log(' arr_hist_nav: ',arr_hist_nav);
+    console.log(' initial go_to_hist_item: ',go_to_hist_item);
+
+    if(arr_hist_nav.length > 0){
+        console.log('arr_hist_nav tiene elementos ');
+
+        let p_all = document.querySelectorAll('.wr_hist_inner p');
+        p_all.forEach(el=>{
+            el.classList.remove('c_red');
+        });
+
+        if(param == 'prev'){
+            
+            go_to_hist_item++; 
+            console.log(' new go_to_hist_item: ',go_to_hist_item);
+
+            if(go_to_hist_item < arr_hist_nav.length){
+                let el = arr_hist_nav[go_to_hist_item];
+                p_all[go_to_hist_item].classList.add('c_red');
+                //p_all[go_to_hist_item].scrollIntoView();
+                console.log('elemento del arr_hist_nav al cual voy. el: ',el);
+                onclick_p_nav(el);
+            }else{
+                console.log('has llegado al fin del historial');
+                go_to_hist_item = arr_hist_nav.length;
+            }
+
+        }else if(param == 'next'){
+            
+            go_to_hist_item--; 
+            console.log(' new go_to_hist_item: ',go_to_hist_item);
+
+            if(go_to_hist_item >= 0){
+                let el = arr_hist_nav[go_to_hist_item];
+                p_all[go_to_hist_item].classList.add('c_red');
+                //p_all[go_to_hist_item].scrollIntoView();
+                console.log('elemento del arr_hist_nav al cual voy. el: ',el);
+                onclick_p_nav(el);
+            }else{
+                console.log('has llegado al inicio del historial');
+                go_to_hist_item = 0;
+            }
+        }
+
+    }else{
+        console.log('arr_hist_nav está vacio. no hago nada.');
+    }
 }
 
 

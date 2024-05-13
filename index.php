@@ -713,7 +713,7 @@ session_start();
             <header id="modcont_header">
                 <div class="inner">
                     <h4>
-                        <span class="close" onclick="closeModal()">&#10005;</span><!-- x -->
+                        <span class="close" onclick="closeModal(null,true)">&#10005;</span><!-- x -->
                         <span id="btn_sp_atras" class="sp_atras" onclick="openModal('top','Меню',null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>
                     </h4>
@@ -745,7 +745,7 @@ HERE;
     }
     
     
-    if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
+    if( isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
         // El usuario está logueado, muestra el contenido protegido
         $st_bl_sesion_iniciada = 'block';
         $st_bl_login = 'none';
@@ -765,6 +765,12 @@ print<<<HERE
 
     document.addEventListener("DOMContentLoaded", () => {
         pintLoginImg(hay_sesion);
+
+        (async ()=>{
+            //alert(111);
+            await obtenerDatosDeBD('fav_trans','arrFavTrans');
+            //alert(222);
+        })();
     });
 
 </script>
@@ -874,7 +880,7 @@ HERE;
                                 <div id="topMenuInner">
 <?php
 print<<<HERE
-                                    <div id="m_login_menu" class="dbtn" title="Sesion" onclick="openModal('top','Меню',null,'showLogin')" style="width:100%;">
+                                    <div id="m_login_menu" class="dbtn" title="Sesion" onclick="openModal('top','Login',null,'showLogin')" style="width:100%;">
                                     <div class="dbtn_inner">
                                             <img src="$login_img_src">    
                                             <span>Login</span>
@@ -1023,7 +1029,7 @@ HERE;
             <footer id="modcont_footer" style="display:none;">
                 <div class="inner">
                     <p>
-                        <span class="close" onclick="closeModal()">&#10005;</span> 
+                        <span class="close" onclick="closeModal(null,true)">&#10005;</span> 
                         aki modal content footer 
                     </p>
                 </div>

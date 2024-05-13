@@ -735,7 +735,7 @@ function buildVerseMenu(arr_p_id,positionModal){
         copyTextFromIdElement(idElement);
         btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
         setTimeout(()=>{
-            closeModal();
+            closeModal(null,true);
         },1000);
     }
 
@@ -771,7 +771,7 @@ function buildVerseMenu(arr_p_id,positionModal){
         addRefToMarker(trans, ref, book, chapter, verse, null, verseText);
         btn2.innerHTML = '<img src="./images/icon_ok_white.svg">';
         setTimeout(()=>{
-            closeModal();
+            closeModal(null,true);
         },1000);
     }
 
@@ -797,6 +797,7 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn4.onclick = ()=>{
         //console.log('llamo func para compartir');
         //console.log(arr_p_id);
+        alert('funccion en desarrollo...')
     }
 
     if(positionModal == 'center'){
@@ -2104,7 +2105,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
             setTimeout(()=>{
                 eid_s_verse.click();
             },100);
-            closeModal();
+            closeModal(null,true);
         }
 
         const v_trans = document.createElement('span');
@@ -2118,7 +2119,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     if(e.target.tagName === 'S'){
                         getStrongNumber(e.target.innerText);
                         if(window.innerWidth < pantallaTabletMinPx){
-                            closeModal();
+                            closeModal(null,true);
                         }
                     }
                 })
@@ -2152,7 +2153,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                         //console.log(el_a.href);
                         addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
                         getRefByHref(el_a.getAttribute('href'),'/',1);
-                        closeModal();
+                        closeModal(null,true);
                     });
                 });
             }
@@ -2558,7 +2559,7 @@ function showHistoryNav(){
             p.className = 'p_pointer';       
             p.onclick = () => {
                 onclick_p_nav(el);
-                closeModal();
+                closeModal(null,true);
                 showTab(eid_btn_nav,'nav');
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
@@ -2582,7 +2583,7 @@ function showHistoryFind(){
             p.className = 'p_pointer';       
             p.onclick = () => {
                 onclick_p_find(el);
-                closeModal();
+                closeModal(null,true);
                 if(window.innerWidth < pantallaTabletMinPx){
                     openSidebar(document.querySelector('.btnMenu'));//abro sidemar 'menu hamburguesa left'
                 }
@@ -2614,7 +2615,7 @@ function showHistoryStrong(){
             p.className = 'p_pointer';       
             p.onclick = () => {
                 onclick_p_strong(el);
-                closeModal();
+                closeModal(null,true);
                 showTab(eid_btn_strong,'strong');           
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
@@ -2635,20 +2636,6 @@ function showMarkers(){
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
             
-            /*
-            const p = document.createElement('p');
-            p.className = 'p_pointer';       
-            p.onclick = () => {
-                onclick_p_marker(el);
-                closeModal();
-                showTab(eid_btn_markers,'markers');
-            }
-            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-            p.innerHTML += `<span class="sp_vtext fs16">${el.verseText}</span>`;            
-            eid_bl_modalFullInner.append(p);
-            */
-
             const p = document.createElement('p');
             p.className = 'p_pointer';       
 
@@ -2768,18 +2755,30 @@ function showMarkers(){
 
 
 // When the user clicks on <span> (x), close the eid_myModal
-function closeModal() {
-    eid_myModal.style.opacity = 0;//start efecto fade
-    setTimeout(()=>{
-        eid_myModal.style.display = "none";
-    },400);
+function closeModal(modal_head_text = null, click_fuera_o_x = false) {
+    let actual_h4_text = eid_myModal.querySelector('#h4_text').textContent;
+    console.log('actual_h4_text: ',actual_h4_text);
+
+    if(modal_head_text == actual_h4_text || click_fuera_o_x){
+        console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
+
+        eid_myModal.style.opacity = 0;//start efecto fade
+        setTimeout(()=>{
+            eid_myModal.style.display = "none";
+        },400);
+
+    }else{
+        console.log(`[else] --- NO. el titulo no es igual. ${modal_head_text} != ${actual_h4_text}`);
+        //no hago nada
+    }
+
 }
 
 // When the user clicks anywhere outside of the eid_myModal, close it
 window.onclick = function(event) {
     //console.log('window.onclick on eid_myModal');
     if(event.target == eid_myModal || event.target == eid_myModalContent){
-        closeModal();
+        closeModal(null,true);//click_fuera_o_x
     }
 }
 
@@ -2920,11 +2919,13 @@ function openModalForSelectedTrans(){
     openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
 }
 
-
+/*
+// no hace falta ya que hay window.onclick con click_fuera_o_x
 eid_myModal.addEventListener('click', function(e){
     //console.log('eid_myModal. div 2 exterior');
-    closeModal();
+    closeModal(null,true);
 });
+*/
 
 eid_modcont_header.addEventListener('click', function(e){
     //console.log('-- eid_modcont_header. div 1 interior');

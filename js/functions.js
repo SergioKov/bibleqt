@@ -808,29 +808,31 @@ const countElementsInArray = arr => {
 function pushStateHome(){
 
     // Obtener la base URL
-    let baseUrl = window.location.protocol + "//" + window.location.host;
-    console.log("Base URL:", baseUrl);
-    // Obtener la URL completa
-    let fullUrl = baseUrl + window.location.pathname;
-    console.log("URL completa:", fullUrl);
+    let base_url = window.location.protocol + "//" + window.location.host;
+    console.log("Base URL. base_url: ", base_url);
 
-    window.history.pushState(null, "Título de la página", fullUrl);
+    // Obtener la URL completa
+    let full_url = base_url + window.location.pathname;
+    console.log("URL completa. full_url :", full_url);
+
+    window.history.pushState(null, "Título de la página", full_url);
 }
 
 
 function pushStateToHistNav(trans,ref){
 
     // Obtener la base URL
-    let baseUrl = window.location.protocol + "//" + window.location.host;
-    console.log("Base URL:", baseUrl);
-    // Obtener la URL completa
-    let fullUrl = baseUrl + window.location.pathname;
-    console.log("URL completa:", fullUrl);
-    
-    let fullUrl_ref = `${fullUrl}?trans=${trans}&ref=${ref}`;
-    console.log("URL completa con ref:", fullUrl_ref);
+    let base_url = window.location.protocol + "//" + window.location.host;
+    console.log("Base URL. base_url: ", base_url);
 
-    window.history.pushState(null, "Título de la página", fullUrl_ref);
+    // Obtener la URL completa
+    let full_url = base_url + window.location.pathname;
+    console.log("URL completa. full_url :", full_url);
+    
+    let full_url_ref = `${full_url}?trans=${trans}&ref=${ref}`;
+    console.log("URL completa con ref. full_url_ref: ", full_url_ref);
+
+    window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
 const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
@@ -927,42 +929,77 @@ function onclick_p_nav(el){
     eid_inpt_nav.dataset.book_short_name = el.BookShortName;
     eid_inpt_nav.dataset.id_book = el.book;
     eid_inpt_nav.dataset.show_chapter = el.chapter;
-    eid_inpt_nav.value = el.ref;            
+    eid_inpt_nav.value = el.ref;
+
+    if(el.chapter != ''){
+        eid_inpt_nav.dataset.show_chapter = el.chapter;
+        obj_nav.show_chapter = el.chapter;
+    }else{
+        el.chapter = 1;
+        eid_inpt_nav.dataset.show_chapter = el.chapter;
+        obj_nav.show_chapter = el.chapter;
+    }
     
     if(el.verse != null){
         eid_inpt_nav.dataset.show_verse = el.verse;
+        obj_nav.show_verse = el.verse;
         eid_s_verse.click();
     }else{
         eid_inpt_nav.dataset.show_verse = '';
+        obj_nav.show_verse = '';
         eid_s_verse.click();
     }
 
     if(el.to_verse != null){
         eid_inpt_nav.dataset.show_to_verse = el.to_verse;
+        obj_nav.show_to_verse = el.to_verse;
     }else{
         eid_inpt_nav.dataset.show_to_verse = '';
+        obj_nav.show_to_verse = '';
     }
 
     let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
     let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
+
+    let number_id_book,number_show_chapter;
     
     if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
         let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
         allowUseShowTrans = true;
-        showTrans(res[0], res[1],res[2],res[3]);
+        number_id_book = (res[0] != '') ? res[0] : 1 ;
+        number_show_chapter = !([null,NaN,''].includes(res[1])) ? res[1] : 1 ;//si res no es vacio,null,NaN
+        number_show_verse = !([null,NaN,''].includes(res[2])) ? res[2] : null ;//si res no es vacio,null,NaN
+        //showTrans(res[0], res[1], res[2], res[3]);
+        showTrans(number_id_book, number_show_chapter, number_show_verse, res[3]);
     }
     else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
         let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
         allowUseShowTrans = true;
-        showTrans(res[0], res[1],res[2],res[3]);
+        number_id_book = (res[0] != '') ? res[0] : 1 ;
+        number_show_chapter = !([null,NaN,''].includes(res[1])) ? res[1] : 1 ;//si res no es vacio,null,NaN
+        number_show_verse = !([null,NaN,''].includes(res[2])) ? res[2] : null ;//si res no es vacio,null,NaN
+        //showTrans(res[0], res[1], res[2], res[3]);
+        showTrans(number_id_book, number_show_chapter, number_show_verse, res[3]);
     }
     else{   
         //console.log('llamo showTrans()');
         allowUseShowTrans = true;
-        showTrans(el.book, el.chapter, el.verse, el.to_verse);
+        number_id_book = (el.book != '') ? el.book : 1 ;
+        number_show_chapter = !([null,NaN,''].includes(el.chapter)) ? el.chapter : 1 ;
+        //showTrans(el.book, el.chapter, el.verse, el.to_verse);//antes
+        showTrans(number_id_book, number_show_chapter, el.verse, el.to_verse);
     }
 
-    eid_wr_hist_nav_inner.scrollTop = 0;//scroll al inicio de div
+    //hago scroll al inicio de div, al primer index de arr_hist_nav
+    eid_wr_hist_nav_inner.scrollTop = 0;
+
+    //meto Gen.1:1 en los head de cada trans Desk y Mob
+    document.querySelectorAll('.partDesk .desk_sh_link').forEach(el=>{
+        putRefVisibleToHead(`00__${number_id_book}__${number_show_chapter}__1`, 0);//todos los heads de cols
+    });
+    document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+        putRefVisibleToHead(`00__${number_id_book}__${number_show_chapter}__1`, 0);//todos los heads de cols
+    });
 
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){

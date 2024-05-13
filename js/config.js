@@ -116,9 +116,6 @@ const eid_vklad_strong = document.getElementById('vklad_strong');
 const eid_vklad_markers = document.getElementById('vklad_markers');
 
 
-
-
-
 const eid_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
 const eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
 const eid_btn_ok = document.getElementById('btn_ok');
@@ -131,10 +128,6 @@ const eid_strong_head = document.getElementById('strong_head');
 const eid_strong_body = document.getElementById('strong_body');
 
 const eid_partDeskTabs = document.getElementById('partDeskTabs');
-
-
-
-
 
 
 //start - modal.js
@@ -252,6 +245,28 @@ const obj_ref = {
     }
 };
 
+//objeto de ficheros de todas las traducciones de Biblia cargados como text
+const obj_bible_files = {};
+
+//objeto de ficheros de Strong
+const obj_strong_files = {};
+
+//objeto de ficheros de Tsk
+const obj_tsk_files = {};
+
+
+
+
+
+
+
+
+
+
+//====================================================================//
+//  V A R I A B L E S
+//====================================================================//
+
 //variable para crear arrFavTransObj
 let arrFavTransDef = [
     "rstStrongRed",
@@ -293,20 +308,6 @@ let arrFavTsk = [
     'tsk'//carpeta donde están ficheros '01_genesis.ini' para TSK
 ];
 
-
-//objeto de ficheros de todas las traducciones de Biblia cargados como text
-const obj_bible_files = {};
-
-//objeto de ficheros de Strong
-const obj_strong_files = {};
-
-//objeto de ficheros de Tsk
-const obj_tsk_files = {};
-
-
-//====================================================================//
-//  V A R I A B L E S
-//====================================================================//
 let positionShow = 'col';//por defecto posicion de columnas
 
 let obj_nav = {
