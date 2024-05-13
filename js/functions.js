@@ -1299,6 +1299,7 @@ function onclick_p_marker(el){
     if(window.innerWidth < pantallaTabletMinPx){
         //console.log('func selVerse(). mobile.');
         closeSidebar();
+        closeModal(null,true);
     }    
 }
 

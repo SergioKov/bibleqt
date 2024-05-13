@@ -736,7 +736,7 @@ function buildVerseMenu(arr_p_id,positionModal){
         btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
         setTimeout(()=>{
             closeModal(null,true);
-        },1000);
+        },500);
     }
 
     //Marker
@@ -772,7 +772,7 @@ function buildVerseMenu(arr_p_id,positionModal){
         btn2.innerHTML = '<img src="./images/icon_ok_white.svg">';
         setTimeout(()=>{
             closeModal(null,true);
-        },1000);
+        },500);
     }
 
     //comparar verses
