@@ -14620,7 +14620,7 @@ function hist(param){
             if(go_to_hist_item < arr_hist_nav.length){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
-                //p_all[go_to_hist_item].scrollIntoView();
+                //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav
                 console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
@@ -14636,7 +14636,7 @@ function hist(param){
             if(go_to_hist_item >= 0){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
-                //p_all[go_to_hist_item].scrollIntoView();
+                //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav 
                 console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
