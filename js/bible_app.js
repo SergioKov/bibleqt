@@ -12068,6 +12068,9 @@ function closeTab(el, ev = null){
         el.parentElement.remove();        
         updateArrTabs();
         mySizeWindow();        
+    }else{
+        let aviso_text = `No se puede eliminar la única pestaña.`;
+        openModal('center','Aviso Pestañas',aviso_text,'showAviso');
     }
 }
 
@@ -14566,7 +14569,30 @@ function selectTab(){//Vkladki
         p.innerHTML += `<span class="sh_n">${arrTabs[i].ref}</span> `;
         p.innerHTML += `<span class="sh_cuant" title="Translations to compare: ${arr_trans_names.length}">(${arr_trans_names.length})</span>`;
         p.innerHTML += `<span class="la_n">${str_trans_names}</span>`;
-        p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.getElementById('${arrTabs[i].id} button'), ev)">&#10005;</span>`;// <!--X--> 
+        //p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.querySelector('#${arrTabs[i].id} button'), this)">&#10005;</span>`;// <!--X--> 
+
+        const btn_tab_x = document.createElement('span');
+        btn_tab_x.className = 'btn_tab_x';
+        btn_tab_x.innerHTML = '&#10005;';// <!--X--> 
+        let id_tab_to_del = arrTabs[i].id;
+        btn_tab_x.dataset.id_tab_to_del = id_tab_to_del;
+        btn_tab_x.onclick = (ev) => {
+            console.log('ev: ',ev);
+            console.log('ev.currentTarget: ',ev);
+            let id_tab = ev.currentTarget.dataset.id_tab_to_del;
+            console.log('id_tab: ',id_tab);
+            closeTab(document.querySelector(`#${id_tab} button`), ev);
+            //closeModal(null,true);
+            //si no se queda el ultimo elemento p en la lista , elimino el elemento
+            if(document.querySelectorAll('.cl_tab').length != 1){
+                ev.currentTarget.parentElement.remove();
+            }else{
+                let aviso_text = `No se puede eliminar la única pestaña.`;
+                openModal('center','Aviso Pestañas',aviso_text,'showAviso');
+            }
+        };
+        p.append(btn_tab_x);
+
         p.onclick = function(){
             if(window.innerWidth < pantallaTabletMinPx){
                 positionShow = 'col';//pongo 'col' para que se cambie a 'row' onclick 
