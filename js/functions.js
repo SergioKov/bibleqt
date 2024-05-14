@@ -674,6 +674,7 @@ const handlerListenTsk = (ev, Translation ) => {
 
 function buildDivShow(arrData, indexColToBuild = null){
     console.log('function buildDivShow');
+    //alert('function buildDivShow');
     //console.log('arrData: ', arrData);
 
     //si solo hay que construir una columna
@@ -1276,7 +1277,11 @@ function onclick_p_marker(el){
 
     let thisDiv = eid_trans1;//test
     changeModule2(thisDiv, trans_item.Translation, trans_item.BibleShortName, trans_item.EnglishPsalms);    
-    
+
+    /*
+    //antes - falla. se cargan en vez de ['ukr_pop','rst'] => 2 ['ukr_pop','ukr_pop']
+    //no llega a cargar a tiempo los datos, y un modulo lo repite 2 veces. 
+    //se necesita setTimeout(); 
     if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
         let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
         allowUseShowTrans = true;
@@ -1292,6 +1297,40 @@ function onclick_p_marker(el){
         allowUseShowTrans = true;
         showTrans(el.book, el.chapter, el.verse, el.to_verse);
     }
+    */
+    
+    
+    //MODO 1. FUNCIONA!!!
+    setTimeout(()=>{
+        if(trans_base.EnglishPsalms == 'N' && trans_item.EnglishPsalms == 'Y'){//Пс 22 | Sal 23
+            let res = convertLinkFromEspToRus(el.book, el.chapter, el.verse, el.to_verse);
+            allowUseShowTrans = true;
+            showTrans(res[0], res[1], res[2], res[3]);
+        }
+        else if(trans_base.EnglishPsalms == 'Y' && trans_item.EnglishPsalms == 'N'){//Sal 23 | Пс 22
+            let res = convertLinkFromRusToEsp(el.book, el.chapter, el.verse, el.to_verse);
+            allowUseShowTrans = true;
+            showTrans(res[0], res[1], res[2], res[3]);
+        }
+        else{   
+            //console.log('llamo showTrans()');
+            allowUseShowTrans = true;
+            showTrans(el.book, el.chapter, el.verse, el.to_verse);
+        }
+    },50);
+       
+
+    /*
+    //MODO 2. TAMBIÉN FUNCIONA
+    setTimeout(()=>{
+        
+        console.log(eid_inpt_nav.dataset.trans);
+        console.log(eid_inpt_nav.value);
+        console.log('llamo a getRef(el.trans)');
+        
+        getRef(el.trans);
+    },50);
+    */    
 
     eid_wr_markers_inner.scrollTop = 0;//scroll al inicio de div
 

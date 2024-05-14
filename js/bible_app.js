@@ -3,7 +3,17 @@
 //==================================================================//
 
 let arrFavTransObj = {};
-crear_arrFavTransObj(); // Llamamos a la función para que crea arrFavTransObj
+//crear_arrFavTransObj(); // Llamamos a la función para que crea arrFavTransObj
+
+if(hay_sesion){
+    ddd();
+    async function ddd(){
+        await obtenerDatosDeBD('fav_trans','arrFavTrans');
+        console.log('arrFavTrans: ', arrFavTrans);
+    }
+}else{
+    crear_arrFavTransObj(); // Llamamos a la función para que crea arrFavTransObj
+}
 
 async function crear_arrFavTransObj() {
     arrFavTransObj = await make_arrFavTransObj(arrFavTrans);
@@ -10665,9 +10675,10 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //let indexColToBuild = arr_trans.indexOf(trans_actual);//no vale. si se repite coje el primero que coincide y rompe la logica
     //da error si se añade [col1,col3,col2]            //let indexColToBuild = Number(idColToBuild.slice(3)) - 1;//de 'col3' -> quito tres preimeros caracteres -> '3' //'col12' -> '12'
     
-    makeArrColsFromCols();
+    makeArrColsFromCols();//ok
+
     let indexColToBuild = arr_cols.indexOf(idColToBuild);
-    console.log(' indexColToBuild: ', indexColToBuild);
+    console.log('indexColToBuild: ', indexColToBuild);
     
     //console.log(' actual arr_trans: ', arr_trans);
     //modifico arr_trans 
@@ -11473,6 +11484,23 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
     getRef(this_tab.dataset.ref_trans);
 
+    //Muevo con scroll al lugar de donde lo dejé en vkladka actual
+    setTimeout(()=>{
+
+        if(this_tab.dataset.scroll_top != null){
+            document.querySelectorAll('.colsInner').forEach(el=>{
+                //el.scrollTop = this_tab.dataset.scroll_top;
+                el.scrollTo({
+                    top: this_tab.dataset.scroll_top,
+                    behavior: 'smooth'
+                    //behavior: 'instant'
+                  });
+            });
+        }
+
+    },1000);
+
+
     //ejecuto click sobre el boton 'Stij' para que se muestren botones de verses
     setTimeout(()=>{
         eid_s_verse.click();
@@ -11521,6 +11549,9 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.dataset.str_trans = str_trans;
         htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
+            let scroll_top_col1 = document.querySelectorAll('.colsInner')[0].scrollTop; 
+            document.querySelector('.tab_active').dataset.scroll_top = scroll_top_col1;
+
             getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
             updateArrTabs();
         };
@@ -11798,7 +11829,13 @@ async function obtenerDatosDeBD(tabla, campo){
                     console.log('1. editado arrFavTrans: ', arrFavTrans);
                     arrFavTrans = [... new Set(arrFavTrans)];//quito elementos duplicados
                     console.log('2. editado arrFavTrans: ', arrFavTrans);
-                    crear_arrFavTransObj();
+                    ccc();
+                    async function ccc(){
+                        console.log('antes - arrFavTransObj: ', arrFavTransObj);
+                        await crear_arrFavTransObj();
+                        console.log('despues - arrFavTransObj: ', arrFavTransObj);
+                    };
+                    //crear_arrFavTransObj();
                 }
                 break;
     
@@ -11934,6 +11971,9 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.dataset.str_trans = el.str_trans;
                 htmlTab.dataset.ref_trans = el.ref_trans;
                 htmlTab.onclick = function(e){
+                    let scroll_top_col1 = document.querySelectorAll('.colsInner')[0].scrollTop; 
+                    document.querySelector('.tab_active').dataset.scroll_top = scroll_top_col1;
+                            
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
                 };

@@ -768,7 +768,7 @@ print<<<HERE
 
         (async ()=>{
             //alert(111);
-            await obtenerDatosDeBD('fav_trans','arrFavTrans');
+            await obtenerDatosDeBD('fav_trans','arrFavTrans');           
             //alert(222);
         })();
     });

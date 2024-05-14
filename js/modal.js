@@ -2647,6 +2647,7 @@ function showMarkers(){
             `;
             sam_mk_head.onclick = () => {
                 onclick_p_marker(el);
+                closeModal(null,true);//en mobile cierro modal
             }
             p.append(sam_mk_head);
 
@@ -2658,6 +2659,7 @@ function showMarkers(){
             sam_text.innerHTML = el.verseText;
             sam_text.onclick = () => {
                 onclick_p_marker(el);
+                closeModal(null,true);//en mobile cierro modal
             }
 
             sp_vtext.append(sam_text);
@@ -2692,6 +2694,7 @@ function showMarkers(){
                 console.log(e.currentTarget.dataset.indexMarker);
                 console.log('1. index de arr_markers. index: ',index);
                 onclick_p_marker(el);
+                closeModal(null,true);//en mobile cierro modal
             }
             wr_3_btns.append(btn_ver);
 
