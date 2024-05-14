@@ -11498,7 +11498,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
             });
         }
 
-    },1000);
+    },2000);
 
 
     //ejecuto click sobre el boton 'Stij' para que se muestren botones de verses
