@@ -20157,8 +20157,8 @@ function pintRefOnScroll(){
                 //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
                     el_rect.top >= 0 && 
-                    el_rect.top <= divContenedor_rect.top &&
-                    el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
+                    el_rect.top + 7 <= divContenedor_rect.top &&
+                    el_rect.bottom + 7 <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
                     primerElementoVisible = elemento;
