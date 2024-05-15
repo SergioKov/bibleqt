@@ -423,6 +423,11 @@ async function cerrarSesion(){
     console.log('=== function cerrarSession() ===');
 
     try {
+        
+        //antes de cerra sesion actualizo/guardo los ajustes y estado de los arrays
+        updateArrTabs();
+        
+        
         // Realizar una petición al servidor para cerrar la sesión
         // y actualizar el contenido después de cerrar la sesión.
         // Aquí utilizamos Fetch API para hacer la petición AJAX.
@@ -1023,6 +1028,8 @@ async function loadDefaultFunctions(){
 
     updateBtnActTransNavOnLoad();//actualizo btn negro por encima de la seleccion de book,chapter,verse
 
+    hideShowVkladkiInMob();//muestro o oculto vkladki en mobile con var vkladkiInMobShow
+
 
     if(await verificarAutenticacion()){
         console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
@@ -1150,7 +1157,7 @@ function hideShowVkladkiInMob(){
         eid_headerContainer.querySelector('.partDesk').classList.add('vkladki_in_mob');
         eid_m_btnVkladkiInMob.classList.add('btn_active');
     }
-    //si se ven los vkladkiInMob 
+    scrollToVkladkaActive();
     mySizeWindow();
 }
 
@@ -1492,38 +1499,6 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
 }
 
 
-function initScroll(){
-    document.querySelectorAll('.colsInner').forEach( (el,i) => {
-        el.onmouseover = function(){
-            //console.log('over i: '+i);
-            enableScroll(el,i);
-        }
-        el.ontouchmove = function(){//mobile
-            //console.log('over i: '+i);
-            enableScroll(el,i);
-        }
-    });    
-}
-
-
-function enableScroll(el,i){
-    el.onscroll = () => {
-        fnScrollCol(el,i);
-    }
-    el.ontouchmove = () => {
-        fnScrollCol(el,i);
-    }
-    document.querySelectorAll('.colsInner').forEach( (elem,index) => {
-        if(index != i){
-            //elem.removeEventListener('scroll', fnScrollCol);//NO FUNCIONA
-            elem.onscroll = function(){
-                //console.log('lalala');
-            };
-        }
-    });
-}
-
-
 function getArrSumLineH(){
     //console.log('getArrSumLineH()');
 
@@ -1612,15 +1587,62 @@ function getArrSumLineH(){
 }
 
 
-function fnScrollCol(el,i){
-    //console.log('=== function fnScrollCol() ===');
+function initScrollInColsInner(){
+    document.querySelectorAll('.colsInner').forEach( (el,i) => {
+        el.onmouseover = () => {//desktop
+            //console.log('el.onmouseover. i: ',i);
+            enableScrollInColsInner(el,i);
+        }
+        el.ontouchmove = () => {//mobile
+            //console.log('el.ontouchmove. i: ',i);
+            enableScrollInColsInner(el,i);
+        }
+    });    
+}
+
+function finishScrollInColsInner(){
+    document.querySelectorAll('.colsInner').forEach( (el,i) => {
+        el.onmouseover = () => {//desktop
+            //console.log('el.onmouseover. i: ',i);
+            disableScrollInColsInner(el,i);
+        }
+        el.ontouchmove = () => {//mobile
+            //console.log('el.ontouchmove. i: ',i);
+            disableScrollInColsInner(el,i);
+        }
+    });    
+}
+
+
+function enableScrollInColsInner(el,i){
+    //console.log('=== function enableScrollInColsInner() ===');    
+    el.onscroll = () => {
+        scrollInColsInner(el,i);
+    }
+    el.ontouchmove = () => {
+        scrollInColsInner(el,i);
+    }
+}
+
+
+function disableScrollInColsInner(el,i){
+    //console.log('=== function disableScrollInColsInner() ===');    
+    el.onscroll = () => {
+        console.log('dasabilito el.onscroll. i: ',i);
+    }
+    el.ontouchmove = () => {
+        console.log('dasabilito el.ontouchmove. i: ',);
+    }
+}
+
+function scrollInColsInner(el,i){
+    console.log('=== function scrollInColsInner() ===');
    
-    //console.log('scrolling: '+ i);
-    //console.log('abajo arr2_sum_line_h: ');
-    //console.log(arr2_sum_line_h);
+    //console.log('el: ',el);
+    //console.log('i: ',i);
+    //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
 
     let h = el.scrollTop;
-    //let h = el.currentTarget.scrollTop;
     //console.log('*** i :'+i+' --- h:',h);
 
     //VERTICAL
@@ -1670,7 +1692,7 @@ function fnScrollCol(el,i){
                         //console.log('h_prew: '+h_prew);
     
                         new_h = h_prew + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                        //console.log('new_h ('+new_h+') = '+h_prew+' + '+arr2_line_h[iv][ic]+' * '+coef_h);
+                        //console.log(`--- new_h (${new_h}) = ${h_prew} + ${arr2_line_h[iv][ic]} * ${coef_h}`);
                         //console.log('new_h: '+new_h);
     
                         colsInnerAll[ic].scrollTop = new_h;
@@ -1685,11 +1707,12 @@ function fnScrollCol(el,i){
     
     }//end HORIZONTAL
 
-}//end fnScrollCol
+}//end scrollInColsInner
 
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
-    
+    console.log('=== function scrollToVerse() ===');
+
     document.querySelectorAll('#wrCols .active').forEach(el => {
         el.classList.remove('active');
         el.classList.remove('active_first');
@@ -1738,12 +1761,13 @@ function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*
 
 }
 
+
 function scrollToVerseView(verseView, userBlock = 'start'){   
     //scroll to verseView
     setTimeout(()=>{
         document.querySelectorAll('[data-verse="'+verseView+'"]').forEach(el=>{
             el.scrollIntoView({
-                //behavior: "smooth",
+                //behavior: "smooth",//auto (predeterminado),smooth (suave),
                 block: userBlock,//start,center,end
                 inline: "nearest"
             });
@@ -10516,7 +10540,8 @@ function changeTrans(e, trans, BibleShortName, EnglishPsalms){
     arr_trans[0] = trans;
     arr_divShow[0] = 'col1';//ya que siempre se cambia el primer div col1 al cambiar la trans en el eid_footer
     
-    updateTransInTab(trans,document.querySelector('.tabs.tab_active'),1);//actualizo col1 y trans1 
+    updateTransInTab(trans,document.querySelector('.tab_active'),1);//actualizo col1 y trans1 
+    updateArrTabs();
 
     eid_trans1.querySelector('.colsHeadInner .partDesk .desk_trans').innerHTML = BibleShortName;
     eid_trans1.querySelector('.colsHeadInner .partMob .mob_trans').innerHTML = BibleShortName;
@@ -10652,7 +10677,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     let new_trans = trans;
 
     let este_trans = arrFavTransObj.find(v => v.Translation === trans);
-    let tabActive = document.querySelector('.tabs.tab_active');
+    let tabActive = document.querySelector('.tab_active');
 
     //averiguo si el col antes tenia trans o no
     if(typeof thisDiv.dataset.trans == 'undefined'){//es trans que se añade
@@ -10953,7 +10978,7 @@ function mySizeWindow() {
     }
 
     setTimeout(()=>{
-        initScroll();
+        initScrollInColsInner();
         getArrSumLineH();
     },100);
 
@@ -11208,7 +11233,7 @@ function mySizeVerse(){
     }
     setTimeout(()=>{
         addMarginTolastP();
-        initScroll();
+        initScrollInColsInner();
         getArrSumLineH();
     },100);
 
@@ -11373,7 +11398,7 @@ function removeTrans(){
         let n = colId.slice(-1);//de 'col4' saco '4'
         
         let trans = eid_wrCols.lastElementChild.querySelector('.colsHead').dataset.trans;
-        let tabActive = document.querySelector('.tabs.tab_active');
+        let tabActive = document.querySelector('.tab_active');
         removeTransFromTab(trans,tabActive,n);
         
         eid_wrCols.lastElementChild.remove();
@@ -11392,7 +11417,7 @@ function closeTrans(el,event, param = null){
     document.getElementById('col'+n).remove();
     
     let trans = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
-    let tabActive = document.querySelector('.tabs.tab_active');
+    let tabActive = document.querySelector('.tab_active');
     removeTransFromTab(trans,tabActive,n);
 
     updateArrTabs();
@@ -11501,23 +11526,6 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 
     getRef(this_tab.dataset.ref_trans);
 
-    //Muevo con scroll al lugar de donde lo dejé en vkladka actual
-    setTimeout(()=>{
-
-        if(this_tab.dataset.scroll_top != null){
-            document.querySelectorAll('.colsInner').forEach(el=>{
-                //el.scrollTop = this_tab.dataset.scroll_top;
-                el.scrollTo({
-                    top: this_tab.dataset.scroll_top,
-                    behavior: 'smooth'
-                    //behavior: 'instant'
-                  });
-            });
-        }
-
-    },2000);
-
-
     //ejecuto click sobre el boton 'Stij' para que se muestren botones de verses
     setTimeout(()=>{
         eid_s_verse.click();
@@ -11566,11 +11574,9 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.dataset.str_trans = str_trans;
         htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
-            let scroll_top_col1 = document.querySelectorAll('.colsInner')[0].scrollTop; 
-            document.querySelector('.tab_active').dataset.scroll_top = scroll_top_col1;
-
             getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
             updateArrTabs();
+            updateActTransNavBlackBtn();
         };
         if(act != null) htmlTab.classList.add('tab_active');//antes
 
@@ -11610,7 +11616,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         // Itera a través de los hijos y verifica si alguno tiene la clase 'active'
         for(let i = 0; i < tabsAll.length; i++) {
             if (tabsAll[i].classList.contains('tab_active')) {
-                document.querySelector('.tab_active').scrollIntoView();
+                scrollToVkladkaActive();
                 break; // Si se encuentra un hijo con la clase 'active', puedes salir del bucle
                 //console.log('tiene active');
             }
@@ -11654,8 +11660,6 @@ function updateArrTabs(){
         el.title = str_trans_names;
         el.dataset.str_trans = str_trans_new;
 
-        let vkladka_scroll_top = (el.dataset.scroll_top > 0) ? el.dataset.scroll_top : first_colsInner.scrollTop ;
-
         const el_obj = {
             id        : el.id,
             className : el.getAttribute('class'),
@@ -11663,8 +11667,7 @@ function updateArrTabs(){
             title     : str_trans_names,
             btn_close : has_btn_close,
             ref_trans : el.dataset.ref_trans,
-            ref       : el.querySelector('span').innerHTML,
-            scroll_top: vkladka_scroll_top,
+            ref       : el.querySelector('span').innerHTML
         };
         //console.log(el_obj);
         arrTabs.push(el_obj);
@@ -11991,14 +11994,11 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.className = el.className;
                 htmlTab.dataset.str_trans = el.str_trans;
                 htmlTab.dataset.ref_trans = el.ref_trans;
-                htmlTab.dataset.scroll_top = el.scroll_top;
                 htmlTab.title = el.title;       
-                htmlTab.onclick = function(e){
-                    let scroll_top_col1 = document.querySelectorAll('.colsInner')[0].scrollTop; 
-                    document.querySelector('.tab_active').dataset.scroll_top = scroll_top_col1;
-                            
+                htmlTab.onclick = function(e){                            
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
+                    updateActTransNavBlackBtn();
                 };
         
                 const spanBibShortRef = document.createElement("span");
@@ -12026,7 +12026,7 @@ function makeTabsFromDatosDeVkladki(){
             // Itera a través de los hijos y verifica si alguno tiene la clase 'active'
             for(let i = 0; i < tabsAll.length; i++) {
                 if (tabsAll[i].classList.contains('tab_active')) {
-                    document.querySelector('.tab_active').scrollIntoView();
+                    scrollToVkladkaActive();
                     
                     let htmlTab = tabsAll[i];
                     console.log('tiene active. htmlTab');
@@ -12420,6 +12420,7 @@ function selVerse(e){
     e.srcElement.classList.add('li_active');//añado bg red al li boton del verse '2'
 
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
+    scrollToVkladkaActive();
     
     addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse);
 
@@ -12664,6 +12665,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     }
                                 },100);//100
                             }
+                            scrollToVkladkaActive();
 
                             // Registra el tiempo de finalización
                             //const tiempoFin_b = new Date().getTime();
@@ -12846,6 +12848,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     });
                                 },100);
                             }
+                            scrollToVkladkaActive();
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
@@ -12959,6 +12962,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     });
                                 },100);
                             }
+                            scrollToVkladkaActive();
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
@@ -13213,6 +13217,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                         }
                                                     },100);
                                                 }
+                                                scrollToVkladkaActive();
                                             })
                                             .catch(error => { 
                                                 // Código a realizar cuando se rechaza la promesa
@@ -13340,6 +13345,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                         });
                                                     },100);
                                                 }
+                                                scrollToVkladkaActive();
                                             })
                                             .catch(error => { 
                                                 // Código a realizar cuando se rechaza la promesa
@@ -13475,6 +13481,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                 }
                                             },100);
                                         }
+                                        scrollToVkladkaActive();
                                     })
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
@@ -13577,6 +13584,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                 });
                                             },100);
                                         }
+                                        scrollToVkladkaActive();
                                     })
                                     .catch(error => { 
                                         // Código a realizar cuando se rechaza la promesa
@@ -13601,6 +13609,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     }                                    
                                 },100);
                             }
+                            scrollToVkladkaActive();
                         })
                         .catch(error => { 
                             // Código a realizar cuando se rechaza la promesa
@@ -19629,7 +19638,7 @@ function markRed(text_original, text_marcas){
 
 function updateTransOnClickOnActiveCol(){
     document.querySelectorAll('.colsInner').forEach(el=>{
-        el.onclick = ()=> {
+        el.onclick = () => {
             let trans_of_col = el.parentElement.querySelector('.colsHead').dataset.trans;
             let id_of_col = el.parentElement.querySelector('.colsHead').id;
             //console.log('trans_of_col: '+trans_of_col+' --- id_of_col: '+id_of_col);
@@ -19647,6 +19656,27 @@ function updateTransOnClickOnActiveCol(){
             }
         }
     });
+}
+
+function updateActTransNavBlackBtn(){
+    let vkladka_active = document.querySelector('.tab_active');
+    //let first_trans = vkladka_active.dataset.str_trans.split(',')[0];
+    let first_trans = vkladka_active.dataset.ref_trans;
+    
+    let trans_of_col = first_trans;
+    //console.log('first_trans: '+first_trans+' --- first_trans: '+id_of_col);
+    if(typeof trans_of_col != 'undefined'){
+        eid_inpt_nav.dataset.divtrans = 'trans1';
+        eid_inpt_nav.dataset.trans = trans_of_col;
+        let act_trans = arrFavTransObj.find(v => v.Translation === trans_of_col);
+        eid_act_trans_nav.title = act_trans.BibleName;
+        eid_act_trans_find.title = act_trans.BibleName;
+        eid_act_trans_strong.title = act_trans.BibleName;
+        eid_act_trans_nav.textContent = act_trans.BibleShortName;
+        eid_act_trans_find.textContent = act_trans.BibleShortName;
+        eid_act_trans_strong.textContent = act_trans.BibleShortName;
+        eid_s_book.click();//function sel(; click на 'Книга', чтобы загрузились названия книг выбраного модуля.
+    }
 }
 
 function updateBtnActTransNavOnLoad(){
@@ -20124,10 +20154,11 @@ function pintRefOnScroll(){
             //console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
             if(window.innerWidth < pantallaTabletMinPx){//mobile
-                //en mobile
+                //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
+                    //el_rect.top >= 0 && 
                     el_rect.top >= 0 && 
-                    el_rect.top <= divContenedor_rect.top &&
+                    el_rect.top + 0 <= divContenedor_rect.top - 2 &&
                     el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
@@ -20148,8 +20179,8 @@ function pintRefOnScroll(){
                 //en desktop
                 if(
                     el_rect.top >= 0 &&
-                    el_rect.top <= divContenedor_rect.top + 1 &&
-                    el_rect.bottom >= divContenedor_rect.top + 1 &&
+                    el_rect.top <= divContenedor_rect.top + 2 &&
+                    el_rect.bottom >= divContenedor_rect.top + 2 &&
                     !primerElementoVisible               
                 ){
                     primerElementoVisible = elemento;
@@ -20279,6 +20310,12 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 
                 //console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
                 let new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
+
+                //meto ref 'Матв. 1:19' en vkladka aciva del col1 trans1
+                if(i == 0){
+                    document.querySelector('.tab_active span').innerHTML = new_ref;
+                    document.querySelector('.tab_active').dataset.ref_trans = trans_base;
+                } 
 
                 el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;

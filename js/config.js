@@ -309,7 +309,7 @@ let arrFavTsk = [
 ];
 
 let positionShow = 'col';//por defecto posicion de columnas
-let vkladkiInMobShow = false;//por defecto no se muestran tabs (arrTabs) en mobiles
+let vkladkiInMobShow = true;//por defecto se muestran tabs (arrTabs) en mobiles
 
 let obj_nav = {
     trans: '',

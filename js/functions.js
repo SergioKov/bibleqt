@@ -789,6 +789,9 @@ function buildDivShow(arrData, indexColToBuild = null){
 
     arrDataDivShow = [];//reset despues de build
 
+    //hago scroll a vkladka activa
+    scrollToVkladkaActive();    
+
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
     console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -880,6 +883,7 @@ const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse
 
     pushStateToHistNav(trans,ref);
     updateRefInTabActive(trans,ref);
+    updateArrTabs();
 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
@@ -1062,8 +1066,6 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
         'hora': horaActual 
     };
 
-    //updateRefInTabActive(trans,ref);
-
     //meto item si es primer index o si no se repite trans y words
     //if(arr_markers.length == 0 || (arr_markers.length > 0 && (trans != arr_markers[0].trans || ref != arr_markers[0].ref )) ){
     if(true){
@@ -1079,8 +1081,7 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
         //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
     
-    buildMarkersDesktop();//from arr_markers   
-
+    buildMarkersDesktop();//from arr_markers 
 }
 
 
@@ -1583,6 +1584,13 @@ function showVerseMenu(e){
     openModal('center', ref, arr_p_id, 'buildVerseMenu');
 }
 
+function scrollToVkladkaActive(){
+    console.log('=== function scrollToVkladkaActive() ===');
+    //hago scroll a vkladka activa
+    if(document.querySelector('.tab_active') != null){
+        document.querySelector('.tab_active').scrollIntoView();
+    }    
+}
 
 
 

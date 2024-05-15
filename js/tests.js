@@ -1572,3 +1572,22 @@ function makeBibleTextFromJson(url){
         console.error('data. error promesa: '+error);
     });
 }
+
+
+
+
+
+function sss(h = 0){
+    
+    finishScrollInColsInner();//desabilito scroll en paralelo
+
+    document.querySelectorAll('.colsInner').forEach(el=>{
+        el.scrollTo({
+            top: h,
+            behavior: 'smooth'
+            //behavior: 'instant'
+          });
+    });
+
+    //initScrollInColsInner();//desabilito scroll en paralelo
+}
