@@ -556,6 +556,13 @@ session_start();
                     </div>
                 </div>
 
+                <div id="wrPageBtns" style="position:relative;z-index: 1;/* background: red; */">
+                                        
+                    <button id="btn_pageUp" onclick="pageUp()"><img src="images/arrow_chevron_down_white.svg"></button>
+                    <button id="btn_pageDown" onclick="pageDown()"><img src="images/arrow_chevron_down_white.svg"></button>
+                                        
+                </div>
+
                                 
                 <div id="wrCols">
                
@@ -700,9 +707,11 @@ session_start();
             
         </div>
     </div>
-
+    
+<!--
     <button id="btn_pageUp" onclick="pageUp()"><img src="images/arrow_chevron_down_white.svg"></button>
     <button id="btn_pageDown" onclick="pageDown()"><img src="images/arrow_chevron_down_white.svg"></button>
+-->
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -948,11 +957,14 @@ HERE;
                                     </div>
 
 
-                                    <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:50%;">
+                                    <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:33.33%;">
                                         <div>by_text</div>
                                     </div>
-                                    <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:50%;">
+                                    <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:33.33%;">
                                         <div>by_json</div>
+                                    </div>
+                                    <div id="m_btnVkladkiInMob" class="dbtn" onclick="hideShowVkladkiInMob()" style="width:33.33%;">
+                                        <div>Tabs in Mob</div>
                                     </div>
 
 

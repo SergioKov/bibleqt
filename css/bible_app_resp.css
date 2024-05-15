@@ -85,6 +85,11 @@
         display:none;
     }
 
+    .vkladki_in_mob
+    {
+        display:block !important;
+    }
+
     .partMob,
     #m_login_menu
     {

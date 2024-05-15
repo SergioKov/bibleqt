@@ -165,6 +165,50 @@ body{
     /* white-space: nowrap; */
     color: white;
 }
+
+#wrPageBtns {
+    position: relative;
+    z-index: 1;
+    background: #FF9800;
+    width: 100%;
+    /* padding: 1px; */
+}
+
+#btn_pageUp {
+    top: 40px;
+    transform: rotate(180deg);
+    position: absolute;
+}
+#btn_pageUp img {
+    position: relative;
+    top: 2px;
+    left: -1px;
+}
+#btn_pageDown {
+    bottom: 51px;
+    position: fixed;
+}
+#btn_pageDown img {
+    position: relative;
+    top: 2px;
+    left: 1px;
+}
+#btn_pageUp, #btn_pageDown {
+    opacity: 0.1;
+    transition: 0.3s;
+    height: 35px;
+    width: 35px;
+    right: 10px;
+    border: 1px solid #0761a8;
+    background: #1875bf;
+    border-radius: 50%;
+}
+#btn_pageUp:hover,
+#btn_pageDown:hover{
+    opacity: 0.3;
+    border-radius: 50%;
+}
+
 .tabs {
     display: inline-block;
     padding: 5px;
@@ -2645,39 +2689,7 @@ p.cl_tab:hover {
 .btn_x:hover{
     color:white;
 }
-#btn_pageUp {
-    top: 140px;
-    transform: rotate(180deg);
-}
-#btn_pageUp img {
-    position: relative;
-    top: 2px;
-    left: -1px;
-}
-#btn_pageDown img {
-    position: relative;
-    top: 2px;
-    left: 1px;
-}
-#btn_pageDown {
-    bottom: 50px;
-}
-#btn_pageUp, #btn_pageDown {
-    opacity: 0.1;
-    transition: 0.3s;
-    position: fixed;
-    height: 35px;
-    width: 35px;
-    right: 10px;
-    border: 1px solid #0761a8;
-    background: #1875bf;
-    border-radius: 50%;
-}
-#btn_pageUp:hover,
-#btn_pageDown:hover{
-    opacity: 0.3;
-    border-radius: 50%;
-}
+
 span.mob_trans {
     /* background: black; */
     /* min-width: 70px; */

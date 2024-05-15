@@ -1136,6 +1136,23 @@ function changeModo(param){
     closeModal(null,true);
 }
 
+function hideShowVkladkiInMob(){
+    const eid_m_btnVkladkiInMob = document.getElementById('m_btnVkladkiInMob');
+
+    if(vkladkiInMobShow){//si es true, lo cambio a false
+        vkladkiInMobShow = false;
+        eid_headerContainer.classList.remove('vkladki_in_mob');
+        eid_headerContainer.querySelector('.partDesk').classList.remove('vkladki_in_mob');
+        eid_m_btnVkladkiInMob.classList.remove('btn_active');
+    }else{//si es false, lo cambio a true
+        vkladkiInMobShow = true;
+        eid_headerContainer.classList.add('vkladki_in_mob');
+        eid_headerContainer.querySelector('.partDesk').classList.add('vkladki_in_mob');
+        eid_m_btnVkladkiInMob.classList.add('btn_active');
+    }
+    //si se ven los vkladkiInMob 
+    mySizeWindow();
+}
 
 function showTooltip(el){//old //hover //find parameters
     //console.log('=== function showTooltipOnMouseHover(el) ===');
@@ -10930,7 +10947,7 @@ function mySizeWindow() {
         });
         //pongo top para boton pageUp()
         let top_h = colsInnerAll[colsInnerAll.length-1].getBoundingClientRect().top;
-        eid_btn_pageUp.style.top = top_h + 10 + 'px';
+        //eid_btn_pageUp.style.top = top_h + 10 + 'px';
 
         eid_wrCols.classList.add('wrCols_center');
     }
@@ -11612,6 +11629,7 @@ function updateArrTabs(){
     arrTabs = [];//reset
 
     let tabsAll = document.querySelectorAll('.tabs');
+    let first_colsInner = document.querySelector('.colsInner');
     tabsAll.forEach(el=>{
         //console.log(`el.id: ${el.id} --- el.classList: ${el.classList}`);
         let has_btn_close = (el.querySelector(':scope > button') !== null) ? true : false ;
@@ -11636,14 +11654,17 @@ function updateArrTabs(){
         el.title = str_trans_names;
         el.dataset.str_trans = str_trans_new;
 
+        let vkladka_scroll_top = (el.dataset.scroll_top > 0) ? el.dataset.scroll_top : first_colsInner.scrollTop ;
+
         const el_obj = {
-            id: el.id,
-            className: el.getAttribute('class'),
-            str_trans: str_trans_new,
-            title: str_trans_names,
-            btn_close: has_btn_close,
-            ref_trans: el.dataset.ref_trans,
-            ref: el.querySelector('span').innerHTML
+            id        : el.id,
+            className : el.getAttribute('class'),
+            str_trans : str_trans_new,
+            title     : str_trans_names,
+            btn_close : has_btn_close,
+            ref_trans : el.dataset.ref_trans,
+            ref       : el.querySelector('span').innerHTML,
+            scroll_top: vkladka_scroll_top,
         };
         //console.log(el_obj);
         arrTabs.push(el_obj);
@@ -11970,6 +11991,8 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.className = el.className;
                 htmlTab.dataset.str_trans = el.str_trans;
                 htmlTab.dataset.ref_trans = el.ref_trans;
+                htmlTab.dataset.scroll_top = el.scroll_top;
+                htmlTab.title = el.title;       
                 htmlTab.onclick = function(e){
                     let scroll_top_col1 = document.querySelectorAll('.colsInner')[0].scrollTop; 
                     document.querySelector('.tab_active').dataset.scroll_top = scroll_top_col1;
@@ -11977,7 +12000,6 @@ function makeTabsFromDatosDeVkladki(){
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
                 };
-                htmlTab.title = el.title;       
         
                 const spanBibShortRef = document.createElement("span");
                 spanBibShortRef.innerHTML = el.ref;
@@ -11991,13 +12013,11 @@ function makeTabsFromDatosDeVkladki(){
                     closeTab(ev.target, ev);
                 }
                 btn_close.innerHTML = '&#10005;';//<!--X-->
-                htmlTab.appendChild(btn_close);
-        
-        
+                
+                htmlTab.appendChild(btn_close);        
                 htmlTab.appendChild(spanBibShortRef);
         
                 eid_partDeskTabs.appendChild(htmlTab);
-
             });
 
 
@@ -14950,8 +14970,6 @@ function chapterGo(dir){
     //por defecto muevo el scroll al top
     scrollTopCero();
 
-
-
     let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
     
     //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
@@ -14963,7 +14981,6 @@ function chapterGo(dir){
         let myPromise_ch_go = new Promise(function(resolve, reject){
             resolve('ok');
         });
-
 
         myPromise_ch_go
         .then((res) => {
@@ -15061,7 +15078,6 @@ function chapterGo(dir){
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
-            
         })
         .catch(error => { 
             // Código a realizar cuando se rechaza la promesa
