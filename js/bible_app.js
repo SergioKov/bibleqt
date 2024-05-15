@@ -20157,8 +20157,8 @@ function pintRefOnScroll(){
                 //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
                     //el_rect.top >= 0 && 
-                    el_rect.top >= 0 && 
-                    el_rect.top + 0 <= divContenedor_rect.top - 2 &&
+                    el_rect.top >= 5 && 
+                    el_rect.top + 5 <= divContenedor_rect.top + 2 &&
                     el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
