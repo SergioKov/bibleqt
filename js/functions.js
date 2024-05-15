@@ -673,7 +673,7 @@ const handlerListenTsk = (ev, Translation ) => {
 
 
 function buildDivShow(arrData, indexColToBuild = null){
-    console.log('function buildDivShow');
+    //console.log('function buildDivShow');
     //alert('function buildDivShow');
     //console.log('arrData: ', arrData);
 
@@ -688,11 +688,11 @@ function buildDivShow(arrData, indexColToBuild = null){
         //si hay verses en array
         if(arrData[0].length != 0){
             let trans = arr_trans[0];
-            console.log(' de columna trans: ', trans);
+            //console.log(' de columna trans: ', trans);
             //compruebo si la traducción tiene comentarios dentro en '<f>[1]</f>'
             //busco objeto de trans
             let trans_col = arrFavTransObj.find(v => v.Translation === trans);
-            console.log('trans_col: ', trans_col);
+            //console.log('trans_col: ', trans_col);
             if(trans_col.Commentaries == 'Y' ){
                 show_comments_in_col = true;
             }
@@ -726,7 +726,7 @@ function buildDivShow(arrData, indexColToBuild = null){
         //console.log('all cols --- el_colsInner: ', el_colsInner);
         if(show_comments_in_col){
             //si hay comentarios de myBible, llamo esto
-            console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
+            //console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
             let idCol = el_colsInner.parentElement.id;
             makeCommentsLinks(idCol);
         }
@@ -742,11 +742,11 @@ function buildDivShow(arrData, indexColToBuild = null){
             //si hay verses en array
             if(arrData[i].length != 0){
                 let trans = arr_trans[i];
-                console.log(' de columna trans: ', trans);
+                //console.log(' de columna trans: ', trans);
                 //compruebo si la traducción tiene comentarios dentro en '<f>[1]</f>'
                 //busco objeto de trans
                 let trans_col = arrFavTransObj.find(v => v.Translation === trans);
-                console.log('trans_col: ', trans_col);
+                //console.log('trans_col: ', trans_col);
                 if(trans_col.Commentaries == 'Y' ){
                     show_comments_in_col = true;
                 }
@@ -772,7 +772,7 @@ function buildDivShow(arrData, indexColToBuild = null){
             //console.log('all cols --- el_colsInner: ', el_colsInner);
             if(show_comments_in_col){
                 //si hay comentarios de myBible, llamo esto
-                console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
+                //console.log(' --- hay comentarios de myBible, llamo makeCommentsLinks() ');
                 let idCol = el_colsInner.parentElement.id;
                 makeCommentsLinks(idCol);
             }
@@ -794,7 +794,7 @@ function buildDivShow(arrData, indexColToBuild = null){
 
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
-    console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
 }
 
 
@@ -813,11 +813,11 @@ function pushStateHome(){
 
     // Obtener la base URL
     let base_url = window.location.protocol + "//" + window.location.host;
-    console.log("Base URL. base_url: ", base_url);
+    //console.log("Base URL. base_url: ", base_url);
 
     // Obtener la URL completa
     let full_url = base_url + window.location.pathname;
-    console.log("URL completa. full_url :", full_url);
+    //console.log("URL completa. full_url :", full_url);
 
     window.history.pushState(null, "Título de la página", full_url);
 }
@@ -827,24 +827,24 @@ function pushStateToHistNav(trans,ref){
 
     // Obtener la base URL
     let base_url = window.location.protocol + "//" + window.location.host;
-    console.log("Base URL. base_url: ", base_url);
+    //console.log("Base URL. base_url: ", base_url);
 
     // Obtener la URL completa
     let full_url = base_url + window.location.pathname;
-    console.log("URL completa. full_url :", full_url);
+    //console.log("URL completa. full_url :", full_url);
     
     let full_url_ref = `${full_url}?trans=${trans}&ref=${ref}`;
-    console.log("URL completa con ref. full_url_ref: ", full_url_ref);
+    //console.log("URL completa con ref. full_url_ref: ", full_url_ref);
 
     window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
 const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
-    console.log('=== const addRefToHistNav ===');
+    //console.log('=== const addRefToHistNav ===');
 
     if(arr_hist_nav.length == 0){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-        console.log(arr_hist_nav);
+        //console.log(arr_hist_nav);
     }
 
     //console.log('trans: ', trans);
@@ -888,7 +888,7 @@ const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_nav.length == 0 || (arr_hist_nav.length > 0 && (trans != arr_hist_nav[0].trans || ref != arr_hist_nav[0].ref )) ){
         arr_hist_nav.unshift(itemHist);//añado item al principio
-        console.log('meto item. arr_hist_nav: ', arr_hist_nav);
+        //console.log('meto item. arr_hist_nav: ', arr_hist_nav);
 
         if(arr_hist_nav.length > arr_hist_nav_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
@@ -1024,11 +1024,11 @@ function onclick_p_nav(el){
 
 
 const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse = null, verseText) => {
-    console.log('=== const addRefToMarker ===');
+    //console.log('=== const addRefToMarker ===');
 
     if(arr_markers.length == 0){
         await obtenerDatosDeBD('markers','arr_markers');
-        console.log(arr_markers);
+        //console.log(arr_markers);
     }
 
     //console.log('trans: ', trans);
@@ -1070,7 +1070,7 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
     //if(arr_markers.length == 0 || (arr_markers.length > 0 && (trans != arr_markers[0].trans || ref != arr_markers[0].ref )) ){
     if(true){
         arr_markers.unshift(itemHist);//añado item al principio
-        console.log('meto item. arr_markers: ', arr_markers);
+        //console.log('meto item. arr_markers: ', arr_markers);
 
         if(arr_markers.length > arr_markers_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
@@ -1120,7 +1120,7 @@ function buildMarkersDesktop(){
             const btn_verse_menu = document.createElement('span');
             btn_verse_menu.className = 'mark btn_verse_menu';
             btn_verse_menu.onclick = (e)=>{
-                console.log('llamo a hideShow3Btns()');
+                //console.log('llamo a hideShow3Btns()');
                 hideShow3Btns(e.currentTarget);
             }
             //btn_verse_menu.innerHTML = `<span class="wr_3_btns" style="display: none;">
@@ -1144,8 +1144,8 @@ function buildMarkersDesktop(){
             btn_ver.dataset.indexMarker = i;
             btn_ver.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('1. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('1. index de arr_markers. index: ',index);
                 onclick_p_marker(el);
             }
             wr_3_btns.append(btn_ver);
@@ -1156,8 +1156,8 @@ function buildMarkersDesktop(){
             btn_compartir.dataset.indexMarker = i;
             btn_compartir.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('2. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('2. index de arr_markers. index: ',index);
                 alert('funcción en desarrollo.');
             }
             wr_3_btns.append(btn_compartir);
@@ -1168,8 +1168,8 @@ function buildMarkersDesktop(){
             btn_eliminar.dataset.indexMarker = i;
             btn_eliminar.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('3. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
                 guardarEnBd('markers','arr_markers',arr_markers);
                 buildMarkersDesktop();
@@ -1210,11 +1210,11 @@ function buildMarkersDesktop(){
 }
 
 function hideShow3Btns(el){ 
-    console.log(el);
+    //console.log(el);
     let wr_3_btns = el.parentElement.querySelector('.wr_3_btns');
 
     document.querySelectorAll('.wr_3_btns').forEach(el => {
-        console.log('item el', el);
+        //console.log('item el', el);
         
         if(el !== wr_3_btns){
             el.style.display = 'none';
@@ -1237,8 +1237,8 @@ function close_all_wr_3_btns(){
 }
 
 const handlerListenMarkers = (ev) => {
-    console.log(ev);
-    console.log(ev.target);
+    //console.log(ev);
+    //console.log(ev.target);
 
     let wr_3_btnsAll = document.querySelectorAll('.wr_3_btns');
 
@@ -1325,9 +1325,9 @@ function onclick_p_marker(el){
     //MODO 2. TAMBIÉN FUNCIONA
     setTimeout(()=>{
         
-        console.log(eid_inpt_nav.dataset.trans);
-        console.log(eid_inpt_nav.value);
-        console.log('llamo a getRef(el.trans)');
+        //console.log(eid_inpt_nav.dataset.trans);
+        //console.log(eid_inpt_nav.value);
+        //console.log('llamo a getRef(el.trans)');
         
         getRef(el.trans);
     },50);
@@ -1357,11 +1357,11 @@ function onclick_p_marker(el){
 
 
 const addWordsToHistFind = async (trans, words, count_verses, count_matches) => {
-    console.log('=== const addWordsToHistFind ===');
+    //console.log('=== const addWordsToHistFind ===');
 
     if(arr_hist_find.length == 0){
         await obtenerDatosDeBD('hist_find','arr_hist_find');
-        console.log(arr_hist_find);
+        //console.log(arr_hist_find);
     }
 
     //console.log('trans: ', trans);
@@ -1409,7 +1409,7 @@ const addWordsToHistFind = async (trans, words, count_verses, count_matches) => 
     //meto item si es primer index o si no se repite trans y words
     if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
         arr_hist_find.unshift(itemHist);
-        console.log('meto item. arr_hist_find: ', arr_hist_find);
+        //console.log('meto item. arr_hist_find: ', arr_hist_find);
         if(arr_hist_find.length > arr_hist_find_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_find.splice(arr_hist_find_limit); 
@@ -1478,7 +1478,7 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
     
     if(arr_hist_strong.length == 0){
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-        console.log(arr_hist_strong);
+        //console.log(arr_hist_strong);
     }
 
     //console.log('trans: ', trans);
@@ -1510,7 +1510,7 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
 
     if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
         arr_hist_strong.unshift(itemHist);
-        console.log('arr_hist_strong: ', arr_hist_strong);
+        //console.log('arr_hist_strong: ', arr_hist_strong);
         if(arr_hist_strong.length > arr_hist_strong_limit) {//100
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_strong.splice(arr_hist_strong_limit); 
@@ -1585,7 +1585,7 @@ function showVerseMenu(e){
 }
 
 function scrollToVkladkaActive(){
-    console.log('=== function scrollToVkladkaActive() ===');
+    //console.log('=== function scrollToVkladkaActive() ===');
     //hago scroll a vkladka activa
     if(document.querySelector('.tab_active') != null){
         document.querySelector('.tab_active').scrollIntoView();

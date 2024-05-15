@@ -707,7 +707,7 @@ session_start();
             
         </div>
     </div>
-    
+
 <!--
     <button id="btn_pageUp" onclick="pageUp()"><img src="images/arrow_chevron_down_white.svg"></button>
     <button id="btn_pageDown" onclick="pageDown()"><img src="images/arrow_chevron_down_white.svg"></button>
@@ -770,7 +770,7 @@ print<<<HERE
 <script>
     let hay_sesion = true;
     let username = '$_SESSION[username]';
-    console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
+    //console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
 
     document.addEventListener("DOMContentLoaded", () => {
         pintLoginImg(hay_sesion);
@@ -798,7 +798,7 @@ HERE;
 print<<<HERE
     <script>
         let hay_sesion = false;        
-        console.log('print js: session cerrada. hay que iniciar la sesión.');
+        //console.log('print js: session cerrada. hay que iniciar la sesión.');
 
         document.addEventListener("DOMContentLoaded", () => {
             pintLoginImg(hay_sesion);
@@ -1081,8 +1081,8 @@ HERE;
     let get_ref = <?=json_encode($ref)?>;
     
     // Utilizar la variable en JavaScript
-    console.log("Valor de la variable en JavaScript - get_trans:", get_trans);
-    console.log("Valor de la variable en JavaScript - get_ref:", get_ref);
+    //console.log("Valor de la variable en JavaScript - get_trans:", get_trans);
+    //console.log("Valor de la variable en JavaScript - get_ref:", get_ref);
     
     let hay_get_data = false;//por defecto
     if(get_ref != null){

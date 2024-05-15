@@ -1057,7 +1057,7 @@ myButton.addEventListener('touchend', stopPressMob);
 //iniciarSession('Sergio',123);
 
 function old_iniciarSession(user, pass){//test
-    console.log('=== function iniciarSession(user, pass) ===');
+    //console.log('=== function iniciarSession(user, pass) ===');
 
     let formData = new FormData();
     formData.append('user',user);
@@ -1070,7 +1070,7 @@ function old_iniciarSession(user, pass){//test
     .then(response => response.text())
     .then(data => {
         
-        console.log(data);
+        //console.log(data);
 
     })
     .catch(error => {
@@ -1101,11 +1101,11 @@ function old_iniciarSession(user, pass){//test
 
 // Función que retorna una promesa
 async function retornarMiPromesa() {
-    console.log('=== async function retornarMiPromesa() ===');
+    //console.log('=== async function retornarMiPromesa() ===');
     
     // Crea una nueva promesa dentro de la función
     return new Promise((resolve, reject) => {
-        console.log('creando promesa');
+        //console.log('creando promesa');
         
         // Simula una operación asincrónica, por ejemplo, una solicitud HTTP
         setTimeout(() => {
@@ -1118,14 +1118,14 @@ async function retornarMiPromesa() {
 
 // Uso de async/await para manejar la promesa
 async function ejecutarMiPromesa(){
-    console.log('=== async function ejecutarMiPromesa() ===');
+    //console.log('=== async function ejecutarMiPromesa() ===');
 
     try {
-        console.log('ejecutarMiPromesa() --- Iniciando operación...');
+        //console.log('ejecutarMiPromesa() --- Iniciando operación...');
         // Espera a que la promesa se resuelva antes de continuar
         const resultado = await retornarMiPromesa();
-        console.log(resultado);
-        console.log('Despues de obtener resultado. Operación completada.');
+        //console.log(resultado);
+        //console.log('Despues de obtener resultado. Operación completada.');
     } catch (error) {
         // Manejo de errores si la promesa es rechazada
         console.error('Error:', error);
@@ -1150,7 +1150,7 @@ function compare2modules(trans1, trans2){
     let objTrans2 = arrFavTransObj.find(v => v.Translation === trans2);
             
     for (let b = 0; b < objTrans1.Books.length; b++) {
-        console.log(`objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
+        //console.log(`objTrans1.Books[${b}] --- BookName: ${objTrans1.Books[b].FullName} --- ${objTrans2.Books[b].FullName}`);
 
         let condition; 
         if(add_condition){
@@ -1220,7 +1220,7 @@ function compare2modules(trans1, trans2){
                                     let ref1 = `${objTrans1.Books[b].ShortNames[0]} ${chapter}:${VerseId1}`;
                                     let ref2 = `${objTrans2.Books[b].ShortNames[0]} ${chapter}:${VerseId2}`;
                                     
-                                    console.log(`--- --- chapter: ${chapter} --- NO ok --- objTrans1.Books[${b}] --- ref1: (${ref1}) --- ref2: (${ref2})`);
+                                    //console.log(`--- --- chapter: ${chapter} --- NO ok --- objTrans1.Books[${b}] --- ref1: (${ref1}) --- ref2: (${ref2})`);
                                     //let obj_diff_refs = {
                                     //    trans1: ref1,
                                     //    trans2: ref2
@@ -1232,22 +1232,22 @@ function compare2modules(trans1, trans2){
                             }                                    
                         }//end for
                     }else{
-                        console.log(`--- chapter: ${chapter} --- ok`);
+                        //console.log(`--- chapter: ${chapter} --- ok`);
 
                     }
                 }else{
-                    console.log(`chapter ${chapter} no se puede comparar`);
+                    //console.log(`chapter ${chapter} no se puede comparar`);
                 }
             }
             //console.log('arr_refs: ',arr_refs);
 
 
         }else{
-            console.log('--- no existe objeto con estos modulos en obj_bible_files. no los comparo.');
+            //console.log('--- no existe objeto con estos modulos en obj_bible_files. no los comparo.');
         }                            
     }//end for
 
-    console.log('fin. arr_refs: ', arr_refs);
+    //console.log('fin. arr_refs: ', arr_refs);
 }
 
 //getRefByBibleRef(arr_refs[0]);
@@ -1256,7 +1256,7 @@ function recorrerArrRefs(arr_refs){
 
     for (let index = 0; index < arr_refs.length; index++) {
         const ref = arr_refs[index];
-        console.log(ref);
+        //console.log(ref);
 
         getRefByBibleRef(ref);
         
@@ -1284,7 +1284,7 @@ but.forEach((el,i)=>{
     }else{
         
         if(el.verse == 1){
-            console.log('<h4>capitulo '  + el.chapter+ '</h4>');
+            //console.log('<h4>capitulo '  + el.chapter+ '</h4>');
             arr.push(`<h4>${el.chapter}</h4>`);
             arr.push(`<p>${el.verse} ${el.text}`);
         }else{
@@ -1315,18 +1315,18 @@ function llamar_alert1(ev, f_number){
 
 
 function makeCommentsLinks(idCol){
-    console.log('idCol: ', idCol);
+    //console.log('idCol: ', idCol);
 
     const los_f_all = document.getElementById(idCol).querySelectorAll('f');
-    console.log('los_f_all: ', los_f_all);
+    //console.log('los_f_all: ', los_f_all);
 
     Array.from(los_f_all).forEach(el=>{    
-        console.log(el);
+        //console.log(el);
         let marker = el.innerText;
-        console.log('marker: ', marker);
+        //console.log('marker: ', marker);
 
         let f_number = el.innerText.replace('[','').replace(']','');
-        console.log('f_number: ', f_number);
+        //console.log('f_number: ', f_number);
 
         let p_id = el.parentNode.parentNode.id;
         let a_ref = el.parentNode.parentNode.querySelector('a').innerText;
@@ -1335,14 +1335,14 @@ function makeCommentsLinks(idCol){
         let book = arr_p_id[1]; 
         let chapter = arr_p_id[2];
         let verse = arr_p_id[3];
-        console.log('arr_p_id: ', arr_p_id);
+        //console.log('arr_p_id: ', arr_p_id);
  
         //el.removeEventListener('click', llamar_alert1); 
         //el.addEventListener('click', llamar_alert1);
 
         //nuevo elemento
         let wr_tooltip = buildWrTooltipComm(marker,' ',p_id,a_ref); 
-        console.log(wr_tooltip.outerHTML);        
+        //console.log(wr_tooltip.outerHTML);        
 
         // Reemplazar el elemento existente con el nuevo elemento
         el.replaceWith(wr_tooltip);
@@ -1350,13 +1350,13 @@ function makeCommentsLinks(idCol){
 }
 
 async function getCommentFromMB(url_comments,book,chapter,verse,marker){
-    console.log('=== function getCommentFromMB() ===');
+    //console.log('=== function getCommentFromMB() ===');
 
-    console.log('url_comments: ', url_comments);
-    console.log('book: ', book);
-    console.log('chapter: ', chapter);
-    console.log('verse: ', verse);
-    console.log('marker: ', marker);
+    //console.log('url_comments: ', url_comments);
+    //console.log('book: ', book);
+    //console.log('chapter: ', chapter);
+    //console.log('verse: ', verse);
+    //console.log('marker: ', marker);
 
     try {
         
@@ -1382,8 +1382,8 @@ async function getCommentFromMB(url_comments,book,chapter,verse,marker){
                 v.marker === marker
             );
         });
-        console.log('this_comm: ');
-        console.log(this_comm);
+        //console.log('this_comm: ');
+        //console.log(this_comm);
 
         // Puedes realizar más acciones aquí con los datos obtenidos
         return this_comm;
@@ -1397,8 +1397,8 @@ async function getCommentFromMB(url_comments,book,chapter,verse,marker){
 async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','mb_to_bq'
     try {
         book_index = Number(book_index);
-        console.log('book_index: ', book_index);
-        console.log('direction: ', direction);
+        //console.log('book_index: ', book_index);
+        //console.log('direction: ', direction);
         
         let url_BibleIndex = `./modules/json/BibleIndex.json`;        
         
@@ -1414,8 +1414,8 @@ async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','m
         const datos = await respuesta.json();
 
         // Haz algo con los datos, por ejemplo, imprímelos en la consola
-        console.log(url_BibleIndex);
-        console.log(datos);
+        //console.log(url_BibleIndex);
+        //console.log(datos);
         
         let this_book,book_number_converted;
         if(direction == 'bq_to_mb'){
@@ -1425,9 +1425,9 @@ async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','m
             this_book = datos.find(v => v.book_number_mb === book_index);
             book_number_converted = this_book.book_number_bq;
         }
-        console.log('this_book: ');
-        console.log(this_book);
-        console.log('book_number_converted: ',book_number_converted);
+        //console.log('this_book: ');
+        //console.log(this_book);
+        //console.log('book_number_converted: ',book_number_converted);
 
         // Puedes realizar más acciones aquí con los datos obtenidos
         return book_number_converted;
@@ -1464,18 +1464,18 @@ setTimeout(()=>{
 */
 
 async function ejecutar_getVerseQty(url,book,chapter){
-    console.log('Inicio de la tarea asíncrona --- ejecutar_getVerseQty()');
+    //console.log('Inicio de la tarea asíncrona --- ejecutar_getVerseQty()');
 
     let result_getVerseQty = await getVerseQty(url,book,chapter);
-    console.log('result_getVerseQty: ',result_getVerseQty);
+    //console.log('result_getVerseQty: ',result_getVerseQty);
 } 
 
 async function getVerseQty(url,book,chapter){
     try {
-        console.log('=== async function getVerseQty() ===');
-        console.log('url: ', url);
-        console.log('book: ', book);
-        console.log('chapter: ', chapter);
+        //console.log('=== async function getVerseQty() ===');
+        //console.log('url: ', url);
+        //console.log('book: ', book);
+        //console.log('chapter: ', chapter);
 
         let formData = new FormData();
         formData.append('url', '../'+url);//importante '../' delante de la url
@@ -1492,10 +1492,10 @@ async function getVerseQty(url,book,chapter){
         // Convierte la respuesta a formato JSON
         const data = await respuesta.json();
         // const data = await respuesta.text();
-        console.log(' en getVerseQty() --- data:');
-        console.log(data);
+        //console.log(' en getVerseQty() --- data:');
+        //console.log(data);
 
-        console.log('=== fin de --- async function getVerseQty() ===');
+        //console.log('=== fin de --- async function getVerseQty() ===');
 
         return data;
 

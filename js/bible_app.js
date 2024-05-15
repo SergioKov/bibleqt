@@ -9,7 +9,7 @@ if(hay_sesion){
     ddd();
     async function ddd(){
         await obtenerDatosDeBD('fav_trans','arrFavTrans');
-        console.log('arrFavTrans: ', arrFavTrans);
+        //console.log('arrFavTrans: ', arrFavTrans);
     }
 }else{
     crear_arrFavTransObj(); // Llamamos a la función para que crea arrFavTransObj
@@ -17,7 +17,7 @@ if(hay_sesion){
 
 async function crear_arrFavTransObj() {
     arrFavTransObj = await make_arrFavTransObj(arrFavTrans);
-    console.log(arrFavTransObj);
+    //console.log(arrFavTransObj);
     await loadDefaultFunctions();
 }
 
@@ -27,7 +27,7 @@ crear_arrFavTskObj(); // Llamamos a la función para que crea arrFavTskObj
 
 async function crear_arrFavTskObj() {
     arrFavTskObj = await make_arrFavTskObj();
-    console.log(arrFavTskObj);
+    //console.log(arrFavTskObj);
 }
 
 //===================================================================//
@@ -104,7 +104,7 @@ function make_arrFavTransObj_old(arrFavTrans){
 }
 
 async function make_arrFavTransObj(arrFavTrans){
-    console.log('=== function make_arrFavTransObj2(arrFavTrans) ===');
+    //console.log('=== function make_arrFavTransObj2(arrFavTrans) ===');
     try {
 
         let arrTransObj = [];
@@ -169,7 +169,7 @@ function make_arrFavTskObj_old(){
 }
 
 async function make_arrFavTskObj(){
-    console.log('=== function make_arrFavTskObj() ===');
+    //console.log('=== function make_arrFavTskObj() ===');
     
     try {
         
@@ -205,11 +205,11 @@ async function make_arrFavTskObj(){
 }
 
 function checkPositionShowForMob(){
-    console.log('=== function checkPositionShowForMob() ===');
+    //console.log('=== function checkPositionShowForMob() ===');
     
     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
         positionShow = 'row';
-        console.log('new positionShow: ', positionShow);
+        //console.log('new positionShow: ', positionShow);
         changePositionShow(positionShow);
     }else{//si es desktop o tablet
         //positionShow = 'col';//lo comento ya que tiene que coger el valor presionado        
@@ -217,7 +217,7 @@ function checkPositionShowForMob(){
 }
 
 /*function iniciarSesion_old(){//antes login() //username,password
-    console.log('=== function iniciarSesion() ===');
+    //console.log('=== function iniciarSesion() ===');
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -241,10 +241,10 @@ function checkPositionShowForMob(){
     .then(response => response.json())
     .then(async data => {
         
-        console.log(data);
+        //console.log(data);
         
         if (data.success) {
-            console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+            //console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
 
             // Actualizar el contenido después del inicio de sesión exitoso
             mostrarForm('bl_sesion_iniciada');
@@ -257,7 +257,7 @@ function checkPositionShowForMob(){
             pintLoginImg(hay_sesion);
 
             allowUseShowTrans = true;
-            console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
+            //console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
             
             await obtenerDatosDeBD('vkladki','arrTabs');
             await obtenerDatosDeBD('hist_nav','arr_hist_nav');
@@ -273,7 +273,7 @@ function checkPositionShowForMob(){
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
             let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-            console.log(error_text);
+            //console.log(error_text);
 
             eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
             eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
@@ -292,7 +292,7 @@ function checkPositionShowForMob(){
 */
 
 async function iniciarSesion(){//antes login() //username,password
-    console.log('=== function iniciarSesion() ===');
+    //console.log('=== function iniciarSesion() ===');
 
     try {
 
@@ -317,17 +317,17 @@ async function iniciarSesion(){//antes login() //username,password
         });
     
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
     
         //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
         work_with_data(data);
     
         async function work_with_data(data){
             
-            console.log(data);
+            //console.log(data);
                 
             if (data.success) {
-                console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
+                //console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
     
                 // Actualizar el contenido después del inicio de sesión exitoso
                 mostrarForm('bl_sesion_iniciada');
@@ -340,7 +340,7 @@ async function iniciarSesion(){//antes login() //username,password
                 pintLoginImg(hay_sesion);
     
                 allowUseShowTrans = true;
-                console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
+                //console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
     
                 await obtenerDatosDeBD('fav_trans','arrFavTrans');
                 await obtenerDatosDeBD('vkladki','arrTabs');
@@ -357,7 +357,7 @@ async function iniciarSesion(){//antes login() //username,password
                 //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
             } else {
                 let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-                console.log(error_text);
+                //console.log(error_text);
     
                 eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
                 eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
@@ -377,7 +377,7 @@ async function iniciarSesion(){//antes login() //username,password
 }
 /*
 function cerrarSesion_old(){
-    console.log('=== function cerrarSession() ===');
+    //console.log('=== function cerrarSession() ===');
 
     // Realizar una petición al servidor para cerrar la sesión
     // y actualizar el contenido después de cerrar la sesión.
@@ -386,12 +386,12 @@ function cerrarSesion_old(){
     .then(response => response.json())
     .then(data => {
 
-        console.log(data);
+        //console.log(data);
 
         if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
-            console.log(text_mensaje);
+            //console.log(text_mensaje);
             
             mostrarForm('bl_login');
             hay_sesion = false;
@@ -420,7 +420,7 @@ function cerrarSesion_old(){
 */
 
 async function cerrarSesion(){
-    console.log('=== function cerrarSession() ===');
+    //console.log('=== function cerrarSession() ===');
 
     try {
         
@@ -434,12 +434,12 @@ async function cerrarSesion(){
 
         const response = await fetch('./php/cerrar_sesion.php');
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
         if (data.cerrada) {
             
             let text_mensaje = 'Sesión cerrada con exito!';
-            console.log(text_mensaje);
+            //console.log(text_mensaje);
             
             //mostrarForm('bl_login');
             hay_sesion = false;
@@ -460,7 +460,7 @@ async function cerrarSesion(){
         }
 
         arrFavTrans = arrFavTransDef;
-        console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
+        //console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
         pushStateHome();
 
         let aviso_sesion = `Sesión cerrada correctamente`;
@@ -481,8 +481,8 @@ async function cerrarSesion(){
 }
 
 function mostrarForm(id_form){
-    console.log('=== function mostrarForm() ===');
-    console.log(id_form);
+    //console.log('=== function mostrarForm() ===');
+    //console.log(id_form);
     arrIdForms.forEach(el => {
         document.getElementById(el).style.display = 'none';
     });
@@ -490,7 +490,7 @@ function mostrarForm(id_form){
 }
 
 function mostrarLoginForm(){
-    console.log('=== function mostrarLoginForm() ===');
+    //console.log('=== function mostrarLoginForm() ===');
 
     //cuando Sesion está cerrada, se muestra Formulario de Inicio de Sesión
     mostrarForm('bl_login');
@@ -500,7 +500,7 @@ function mostrarLoginForm(){
 }
 
 async function crearCuenta(){
-    console.log('=== function crearCuenta() ===');
+    //console.log('=== function crearCuenta() ===');
 
     try {
 
@@ -527,11 +527,11 @@ async function crearCuenta(){
         });
     
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
     
         if(data.success){
                 
-            console.log(`Usuario registrado con éxito.`);
+            //console.log(`Usuario registrado con éxito.`);
     
             eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
     
@@ -558,7 +558,7 @@ async function crearCuenta(){
 }
 
 async function enviarEmail(){
-    console.log('=== function enviarEmail() ===');
+    //console.log('=== function enviarEmail() ===');
 
     try {
         
@@ -582,16 +582,16 @@ async function enviarEmail(){
     
         const data = await response.json();
         //const data = await response.text();//test
-        console.log(data);
+        //console.log(data);
     
         if(typeof data.localhost != 'undefined'){
-            console.log(data.localhost);
-            console.log(data.resetLink);
+            //console.log(data.localhost);
+            //console.log(data.resetLink);
         }
                 
         if(data.success) {
             
-            console.log(`Email enviado con éxito.`);
+            //console.log(`Email enviado con éxito.`);
     
             eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Email ${email} se ha enviado con éxito.</span>`;
     
@@ -1032,9 +1032,9 @@ async function loadDefaultFunctions(){
 
 
     if(await verificarAutenticacion()){
-        console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
+        //console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
         //console.log(' guardo datos en bd');
-        console.log(arrTabs);
+        //console.log(arrTabs);
 
         //NO PONER  aquí 'await obtenerDatosDeBD' con 'arrFavTrans' YA QUE SE HACE UN BUCLE INFINITO!
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
@@ -1043,15 +1043,15 @@ async function loadDefaultFunctions(){
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arrTabs desde datos de usuario sacados de bd 
         await obtenerDatosDeBD('markers','arr_markers');//creo array arr_markers desde datos de usuario sacados de bd 
         
-        console.log(arrTabs);
-        console.log(arr_hist_nav);
-        console.log(arr_hist_find);
-        console.log(arr_hist_strong);
-        console.log(arr_markers);
+        //console.log(arrTabs);
+        //console.log(arr_hist_nav);
+        //console.log(arr_hist_find);
+        //console.log(arr_hist_strong);
+        //console.log(arr_markers);
 
         //insertarDatos(arrTabs);//test
     }else{
-        console.log('js: verificarAutenticacion: false --- El usuario no está autenticado.');
+        //console.log('js: verificarAutenticacion: false --- El usuario no está autenticado.');
 
         if(hay_get_data ){
             get_trans = (typeof get_trans != '') ? get_trans : arrFavTrans[0] ;
@@ -1061,7 +1061,7 @@ async function loadDefaultFunctions(){
             let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
             loadRefDefault(`${trans_def.Books[0].ShortNames[0]} 1:1`, trans_def.Translation);//first tab en mi caso es 'rstStrongRed'
         }
-        console.log('hay_get_data: ',hay_get_data);
+        //console.log('hay_get_data: ',hay_get_data);
     }
 
 
@@ -1121,7 +1121,7 @@ function mostrarTamanioObjeto(objeto){
 function changeModo(param){
     const eid_m_btnByText = document.getElementById('m_btnByText');
     const eid_m_btnByJson = document.getElementById('m_btnByJson');
-    // console.log(param);
+    // //console.log(param);
 
     let arr_params = ['by_text','by_json'];
 
@@ -1329,17 +1329,17 @@ function buildWrTooltip(bq_NoteSign,text_Note = null,p_id,a_ref){
 
 
 function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
-    console.log(' === function buildWrTooltipComm() ==');
+    //console.log(' === function buildWrTooltipComm() ==');
 
     let arr_p_id = p_id.split('__');
     let trans = arr_p_id[0];    
     let book = arr_p_id[1];    
     let chapter = arr_p_id[2];    
     let verse = arr_p_id[3];    
-    console.log('arr_p_id: ', arr_p_id);
+    //console.log('arr_p_id: ', arr_p_id);
     
     let marker_number = marker.replace('[','').replace(']','');
-    console.log('marker_number: ', marker_number);
+    //console.log('marker_number: ', marker_number);
 
     const span_wr_tooltip = document.createElement('span');
     span_wr_tooltip.className = 'wr_tooltip';
@@ -1347,8 +1347,8 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     span_wr_tooltip.dataset.marker = marker;
 
     span_wr_tooltip.addEventListener('click', (event) => {
-        console.log(event);
-        console.log(event.currentTarget);
+        //console.log(event);
+        //console.log(event.currentTarget);
         let p_id = event.currentTarget.dataset.p_id;
         let marker = event.currentTarget.dataset.marker;
         let arr_p_id = p_id.split('__');
@@ -1356,26 +1356,26 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
         let book = Number(arr_p_id[1]);    
         let chapter = Number(arr_p_id[2]);    
         let verse = Number(arr_p_id[3]);    
-        console.log('onclick arr_p_id: ', arr_p_id);
+        //console.log('onclick arr_p_id: ', arr_p_id);
     
         //let url_comments = `./modules/text/ukr_ogi88_commentaries/UBIO88_commentaries_out.json`;
         let url_comments = `./modules/commentaries/${trans}.json`;
-        console.log('url_comments: ',url_comments);
+        //console.log('url_comments: ',url_comments);
         
         // Llamar a la función asíncrona
         ejecutar_getCommentFromMB();
 
         // Definir una función asíncrona dentro del event listener
         async function ejecutar_getCommentFromMB(){
-            console.log('Inicio de la tarea asíncrona --- ejecutar_getCommentFromMB()');
+            //console.log('Inicio de la tarea asíncrona --- ejecutar_getCommentFromMB()');
 
             let book_mb = await convertBookIndex(book,'bq_to_mb');
-            console.log('book_mb: ', book_mb);
+            //console.log('book_mb: ', book_mb);
             
             // Esperar a que la tarea asíncrona se complete
             let este_comm = await getCommentFromMB(url_comments,book_mb,chapter,verse,marker);
-            console.log('este_comm: ', este_comm);
-            console.log('este_comm.text: ', este_comm.text);
+            //console.log('este_comm: ', este_comm);
+            //console.log('este_comm.text: ', este_comm.text);
 
             if(document.querySelector(`.wr_tooltip[data-marker="${marker}"]`) != null){
 
@@ -1405,7 +1405,7 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
                         `;
                     
                         if(span_text.innerHTML.includes('<a ') && span_text.innerHTML.includes('</a>')){
-                            console.log('showTooltip contiene a');
+                            //console.log('showTooltip contiene a');
                             let arr_p_id = p_id.split('__');//'ukr_umt__0__3__18'
                             let Translation = arr_p_id[0]; 
                             let book = arr_p_id[1]; 
@@ -1415,7 +1415,7 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
                             let ref = a_ref;
                     
                             span_text.querySelectorAll('a').forEach(el_a =>{
-                                console.log('el_a: ', el_a);
+                                //console.log('el_a: ', el_a);
                 
                                 //let href = el_a.getAttribute('href');
                                 //el_a.removeAttribute('href');
@@ -1423,8 +1423,8 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
                                 
                                 el_a.addEventListener('click',(ev)=>{
                                     ev.preventDefault();
-                                    console.log(el_a.innerHTML);
-                                    console.log(el_a.href);
+                                    //console.log(el_a.innerHTML);
+                                    //console.log(el_a.href);
             
                                     addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
                                     getRefByHrefMB(Translation,el_a.getAttribute('href'),' ',0);
@@ -1435,7 +1435,7 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
                     }
                 }
             }
-            console.log('Fin de la tarea asíncrona');
+            //console.log('Fin de la tarea asíncrona');
         }    
 
         hideShowComment(event);
@@ -1628,15 +1628,15 @@ function enableScrollInColsInner(el,i){
 function disableScrollInColsInner(el,i){
     //console.log('=== function disableScrollInColsInner() ===');    
     el.onscroll = () => {
-        console.log('dasabilito el.onscroll. i: ',i);
+        //console.log('dasabilito el.onscroll. i: ',i);
     }
     el.ontouchmove = () => {
-        console.log('dasabilito el.ontouchmove. i: ',);
+        //console.log('dasabilito el.ontouchmove. i: ',);
     }
 }
 
 function scrollInColsInner(el,i){
-    console.log('=== function scrollInColsInner() ===');
+    //console.log('=== function scrollInColsInner() ===');
    
     //console.log('el: ',el);
     //console.log('i: ',i);
@@ -1711,7 +1711,7 @@ function scrollInColsInner(el,i){
 
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
-    console.log('=== function scrollToVerse() ===');
+    //console.log('=== function scrollToVerse() ===');
 
     document.querySelectorAll('#wrCols .active').forEach(el => {
         el.classList.remove('active');
@@ -1952,10 +1952,10 @@ function makeArrColsFromCols(){
     
     document.querySelectorAll('.cols').forEach((el)=>{
         window.arr_cols.push(el.id);
-        console.log('el.id: ', el.id);
+        //console.log('el.id: ', el.id);
     });
     window.arr_cols = window.arr_cols.filter(el=>el); 
-    console.log('arr_cols: ', arr_cols);
+    //console.log('arr_cols: ', arr_cols);
 }
 
 function clearColsEmpty(){
@@ -1969,9 +1969,9 @@ function clearColsEmpty(){
 }
 
 function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, verseView = null){   
-    console.log('=== function showTrans() ===');
+    //console.log('=== function showTrans() ===');
 
-    console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en showTrans() 1.--- allowUseShowTrans: ',allowUseShowTrans);
     
     //creo array de trans desde los que hay en cols
     makeArrTransFromCols();
@@ -1982,9 +1982,9 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
         //cuando se llama showTrans() bloqueo la posibilidad de ejecutar showChapterText4() hasta que termine de pintar los trans en el bucle. Lo vuelvo a permitir en function buildDivShow()
         
         allowUseShowTrans = false;
-        console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
-        console.log('dentro del bucle --- arr_trans: ',arr_trans);
-        console.log('dentro del bucle --- arrDataDivShow: ',arrDataDivShow);
+        //console.log('dentro del bucle --- allowUseShowTrans: ',allowUseShowTrans);
+        //console.log('dentro del bucle --- arr_trans: ',arr_trans);
+        //console.log('dentro del bucle --- arrDataDivShow: ',arrDataDivShow);
 
         //Cargo primero trans1 y luego cuando se termina de cargar en la func showChapterText3() llamo trans2. ya que en el forEach de arriba no se guarda la orden de llamada de funcion. se llama primero trans2 y luego trans1
         window.iter_i = 0;
@@ -2035,15 +2035,15 @@ async function setBaseEnglishPsalms2(){//no se usa en la app
         let Translation = eid_trans1.dataset.trans;
 
         const response = await fetch(`./modules/text/${Translation}/bibleqt.json`);// = fetch(...)
-        console.log(response);
+        //console.log(response);
         
         const bq = await response.json();// = .then((response) => response.json())
-        console.log(bq);
+        //console.log(bq);
 
         eid_trans1.dataset.base_ep = bq.EnglishPsalms;
         
     }catch(error){
-        console.log(error.message);
+        //console.log(error.message);
     }
 }
 
@@ -2913,7 +2913,7 @@ function getTsk(e){
 
                                 if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
                                     //alert('es menor');
-                                    console.log('es menor1');
+                                    //console.log('es menor1');
                                     buildVersesTsk(arr_tsk_p, Translation);
                                     
                                     if(countElementsInArray(arr_tsk_p) == 0){
@@ -4060,7 +4060,7 @@ function getTsk(e){
 
                     if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
                         //alert('es menor');
-                        console.log('es menor2');
+                        //console.log('es menor2');
                         buildVersesTsk(arr_tsk_p, Translation);
                         
                         if(countElementsInArray(arr_tsk_p) == 0){
@@ -4582,7 +4582,7 @@ function getTsk(e){
 
                         if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
                             //alert('es menor');
-                            console.log('es menor3');
+                            //console.log('es menor3');
                             buildVersesTsk(arr_tsk_p, Translation);
                             
                             if(countElementsInArray(arr_tsk_p) == 0){
@@ -4733,7 +4733,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                 //si existe objeto con Translation. Saco datos del objeto
                 if(typeof obj_bible_files[Translation] != 'undefined'){
-                    console.log(`typeof obj_bible_files[Translation] != 'undefined'`);
+                    //console.log(`typeof obj_bible_files[Translation] != 'undefined'`);
                     
                     if(typeof obj_bible_files[Translation].Books != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
@@ -5928,7 +5928,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 });
 
                             }else{
-                                console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                //console.log('No coincide el nombre del fichero o fileContent está vacío');
                             }
 
                         }else{
@@ -5940,7 +5940,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 
                 //si no existe objeto con Translation. hago fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
-                    console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
+                    //console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
 
                     //start de tiempo para calcular cuanto tarda
                     const tiempoInicioFetch = new Date().getTime();
@@ -6992,8 +6992,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                             arrDataDivShow.push(arr_data_all);//antes
                             //arrDataDivShow[window.iter_i] = arr_data_all;//da fallo!
-                            console.log('7025. arrDataDivShow:',arrDataDivShow);
-                            console.log('7025. arrDataDivShow  [window.iter_i]:',window.iter_i);
+                            //console.log('7025. arrDataDivShow:',arrDataDivShow);
+                            //console.log('7025. arrDataDivShow  [window.iter_i]:',window.iter_i);
 
                             arr_data_head = [];
                             arr_data_body = [];
@@ -10425,7 +10425,7 @@ function getActTrans(){
 }
 
 function changeTransNav(trans, idCol_trans){
-    console.log('=== function changeTransNav ===');
+    //console.log('=== function changeTransNav ===');
     //console.log('trans to change en nav. trans: '+trans);
     //console.log('trans to change en nav. idCol_trans: '+idCol_trans);
 
@@ -10514,7 +10514,7 @@ function changeTransNav(trans, idCol_trans){
 
 
 function changeTrans(e, trans, BibleShortName, EnglishPsalms){
-    console.log('=== function changeTrans() ===');
+    //console.log('=== function changeTrans() ===');
     
     let trans_buttons = document.querySelectorAll('#footerInner button');
     trans_buttons.forEach(el=>{
@@ -10664,7 +10664,7 @@ function changeModule(thisDiv,trans,BibleShortName){
 }
 
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
-    console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
+    //console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
     let prev_trans;
 
@@ -10720,7 +10720,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     makeArrColsFromCols();//ok
 
     let indexColToBuild = arr_cols.indexOf(idColToBuild);
-    console.log('indexColToBuild: ', indexColToBuild);
+    //console.log('indexColToBuild: ', indexColToBuild);
     
     //console.log(' actual arr_trans: ', arr_trans);
     //modifico arr_trans 
@@ -11390,7 +11390,7 @@ function addTrans(addMode = null){
 }
 
 function removeTrans(){
-    console.log('=== function removeTrans() ===');
+    //console.log('=== function removeTrans() ===');
     let countCols = document.querySelectorAll('.cols').length;
     //console.log(countCols);
     if(countCols != 1){
@@ -11427,7 +11427,7 @@ function closeTrans(el,event, param = null){
 }
 
 function removeTransFromTab(trans,tabActive,n){
-    console.log('=== function removeTransFromInTab(trans,tab) ===');
+    //console.log('=== function removeTransFromInTab(trans,tab) ===');
 
     let arr_str_trans = tabActive.dataset.str_trans.split(',');
     arr_str_trans.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
@@ -11440,7 +11440,7 @@ function removeTransFromTab(trans,tabActive,n){
 }
 
 function updateTransInTab(trans,tabActive,n){
-    console.log('=== updateTransInTab(trans,tabActive,n) ===');
+    //console.log('=== updateTransInTab(trans,tabActive,n) ===');
 
     let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
 
@@ -11456,7 +11456,7 @@ function updateTransInTab(trans,tabActive,n){
 
 
 function getRefOfTab(tab_id, ref, str_trans = null){
-    console.log('=== function getRefOfTab() ===');
+    //console.log('=== function getRefOfTab() ===');
 
     allowUseShowTrans = true;
 
@@ -11533,7 +11533,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
 }
 
 function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null){
-    console.log('=== function addTab() ===');
+    //console.log('=== function addTab() ===');
     
     let tabsAll = document.querySelectorAll('.tabs');
     let countTabs = tabsAll.length;
@@ -11678,22 +11678,22 @@ function updateArrTabs(){
 }
 
 async function guardarEnBd(tabla, campo, arr){
-    console.log(' === guardarEnBd(tabla, campo, arr) ===');
+    //console.log(' === guardarEnBd(tabla, campo, arr) ===');
 
     try {
-        console.log('Inicio de la función externa');
+        //console.log('Inicio de la función externa');
 
         // Llamada a la función interna
         //await funcionInterna();
 
         if(await verificarAutenticacion()){
-            console.log('js: true --- El usuario está autenticado.');
-            console.log(' guardo datos en bd');
-            console.log(arrTabs);
+            //console.log('js: true --- El usuario está autenticado.');
+            //console.log(' guardo datos en bd');
+            //console.log(arrTabs);
 
             insertarDatos(tabla, campo, arr);
         }else{
-            console.log('js: false --- El usuario no está autenticado.');
+            //console.log('js: false --- El usuario no está autenticado.');
         }
 
     } catch (error) {
@@ -11712,7 +11712,7 @@ function insertarDatos(tabla, campo, arr) {
         arr: arr
     };
 
-    console.log(datos);
+    //console.log(datos);
 
 
     fetch('./php/insertar_datos.php', {
@@ -11726,7 +11726,7 @@ function insertarDatos(tabla, campo, arr) {
     // .then(response => response.text())//test
     .then(data => {
 
-        console.log(data);
+        //console.log(data);
         // Puedes realizar acciones adicionales después de la inserción, si es necesario
 
     })
@@ -11738,7 +11738,7 @@ function insertarDatos(tabla, campo, arr) {
 
 
 async function obtenerDatosDeBD(tabla, campo){
-    console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
+    //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
        
@@ -11765,13 +11765,13 @@ async function obtenerDatosDeBD(tabla, campo){
 
         const data = await response.json();
         // const data = await response.text();//test
-        console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
-        console.log(data);
+        //console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
+        //console.log(data);
 
         switch (tabla) {
             case 'vkladki':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
+                    //console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
                     arrTabs = [
@@ -11787,7 +11787,7 @@ async function obtenerDatosDeBD(tabla, campo){
                     ];
                     makeTabsFromDatosDeVkladki();
                 }else{
-                    console.log('Si. tiene_vkladki');
+                    //console.log('Si. tiene_vkladki');
                     arrTabs = convertArrBdToArrOk('arrTabs',data);
                     makeTabsFromDatosDeVkladki();
                 }
@@ -11795,48 +11795,48 @@ async function obtenerDatosDeBD(tabla, campo){
                 
             case 'hist_nav':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_nav);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_nav);
                 }else{
-                    console.log('Si. hist_nav tiene_datos');
+                    //console.log('Si. hist_nav tiene_datos');
                     arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data);
-                    console.log('editado arr_hist_nav: ', arr_hist_nav);
+                    //console.log('editado arr_hist_nav: ', arr_hist_nav);
                     buildHistoryNavDesktop();
                 }
                 break;
 
             case 'hist_find':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_find);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_find);
                 }else{
-                    console.log('Si. hist_find tiene_datos');
+                    //console.log('Si. hist_find tiene_datos');
                     arr_hist_find = convertArrBdToArrOk('arr_hist_find',data);
-                    console.log('editado arr_hist_nav: ', arr_hist_find);
+                    //console.log('editado arr_hist_nav: ', arr_hist_find);
                     buildHistoryFindDesktop();
                 }
                 break;
 
             case 'hist_strong':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_hist_strong);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_strong);
                 }else{
-                    console.log('Si. hist_strong tiene_datos');
+                    //console.log('Si. hist_strong tiene_datos');
                     arr_hist_strong = JSON.parse(data);
-                    console.log('editado arr_hist_strong: ', arr_hist_strong);
+                    //console.log('editado arr_hist_strong: ', arr_hist_strong);
                     buildHistoryStrongDesktop();
                 }
                 break;
 
             case 'markers':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arr_markers);
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_markers);
                 }else{
-                    console.log('Si. markers tiene_datos');
+                    //console.log('Si. markers tiene_datos');
                     arr_markers = convertArrBdToArrOk('arr_markers',data);
-                    console.log('editado arr_markers: ', arr_markers);
+                    //console.log('editado arr_markers: ', arr_markers);
                     // buildHistoryNavDesktop();
                     buildMarkersDesktop();
                 }
@@ -11844,20 +11844,20 @@ async function obtenerDatosDeBD(tabla, campo){
 
             case 'fav_trans':
                 if(data == 'no_tiene_datos'){
-                    console.log('no_tiene_datos');
-                    console.log(arrFavTrans);
+                    //console.log('no_tiene_datos');
+                    //console.log(arrFavTrans);
                     arrFavTrans = arrFavTransDef;
                 }else{
-                    console.log('Si. fav_trans tiene_datos');
+                    //console.log('Si. fav_trans tiene_datos');
                     arrFavTrans = convertArrBdToArrOk('arrFavTrans',data);
-                    console.log('1. editado arrFavTrans: ', arrFavTrans);
+                    //console.log('1. editado arrFavTrans: ', arrFavTrans);
                     arrFavTrans = [... new Set(arrFavTrans)];//quito elementos duplicados
-                    console.log('2. editado arrFavTrans: ', arrFavTrans);
+                    //console.log('2. editado arrFavTrans: ', arrFavTrans);
                     ccc();
                     async function ccc(){
-                        console.log('antes - arrFavTransObj: ', arrFavTransObj);
+                        //console.log('antes - arrFavTransObj: ', arrFavTransObj);
                         await crear_arrFavTransObj();
-                        console.log('despues - arrFavTransObj: ', arrFavTransObj);
+                        //console.log('despues - arrFavTransObj: ', arrFavTransObj);
                     };
                     //crear_arrFavTransObj();
                 }
@@ -11877,10 +11877,10 @@ async function obtenerDatosDeBD(tabla, campo){
 
 
 function convertArrBdToArrOk(arrName, arr){
-    console.log('=== function convertArrBdToArrOk(arr) ===');
+    //console.log('=== function convertArrBdToArrOk(arr) ===');
 
     let arr_work = JSON.parse(arr);
-    console.log('user arr_work:', arr_work);
+    //console.log('user arr_work:', arr_work);
     let expresionRegular = /u\d{2}/g;//buscar caracteres unicode que me da bd.
     let coincidencias, coincidencias2, coincidencias3;
 
@@ -11891,7 +11891,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arrTabs':
                 coincidencias = el.ref.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.ref: ', el.ref);
+                    //console.log('antes el.ref: ', el.ref);
                     el.ref = el.ref.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11902,7 +11902,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_hist_nav':
                 coincidencias = el.ref.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.ref: ', el.ref);
+                    //console.log('antes el.ref: ', el.ref);
                     el.ref = el.ref.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11910,7 +11910,7 @@ function convertArrBdToArrOk(arrName, arr){
                 }        
                 coincidencias2 = el.BookShortName.match(expresionRegular);
                 if (coincidencias2) {
-                    console.log('antes el.BookShortName: ', el.BookShortName);
+                    //console.log('antes el.BookShortName: ', el.BookShortName);
                     el.BookShortName = el.BookShortName.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11921,7 +11921,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_hist_find':
                 coincidencias = el.words.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.words: ', el.words);
+                    //console.log('antes el.words: ', el.words);
                     el.words = el.words.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11936,7 +11936,7 @@ function convertArrBdToArrOk(arrName, arr){
             case 'arr_markers':
                 coincidencias = el.ref.match(expresionRegular);
                 if (coincidencias) {
-                    console.log('antes el.ref: ', el.ref);
+                    //console.log('antes el.ref: ', el.ref);
                     el.ref = el.ref.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11944,7 +11944,7 @@ function convertArrBdToArrOk(arrName, arr){
                 }        
                 coincidencias2 = el.BookShortName.match(expresionRegular);
                 if (coincidencias2) {
-                    console.log('antes el.BookShortName: ', el.BookShortName);
+                    //console.log('antes el.BookShortName: ', el.BookShortName);
                     el.BookShortName = el.BookShortName.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11952,7 +11952,7 @@ function convertArrBdToArrOk(arrName, arr){
                 }        
                 coincidencias3 = el.verseText.match(expresionRegular);
                 if (coincidencias3) {
-                    console.log('antes el.verseText: ', el.verseText);
+                    //console.log('antes el.verseText: ', el.verseText);
                     el.verseText = el.verseText.replace(expresionRegular, function (x) {
                         return '\\' + x;
                     });
@@ -11969,15 +11969,15 @@ function convertArrBdToArrOk(arrName, arr){
                 break;
         }        
     });
-    console.log('2. user arr_work:', arr_work);
+    //console.log('2. user arr_work:', arr_work);
     let new_arr = arr_work;
-    console.log('new arr:', new_arr);
+    //console.log('new arr:', new_arr);
     return new_arr;
 }
 
 
 function makeTabsFromDatosDeVkladki(){
-    console.log(' === makeTabsFromDatosDeVkladki() ===');
+    //console.log(' === makeTabsFromDatosDeVkladki() ===');
 
     eid_partDeskTabs.innerHTML = '';//reset vkladki
     
@@ -12029,7 +12029,7 @@ function makeTabsFromDatosDeVkladki(){
                     scrollToVkladkaActive();
                     
                     let htmlTab = tabsAll[i];
-                    console.log('tiene active. htmlTab');
+                    //console.log('tiene active. htmlTab');
                     
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
@@ -12065,7 +12065,7 @@ function convertirUnicodeALetras(cadena) {
 
 
 async function verificarAutenticacion() {
-    console.log('=== function verificarAutenticacion() ===');
+    //console.log('=== function verificarAutenticacion() ===');
 
     try {
                
@@ -12074,7 +12074,7 @@ async function verificarAutenticacion() {
             credentials: 'include'
         });
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
         if(response.ok) {
             return true;
@@ -12101,7 +12101,7 @@ function removeTab(){
 }
 
 function closeTab(el, ev = null){       
-    console.log('=== function closeTab(el, ev) ===');
+    //console.log('=== function closeTab(el, ev) ===');
 
     if(ev != null) ev.stopPropagation();
 
@@ -12169,11 +12169,11 @@ function selBook(e){
 
 //Click sobre el capítulo del libro de la Biblia en navegación
 function selChapter(e, show_chapter = null){
-    console.log('=== function selChapter(e, show_chapter = null) ===');
+    //console.log('=== function selChapter(e, show_chapter = null) ===');
 
     if(e.id == 'e_virt'){
         //alert('e_virt');
-        console.log('e_virt');
+        //console.log('e_virt');
     }
 
     //console.log(e.srcElement.innerText); 
@@ -12293,7 +12293,7 @@ function selChapter(e, show_chapter = null){
         //si se hace click sobre elemento virtual, no hago showTrans para que no se llame 2 veces
         if(e.id == 'e_virt'){
             //alert('e.id == e_virt. no llamo a showTrans()');
-            console.log('e.id == e_virt. no llamo a showTrans()');    
+            //console.log('e.id == e_virt. no llamo a showTrans()');    
         }else{
             showTrans(eid_inpt_nav.getAttribute('data-id_book'), param_show_chapter);//chapter def 1 //antes
         }
@@ -12309,7 +12309,7 @@ function updateRefInTabActive(trans,ref){
 
 //Click sobre el versículo del capítulo del libro de la Biblia en navegación
 function selVerse(e){
-    console.log('=== function selVerse(e) ===');
+    //console.log('=== function selVerse(e) ===');
 
     //console.log(e.srcElement.innerText);
 
@@ -13103,7 +13103,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     }else{
                                         
                                         let info = `no existe en objeto obj_bible_files en la trans ${trans} el Book indicado. id_book: ${id_book}. Saco cantidad de versiculos por_json if(modo_get_VerseQty == 'por_json') o cargo por fetch() el texto if(modo_get_VerseQty == 'por_text') del cual saco cantidad de versiculos y por el camino meto todo el texto en obj_bible_file si hace falta.`;
-                                        console.log(info);
+                                        //console.log(info);
                                         //alert(info);
 
                                         window.chapter_PathName = this_trans_obj.Books[id_book].PathName;
@@ -13132,8 +13132,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             // .then(response => response.text())
                                             .then(data => {
                                                 
-                                                console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
-                                                console.log(data);
+                                                //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
+                                                //console.log(data);
         
                                                 let chapterNumber,verseNumber;
                                                         
@@ -13252,9 +13252,9 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                                 'fileContent': data
                                                             };
                                                             let info = `meto el texto del fichero ${this_trans_obj.Books[id_book].PathName} en el objeto obj_bible_files`;
-                                                            console.log('info: ', info);
-                                                            console.log('1. obj_bible_files');
-                                                            console.log(obj_bible_files);
+                                                            //console.log('info: ', info);
+                                                            //console.log('1. obj_bible_files');
+                                                            //console.log(obj_bible_files);
                                                             //alert(info);
                                                         }                                                                
                                                     }
@@ -13396,8 +13396,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     // .then(response => response.text())
                                     .then(data => {
                                         
-                                        console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
-                                        console.log(data);
+                                        //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
+                                        //console.log(data);
 
                                         let chapterNumber,verseNumber;
                                                 
@@ -13670,10 +13670,10 @@ function getRefForTsk(Translation, bookShortName){
 
 
 function getRef(trans = null){
-    console.log('=== function getRef() ===');
+    //console.log('=== function getRef() ===');
 
     allowUseShowTrans = true;
-    console.log('en getRef() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en getRef() --- allowUseShowTrans: ',allowUseShowTrans);
 
     let act_trans = eid_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
@@ -14161,8 +14161,8 @@ function getRef(trans = null){
 
         }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
-            console.log('modo old --- en getRef() ');
-            console.log('arrFavTrans: ',arrFavTrans);
+            //console.log('modo old --- en getRef() ');
+            //console.log('arrFavTrans: ',arrFavTrans);
             //alert('14090. getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
             //alert(`No fue posible encontrar la traducción ${Translation}. Se te va a mostrar un módulo que existe.`);
             Translation = arrFavTrans[0];
@@ -14218,7 +14218,7 @@ function getRefByHref(code, separador = '/', first_book_index = 0){//href='UMT/1
 }
 
 function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//href='B:230 19:2' => Sal.19:2
-    console.log('=== function getRefByHrefMB() ===');
+    //console.log('=== function getRefByHrefMB() ===');
 
     let act_trans = eid_trans1.dataset.trans;    
     code = code.replace('B:','');
@@ -14233,10 +14233,10 @@ function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//hre
     ejecutar_convertBookIndex();
 
     async function ejecutar_convertBookIndex(){
-        console.log('=== ejecutar_convertBookIndex() === ');
+        //console.log('=== ejecutar_convertBookIndex() === ');
         
         let book = await convertBookIndex(book_number_mb,'mb_to_bq');
-        console.log('book: ', book);
+        //console.log('book: ', book);
 
         let to_verse = null;
         if(arr_chapter_verse[1].includes('-')){
@@ -14245,10 +14245,10 @@ function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//hre
         }
         //console.log(inpt_v);
     
-        console.log('book: '+book);
-        console.log('chapter: '+chapter);
-        console.log('verse: '+verse);
-        console.log('to_verse: '+to_verse);
+        //console.log('book: '+book);
+        //console.log('chapter: '+chapter);
+        //console.log('verse: '+verse);
+        //console.log('to_verse: '+to_verse);
 
         let obj_trans_base = arrFavTransObj.find(v => v.Translation === act_trans);    
         let obj_trans_this = arrFavTransObj.find(v => v.Translation === trans);
@@ -14282,7 +14282,7 @@ function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//hre
 
         //si no es movil
         if(window.innerWidth < pantallaTabletMinPx){
-            console.log(' es mobile');
+            //console.log(' es mobile');
             //eid_inpt_nav.dataset.divtrans = 'trans1';
             //eid_inpt_nav.dataset.trans = trans;
         }
@@ -14293,7 +14293,7 @@ function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//hre
     
         eid_inpt_nav.value = ref;
         getRef();
-        console.log('=== finalizado ejecutar_convertBookIndex() === ');
+        //console.log('=== finalizado ejecutar_convertBookIndex() === ');
     }
 
 }
@@ -14595,7 +14595,7 @@ function selectModule2(htmlTrans){
     
     }else{
         //transSelected = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
-        console.log('thisDiv = PointerEvent {}. no hago nada');
+        //console.log('thisDiv = PointerEvent {}. no hago nada');
     }
 
 }
@@ -14646,10 +14646,10 @@ function selectTab(){//Vkladki
         let id_tab_to_del = arrTabs[i].id;
         btn_tab_x.dataset.id_tab_to_del = id_tab_to_del;
         btn_tab_x.onclick = (ev) => {
-            console.log('ev: ',ev);
-            console.log('ev.currentTarget: ',ev);
+            //console.log('ev: ',ev);
+            //console.log('ev.currentTarget: ',ev);
             let id_tab = ev.currentTarget.dataset.id_tab_to_del;
-            console.log('id_tab: ',id_tab);
+            //console.log('id_tab: ',id_tab);
             closeTab(document.querySelector(`#${id_tab} button`), ev);
             //closeModal(null,true);
             //si no se queda el ultimo elemento p en la lista , elimino el elemento
@@ -14694,13 +14694,13 @@ function addListenerModule(){
 let go_to_hist_item = 0;
 
 function hist(param){
-    console.log('=== function hist() === ');
-    console.log(' param: ',param);
-    console.log(' arr_hist_nav: ',arr_hist_nav);
-    console.log(' initial go_to_hist_item: ',go_to_hist_item);
+    //console.log('=== function hist() === ');
+    //console.log(' param: ',param);
+    //console.log(' arr_hist_nav: ',arr_hist_nav);
+    //console.log(' initial go_to_hist_item: ',go_to_hist_item);
 
     if(arr_hist_nav.length > 0){
-        console.log('arr_hist_nav tiene elementos ');
+        //console.log('arr_hist_nav tiene elementos ');
 
         let p_all = document.querySelectorAll('.wr_hist_inner p');
         p_all.forEach(el=>{
@@ -14710,47 +14710,47 @@ function hist(param){
         if(param == 'prev'){
             
             go_to_hist_item++; 
-            console.log(' new go_to_hist_item: ',go_to_hist_item);
+            //console.log(' new go_to_hist_item: ',go_to_hist_item);
 
             if(go_to_hist_item < arr_hist_nav.length){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
                 //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav
-                console.log('elemento del arr_hist_nav al cual voy. el: ',el);
+                //console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
-                console.log('has llegado al fin del historial');
+                //console.log('has llegado al fin del historial');
                 go_to_hist_item = arr_hist_nav.length;
             }
 
         }else if(param == 'next'){
             
             go_to_hist_item--; 
-            console.log(' new go_to_hist_item: ',go_to_hist_item);
+            //console.log(' new go_to_hist_item: ',go_to_hist_item);
 
             if(go_to_hist_item >= 0){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
                 //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav 
-                console.log('elemento del arr_hist_nav al cual voy. el: ',el);
+                //console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
-                console.log('has llegado al inicio del historial');
+                //console.log('has llegado al inicio del historial');
                 go_to_hist_item = 0;
             }
         }
 
     }else{
-        console.log('arr_hist_nav está vacio. no hago nada.');
+        //console.log('arr_hist_nav está vacio. no hago nada.');
     }
 }
 
 
 function bookGo(dir){
-    console.log('=== function chapterGo(dir) ===');
+    //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
-    console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
 
     //console.log('bookGo dir: '+dir);    
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
@@ -14959,10 +14959,10 @@ function scrollTopCero(){
 
 
 function chapterGo(dir){
-    console.log('=== function chapterGo(dir) ===');
+    //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
-    console.log('en chapterGo() --- allowUseShowTrans: ',allowUseShowTrans);
+    //console.log('en chapterGo() --- allowUseShowTrans: ',allowUseShowTrans);
 
     let act_id_book = (eid_inpt_nav.getAttribute('data-id_book') != '') ? eid_inpt_nav.getAttribute('data-id_book') : 0 ;//genesis
     let act_show_chapter = (eid_inpt_nav.getAttribute('data-show_chapter') != '') ? eid_inpt_nav.getAttribute('data-show_chapter') : 1 ;
@@ -15922,7 +15922,7 @@ function guardWordsFind(words){
             }
         })
         .catch(error => {
-            console.log('error de guard: '+ error)
+            //console.log('error de guard: '+ error)
         });    
     }
 }

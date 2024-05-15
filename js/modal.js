@@ -1,5 +1,5 @@
 function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
-    console.log('=== function openModal() ===');
+    //console.log('=== function openModal() ===');
     //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
     //Reset
@@ -48,7 +48,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');  
                     eid_h4_text.innerHTML = headerTitle;//'Меню'; 
-                    console.log('aki llamar showMenu()');
+                    //console.log('aki llamar showMenu()');
 
                     eid_topLogin.style.display = 'block';
                     eid_topMenu.style.display = 'none';
@@ -60,7 +60,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');  
                     eid_h4_text.innerHTML = headerTitle;//'Меню'; 
-                    console.log('aki llamar showMenu()');
+                    //console.log('aki llamar showMenu()');
 
                     eid_topLogin.style.display = 'none';
                     eid_topMenu.style.display = 'block';
@@ -169,7 +169,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                 case 'showMarkers':
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
-                    console.log('aki llamar showMarkers()');
+                    //console.log('aki llamar showMarkers()');
                     showMarkers();
                     break;
     
@@ -210,7 +210,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
 
 function showMenu(htmlTrans){
-    console.log('=== showMenu(htmlTrans) ===');
+    //console.log('=== showMenu(htmlTrans) ===');
 
     eid_bl_modalTopInner.innerHTML = '';
 
@@ -713,7 +713,7 @@ function showAviso(htmlTrans, positionModal){
 }
 
 function buildVerseMenu(arr_p_id,positionModal){
-    console.log('=== function buildVerseMenu(arr_p_id) ===');
+    //console.log('=== function buildVerseMenu(arr_p_id) ===');
 
     
     if(positionModal == 'center'){
@@ -746,8 +746,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn2.title = 'Добавить стих в Закладки';
     btn2.innerHTML = '<img src="./images/marker_icon_white.svg">';
     btn2.onclick = ()=>{
-        console.log('llamo func para añadir marker-закладку');
-        console.log(arr_p_id);
+        //console.log('llamo func para añadir marker-закладку');
+        //console.log(arr_p_id);
         let trans = arr_p_id[0];
         let book = arr_p_id[1];
         let chapter = arr_p_id[2];
@@ -1195,7 +1195,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         }                                         
             
                                     }else{
-                                        console.log(`1. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
+                                        //console.log(`1. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                                         let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                                         //alert(aviso_text);
 
@@ -1406,7 +1406,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             }
 
                         }else{
-                            console.log(`2. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
+                            //console.log(`2. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                             let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                             //alert(aviso_text);
 
@@ -2056,7 +2056,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         b_trans.title = el.BibleName;
         b_trans.innerHTML = el.BibleShortName;
         b_trans.onclick = (e) => {
-            console.log('b_trans.onclick. e: ', e);
+            //console.log('b_trans.onclick. e: ', e);
             goToRefFromCompareVerses();
         }
 
@@ -2067,12 +2067,12 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         let refLink = `${el.BibleBookShortName} ${el.chapter}:${el.verse}`;
         a_ref.innerHTML = refLink;
         a_ref.onclick = (e) => {
-            console.log('a_ref.onclick. e: ', e);
+            //console.log('a_ref.onclick. e: ', e);
             goToRefFromCompareVerses(e);
         };
 
         function goToRefFromCompareVerses(){
-            console.log('=== function goToRefFromCompareVerses() ===');
+            //console.log('=== function goToRefFromCompareVerses() ===');
             
             updateArrTrans();
 
@@ -2667,7 +2667,7 @@ function showMarkers(){
             const btn_verse_menu = document.createElement('span');
             btn_verse_menu.className = 'mark btn_verse_menu';
             btn_verse_menu.onclick = (e)=>{
-                console.log('llamo a hideShow3Btns()');
+                //console.log('llamo a hideShow3Btns()');
                 hideShow3Btns(e.currentTarget);
             }
             //btn_verse_menu.innerHTML = `<span class="wr_3_btns" style="display: none;">
@@ -2691,8 +2691,8 @@ function showMarkers(){
             btn_ver.dataset.indexMarker = i;
             btn_ver.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('1. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('1. index de arr_markers. index: ',index);
                 onclick_p_marker(el);
                 closeModal(null,true);//en mobile cierro modal
             }
@@ -2704,8 +2704,8 @@ function showMarkers(){
             btn_compartir.dataset.indexMarker = i;
             btn_compartir.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('2. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('2. index de arr_markers. index: ',index);
                 alert('funcción en desarrollo.');
             }
             wr_3_btns.append(btn_compartir);
@@ -2716,8 +2716,8 @@ function showMarkers(){
             btn_eliminar.dataset.indexMarker = i;
             btn_eliminar.onclick = (e) =>{
                 let index = e.currentTarget.dataset.indexMarker;
-                console.log(e.currentTarget.dataset.indexMarker);
-                console.log('3. index de arr_markers. index: ',index);
+                //console.log(e.currentTarget.dataset.indexMarker);
+                //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
                 guardarEnBd('markers','arr_markers',arr_markers);
                 buildMarkersDesktop();
@@ -2760,10 +2760,10 @@ function showMarkers(){
 // When the user clicks on <span> (x), close the eid_myModal
 function closeModal(modal_head_text = null, click_fuera_o_x = false) {
     let actual_h4_text = eid_myModal.querySelector('#h4_text').textContent;
-    console.log('actual_h4_text: ',actual_h4_text);
+    //console.log('actual_h4_text: ',actual_h4_text);
 
     if(modal_head_text == actual_h4_text || click_fuera_o_x){
-        console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
+        //console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
 
         eid_myModal.style.opacity = 0;//start efecto fade
         setTimeout(()=>{
@@ -2771,7 +2771,7 @@ function closeModal(modal_head_text = null, click_fuera_o_x = false) {
         },400);
 
     }else{
-        console.log(`[else] --- NO. el titulo no es igual. ${modal_head_text} != ${actual_h4_text}`);
+        //console.log(`[else] --- NO. el titulo no es igual. ${modal_head_text} != ${actual_h4_text}`);
         //no hago nada
     }
 
@@ -2967,7 +2967,7 @@ function applyMaxWidthToClass(the_class){
         elemento.style.minWidth = anchoMaximo + 'px';
     });
 
-    console.log('anchoMaximo: ',anchoMaximo);
+    //console.log('anchoMaximo: ',anchoMaximo);
 
 }
 

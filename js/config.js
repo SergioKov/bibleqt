@@ -371,7 +371,7 @@ let crear_objeto_obj_bible_files = true;//true, false
 let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
 
 let allowUseShowTrans = true;//permitir o no usar function showTrans()
-console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
+//console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);
 
 let strongAction = null;
 
