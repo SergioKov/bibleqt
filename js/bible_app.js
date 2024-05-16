@@ -20154,26 +20154,30 @@ function pintRefOnScroll(){
             //console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
             if(window.innerWidth < pantallaTabletMinPx){//mobile
+                
                 //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
                     el_rect.top >= 0 && 
-                    el_rect.top + 7 <= divContenedor_rect.top &&
-                    el_rect.bottom + 7 <= (divContenedor.clientHeight || window.innerHeight) &&
+                    el_rect.top + 0 <= divContenedor_rect.top &&
+                    el_rect.bottom + 0 <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
                     primerElementoVisible = elemento;
-                    //console.log('--- MOBILE --- Si --- primerElementoVisible');
-                    //console.log(
-                    //`--- si --- element parcialmente está visto. 
-                    //    --- elemento.tagName: ${elemento.tagName} 
-                    //    --- elemento.id: ${elemento.id}
-                    //    --- el_rect.top: ${el_rect.top}
-                    //    --- el_rect.bottom: ${el_rect.bottom}
-                    //`);
+                    /*
+                    console.log('--- MOBILE --- Si --- primerElementoVisible');
+                    console.log(`
+                        --- si --- element parcialmente está visto. 
+                        --- elemento.tagName: ${elemento.tagName} 
+                        --- elemento.id: ${elemento.id}
+                        --- el_rect.top: ${el_rect.top}
+                        --- el_rect.bottom: ${el_rect.bottom}
+                    `);
+                    */
                 }else{
                     elemento.classList.remove('elementoVisible');
                     //console.log('--- MOBILE --- NO --- primerElementoVisible');
                 }
+
             }else{//desktop
                 //en desktop
                 if(
@@ -20388,7 +20392,20 @@ function pageUp() {
         else if(newScrollTop >= 0) {
             //el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
-                el.scrollTop = newScrollTop_toVerse;
+                el.scrollTop = newScrollTop_toVerse;//antes
+
+                /*
+                el.onscroll = null;//reset scroll
+                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                el.scrollTo({//test
+                    top: newScrollTop_toVerse + pixels_in_mob,
+                    behavior: 'smooth'
+                });
+                setTimeout(()=>{
+                    initScrollInColsInner();
+                },1000);
+                */
+
                 //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
                 el.scrollTop = newScrollTop;
@@ -20454,9 +20471,25 @@ function pageDown() {
             // el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;
+
+                /*el.onscroll = null;//reset scroll
+                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                el.scrollTo({//test
+                    top: newScrollTop_toVerse + pixels_in_mob,
+                    behavior: 'smooth'
+                });
+                setTimeout(()=>{
+                    initScrollInColsInner();
+                },1000);
+                */
+
                 //console.log('2. --- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
-                el.scrollTop = newScrollTop;
+                //el.scrollTop = newScrollTop;//antes
+                el.scrollTo({//test
+                    top: newScrollTop,
+                    behavior: 'smooth'
+                });
                 //console.log('3. --- ago newScrollTop: ' + newScrollTop);
             }
         }
