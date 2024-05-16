@@ -790,7 +790,11 @@ function buildDivShow(arrData, indexColToBuild = null){
     arrDataDivShow = [];//reset despues de build
 
     //hago scroll a vkladka activa
-    scrollToVkladkaActive();    
+    scrollToVkladkaActive();  
+    
+    setTimeout(()=>{
+        getFirstPVisibleAndPutInVkladka();
+    },50);
 
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
