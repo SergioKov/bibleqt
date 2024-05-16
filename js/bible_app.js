@@ -12424,6 +12424,10 @@ function selVerse(e){
     
     addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse);
 
+    document.querySelector('.tab_active span').innerHTML = eid_inpt_nav.value;
+    document.querySelector('.partDesk .desk_sh_link').textContent = eid_inpt_nav.value;
+    document.querySelector('.partMob .mob_sh_link').textContent = eid_inpt_nav.value;
+
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
         //console.log('func selVerse(). mobile.');
@@ -20156,9 +20160,9 @@ function pintRefOnScroll(){
             if(window.innerWidth < pantallaTabletMinPx){//mobile
                 //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
-                    el_rect.top >= 0 && 
-                    el_rect.top + 7 <= divContenedor_rect.top &&
-                    el_rect.bottom + 7 <= (divContenedor.clientHeight || window.innerHeight) &&
+                    el_rect.top >= -10 && 
+                    el_rect.top -10 <= divContenedor_rect.top -10 &&
+                    el_rect.bottom -10 <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
                     primerElementoVisible = elemento;
