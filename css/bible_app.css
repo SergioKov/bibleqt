@@ -3657,3 +3657,7 @@ p.p_pointer.c_red {
 p.p_pointer.c_red span {
     color: #f3f5f3;
 }
+
+.p10p5p0{
+    padding: 10px 5px 0px !important;
+}

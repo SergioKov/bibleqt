@@ -170,7 +170,7 @@ const eid_m_login_menu = document.getElementById('m_login_menu');
 
 //Medidas de pantallas para Media Queries
 const pantallaMobileMaxPx = 575;
-const pantallaTabletMinPx = 768;
+const pantallaTabletMinPx = 768;//valor de tablet y mas 
 
 //const pantallaTabletMaxPx = 991;
 //const pantallaDesktopSmallMinPx = 992;

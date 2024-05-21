@@ -12424,10 +12424,6 @@ function selVerse(e){
     
     addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse);
 
-    document.querySelector('.tab_active span').innerHTML = eid_inpt_nav.value;
-    document.querySelector('.partDesk .desk_sh_link').textContent = eid_inpt_nav.value;
-    document.querySelector('.partMob .mob_sh_link').textContent = eid_inpt_nav.value;
-
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
         //console.log('func selVerse(). mobile.');
@@ -20158,26 +20154,30 @@ function pintRefOnScroll(){
             //console.log("--- cond 1: el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight): " + (el_rect.bottom <= (divContenedor.clientHeight || window.innerHeight)) );
 
             if(window.innerWidth < pantallaTabletMinPx){//mobile
+                
                 //en mobile (he añadido +5 para que al click no muestre el versiculo anterior en vkladka)
                 if(
-                    el_rect.top >= -10 && 
-                    el_rect.top -10 <= divContenedor_rect.top -10 &&
-                    el_rect.bottom -10 <= (divContenedor.clientHeight || window.innerHeight) &&
+                    el_rect.top >= 0 && 
+                    el_rect.top + 0 <= divContenedor_rect.top &&
+                    el_rect.bottom + 0 <= (divContenedor.clientHeight || window.innerHeight) &&
                     !primerElementoVisible
                 ){
                     primerElementoVisible = elemento;
-                    //console.log('--- MOBILE --- Si --- primerElementoVisible');
-                    //console.log(
-                    //`--- si --- element parcialmente está visto. 
-                    //    --- elemento.tagName: ${elemento.tagName} 
-                    //    --- elemento.id: ${elemento.id}
-                    //    --- el_rect.top: ${el_rect.top}
-                    //    --- el_rect.bottom: ${el_rect.bottom}
-                    //`);
+                    /*
+                    console.log('--- MOBILE --- Si --- primerElementoVisible');
+                    console.log(`
+                        --- si --- element parcialmente está visto. 
+                        --- elemento.tagName: ${elemento.tagName} 
+                        --- elemento.id: ${elemento.id}
+                        --- el_rect.top: ${el_rect.top}
+                        --- el_rect.bottom: ${el_rect.bottom}
+                    `);
+                    */
                 }else{
                     elemento.classList.remove('elementoVisible');
                     //console.log('--- MOBILE --- NO --- primerElementoVisible');
                 }
+
             }else{//desktop
                 //en desktop
                 if(
@@ -20235,103 +20235,112 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
     //console.log('=== function putRefVisibleToHead(ref) ===');
     //console.log('id_ref: ' +id_ref);
     //console.log('startingFromIndexCol: ' +startingFromIndexCol);
-
-    let arr_ref = id_ref.split('__');
-    let bookNumber = arr_ref[1];
-    let chapterNumber = arr_ref[2];
-    let verseNumber = arr_ref[3];
-
-    let bookNumber_init = bookNumber;
-    let chapterNumber_init = chapterNumber;
-    let verseNumber_init = verseNumber;
     
-    let colsAll = document.querySelectorAll('.cols');
+    getFirstPVisibleAndPutInVkladka();
 
-    colsAll.forEach((el,i)=>{
-        //console.log(el);
 
-        //vuelvo a cojer valores iniciales para no calcular otra vez y resetear el valor cambiado por el código abajo (si es cambiado)
-        bookNumber = bookNumber_init;
-        chapterNumber = chapterNumber_init;
-        verseNumber = verseNumber_init;    
-
-        //si no es #col1
-        if(i >= startingFromIndexCol){
-
-            let trans_base = eid_trans1.dataset.trans;//importante para cojer el valor actual
-            let trans_head = el.querySelector('.colsHead').dataset.trans;
-
-            // preparo le ref
-            // Usa el método find para buscar el objeto que contiene 'rst' como nombre
-            const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
-            const obj_trans_head = arrFavTransObj.find(v => v.Translation === trans_head);
-
-            //si está seleccionado traducción
-            if(typeof trans_head != 'undefined' && typeof obj_trans_head.Books[bookNumber] != 'undefined'){
-
-                let trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
-            
-                //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
-                if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_head.EnglishPsalms == 'Y'){
-                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-                    //console.log('--- ref head 1. trans1 = Rus --- trans2 = Esp. --- convertir Link Rus => Esp');
-
-                    //Modifico sólo los links de ruso a español
-                    //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
-                    //trans2 = rv60 clicked
-                    let new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
-                    
-                    //asigno nuevo valor
-                    bookNumber = new_result[0];
-                    chapterNumber = new_result[1];
-                    verseNumber = new_result[2];
-
-                    //console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
-                    //console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    //console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
-                    //console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
-                }
-
-                //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
-                if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_head.EnglishPsalms == 'N'){
-                    //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
-                    //console.log('head 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
-
-                    //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
-                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
-                    
-                    //asigno nuevo valor
-                    bookNumber = new_result[0];
-                    chapterNumber = new_result[1];
-                    verseNumber = new_result[2];
-
-                    //console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
-                    //console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    //console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
-                    //console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
-                }
-
-                //console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
-                let new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
-
-                //meto ref 'Матв. 1:19' en vkladka aciva del col1 trans1
-                if(i == 0){
-                    document.querySelector('.tab_active span').innerHTML = new_ref;
-                    document.querySelector('.tab_active').dataset.ref_trans = trans_base;
+    //work_inner(id_ref, startingFromIndexCol = 0);
+    function work_inner(id_ref, startingFromIndexCol = 0){
+        
+        let arr_ref = id_ref.split('__');
+        let bookNumber = arr_ref[1];
+        let chapterNumber = arr_ref[2];
+        let verseNumber = arr_ref[3];
+    
+        let bookNumber_init = bookNumber;
+        let chapterNumber_init = chapterNumber;
+        let verseNumber_init = verseNumber;
+        
+        let colsAll = document.querySelectorAll('.cols');
+    
+        colsAll.forEach((el,i)=>{
+            //console.log(el);
+    
+            //vuelvo a cojer valores iniciales para no calcular otra vez y resetear el valor cambiado por el código abajo (si es cambiado)
+            bookNumber = bookNumber_init;
+            chapterNumber = chapterNumber_init;
+            verseNumber = verseNumber_init;    
+    
+            //si no es #col1
+            if(i >= startingFromIndexCol){
+    
+                let trans_base = eid_trans1.dataset.trans;//importante para cojer el valor actual
+                let trans_head = el.querySelector('.colsHead').dataset.trans;
+    
+                // preparo le ref
+                // Usa el método find para buscar el objeto que contiene 'rst' como nombre
+                const obj_trans_base = arrFavTransObj.find(v => v.Translation === trans_base);
+                const obj_trans_head = arrFavTransObj.find(v => v.Translation === trans_head);
+    
+                //si está seleccionado traducción
+                if(typeof trans_head != 'undefined' && typeof obj_trans_head.Books[bookNumber] != 'undefined'){
+    
+                    let trans_BookShortName = obj_trans_head.Books[bookNumber].ShortNames[0];
+                
+                    //Convertir el link de Español a Ruso. (Sal.23:1 => Псалом 22:1)
+                    if(obj_trans_base.EnglishPsalms == 'N' && obj_trans_head.EnglishPsalms == 'Y'){
+                        //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+                        //console.log('--- ref head 1. trans1 = Rus --- trans2 = Esp. --- convertir Link Rus => Esp');
+    
+                        //Modifico sólo los links de ruso a español
+                        //trans1 = RST (base. metido antes. Пс 22:2. lo tengo que convertir en Sal.23:2)
+                        //trans2 = rv60 clicked
+                        let new_result = convertLinkFromRusToEsp(bookNumber, chapterNumber, verseNumber);//importante RusToEsp
+                        
+                        //asigno nuevo valor
+                        bookNumber = new_result[0];
+                        chapterNumber = new_result[1];
+                        verseNumber = new_result[2];
+    
+                        //console.log('1. ahora bookNumber: '+bookNumber);//empezando de 1
+                        //console.log('1. ahora chapterNumber: '+chapterNumber);//empezando de 1
+                        //console.log('1. ahora verseNumber: '+verseNumber);//empezando de 1
+                        //console.log('1. ahora trans_BookShortName: '+trans_BookShortName);
+                    }
+    
+                    //Convertir el link de Ruso a Español. (Псалом 22:1 => Sal.23:1)
+                    if(obj_trans_base.EnglishPsalms == 'Y' && obj_trans_head.EnglishPsalms == 'N'){
+                        //convierto la ref de input en la ref de trans_base. Porque se forma a partir del trans1
+                        //console.log('head 2. trans1 = Esp --- trans2 = Rus. convertir Link Esp => Esp');
+    
+                        //Modifico sólo los links si en input se pone link ruso para mostrar link espñol
+                        let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber);//importante EspToRus
+                        
+                        //asigno nuevo valor
+                        bookNumber = new_result[0];
+                        chapterNumber = new_result[1];
+                        verseNumber = new_result[2];
+    
+                        //console.log('2. ahora bookNumber: '+bookNumber);//empezando de 1
+                        //console.log('2. ahora chapterNumber: '+chapterNumber);//empezando de 1
+                        //console.log('2. ahora verseNumber: '+verseNumber);//empezando de 1
+                        //console.log('2. ahora trans_BookShortName: '+trans_BookShortName);
+                    }
+    
+                    //console.log(id_ref + ' => ' + trans_BookShortName + ''+chapterNumber +':'+verseNumber);
+                    let new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
+    
+                    //meto ref 'Матв. 1:19' en vkladka aciva del col1 trans1
+                    if(i == 0){
+                        document.querySelector('.tab_active span').innerHTML = new_ref;
+                        document.querySelector('.tab_active').dataset.ref_trans = trans_base;
+                    } 
+    
+                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+                    el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
+                
+                }else{
+                    let new_ref = '--. --:--';
+    
+                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
+                    el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
                 } 
+    
+            }
+        });
 
-                el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
-                el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
-            
-            }else{
-                let new_ref = '--. --:--';
+    }//fin work_inner()
 
-                el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
-                el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
-            } 
-
-        }
-    });
 }
 
 
@@ -20392,7 +20401,20 @@ function pageUp() {
         else if(newScrollTop >= 0) {
             //el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
-                el.scrollTop = newScrollTop_toVerse;
+                el.scrollTop = newScrollTop_toVerse;//antes
+
+                /*
+                el.onscroll = null;//reset scroll
+                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                el.scrollTo({//test
+                    top: newScrollTop_toVerse + pixels_in_mob,
+                    behavior: 'smooth'
+                });
+                setTimeout(()=>{
+                    initScrollInColsInner();
+                },1000);
+                */
+
                 //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
                 el.scrollTop = newScrollTop;
@@ -20404,12 +20426,20 @@ function pageUp() {
             //console.log('4.--- Estoy en la parte superior del contenido.');
         }
     });
+
+    setTimeout(()=>{
+        console.log('--- 1 end pageUp() ---');
+        getFirstPVisibleAndPutInVkladka();
+        console.log('--- 2 end pageUp() ---');
+    },50);    
 }
 
 
 function pageDown() {
-    let colsAll = document.querySelectorAll('.colsInner');   
-    colsAll.forEach(el=>{
+    let colsAll = document.querySelectorAll('.colsInner'); 
+
+    colsAll.forEach(el => {
+        
         let el_rect = el.getBoundingClientRect();
         let scrollHeight = el.scrollHeight;
         let clientHeight = el.clientHeight;
@@ -20427,8 +20457,9 @@ function pageDown() {
 
         let newScrollTop_toVerse = false;
 
-        el.querySelectorAll('p').forEach(elp=>{
-            let elp_rect =elp.getBoundingClientRect();
+        el.querySelectorAll('p').forEach(elp => {
+            
+            let elp_rect = elp.getBoundingClientRect();
             //console.log('elp.id: '+elp.id + ' --- elp_rect.top: '+elp_rect.top + ' --- elp_rect.bottom: '+elp_rect.bottom);
 
             //busco qué elp cual top es menos que newScrollTop (920) y su bottom es mas que newScrollTop (920)
@@ -20449,6 +20480,7 @@ function pageDown() {
             }
         });
       
+
         // Asegúrate de que no te desplaces más allá del final del contenido
         if(newScrollTop > scrollHeight) {
             el.scrollTop = scrollHeight;//mover al bottom
@@ -20458,9 +20490,21 @@ function pageDown() {
             // el.scrollTop = newScrollTop;//antes
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;
+
+                /*el.onscroll = null;//reset scroll
+                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                el.scrollTo({//test
+                    top: newScrollTop_toVerse + pixels_in_mob,
+                    behavior: 'smooth'
+                });
+                setTimeout(()=>{
+                    initScrollInColsInner();
+                },1000);
+                */
+
                 //console.log('2. --- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
-                el.scrollTop = newScrollTop;
+                el.scrollTop = newScrollTop;//antes
                 //console.log('3. --- ago newScrollTop: ' + newScrollTop);
             }
         }
@@ -20470,7 +20514,62 @@ function pageDown() {
             chapterGo('next');//OK 
         }
     });
+
+    setTimeout(()=>{
+        console.log('--- 1 end pageDown() ---');
+        getFirstPVisibleAndPutInVkladka();
+        console.log('--- 2 end pageDown() ---');
+    },50);
+
 }
+
+
+
+function getFirstPVisibleAndPutInVkladka(){
+    
+    let colsInnerAll = document.querySelectorAll('.colsInner');
+    colsInnerAll.forEach((el_colsInner, i_colsInner) => {
+        
+        let el_colsInner_rect = el_colsInner.getBoundingClientRect();
+        let first_p_visible = null;
+        let permitir_search = true;
+        
+        let arr_el_p = Array.from(el_colsInner.querySelectorAll('p'));
+
+        for (let i = 0; i < arr_el_p.length; i++) {
+            const el_p = arr_el_p[i];
+            let el_p_rect = el_p.getBoundingClientRect();
+
+            //console.log(`--- for --- ${el_p.id} : ${el_p_rect.top}`);
+
+            if(permitir_search == true && el_p_rect.top > 0 && el_p_rect.top >= el_colsInner_rect.top){
+                //console.log(`--- positivo ${el_p.id} : ${el_p_rect.top}`);
+                first_p_visible = el_p;
+                permitir_search = false;
+                //console.log('--- in for --- first_p_visible.id: ',first_p_visible.id);
+                break;
+            }            
+        }
+
+        if(first_p_visible != null && first_p_visible.querySelector('a') != null){
+            //console.log('--- out for. first_p_visible.id: ',first_p_visible.id);
+
+            let ref_to_put = first_p_visible.querySelector('a').textContent;
+            //console.log('ref_to_put: ', ref_to_put);
+            
+            //si es primer el_colsInner
+            if(i_colsInner == 0){
+                document.querySelector('.tab_active span').textContent = ref_to_put;
+            }
+            
+            el_colsInner.parentElement.querySelector('.partMob .mob_sh_link').innerHTML = ref_to_put;
+            el_colsInner.parentElement.querySelector('.partDesk .desk_sh_link').innerHTML = ref_to_put;
+        }
+
+    });
+
+}
+
 
 
 /*

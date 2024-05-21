@@ -172,6 +172,13 @@
         border-right: 1px solid #2c7fc1;
         /* border-bottom: 1px solid #2c7fc1; */
     }
+
+    .colsInner p {
+        /* padding: 0px 5px 0px !important; */
+    }
+    .colsInner p:hover {
+        /* padding: 0px 5px 10px !important;  */
+    }
 }
 /* end mobilka */
 

@@ -1591,3 +1591,15 @@ function sss(h = 0){
 
     //initScrollInColsInner();//desabilito scroll en paralelo
 }
+
+function addPaddingInColsInnerP(){
+    document.querySelectorAll('.colsInner p').forEach(el=>{
+        el.classList.add('p10p5p0');
+    })
+}
+
+function removePaddingInColsInnerP(){
+    document.querySelectorAll('.colsInner p').forEach(el=>{
+        el.classList.remove('p10p5p0');
+    })
+}
