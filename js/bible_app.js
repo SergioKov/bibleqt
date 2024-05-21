@@ -11575,8 +11575,10 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
             getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
-            updateArrTabs();
-            updateActTransNavBlackBtn();
+            setTimeout(()=>{
+                updateArrTabs();
+                updateActTransNavBlackBtn();
+            },150);
         };
         if(act != null) htmlTab.classList.add('tab_active');//antes
 
@@ -11997,8 +11999,10 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.title = el.title;       
                 htmlTab.onclick = function(e){                            
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
-                    updateArrTabs();
-                    updateActTransNavBlackBtn();
+                    setTimeout(()=>{
+                        updateArrTabs();
+                        updateActTransNavBlackBtn();
+                    },150);        
                 };
         
                 const spanBibShortRef = document.createElement("span");
@@ -20326,14 +20330,14 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                         document.querySelector('.tab_active').dataset.ref_trans = trans_base;
                     } 
     
-                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                     el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
+                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 
                 }else{
                     let new_ref = '--. --:--';
     
-                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                     el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
+                    el.querySelector('.partMob .mob_sh_link').innerHTML = new_ref;
                 } 
     
             }
@@ -20562,8 +20566,8 @@ function getFirstPVisibleAndPutInVkladka(){
                 document.querySelector('.tab_active span').textContent = ref_to_put;
             }
             
-            el_colsInner.parentElement.querySelector('.partMob .mob_sh_link').innerHTML = ref_to_put;
             el_colsInner.parentElement.querySelector('.partDesk .desk_sh_link').innerHTML = ref_to_put;
+            el_colsInner.parentElement.querySelector('.partMob .mob_sh_link').innerHTML = ref_to_put;
         }
 
     });
