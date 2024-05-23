@@ -1603,3 +1603,43 @@ function removePaddingInColsInnerP(){
         el.classList.remove('p10p5p0');
     })
 }
+
+
+
+
+
+
+
+function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, ChapterContent_label, ChapterContent_content){
+
+    let textChapter = '';
+
+    //let ChapterContent_reader = 'ChapterContent_reader__Dt27r';
+    //let ChapterContent_p = 'ChapterContent_p__dVKHb';
+    //let ChapterContent_label = 'ChapterContent_label__R2PLt';
+    //let ChapterContent_content = 'ChapterContent_content__RrUqA';
+
+    let text_h4 = document.querySelector(`.${ChapterContent_reader} h1`).innerText;
+    textChapter += `<h4>${text_h4}</h4>\n`;
+
+    let p_All = document.querySelectorAll(`.${ChapterContent_p}`);
+    
+    p_All.forEach( (el,i)=>{   
+        
+        let v_number = el.querySelector(`.${ChapterContent_label}`).innerText;
+        let v_text = el.querySelector(`.${ChapterContent_content}`).innerText;
+        let p_verse = `<p>${v_number} ${v_text}</p>`;
+        //console.log(p_verse);
+
+        textChapter +=`${p_verse}\n`;
+
+        //ultimo verse
+        if(i == p_All.length - 1){
+            textChapter +=`\n\r\n\r`;
+        }
+    });
+    console.log(textChapter);
+
+}
+
+makeModuleFromYouVersion('ChapterContent_reader__Dt27r', 'ChapterContent_p__dVKHb', 'ChapterContent_label__R2PLt', 'ChapterContent_content__RrUqA');
