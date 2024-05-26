@@ -15348,6 +15348,10 @@ function showTab(this_btn, param){
 
 eid_inpt_nav.onblur = ()=>{
     mySizeNav();
+    setTimeout(()=>{
+        mySizeNav();
+        alert('onblur hecho')
+    },1000);
 }
 eid_inpt_find.onblur = ()=>{
     mySizeFind();
