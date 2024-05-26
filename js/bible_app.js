@@ -15208,34 +15208,13 @@ function chapterGo(dir){
 
 function showTab(this_btn, param){
     
+    /*
     //modo 1
     document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
         el.classList.remove('btn_active');
     });
-    this_btn.classList.add('btn_active');    
+    this_btn.classList.add('btn_active'); 
     
-    /*
-    // modo 2
-    document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
-        //si el boton 'this_btn' no es el boton del bucle
-        if(el == this_btn){
-            el.classList.add('btn_active');            
-        }else{
-            el.classList.remove('btn_active');
-        }
-    });
-
-    //asi es más lento
-    document.querySelectorAll('.vklads').forEach(vklad=>{
-        let vklad_act = `vklad_${param}`;
-        if(vklad.id == vklad_act){
-            vklad.style.display = 'block';
-        }else{
-            vklad.style.display = 'none';
-        }
-    });
-    */
-
     switch (param) {
         case 'nav':
             eid_vklad_nav.style.display = 'block';
@@ -15302,16 +15281,78 @@ function showTab(this_btn, param){
             }
             mySizeNav();
             break;
+    }
+    */
+    
+    
+    
+    // modo 2
+    document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
+        //si el boton 'this_btn' no es el boton del bucle
+        if(el == this_btn){
+            el.classList.add('btn_active');            
+        }else{
+            el.classList.remove('btn_active');
+        }
+    });
+
+    //asi es más lento
+    document.querySelectorAll('.vklads').forEach(vklad=>{
+        let vklad_act = `vklad_${param}`;
+        if(vklad.id == vklad_act){
+            vklad.style.display = 'block';
+        }else{
+            vklad.style.display = 'none';
+        }
+    });
+    
+
+    switch (param) {
+        case 'nav':
+            if(window.innerWidth >= pantallaTabletMinPx){
+                eid_inpt_nav.focus();
+            }                        
+            mySizeNav();
+            break;
+    
+        case 'find':
+            if(window.innerWidth >= pantallaTabletMinPx){
+                eid_inpt_find.focus();
+            }               
+            mySizeFind();
+            break;
+    
+        case 'tsk':
+            mySizeTsk();;
+            break;
+    
+        case 'strong':
+            if(window.innerWidth >= pantallaTabletMinPx){                
+                eid_inpt_strong.focus();
+            }
+            mySizeStrong();
+            break;
+    
+        case 'markers':
+            mySizeMarkers();
+            break;
+    
+        default:
+            if(window.innerWidth >= pantallaTabletMinPx){                
+                eid_inpt_nav.focus();
+            }
+            mySizeNav();
+            break;
     }           
 }
 
-eid_vklad_nav.onblur = ()=>{
+eid_inpt_nav.onblur = ()=>{
     mySizeNav();
 }
-eid_vklad_find.onblur = ()=>{
+eid_inpt_find.onblur = ()=>{
     mySizeFind();
 }
-eid_vklad_strong.onblur = ()=>{
+eid_inpt_strong.onblur = ()=>{
     mySizeStrong();
 }
 

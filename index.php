@@ -164,7 +164,8 @@ session_start();
                                     data-id_book="42" 
                                     data-show_chapter="" 
                                     data-show_verse="" 
-                                    data-show_to_verse="" 
+                                    data-show_to_verse=""
+                                    type="text" 
                                     value="Ин."
                                 >
                                 <div id="clear_inpt" onclick="clear_inpt('nav')">&times;</div>
