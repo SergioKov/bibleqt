@@ -15353,7 +15353,7 @@ eid_inpt_nav.onblur = ()=>{
         mySizeNav();//para opera,firefox mobil
         setTimeout(()=>{
             mySizeNav();
-        },(delay2+delay2));
+        },delay2);
     },delay2);
 }
 eid_inpt_find.onblur = ()=>{
@@ -15362,7 +15362,7 @@ eid_inpt_find.onblur = ()=>{
         mySizeFind();//para opera,firefox mobil
         setTimeout(()=>{
             mySizeFind();
-        },(delay2+delay2));
+        },delay2);
     },delay2);
 }
 eid_inpt_strong.onblur = ()=>{
@@ -15371,7 +15371,7 @@ eid_inpt_strong.onblur = ()=>{
         mySizeStrong();//para opera,firefox mobil
         setTimeout(()=>{
             mySizeStrong();
-        },(delay2+delay2));
+        },delay2);
     },delay2);
 }
 
