@@ -15350,8 +15350,7 @@ eid_inpt_nav.onblur = ()=>{
     mySizeNav();
     setTimeout(()=>{
         mySizeNav();
-        alert('onblur hecho')
-    },1000);
+    },500);
 }
 eid_inpt_find.onblur = ()=>{
     mySizeFind();
