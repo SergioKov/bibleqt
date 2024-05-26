@@ -15323,7 +15323,7 @@ function showTab(this_btn, param){
             break;
     
         case 'tsk':
-            mySizeTsk();;
+            mySizeTsk();
             break;
     
         case 'strong':
@@ -15346,6 +15346,7 @@ function showTab(this_btn, param){
     }           
 }
 
+/*
 eid_inpt_nav.onblur = ()=>{
     mySizeNav();
     setTimeout(()=>{
@@ -15364,6 +15365,21 @@ eid_inpt_strong.onblur = ()=>{
         mySizeStrong();//para opera mobil
     },500);
 }
+*/
+
+// Obtener todos los campos de entrada
+var inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea');
+
+// Añadir el evento 'blur' a cada campo de entrada
+inputs.forEach(function(input) {
+    input.addEventListener('blur', ()=>{
+        mySizeNav();
+        mySizeFind();
+        mySizeTsk();
+        mySizeStrong();
+        mySizeMarkers();
+    });
+});
 
 
 
