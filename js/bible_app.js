@@ -15235,9 +15235,6 @@ function showTab(this_btn, param){
         }
     });
     */
-    if(window.innerWidth >= pantallaTabletMinPx){
-
-    }
 
     switch (param) {
         case 'nav':
@@ -15307,6 +15304,18 @@ function showTab(this_btn, param){
             break;
     }           
 }
+
+eid_vklad_nav.onblur = ()=>{
+    mySizeNav();
+}
+eid_vklad_find.onblur = ()=>{
+    mySizeFind();
+}
+eid_vklad_strong.onblur = ()=>{
+    mySizeStrong();
+}
+
+
 
 function goToLink(trans, refLink){
     //console.log('=== function goToLink(refLink). refLink: '+refLink);
