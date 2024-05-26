@@ -15346,24 +15346,24 @@ function showTab(this_btn, param){
     }           
 }
 
-let delay = 500;
+let delay2 = 500;
 eid_inpt_nav.onblur = ()=>{
     mySizeNav();
     setTimeout(()=>{
         mySizeNav();//para opera,firefox mobil
-    },delay);
+    },delay2);
 }
 eid_inpt_find.onblur = ()=>{
     mySizeFind();
     setTimeout(()=>{
         mySizeFind();//para opera,firefox mobil
-    },delay);
+    },delay2);
 }
 eid_inpt_strong.onblur = ()=>{
     mySizeStrong();
     setTimeout(()=>{
         mySizeStrong();//para opera,firefox mobil
-    },delay);
+    },delay2);
 }
 
 
