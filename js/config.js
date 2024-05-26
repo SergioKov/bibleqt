@@ -274,10 +274,12 @@ let arrFavTransDef = [
     "rsti2",
     "rstm",
     //"rstStrong_rv60",
-    "nrt",
     "abi",
+    "nrt",
     "mdri",
     "rsp",
+    "rbo15",
+    "rob",
     "opnz",
     
     "ukr_fil",
@@ -291,7 +293,6 @@ let arrFavTransDef = [
     //"ukr_umt",
     "ukr_umts",
     "ukr_der",
-    //"ukr_pop",
     
     "rv60",
     "lbla"

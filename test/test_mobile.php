@@ -173,7 +173,9 @@
                                     <option value="M">#Пятикнижье</option>
                                     <option value="Hist">#Исторические книги</option>
                                     <option value="Poet">#Поэтические книги</option>
-                                    <option value="Prof">#Пророки</option>
+                                    <option value="Prof">#Пророки (Болшие и Малые)</option>
+                                    <option value="ProfB">#Большие Пророки</option>
+                                    <option value="ProfM">#Малые Пророки</option>
                                     <option value="EvActs">#Евангелия и Деяния</option>
                                     <option value="EpPablo">#Послания Павла</option>
                                     <option value="EpSoborn">#Соборные Послания</option>

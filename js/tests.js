@@ -1609,7 +1609,7 @@ function removePaddingInColsInnerP(){
 
 
 
-
+let start_copy = true;
 function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, ChapterContent_label, ChapterContent_content){
 
     let textChapter = '';
@@ -1640,6 +1640,84 @@ function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, Chapt
     });
     console.log(textChapter);
 
+    setTimeout(()=>{
+        if(start_copy){
+            let btns_prev_next = document.querySelectorAll('div[class*="pointer-events:all"] a');
+            if(btns_prev_next.length == 2){
+                btns_prev_next[1].click();//hay 2 botones. click sobre el segundo
+            }else{
+                btns_prev_next[0].click();//hay 1 boton. click sobre el primero y unico que es Next
+            }
+            makeModuleFromYouVersion('ChapterContent_reader__Dt27r', 'ChapterContent_p__dVKHb', 'ChapterContent_label__R2PLt', 'ChapterContent_content__RrUqA');
+        }
+    },1000);
+
 }
 
-makeModuleFromYouVersion('ChapterContent_reader__Dt27r', 'ChapterContent_p__dVKHb', 'ChapterContent_label__R2PLt', 'ChapterContent_content__RrUqA');
+//makeModuleFromYouVersion('ChapterContent_reader__Dt27r', 'ChapterContent_p__dVKHb', 'ChapterContent_label__R2PLt', 'ChapterContent_content__RrUqA');
+
+
+
+//NO FUNCIONA COMO QUIERO YO. SE CREA BOTON, PERO AL SIG CLICK SE RECARGA LA WEB Y TENGO QUE HACERLO OTRA VEZ.
+/*function crear_btn_click_me(){
+    //btn 'Prev Chapter' en YouVersion
+    const btn_prev_chapter = document.querySelectorAll('div[class*="pointer-events:all"] a')[0];
+    //btn 'Next Chapter' en YouVersion
+    const btn_next_chapter = document.querySelectorAll('div[class*="pointer-events:all"] a')[1];
+    
+    const btn_sk = document.createElement('button');
+    btn_sk.id = 'btn_sk';
+    btn_sk.style = `
+        background: red;
+        color: white;
+        padding: 10px;
+        border-radius: 3px;
+        float: right;
+        position: fixed;
+        top: 190px;
+        right: 0px;
+        z-index: 9999;
+    `;
+    btn_sk.innerHTML = 'CLICK_ME';
+    btn_sk.onclick = ()=>{
+        makeModuleFromYouVersion(
+            'ChapterContent_reader__Dt27r', 
+            'ChapterContent_p__dVKHb', 
+            'ChapterContent_label__R2PLt', 
+            'ChapterContent_content__RrUqA'
+        );
+        setTimeout(()=>{
+            //btn 'Next Chapter' en YouVersion
+            btn_next_chapter.click();
+            btn_sk.remove();
+    
+            setTimeout(()=>{
+                crear_btn_click_me();
+            },1000);
+    
+        },1000);
+    };
+    document.querySelector('body').prepend(btn_sk);    
+}
+*/
+
+//como usar:
+//1. copiar y pegar en la consola bibleqt.json de la traduccion deseada
+//2. lanzar esta funcion
+//3. copiar una string desde la consola y meterla en el campo 'Array de nombres...'
+function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65){
+    let arr_books = obj_bibleqt.Books;//copiar y pegar en la consola bibleqt.json y lanzar esta funcion
+    
+    end_index_book = (end_index_book > arr_books.length) ? (arr_books.length - 1) : end_index_book ;
+    let arr_new = [];
+    
+    for (let index = start_index_book; index <= end_index_book; index++) {
+        const el = arr_books[index];
+        console.log('el: ',el);
+        arr_new.push(el.PathName);
+        
+    }
+    return arr_new.join(',');
+}
+//makeArrPathName(arrFavTransObj[0], 0, 65);//arrFavTransObj[0] == rstStrongRed
+

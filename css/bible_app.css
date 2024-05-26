@@ -3574,7 +3574,7 @@ span.vt {
 #btn_strong span{
     font-size: 21px;
 }
-#btn_marker img{
+#btn_markers img{
     position: relative;
     top: 1px;
     height: 20px;
@@ -3660,4 +3660,7 @@ p.p_pointer.c_red span {
 
 .p10p5p0{
     padding: 10px 5px 0px !important;
+}
+j {
+    color: darkred;
 }

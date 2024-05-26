@@ -137,7 +137,7 @@ session_start();
                                 <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" title="Словарь Стронга">
                                     <span>S#</span>
                                 </button>
-                                <button id="btn_marker" class="btn" onclick="showTab(this,'markers')" title="Маркеры / Закладки">
+                                <button id="btn_markers" class="btn" onclick="showTab(this,'markers')" title="Маркеры / Закладки">
                                     <img class="btn_img" src="./images/book_marker_white.svg">
                                 </button>
                                 <button id="btn_comm" class="btn d-none" onclick="" title="Комментарии">Comm</button>
@@ -152,7 +152,7 @@ session_start();
                     </div>
                 </div>
                     
-                <div id="vklad_nav" style="display: block;">
+                <div id="vklad_nav" class="vklads" style="display: block;">
                     <div id="nav_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
@@ -218,11 +218,11 @@ session_start();
                     </div>
                 </div><!--/vklad_nav-->
 
-                <div id="vklad_find" style="display: none;">
+                <div id="vklad_find" class="vklads" style="display: none;">
                     <div id="wr_find_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
-                                <input id="inpt_find" value="В начале сотворил Бог небо и землю">
+                                <input id="inpt_find" placeholder="Введите слово или фразу..." value="">
                                 <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
                             </div>
                             <div id="hist_find" onclick="hideShowHistFind()">
@@ -261,10 +261,15 @@ session_start();
                                             <option disabled></option>
 
                                             <optgroup label="Категории">
+                                                <option disabled>--- Ветхий Завет ---</option>
                                                 <option value="M">#Пятикнижье</option>
                                                 <option value="Hist">#Исторические книги</option>
                                                 <option value="Poet">#Поэтические книги</option>
-                                                <option value="Prof">#Пророки</option>
+                                                <option value="Prof">#Пророки (Болшие и Малые)</option>
+                                                <option value="ProfB">#Большие Пророки</option>
+                                                <option value="ProfM">#Малые Пророки</option>
+                                                <option disabled></option>
+                                                <option disabled>--- НовыйЗавет ---</option>
                                                 <option value="EvActs">#Евангелия и Деяния</option>
                                                 <option value="EpPablo">#Послания Павла</option>
                                                 <option value="EpSoborn">#Соборные Послания</option>
@@ -306,12 +311,16 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup label="Пророки">
+                                            <optgroup label="Большие Пророки">
                                                 <option value="22">Исаия</option>
                                                 <option value="23">Иеремия</option>
                                                 <option value="24">Плач Иеремии</option>
                                                 <option value="25">Иезекииль</option>
                                                 <option value="26">Даниил</option>
+                                            </optgroup>
+                                            <option disabled></option>
+
+                                            <optgroup label="Малые Пророки">
                                                 <option value="27">Осия</option>
                                                 <option value="28">Иоиль</option>
                                                 <option value="29">Амос</option>
@@ -327,16 +336,20 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup label="Евангелия и Деяния">
+                                            <optgroup label="Евангелия">
                                                 <option value="39">Матфея</option>
                                                 <option value="40">Марка</option>
                                                 <option value="41">Луки</option>
                                                 <option value="42">Иоанна</option>
+                                            </optgroup>
+                                            <option disabled></option>
+
+                                            <optgroup label="Деяния">
                                                 <option value="43">Деяния</option>
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup label="Послания и Откровение">
+                                            <optgroup label="Послания Павла">
                                                 <option value="44">Римлянам</option>
                                                 <option value="45">1 Коринфянам</option>
                                                 <option value="46">2 Коринфянам</option>
@@ -351,7 +364,10 @@ session_start();
                                                 <option value="55">Титу</option>
                                                 <option value="56">Филимону</option>
                                                 <option value="57">Евреям</option>
-                                                    <option disabled></option>
+                                            </optgroup>
+                                            <option disabled></option>
+
+                                            <optgroup label="Соборные Послания">
                                                 <option value="58">Иакова</option>
                                                 <option value="59">1 Петра</option>
                                                 <option value="60">2 Петра</option>
@@ -359,10 +375,13 @@ session_start();
                                                 <option value="62">2 Иоанна</option>
                                                 <option value="63">3 Иоанна</option>
                                                 <option value="64">Иуды</option>
-                                                    <option disabled></option>
-                                                <option value="65">Откровение</option>
-                                                <option disabled></option>
                                             </optgroup>
+                                            <option disabled></option>
+
+                                            <optgroup label="Откровение">
+                                                <option value="65">Откровение</option>
+                                            </optgroup>
+                                            <option disabled></option>
                                         </select>
                                         <select id="limit">
                                             <!-- <option value="5">5</option> -->
@@ -436,7 +455,7 @@ session_start();
                     </div>
                 </div><!--/vklad_find-->
 
-                <div id="vklad_tsk" style="display: none;">
+                <div id="vklad_tsk" class="vklads" style="display: none;">
                     <div id="tsk_head">
                         <h4>TSK - Перекрестные Ссылки</h4>
                     </div>
@@ -445,7 +464,7 @@ session_start();
                     </div>
                 </div><!--/vklad_tsk-->
 
-                <div id="vklad_strong" style="display: none;">
+                <div id="vklad_strong" class="vklads" style="display: none;">
                     
                     <div id="wr_strong_head">
                         <div class="wr_nav">
@@ -479,7 +498,7 @@ session_start();
                     </div>
                 </div><!--/vklad_strong-->
 
-                <div id="vklad_markers" style="display: none;">
+                <div id="vklad_markers" class="vklads" style="display: none;">
                     <div id="markers_head">
                         <h4>Маркеры / Закладки</h4>
                     </div>

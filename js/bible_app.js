@@ -15206,55 +15206,53 @@ function chapterGo(dir){
 
 }
 
-function showTab(e, param){
+function showTab(this_btn, param){
+    
     document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
-        el.classList.remove('btn_active');
+        //si el boton 'this_btn' no es el boton del bucle
+        if(el == this_btn){
+            el.classList.add('btn_active');            
+        }else{
+            el.classList.remove('btn_active');
+        }
     });
-    e.classList.add('btn_active');
-    
-    
-    if(param == 'nav'){
-        eid_vklad_nav.style.display = 'block';
-        eid_vklad_find.style.display = 'none';
-        eid_vklad_tsk.style.display = 'none';
-        eid_vklad_strong.style.display = 'none';
-        eid_vklad_markers.style.display = 'none';
-        mySizeNav();
-    }
-    if(param == 'find'){
-        eid_vklad_nav.style.display = 'none';
-        eid_vklad_find.style.display = 'block';
-        eid_vklad_tsk.style.display = 'none';
-        eid_vklad_strong.style.display = 'none';
-        eid_vklad_markers.style.display = 'none';
-        mySizeFind();
-    }
-    if(param == 'tsk'){
-        eid_vklad_nav.style.display = 'none';
-        eid_vklad_find.style.display = 'none';
-        eid_vklad_tsk.style.display = 'block';
-        eid_vklad_strong.style.display = 'none';
-        eid_vklad_markers.style.display = 'none';
-        mySizeTsk();
-    }
-    if(param == 'strong'){
-        eid_vklad_nav.style.display = 'none';
-        eid_vklad_find.style.display = 'none';
-        eid_vklad_tsk.style.display = 'none';
-        eid_vklad_strong.style.display = 'block';
-        eid_vklad_markers.style.display = 'none';
-        mySizeStrong();
-    }
-    if(param == 'markers'){
-        eid_vklad_nav.style.display = 'none';
-        eid_vklad_find.style.display = 'none';
-        eid_vklad_tsk.style.display = 'none';
-        eid_vklad_strong.style.display = 'none';
-        eid_vklad_markers.style.display = 'block';
-        mySizeMarkers();
-    }
 
-            
+    document.querySelectorAll('.vklads').forEach(vklad=>{
+        let vklad_act = `vklad_${param}`;
+        if(vklad.id == vklad_act){
+            vklad.style.display = 'block';
+        }else{
+            vklad.style.display = 'none';
+        }
+    });
+
+    switch (param) {
+        case 'nav':
+            eid_inpt_nav.focus();
+            mySizeNav();
+            break;
+    
+        case 'find':
+            eid_inpt_find.focus();
+            mySizeFind();
+            break;
+    
+        case 'tsk':
+            mySizeTsk();;
+            break;
+    
+        case 'strong':
+            eid_inpt_strong.focus();
+            mySizeStrong();
+            break;
+    
+        case 'markers':
+            mySizeMarkers();
+            break;
+    
+        default:
+            break;
+    }           
 }
 
 function goToLink(trans, refLink){
@@ -16014,8 +16012,18 @@ function findWords(words_input){
             book_end = 21;
             break;
 
-        case 'Prof'://Пророки
+        case 'Prof'://Пророки (Большие + Малые)
             book_start = 22;
+            book_end = 38;
+            break;
+
+        case 'ProfB'://Большие Пророки
+            book_start = 22;
+            book_end = 26;
+            break;
+
+        case 'ProfM'://Малые Пророки
+            book_start = 27;
             book_end = 38;
             break;
 
