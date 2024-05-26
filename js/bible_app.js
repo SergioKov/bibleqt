@@ -15349,14 +15349,20 @@ function showTab(this_btn, param){
 eid_inpt_nav.onblur = ()=>{
     mySizeNav();
     setTimeout(()=>{
-        mySizeNav();
-    },100);
+        mySizeNav();//para opera mobil
+    },500);
 }
 eid_inpt_find.onblur = ()=>{
     mySizeFind();
+    setTimeout(()=>{
+        mySizeFind();//para opera mobil
+    },500);
 }
 eid_inpt_strong.onblur = ()=>{
     mySizeStrong();
+    setTimeout(()=>{
+        mySizeStrong();//para opera mobil
+    },500);
 }
 
 
