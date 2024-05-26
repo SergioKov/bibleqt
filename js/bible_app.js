@@ -15235,6 +15235,9 @@ function showTab(this_btn, param){
         }
     });
     */
+    if(window.innerWidth >= pantallaTabletMinPx){
+
+    }
 
     switch (param) {
         case 'nav':
@@ -15242,8 +15245,10 @@ function showTab(this_btn, param){
             eid_vklad_find.style.display = 'none';
             eid_vklad_tsk.style.display = 'none';
             eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';                
-            eid_inpt_nav.focus();
+            eid_vklad_markers.style.display = 'none';
+            if(window.innerWidth >= pantallaTabletMinPx){
+                eid_inpt_nav.focus();
+            }                        
             mySizeNav();
             break;
     
@@ -15252,8 +15257,10 @@ function showTab(this_btn, param){
             eid_vklad_find.style.display = 'block';
             eid_vklad_tsk.style.display = 'none';
             eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';                
-            eid_inpt_find.focus();
+            eid_vklad_markers.style.display = 'none'; 
+            if(window.innerWidth >= pantallaTabletMinPx){
+                eid_inpt_find.focus();
+            }               
             mySizeFind();
             break;
     
@@ -15271,8 +15278,10 @@ function showTab(this_btn, param){
             eid_vklad_find.style.display = 'none';
             eid_vklad_tsk.style.display = 'none';
             eid_vklad_strong.style.display = 'block';
-            eid_vklad_markers.style.display = 'none';                
-            eid_inpt_strong.focus();
+            eid_vklad_markers.style.display = 'none';
+            if(window.innerWidth >= pantallaTabletMinPx){                
+                eid_inpt_strong.focus();
+            }
             mySizeStrong();
             break;
     
@@ -15290,8 +15299,10 @@ function showTab(this_btn, param){
             eid_vklad_find.style.display = 'none';
             eid_vklad_tsk.style.display = 'none';
             eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';                
-            eid_inpt_nav.focus();
+            eid_vklad_markers.style.display = 'none';
+            if(window.innerWidth >= pantallaTabletMinPx){                
+                eid_inpt_nav.focus();
+            }
             mySizeNav();
             break;
     }           
