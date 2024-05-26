@@ -68,7 +68,7 @@ session_start();
                         <img src="images/arrow_chevron_right_white.svg">
                     </div>
 
-                    <div class="dbtn" title="History previous register. function in development..." onclick="hist('prev')">
+                    <div class="dbtn" title="History previous register" onclick="hist('prev')">
                         <div>< H</div>
                     </div>
                     <div class="dbtn" title="History next register. function in development..." onclick="hist('next')">
