@@ -15351,18 +15351,27 @@ eid_inpt_nav.onblur = ()=>{
     mySizeNav();
     setTimeout(()=>{
         mySizeNav();//para opera,firefox mobil
+        setTimeout(()=>{
+            mySizeNav();
+        },(delay2+delay2));
     },delay2);
 }
 eid_inpt_find.onblur = ()=>{
     mySizeFind();
     setTimeout(()=>{
         mySizeFind();//para opera,firefox mobil
+        setTimeout(()=>{
+            mySizeFind();
+        },(delay2+delay2));
     },delay2);
 }
 eid_inpt_strong.onblur = ()=>{
     mySizeStrong();
     setTimeout(()=>{
         mySizeStrong();//para opera,firefox mobil
+        setTimeout(()=>{
+            mySizeStrong();
+        },(delay2+delay2));
     },delay2);
 }
 
