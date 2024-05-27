@@ -1649,10 +1649,10 @@ function scrollInColsInner(el,i){
     let h = el.scrollTop;
     //console.log('*** i :'+i+' --- h:',h);
 
-    let colsInnerAll = document.querySelectorAll('.colsInner');
 
     //VERTICAL
     if(positionShow == 'col'){
+        let colsInnerAll = document.querySelectorAll('.colsInner');
         //console.log('positionShow == col');
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
             //en col muevo todos los cols igualmente sin ninguna condición
@@ -1686,6 +1686,7 @@ function scrollInColsInner(el,i){
                 if(h >= h_min && h <= h_max){
                     //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
                     
+                    let colsInnerAll = document.querySelectorAll('.colsInner');
                     //ic -> index de columna colsInner.
                     //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
                     for (let ic = 0; ic < colsInnerAll.length; ic++) {
@@ -1717,6 +1718,8 @@ function scrollInColsInner(el,i){
             
                                 colsInnerAll[ic].scrollTop = new_h;
                                 //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);
+
+                                
                             }
                         }                        
                     }
@@ -1725,7 +1728,9 @@ function scrollInColsInner(el,i){
                     //console.log('iv (' +iv+'). --- scroll ('+h+') no está entre h_min ('+h_min+') y h_max ('+h_max+'). no hago nada... ');
                 }           
             }
+            finishScrollInColsInner();
         }
+        initScrollInColsInner();
     
     }//end HORIZONTAL
     //================================================================//
