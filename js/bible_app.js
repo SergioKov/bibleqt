@@ -10697,7 +10697,6 @@ function changeModule(thisDiv,trans,BibleShortName){
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     //console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
-    let prev_trans;
 
     if(thisDiv.tagName === 'DIV'){
         prev_trans = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} 
@@ -10705,13 +10704,24 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         prev_trans = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
     }
 
-    let new_trans = trans;
-
     let este_trans = arrFavTransObj.find(v => v.Translation === trans);
     let tabActive = document.querySelector('.tab_active');
 
     //averiguo si el col antes tenia trans o no
     if(typeof thisDiv.dataset.trans == 'undefined'){//es trans que se añade
+        
+        let arr_trans_real = [];
+        document.querySelectorAll('.cols .colsHead').forEach(el=>{
+            if(typeof el.dataset.trans !== 'undefined'){
+                console.log(el.dataset.trans);
+                arr_trans_real.push(el.dataset.trans);
+            }
+        });
+        let str_trans_real = arr_trans_real.join(', ');
+        console.log('str_trans_real: ',str_trans_real);
+
+        tabActive.dataset.str_trans = str_trans_real;        
+        
         //busco vkladka (tab) active
         tabActive.dataset.str_trans += `, ${este_trans.Translation}`;
         tabActive.title += `, ${este_trans.BibleShortName}`;
@@ -10720,7 +10730,48 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
     }else{//es trans que se actualiza
         let n = thisDiv.id.slice(-1);
-        updateTransInTab(trans,tabActive,n);
+
+        let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
+
+        let arr_trans_real = [];
+        document.querySelectorAll('.cols .colsHead').forEach(el=>{
+            if(typeof el.dataset.trans !== 'undefined'){
+                console.log(el.dataset.trans);
+                arr_trans_real.push(el.dataset.trans);
+            }
+        });
+        let str_trans_real = arr_trans_real.join(', ');
+        console.log('str_trans_real: ',str_trans_real); 
+        
+        
+        let new_index;
+        document.querySelectorAll('.cols .colsHead').forEach((el,i,arr)=>{
+            if(arr[i] == thisDiv){
+                new_index = i;
+            }
+        });
+
+
+
+
+
+        let arr_str_trans = tabActive.dataset.str_trans.split(',');
+        arr_str_trans[new_index] = trans;//cambio indice 'n-1' por new_trans
+
+        let arr_title = tabActive.title.split(',');
+        arr_title[new_index] = new_trans_obj.BibleShortName;//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+    
+        //pego str_trans y title modificados en tabActive
+        tabActive.dataset.str_trans = arr_str_trans.join(', ');
+        tabActive.title = arr_title.join(', ');
+
+
+
+
+
+
+
+        /////////////////////////////////updateTransInTab(trans,tabActive,n);
 
         updateArrTabs();
     }
@@ -11364,7 +11415,7 @@ function addTrans(addMode = null){
                                             
                                             <div class="centralPart">
                                                 <button class="btn" title="open Modal to choose translation" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#${htmlTrans.id}.colsHead'),'showModules')">
-                                                    <span class="mob_trans">RST+r</span>
+                                                    <span class="mob_trans"> + </span>
                                                 </button>
                                                 <div class="separ_line"></div>
                                                 <button class="btn" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
@@ -11451,8 +11502,10 @@ function closeTrans(el,event, param = null){
     document.getElementById('col'+n).remove();
     removeTransFromTab(trans,tabActive,n);
 
-    updateArrTabs();
-
+    setTimeout(()=>{
+        updateArrTabs();
+    },100);
+    
     mySizeWindow();
     mySizeVerse();
 }
@@ -11460,14 +11513,30 @@ function closeTrans(el,event, param = null){
 function removeTransFromTab(trans,tabActive,n){
     //console.log('=== function removeTransFromInTab(trans,tab) ===');
 
-    let arr_str_trans = tabActive.dataset.str_trans.split(',');
-    arr_str_trans.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+    let arr_trans_real = [];
+    document.querySelectorAll('.cols .colsHead').forEach(el=>{
+        if(typeof el.dataset.trans !== 'undefined'){
+            console.log(el.dataset.trans);
+            arr_trans_real.push(el.dataset.trans);
+        }
+    });
+    
+    let arr_title_real = [];
+    arr_trans_real.forEach(el=>{
+        
+        let este_trans = arrFavTransObj.find(v => v.Translation === el);
+        arr_title_real.push(este_trans.BibleShortName);
+        
+        console.log(este_trans.BibleShortName);
+        console.log(arr_title_real);
+    });
+    
+    let arr_str_trans = arr_trans_real;
     //console.log('arr_str_trans: ',arr_str_trans);
     
-    let arr_title = tabActive.title.split(',');
-    arr_title.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+    let arr_title = arr_title_real;
     //console.log('arr_title: ',arr_title);
-    
+   
     //pego str_trans y title modificados en tabActive
     tabActive.dataset.str_trans = arr_str_trans.join(', ');
     tabActive.title = arr_title.join(', ');
@@ -11477,12 +11546,26 @@ function removeTransFromTab(trans,tabActive,n){
 function updateTransInTab(trans,tabActive,n){
     //console.log('=== updateTransInTab(trans,tabActive,n) ===');
 
-    let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
+    let arr_trans_real = [];
+    document.querySelectorAll('.cols .colsHead').forEach(el=>{
+        if(typeof el.dataset.trans !== 'undefined'){
+            console.log(el.dataset.trans);
+            arr_trans_real.push(el.dataset.trans);
+        }
+    });
+    
+    let arr_title_real = [];
+    arr_trans_real.forEach(el=>{
+        
+        let este_trans = arrFavTransObj.find(v => v.Translation === el);
+        arr_title_real.push(este_trans.BibleShortName);
+        
+        console.log(este_trans.BibleShortName);
+        console.log(arr_title_real);
+    });
 
-    let arr_str_trans = tabActive.dataset.str_trans.split(',');
-    arr_str_trans[n-1] = trans;//cambio indice 'n-1' por new_trans
-    let arr_title = tabActive.title.split(',');
-    arr_title[n-1] = new_trans_obj.BibleShortName;//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+    let arr_str_trans = arr_trans_real;
+    let arr_title = arr_title_real;
 
     //pego str_trans y title modificados en tabActive
     tabActive.dataset.str_trans = arr_str_trans.join(', ');
@@ -14651,9 +14734,12 @@ function getObjTransByName(trans){
 
 
 function selectTab(){//Vkladki
-    //console.log('function selectTab()');
+    console.log('=== function selectTab() ===');
+    console.log('arrTabs: ',arrTabs);
+
     eid_bl_modalFullInner.innerHTML = '';//reset
     arrTabs.forEach((el,i)=>{
+        
         //busco nombres de trans para mostrar
         let arr_el_trans = (el.str_trans.includes(',')) ? el.str_trans.split(',') : el.str_trans.split() ;//el.str_trans.split() devuelve un array con 1 valor
         if(arr_el_trans == '') return false;
@@ -14670,6 +14756,7 @@ function selectTab(){//Vkladki
         });
         let str_trans_names = arr_trans_names.join(', ');
         //console.log('end --- str_trans_names: '+str_trans_names);
+        
         const p = document.createElement('p');
         p.className = 'cl_tab';
         if(arrTabs[i].className.includes('tab_active')) p.className += ' cl_tab_active'; 
