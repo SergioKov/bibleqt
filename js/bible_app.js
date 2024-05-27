@@ -1659,50 +1659,69 @@ function scrollInColsInner(el,i){
     //HORIZONTAL
     if(positionShow == 'row'){  
         //console.log('positionShow == row');
-            
-        //iv -> index de versiculo.
-        //arr2_sum_line_h[0] -> versiculos de la primera columna: col1
-        for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
-            let h_min, h_max;
-    
-            if(iv == 0){
-                h_min = 0;
-                h_max = arr2_sum_line_h[i][iv];
-            }else{
-                h_min =  arr2_sum_line_h[i][iv - 1];
-                h_max =  arr2_sum_line_h[i][iv];
-            }
-    
-            //saco el coeficient de scroll para aplicar para otras columnas. //0.75
-            let h_rest = h_max - h;
-            let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-            //console.log('coef_h: '+coef_h);
-    
-            if(h >= h_min && h <= h_max){
-                //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
-                
-                let colsInnerAll = document.querySelectorAll('.colsInner');
-                //ic -> index de columna colsInner.
-                //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
-                for (let ic = 0; ic < colsInnerAll.length; ic++) {
-                    
-                    if(true /*colsInnerAll[ic].parentElement.id != 'col1'*/){
-                        let new_h;
-                        let h_prew = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
-                        //console.log('h_prew: '+h_prew);
-    
-                        new_h = h_prew + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                        //console.log(`--- new_h (${new_h}) = ${h_prew} + ${arr2_line_h[iv][ic]} * ${coef_h}`);
-                        //console.log('new_h: '+new_h);
-    
-                        colsInnerAll[ic].scrollTop = new_h;
-                        //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);
-                    }
+
+        if(typeof arr2_sum_line_h[i] != 'undefined'){
+            //iv -> index de versiculo.
+            //arr2_sum_line_h[0] -> versiculos de la primera columna: col1
+            for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
+                let h_min, h_max;
+        
+                if(iv == 0){
+                    h_min = 0;
+                    h_max = arr2_sum_line_h[i][iv];
+                }else{
+                    h_min =  arr2_sum_line_h[i][iv - 1];
+                    h_max =  arr2_sum_line_h[i][iv];
                 }
+        
+                //saco el coeficient de scroll para aplicar para otras columnas. //0.75
+                let h_rest = h_max - h;
+                let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
+                //console.log('coef_h: '+coef_h);
+        
+                if(h >= h_min && h <= h_max){
+                    //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
+                    
+                    let colsInnerAll = document.querySelectorAll('.colsInner');
+                    //ic -> index de columna colsInner.
+                    //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
+                    for (let ic = 0; ic < colsInnerAll.length; ic++) {
+
+                        //console.log('in for. el: ',el);
+                        //console.log(`in for. colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+
+                        if(el == colsInnerAll[ic]){
                             
-            }else{
-                //console.log('iv (' +iv+'). --- scroll ('+h+') no está entre h_min ('+h_min+') y h_max ('+h_max+'). no hago nada... ');
-            }           
+                            //mo muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
+                            //console.log(`[if] --- el == colsInnerAll[ic]. no muevo este colsInnerAll[${ic}]`,colsInnerAll[ic]);
+                            
+                        }else{
+                            
+                            //hago scroll de otros elementos que no sean el col sobre el cual tengo el raton scrolling 
+                            //console.log(`[else] --- el != colsInnerAll[ic]. hago scroll del otro elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                            
+                            if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
+                                let new_h;
+                                //console.log('ic: ',ic);
+                                //console.log('iv: ',iv);
+                               
+                                let h_prew = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
+                                //console.log('h_prew: '+h_prew);
+            
+                                new_h = h_prew + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
+                                //console.log(`--- new_h (${new_h}) = ${h_prew} + ${arr2_line_h[iv][ic]} * ${coef_h}`);
+                                //console.log('new_h: '+new_h);
+            
+                                colsInnerAll[ic].scrollTop = new_h;
+                                //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);
+                            }
+                        }                        
+                    }
+                                
+                }else{
+                    //console.log('iv (' +iv+'). --- scroll ('+h+') no está entre h_min ('+h_min+') y h_max ('+h_max+'). no hago nada... ');
+                }           
+            }
         }
     
     }//end HORIZONTAL
@@ -11414,10 +11433,10 @@ function closeTrans(el,event, param = null){
     event.stopPropagation();
 
     let n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);//numero de col para remove
-    document.getElementById('col'+n).remove();
-    
     let trans = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
     let tabActive = document.querySelector('.tab_active');
+    
+    document.getElementById('col'+n).remove();
     removeTransFromTab(trans,tabActive,n);
 
     updateArrTabs();
@@ -11431,12 +11450,16 @@ function removeTransFromTab(trans,tabActive,n){
 
     let arr_str_trans = tabActive.dataset.str_trans.split(',');
     arr_str_trans.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+    //console.log('arr_str_trans: ',arr_str_trans);
+    
     let arr_title = tabActive.title.split(',');
     arr_title.splice(n-1,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
-
+    //console.log('arr_title: ',arr_title);
+    
     //pego str_trans y title modificados en tabActive
     tabActive.dataset.str_trans = arr_str_trans.join(', ');
     tabActive.title = arr_title.join(', ');
+    //console.log('tabActive: ',tabActive);    
 }
 
 function updateTransInTab(trans,tabActive,n){
