@@ -1637,22 +1637,26 @@ function disableScrollInColsInner(el,i){
 
 function scrollInColsInner(el,i){
     //console.log('=== function scrollInColsInner() ===');
-   
+
     //console.log('el: ',el);
     //console.log('i: ',i);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
 
+    
+    //================================================================//
+    // modo old - start
+    //================================================================//
     let h = el.scrollTop;
     //console.log('*** i :'+i+' --- h:',h);
+
+    let colsInnerAll = document.querySelectorAll('.colsInner');
 
     //VERTICAL
     if(positionShow == 'col'){
         //console.log('positionShow == col');
-        Array.from(document.querySelectorAll('.colsInner')).forEach( (elementCol, indexCol, arrCol) => {
-            if(el.parentElement.id != arrCol[indexCol].parentElement.id){
-                arrCol[indexCol].scrollTop = h;
-                //console.log('otros --- arr['+i+'] h: '+h);
-            }
+        Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
+            //en col muevo todos los cols igualmente sin ninguna condición
+            arrCol[indexCol].scrollTop = h;
         });
     }
 
@@ -1682,7 +1686,6 @@ function scrollInColsInner(el,i){
                 if(h >= h_min && h <= h_max){
                     //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
                     
-                    let colsInnerAll = document.querySelectorAll('.colsInner');
                     //ic -> index de columna colsInner.
                     //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
                     for (let ic = 0; ic < colsInnerAll.length; ic++) {
@@ -1725,6 +1728,10 @@ function scrollInColsInner(el,i){
         }
     
     }//end HORIZONTAL
+    //================================================================//
+    // modo old - end
+    //================================================================//
+    
 
 }//end scrollInColsInner
 
