@@ -228,10 +228,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                                 }
                             
                             }else{
-                                //console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                                //console.log("1. No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                                el = '<span class="dvor_block" style="display:none;">' + el + '</span>';
                             }
             
-                            el = `<span class="btn btn_dvor" onclick="showHideDvor()">
+                            el = `
+                                <span class="btn btn_dvor" onclick="showHideDvor()">
                                     <span class="slov_dvor">Словарь Дворецкого:</span> 
                                     <img src="images/icon_razvernut.png">
                                 </span>
@@ -336,7 +338,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     }
 
     if(typeof obj_strong_files[strongLang] == 'undefined'){
-        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
+        console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
         
         fetch(`./modules/text/strongs/${strongFile}`)
         .then((response) => response.json())
@@ -505,10 +507,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                         }
                     
                     }else{
-                        //console.log("No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                        //console.log("2. No se encontró ningún dígito entre espacio al principio y paréntesis con espacio al final.");
+                        el = '<span class="dvor_block" style="display:none;">' + el + '</span>';
                     }
     
-                    el = `<span class="btn btn_dvor" onclick="showHideDvor()">
+                    el = `
+                        <span class="btn btn_dvor" onclick="showHideDvor()">
                             <span class="slov_dvor">Словарь Дворецкого:</span> 
                             <img src="images/icon_razvernut.png">
                         </span>

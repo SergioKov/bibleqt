@@ -173,7 +173,9 @@ session_start();
                             <div id="hist_nav" onclick="hideShowHistNav()">
                                 <img src="./images/history_icon_white.svg">
                             </div>
-                            <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">OK</button>
+                            <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">
+                                <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--OK-->
+                            </button>
                         </div>
                         
                         <div id="wr_hist_nav" style="display:none;">
@@ -229,8 +231,13 @@ session_start();
                             <div id="hist_find" onclick="hideShowHistFind()">
                                 <img src="./images/history_icon_white.svg">
                             </div>
-                            <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">Find</button>
-                            <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">Stop</button>
+                            <button id="btn_ok_find" class="btn f_r" onclick="findWords(this.parentElement.querySelector('input').value)">
+                                <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--Find-->
+                            </button>
+                            <button id="btn_ok_stop" class="btn f_r d-none" onclick="stopFindWords()">
+                                Stop
+                                <!--<img class="btn_img" src="./images/stop4.png">--><!--Stop-->
+                            </button>
                         </div>
 
                         <div id="find_head">
@@ -478,7 +485,9 @@ session_start();
                                 <img src="./images/history_icon_white.svg">
                             </div>
 
-                            <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">Strong</button>
+                            <button id="btn_ok_strong" class="btn f_r" onclick="getStrongNumber(this.parentElement.querySelector('.wr_inpt_x input').value)">
+                                <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--Strong-->
+                            </button>
                         </div>
                         <div id="strong_head">
                             <div id="wr_hist_strong" style="display:none;">

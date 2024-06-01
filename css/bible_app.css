@@ -1411,7 +1411,7 @@ button#btn_ok_stop
  {
     height: 29px;
     cursor: pointer;
-    width: 50px;
+    /* width: 50px; */
 }
 button#btn_ok_stop{
     background: red;
@@ -1422,7 +1422,7 @@ button#btn_ok_stop:hover{
 button#btn_ok_strong {
     height: 29px;
     cursor: pointer;
-    width: 80px;
+    /* width: 80px; */
 }
 
 span.num_strong {
