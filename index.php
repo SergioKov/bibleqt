@@ -514,7 +514,7 @@ session_start();
                     </div>
                     <div id="markers_body">
     
-                        <div id="wr_markers" style="dis-play:none;">
+                        <div id="wr_markers">
                             <div class="wr_markers_inner"></div>
                         </div>                   
                     

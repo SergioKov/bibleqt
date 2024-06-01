@@ -11473,15 +11473,32 @@ function addTrans(addMode = null){
 
 function removeTrans(){
     //console.log('=== function removeTrans() ===');
-    let countCols = document.querySelectorAll('.cols').length;
+    let colsAll = document.querySelectorAll('.cols');
+    let countCols = colsAll.length;
     //console.log(countCols);
     if(countCols != 1){
         let colId = eid_wrCols.lastElementChild.id;
-        let n = colId.slice(-1);//de 'col4' saco '4'
+        let n = colId.slice(3);//elimino 3 primeras letras. de 'col4' sale '4'; de 'col12' sale '12'
         
         let trans = eid_wrCols.lastElementChild.querySelector('.colsHead').dataset.trans;
         let tabActive = document.querySelector('.tab_active');
-        removeTransFromTab(trans,tabActive,n);
+
+        //busco index de la columna que se va a eliminar
+        let col_index;
+        colsAll.forEach((el,i)=>{
+            //console.log('el: ',el);
+            if(el == eid_wrCols.lastElementChild){
+                //console.log('encontrado el: ',el);
+                console.log('encontrado i: ',i);
+                col_index = i;
+            }
+        });
+
+        if(typeof col_index != 'undefined'){
+            removeTransFromTab(trans,tabActive,col_index);
+        }else{
+            console.error('col_index is undefined');
+        }    
         
         eid_wrCols.lastElementChild.remove();
 
@@ -11493,54 +11510,52 @@ function removeTrans(){
 }
 
 function closeTrans(el,event, param = null){
+    console.log('=== function closeTrans() ===');
+    
     event.stopPropagation();
 
-    let n = el.parentElement.parentElement.parentElement.parentElement.id.slice(-1);//numero de col para remove
+    let n = el.parentElement.parentElement.parentElement.parentElement.id.slice(5);//numero de col para remove (de trans2 quiro 5 carácteres => 2; trans13 => 13)
     let trans = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
-    let tabActive = document.querySelector('.tab_active');
+    let tabActive = document.querySelector('.tab_active');    
     
-    document.getElementById('col'+n).remove();
-    removeTransFromTab(trans,tabActive,n);
+    //busco index de la columna que se va a eliminar
+    let col_index;
+    document.querySelectorAll('.cols').forEach((el,i)=>{
+        //console.log('el: ',el);
+        if(el == document.getElementById('col'+n)){
+            //console.log('encontrado el: ',el);
+            console.log('encontrado i: ',i);
+            col_index = i;
+        }
+    });
+    
+    document.getElementById('col'+n).remove();//elimino col
 
-    setTimeout(()=>{
-        updateArrTabs();
-    },100);
+    if(typeof col_index != 'undefined'){
+        removeTransFromTab(trans,tabActive,col_index);
+    }else{
+        console.error('col_index is undefined');
+    }
+
+    updateArrTabs();
     
     mySizeWindow();
     mySizeVerse();
 }
 
-function removeTransFromTab(trans,tabActive,n){
-    //console.log('=== function removeTransFromInTab(trans,tab) ===');
+function removeTransFromTab(trans,tabActive,col_index){
+    console.log('=== function removeTransFromInTab() ===');
 
-    let arr_trans_real = [];
-    document.querySelectorAll('.cols .colsHead').forEach(el=>{
-        if(typeof el.dataset.trans !== 'undefined'){
-            console.log(el.dataset.trans);
-            arr_trans_real.push(el.dataset.trans);
-        }
-    });
+    //modo old - ok
+    let arr_str_trans = tabActive.dataset.str_trans.split(',');
+    arr_str_trans.splice(col_index,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
     
-    let arr_title_real = [];
-    arr_trans_real.forEach(el=>{
-        
-        let este_trans = arrFavTransObj.find(v => v.Translation === el);
-        arr_title_real.push(este_trans.BibleShortName);
-        
-        console.log(este_trans.BibleShortName);
-        console.log(arr_title_real);
-    });
-    
-    let arr_str_trans = arr_trans_real;
-    //console.log('arr_str_trans: ',arr_str_trans);
-    
-    let arr_title = arr_title_real;
-    //console.log('arr_title: ',arr_title);
-   
+    let arr_title = tabActive.title.split(',');
+    arr_title.splice(col_index,1);//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
+
     //pego str_trans y title modificados en tabActive
     tabActive.dataset.str_trans = arr_str_trans.join(', ');
     tabActive.title = arr_title.join(', ');
-    //console.log('tabActive: ',tabActive);    
 }
 
 function updateTransInTab(trans,tabActive,n){
@@ -20576,9 +20591,10 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                     let new_ref = trans_BookShortName + ' '+chapterNumber +':'+verseNumber;
     
                     //meto ref 'Матв. 1:19' en vkladka aciva del col1 trans1
-                    if(i == 0){
+                    if(i == 0){//test
                         document.querySelector('.tab_active span').innerHTML = new_ref;
                         document.querySelector('.tab_active').dataset.ref_trans = trans_base;
+                        console.log('pendiente de verificar!!!');
                     } 
     
                     el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
@@ -20810,11 +20826,13 @@ function getFirstPVisibleAndPutInVkladka(){
             //console.log('--- out for. first_p_visible.id: ',first_p_visible.id);
 
             let ref_to_put = first_p_visible.querySelector('a').textContent;
+            let trans_to_put = first_p_visible.id.split('__')[0];
             //console.log('ref_to_put: ', ref_to_put);
             
             //si es primer el_colsInner
             if(i_colsInner == 0){
                 document.querySelector('.tab_active span').textContent = ref_to_put;
+                document.querySelector('.tab_active').dataset.ref_trans = trans_to_put;
             }
             
             el_colsInner.parentElement.querySelector('.partDesk .desk_sh_link').innerHTML = ref_to_put;
