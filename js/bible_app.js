@@ -10728,8 +10728,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         updateArrTabs();
 
     }else{//es trans que se actualiza
-        let n = thisDiv.id.slice(-1);
-
+        
         let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
 
         let arr_trans_real = [];
@@ -10750,10 +10749,6 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
             }
         });
 
-
-
-
-
         let arr_str_trans = tabActive.dataset.str_trans.split(',');
         arr_str_trans[new_index] = trans;//cambio indice 'n-1' por new_trans
 
@@ -10763,14 +10758,6 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         //pego str_trans y title modificados en tabActive
         tabActive.dataset.str_trans = arr_str_trans.join(', ');
         tabActive.title = arr_title.join(', ');
-
-
-
-
-
-
-
-        /////////////////////////////////updateTransInTab(trans,tabActive,n);
 
         updateArrTabs();
     }
@@ -11458,7 +11445,13 @@ function addTrans(addMode = null){
         if(addMode == 'askForTrans'){
             //propongo selección del modulo
             //console.log('addMode: ',addMode);
-            openModal('full','Избранныe модули Библии',htmlTrans,'showModules');//contiene dentro selectModule2()
+            if(document.getElementById('trans' + next_n) != null){
+                setTimeout(e => {
+                    openModal('full','Избранныe модули Библии',htmlTrans,'showModules');//contiene dentro selectModule2()
+                },200);
+            }else{
+                alert('por alguna razon el div nuevo de la traducción no se ha creado.');
+            }
         }else{
             //no hago nada. añado col vacio
         }
@@ -14713,7 +14706,7 @@ function selectModule2(htmlTrans){
             p.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
             p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
             p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
-            p.onclick = function(){
+            p.onclick = (e) => {
                 
                 //thisDiv = (thisDiv.tagName === 'DIV') ? thisDiv : thisDiv.currentTarget ;  //no funciona...     
                 
@@ -14735,7 +14728,7 @@ function selectModule2(htmlTrans){
     
     }else{
         //transSelected = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
-        //console.log('thisDiv = PointerEvent {}. no hago nada');
+        console.log('thisDiv = PointerEvent {}. no hago nada');
     }
 
 }

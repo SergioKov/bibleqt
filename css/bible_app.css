@@ -1357,8 +1357,12 @@ p.tsk_nolink {
     display: block;
 }
 /*! OJO. cada segundo verse (tercer elemento: a -> span -> span_con_top  )tendrá padding-top 5px porque no se puede añadir padding-bottom al primero elemento que no tiene display: block;*/
-.stij_one:nth-child(3) {
+.stij_one {
     padding-top: 5px!important;
+    /* background: green; */
+}
+.stij_one:nth-child(3) {
+    /* padding-top: 5px!important; */
     /* background: #f089eb; */
 }
 .stij_one:not(:last-child) {
