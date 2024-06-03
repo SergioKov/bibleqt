@@ -11671,6 +11671,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
     let countTabs = tabsAll.length;
     //console.log(countTabs);
     let maxTabs = 20;
+    let tabActive_ref = document.querySelector('.tab_active span').textContent;
 
     let arr_n = [];
     tabsAll.forEach(el => {
@@ -11723,7 +11724,8 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
             htmlTab.classList.add('tab_active');
         }
 
-        bibShortRef = (bibShortRef != null) ? bibShortRef : inpt_nav.value ;
+        //bibShortRef = (bibShortRef != null) ? bibShortRef : inpt_nav.value ;//antes
+        bibShortRef = (bibShortRef != null) ? bibShortRef : tabActive_ref ;
 
         const spanBibShortRef = document.createElement("span");
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
