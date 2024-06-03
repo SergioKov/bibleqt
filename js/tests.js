@@ -1721,3 +1721,6 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
 }
 //makeArrPathName(arrFavTransObj[0], 0, 65);//arrFavTransObj[0] == rstStrongRed
 
+
+
+
