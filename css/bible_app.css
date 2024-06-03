@@ -216,7 +216,7 @@ body{
     background: #03a9f4;
     margin: 0 3px 0 0;
     cursor: pointer;
-    min-width: 100px;
+    min-width: 110px;
     text-align: center;
 }
 .tabs:not(.tab_active):hover{

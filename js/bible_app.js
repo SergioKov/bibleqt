@@ -9919,7 +9919,7 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
 
     let verse_add = arr_p_verses[verseNumber];
     
-    let el = verse_add;
+    let el = (typeof verse_add != 'undefined') ? verse_add : `${verseNumber} (текст стиха отсутствует)` ;
     let arr_data_add = [];
     let p_Text = '';
 
@@ -10103,7 +10103,6 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
     }
 
     return arr_data_add;
-
 }
 
 
@@ -10143,7 +10142,7 @@ function for_parseVerse(Translation, bq, bookModule, book, chapter, arr_verses )
 function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
     let verse_add = bookModule.split('<h4>')[chapter].split('<p>')[verseNumber];
     
-    let el = verse_add;
+    let el = (typeof verse_add != 'undefined') ? verse_add : `${verseNumber} (текст стиха отсутствует)` ;
     let arr_data_add = [];
     let p_Text = '';
 
@@ -10695,7 +10694,7 @@ function changeModule(thisDiv,trans,BibleShortName){
 }
 
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
-    //console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
+    console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
 
     if(thisDiv.tagName === 'DIV'){
@@ -12131,6 +12130,8 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.dataset.ref_trans = el.ref_trans;
                 htmlTab.title = el.title;       
                 htmlTab.onclick = function(e){                            
+                    //pushStateHome();//test
+                    //console.log(' elimino scon pushStateHome()');
                     getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
                     setTimeout(()=>{
                         updateArrTabs();
@@ -20827,10 +20828,11 @@ function getFirstPVisibleAndPutInVkladka(){
 
             let ref_to_put = first_p_visible.querySelector('a').textContent;
             let trans_to_put = first_p_visible.id.split('__')[0];
+            let first_str_trans = document.querySelector('.tab_active').dataset.str_trans.split(',')[0].trim();
             //console.log('ref_to_put: ', ref_to_put);
             
             //si es primer el_colsInner
-            if(i_colsInner == 0){
+            if(i_colsInner == 0 && trans_to_put == first_str_trans){
                 document.querySelector('.tab_active span').textContent = ref_to_put;
                 document.querySelector('.tab_active').dataset.ref_trans = trans_to_put;
             }
