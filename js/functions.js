@@ -20,7 +20,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
 
     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+    }else{
+        if(eid_sidebar.style.display == 'none'){
+            hideShowSidebar();
+        }
     }    
+    
     //H7225 or G6225
     if(numberStr.includes('H') || numberStr.includes('G')){
         let firstLetter = numberStr.substr(0,1);
@@ -1096,6 +1101,7 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
 function buildMarkersDesktop(){
     eid_wr_markers_inner.innerHTML = '';
     let totalMarkers = arr_markers.length;
+    eid_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
     
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{

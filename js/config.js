@@ -87,6 +87,7 @@ const eid_tsk_head = document.getElementById('tsk_head');
 const eid_tsk_body = document.getElementById('tsk_body');
 
 const eid_markers_head = document.getElementById('markers_head');
+const eid_markers_porcentaje = document.getElementById('markers_porcentaje');
 const eid_markers_body = document.getElementById('markers_body');
 
 //botones

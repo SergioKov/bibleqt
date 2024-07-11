@@ -36,7 +36,7 @@ session_start();
                 
                 <div id="bl_headerBtns">
 
-                    <div id="btn_hideShowSidebar" class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar(this)">
+                    <div id="btn_hideShowSidebar" class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar()">
                         <div>Hide</div>
                     </div>
 
@@ -511,6 +511,7 @@ session_start();
                 <div id="vklad_markers" class="vklads" style="display: none;">
                     <div id="markers_head">
                         <h4>Маркеры / Закладки</h4>
+                        <span id="markers_porcentaje">45/100</span>
                     </div>
                     <div id="markers_body">
     

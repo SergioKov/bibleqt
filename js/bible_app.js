@@ -10426,14 +10426,14 @@ function closeSidebar(el){
      mySizeVerse();
 }
 
-function hideShowSidebar(el){ 
+function hideShowSidebar(){ 
     let disp = eid_sidebar.style.display;
     if(disp != 'none' || eid_sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
-        el.innerText = 'Show';
+        btn_hideShowSidebar.innerText = 'Show';
     }else{
         disp = 'block';//lo muestro
-        el.innerText = 'Hide';
+        btn_hideShowSidebar.innerText = 'Hide';
     }
     eid_sidebar.removeAttribute('class');
     eid_sidebar.style.display = disp;

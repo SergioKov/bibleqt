@@ -131,7 +131,6 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
         //Выбор модуля Библии из Избранных
         case 'full':
-            eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';
             eid_btn_sp_atras.style.display = 'block';
             eid_myModal.style.paddingTop = '0vh';
             eid_myModalContent.classList.add('modalContentFull');
@@ -140,12 +139,14 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             switch (action) {
                 
                 case 'showModules':
+                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll 
                     eid_modcont_body.classList.add('theme_grey');   
                     selectModule2(htmlTrans);
                     break;
             
                 case 'showHistoryNav':
+                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryNav()');
@@ -153,6 +154,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
             
                 case 'showHistoryFind':
+                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryFind()');
@@ -160,6 +162,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
             
                 case 'showHistoryStrong':
+                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll 
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryStrong()');
@@ -167,14 +170,15 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
 
                 case 'showMarkers':
+                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_markers_porcentaje" class="f_r"></span>`;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showMarkers()');
                     showMarkers();
-                    break;
-    
+                    break;    
 
                 case 'compareVerse':
+                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
                     eid_modcont_body.style.overflow = 'hidden';//desabilita scroll de head 
                     eid_modcont_body.classList.add('theme_white');  
                     eid_btn_sp_atras.style.display = 'none';
@@ -836,7 +840,7 @@ function copyTextFromIdElement(idElement) {//"rstStrongRed__22__66__2"
         let BibleShortName = this_trans_obj.BibleShortName;
         let BookShortName = this_trans_obj.Books[book].ShortNames[0];
         let ref = `${BookShortName} ${chapter}:${verse}`;
-        textoACopiar = `${textoACopiar} \n\r(${ref}  |  ${BibleShortName})`;
+        textoACopiar = `(${BibleShortName}) ${ref} ${textoACopiar}`;
     }
     if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
         copyTextToClibboard(textoACopiar);
@@ -2633,6 +2637,8 @@ function showHistoryStrong(){
 function showMarkers(){
     eid_bl_modalFullInner.innerHTML = '';
     let totalMarkers = arr_markers.length;
+    let m_markers_porcentaje = document.getElementById('m_markers_porcentaje');
+    m_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
 
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{

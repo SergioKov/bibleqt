@@ -1269,6 +1269,8 @@ span.h4_ch {
     margin-bottom: 5px;
     color: white;
     position: relative;
+    display: flex;
+    justify-content: space-between;
 }
 
 #strong_head {
@@ -1995,7 +1997,7 @@ select  optgroup option {
     padding: 3px 3px 9px 3px;
 }
 #arrowBack {
-    margin: 4px 8px 0 8px;
+    margin: 6px 8px 0 8px;
     /* background: green; */
     cursor: pointer;
     transition: 0.3s;
@@ -2026,7 +2028,7 @@ select  optgroup option {
     align-items: center;
     margin-left: 4px;
     position: relative;
-    top: -1px;
+    top: 1px;
 }
 
 #closeBack_old span {
