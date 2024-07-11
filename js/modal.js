@@ -2632,6 +2632,7 @@ function showHistoryStrong(){
 
 function showMarkers(){
     eid_bl_modalFullInner.innerHTML = '';
+    let totalMarkers = arr_markers.length;
 
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
@@ -2642,7 +2643,13 @@ function showMarkers(){
             const sam_mk_head = document.createElement('span');
             sam_mk_head.className = 'sam_mk_head';
             sam_mk_head.innerHTML = `
-                <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
+                <span class="sp_trans_hist">
+                    <span class="sp_ref">
+                        <span class="sp_f">${totalMarkers - i}</span>
+                        ${el.BibleShortName}
+                    </span> 
+                    <span class="sp_fecha_hist">${el.fecha}</span>
+                </span>
                 <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
             `;
             sam_mk_head.onclick = () => {

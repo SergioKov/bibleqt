@@ -1559,6 +1559,13 @@ p i {
     position: relative;
     top: -4px;
 }
+.sam_mk_head .sp_f {
+    top: 0px;
+    font-size: inherit;
+    padding: 0px 4px;
+    color: inherit;
+    border-radius: 2px;
+}
 .f_red{
     color:red;
 }
