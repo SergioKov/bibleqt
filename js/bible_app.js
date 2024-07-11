@@ -15347,85 +15347,7 @@ function chapterGo(dir){
 }
 
 function showTab(this_btn, param){
-    
-    /*
-    //modo 1
-    document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
-        el.classList.remove('btn_active');
-    });
-    this_btn.classList.add('btn_active'); 
-    
-    switch (param) {
-        case 'nav':
-            eid_vklad_nav.style.display = 'block';
-            eid_vklad_find.style.display = 'none';
-            eid_vklad_tsk.style.display = 'none';
-            eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';
-            if(window.innerWidth >= pantallaTabletMinPx){
-                eid_inpt_nav.focus();
-            }                        
-            mySizeNav();
-            break;
-    
-        case 'find':
-            eid_vklad_nav.style.display = 'none';
-            eid_vklad_find.style.display = 'block';
-            eid_vklad_tsk.style.display = 'none';
-            eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none'; 
-            if(window.innerWidth >= pantallaTabletMinPx){
-                eid_inpt_find.focus();
-            }               
-            mySizeFind();
-            break;
-    
-        case 'tsk':
-            eid_vklad_nav.style.display = 'none';
-            eid_vklad_find.style.display = 'none';
-            eid_vklad_tsk.style.display = 'block';
-            eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';
-            mySizeTsk();;
-            break;
-    
-        case 'strong':
-            eid_vklad_nav.style.display = 'none';
-            eid_vklad_find.style.display = 'none';
-            eid_vklad_tsk.style.display = 'none';
-            eid_vklad_strong.style.display = 'block';
-            eid_vklad_markers.style.display = 'none';
-            if(window.innerWidth >= pantallaTabletMinPx){                
-                eid_inpt_strong.focus();
-            }
-            mySizeStrong();
-            break;
-    
-        case 'markers':
-            eid_vklad_nav.style.display = 'none';
-            eid_vklad_find.style.display = 'none';
-            eid_vklad_tsk.style.display = 'none';
-            eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'block';
-            mySizeMarkers();
-            break;
-    
-        default:
-            eid_vklad_nav.style.display = 'block';
-            eid_vklad_find.style.display = 'none';
-            eid_vklad_tsk.style.display = 'none';
-            eid_vklad_strong.style.display = 'none';
-            eid_vklad_markers.style.display = 'none';
-            if(window.innerWidth >= pantallaTabletMinPx){                
-                eid_inpt_nav.focus();
-            }
-            mySizeNav();
-            break;
-    }
-    */
-    
-    
-    
+        
     // modo 2
     document.querySelectorAll('.wr_btns_scr button').forEach(el=>{
         //si el boton 'this_btn' no es el boton del bucle
@@ -15436,7 +15358,6 @@ function showTab(this_btn, param){
         }
     });
 
-    //asi es más lento
     document.querySelectorAll('.vklads').forEach(vklad=>{
         let vklad_act = `vklad_${param}`;
         if(vklad.id == vklad_act){
@@ -15445,20 +15366,13 @@ function showTab(this_btn, param){
             vklad.style.display = 'none';
         }
     });
-    
 
     switch (param) {
         case 'nav':
-            if(window.innerWidth >= pantallaTabletMinPx){
-                eid_inpt_nav.focus();
-            }                        
             mySizeNav();
             break;
     
         case 'find':
-            if(window.innerWidth >= pantallaTabletMinPx){
-                eid_inpt_find.focus();
-            }               
             mySizeFind();
             break;
     
@@ -15467,9 +15381,6 @@ function showTab(this_btn, param){
             break;
     
         case 'strong':
-            if(window.innerWidth >= pantallaTabletMinPx){                
-                eid_inpt_strong.focus();
-            }
             mySizeStrong();
             break;
     
@@ -15478,9 +15389,6 @@ function showTab(this_btn, param){
             break;
     
         default:
-            if(window.innerWidth >= pantallaTabletMinPx){                
-                eid_inpt_nav.focus();
-            }
             mySizeNav();
             break;
     }           
