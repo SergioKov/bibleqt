@@ -230,6 +230,16 @@ body{
     display: inline-block;
     margin-left: 5px;
 }
+.tab_trans_name{
+    background: black;
+    margin: 0px 5px 0px 0px;
+    position: relative;
+    padding: 1px 4px;
+    border-radius: 3px 3px 3px 3px;
+    top: -2px;
+    font-size: 12px;
+    display: inline-block;
+}
 .tabs button {
     margin-left: 5px;
     /* background: brown; */
@@ -1269,10 +1279,11 @@ span.h4_ch {
     margin-bottom: 5px;
     color: white;
     position: relative;
+}
+#markers_head{
     display: flex;
     justify-content: space-between;
 }
-
 #strong_head {
     background: #373737;
 }
@@ -2619,10 +2630,16 @@ p.cl_trans:hover {
 p.cl_tab:hover {
     background: #414141;
 }
+.cl_tab .sh_tr {
+    /* background: green; */
+    font-size: 10px;
+}
 .cl_tab .sh_n {
     margin-right: 15px;
     /* background: #755905; */
     min-width: 90px;
+    display: flex;
+    flex-direction: column;
 }
 .cl_tab .la_n {
     /* background: #5a0211; */
@@ -3671,9 +3688,16 @@ p.p_pointer.c_red span {
     color: #f3f5f3;
 }
 
+/*
 .p10p5p0{
     padding: 10px 5px 0px !important;
 }
-j {
+j{
     color: darkred;
+}
+*/
+
+
+#markers_porcentaje {
+    text-wrap: nowrap;
 }

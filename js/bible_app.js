@@ -1641,7 +1641,6 @@ function scrollInColsInner(el,i){
     //console.log('el: ',el);
     //console.log('i: ',i);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
-
     
     //================================================================//
     // modo old - start
@@ -1696,7 +1695,7 @@ function scrollInColsInner(el,i){
 
                         if(el == colsInnerAll[ic]){
                             
-                            //mo muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
+                            //no muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
                             //console.log(`[if] --- el == colsInnerAll[ic]. no muevo este colsInnerAll[${ic}]`,colsInnerAll[ic]);
                             
                         }else{
@@ -1717,9 +1716,7 @@ function scrollInColsInner(el,i){
                                 //console.log('new_h: '+new_h);
             
                                 colsInnerAll[ic].scrollTop = new_h;
-                                //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);
-
-                                
+                                //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);                                
                             }
                         }                        
                     }
@@ -2218,6 +2215,11 @@ function getTsk(e){
                                 //console.log('click on tsk a');
                                 goToLink(Translation, p.querySelector('a').innerHTML);
                             });
+                            //quito btn_verse_menu porque alli no hace falta
+                            if(p.innerHTML.includes('<span class="btn_verse_menu"></span>')){
+                                p.querySelector('.btn_verse_menu').remove();
+                            }
+                            
 
                             if(p.innerHTML.includes('wr_tooltip')){
                                 p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
@@ -10739,8 +10741,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
             }
         });
         let str_trans_real = arr_trans_real.join(', ');
-        console.log('str_trans_real: ',str_trans_real); 
-        
+        console.log('str_trans_real: ',str_trans_real);        
         
         let new_index;
         document.querySelectorAll('.cols .colsHead').forEach((el,i,arr)=>{
@@ -10750,7 +10751,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         });
 
         let arr_str_trans = tabActive.dataset.str_trans.split(',');
-        arr_str_trans[new_index] = trans;//cambio indice 'n-1' por new_trans
+        arr_str_trans[new_index] = trans;//cambio indice 'new_index' por new_trans
 
         let arr_title = tabActive.title.split(',');
         arr_title[new_index] = new_trans_obj.BibleShortName;//elimino elemento del array con indice ->(n-1) un elemento (n-1,1)<-
@@ -10758,6 +10759,10 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         //pego str_trans y title modificados en tabActive
         tabActive.dataset.str_trans = arr_str_trans.join(', ');
         tabActive.title = arr_title.join(', ');
+        //si es col base (el primero a la izda) actualizo nombre de la Biblia en tab (vkladki) 
+        if(thisDiv.id == 'trans1'){
+            tabActive.querySelector('.tab_trans_name').textContent = new_trans_obj.BibleShortName;
+        }
 
         updateArrTabs();
     }
@@ -11665,8 +11670,8 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
     //console.log(countTabs);
     let maxTabs = 20;
     let tabActive_ref;
-    if(document.querySelector('.tab_active span') != null){
-        tabActive_ref = document.querySelector('.tab_active span').textContent;
+    if(document.querySelector('.tab_active .tab_ref') != null){
+        tabActive_ref = document.querySelector('.tab_active .tab_ref').textContent;
     }
 
     let arr_n = [];
@@ -11703,7 +11708,7 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.dataset.str_trans = str_trans;
         htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
-            getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+            getRefOfTab(htmlTab.id, htmlTab.querySelector('.tab_ref').innerHTML, htmlTab.dataset.str_trans);
             setTimeout(()=>{
                 updateArrTabs();
                 updateActTransNavBlackBtn();
@@ -11727,7 +11732,15 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
                 ? tabActive_ref 
                 : inpt_nav.value ;
 
+        const obj_ref_trans = arrFavTransObj.find(v => v.Translation === htmlTab.dataset.ref_trans);
+        //console.log('1. obj_ref_trans.BibleShortName: ', obj_ref_trans.BibleShortName);
+
+        const spanBibTransName = document.createElement("span");
+        spanBibTransName.className = 'tab_trans_name';
+        spanBibTransName.innerHTML = obj_ref_trans.BibleShortName;
+        
         const spanBibShortRef = document.createElement("span");
+        spanBibShortRef.className = 'tab_ref';
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
         //spanBibShortRef.title = str_trans;
 
@@ -11742,11 +11755,9 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         btn_close.innerHTML = '&#10005;';//<!--X-->
         htmlTab.appendChild(btn_close);
 
-
+        htmlTab.appendChild(spanBibTransName);
         htmlTab.appendChild(spanBibShortRef);
-
         eid_partDeskTabs.appendChild(htmlTab);
-
 
         let tabsAll = document.querySelectorAll('.tabs');
         // Itera a través de los hijos y verifica si alguno tiene la clase 'active'
@@ -11786,6 +11797,7 @@ function updateArrTabs(){
             
             const el_tr_obj = getObjTransByName(el_tr);
             //console.log(el_tr_obj);
+
             if(typeof el_tr_obj != 'undefined') arr_str_trans_new.push(el_tr_obj.Translation);
             if(typeof el_tr_obj != 'undefined') arr_trans_names.push(el_tr_obj.BibleShortName);
         });
@@ -11795,6 +11807,7 @@ function updateArrTabs(){
         
         el.title = str_trans_names;
         el.dataset.str_trans = str_trans_new;
+        //el.querySelector('.tab_trans_name').innerHTML = 
 
         const el_obj = {
             id        : el.id,
@@ -11803,7 +11816,7 @@ function updateArrTabs(){
             title     : str_trans_names,
             btn_close : has_btn_close,
             ref_trans : el.dataset.ref_trans,
-            ref       : el.querySelector('span').innerHTML
+            ref       : el.querySelector('.tab_ref').innerHTML
         };
         //console.log(el_obj);
         arrTabs.push(el_obj);
@@ -12114,7 +12127,6 @@ function convertArrBdToArrOk(arrName, arr){
 
 function makeTabsFromDatosDeVkladki(){
     //console.log(' === makeTabsFromDatosDeVkladki() ===');
-
     eid_partDeskTabs.innerHTML = '';//reset vkladki
     
     if(arrTabs.length > 0){
@@ -12134,14 +12146,22 @@ function makeTabsFromDatosDeVkladki(){
                 htmlTab.onclick = function(e){                            
                     //pushStateHome();//test
                     //console.log(' elimino scon pushStateHome()');
-                    getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+                    getRefOfTab(htmlTab.id, htmlTab.querySelector('.tab_ref').innerHTML, htmlTab.dataset.str_trans);
                     setTimeout(()=>{
                         updateArrTabs();
                         updateActTransNavBlackBtn();
                     },150);        
                 };
+
+                const obj_ref_trans = arrFavTransObj.find(v => v.Translation === htmlTab.dataset.ref_trans);
+                //console.log('2. obj_ref_trans.BibleShortName: ', obj_ref_trans.BibleShortName);        
         
+                const spanBibTransName = document.createElement("span");
+                spanBibTransName.className = 'tab_trans_name';
+                spanBibTransName.innerHTML = obj_ref_trans.BibleShortName;
+
                 const spanBibShortRef = document.createElement("span");
+                spanBibShortRef.className = 'tab_ref';
                 spanBibShortRef.innerHTML = el.ref;
         
                 //a todos los tabs añado span close x
@@ -12155,6 +12175,7 @@ function makeTabsFromDatosDeVkladki(){
                 btn_close.innerHTML = '&#10005;';//<!--X-->
                 
                 htmlTab.appendChild(btn_close);        
+                htmlTab.appendChild(spanBibTransName);
                 htmlTab.appendChild(spanBibShortRef);
         
                 eid_partDeskTabs.appendChild(htmlTab);
@@ -12171,7 +12192,7 @@ function makeTabsFromDatosDeVkladki(){
                     let htmlTab = tabsAll[i];
                     //console.log('tiene active. htmlTab');
                     
-                    getRefOfTab(htmlTab.id, htmlTab.querySelector('span').innerHTML, htmlTab.dataset.str_trans);
+                    getRefOfTab(htmlTab.id, htmlTab.querySelector('.tab_ref').innerHTML, htmlTab.dataset.str_trans);
                     updateArrTabs();
 
                     break; // Si se encuentra un hijo con la clase 'active', puedes salir del bucle
@@ -12182,13 +12203,11 @@ function makeTabsFromDatosDeVkladki(){
             setTimeout(()=>{
                 updateArrTabs();
             },1000);            
-            
         }
     
     }else{
         return;
     }
-
 }
 
 
@@ -12443,7 +12462,7 @@ function selChapter(e, show_chapter = null){
 
 function updateRefInTabActive(trans,ref){
     document.querySelector('.tab_active').dataset.ref_trans = trans;
-    document.querySelector('.tab_active span').textContent = ref;
+    document.querySelector('.tab_active .tab_ref').textContent = ref;
 }
 
 
@@ -14768,7 +14787,7 @@ function selectTab(){//Vkladki
         arr_el_trans.forEach(el_tr => {
             el_tr = el_tr.trim();
             //console.log('el_tr: '+el_tr);            
-            const el_tr_obj = arrFavTransObj.find(v => v.Translation === el_tr );
+            const el_tr_obj = arrFavTransObj.find(v => v.Translation === el_tr);
             //console.log(el_tr_obj);
             arr_trans_names.push(el_tr_obj.BibleShortName);
         });
@@ -14777,12 +14796,20 @@ function selectTab(){//Vkladki
         
         const p = document.createElement('p');
         p.className = 'cl_tab';
-        if(arrTabs[i].className.includes('tab_active')) p.className += ' cl_tab_active'; 
-        p.innerHTML = `<span class="sh_nl">${i+1}) </span> `;
-        p.innerHTML += `<span class="sh_n">${arrTabs[i].ref}</span> `;
-        p.innerHTML += `<span class="sh_cuant" title="Translations to compare: ${arr_trans_names.length}">(${arr_trans_names.length})</span>`;
-        p.innerHTML += `<span class="la_n">${str_trans_names}</span>`;
-        //p.innerHTML += `<span class="btn_tab_x" onclick="closeTab(document.querySelector('#${arrTabs[i].id} button'), this)">&#10005;</span>`;// <!--X--> 
+        if(arrTabs[i].className.includes('tab_active')) p.className += ' cl_tab_active';
+
+        const obj_ref_trans = arrFavTransObj.find(v => v.Translation === el.ref_trans);
+        //console.log('obj_ref_trans.BibleShortName: '+obj_ref_trans.BibleShortName);
+
+        p.innerHTML = `
+            <span class="sh_nl">${i+1}) </span> 
+            <span class="sh_n">
+                <span class="sh_tr">${obj_ref_trans.BibleShortName}</span>    
+                <span class="sh_ref">${arrTabs[i].ref}</span>
+            </span>
+            <span class="sh_cuant" title="Translations to compare: ${arr_trans_names.length}">(${arr_trans_names.length})</span>
+            <span class="la_n">${str_trans_names}</span>
+        `;
 
         const btn_tab_x = document.createElement('span');
         btn_tab_x.className = 'btn_tab_x';
@@ -20503,7 +20530,7 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
     
                     //meto ref 'Матв. 1:19' en vkladka aciva del col1 trans1
                     if(i == 0){//test
-                        document.querySelector('.tab_active span').innerHTML = new_ref;
+                        document.querySelector('.tab_active .tab_ref').innerHTML = new_ref;
                         document.querySelector('.tab_active').dataset.ref_trans = trans_base;
                         console.log('pendiente de verificar!!!');
                     } 
@@ -20743,7 +20770,7 @@ function getFirstPVisibleAndPutInVkladka(){
             
             //si es primer el_colsInner
             if(i_colsInner == 0 && trans_to_put == first_str_trans){
-                document.querySelector('.tab_active span').textContent = ref_to_put;
+                document.querySelector('.tab_active .tab_ref').textContent = ref_to_put;
                 document.querySelector('.tab_active').dataset.ref_trans = trans_to_put;
             }
             

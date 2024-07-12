@@ -849,7 +849,7 @@ print<<<HERE
                     <h1>Crear cuenta</h1>
                     <p class="mensaje">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
                     <input id="reg_username" name="username" type="text" placeholder="name"/>
-                    <input id="reg_password" name="password" type="password" placeholder="password"/>
+                    <input id="reg_password" name="password" type="password" autocomplete="password" placeholder="password"/>
                     <input id="reg_email" name="email" type="text" placeholder="email address"/>
                     <button class="btn_wide" type="button" onclick="crearCuenta()">Crear cuenta</button>
                     <p class="message">¿Ya estás registrado? <a href="#" onclick="mostrarLoginForm()">Entrar</a></p>
@@ -871,9 +871,9 @@ print<<<HERE
                     <h1>Cambiar contraseña</h1>
                     <p class="mensaje">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
                     <input id="act_email" name="email" type="text" placeholder="actual email address"/>
-                    <input id="act_password" name="password" type="password" placeholder="actual password"/>
-                    <input id="new_password" name="password" type="password" placeholder="new password"/>
-                    <input id="new_password_rep" name="password" type="password" placeholder="repeat new password"/>
+                    <input id="act_password" name="password" type="password" autocomplete="password" placeholder="actual password"/>
+                    <input id="new_password" name="password" type="password" autocomplete="" placeholder="new password"/>
+                    <input id="new_password_rep" name="password" type="password" autocomplete="" placeholder="repeat new password"/>
                     <button class="btn_wide" type="button" onclick="enviarChangeEmail()">Cambiar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
                 </form>
@@ -884,7 +884,7 @@ print<<<HERE
                     <h1>Iniciar sesión</h1>
                     <p class="mensaje">Tendrás acceso a tus ajustes personales.</p>
                     <input id="username" name="username" type="text" placeholder="username" required/>
-                    <input id="password" name="password" type="password" placeholder="password" required/>
+                    <input id="password" name="password" type="password" autocomplete="password" placeholder="password" required/>
                     <button class="btn_wide" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
                     <p class="message">
                         ¿No estás registrado? <a href="#" onclick="mostrarForm('bl_register_form')">Crear una cuenta</a>
