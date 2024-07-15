@@ -1588,26 +1588,40 @@ function getArrSumLineH(){
 
 
 function initScrollInColsInner(){
+    console.log('=== function initScrollInColsInner ==='); 
+    
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            //console.log('el.onmouseover. i: ',i);
-            enableScrollInColsInner(el,i);
+            console.log('initScrollInColsInner() --- el.onmouseover. i: ',i);
+            enableScrollInColsInner(el,i);//antes
+            scrollInColsInner(el,i);//test
         }
+        el.onmouseleave = () => {//desktop
+            console.log('initScrollInColsInner() --- DISABLE scroll --- el.onmouseleave. i: ',i);
+            disableScrollInColsInner(el,i);
+        }
+
+
+
+
+
         el.ontouchmove = () => {//mobile
-            //console.log('el.ontouchmove. i: ',i);
+            console.log('initScrollInColsInner() --- el.ontouchmove. i: ',i);
             enableScrollInColsInner(el,i);
         }
     });    
 }
 
 function finishScrollInColsInner(){
+    console.log('=== function finishScrollInColsInner ==='); 
+
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            //console.log('el.onmouseover. i: ',i);
+            console.log('finishScrollInColsInner() --- el.onmouseover. i: ',i);
             disableScrollInColsInner(el,i);
         }
         el.ontouchmove = () => {//mobile
-            //console.log('el.ontouchmove. i: ',i);
+            console.log('finishScrollInColsInner() --- el.ontouchmove. i: ',i);
             disableScrollInColsInner(el,i);
         }
     });    
@@ -1615,31 +1629,36 @@ function finishScrollInColsInner(){
 
 
 function enableScrollInColsInner(el,i){
-    //console.log('=== function enableScrollInColsInner() ===');    
+    console.log('=== function enableScrollInColsInner() ==='); 
+
     el.onscroll = () => {
+        console.log('habilito el.onscroll. i: ',i);
         scrollInColsInner(el,i);
     }
     el.ontouchmove = () => {
+        console.log('habilito el.ontouchmove. i: ',);
         scrollInColsInner(el,i);
     }
 }
 
 
 function disableScrollInColsInner(el,i){
-    //console.log('=== function disableScrollInColsInner() ===');    
+    console.log('=== function disableScrollInColsInner() ===');  
+
     el.onscroll = () => {
-        //console.log('dasabilito el.onscroll. i: ',i);
+        console.log('dasabilito el.onscroll. i: ',i);
     }
     el.ontouchmove = () => {
-        //console.log('dasabilito el.ontouchmove. i: ',);
+        console.log('dasabilito el.ontouchmove. i: ',);
     }
 }
 
 function scrollInColsInner(el,i){
-    //console.log('=== function scrollInColsInner() ===');
+    console.log(' ');
+    console.log('=== function scrollInColsInner() ===');
 
-    //console.log('el: ',el);
-    //console.log('i: ',i);
+    console.log('i: ',i);
+    console.log('el: ',el);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
     
     //================================================================//
@@ -1655,7 +1674,15 @@ function scrollInColsInner(el,i){
         //console.log('positionShow == col');
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
             //en col muevo todos los cols igualmente sin ninguna condición
-            arrCol[indexCol].scrollTop = h;
+            //arrCol[indexCol].scrollTop = h;
+
+            if(arrCol[indexCol] == el){
+                console.log(`estoy encima de arrCol[${indexCol}]. elementCol: `, elementCol);
+                console.log(`el: `, el);
+            }else{
+                console.log(`--- NO ESTOY ENCIMA de arrCol[${indexCol}]. elementCol: `, elementCol);
+                arrCol[indexCol].scrollTop = h;
+            }
         });
     }
 
