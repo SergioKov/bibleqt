@@ -291,14 +291,11 @@ let arrFavTransDef = [
     "ukr_tur",
     "ukr_tur2",
     "ukr_kul",
-    //"ukr_umt",
     "ukr_umts",
     "ukr_der",
     
     "rv60",
     "lbla"
-
-    //"egr"
 
     //"kjv",
     //"nkjv",

@@ -735,7 +735,7 @@ function getDataFromArr($arr_data, $arr_h4, $chapter, $verse = null, $to_verse =
         for ($i = 0; $i <= $VerseQty; $i++) { 
             //echo '<p>' . $i;
             // echo '<p>' . $arr_p[$i];
-            $arr_p_verses[$i] = $arr_verses_from_ChapterPText[$i];
+            $arr_p_verses[$i] = ($arr_verses_from_ChapterPText[$i] != '') ? $arr_verses_from_ChapterPText[$i] : '...' ;
         }
         $arr_data['arr_p_verses'] = $arr_p_verses;
     }

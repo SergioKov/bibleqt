@@ -840,7 +840,7 @@ function copyTextFromIdElement(idElement) {//"rstStrongRed__22__66__2"
         let BibleShortName = this_trans_obj.BibleShortName;
         let BookShortName = this_trans_obj.Books[book].ShortNames[0];
         let ref = `${BookShortName} ${chapter}:${verse}`;
-        textoACopiar = `(${BibleShortName}) ${ref} ${textoACopiar}`;
+        textoACopiar = `${ref} ${textoACopiar} (${BibleShortName})`;
     }
     if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
         copyTextToClibboard(textoACopiar);
@@ -906,7 +906,8 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             //si existe traduccion, el libro de trans y book del libro
             if(typeof el_trans.Translation != 'undefined' && typeof el_trans.Books[bookNumber] != 'undefined'){
                 //url del libro necesario
-                url = `../modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+                let url = `../modules/text/${el_trans.Translation}/${el_trans.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+                //console.log('--- url: ', url);
 
                 if(url.includes('no_disponible.htm')){
                     //console.log('url includes no_disponible.htm');

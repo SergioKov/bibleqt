@@ -3701,3 +3701,9 @@ j{
 #markers_porcentaje {
     text-wrap: nowrap;
 }
+.color_navy {
+    color: navy;
+}
+.color_grey {
+    color: grey;
+}

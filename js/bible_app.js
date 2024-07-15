@@ -1588,14 +1588,16 @@ function getArrSumLineH(){
 
 
 function initScrollInColsInner(){
+    //console.log('=== function initScrollInColsInner() ===');    
+    
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
             //console.log('el.onmouseover. i: ',i);
-            enableScrollInColsInner(el,i);
+            enableScrollInColsInner(el,i);//antes
         }
         el.ontouchmove = () => {//mobile
             //console.log('el.ontouchmove. i: ',i);
-            enableScrollInColsInner(el,i);
+            enableScrollInColsInner(el,i);//antes
         }
     });    
 }
@@ -1618,9 +1620,11 @@ function enableScrollInColsInner(el,i){
     //console.log('=== function enableScrollInColsInner() ===');    
     el.onscroll = () => {
         scrollInColsInner(el,i);
+        //console.log('habilito el.onscroll. i: ',i);
     }
     el.ontouchmove = () => {
         scrollInColsInner(el,i);
+        //console.log('--- habilito el.ontouchmove. i: ',i);
     }
 }
 
@@ -1631,15 +1635,16 @@ function disableScrollInColsInner(el,i){
         //console.log('dasabilito el.onscroll. i: ',i);
     }
     el.ontouchmove = () => {
-        //console.log('dasabilito el.ontouchmove. i: ',);
+        //console.log('--- dasabilito el.ontouchmove. i: ',i);
     }
 }
 
 function scrollInColsInner(el,i){
     //console.log('=== function scrollInColsInner() ===');
 
-    //console.log('el: ',el);
-    //console.log('i: ',i);
+    console.log(' ');
+    console.log('i: ',i);
+    console.log('el: ',el);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
     
     //================================================================//
@@ -1648,22 +1653,42 @@ function scrollInColsInner(el,i){
     let h = el.scrollTop;
     //console.log('*** i :'+i+' --- h:',h);
 
-
     //VERTICAL
     if(positionShow == 'col'){
         let colsInnerAll = document.querySelectorAll('.colsInner');
         //console.log('positionShow == col');
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
             //en col muevo todos los cols igualmente sin ninguna condición
-            arrCol[indexCol].scrollTop = h;
+            //arrCol[indexCol].scrollTop = h;//antes
+            
+            if(elementCol != el){
+                console.log(`aplico scroll solo en otros cols. arrCol[${indexCol}]:`, arrCol[indexCol]);
+                arrCol[indexCol].scrollTop = h;//test
+            }
         });
     }
 
     //HORIZONTAL
     if(positionShow == 'row'){  
         //console.log('positionShow == row');
+        let colsInnerAll = document.querySelectorAll('.colsInner');
+        
+        /*
+        //test start - como en col - funciona ok pero no coinciden versos on scroll ya que son de altura diferente 
+        Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
+            //en col muevo todos los cols igualmente sin ninguna condición
+            arrCol[indexCol].scrollTop = h;
+        });
+        //test end
+        */
 
+
+
+
+        
+        //antes. falla 14/07/2024
         if(typeof arr2_sum_line_h[i] != 'undefined'){
+            
             //iv -> index de versiculo.
             //arr2_sum_line_h[0] -> versiculos de la primera columna: col1
             for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
@@ -1683,9 +1708,9 @@ function scrollInColsInner(el,i){
                 //console.log('coef_h: '+coef_h);
         
                 if(h >= h_min && h <= h_max){
-                    //console.log('iv (' +iv+'). scroll ('+h+') está entre h_min ('+h_min+') y h_max ('+h_max+') ');
+                    //console.log(`iv (${iv}). scroll (${h}) está entre h_min (${h_min}) y h_max (${h_max})`);
                     
-                    let colsInnerAll = document.querySelectorAll('.colsInner');
+                    //let colsInnerAll = document.querySelectorAll('.colsInner');
                     //ic -> index de columna colsInner.
                     //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
                     for (let ic = 0; ic < colsInnerAll.length; ic++) {
@@ -1696,12 +1721,13 @@ function scrollInColsInner(el,i){
                         if(el == colsInnerAll[ic]){
                             
                             //no muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
-                            //console.log(`[if] --- el == colsInnerAll[ic]. no muevo este colsInnerAll[${ic}]`,colsInnerAll[ic]);
+                            console.log(`[if] --- el == colsInnerAll[ic]. no muevo este colsInnerAll[${ic}]`);
+                            // console.log(`colsInnerAll[${ic}]`,colsInnerAll[ic]);
                             
                         }else{
                             
                             //hago scroll de otros elementos que no sean el col sobre el cual tengo el raton scrolling 
-                            //console.log(`[else] --- el != colsInnerAll[ic]. hago scroll del otro elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                            console.log(`[else] --- el != colsInnerAll[ic]. hago scroll del otro elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
                             
                             if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
                                 let new_h;
@@ -1718,16 +1744,22 @@ function scrollInColsInner(el,i){
                                 colsInnerAll[ic].scrollTop = new_h;
                                 //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);                                
                             }
-                        }                        
+                        }
                     }
                                 
                 }else{
                     //console.log('iv (' +iv+'). --- scroll ('+h+') no está entre h_min ('+h_min+') y h_max ('+h_max+'). no hago nada... ');
                 }           
             }
-            finishScrollInColsInner();
-        }
-        initScrollInColsInner();
+            //finishScrollInColsInner();
+        }        
+        //initScrollInColsInner();
+        
+
+
+
+
+
     
     }//end HORIZONTAL
     //================================================================//
@@ -11561,19 +11593,24 @@ function updateTransInTab(trans,tabActive,n){
     let arr_trans_real = [];
     document.querySelectorAll('.cols .colsHead').forEach(el=>{
         if(typeof el.dataset.trans !== 'undefined'){
-            console.log(el.dataset.trans);
+            //console.log(el.dataset.trans);
             arr_trans_real.push(el.dataset.trans);
         }
     });
     
     let arr_title_real = [];
-    arr_trans_real.forEach(el=>{
+    let tab_trans_name = '';
+    arr_trans_real.forEach((el,i)=>{
         
         let este_trans = arrFavTransObj.find(v => v.Translation === el);
         arr_title_real.push(este_trans.BibleShortName);
+        //si es el primer tab (vkladka), saco su BibleShortName
+        if(i == 0){
+            tab_trans_name = este_trans.BibleShortName;
+        }
         
-        console.log(este_trans.BibleShortName);
-        console.log(arr_title_real);
+        //console.log(este_trans.BibleShortName);
+        //console.log(arr_title_real);
     });
 
     let arr_str_trans = arr_trans_real;
@@ -11582,6 +11619,7 @@ function updateTransInTab(trans,tabActive,n){
     //pego str_trans y title modificados en tabActive
     tabActive.dataset.str_trans = arr_str_trans.join(', ');
     tabActive.title = arr_title.join(', '); 
+    tabActive.querySelector('.tab_trans_name').textContent = tab_trans_name; 
 }
 
 
@@ -14299,13 +14337,11 @@ function getRef(trans = null){
                                     // Código a realizar cuando se rechaza la promesa
                                     console.error('VerseQty. error promesa: '+error);
                                 });
-
                             }
 
                         }//end modo_fetch_verses_for_cols == 'by_json'
-
-
                         break;
+
                     }else{
                         //console.log('no hay coincidencia en el nombre corto de la Biblia... ');
                     }
