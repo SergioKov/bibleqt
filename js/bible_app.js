@@ -1667,21 +1667,20 @@ function scrollInColsInner(el,i){
     // modo old - start
     //================================================================//
     let h = el.scrollTop;
-    //console.log('*** i :'+i+' --- h:',h);
+    console.log(`___ i : ${i} --- el.scrollTop (h): ${h}`);
+
+    let colsInnerAll = document.querySelectorAll('.colsInner');
 
     //VERTICAL
     if(positionShow == 'col'){
-        let colsInnerAll = document.querySelectorAll('.colsInner');
+        
         //console.log('positionShow == col');
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
-            //en col muevo todos los cols igualmente sin ninguna condición
-            //arrCol[indexCol].scrollTop = h;//antes
-
+            //si es col sobre el cual estoy con onmouseover...
             if(arrCol[indexCol] == el){
-                console.log(`estoy encima de arrCol[${indexCol}]. elementCol: `, elementCol);
-                console.log(`el: `, el);
+                console.log(`    estoy encima de arrCol[${indexCol}].       NO HAGO SCROLTOP de este elemento. elementCol: `, elementCol);
             }else{
-                console.log(`--- NO ESTOY ENCIMA de arrCol[${indexCol}]. elementCol: `, elementCol);
+                console.log(`--- NO ESTOY ENCIMA de arrCol[${indexCol}].    HAGO SCROLLTOP de ${h.toFixed(1)}px de este elemento. elementCol: `, elementCol);
                 arrCol[indexCol].scrollTop = h;
             }
         });
@@ -1690,7 +1689,6 @@ function scrollInColsInner(el,i){
     //HORIZONTAL
     if(positionShow == 'row'){  
         //console.log('positionShow == row');
-        let colsInnerAll = document.querySelectorAll('.colsInner');
         
         /*
         //test start - como en col - funciona ok pero no coinciden versos on scroll ya que son de altura diferente 
@@ -1727,41 +1725,42 @@ function scrollInColsInner(el,i){
                 //console.log('coef_h: '+coef_h);
         
                 if(h >= h_min && h <= h_max){
-                    //console.log(`iv (${iv}). scroll (${h}) está entre h_min (${h_min}) y h_max (${h_max})`);
+                    console.log(`iv (${iv}). scroll (${h}) está entre h_min (${h_min}) y h_max (${h_max})`);
                     
-                    //let colsInnerAll = document.querySelectorAll('.colsInner');
                     //ic -> index de columna colsInner.
                     //colsInnerAll.length -> numero de columnas: col1,col2,col3 = 3
                     for (let ic = 0; ic < colsInnerAll.length; ic++) {
 
-                        //console.log('in for. el: ',el);
+                        //console.log('para aplicar. coef_h: '+coef_h);
                         //console.log(`in for. colsInnerAll[${ic}]: `,colsInnerAll[ic]);
 
                         if(el == colsInnerAll[ic]){
                             
                             //no muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
-                            console.log(`[if] --- el == colsInnerAll[ic]. no muevo este colsInnerAll[${ic}]`);
+                            console.log(`[IF] --- el == colsInnerAll[${ic}]. no muevo este colsInnerAll[${ic}]`);
                             // console.log(`colsInnerAll[${ic}]`,colsInnerAll[ic]);
                             
                         }else{
                             
                             //hago scroll de otros elementos que no sean el col sobre el cual tengo el raton scrolling 
-                            console.log(`[else] --- el != colsInnerAll[ic]. hago scroll del otro elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
-                            
+                            console.log(`[ELSE] --- el != colsInnerAll[${ic}]. hago scrollTop de  del otro elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                            console.log('para aplicar. coef_h: '+coef_h);
+                            console.log(`in for. colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+
                             if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
                                 let new_h;
-                                //console.log('ic: ',ic);
-                                //console.log('iv: ',iv);
+                                console.log('ic: ',ic);
+                                console.log('iv: ',iv);
                                
-                                let h_prew = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
-                                //console.log('h_prew: '+h_prew);
+                                let h_prev = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
+                                console.log('h_prev: '+h_prev);
             
-                                new_h = h_prew + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                                //console.log(`--- new_h (${new_h}) = ${h_prew} + ${arr2_line_h[iv][ic]} * ${coef_h}`);
-                                //console.log('new_h: '+new_h);
+                                new_h = h_prev + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
+                                console.log(`--- new_h (${new_h}) = ${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}`);
+                                console.log('new_h: '+new_h);
             
                                 colsInnerAll[ic].scrollTop = new_h;
-                                //console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scroll: '+ colsInnerAll[ic].scrollTop);                                
+                                console.log('div ('+ colsInnerAll[ic].parentElement.id+ '). scrollTop: '+ colsInnerAll[ic].scrollTop);                                
                             }
                         }
                     }
