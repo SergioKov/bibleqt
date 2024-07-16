@@ -1586,19 +1586,27 @@ function getArrSumLineH(){
     }
 }
 
+let is_scroll_enabled = false;
 
-function initScrollInColsInner(){
-    console.log('=== function initScrollInColsInner ==='); 
+function init_scroll_in_colsInner(){
+    console.log('=== function init_scroll_in_colsInner ==='); 
     
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            console.log('initScrollInColsInner() --- el.onmouseover. i: ',i);
-            enableScrollInColsInner(el,i);//antes
-            scrollInColsInner(el,i);//test
+            console.log('init_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            
+            if(is_scroll_enabled == false){
+                console.log('como is_scroll_enabled == false, hago enable_scroll_in_colsInner()');
+                enable_scroll_in_colsInner(el,i);//antes
+                is_scroll_enabled = true;
+            }else{
+                console.log('como is_scroll_enabled == true, no hago enable_scroll_in_colsInner()');
+            }
+            //scroll_in_colsInner(el,i);//test
         }
-        el.onmouseleave = () => {//desktop
-            console.log('initScrollInColsInner() --- DISABLE scroll --- el.onmouseleave. i: ',i);
-            disableScrollInColsInner(el,i);
+        el.onmouseout = () => {//desktop
+            console.log('init_scroll_in_colsInner() --- DISABLE scroll --- el.onmouseout. i: ',i);
+            disable_scroll_in_colsInner(el,i);
         }
 
 
@@ -1606,46 +1614,48 @@ function initScrollInColsInner(){
 
 
         el.ontouchmove = () => {//mobile
-            console.log('initScrollInColsInner() --- el.ontouchmove. i: ',i);
-            enableScrollInColsInner(el,i);
+            console.log('init_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+            enable_scroll_in_colsInner(el,i);
         }
     });    
 }
 
-function finishScrollInColsInner(){
-    console.log('=== function finishScrollInColsInner ==='); 
+function finish_scroll_in_colsInner(){
+    console.log('=== function finish_scroll_in_colsInner ==='); 
 
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            console.log('finishScrollInColsInner() --- el.onmouseover. i: ',i);
-            disableScrollInColsInner(el,i);
+            console.log('finish_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            disable_scroll_in_colsInner(el,i);
         }
         el.ontouchmove = () => {//mobile
-            console.log('finishScrollInColsInner() --- el.ontouchmove. i: ',i);
-            disableScrollInColsInner(el,i);
+            console.log('finish_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+            disable_scroll_in_colsInner(el,i);
         }
     });    
 }
 
 
-function enableScrollInColsInner(el,i){
-    console.log('=== function enableScrollInColsInner() ==='); 
+function enable_scroll_in_colsInner(el,i){
+    console.log('=== function enable_scroll_in_colsInner() ==='); 
 
     el.onscroll = () => {
         console.log('habilito el.onscroll. i: ',i);
-        scrollInColsInner(el,i);
+        scroll_in_colsInner(el,i);
         //console.log('habilito el.onscroll. i: ',i);
     }
+
+
     el.ontouchmove = () => {
         console.log('habilito el.ontouchmove. i: ',);
-        scrollInColsInner(el,i);
+        scroll_in_colsInner(el,i);
         //console.log('--- habilito el.ontouchmove. i: ',i);
     }
 }
 
 
-function disableScrollInColsInner(el,i){
-    console.log('=== function disableScrollInColsInner() ===');  
+function disable_scroll_in_colsInner(el,i){
+    console.log('=== function disable_scroll_in_colsInner() ===');  
 
     el.onscroll = () => {
         console.log('dasabilito el.onscroll. i: ',i);
@@ -1655,9 +1665,9 @@ function disableScrollInColsInner(el,i){
     }
 }
 
-function scrollInColsInner(el,i){
+function scroll_in_colsInner(el,i){
     console.log(' ');
-    console.log('=== function scrollInColsInner() ===');
+    console.log('=== function scroll_in_colsInner() ===');
 
     console.log('i: ',i);
     console.log('el: ',el);
@@ -1769,9 +1779,9 @@ function scrollInColsInner(el,i){
                     //console.log('iv (' +iv+'). --- scroll ('+h+') no está entre h_min ('+h_min+') y h_max ('+h_max+'). no hago nada... ');
                 }           
             }
-            //finishScrollInColsInner();
+            //finish_scroll_in_colsInner();
         }        
-        //initScrollInColsInner();
+        //init_scroll_in_colsInner();
         
 
 
@@ -1785,7 +1795,7 @@ function scrollInColsInner(el,i){
     //================================================================//
     
 
-}//end scrollInColsInner
+}//end scroll_in_colsInner
 
 
 function scrollToVerse(verseNumber, to_verseNumber = null, userBlock = 'start'/*antes center*/){
@@ -11101,7 +11111,7 @@ function mySizeWindow() {
     }
 
     setTimeout(()=>{
-        initScrollInColsInner();
+        init_scroll_in_colsInner();
         getArrSumLineH();
     },100);
 
@@ -11356,7 +11366,7 @@ function mySizeVerse(){
     }
     setTimeout(()=>{
         addMarginTolastP();
-        initScrollInColsInner();
+        init_scroll_in_colsInner();
         getArrSumLineH();
     },100);
 
@@ -20674,7 +20684,7 @@ function pageUp() {
                     behavior: 'smooth'
                 });
                 setTimeout(()=>{
-                    initScrollInColsInner();
+                    init_scroll_in_colsInner();
                 },1000);
                 */
 
@@ -20761,7 +20771,7 @@ function pageDown() {
                     behavior: 'smooth'
                 });
                 setTimeout(()=>{
-                    initScrollInColsInner();
+                    init_scroll_in_colsInner();
                 },1000);
                 */
 

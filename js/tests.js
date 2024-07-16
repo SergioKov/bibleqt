@@ -1589,7 +1589,7 @@ function sss(h = 0){
           });
     });
 
-    //initScrollInColsInner();//desabilito scroll en paralelo
+    //init_scroll_in_colsInner();//desabilito scroll en paralelo
 }
 
 function addPaddingInColsInnerP(){
