@@ -1586,112 +1586,128 @@ function getArrSumLineH(){
     }
 }
 
-let is_scroll_enabled = false;
 
 function init_scroll_in_colsInner(){
-    console.log('=== function init_scroll_in_colsInner ==='); 
+    console.log(' ');
+    console.log('=== function init_scroll_in_colsInner() === START'); 
     
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            console.log('init_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            console.log('en init_scroll_in_colsInner() --- se hace --- el.onmouseover. i: ',i);
             
-            if(is_scroll_enabled == false){
-                console.log('como is_scroll_enabled == false, hago enable_scroll_in_colsInner()');
+            if(arr_scroll_enabled[i] == false){
+                console.log(`[ if ] --- como arr_scroll_enabled[${i}] == false, --- hago    --- enable_scroll_in_colsInner(el,${i})`);
                 enable_scroll_in_colsInner(el,i);//antes
-                is_scroll_enabled = true;
+                arr_scroll_enabled[i] = true;
             }else{
-                console.log('como is_scroll_enabled == true, no hago enable_scroll_in_colsInner()');
+                console.log(`[else] --- como arr_scroll_enabled[${i}] == true,  --- no hago --- enable_scroll_in_colsInner(el,${i})`);
             }
             //scroll_in_colsInner(el,i);//test
         }
-        el.onmouseout = () => {//desktop
-            console.log('init_scroll_in_colsInner() --- DISABLE scroll --- el.onmouseout. i: ',i);
-            disable_scroll_in_colsInner(el,i);
-        }
-
-
-
-
-
+        
         el.ontouchmove = () => {//mobile
             console.log('init_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
             enable_scroll_in_colsInner(el,i);
         }
     });    
+    console.log('=== function init_scroll_in_colsInner() === END'); 
+    console.log(' ');
 }
 
 function finish_scroll_in_colsInner(){
-    console.log('=== function finish_scroll_in_colsInner ==='); 
-
+    console.log(' ');
+    console.log('=== function finish_scroll_in_colsInner() === START'); 
+    
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            console.log('finish_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            console.log('en finish_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
             disable_scroll_in_colsInner(el,i);
         }
         el.ontouchmove = () => {//mobile
-            console.log('finish_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+            console.log('en finish_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+            console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
             disable_scroll_in_colsInner(el,i);
         }
     });    
+    console.log('=== function finish_scroll_in_colsInner() === END');
+    console.log(' ');
 }
 
 
 function enable_scroll_in_colsInner(el,i){
-    console.log('=== function enable_scroll_in_colsInner() ==='); 
-
-    el.onscroll = () => {
-        console.log('habilito el.onscroll. i: ',i);
+    console.log(' ');
+    console.log(`=== function enable_scroll_in_colsInner(el,${i}) === START`); 
+    
+    el.onscroll = () => {//desktop
+        console.log(`en enable_scroll_in_colsInner() --- se hace el.onscroll --- i: ${i} --- colsInner[${i}]`);
+        console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
         scroll_in_colsInner(el,i);
-        //console.log('habilito el.onscroll. i: ',i);
     }
-
-
-    el.ontouchmove = () => {
-        console.log('habilito el.ontouchmove. i: ',);
+    
+    el.ontouchmove = () => {//mobile
+        console.log(`en enable_scroll_in_colsInner() --- se hace el.ontouchmove --- i: ${i} --- colsInner[${i}]`);
+        console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
         scroll_in_colsInner(el,i);
-        //console.log('--- habilito el.ontouchmove. i: ',i);
     }
+    console.log(`=== function enable_scroll_in_colsInner(el,${i}) === END`); 
+    console.log(' ');
 }
 
 
 function disable_scroll_in_colsInner(el,i){
-    console.log('=== function disable_scroll_in_colsInner() ===');  
+    console.log(' ');
+    console.log(`=== function disable_scroll_in_colsInner(el,${i}) === START`);  
 
     el.onscroll = () => {
-        console.log('dasabilito el.onscroll. i: ',i);
+        console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.onscroll. i: ${i}`);
     }
     el.ontouchmove = () => {
-        console.log('dasabilito el.ontouchmove. i: ',);
+        console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.ontouchmove. i: ${i}`);
     }
+    console.log(`=== function disable_scroll_in_colsInner(el,${i}) === END`);  
+    console.log(' ');
 }
 
 function scroll_in_colsInner(el,i){
     console.log(' ');
-    console.log('=== function scroll_in_colsInner() ===');
+    console.log(`=== function scroll_in_colsInner(el,${i}) === --------- START`);
 
     console.log('i: ',i);
-    console.log('el: ',el);
+    //console.log('el: ',el);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
     
     //================================================================//
     // modo old - start
     //================================================================//
     let h = el.scrollTop;
-    console.log(`___ i : ${i} --- el.scrollTop (h): ${h}`);
+    console.log('el.scrollTop (h): ',h);
 
     let colsInnerAll = document.querySelectorAll('.colsInner');
+    let prev_scrollTop;
 
     //VERTICAL
     if(positionShow == 'col'){
-        
         //console.log('positionShow == col');
+        
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
+            prev_scrollTop = arrCol[indexCol].scrollTop;
+            console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
+
             //si es col sobre el cual estoy con onmouseover...
             if(arrCol[indexCol] == el){
-                console.log(`    estoy encima de arrCol[${indexCol}].       NO HAGO SCROLTOP de este elemento. elementCol: `, elementCol);
+                console.log(`    ESTOY ENCIMA    --- de arrCol[${indexCol}].`);
+                console.log(`    NO HAGO --- arrCol[${indexCol}].scrolTop sobre el cual estoy --- elementCol: `, elementCol);
             }else{
-                console.log(`--- NO ESTOY ENCIMA de arrCol[${indexCol}].    HAGO SCROLLTOP de ${h.toFixed(1)}px de este elemento. elementCol: `, elementCol);
-                arrCol[indexCol].scrollTop = h;
+                console.log(`--- NO ESTOY ENCIMA --- de arrCol[${indexCol}]`);
+                //si el previo valor de scrollTop del elemento 'arrCol[indexCol]' no es igual al nuevo 'h'
+                //hago arrCol[indexCol].scrollTop a nuevo valor 'h'
+                if(prev_scrollTop != h){
+                    console.log(`    HAGO    --- arrCol[${indexCol}].scrollTop = ${h.toFixed(1)} px --- que es --- elementCol: `, elementCol, ` --- i: ${i} --- indexCol: ${indexCol}`);
+                    arrCol[indexCol].scrollTop = h;
+                }else{
+                    console.log(`    NO HAGO NADA    --- ya que (prev_scrollTop == h)`);
+                }
             }
         });
     }
@@ -1793,7 +1809,8 @@ function scroll_in_colsInner(el,i){
     //================================================================//
     // modo old - end
     //================================================================//
-    
+    console.log(`=== function scroll_in_colsInner(el,${i}) === --------- END`);
+    console.log(' ');
 
 }//end scroll_in_colsInner
 
