@@ -1673,6 +1673,8 @@ function disable_scroll_in_colsInner(el,i){
     console.log(' ');
 }
 
+
+
 function scroll_in_colsInner(el,i){
     console.log(' ');
     console.log(`=== function scroll_in_colsInner(el,${i}) === --------- START`);
@@ -1685,7 +1687,7 @@ function scroll_in_colsInner(el,i){
     // modo old - start
     //================================================================//
     let h = el.scrollTop;
-    console.log('el.scrollTop (h): ',h);
+    //console.log('el.scrollTop (h): ',h);
 
     let colsInnerAll = document.querySelectorAll('.colsInner');
     let prev_scrollTop;
@@ -1696,21 +1698,23 @@ function scroll_in_colsInner(el,i){
         
         Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
             prev_scrollTop = arrCol[indexCol].scrollTop;
-            console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
+            //console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
 
             //si es col sobre el cual estoy con onmouseover...
             if(arrCol[indexCol] == el){
-                console.log(`    ESTOY ENCIMA    --- de arrCol[${indexCol}].`);
-                console.log(`    NO HAGO --- arrCol[${indexCol}].scrolTop sobre el cual estoy --- elementCol: `, elementCol);
+                //console.log(`    ESTOY ENCIMA    --- de arrCol[${indexCol}].`);
+                //console.log(`    NO HAGO         --- arrCol[${indexCol}].scrolTop sobre el cual estoy --- elementCol: `, elementCol);
             }else{
-                console.log(`--- NO ESTOY ENCIMA --- de arrCol[${indexCol}]`);
+                //console.log(`--- NO ESTOY ENCIMA --- de arrCol[${indexCol}]`);
                 //si el previo valor de scrollTop del elemento 'arrCol[indexCol]' no es igual al nuevo 'h'
                 //hago arrCol[indexCol].scrollTop a nuevo valor 'h'
                 if(prev_scrollTop != h){
-                    console.log(`    HAGO    --- arrCol[${indexCol}].scrollTop = ${h.toFixed(1)} px --- que es --- elementCol: `, elementCol, ` --- i: ${i} --- indexCol: ${indexCol}`);
+                    //console.log(`    (prev_scrollTop != h)`);
+                    //console.log(`    HAGO    --- arrCol[${indexCol}].scrollTop = ${h.toFixed(1)} px --- que es --- elementCol: `, elementCol, ` --- i: ${i} --- indexCol: ${indexCol}`);
                     arrCol[indexCol].scrollTop = h;
                 }else{
-                    console.log(`    NO HAGO NADA    --- ya que (prev_scrollTop == h)`);
+                    //console.log(`    (prev_scrollTop == h)`);
+                    //console.log(`    NO HAGO NADA    --- ya que (prev_scrollTop == h)`);
                 }
             }
         });
@@ -1718,43 +1722,41 @@ function scroll_in_colsInner(el,i){
 
     //HORIZONTAL
     if(positionShow == 'row'){  
-        console.log('positionShow == row');
+        //console.log('positionShow == row');
 
         let modo_hacer; 
         modo_hacer = 'new';//nuevo pruebas desde el código de 'col' 
         //modo_hacer = 'old';//antiguo que está actualmente en prod
-        console.log(`modo_hacer: `, modo_hacer);
-        
+        //console.log(`modo_hacer: `, modo_hacer);        
 
         if(modo_hacer == 'new'){
 
             //test start - como en col - funciona ok pero no coinciden versos on scroll ya que son de altura diferente 
+            let arr_hhh = [];
             Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
                 prev_scrollTop = arrCol[indexCol].scrollTop;
-                console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
-
-                //si es col sobre el cual estoy con onmouseover...
+                //console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
+                
+                //si es row/col sobre el cual estoy con onmouseover...
                 if(arrCol[indexCol] == el){
-                    console.log(`    ESTOY ENCIMA    --- de arrCol[${indexCol}].`);
-                    console.log(`    NO HAGO --- arrCol[${indexCol}].scrolTop sobre el cual estoy --- elementCol: `, elementCol);
+                    //console.log(`    ESTOY ENCIMA de    --- arrCol[${indexCol}]`);
+                    //console.log(`    NO HAGO            --- arrCol[${indexCol}].scrolTop --- sobre el cual estoy --- elementCol: `, elementCol);
+                    arr_hhh[indexCol] = h;
                 }else{
-                    console.log(`--- NO ESTOY ENCIMA --- de arrCol[${indexCol}]`);
+                    //console.log(`--- NO ESTOY ENCIMA de --- arrCol[${indexCol}] --- elementCol: `, elementCol);
                     //si el previo valor de scrollTop del elemento 'arrCol[indexCol]' no es igual al nuevo 'h'
                     //hago arrCol[indexCol].scrollTop a nuevo valor 'h'
                     if(prev_scrollTop != h){
+                        //console.log(`    (prev_scrollTop != h)`);
 
                         //si hay array de sumas de alturas de todos los versiculos ...
-                        if(typeof arr2_sum_line_h[i] != 'undefined'){
-
+                        if(typeof arr2_sum_line_h[i] != 'undefined'){                            
                             
-                            
-                            
+                            let h_min, h_max;
                             //iv -> es el index del versiculo.
                             //arr2_sum_line_h[0] -> son los versiculos de la primera columna: col1
                             for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
-                                //console.log(`en for1(iv == ${iv})`);
-                                
-                                let h_min, h_max;
+                                //console.log(`en for1(iv == ${iv}) --- index versiculo`);
                         
                                 if(iv == 0){
                                     h_min = 0;
@@ -1763,112 +1765,92 @@ function scroll_in_colsInner(el,i){
                                     h_min =  arr2_sum_line_h[i][iv - 1];
                                     h_max =  arr2_sum_line_h[i][iv];
                                 }
-                                console.log(`en for1(iv == ${iv}) --- de arr2_sum_line_h[${i}] --- h_min (${h_min}) --- h_max (${h_max})`);
+                                //console.log(`en for1(iv == ${iv}) --- de arr2_sum_line_h[${i}] --- h_min (${h_min}) --- h_max (${h_max})`);
+                                
+                        
+                                if(h >= h_min && h <= h_max){
+                                    //console.log(`[ IF ] --- iv (${iv}) --- (scrollTop) h (${h}) --- ESTÁ ENTRE    --- h_min (${h_min}) y h_max (${h_max})`);
+                                    
+                                    //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
+                                    let h_rest = h_max - h;
+                                    //console.log(`iv: ${iv} --- h_rest (${h_rest}) --- --- h_max (${h_max}) - h (${h}) = h_rest (${h_rest})`);
+
+                                    let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
+                                    //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (arr2_line_h[${iv}][${i}] - ${h_rest}) / arr2_line_h[${iv}][${i}]  = `, coef_h);
+                                    //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (${arr2_line_h[iv][i]} - ${h_rest}) / ${arr2_line_h[iv][i]}  = `, coef_h);
 
 
-                        
-                                //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
-                                let h_rest = h_max - h;
-                                let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                                console.log(`iv: ${iv} --- coef_h: `, coef_h);
-                        
-                                /*
-                                    if(h >= h_min && h <= h_max){
-                                        console.log(`[ IF ] --- iv (${iv}) --- (scrollTop) h (${h}) --- ESTÁ ENTRE    --- h_min (${h_min}) y h_max (${h_max})`);
+                                    //verifico si algun versiculo de las columnas 
+                                    let arr_iv_h_con_duplicados = [];
+                                    for (let i_col = 0; i_col < arr2_sum_line_h.length; i_col++){
+                                        arr_iv_h_con_duplicados.push(arr2_sum_line_h[i_col][iv]);
+                                        //console.log(`--- en for1(iv == ${iv}) --- en for2(i_col == ${i_col}) --- arr2_sum_line_h[${i_col}][${iv}]: `,arr2_sum_line_h[i_col][iv]);
+                                    }//end for2()
+
+                                    //console.log(`iv: ${iv} --- arr_iv_h_con_duplicados: `,arr_iv_h_con_duplicados);
+
+                                    let arr_iv_h_sin_duplicados = [...new Set(arr_iv_h_con_duplicados)];
+                                    //console.log(`iv: ${iv} --- arr_iv_h_sin_duplicados: `,arr_iv_h_sin_duplicados);
+
+                                    //si hay alguna diferencia entre h de versiculos (si hay mas de 1 valor) [37,59]
+                                    if(arr_iv_h_sin_duplicados.length > 1){
+
+                                        //console.log(`iv: ${iv} --- todos los h de versiculos NO SON iguales --- arr_iv_h_con_duplicados: `,arr_iv_h_con_duplicados);
+
+                                        if(typeof arr2_sum_line_h[indexCol] != 'undefined'){
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- (arr2_sum_line_h[indexCol] != 'undefined)`);
+
+                                            let h_prev = (iv > 0) ? arr2_sum_line_h[indexCol][iv-1] : 0 ;
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- h_rest: `,h_rest);
+                                            
+                                            let new_h = h_prev + arr2_line_h[iv][indexCol] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][indexCol] (${arr2_line_h[iv][indexCol]}) * coef_h (${coef_h}) = ${new_h}`);
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][indexCol]} * ${coef_h}) = ${new_h}`);
+                                            
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- HAGO --- arrCol[${indexCol}].scrollTop = `,new_h);
+                                            arrCol[indexCol].scrollTop = new_h;
+                                            arr_hhh[indexCol] = new_h;
+
+                                        }else{
+                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- (arr2_sum_line_h[indexCol] == 'undefined)`);
+                                        }
+
+                                    }else{// todos los h de versiculos son iguales
+                                        //antes en col...
+                                        //console.log(`iv: ${iv} --- todos los h de versiculos SON iguales --- arr_iv_h_con_duplicados: `,arr_iv_h_con_duplicados);
                                         
-                                        //ic -> es el index de la columna colsInner.
-                                        //colsInnerAll.length -> es el número de columnas: col1,col2,col3 = 3
-                                        for (let ic = 0; ic < colsInnerAll.length; ic++) {
+                                        //console.log(`    HAGO    --- arrCol[${indexCol}].scrollTop = ${h.toFixed(1)} px --- que es --- elementCol: `, elementCol, ` --- i: ${i} --- indexCol: ${indexCol}`);
+                                        arrCol[indexCol].scrollTop = h;
+                                        arr_hhh[indexCol] = h;
+                                    }                                    
 
-                                            console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                                    //console.log(`iv: ${iv} --- hago break;`);
+                                    break;         
+                                                
+                                }else{
+                                    //console.log(`[ELSE] --- iv (${iv}) --- (scrollTop) h (${h}) --- NO ESTÁ ENTRE --- h_min (${h_min}) y h_max (${h_max}) --- NO HAGO NADA... `);
+                                } 
 
-                                            if(el == colsInnerAll[ic]){
-                                                
-                                                //no muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
-                                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ IF ] --- (el == colsInnerAll[${ic}]) --- NO HAGO --- scrollTop de este colsInnerAll[${ic}]: `,colsInnerAll[ic]);
-                                                // console.log(`colsInnerAll[${ic}]`,colsInnerAll[ic]);
-                                                
-                                            }else{
-                                                
-                                                //hago scroll de otros elementos que no sean el col sobre el cual tengo el raton scrolling 
-                                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- (el != colsInnerAll[${ic}]) --- HAGO    --- scrollTop del elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
-                                                
-                                                //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
-                                                let h_rest = h_max - h;
-                                                let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- iv: ${iv} --- coef_h: `, coef_h);
-                                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- para aplicar. coef_h: `, coef_h);
-                                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- h_rest: `,h_rest);
-
-                                                if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
-                                                    
-                                                    let h_prev = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- h_rest: `,h_rest);
-                                                    
-                                                    let new_h = h_prev + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][ic] (${arr2_line_h[iv][ic]}) * coef_h (${coef_h}) = ${new_h}`);
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}) = ${new_h}`);
-                                                    
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- HAGO --- colsInnerAll[${ic}].scrollTop = `,new_h);
-                                                    colsInnerAll[ic].scrollTop = new_h;
-
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- div (${colsInnerAll[ic].parentElement.id}).scrollTop: `, colsInnerAll[ic].scrollTop);
-                                                }else{
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- (algo UNDEFINED)`);
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
-                                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
-                                                }
-                                            }
-                                        }//end for
-                                                    
-                                    }else{
-                                        //console.log(`[ELSE] --- iv (${iv}) --- (scrollTop) h (${h}) --- NO ESTÁ ENTRE --- h_min (${h_min}) y h_max (${h_max}) --- NO HAGO NADA... `);
-                                    } 
-                                */          
                             }//end for()1.
+                            finish_scroll_in_colsInner();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            //antes en col...
-                            console.log(`    HAGO    --- arrCol[${indexCol}].scrollTop = ${h.toFixed(1)} px --- que es --- elementCol: `, elementCol, ` --- i: ${i} --- indexCol: ${indexCol}`);
-                            arrCol[indexCol].scrollTop = h;
-                        
-                        
-                        
-                        
-                        
-
-
-
-
+                            //console.log(`arr_hhh: `,arr_hhh);
 
                         }else{
                             console.error(`Error: arr2_sum_line_h[${i}] no está definido`);
-                            alert(`Error: arr2_sum_line_h[${i}] no está definido`);
+                            //alert(`Error: arr2_sum_line_h[${i}] no está definido`);
                         }
+                        init_scroll_in_colsInner();
 
                     }else{
-                        console.log(`    NO HAGO NADA    --- ya que (prev_scrollTop == h)`);
+                        //console.log(`    (prev_scrollTop == h)`);
+                        //console.log(`    NO HAGO NADA    --- ya que (prev_scrollTop == h)`);
                     }
                 }
             });
             //test end
 
         }//end modo_hacer == 'new'
-
 
 
         if(modo_hacer == 'old'){
@@ -1960,20 +1942,7 @@ function scroll_in_colsInner(el,i){
 
 
         }//end modo_hacer == 'old'
-        
-
-
-
-
-
-        
-        
-
-
-
-
-
-    
+           
     }//end HORIZONTAL
     //================================================================//
     // modo old - end
