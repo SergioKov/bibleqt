@@ -8,7 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BQ test</title>
+    <title>BQ</title>
     <link rel="icon" type="image/png" href="./images/bq.png">
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
 
@@ -984,6 +984,13 @@ HERE;
                                     </div>
                                     <div class="dbtn" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
                                         <div>Заметки</div>
+                                    </div>
+
+                                    <div class="dbtn" title="Minimizar trans" onclick="minimizarOtrasTrans()" style="width:50%;">
+                                        <div>Minimizar Tr</div>
+                                    </div>
+                                    <div class="dbtn" title="Заметки" onclick="aumentarOtrasTrans()" style="width:50%;">
+                                        <div>Aumentar Tr</div>
                                     </div>
 
 

@@ -184,10 +184,6 @@ const pantallaDesktopSmallMinPx = 1024;
 
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
-//Para habilitar/deshabilitar scroll en colsInner. ver function scroll_in_colsInner()
-//y tiene que tener arr_scroll_enabled.length = countMaxTransInCols;
-const arr_scroll_enabled = [false,false,false,false,false,false,false,false,false,false];//por defecto false todo 
-
 const ajuste1 = {
     wr_filter: {
         display: 'none'
@@ -380,3 +376,5 @@ let strongAction = null;
 
 let arr_verses_compare = [];
 let arr_verses_lang = [];
+
+let is_loading_def_functions = false;//por defecto . para no llamar 2 veces a loadDefaultFunctions()

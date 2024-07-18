@@ -1638,7 +1638,7 @@ function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, Chapt
             textChapter +=`\n\r\n\r`;
         }
     });
-    console.log(textChapter);
+    //console.log(textChapter);
 
     setTimeout(()=>{
         if(start_copy){
@@ -1713,7 +1713,7 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
     
     for (let index = start_index_book; index <= end_index_book; index++) {
         const el = arr_books[index];
-        console.log('el: ',el);
+        //console.log('el: ',el);
         arr_new.push(el.PathName);
         
     }
