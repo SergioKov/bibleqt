@@ -343,7 +343,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     }
 
     if(typeof obj_strong_files[strongLang] == 'undefined'){
-        console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
+        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
         
         fetch(`./modules/text/strongs/${strongFile}`)
         .then((response) => response.json())

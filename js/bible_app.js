@@ -18,7 +18,9 @@ if(hay_sesion){
 async function crear_arrFavTransObj() {
     arrFavTransObj = await make_arrFavTransObj(arrFavTrans);
     //console.log(arrFavTransObj);
-    await loadDefaultFunctions();
+    if(is_loading_def_functions == false){
+        await loadDefaultFunctions();
+    }
 }
 
 
@@ -1010,8 +1012,10 @@ function agregarSeparadores(numero, separador) {
 }
 
 async function loadDefaultFunctions(){
-    //console.log('function loadDefaultFunctions()');
-    //console.log(' --- empiezo a llamar funcciones por defecto ---');    
+    //console.log('=== async function loadDefaultFunctions() ===');
+    //console.log(' --- empiezo a llamar funcciones por defecto ---'); 
+    
+    is_loading_def_functions = true;
 
     //cargo book 0 (Genesis) chapter (1) en el primer div
     //showTrans(39, 5);
@@ -1588,109 +1592,115 @@ function getArrSumLineH(){
 
 
 function init_scroll_in_colsInner(){
-    console.log(' ');
-    console.log('=== function init_scroll_in_colsInner() === START');
+    //console.log(' ');
+    //console.log('=== function init_scroll_in_colsInner() === START');
     
     let colsInnerAll = document.querySelectorAll('.colsInner');
+
     //si hay mas de 1 columna, anñado scroll listener. En caso contrario no hace falta
     if(colsInnerAll.length > 1){
         colsInnerAll.forEach( (el,i) => {
             el.onmouseover = () => {//desktop
-                console.log('en init_scroll_in_colsInner() --- se hace --- el.onmouseover. i: ',i);
-                
-                if(arr_scroll_enabled[i] == false){
-                    console.log(`[ if ] --- como arr_scroll_enabled[${i}] == false, --- hago    --- enable_scroll_in_colsInner(el,${i})`);
-                    enable_scroll_in_colsInner(el,i);//antes
-                    arr_scroll_enabled[i] = true;
-                }else{
-                    console.log(`[else] --- como arr_scroll_enabled[${i}] == true,  --- no hago --- enable_scroll_in_colsInner(el,${i})`);
-                }
-                //scroll_in_colsInner(el,i);//test
-            }
-            
+                //console.log('en init_scroll_in_colsInner() --- se hace --- el.onmouseover. i: ',i);                
+                //console.log(`[ if ] --- como arr_scroll_enabled[${i}] == false, --- HAGO    --- enable_scroll_in_colsInner(el,${i})`);
+                enable_scroll_in_colsInner(el,i);
+            }            
             el.ontouchmove = () => {//mobile
-                console.log('init_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+                //console.log('init_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
                 enable_scroll_in_colsInner(el,i);
             }
         }); 
     }   
-    console.log('=== function init_scroll_in_colsInner() === END'); 
-    console.log(' ');
+    //console.log('=== function init_scroll_in_colsInner() === END'); 
+    //console.log(' ');
 }
 
 function finish_scroll_in_colsInner(){
-    console.log(' ');
-    console.log('=== function finish_scroll_in_colsInner() === START'); 
+    //console.log(' ');
+    //console.log('=== function finish_scroll_in_colsInner() === START'); 
     
     document.querySelectorAll('.colsInner').forEach( (el,i) => {
         el.onmouseover = () => {//desktop
-            console.log('en finish_scroll_in_colsInner() --- el.onmouseover. i: ',i);
-            console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
+            //console.log('en finish_scroll_in_colsInner() --- el.onmouseover. i: ',i);
+            //console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
             disable_scroll_in_colsInner(el,i);
         }
         el.ontouchmove = () => {//mobile
-            console.log('en finish_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
-            console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
+            //console.log('en finish_scroll_in_colsInner() --- el.ontouchmove. i: ',i);
+            //console.log(`--- [llamo disable_scroll_in_colsInner(el,${i})]`);
             disable_scroll_in_colsInner(el,i);
         }
     });    
-    console.log('=== function finish_scroll_in_colsInner() === END');
-    console.log(' ');
+    //console.log('=== function finish_scroll_in_colsInner() === END');
+    //console.log(' ');
 }
 
 
 function enable_scroll_in_colsInner(el,i){
-    console.log(' ');
-    console.log(`=== function enable_scroll_in_colsInner(el,${i}) === START`); 
-    
+    //console.log(' ');
+    //console.log(`=== function enable_scroll_in_colsInner(el,${i}) === START`); 
+   
     el.onscroll = () => {//desktop
-        console.log(`en enable_scroll_in_colsInner() --- se hace el.onscroll --- i: ${i} --- colsInner[${i}]`);
-        console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
+        //console.log(`en enable_scroll_in_colsInner() --- se hace el.onscroll --- i: ${i} --- colsInner[${i}]`);
+        //console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
         scroll_in_colsInner(el,i);
-    }
-    
+    }    
     el.ontouchmove = () => {//mobile
-        console.log(`en enable_scroll_in_colsInner() --- se hace el.ontouchmove --- i: ${i} --- colsInner[${i}]`);
-        console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
+        //console.log(`en enable_scroll_in_colsInner() --- se hace el.ontouchmove --- i: ${i} --- colsInner[${i}]`);
+        //console.log(`--- [llamo scroll_in_colsInner(el,${i})]`);
         scroll_in_colsInner(el,i);
     }
-    console.log(`=== function enable_scroll_in_colsInner(el,${i}) === END`); 
-    console.log(' ');
+
+    //console.log(`=== function enable_scroll_in_colsInner(el,${i}) === END`); 
+    //console.log(' ');
 }
 
 
 function disable_scroll_in_colsInner(el,i){
-    console.log(' ');
-    console.log(`=== function disable_scroll_in_colsInner(el,${i}) === START`);  
+    //console.log(' ');
+    //console.log(`=== function disable_scroll_in_colsInner(el,${i}) === START`);  
 
     el.onscroll = () => {
-        console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.onscroll. i: ${i}`);
+        //console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.onscroll. i: ${i}`);
     }
     el.ontouchmove = () => {
-        console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.ontouchmove. i: ${i}`);
+        //console.log(`en disable_scroll_in_colsInner(el,${i}) --- dashabilito el.ontouchmove. i: ${i}`);
     }
-    console.log(`=== function disable_scroll_in_colsInner(el,${i}) === END`);  
-    console.log(' ');
+    //console.log(`=== function disable_scroll_in_colsInner(el,${i}) === END`);  
+    //console.log(' ');
 }
 
-
+function reset_scroll_in_other_cols(i){   
+    //console.log(`=== function reset_scroll_in_other_cols(${i}) ===`);        
+    
+    //desabilito scroll en otros colsInner - test
+    Array.from(document.querySelectorAll('.colsInner')).forEach((el_col, i_col, arr_col) => {
+        //console.log(`-------en scroll_in_colsInner(el,${i}) -------------------- arr_col[${i_col}]`);        
+        if(i_col != i){
+            arr_col[i_col].onscroll = false;
+            //console.log(`arr_col[${i_col}].onscroll = false;`);
+        }
+    });
+}
 
 function scroll_in_colsInner(el,i){
-    console.log(' ');
-    console.log(`=== function scroll_in_colsInner(el,${i}) === --------- START`);
+    //console.log(' ');
+    //console.log(`=== function scroll_in_colsInner(el,${i}) === --------- START`);
 
-    console.log('i: ',i);
+    //console.log('i: ',i);
     //console.log('el: ',el);
     //console.log('arr2_sum_line_h: ',arr2_sum_line_h);
     
     //================================================================//
-    // modo old - start
+    // start
     //================================================================//
     let h = el.scrollTop;
     //console.log('el.scrollTop (h): ',h);
 
     let colsInnerAll = document.querySelectorAll('.colsInner');
     let prev_scrollTop;
+
+    reset_scroll_in_other_cols(i);//IMPORTANTE!!!
 
     //VERTICAL
     if(positionShow == 'col'){
@@ -1724,15 +1734,14 @@ function scroll_in_colsInner(el,i){
     if(positionShow == 'row'){  
         //console.log('positionShow == row');
 
-        let modo_hacer; 
-        modo_hacer = 'new';//nuevo pruebas desde el código de 'col' 
-        //modo_hacer = 'old';//antiguo que está actualmente en prod
+        let modo_hacer = 'new';//nuevo. desde el código de positionShow == 'col' 
+        //let modo_hacer = 'old';//antiguo que estaba antes en prod
         //console.log(`modo_hacer: `, modo_hacer);        
 
-        if(modo_hacer == 'new'){
+        if(modo_hacer == 'new'){//FUNCIONA OK
 
-            //test start - como en col - funciona ok pero no coinciden versos on scroll ya que son de altura diferente 
             let arr_hhh = [];
+
             Array.from(colsInnerAll).forEach( (elementCol, indexCol, arrCol) => {
                 prev_scrollTop = arrCol[indexCol].scrollTop;
                 //console.log(`[${indexCol}] --- prev_scrollTop --- de arrCol[${indexCol}].scrollTop: `, prev_scrollTop);
@@ -1832,15 +1841,12 @@ function scroll_in_colsInner(el,i){
                                 } 
 
                             }//end for()1.
-                            finish_scroll_in_colsInner();
-
                             //console.log(`arr_hhh: `,arr_hhh);
 
                         }else{
                             console.error(`Error: arr2_sum_line_h[${i}] no está definido`);
                             //alert(`Error: arr2_sum_line_h[${i}] no está definido`);
                         }
-                        init_scroll_in_colsInner();
 
                     }else{
                         //console.log(`    (prev_scrollTop == h)`);
@@ -1848,21 +1854,20 @@ function scroll_in_colsInner(el,i){
                     }
                 }
             });
-            //test end
 
         }//end modo_hacer == 'new'
 
 
-        if(modo_hacer == 'old'){
+        if(modo_hacer == 'old'){//FUNCIONA OK TAMBIEN, PERO DEJO NEW
 
             //antes. falla 14/07/2024
             if(typeof arr2_sum_line_h[i] != 'undefined'){
-                console.log(`--- colsInnerAll[${i}]: `,colsInnerAll[i]);
+                //console.log(`--- colsInnerAll[${i}]: `,colsInnerAll[i]);
                 
                 //iv -> es el index del versiculo.
                 //arr2_sum_line_h[0] -> son los versiculos de la primera columna: col1
                 for (let iv = 0; iv < arr2_sum_line_h[i].length; iv++) {
-                    console.log(`en for(iv == ${iv})`);
+                    //console.log(`en for(iv == ${iv})`);
                     
                     let h_min, h_max;
             
@@ -1880,51 +1885,51 @@ function scroll_in_colsInner(el,i){
                     //console.log(`iv: ${iv} --- coef_h: `, coef_h);
             
                     if(h >= h_min && h <= h_max){
-                        console.log(`[ IF ] --- iv (${iv}) --- (scrollTop) h (${h}) --- ESTÁ ENTRE    --- h_min (${h_min}) y h_max (${h_max})`);
+                        //console.log(`[ IF ] --- iv (${iv}) --- (scrollTop) h (${h}) --- ESTÁ ENTRE    --- h_min (${h_min}) y h_max (${h_max})`);
                         
                         //ic -> es el index de la columna colsInner.
                         //colsInnerAll.length -> es el número de columnas: col1,col2,col3 = 3
                         for (let ic = 0; ic < colsInnerAll.length; ic++) {
 
-                            console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                            //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- colsInnerAll[${ic}]: `,colsInnerAll[ic]);
 
                             if(el == colsInnerAll[ic]){
                                 
                                 //no muevo este elemento ya que sobre el estoy haciendo scroll. hay que mover otros elementos
-                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ IF ] --- (el == colsInnerAll[${ic}]) --- NO HAGO --- scrollTop de este colsInnerAll[${ic}]: `,colsInnerAll[ic]);
-                                // console.log(`colsInnerAll[${ic}]`,colsInnerAll[ic]);
+                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ IF ] --- (el == colsInnerAll[${ic}]) --- NO HAGO --- scrollTop de este colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                                // //console.log(`colsInnerAll[${ic}]`,colsInnerAll[ic]);
                                 
                             }else{
                                 
                                 //hago scroll de otros elementos que no sean el col sobre el cual tengo el raton scrolling 
-                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- (el != colsInnerAll[${ic}]) --- HAGO    --- scrollTop del elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
+                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- (el != colsInnerAll[${ic}]) --- HAGO    --- scrollTop del elemento colsInnerAll[${ic}]: `,colsInnerAll[ic]);
                                 
                                 //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
                                 let h_rest = h_max - h;
                                 let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- iv: ${iv} --- coef_h: `, coef_h);
-                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- para aplicar. coef_h: `, coef_h);
-                                console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- h_rest: `,h_rest);
+                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- iv: ${iv} --- coef_h: `, coef_h);
+                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- para aplicar. coef_h: `, coef_h);
+                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- h_rest: `,h_rest);
 
                                 if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
                                     
                                     let h_prev = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- h_rest: `,h_rest);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- h_rest: `,h_rest);
                                     
                                     let new_h = h_prev + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][ic] (${arr2_line_h[iv][ic]}) * coef_h (${coef_h}) = ${new_h}`);
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}) = ${new_h}`);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][ic] (${arr2_line_h[iv][ic]}) * coef_h (${coef_h}) = ${new_h}`);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}) = ${new_h}`);
                                     
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- HAGO --- colsInnerAll[${ic}].scrollTop = `,new_h);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- HAGO --- colsInnerAll[${ic}].scrollTop = `,new_h);
                                     colsInnerAll[ic].scrollTop = new_h;
 
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- div (${colsInnerAll[ic].parentElement.id}).scrollTop: `, colsInnerAll[ic].scrollTop);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- div (${colsInnerAll[ic].parentElement.id}).scrollTop: `, colsInnerAll[ic].scrollTop);
                                 }else{
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- (algo UNDEFINED)`);
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
-                                    console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- (algo UNDEFINED)`);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ELSE] --- arr2_sum_line_h[${ic}][${iv}-1]: `,arr2_sum_line_h[ic][iv-1]);
                                 }
                             }
                         }//end for
@@ -1933,22 +1938,17 @@ function scroll_in_colsInner(el,i){
                         //console.log(`[ELSE] --- iv (${iv}) --- (scrollTop) h (${h}) --- NO ESTÁ ENTRE --- h_min (${h_min}) y h_max (${h_max}) --- NO HAGO NADA... `);
                     }           
                 }//end for()1.
-                //finish_scroll_in_colsInner();
-            }        
-            //init_scroll_in_colsInner();
-
-
-
-
+            }
 
         }//end modo_hacer == 'old'
+
            
     }//end HORIZONTAL
     //================================================================//
     // modo old - end
     //================================================================//
-    console.log(`=== function scroll_in_colsInner(el,${i}) === --------- END`);
-    console.log(' ');
+    //console.log(`=== function scroll_in_colsInner(el,${i}) === --------- END`);
+    //console.log(' ');
 
 }//end scroll_in_colsInner
 
@@ -6195,7 +6195,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                     //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
 
                     //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
+                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
 
                     fetch(url)
                     .then((response) => response.text())
@@ -10911,7 +10911,7 @@ function changeModule(thisDiv,trans,BibleShortName){
 }
 
 function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
-    console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
+    //console.log('=== function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) === ');
     //console.log(thisDiv);
 
     if(thisDiv.tagName === 'DIV'){
@@ -10929,12 +10929,12 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         let arr_trans_real = [];
         document.querySelectorAll('.cols .colsHead').forEach(el=>{
             if(typeof el.dataset.trans !== 'undefined'){
-                console.log(el.dataset.trans);
+                //console.log(el.dataset.trans);
                 arr_trans_real.push(el.dataset.trans);
             }
         });
         let str_trans_real = arr_trans_real.join(', ');
-        console.log('str_trans_real: ',str_trans_real);
+        //console.log('str_trans_real: ',str_trans_real);
 
         tabActive.dataset.str_trans = str_trans_real;        
         
@@ -10951,12 +10951,12 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         let arr_trans_real = [];
         document.querySelectorAll('.cols .colsHead').forEach(el=>{
             if(typeof el.dataset.trans !== 'undefined'){
-                console.log(el.dataset.trans);
+                //console.log(el.dataset.trans);
                 arr_trans_real.push(el.dataset.trans);
             }
         });
         let str_trans_real = arr_trans_real.join(', ');
-        console.log('str_trans_real: ',str_trans_real);        
+        //console.log('str_trans_real: ',str_trans_real);        
         
         let new_index;
         document.querySelectorAll('.cols .colsHead').forEach((el,i,arr)=>{
@@ -11701,7 +11701,7 @@ function removeTrans(){
             //console.log('el: ',el);
             if(el == eid_wrCols.lastElementChild){
                 //console.log('encontrado el: ',el);
-                console.log('encontrado i: ',i);
+                //console.log('encontrado i: ',i);
                 col_index = i;
             }
         });
@@ -11722,7 +11722,7 @@ function removeTrans(){
 }
 
 function closeTrans(el,event, param = null){
-    console.log('=== function closeTrans() ===');
+    //console.log('=== function closeTrans() ===');
     
     event.stopPropagation();
 
@@ -11736,7 +11736,7 @@ function closeTrans(el,event, param = null){
         //console.log('el: ',el);
         if(el == document.getElementById('col'+n)){
             //console.log('encontrado el: ',el);
-            console.log('encontrado i: ',i);
+            //console.log('encontrado i: ',i);
             col_index = i;
         }
     });
@@ -11756,7 +11756,7 @@ function closeTrans(el,event, param = null){
 }
 
 function removeTransFromTab(trans,tabActive,col_index){
-    console.log('=== function removeTransFromInTab() ===');
+    //console.log('=== function removeTransFromInTab() ===');
 
     //modo old - ok
     let arr_str_trans = tabActive.dataset.str_trans.split(',');
@@ -14358,7 +14358,7 @@ function getRef(trans = null){
 
                             allowUseShowTrans = true;//importante para que funcione el inpt_nav (boton ok)
                             showTrans(n_book, chapter, verse, to_verse);
-                            //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
+                            //console.log('--- [1. se llama showTrans()] --- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
 
                             //test //no hay chapter, no hay verse
                             if (chapter == null && verse == null) {
@@ -14973,7 +14973,7 @@ function selectModule2(htmlTrans){
     
     }else{
         //transSelected = thisDiv.currentTarget.dataset.trans;//thisDiv = PointerEvent {}
-        console.log('thisDiv = PointerEvent {}. no hago nada');
+        //console.log('thisDiv = PointerEvent {}. no hago nada');
     }
 
 }
@@ -14990,8 +14990,8 @@ function getObjTransByName(trans){
 
 
 function selectTab(){//Vkladki
-    console.log('=== function selectTab() ===');
-    console.log('arrTabs: ',arrTabs);
+    //console.log('=== function selectTab() ===');
+    //console.log('arrTabs: ',arrTabs);
 
     eid_bl_modalFullInner.innerHTML = '';//reset
     arrTabs.forEach((el,i)=>{
@@ -20591,8 +20591,8 @@ function pintRefOnScroll(){
                 ){
                     primerElementoVisible = elemento;
                     /*
-                    console.log('--- MOBILE --- Si --- primerElementoVisible');
-                    console.log(`
+                    //console.log('--- MOBILE --- Si --- primerElementoVisible');
+                    //console.log(`
                         --- si --- element parcialmente está visto. 
                         --- elemento.tagName: ${elemento.tagName} 
                         --- elemento.id: ${elemento.id}
@@ -20751,7 +20751,7 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
                     if(i == 0){//test
                         document.querySelector('.tab_active .tab_ref').innerHTML = new_ref;
                         document.querySelector('.tab_active').dataset.ref_trans = trans_base;
-                        console.log('pendiente de verificar!!!');
+                        //console.log('pendiente de verificar!!!');
                     } 
     
                     el.querySelector('.partDesk .desk_sh_link').innerHTML = new_ref;
@@ -20856,9 +20856,9 @@ function pageUp() {
     });
 
     setTimeout(()=>{
-        console.log('--- 1 end pageUp() ---');
+        //console.log('--- 1 end pageUp() ---');
         getFirstPVisibleAndPutInVkladka();
-        console.log('--- 2 end pageUp() ---');
+        //console.log('--- 2 end pageUp() ---');
     },50);    
 }
 
@@ -20944,9 +20944,9 @@ function pageDown() {
     });
 
     setTimeout(()=>{
-        console.log('--- 1 end pageDown() ---');
+        //console.log('--- 1 end pageDown() ---');
         getFirstPVisibleAndPutInVkladka();
-        console.log('--- 2 end pageDown() ---');
+        //console.log('--- 2 end pageDown() ---');
     },50);
 
 }

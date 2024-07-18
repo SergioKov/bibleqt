@@ -380,3 +380,5 @@ let strongAction = null;
 
 let arr_verses_compare = [];
 let arr_verses_lang = [];
+
+let is_loading_def_functions = false;//por defecto . para no llamar 2 veces a loadDefaultFunctions()

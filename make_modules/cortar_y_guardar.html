@@ -92,7 +92,7 @@ function cutAndSave() {
     let separador = (eid_separador.value !== '') ? eid_separador.value : '<h2>' ;
 
     arr_names = arr_names.filter(el => el);
-    console.log('arr_names: ',arr_names);
+    //console.log('arr_names: ',arr_names);
 
 
     const file = fileInput.files[0];
@@ -102,10 +102,10 @@ function cutAndSave() {
         const contents = event.target.result;
         //const lines = contents.split('\n'); // Dividir el contenido del archivo por líneas
         let lines = contents.split(separador); // Dividir el contenido del archivo por separador
-        console.log('lines: ',lines);
+        //console.log('lines: ',lines);
         
         lines = lines.filter(element => element !== ''); // quito el primer elemento vacio
-        console.log('filtered lines: ',lines);
+        //console.log('filtered lines: ',lines);
 
         // Iterar sobre las líneas del archivo y guardar cada una como un archivo nuevo
         lines.forEach((line, index) => {
@@ -152,7 +152,7 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
     
     for (let index = start_index_book; index <= end_index_book; index++) {
         const el = arr_books[index];
-        console.log('el: ',el);
+        //console.log('el: ',el);
         arr_new.push(el.PathName);
         
     }
