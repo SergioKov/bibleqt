@@ -986,6 +986,13 @@ HERE;
                                         <div>Заметки</div>
                                     </div>
 
+                                    <div class="dbtn" title="Minimizar trans" onclick="minimizarOtrasTrans()" style="width:50%;">
+                                        <div>Minimizar Tr</div>
+                                    </div>
+                                    <div class="dbtn" title="Заметки" onclick="aumentarOtrasTrans()" style="width:50%;">
+                                        <div>Aumentar Tr</div>
+                                    </div>
+
 
                                     <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:33.33%;">
                                         <div>by_text</div>

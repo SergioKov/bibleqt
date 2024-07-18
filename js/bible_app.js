@@ -1602,7 +1602,7 @@ function init_scroll_in_colsInner(){
         colsInnerAll.forEach( (el,i) => {
             el.onmouseover = () => {//desktop
                 //console.log('en init_scroll_in_colsInner() --- se hace --- el.onmouseover. i: ',i);                
-                //console.log(`[ if ] --- como arr_scroll_enabled[${i}] == false, --- HAGO    --- enable_scroll_in_colsInner(el,${i})`);
+                //console.log(`[ if ] --- HAGO    --- enable_scroll_in_colsInner(el,${i})`);
                 enable_scroll_in_colsInner(el,i);
             }            
             el.ontouchmove = () => {//mobile
@@ -11681,6 +11681,45 @@ function addTrans(addMode = null){
         },1000);
     }
     
+}
+
+function minimizarOtrasTrans(){
+    //console.log('=== function minimizarOtrasTrans() ===');
+    let colsAll = document.querySelectorAll('.cols');
+
+    if(colsAll.length > 0){
+        let h_to_add = 0;
+
+        colsAll.forEach((el,i) => {
+            if(i != 0){
+                h_to_add += el.offsetHeight;
+                //el.style.height = 0;
+                el.style.display = 'none';
+            }
+        });
+        //console.log('h_to_add: ',h_to_add);
+
+        let h_tot = colsAll[0].querySelector('.colsInner').offsetHeight + h_to_add;
+
+        colsAll[0].querySelector('.colsInner').style.height = h_tot + 'px';
+    }
+}
+
+function aumentarOtrasTrans(){
+    //console.log('=== function aumentarOtrasTrans() ===');
+    let colsAll = document.querySelectorAll('.cols');
+
+    if(colsAll.length > 0){
+
+        colsAll.forEach((el,i) => {
+            if(i != 0){
+                el.style.display = 'block';
+            }
+        });
+        checkPositionShowForMob();
+        mySizeWindow();
+        mySizeVerse();
+    }
 }
 
 function removeTrans(){
