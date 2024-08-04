@@ -12179,7 +12179,7 @@ async function obtenerDatosDeBD(tabla, campo){
 
         switch (tabla) {
             case 'vkladki':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
@@ -12203,7 +12203,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
                 
             case 'hist_nav':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_nav);
                 }else{
@@ -12215,7 +12215,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'hist_find':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_find);
                 }else{
@@ -12227,7 +12227,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'hist_strong':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_strong);
                 }else{
@@ -12239,7 +12239,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'markers':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_markers);
                 }else{
@@ -12252,7 +12252,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'fav_trans':
-                if(data == 'no_tiene_datos'){
+                if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arrFavTrans);
                     arrFavTrans = arrFavTransDef;

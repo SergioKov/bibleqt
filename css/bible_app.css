@@ -3707,3 +3707,7 @@ j{
 .color_grey {
     color: grey;
 }
+
+.colsInner img {
+    width: 100%;
+}
