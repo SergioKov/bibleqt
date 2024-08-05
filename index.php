@@ -986,11 +986,14 @@ HERE;
                                         <div>Заметки</div>
                                     </div>
 
-                                    <div class="dbtn" title="Minimizar trans" onclick="minimizarOtrasTrans()" style="width:50%;">
-                                        <div>Minimizar Tr</div>
+                                    <div id="m_btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()" style="width:33.33%;">
+                                        <div>Tr_min</div>
                                     </div>
-                                    <div class="dbtn" title="Заметки" onclick="aumentarOtrasTrans()" style="width:50%;">
-                                        <div>Aumentar Tr</div>
+                                    <div class="dbtn" title="" onclick="alert('funcción en desarrollo...')" style="width:33.33%;">
+                                        <div>...</div>
+                                    </div>
+                                    <div id="m_btnMaxWidthCol" class="dbtn" onclick="enableDesableMaxWidthCol()" style="width:33.33%;">
+                                        <div>mw_Col</div>
                                     </div>
 
 
@@ -1001,7 +1004,7 @@ HERE;
                                         <div>by_json</div>
                                     </div>
                                     <div id="m_btnVkladkiInMob" class="dbtn" onclick="hideShowVkladkiInMob()" style="width:33.33%;">
-                                        <div>Tabs in Mob</div>
+                                        <div>Tabs_in_Mob</div>
                                     </div>
 
 

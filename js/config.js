@@ -308,10 +308,14 @@ let arrFavTsk = [
 ];
 
 let positionShow = 'col';//por defecto posicion de columnas
-let vkladkiInMobShow = true;//por defecto se muestran tabs (arrTabs) en mobiles
+let vkladkiInMobShow = true;//por defecto se muestran tabs (vkladki, arrTabs) en mobiles 
 
-let habilitar_maxWidthCol = false;
+let enable_maxWidthCol = true;//true,false
 let maxWidthCol = 350;//ancho de columna para leer cómodamente como en periódico
+
+//por defecto otras trans no están minimizadas y se ven como antes
+//si se pone a true => se ve sólo una trans que es trans_base (trans1),las demás se ocultan
+let minOtrasTrans = false;
 
 let obj_nav = {
     trans: '',

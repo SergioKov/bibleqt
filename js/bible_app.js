@@ -1033,7 +1033,7 @@ async function loadDefaultFunctions(){
     updateBtnActTransNavOnLoad();//actualizo btn negro por encima de la seleccion de book,chapter,verse
 
     hideShowVkladkiInMob();//muestro o oculto vkladki en mobile con var vkladkiInMobShow
-
+    checkMaxWidthCol();//muestro btn activo o no si está maxWidthCol en desktop con var maxWidthCol
 
     if(await verificarAutenticacion()){
         //console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
@@ -11200,10 +11200,19 @@ function mySizeWindow() {
 
     let arr_th = [];
     let sum_trans_h = 0; 
-    colsHeadAll.forEach(el => { 
-        el.style.removeProperty('height');
-        arr_th.push(el.offsetHeight); 
-        sum_trans_h += el.offsetHeight;
+    colsHeadAll.forEach((el,i) => { 
+        //el.style.removeProperty('height');
+        if(minOtrasTrans){
+            if(i == 0){//si es trans_base
+                arr_th.push(el.offsetHeight);
+                sum_trans_h += el.offsetHeight;
+            }
+        }else{
+            if(el.offsetHeight != 0){
+                arr_th.push(el.offsetHeight); 
+                sum_trans_h += el.offsetHeight;
+            }
+        }        
     });
     let trans_min_h = Math.min(...arr_th);
     let trans_max_h = Math.max(...arr_th);
@@ -11218,26 +11227,56 @@ function mySizeWindow() {
             el.style.height =  trans_min_h +'px';
         });
         
-        colsInnerAll.forEach(el=>{
-            el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height
+        colsInnerAll.forEach((el,i)=>{
+            if(minOtrasTrans){
+                if(i == 0){//si es trans_base
+                    el.style.height =  wrCols_h / 1 - trans_min_h +'px';// 1/3 de height
+                }else{
+                    el.parentElement.style.display = 'none';
+                    el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height 
+                }
+            }else{
+                el.parentElement.style.display = '';
+                el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height
+            }
         });
 
         eid_wrCols.classList.remove('wrCols_center');
         eid_wrCols.style.maxWidth = '';
         
     }else{//col
-        colsAll.forEach(el=>{
-            el.style.width = 100 / colsInnerAll.length +'%';//33%
+        colsAll.forEach((el,i)=>{
+            if(minOtrasTrans){
+                if(i == 0){//si es trans_base
+                    el.style.width = 100 / 1 +'%';//100%
+                }else{
+                    el.style.display = 'none';
+                    el.style.width =  100 / colsInnerAll.length +'%';//33% 
+                }
+            }else{
+                el.style.display = '';
+                el.style.width = 100 / colsInnerAll.length +'%';//33%
+            }            
         });
 
         colsHeadAll.forEach((el,i)=>{
-            el.style.height =  trans_max_h +'px';
+            if(minOtrasTrans){
+                if(i == 0){//si es trans_base
+                    el.style.height = el.offsetHeight + 'px';
+                }else{
+                    el.style.height =  trans_max_h +'px';
+                }
+            }else{
+                el.style.height =  trans_max_h +'px';
+            }            
         });
 
         if(pantalla == 'desktop'){
             //añado ancho maximo de 350 px para comodidad de leer
-            if(habilitar_maxWidthCol){
-                eid_wrCols.style.maxWidth = maxWidthCol * colsInnerAll.length + 'px';//350 por defecto
+            if(enable_maxWidthCol){
+                if(typeof(arr_trans) !== 'undefined' && arr_trans.length > 0){
+                    eid_wrCols.style.maxWidth = maxWidthCol * arr_trans.length + 'px';//350 por defecto
+                }
             }else{
                 eid_wrCols.style.maxWidth = '';
             }
@@ -11685,45 +11724,6 @@ function addTrans(addMode = null){
         },1000);
     }
     
-}
-
-function minimizarOtrasTrans(){
-    //console.log('=== function minimizarOtrasTrans() ===');
-    let colsAll = document.querySelectorAll('.cols');
-
-    if(colsAll.length > 0){
-        let h_to_add = 0;
-
-        colsAll.forEach((el,i) => {
-            if(i != 0){
-                h_to_add += el.offsetHeight;
-                //el.style.height = 0;
-                el.style.display = 'none';
-            }
-        });
-        //console.log('h_to_add: ',h_to_add);
-
-        let h_tot = colsAll[0].querySelector('.colsInner').offsetHeight + h_to_add;
-
-        colsAll[0].querySelector('.colsInner').style.height = h_tot + 'px';
-    }
-}
-
-function aumentarOtrasTrans(){
-    //console.log('=== function aumentarOtrasTrans() ===');
-    let colsAll = document.querySelectorAll('.cols');
-
-    if(colsAll.length > 0){
-
-        colsAll.forEach((el,i) => {
-            if(i != 0){
-                el.style.display = 'block';
-            }
-        });
-        checkPositionShowForMob();
-        mySizeWindow();
-        mySizeVerse();
-    }
 }
 
 function removeTrans(){
@@ -21160,6 +21160,51 @@ function showAllStrongNumber(){
     });
     makeStrongNumbersActiveFind();
 }
+
+function checkMaxWidthCol(){
+    const eid_m_btnMaxWidthCol = document.getElementById('m_btnMaxWidthCol');
+    if(enable_maxWidthCol){
+        eid_m_btnMaxWidthCol.classList.add('btn_active');
+    }else{
+        eid_m_btnMaxWidthCol.classList.remove('btn_active');
+    }
+}
+
+function enableDesableMaxWidthCol(){
+    if(enable_maxWidthCol){
+        enable_maxWidthCol = false;
+    }else{
+        enable_maxWidthCol = true;
+    }
+    checkMaxWidthCol();
+    mySizeWindow();
+    mySizeVerse();
+}
+
+function checkMinOtrasTrans(){
+    const eid_m_btnMinOtrasTrans = document.getElementById('m_btnMinOtrasTrans');
+    if(minOtrasTrans){
+        eid_m_btnMinOtrasTrans.classList.add('btn_active');
+    }else{
+        eid_m_btnMinOtrasTrans.classList.remove('btn_active');
+    }
+}
+
+function enableDesableMinOtrasTrans(){
+    if(minOtrasTrans){
+        minOtrasTrans = false;
+    }else{
+        minOtrasTrans = true;
+    }
+    checkMinOtrasTrans();
+    mySizeWindow();
+    mySizeVerse();
+
+    closeModal(null,true);
+
+    //checkPositionShowForMob();//?
+}
+
 
 
 
