@@ -35,7 +35,7 @@ session_start();
             <div id="headerMainInner" class="headerFlex">               
                 
                 <div id="bl_headerBtns">
-
+                    
                     <div id="btn_hideShowSidebar" class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar()">
                         <div>Hide</div>
                     </div>
@@ -85,8 +85,6 @@ session_start();
                         <div>Tr_m</div>
                     </div>
 
-                    <h3>BQ</h3>
-
                     <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
                         (<span class="test_font_greek">λόγος</span>)
@@ -98,6 +96,7 @@ session_start();
 
 
                 <div class="wr_menu_r">
+                    <h3>BQ</h3>    
                     <div id="login_menu" title="login" onclick="openModal('top','Login',null,'showLogin')">
                         <img src="images/login2_white.svg">
                     </div>
