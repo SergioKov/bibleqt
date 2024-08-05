@@ -81,6 +81,9 @@ session_start();
                     <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
                     </div>
+                    <div id="btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()">
+                        <div>Tr_m</div>
+                    </div>
 
                     <h3>BQ</h3>
 

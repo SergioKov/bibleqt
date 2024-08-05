@@ -11273,9 +11273,10 @@ function mySizeWindow() {
 
         if(pantalla == 'desktop'){
             //añado ancho maximo de 350 px para comodidad de leer
-            if(enable_maxWidthCol){
+            if(enable_maxWidthCol){                
+                eid_wrCols.style.maxWidth = maxWidthCol * document.querySelectorAll('.colsHead').length + 'px';//350 por defecto
                 if(typeof(arr_trans) !== 'undefined' && arr_trans.length > 0){
-                    eid_wrCols.style.maxWidth = maxWidthCol * arr_trans.length + 'px';//350 por defecto
+                    //eid_wrCols.style.maxWidth = maxWidthCol * arr_trans.length + 'px';//350 por defecto
                 }
             }else{
                 eid_wrCols.style.maxWidth = '';
@@ -11624,7 +11625,12 @@ function addTrans(addMode = null){
     }
 
     if(countCols < countMaxTransInCols){        
-        let new_w = 100 / (countCols+1) + '%';
+        let new_w = 100 / (countCols + 1) + '%';
+        
+        if(enable_maxWidthCol){
+            eid_wrCols.style.maxWidth = maxWidthCol * document.querySelectorAll('.colsHead').length + 'px';//350 por defecto
+        }
+
         document.querySelectorAll('.cols').forEach(el => {
             el.style.width = new_w;
         });
@@ -11691,18 +11697,22 @@ function addTrans(addMode = null){
 
         eid_wrCols.appendChild(htmlCol);
 
-        setTimeout(e => {
-            mySizeVerse();
-        },15);
-
-        setTimeout(e => {
-            mySizeWindow();
-        },10);
-
         if(positionShow == 'row'){
+            eid_wrCols.style.maxWidth = '';//aqui importante!
             mySizeWindow();
+            //console.log('row. en addTrans() mySizeWindow() ...');
             mySizeVerse();
-            //console.log('en addTrans() mySize...');
+            //console.log('row. en addTrans() mySizeVerse() ...');
+        }else{                        
+            setTimeout(()=>{
+                mySizeWindow();
+                //console.log('row. en addTrans() mySizeWindow() ...');
+            },10);
+            
+            setTimeout(()=>{
+                mySizeVerse();
+                //console.log('row. en addTrans() mySizeVerse() ...');
+            },15);
         }
         
         if(addMode == 'askForTrans'){
@@ -21182,10 +21192,13 @@ function enableDesableMaxWidthCol(){
 }
 
 function checkMinOtrasTrans(){
+    const eid_btnMinOtrasTrans = document.getElementById('btnMinOtrasTrans');
     const eid_m_btnMinOtrasTrans = document.getElementById('m_btnMinOtrasTrans');
     if(minOtrasTrans){
+        eid_btnMinOtrasTrans.classList.add('btn_active');
         eid_m_btnMinOtrasTrans.classList.add('btn_active');
     }else{
+        eid_btnMinOtrasTrans.classList.remove('btn_active');
         eid_m_btnMinOtrasTrans.classList.remove('btn_active');
     }
 }
