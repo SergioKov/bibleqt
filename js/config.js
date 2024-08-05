@@ -310,6 +310,9 @@ let arrFavTsk = [
 let positionShow = 'col';//por defecto posicion de columnas
 let vkladkiInMobShow = true;//por defecto se muestran tabs (arrTabs) en mobiles
 
+let habilitar_maxWidthCol = false;
+let maxWidthCol = 350;//ancho de columna para leer cómodamente como en periódico
+
 let obj_nav = {
     trans: '',
     divtrans: '',

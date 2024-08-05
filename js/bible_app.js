@@ -11235,8 +11235,12 @@ function mySizeWindow() {
         });
 
         if(pantalla == 'desktop'){
-            //añado anchi maximo de 350 px para comodidad de leer
-            eid_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';
+            //añado ancho maximo de 350 px para comodidad de leer
+            if(habilitar_maxWidthCol){
+                eid_wrCols.style.maxWidth = maxWidthCol * colsInnerAll.length + 'px';//350 por defecto
+            }else{
+                eid_wrCols.style.maxWidth = '';
+            }
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'tablet'){
             //añado anchi maximo de 350 px para comodidad de leer
