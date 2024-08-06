@@ -1784,10 +1784,15 @@ function scroll_in_colsInner(el,i){
                                     let h_rest = h_max - h;
                                     //console.log(`iv: ${iv} --- h_rest (${h_rest}) --- --- h_max (${h_max}) - h (${h}) = h_rest (${h_rest})`);
 
-                                    let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                                    //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (arr2_line_h[${iv}][${i}] - ${h_rest}) / arr2_line_h[${iv}][${i}]  = `, coef_h);
-                                    //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (${arr2_line_h[iv][i]} - ${h_rest}) / ${arr2_line_h[iv][i]}  = `, coef_h);
-
+                                    let coef_h;
+                                    //en caso de eg_img para que no salte error
+                                    if(typeof(arr2_line_h[iv]) != 'undefined' && arr2_line_h[iv].indexOf(arr2_line_h[iv][i]) >= 0){
+                                        coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
+                                        //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (arr2_line_h[${iv}][${i}] - ${h_rest}) / arr2_line_h[${iv}][${i}]  = `, coef_h);
+                                        //console.log(`iv: ${iv} --- i: ${i} --- indexCol: ${indexCol} --- coef_h (${coef_h}) --- --- (${arr2_line_h[iv][i]} - ${h_rest}) / ${arr2_line_h[iv][i]}  = `, coef_h);
+                                    }else{
+                                        coef_h = 1;
+                                    }
 
                                     //verifico si algun versiculo de las columnas 
                                     let arr_iv_h_con_duplicados = [];
@@ -1811,10 +1816,16 @@ function scroll_in_colsInner(el,i){
 
                                             let h_prev = (iv > 0) ? arr2_sum_line_h[indexCol][iv-1] : 0 ;
                                             //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- h_rest: `,h_rest);
-                                            
-                                            let new_h = h_prev + arr2_line_h[iv][indexCol] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][indexCol] (${arr2_line_h[iv][indexCol]}) * coef_h (${coef_h}) = ${new_h}`);
-                                            //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][indexCol]} * ${coef_h}) = ${new_h}`);
+
+                                            let new_h;
+                                            //en caso de eg_img para que no salte error
+                                            if(typeof(arr2_line_h[iv]) != 'undefined'){
+                                                new_h = h_prev + arr2_line_h[iv][indexCol] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
+                                                //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][indexCol] (${arr2_line_h[iv][indexCol]}) * coef_h (${coef_h}) = ${new_h}`);
+                                                //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][indexCol]} * ${coef_h}) = ${new_h}`);
+                                            }else{
+                                                new_h = 2000 * coef_h;
+                                            }
                                             
                                             //console.log(`--- en for(iv == ${iv}) --- en for(indexCol == ${indexCol}) --- HAGO --- arrCol[${indexCol}].scrollTop = `,new_h);
                                             arrCol[indexCol].scrollTop = new_h;
@@ -1878,12 +1889,7 @@ function scroll_in_colsInner(el,i){
                         h_min =  arr2_sum_line_h[i][iv - 1];
                         h_max =  arr2_sum_line_h[i][iv];
                     }
-            
-                    //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
-                    //let h_rest = h_max - h;
-                    //let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                    //console.log(`iv: ${iv} --- coef_h: `, coef_h);
-            
+                        
                     if(h >= h_min && h <= h_max){
                         //console.log(`[ IF ] --- iv (${iv}) --- (scrollTop) h (${h}) --- ESTÁ ENTRE    --- h_min (${h_min}) y h_max (${h_max})`);
                         
@@ -1906,10 +1912,18 @@ function scroll_in_colsInner(el,i){
                                 
                                 //Saco el coeficient de scroll para aplicar para otras columnas. //0.75
                                 let h_rest = h_max - h;
-                                let coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
-                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- iv: ${iv} --- coef_h: `, coef_h);
-                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- para aplicar. coef_h: `, coef_h);
-                                //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- h_rest: `,h_rest);
+
+
+                                let coef_h;
+                                //en caso de eg_img para que no salte error
+                                if(typeof(arr2_line_h[iv]) != 'undefined' && arr2_line_h[iv].indexOf(arr2_line_h[iv][i]) >= 0){
+                                    coef_h = (arr2_line_h[iv][i] - h_rest) / arr2_line_h[iv][i] ;// verse2. (54 - 18) / 54 = 36/54 = 2/3 = 0.67;  
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- iv: ${iv} --- coef_h: `, coef_h);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- para aplicar. coef_h: `, coef_h);
+                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] --- h_rest: `,h_rest);
+                                }else{
+                                    coef_h = 1;
+                                }
 
                                 if(typeof arr2_sum_line_h[ic] != 'undefined' && typeof arr2_sum_line_h[ic][iv-1] != 'undefined'){
                                     //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- arr2_sum_line_h[${ic}]: `, arr2_sum_line_h[ic]);
@@ -1917,10 +1931,16 @@ function scroll_in_colsInner(el,i){
                                     
                                     let h_prev = (iv > 0) ? arr2_sum_line_h[ic][iv-1] : 0 ;
                                     //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- h_rest: `,h_rest);
-                                    
-                                    let new_h = h_prev + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
-                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][ic] (${arr2_line_h[iv][ic]}) * coef_h (${coef_h}) = ${new_h}`);
-                                    //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}) = ${new_h}`);
+
+                                    let new_h;
+                                    //en caso de eg_img para que no salte error
+                                    if(typeof(arr2_line_h[iv]) != 'undefined'){
+                                        new_h = h_prev + arr2_line_h[iv][ic] * coef_h;//208 + (76 * 0.75) = 208 + 57 = 235
+                                        //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- h_prev (${h_prev}) + arr2_line_h[iv][ic] (${arr2_line_h[iv][ic]}) * coef_h (${coef_h}) = ${new_h}`);
+                                        //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- new_h: ${new_h} --- (${h_prev} + ${arr2_line_h[iv][ic]} * ${coef_h}) = ${new_h}`);
+                                    }else{
+                                        new_h = 2000 * coef_h;
+                                    }
                                     
                                     //console.log(`--- en for(iv == ${iv}) --- en for(ic == ${ic}) --- [ELSE] [ IF ] --- HAGO --- colsInnerAll[${ic}].scrollTop = `,new_h);
                                     colsInnerAll[ic].scrollTop = new_h;
@@ -10551,6 +10571,7 @@ window.addEventListener('load',function(d){
     //console.log('load - window.innerWidth: '+window.innerWidth);
     mySizeWindow();
     mySizeVerse();
+    mySizeVersesCompare();//si no hay verses , no hace nada
 });
 
 window.addEventListener('resize',function(d){
@@ -10558,6 +10579,7 @@ window.addEventListener('resize',function(d){
     checkPositionShowForMob();
     mySizeWindow();
     mySizeVerse();
+    mySizeVersesCompare();//si no hay verses , no hace nada
 });
 
 
@@ -11201,7 +11223,6 @@ function mySizeWindow() {
     let arr_th = [];
     let sum_trans_h = 0; 
     colsHeadAll.forEach((el,i) => { 
-        //el.style.removeProperty('height');
         if(minOtrasTrans){
             if(i == 0){//si es trans_base
                 arr_th.push(el.offsetHeight);
@@ -11217,7 +11238,6 @@ function mySizeWindow() {
     let trans_min_h = Math.min(...arr_th);
     let trans_max_h = Math.max(...arr_th);
 
-
     if(positionShow == 'row'){
         colsAll.forEach(el=>{
             el.style.width = 100 + '%';//100%
@@ -11230,7 +11250,7 @@ function mySizeWindow() {
         colsInnerAll.forEach((el,i)=>{
             if(minOtrasTrans){
                 if(i == 0){//si es trans_base
-                    el.style.height =  wrCols_h / 1 - trans_min_h +'px';// 1/3 de height
+                    el.style.height =  wrCols_h - trans_min_h +'px';
                 }else{
                     el.parentElement.style.display = 'none';
                     el.style.height =  wrCols_h / colsInnerAll.length - trans_min_h +'px';// 1/3 de height 
@@ -11248,7 +11268,7 @@ function mySizeWindow() {
         colsAll.forEach((el,i)=>{
             if(minOtrasTrans){
                 if(i == 0){//si es trans_base
-                    el.style.width = 100 / 1 +'%';//100%
+                    el.style.width = 100 + '%';//100%
                 }else{
                     el.style.display = 'none';
                     el.style.width =  100 / colsInnerAll.length +'%';//33% 
@@ -11274,24 +11294,18 @@ function mySizeWindow() {
         if(pantalla == 'desktop'){
             //añado ancho maximo de 350 px para comodidad de leer
             if(enable_maxWidthCol){                
-                eid_wrCols.style.maxWidth = maxWidthCol * document.querySelectorAll('.colsHead').length + 'px';//350 por defecto
-                if(typeof(arr_trans) !== 'undefined' && arr_trans.length > 0){
-                    //eid_wrCols.style.maxWidth = maxWidthCol * arr_trans.length + 'px';//350 por defecto
-                }
+                eid_wrCols.style.maxWidth = maxWidthCol * colsHeadAll.length + 'px';//350 por defecto
             }else{
                 eid_wrCols.style.maxWidth = '';
             }
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'tablet'){
-            //añado anchi maximo de 350 px para comodidad de leer
-            //eid_wrCols.style.maxWidth = 350 * colsInnerAll.length + 'px';//antes
+            //añado anch0 maximo de 350 px para comodidad de leer
+            //eid_wrCols.style.maxWidth = maxWidthCol * colsHeadAll.length + 'px';//antes
             eid_wrCols.style.maxWidth = '';
             colsHeadAll[0].style.display = '';
         }else if(pantalla == 'mobile'){
             eid_wrCols.style.maxWidth = '';
-            if(colsHeadAll.length == 1){
-                //document.querySelectorAll('.colsHead')[0].style.display = 'none';//comento temporalmente
-            }
         }
 
         colsInnerAll.forEach((el,i)=>{
@@ -11302,9 +11316,6 @@ function mySizeWindow() {
                 el.style.height =  wrCols_h +'px';
             }
         });
-        //pongo top para boton pageUp()
-        let top_h = colsInnerAll[colsInnerAll.length-1].getBoundingClientRect().top;
-        //eid_btn_pageUp.style.top = top_h + 10 + 'px';
 
         eid_wrCols.classList.add('wrCols_center');
     }
@@ -15190,7 +15201,7 @@ function hist(param){
 
 
 function bookGo(dir){
-    //console.log('=== function chapterGo(dir) ===');
+    //console.log('=== function bookGo(dir) ===');
 
     allowUseShowTrans = true;
     //console.log('en bookGo() --- allowUseShowTrans: ',allowUseShowTrans);
@@ -15428,8 +15439,95 @@ function chapterGo(dir){
     if(typeof objTrans != 'undefined' && objTrans != null && objTrans != '' ){
         //alert('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log('chapterGo(dir) --- objTrans está creado. abajo objTrans: ');
-        //console.log(objTrans);
+        //console.log(objTrans);        
+        
+        let bq = objTrans;;          
+        //console.log('abajo bq'); 
+        //console.log(bq); 
 
+        if(dir == 'next'){
+            let next_id_book = act_id_book;
+            let next_show_chapter = act_show_chapter; 
+
+            if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
+                if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
+                    next_id_book = 0;//Génesis
+                }else{
+                    next_id_book = parseInt(act_id_book) + 1;
+                }
+                next_show_chapter = 1;
+            }else{
+                next_show_chapter = parseInt(act_show_chapter) + 1;
+            }
+
+            eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
+            eid_inpt_nav.setAttribute('data-id_book', next_id_book);
+            eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
+            eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
+            
+            //meto Gen.1:1 en los head de cada trans
+            document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
+            });
+
+            obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
+            obj_nav.id_book = next_id_book;
+            obj_nav.show_chapter = next_show_chapter;
+
+            setTimeout(()=>{
+                sel(eid_s_verse,'v',Translation);//verse
+            },50);
+
+            let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
+            addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
+            
+            allowUseShowTrans = true;
+            showTrans(next_id_book, next_show_chapter);
+        }
+
+        if(dir == 'prev'){
+            let prev_id_book = act_id_book;
+            let prev_show_chapter = act_show_chapter;
+
+            if(act_show_chapter == 1){
+                if(act_id_book == 0){//Génesis
+                    prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
+                }else{
+                    prev_id_book = parseInt(act_id_book) - 1;
+                }
+                prev_show_chapter = parseInt(bq.Books[prev_id_book].ChapterQty);
+            }else{
+                prev_show_chapter = parseInt(act_show_chapter) - 1;
+            }
+
+            eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
+            eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
+            eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
+            eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
+
+            //meto Gen.1:1 en los head de cada trans
+            document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
+                putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
+            });
+
+            obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
+            obj_nav.id_book = prev_id_book;
+            obj_nav.show_chapter = prev_show_chapter;
+
+            setTimeout(()=>{
+                sel(eid_s_verse,'v',Translation);//verse
+            },50);
+
+            let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
+            addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
+            
+            allowUseShowTrans = true;
+            showTrans(prev_id_book, prev_show_chapter);
+        }
+        
+        
+        /*
+        //modo old. al dar al botón pageUp() desde Otktovenie 1:1 al tener 2 trans la trans adicional se carga erroneamente (se carga trans1)
         let myPromise_ch_go = new Promise(function(resolve, reject){
             resolve('ok');
         });
@@ -15535,6 +15633,7 @@ function chapterGo(dir){
             // Código a realizar cuando se rechaza la promesa
             console.error('error promesa: '+error);
         });
+        */
 
     }else{//MODO OLD. si hace falta!
         
@@ -15641,8 +15740,6 @@ function chapterGo(dir){
         });
 
     }
-
-
 }
 
 function showTab(this_btn, param){
@@ -20827,7 +20924,16 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 
 function pageUp() {    
     let colsAll = document.querySelectorAll('.colsInner');
-    colsAll.forEach(el=>{
+
+    let modo = 'new';//1 vez y solo 1 vez y solo del colsAll[0]
+    //let modo = 'old';//con forEach y solo 1 vez con colsAll[0]
+    //let modo = 'antes';//con forEach de todos elementos
+
+    if(modo == 'new'){
+        console.log('pageUp() --- modo new');
+
+        //ejecuto solo 1 vez y solo del colsAll[0]
+        const el = colsAll[0];
         let el_rect = el.getBoundingClientRect();
         let clientHeight = el.clientHeight;
 
@@ -20876,6 +20982,8 @@ function pageUp() {
             if(newScrollTop < 0 && newScrollTop == -el.clientHeight){//if( newScrollTop: -926 y newScrollTop: -926 = -clientHeight: -926)
                 //console.log(`1.b --- me muevo al cpítulo anterior. y al ultimo versículo.`);
                 //console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
+                //llamo solo 1 vez, ya que si hay mas de 1 trans se llama tantas veces como hay trans y da error al crear arrData para buildDivShow()
+                //console.log(`zzz. llamo al chapterGo(prev) --- el.scrollTop: ${el.scrollTop} `);
                 chapterGo('prev');//OK    
             }
         }
@@ -20884,17 +20992,15 @@ function pageUp() {
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;//antes
 
-                /*
-                el.onscroll = null;//reset scroll
-                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
-                el.scrollTo({//test
-                    top: newScrollTop_toVerse + pixels_in_mob,
-                    behavior: 'smooth'
-                });
-                setTimeout(()=>{
-                    init_scroll_in_colsInner();
-                },1000);
-                */
+                //el.onscroll = null;//reset scroll
+                //let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                //el.scrollTo({//test
+                //    top: newScrollTop_toVerse + pixels_in_mob,
+                //    behavior: 'smooth'
+                //});
+                //setTimeout(()=>{
+                //    init_scroll_in_colsInner();
+                //},1000);
 
                 //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
@@ -20906,7 +21012,186 @@ function pageUp() {
             // Si ya estás en la parte superior del contenido, no hagas nada
             //console.log('4.--- Estoy en la parte superior del contenido.');
         }
-    });
+    }
+
+    if(modo == 'old'){
+        console.log('pageUp() --- modo old');
+
+        colsAll.forEach((el,i)=>{
+        
+            //nuevo. ok
+            if(i == 0){
+                let el_rect = el.getBoundingClientRect();
+                let clientHeight = el.clientHeight;
+        
+                //console.log('el.parentElement.id :'+el.parentElement.id);
+                //console.log('el.scrollTop: '+el.scrollTop);
+                //console.log('clientHeight: '+clientHeight);
+              
+                // Calcula la cantidad de desplazamiento necesario para una página
+                let pageHeight = clientHeight;
+              
+                // Calcula la nueva posición de desplazamiento
+                let newScrollTop = el.scrollTop - pageHeight;
+                //console.log('newScrollTop: '+newScrollTop);
+        
+                let newScrollTop_toVerse = false;
+                let arr_elps = [];
+        
+                el.querySelectorAll('p').forEach(elp=>{
+                    let elp_rect = elp.getBoundingClientRect();
+                    //console.log('elp.id: '+elp.id + ' --- elp_rect.top: '+elp_rect.top +' --- elp_rect.bottom: '+elp_rect.bottom);
+        
+                    //busco primer elemento que se ve entero en la pantalla para moverme alli
+                    if(elp_rect.top > -clientHeight){
+                        //console.log(' -------------- el elemento elp.id: '+elp.id + 
+                        //' --- elp_rect.top: '+elp_rect.top + 
+                        //' --- elp_rect.bottom: '+elp_rect.bottom  
+                        //);
+                        arr_elps.push(elp);
+                    }
+                });
+                //console.log('arr_elps: ');
+                //console.log(arr_elps);
+                //console.log('arp_elps[0].top: '+arr_elps[0].getBoundingClientRect().top);
+                //console.log('arp_elps[0].bottom: '+arr_elps[0].getBoundingClientRect().bottom);
+        
+                if(arr_elps.length > 1){
+                    let first_p_rect = arr_elps[0].getBoundingClientRect();
+                    newScrollTop_toVerse = newScrollTop + (clientHeight - el_rect.top + first_p_rect.top);
+                    //console.log('newScrollTop_toVerse: ' + newScrollTop + ' + ('+ clientHeight + ' - '+ el_rect.top + ' + ' +  first_p_rect +') = '+newScrollTop_toVerse);
+                }
+        
+                // Asegúrate de que no te desplaces más allá del final del contenido
+                if(newScrollTop < 0) {
+                    el.scrollTop = 0;//mover al top
+                    //console.log(`1. me muevo al top --- el.scrollTop: ${el.scrollTop} `);
+                    if(newScrollTop < 0 && newScrollTop == -el.clientHeight){//if( newScrollTop: -926 y newScrollTop: -926 = -clientHeight: -926)
+                        //console.log(`1.b --- me muevo al cpítulo anterior. y al ultimo versículo.`);
+                        //console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
+                        //llamo solo 1 vez, ya que si hay mas de 1 trans se llama tantas veces como hay trans y da error al crear arrData para buildDivShow()
+                        if(i == 0){
+                            console.log(`zzz. llamo al chapterGo(prev) --- el.scrollTop: ${el.scrollTop} `);
+                            chapterGo('prev');//OK    
+                        }
+                    }
+                }
+                else if(newScrollTop >= 0) {
+                    //el.scrollTop = newScrollTop;//antes
+                    if(newScrollTop_toVerse){
+                        el.scrollTop = newScrollTop_toVerse;//antes
+        
+                        //el.onscroll = null;//reset scroll
+                        //let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                        //el.scrollTo({//test
+                        //    top: newScrollTop_toVerse + pixels_in_mob,
+                        //    behavior: 'smooth'
+                        //});
+                        //setTimeout(()=>{
+                        //    init_scroll_in_colsInner();
+                        //},1000);
+        
+                        //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+                    }else{
+                        el.scrollTop = newScrollTop;
+                        //console.log('3.--- ago newScrollTop: ' + newScrollTop);
+                    }
+                }
+                else{
+                    // Si ya estás en la parte superior del contenido, no hagas nada
+                    //console.log('4.--- Estoy en la parte superior del contenido.');
+                }
+            }
+        });    
+    }
+
+    if(modo == 'antes'){
+        colsAll.forEach((el,i)=>{
+    
+            
+            //antes
+            let el_rect = el.getBoundingClientRect();
+            let clientHeight = el.clientHeight;
+    
+            //console.log('el.parentElement.id :'+el.parentElement.id);
+            //console.log('el.scrollTop: '+el.scrollTop);
+            //console.log('clientHeight: '+clientHeight);
+          
+            // Calcula la cantidad de desplazamiento necesario para una página
+            let pageHeight = clientHeight;
+          
+            // Calcula la nueva posición de desplazamiento
+            let newScrollTop = el.scrollTop - pageHeight;
+            //console.log('newScrollTop: '+newScrollTop);
+    
+            let newScrollTop_toVerse = false;
+            let arr_elps = [];
+    
+            el.querySelectorAll('p').forEach(elp=>{
+                let elp_rect = elp.getBoundingClientRect();
+                //console.log('elp.id: '+elp.id + ' --- elp_rect.top: '+elp_rect.top +' --- elp_rect.bottom: '+elp_rect.bottom);
+    
+                //busco primer elemento que se ve entero en la pantalla para moverme alli
+                if(elp_rect.top > -clientHeight){
+                    //console.log(' -------------- el elemento elp.id: '+elp.id + 
+                    //' --- elp_rect.top: '+elp_rect.top + 
+                    //' --- elp_rect.bottom: '+elp_rect.bottom  
+                    //);
+                    arr_elps.push(elp);
+                }
+            });
+            //console.log('arr_elps: ');
+            //console.log(arr_elps);
+            //console.log('arp_elps[0].top: '+arr_elps[0].getBoundingClientRect().top);
+            //console.log('arp_elps[0].bottom: '+arr_elps[0].getBoundingClientRect().bottom);
+    
+            if(arr_elps.length > 1){
+                let first_p_rect = arr_elps[0].getBoundingClientRect();
+                newScrollTop_toVerse = newScrollTop + (clientHeight - el_rect.top + first_p_rect.top);
+                //console.log('newScrollTop_toVerse: ' + newScrollTop + ' + ('+ clientHeight + ' - '+ el_rect.top + ' + ' +  first_p_rect +') = '+newScrollTop_toVerse);
+            }
+    
+            // Asegúrate de que no te desplaces más allá del final del contenido
+            if(newScrollTop < 0) {
+                el.scrollTop = 0;//mover al top
+                //console.log(`1. me muevo al top --- el.scrollTop: ${el.scrollTop} `);
+                if(newScrollTop < 0 && newScrollTop == -el.clientHeight){//if( newScrollTop: -926 y newScrollTop: -926 = -clientHeight: -926)
+                    //console.log(`1.b --- me muevo al cpítulo anterior. y al ultimo versículo.`);
+                    //console.log(`top --- el.scrollTop: ${el.scrollTop}. --- if(newScrollTop < 0 && newScrollTop == -el.clientHeight) --- . (${newScrollTop} < 0 && ${newScrollTop} == ${-el.clientHeight})`);
+                    //llamo solo 1 vez, ya que si hay mas de 1 trans se llama tantas veces como hay trans y da error al crear arrData para buildDivShow()
+                        console.log(`zzz. llamo al chapterGo(prev) --- el.scrollTop: ${el.scrollTop} `);
+                        chapterGo('prev');//mal   
+                }
+            }
+            else if(newScrollTop >= 0) {
+                //el.scrollTop = newScrollTop;//antes
+                if(newScrollTop_toVerse){
+                    el.scrollTop = newScrollTop_toVerse;//antes
+    
+                    //el.onscroll = null;//reset scroll
+                    //let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                    //el.scrollTo({//test
+                    //    top: newScrollTop_toVerse + pixels_in_mob,
+                    //    behavior: 'smooth'
+                    //});
+                    //setTimeout(()=>{
+                    //    init_scroll_in_colsInner();
+                    //},1000);
+    
+                    //console.log('2.--- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
+                }else{
+                    el.scrollTop = newScrollTop;
+                    //console.log('3.--- ago newScrollTop: ' + newScrollTop);
+                }
+            }
+            else{
+                // Si ya estás en la parte superior del contenido, no hagas nada
+                //console.log('4.--- Estoy en la parte superior del contenido.');
+            }   
+    
+        });
+    
+    }
 
     setTimeout(()=>{
         //console.log('--- 1 end pageUp() ---');
@@ -20972,16 +21257,15 @@ function pageDown() {
             if(newScrollTop_toVerse){
                 el.scrollTop = newScrollTop_toVerse;
 
-                /*el.onscroll = null;//reset scroll
-                let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
-                el.scrollTo({//test
-                    top: newScrollTop_toVerse + pixels_in_mob,
-                    behavior: 'smooth'
-                });
-                setTimeout(()=>{
-                    init_scroll_in_colsInner();
-                },1000);
-                */
+                //el.onscroll = null;//reset scroll
+                //let pixels_in_mob = (window.innerWidth < pantallaTabletMinPx) ? 0 : 0 ;
+                //el.scrollTo({//test
+                //    top: newScrollTop_toVerse + pixels_in_mob,
+                //    behavior: 'smooth'
+                //});
+                //setTimeout(()=>{
+                //    init_scroll_in_colsInner();
+                //},1000);
 
                 //console.log('2. --- ago newScrollTop_toVerse: ' + newScrollTop_toVerse);
             }else{
@@ -21172,10 +21456,13 @@ function showAllStrongNumber(){
 }
 
 function checkMaxWidthCol(){
+    const eid_btnMaxWidthCol = document.getElementById('btnMaxWidthCol');
     const eid_m_btnMaxWidthCol = document.getElementById('m_btnMaxWidthCol');
     if(enable_maxWidthCol){
+        eid_btnMaxWidthCol.classList.add('btn_active');
         eid_m_btnMaxWidthCol.classList.add('btn_active');
     }else{
+        eid_btnMaxWidthCol.classList.remove('btn_active');
         eid_m_btnMaxWidthCol.classList.remove('btn_active');
     }
 }

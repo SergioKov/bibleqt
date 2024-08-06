@@ -3152,6 +3152,9 @@ p:hover .btn_verse_menu{
     z-index: 1;
     margin-top: -2px;
     border-radius: 0 0 3px 3px;
+    min-height: 10vh;
+    overflow: auto;
+    max-height: 30vh;
 }
 
 fieldset {

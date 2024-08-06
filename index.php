@@ -84,6 +84,9 @@ session_start();
                     <div id="btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()">
                         <div>Tr_m</div>
                     </div>
+                    <div id="btnMaxWidthCol" class="dbtn" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDesableMaxWidthCol()">
+                        <div>mwC</div>
+                    </div>
 
                     <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)

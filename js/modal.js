@@ -2477,7 +2477,8 @@ function filterTransCompare(e, param = 'all'){
             }
         });
     }
-
+    
+    mySizeVersesCompare();
 }
 
 
