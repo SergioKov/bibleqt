@@ -88,6 +88,20 @@ session_start();
                         <div>mwC</div>
                     </div>
 
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                        <div>btn1</div>
+                    </div>
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                        <div>btn2</div>
+                    </div>
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                        <div>btn3</div>
+                    </div>
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                        <div>btn4</div>
+                    </div>
+
+
                     <div style="display: none;">
                         (<span class="test_font_hebrew">ָאֱלֹהִים</span>)
                         (<span class="test_font_greek">λόγος</span>)

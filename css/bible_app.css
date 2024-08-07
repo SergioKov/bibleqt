@@ -131,6 +131,9 @@ body{
     background: #2f85c9;
     margin: 10px;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
 .headerFlex {
     display: flex;
@@ -645,7 +648,8 @@ p a:hover:not(.a_sn) {
 #partDeskTabs::-webkit-scrollbar, 
 #headerContainerInner::-webkit-scrollbar, 
 .wr_btns_scr::-webkit-scrollbar, 
-#footerInner::-webkit-scrollbar
+#footerInner::-webkit-scrollbar,
+#bl_headerBtns::-webkit-scrollbar
 {
     height: 5px;
 }
@@ -663,7 +667,8 @@ p a:hover:not(.a_sn) {
 #partDeskTabs::-webkit-scrollbar-thumb, 
 #headerContainerInner::-webkit-scrollbar-thumb, 
 .wr_btns_scr::-webkit-scrollbar-thumb, 
-#footerInner::-webkit-scrollbar-thumb 
+#footerInner::-webkit-scrollbar-thumb, 
+#bl_headerBtns::-webkit-scrollbar-thumb 
 {
     background: #0070c9;
     cursor: pointer;
@@ -673,7 +678,8 @@ p a:hover:not(.a_sn) {
 #partDeskTabs::-webkit-scrollbar-thumb:hover, 
 #headerContainerInner::-webkit-scrollbar-thumb:hover, 
 .wr_btns_scr::-webkit-scrollbar-thumb:hover, 
-#footerInner::-webkit-scrollbar-thumb:hover 
+#footerInner::-webkit-scrollbar-thumb:hover, 
+#bl_headerBtns::-webkit-scrollbar-thumb:hover 
 {
     background: #0533d8; 
 }
@@ -2439,10 +2445,12 @@ span.prim_tsk {
 #bl_headerBtns {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-content: center;
     justify-content: flex-start;
     align-items: center;
+    overflow-x: auto;
+    margin-right: 5px;
 }
 
 #bl_modalTopInner .btn{
@@ -3719,4 +3727,8 @@ j{
 }
 .wr_menu_r h3{
     margin-right: 7px;
+}
+
+span.vt img {
+    width: 100%;
 }
