@@ -3713,6 +3713,9 @@ j{
 
 .colsInner img {
     width: 100%;
+    max-width: 1200px;
+    margin: 0px auto;
+    display: block;
 }
 .wr_menu_r h3{
     margin-right: 7px;

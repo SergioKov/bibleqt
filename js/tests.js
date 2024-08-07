@@ -1724,3 +1724,92 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
 
 
 
+function generarImgSrc(nombreCarpeta, n_start, n_end){
+    let ruta = 'modules/text/eg_img';
+    let text_head = `<h2></h2>\n<h4>1</h4><p>1 \n`;
+    let text = '';
+    if(n_end < n_start){
+        let n_min = n_end;
+        let n_max = n_start;
+        n_start = n_min;
+        n_end = n_max;
+    }
+
+    for (let i = n_start; i <= n_end; i++) {
+        let i_text;
+        let i_length = i.toString().length;
+        if(i_length == 1){
+            i_text = '00' + i;
+        }else if(i_length == 2){
+            i_text = '0' + i;
+        }else{
+            i_text = i; 
+        }
+        let ruta_file = `${ruta}/${nombreCarpeta}/${i_text}.jpg`;
+        text += `<img src="${ruta_file}"/>\n`;
+
+        const url = ruta_file;
+
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    //console.log('El fichero existe.');
+                } else if (response.status === 404) {
+                    //console.error(`El fichero "${url}" no existe.`);//lo comento ya que la consola devuelve (Not found) y se vem sin este aviso
+                } else {
+                    console.error('Error al comprobar el fichero: ' + response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error al intentar acceder al fichero:', error);
+            });
+    }
+    console.log(text_head + text);
+}
+
+/*
+//por si acaso aquí tengo las páginas de cada libro de eg_img
+let arrImgSrc = [
+	['19_psalms',1134,1276],
+	['20_proverbs',1277,1326],
+
+	['40_matthew',11,101],
+	['41_mark',102,158],
+	['42_luke',159,253],
+	['43_john',254,323],
+	['44_acts',324,415],
+
+	['45_james',416,425],
+	['46_1peter',426,436],
+	['47_2peter',437,443],
+	['48_1john',444,453],
+	['49_2john',454,455],
+	['50_3john',456,457],
+	['51_jude',458,460],
+	
+	['52_romans',461,497],
+    ['53_1corinthians',498,533],
+	['54_2corinthians',556,534],
+	['55_galatians',557,569],
+	['56_ephesians',570,582],
+	['57_philippians',583,591],
+	['58_colossians',592,599],
+	['59_1thessalonians',600,607],
+	['60_2thessalonians',608,612],
+	['61_1timothy',613,623],
+	['62_2timothy',624,631],
+	['63_titus',632,636],
+	['64_philemon',637,638],
+	['65_hebrews',639,666],
+    
+	['66_revelation',667,710]
+];
+*/
+
+function makeAllImgSrc(arr){
+    if(arr.length == 0) return false;
+    arr.forEach(el=>{
+        console.warn(el[0]);
+        generarImgSrc(el[0], el[1], el[2]);
+    });
+}
