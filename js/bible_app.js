@@ -21569,8 +21569,6 @@ function toggleIMGx2(){
                 span.vt img
                 {
                     width: 200%;
-                    z-index: 0;
-                    position: relative;
                 }        
             `;
             document.head.appendChild(style);

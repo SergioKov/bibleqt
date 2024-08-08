@@ -3724,6 +3724,8 @@ j{
     max-width: 1200px;
     margin: 0px auto;
     display: block;
+    position: relative;
+    z-index: 0;
 }
 .wr_menu_r h3{
     margin-right: 7px;
