@@ -21569,6 +21569,8 @@ function toggleIMGx2(){
                 span.vt img
                 {
                     width: 200%;
+                    z-index: 0;
+                    position: relative;
                 }        
             `;
             document.head.appendChild(style);
@@ -21579,26 +21581,6 @@ function toggleIMGx2(){
             existingStyle.remove();
         }    
     }
-
-    //antes
-    /*
-    if(existingStyle) {
-        // Quitar la hoja de estilos
-        existingStyle.remove();
-    }else{
-        // Insertar la hoja de estilos
-        const style = document.createElement('style');
-        style.id = styleId_IMGx2;
-        style.innerHTML = `
-            .colsInner img,
-            span.vt img
-            {
-                width: 200%;
-            }        
-        `;
-        document.head.appendChild(style);
-    }
-    */
 }
 
 function checkIMGx2(){
