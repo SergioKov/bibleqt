@@ -349,7 +349,7 @@ let arr_hist_strong_limit = 100;//limit de tener items en el historial
 
 //array de objetos de historia de navegacion
 let arr_markers = [];//se añade en addRefToHistNav();
-let arr_markers_limit = 100;//limit de tener items en el historial
+let arr_markers_limit = 200;//limit de tener items en el historial
 
 //by_text es mas rápido y más optimizado
 // en funcion showChaptertext4() hay 2 vias

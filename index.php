@@ -91,13 +91,13 @@ session_start();
                     <div id="btnIMGx2" class="dbtn" title="aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()">
                         <div>IMGx2</div>
                     </div>
-                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn2</div>
                     </div>
-                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn3</div>
                     </div>
-                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
+                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn4</div>
                     </div>
 
