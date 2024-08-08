@@ -88,8 +88,8 @@ session_start();
                         <div>mwC</div>
                     </div>
 
-                    <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
-                        <div>btn1</div>
+                    <div id="btnIMGx2" class="dbtn" title="aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()">
+                        <div>IMGx2</div>
                     </div>
                     <div id="" class="dbtn" title="un botón más" onclick="alert('para futura función')">
                         <div>btn2</div>
@@ -1008,12 +1008,13 @@ HERE;
                                     <div id="m_btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()" style="width:33.33%;">
                                         <div>Tr_min</div>
                                     </div>
-                                    <div class="dbtn" title="" onclick="alert('funcción en desarrollo...')" style="width:33.33%;">
-                                        <div>...</div>
-                                    </div>
                                     <div id="m_btnMaxWidthCol" class="dbtn" onclick="enableDesableMaxWidthCol()" style="width:33.33%;">
                                         <div>mw_Col</div>
                                     </div>
+                                    <div id="m_btnIMGx2" class="dbtn" title="Aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()" style="width:33.33%;">
+                                        <div>IMGx2</div>
+                                    </div>
+
 
 
                                     <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:33.33%;">

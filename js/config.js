@@ -314,6 +314,11 @@ let vkladkiInMobShow = true;//por defecto se muestran tabs (vkladki, arrTabs) en
 let enable_maxWidthCol = true;//true,false
 let maxWidthCol = 350;//ancho de columna para leer cómodamente como en periódico
 
+//por defecto false
+let enable_IMGx2 = false;//true, false //mostrar width: 200% en imagenes dentro de colsInner
+
+
+
 //por defecto false. otras trans no están minimizadas y se ven como antes
 //si se pone a true => se ve sólo una trans que es trans_base (trans1), las demás se ocultan
 let minOtrasTrans = false;//true,false
