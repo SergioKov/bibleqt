@@ -11180,7 +11180,7 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
     setTimeout(()=>{
         mySizeWindow();
         mySizeVerse();
-    },100);
+    },300);
 }
 
 
