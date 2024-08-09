@@ -78,7 +78,7 @@ session_start();
 
                     <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
                         <!--<div>Row</div>-->
-                        <img class="col_row" src="images/col_row_white.svg">
+                        <img class="col_row position_row" src="images/col_row_white.svg">
                     </div>
                     <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
@@ -87,7 +87,7 @@ session_start();
                         <div>Tr_m</div>
                     </div>
                     <div id="btnMaxWidthCol" class="dbtn" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDesableMaxWidthCol()">
-                        <div>mwC</div>
+                        <div>mw_Col</div>
                     </div>
 
                     <div id="btnIMGx2" class="dbtn" title="aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()">

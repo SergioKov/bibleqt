@@ -2526,7 +2526,8 @@ span.prim_tsk {
     color: white;
     transition: 0.3s;
     cursor: pointer;
-    min-width: 30px;
+    /*min-width: 30px;*/
+    min-width: fit-content;
     min-height: 30px;
 }
 
@@ -3735,11 +3736,10 @@ span.vt img {
     width: 100%;
 }
 .col_row{
-    transition: 0.3seg;
+    transition: 0.3s;
 }
 .position_col{
     transform: rotate(0deg);
-
 }
 .position_row{
     transform: rotate(90deg);
