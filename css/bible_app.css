@@ -3736,7 +3736,7 @@ span.vt img {
     width: 100%;
 }
 .col_row{
-    transition: 0.3s;
+    transition: 0.1s;
 }
 .position_col{
     transform: rotate(0deg);
