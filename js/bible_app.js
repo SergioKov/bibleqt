@@ -11180,7 +11180,7 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
     setTimeout(()=>{
         mySizeWindow();
         mySizeVerse();
-    },300);
+    },300);//antes 100 //300 en vez de 100 ya que transition de 'col_row position_row' es 0.3s
 }
 
 
