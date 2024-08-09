@@ -2511,7 +2511,7 @@ span.prim_tsk {
 #bl_headerBtns .dbtn {
     margin: 0px;
     /* width: 25%; */
-    /* padding: 15px 0px; */
+    padding: 0px 10px;
     font-size: 18px;
     border-radius: 0;
     outline: 1px solid #373737;
@@ -2526,7 +2526,7 @@ span.prim_tsk {
     color: white;
     transition: 0.3s;
     cursor: pointer;
-    min-width: 50px;
+    min-width: 30px;
     min-height: 30px;
 }
 
@@ -3733,4 +3733,14 @@ j{
 
 span.vt img {
     width: 100%;
+}
+.col_row{
+    transition: 0.3seg;
+}
+.position_col{
+    transform: rotate(0deg);
+
+}
+.position_row{
+    transform: rotate(90deg);
 }

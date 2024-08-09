@@ -49,3 +49,66 @@ function addListenerToPATsk(){//no se llama en ninguna parte
         });
     },1000);  
 }
+
+
+
+
+
+
+
+
+function addListenerToScrollLeft(){//para controlar el scroll a la izda o derecha de la IMGx2
+        console.log('=== function addListenerToScrollLeft()');
+        console.log(`inicial scrollLeftVal: ${scrollLeftVal}`);
+
+        let colsInnerAll = document.querySelectorAll('.colsInner'); 
+        colsInnerAll.forEach((el,i)=>{
+            el.removeEventListener('scroll', myListenerScrollLeft);
+            el.addEventListener('scroll', myListenerScrollLeft.bind(null,el,i));
+        });
+
+        function myListenerScrollLeft(el,i,event){
+            console.log('=== function myListenerScrollLeft() ===');
+            console.log(el);
+            console.log(i);
+            //console.log(event);
+            console.log(`myListenerScrollLeft() --- scrollLeftVal: ${scrollLeftVal}`);
+            let scrollLeftVal_prev = scrollLeftVal;
+
+            if(el.getElementsByTagName('img').length > 0 && enable_IMGx2){
+
+                scrollLeftVal = el.scrollLeft; 
+                console.log(`if --- scrollLeftVal: ${scrollLeftVal}`);
+
+                
+                if(scrollLeftVal == 0 && scrollLeftVal_prev > 0){
+                    setTimeout(()=>{
+                        zzz(scrollLeftVal_prev);
+                    },10);
+                }else{
+                    zzz(scrollLeftVal);                    
+                }
+            }else{
+                console.log(`else --- scrollLeftVal: ${scrollLeftVal}`);
+                //el.scrollLeft = scrollLeftVal;
+
+            }
+        }
+  
+}
+
+function zzz(scrollLeftVal){
+    console.log('=== function zzz() ===');
+
+    let colsInnerAll = document.querySelectorAll('.colsInner');
+    console.log(`zzz() --- scrollLeftVal: ${scrollLeftVal}`);
+    
+    colsInnerAll.forEach(el=>{
+        console.log(el);
+
+        if(el.querySelector('img')){
+            el.scrollLeft = scrollLeftVal;
+        }
+        
+    })
+}

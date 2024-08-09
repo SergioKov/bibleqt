@@ -10690,10 +10690,12 @@ function hideShowSidebar(){
     let disp = eid_sidebar.style.display;
     if(disp != 'none' || eid_sidebar.offsetWidth > 0){//si se ve
         disp = 'none';//lo oculto
-        btn_hideShowSidebar.innerText = 'Show';
+        //btn_hideShowSidebar.innerText = 'Show';//antes
+        btn_hideShowSidebar.innerHTML = '<img src="images/sidebar_hide_white.svg">';//estado -> ocultado
     }else{
         disp = 'block';//lo muestro
-        btn_hideShowSidebar.innerText = 'Hide';
+        //btn_hideShowSidebar.innerText = 'Hide';//antes
+        btn_hideShowSidebar.innerHTML = '<img src="images/sidebar_show_white.svg">';//estado -> mostrado
     }
     eid_sidebar.removeAttribute('class');
     eid_sidebar.style.display = disp;
@@ -11159,27 +11161,25 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
             textPositionShow = 'Col';//futura acción
         }
     }
-    eid_btn_changePositionShowHeader.innerHTML = `<span>${textPositionShow}</span>`;//futura acción
-    eid_btn_changePositionShowModal.innerHTML = `<span>${textPositionShow}</span>`;//futura acción
+    //eid_btn_changePositionShowHeader.innerHTML = `<span>${textPositionShow}</span>`;
+    //eid_btn_changePositionShowModal.innerHTML = `<span>${textPositionShow}</span>`;
+
+    if(textPositionShow == 'Col'){
+        eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_row');
+        eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_col'); 
+        eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_row');
+        eid_btn_changePositionShowModal.querySelector('img').classList.add('position_col'); 
+    }else{
+        eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_col');
+        eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_row');    
+        eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_col');
+        eid_btn_changePositionShowModal.querySelector('img').classList.add('position_row');    
+    }
     positionShow = new_positionShow;//importante
     
-    /*if(positionShow == 'row'){
-        positionShow = 'col';//new valor
-        eid_btn_changePositionShowHeader.innerHTML = '<span>Row</span>';//futura acción
-        eid_btn_changePositionShowModal.innerHTML = '<span>Row</span>';//futura acción
-        //hago scroll to top en columna para todos cols
-        document.querySelectorAll('.colsInner').forEach(el=>{
-            el.scrollTop = 0;
-        });
-    }else if(positionShow == 'col'){
-        positionShow = 'row';//new valor
-        eid_btn_changePositionShowHeader.innerHTML = '<span>Col</span>';//futura acción
-        eid_btn_changePositionShowModal.innerHTML = '<span>Col</span>';//futura acción
-    }
-    */
-   setTimeout(()=>{
-       mySizeWindow();
-       mySizeVerse();
+    setTimeout(()=>{
+        mySizeWindow();
+        mySizeVerse();
     },100);
 }
 
@@ -21547,7 +21547,6 @@ function enableDesableMinOtrasTrans(){
 
 
 function toggleIMGx2(){
-    
     const styleId_IMGx2 = 'styleId_IMGx2';
     const existingStyle = document.getElementById(styleId_IMGx2);
 

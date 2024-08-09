@@ -316,7 +316,7 @@ let maxWidthCol = 350;//ancho de columna para leer cómodamente como en periódi
 
 //por defecto false
 let enable_IMGx2 = false;//true, false //mostrar width: 200% en imagenes dentro de colsInner
-
+let scrollLeftVal = 0;//por defecto img está a la izda
 
 
 //por defecto false. otras trans no están minimizadas y se ven como antes

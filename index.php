@@ -37,7 +37,8 @@ session_start();
                 <div id="bl_headerBtns">
                     
                     <div id="btn_hideShowSidebar" class="dbtn" title="Hide or Show sidebar" onclick="hideShowSidebar()">
-                        <div>Hide</div>
+                        <!--<div>Hide</div>-->
+                        <img src="images/sidebar_show_white.svg">
                     </div>
 
                     <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
@@ -76,7 +77,8 @@ session_start();
                     </div>                        
 
                     <div id="btn_changePositionShowHeader" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
-                        <div>Row</div>
+                        <!--<div>Row</div>-->
+                        <img class="col_row" src="images/col_row_white.svg">
                     </div>
                     <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
@@ -984,7 +986,8 @@ HERE;
                                     </div>                        
 
                                     <div id="btn_changePositionShowModal" class="dbtn" title="Change position: Columns or Rows" onclick="changePositionShow()">
-                                        <div>Row</div>
+                                        <!--<div>Row</div>-->
+                                        <img class="col_row position_row" src="images/col_row_white.svg">
                                     </div>
                                     <div id="m_btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                                         <div>S#</div>
