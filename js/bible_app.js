@@ -1086,13 +1086,6 @@ async function loadDefaultFunctions(){
     setTimeout(()=>{    
         pintRefOnScroll();
     },100);
-
-    setTimeout(()=>{    
-        mySizeWindow();
-    },300);
-    setTimeout(()=>{    
-        mySizeVerse();
-    },350);
 }
 
 function makeFooterBtnsFromArrFavTransObj(){

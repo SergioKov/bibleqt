@@ -807,10 +807,8 @@ function buildDivShow(arrData, indexColToBuild = null){
 
     setTimeout(()=>{    
         mySizeWindow();
-    },300);
-    setTimeout(()=>{    
         mySizeVerse();
-    },350);
+    },300);
 
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
