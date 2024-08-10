@@ -805,6 +805,13 @@ function buildDivShow(arrData, indexColToBuild = null){
         getFirstPVisibleAndPutInVkladka();
     },50);
 
+    setTimeout(()=>{    
+        mySizeWindow();
+    },300);
+    setTimeout(()=>{    
+        mySizeVerse();
+    },350);
+
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
     //console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
