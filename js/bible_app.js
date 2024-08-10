@@ -1017,12 +1017,6 @@ async function loadDefaultFunctions(){
     
     is_loading_def_functions = true;
 
-    //cargo book 0 (Genesis) chapter (1) en el primer div
-    //showTrans(39, 5);
-
-    //simulo click  al 'kniga' por defecto
-    //sel(document.querySelector('.bcv_active'),'b');//por defecto
-
     //Botones Trans del footer
     makeFooterBtnsFromArrFavTransObj();
     
@@ -1085,13 +1079,20 @@ async function loadDefaultFunctions(){
 
     addListenerModule();
     updateTransOnClickOnActiveCol();
+    
+    doPageDownOnScroll();
+    document.onkeydown = checkKey;
 
     setTimeout(()=>{    
         pintRefOnScroll();
     },100);
 
-    doPageDownOnScroll();
-    document.onkeydown = checkKey;
+    setTimeout(()=>{    
+        mySizeWindow();
+    },300);
+    setTimeout(()=>{    
+        mySizeVerse();
+    },350);
 }
 
 function makeFooterBtnsFromArrFavTransObj(){
@@ -2247,7 +2248,7 @@ function clearColsEmpty(){
         if(typeof el.dataset.trans == 'undefined'){
             el.parentElement.remove();
             mySizeWindow();
-            mySizeVerse()
+            mySizeVerse();
         }
     });    
 }
