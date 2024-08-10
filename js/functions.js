@@ -805,10 +805,12 @@ function buildDivShow(arrData, indexColToBuild = null){
         getFirstPVisibleAndPutInVkladka();
     },50);
 
+    /*
     setTimeout(()=>{    
         mySizeWindow();
         mySizeVerse();
     },300);
+    */
 
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
