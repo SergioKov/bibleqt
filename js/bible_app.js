@@ -350,6 +350,8 @@ async function iniciarSesion(){//antes login() //username,password
                 await obtenerDatosDeBD('hist_find','arr_hist_find');
                 await obtenerDatosDeBD('hist_strong','arr_hist_strong');
                 await obtenerDatosDeBD('markers','arr_markers');
+
+                location.reload(); // Recargar la página
     
                 setTimeout(()=>{
                     closeModal('Login');
