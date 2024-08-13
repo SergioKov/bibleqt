@@ -41,6 +41,10 @@ session_start();
                         <img src="images/sidebar_show_white.svg">
                     </div>
 
+                    <div id="btn_hideShowFooter" class="dbtn" title="Hide or Show footer" onclick="hideShowFooter()">
+                        <img src="images/sidebar_show_white.svg">
+                    </div>
+
                     <div class="dbtn" title="Remove Bible Translation" onclick="removeTrans()">
                         <div>Tr -</div>
                     </div>
@@ -532,14 +536,14 @@ session_start();
                 <div id="vklad_markers" class="vklads" style="display: none;">
                     <div id="markers_head">
                         <h4>Маркеры / Закладки</h4>
-                        <span id="markers_porcentaje">45/100</span>
+                        <span id="markers_porcentaje">0/100</span>
                     </div>
-                    <div id="markers_body">
-    
+                    <div id="markers_body">    
                         <div id="wr_markers">
-                            <div class="wr_markers_inner"></div>
-                        </div>                   
-                    
+                            <div class="wr_markers_inner">
+                                <span class="prim_tsk">Нет записей в Маркерах. <br><a href="#" onclick="event.preventDefault(); alert('1. Кликните на стих \n2. Кликните на кнопку с троеточием \n3. Кликните на вторую кнопку слева')">Как добавить стих?</a></span>
+                            </div>
+                        </div>
                     </div>
                 </div><!--/vklad_markers-->
 

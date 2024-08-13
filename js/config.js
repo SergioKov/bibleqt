@@ -118,6 +118,7 @@ const eid_vklad_markers = document.getElementById('vklad_markers');
 
 
 const eid_btn_hideShowSidebar = document.getElementById('btn_hideShowSidebar');
+const eid_btn_hideShowFooter = document.getElementById('btn_hideShowFooter');
 const eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
 const eid_btn_ok = document.getElementById('btn_ok');
 

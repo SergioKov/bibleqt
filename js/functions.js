@@ -83,6 +83,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             
                     let strongIndex = obj_strong.t;//topic
                     let strongText = obj_strong.d;//definition
+                    let strongTextWordsShow = (strongText.includes('<br/><df>Оригинал:</df>')) 
+                        ? strongText.split('<br/><df>Оригинал:</df>')[0] 
+                        : '' ;
+
                     //console.log('strongIndex: '+strongIndex);
                     //console.log('strongText: '+strongText);
             
@@ -91,7 +95,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     showTab(eid_btn_strong,'strong'); 
 
                     //añado NumberStrong al historial
-                    addStrongNumberToHistStrong(strongLang, strongIndex);
+                    addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow);
             
                     const span_num_strong = document.createElement('span');
                     span_num_strong.className = 'num_strong';
@@ -134,7 +138,6 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             el = el.replace('<br>','');//solo 1-ra palabra
                         }
             
-                        
                         //Оригинал:
                         if(el.includes('<df>Оригинал:</df>')){
                             if(arr[0].includes('<he>') && arr[0].includes('</he>')){
@@ -362,6 +365,10 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     
             let strongIndex = obj_strong.t;//topic
             let strongText = obj_strong.d;//definition
+            let strongTextWordsShow = (strongText.includes('<br/><df>Оригинал:</df>')) 
+                ? strongText.split('<br/><df>Оригинал:</df>')[0] 
+                : '' ;
+
             //console.log('strongIndex: '+strongIndex);
             //console.log('strongText: '+strongText);
     
@@ -370,7 +377,7 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
             showTab(eid_btn_strong,'strong');
 
             //añado numberStrong al historial
-            addStrongNumberToHistStrong(strongLang, strongIndex);
+            addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow);
     
             const span_num_strong = document.createElement('span');
             span_num_strong.className = 'num_strong';
@@ -801,21 +808,15 @@ function buildDivShow(arrData, indexColToBuild = null){
     //hago scroll a vkladka activa
     scrollToVkladkaActive();  
     
-    setTimeout(()=>{
-        getFirstPVisibleAndPutInVkladka();
-    },50);
-
-    /*
-    setTimeout(()=>{    
-        mySizeWindow();
-        mySizeVerse();
-    },300);
-    */
-
     //cuando se pintan todos los trans permito usar showTrans()
     allowUseShowTrans = true;
     //console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
+
     addListenerToScrollLeft();//test eg_img
+
+    setTimeout(()=>{
+        getFirstPVisibleAndPutInVkladka();
+    },50);    
 }
 
 
@@ -1502,7 +1503,7 @@ function onclick_p_find(el){
     eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
 }
 
-const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
+const addStrongNumberToHistStrong = async (strongLang, strongIndex, strongTextWordsShow) => {
     //console.log('=== const addStrongNumberToHistStrong ===');
     
     if(arr_hist_strong.length == 0){
@@ -1529,10 +1530,26 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex) => {
     });
     //console.log("Hora actual: " + horaActual);
 
+    let strongWord = '';
+    let strongTranslation = '';
+    if(strongTextWordsShow != ''){
+        if(strongLang == 'greek'){
+            let arr = strongTextWordsShow.split('</el> <br/>')
+            strongWord = arr[0] + '</el>';
+            strongTranslation = arr[1];    
+        }else{//hebrew
+            let arr = strongTextWordsShow.split('</he> <br/>')
+            strongWord = arr[0] + '</he>';
+            strongTranslation = arr[1];    
+        }
+    }
+
 
     let itemHist = { 
         'strongLang': toTitleCase(strongLang), 
         'strongIndex': strongIndex, 
+        'strongWord': strongWord, 
+        'strongTranslation': strongTranslation, 
         'fecha': fechaFormateada, 
         'hora': horaActual 
     };
@@ -1565,8 +1582,20 @@ function buildHistoryStrongDesktop(){
             p.onclick = () => {
                 onclick_p_strong(el);            
             }
-            p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            //p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
+            //p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+
+            p.innerHTML = `
+                <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
+                <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+            `;
+            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
+                p.innerHTML += `
+                    <span class="sp_ref_hist">${el.strongWord}</span>
+                    <span class="sp_w_t">${el.strongTranslation}</span>
+                `;
+            }
+
             eid_wr_hist_strong_inner.append(p);
 
         });    

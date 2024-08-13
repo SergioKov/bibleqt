@@ -2624,8 +2624,16 @@ function showHistoryStrong(){
                 closeModal(null,true);
                 showTab(eid_btn_strong,'strong');           
             }
-            p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            p.innerHTML = `
+                <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
+                <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+            `;
+            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
+                p.innerHTML += `
+                    <span class="sp_ref_hist">${el.strongWord}</span>
+                    <span class="sp_w_t">${el.strongTranslation}</span>
+                `;
+            }
             eid_bl_modalFullInner.append(p);
         });
     }else{
@@ -2765,7 +2773,7 @@ function showMarkers(){
     }else{
         const p = document.createElement('p');
         p.className = 'prim';
-        p.innerHTML = 'Нет записей в в закладках.';
+        p.innerHTML = 'Нет записей в закладках.';
         eid_bl_modalFullInner.append(p);
     }    
 }

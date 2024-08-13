@@ -1890,6 +1890,12 @@ select  optgroup option {
     min-width: 55px;
     text-align: right;
 }
+.sp_w_t{
+    color: #afafaf;
+}
+.sp_w_t nm {
+    color: #5acbff;
+}
 
 
 #wr_hist_find {
@@ -3743,4 +3749,8 @@ span.vt img {
 }
 .position_row{
     transform: rotate(90deg);
+}
+
+#btn_hideShowFooter img {
+    transform: rotate(270deg);
 }

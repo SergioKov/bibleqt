@@ -218,81 +218,6 @@ function checkPositionShowForMob(){
     }
 }
 
-/*function iniciarSesion_old(){//antes login() //username,password
-    //console.log('=== function iniciarSesion() ===');
-
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    if(username == '' || password == ''){
-        alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
-        return;
-    }
-
-    // Enviar los datos al servidor para la autenticación
-    fetch("./php/iniciar_sesion.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    })
-    .then(response => response.json())
-    .then(async data => {
-        
-        //console.log(data);
-        
-        if (data.success) {
-            //console.log(`Usuario autentificado con éxito. Sessión creada para el usuario ${username} . Hago redireccion...`);
-
-            // Actualizar el contenido después del inicio de sesión exitoso
-            mostrarForm('bl_sesion_iniciada');
-
-            eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
-            eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
-            eid_login_menu.title = `${username}`;
-
-            hay_sesion = true;
-            pintLoginImg(hay_sesion);
-
-            allowUseShowTrans = true;
-            //console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
-            
-            await obtenerDatosDeBD('vkladki','arrTabs');
-            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-            await obtenerDatosDeBD('hist_find','arr_hist_find');
-            await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-            await obtenerDatosDeBD('markers','arr_markers');
-
-            setTimeout(()=>{
-                closeModal('Login');
-            },5000);
-
-            // Redirigir a la página de inicio si la autenticación es exitosa
-            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
-        } else {
-            let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-            //console.log(error_text);
-
-            eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
-            eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
-
-            hay_sesion = false;
-            pintLoginImg(hay_sesion);
-        }
-
-        mySizeWindow();
-    })
-    .catch(error => {
-        console.error("Error: ", error);
-    });    
-
-}
-*/
-
 async function iniciarSesion(){//antes login() //username,password
     //console.log('=== function iniciarSesion() ===');
 
@@ -379,49 +304,6 @@ async function iniciarSesion(){//antes login() //username,password
     }
 
 }
-/*
-function cerrarSesion_old(){
-    //console.log('=== function cerrarSession() ===');
-
-    // Realizar una petición al servidor para cerrar la sesión
-    // y actualizar el contenido después de cerrar la sesión.
-    // Aquí utilizamos Fetch API para hacer la petición AJAX.
-    fetch('./php/cerrar_sesion.php')
-    .then(response => response.json())
-    .then(data => {
-
-        //console.log(data);
-
-        if (data.cerrada) {
-            
-            let text_mensaje = 'Sesión cerrada con exito!';
-            //console.log(text_mensaje);
-            
-            mostrarForm('bl_login');
-            hay_sesion = false;
-            pintLoginImg(hay_sesion);
-
-            document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
-            eid_login_menu.title = `Login`;            
-
-            eid_partDeskTabs.innerHTML = '';
-            addTab(null,null,null,'tab_new');
-            
-            // Actualizar el contenido después de cerrar la sesión
-            //document.getElementById("mensaje").innerHTML = '';
-            //document.getElementById("formulario_login").style.display = "block";
-        } else {
-            // Mostrar un mensaje de error si hay problemas al cerrar la sesión
-            console.error('Error al cerrar sesión');
-        }
-
-        mySizeWindow();
-    })
-    .catch(error => {
-        console.error('error fetch ', error);
-    });
-}
-*/
 
 async function cerrarSesion(){
     //console.log('=== function cerrarSession() ===');
@@ -10701,6 +10583,21 @@ function hideShowSidebar(){
     mySizeVerse();
 }
 
+function hideShowFooter(){
+    let disp = eid_footer.style.display;
+    if(disp != 'none' || eid_footer.offsetHeight > 0){//si se ve
+        disp = 'none';//lo oculto
+        btn_hideShowFooter.innerHTML = '<img src="images/sidebar_hide_white.svg">';//estado -> ocultado
+    }else{
+        disp = 'block';//lo muestro
+        btn_hideShowFooter.innerHTML = '<img src="images/sidebar_show_white.svg">';//estado -> mostrado
+    }
+    eid_footer.removeAttribute('class');
+    eid_footer.style.display = disp;
+    
+    mySizeWindow();
+} 
+
 
 function getActTrans(){
     let act_trans = eid_trans1.dataset.trans;
@@ -12274,7 +12171,8 @@ async function obtenerDatosDeBD(tabla, campo){
                     //console.log(arr_hist_strong);
                 }else{
                     //console.log('Si. hist_strong tiene_datos');
-                    arr_hist_strong = JSON.parse(data);
+                    //arr_hist_strong = JSON.parse(data);//antes
+                    arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data);
                     //console.log('editado arr_hist_strong: ', arr_hist_strong);
                     buildHistoryStrongDesktop();
                 }
@@ -12381,7 +12279,26 @@ function convertArrBdToArrOk(arrName, arr){
                 break;
             
             case 'arr_hist_strong':
-                //no hace falta. no tiene unicode...       
+                //no hace falta. no tiene unicode... 
+                let expresionRegular1 = /u\d{1}/g;//buscar caracteres unicode que me da bd.
+                if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
+                    coincidencias = el.strongWord.match(expresionRegular1);
+                    if (coincidencias) {
+                        //console.log('antes el.ref: ', el.ref);
+                        el.strongWord = el.strongWord.replace(expresionRegular1, function (x) {
+                            return '\\' + x;
+                        });
+                        arr_work[i].strongWord = convertirUnicodeALetras(el.strongWord);//strongWord
+                    }        
+                    coincidencias2 = el.strongTranslation.match(expresionRegular);
+                    if (coincidencias2) {
+                        //console.log('antes el.strongTranslation: ', el.strongTranslation);
+                        el.strongTranslation = el.strongTranslation.replace(expresionRegular, function (x) {
+                            return '\\' + x;
+                        });
+                        arr_work[i].strongTranslation = convertirUnicodeALetras(el.strongTranslation);//strongTranslation
+                    }            
+                }
                 break;
 
             case 'arr_markers':
