@@ -21514,3 +21514,26 @@ function enableDisableIMGx2(){
     checkIMGx2();
     toggleIMGx2();
 }
+
+
+
+function toggleSwitcher(id_switcher){
+    const wr_switcher = document.getElementById(id_switcher);
+    const switcher = wr_switcher.querySelector('input');
+
+    if(switcher.checked) {
+        console.log('switcher is ON lo pongo a OFF');
+        dishableSwitcher(switcher)//lo desmarco
+    }else{
+        console.log('--- switcher is OFF lo pongo a ON');
+        enableSwitcher(switcher)//lo marco
+    }
+}
+
+function enableSwitcher(switcher){
+    switcher.checked = true;//lo marco
+}
+
+function dishableSwitcher(switcher){
+    switcher.checked = false;//lo desmarco
+}

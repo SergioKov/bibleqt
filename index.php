@@ -40,7 +40,6 @@ session_start();
                         <!--<div>Hide</div>-->
                         <img src="images/sidebar_show_white.svg">
                     </div>
-
                     <div id="btn_hideShowFooter" class="dbtn" title="Hide or Show footer" onclick="hideShowFooter()">
                         <img src="images/sidebar_show_white.svg">
                     </div>
@@ -931,16 +930,11 @@ print<<<HERE
   </div>
 HERE;
 ?>
-
-
-
-
-
                                 </div>
                             </div><!--/#topLogin-->
 
 
-                            <div id="topMenu" style="display:none;">
+                            <div id="topMenu">
                                 <div id="topMenuInner">
 <?php
 print<<<HERE
@@ -1064,6 +1058,41 @@ HERE;
                                             <span>Strong</span>
                                         </div>
                                     </div>
+
+
+
+
+                                    <div id="btn_sw1" class="dbtn btns_sw" onclick="enableDesableMinOtrasTrans();toggleSwitcher(this.id)">
+                                        <div class="wr_sw_text">                                            
+                                            <span class="sp_com">
+                                                Tr_min
+                                            </span>
+                                            <span class="sp_expl">
+                                                Minimizar otras traducciones para ver sólo la traducción base (primera columna a la izda)
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="btn_sw2" class="dbtn btns_sw" onclick="toggleSwitcher(this.id)">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                mw_Col
+                                            </span>
+                                            <span class="sp_expl">
+                                                Habilitar ancho máximo de 350px para ver las columnas como en peiódico
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+
 
 
 
