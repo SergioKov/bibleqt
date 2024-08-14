@@ -2,6 +2,12 @@
 //  C O N S T A N T A S
 //====================================================================//
 
+let lang = 'es';//español por defecto
+
+let lang2 = {
+    "btn_hideShowSidebar.title" : "aaaaaaaaaaaaaaa"
+}
+
 // prefijo 'eid_' se usa para lod elementos html con su id.
 
 const eid_header = document.getElementById('header');
@@ -167,7 +173,6 @@ const arrIdForms = [
 
 const eid_login_menu = document.getElementById('login_menu');
 const eid_m_login_menu = document.getElementById('m_login_menu');
-
 
 
 //Medidas de pantallas para Media Queries

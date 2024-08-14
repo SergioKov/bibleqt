@@ -1801,7 +1801,7 @@ let arrImgSrc = [
 	['63_titus',632,636],
 	['64_philemon',637,638],
 	['65_hebrews',639,666],
-    
+
 	['66_revelation',667,710]
 ];
 */
@@ -1812,4 +1812,81 @@ function makeAllImgSrc(arr){
         console.warn(el[0]);
         generarImgSrc(el[0], el[1], el[2]);
     });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+changeLang('ru');
+
+async function changeLang(lang) {
+    console.log('=== function changeLanguage(lang) ===');
+    const arr_langs = ['es','ru','en','ua'];
+
+    if(arr_langs.includes(lang)){
+        const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
+        console.log('obj_lang:');
+        console.log(obj_lang);
+
+        // Selecciona todos los elementos con la clase 'lng'
+        document.querySelectorAll('[data-dic]').forEach(element => {
+            const dic = element.dataset.dic;
+
+            if(dic.includes('.')){
+                dic_place = dic.split('.')[1];//title
+                console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
+
+                switch (dic_place) {
+                    case 't'://title
+                        element.title = obj_lang[dic];
+                        break;
+                
+                    case 'ph'://placeholder
+                        element.placeholder = obj_lang[dic];
+                        break;
+
+                    case 'lab'://label
+                        element.label = obj_lang[dic];
+                        break;
+                
+                    case 'ttip'://tooltip
+                        element.dataset.tooltip = obj_lang[dic];
+                        break;
+                
+                    default:
+                        console.error('no es title');
+                        break;
+                }
+                
+            }else{
+                element.textContent = obj_lang[dic];
+                console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
+            }
+        });
+        
+    }else{
+        console.error('no existe este idioma para las traducciones');
+        return false;
+    }
+}
+
+
+
+//generarLangJson(31,250);
+
+function generarLangJson(n_start,n_end){
+    for (let i = n_start; i <= n_end; i++) {
+        console.log(`"d${i}": "",`);
+    }
 }
