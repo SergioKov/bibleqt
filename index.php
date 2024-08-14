@@ -118,7 +118,7 @@ session_start();
 
                 <div class="wr_menu_r">
                     <h3>BQ</h3>
-                    <select id="sel_lang" onchange="changeLang(this.value)">
+                    <select id="sel_lang" class="select_lang" onchange="changeLang(this.value)">
                         <option value="ru">RU</option>
                         <option value="ua">UA</option>
                         <option value="es">ES</option>
@@ -882,50 +882,50 @@ print<<<HERE
 
             <div id="bl_register_form" style="display:$st_bl_register_form;">
                 <form class="register-form">
-                    <h1 data-dic="d">Crear cuenta</h1>
-                    <p class="mensaje" data-dic="d">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
-                    <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="name"/>
-                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="password"/>
-                    <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="email address"/>
-                    <button class="btn_wide" data-dic="d" type="button" onclick="crearCuenta()">Crear cuenta</button>
-                    <p class="message" data-dic="d">¿Ya estás registrado? <a href="#" data-dic="d" onclick="mostrarLoginForm()">Entrar</a></p>
+                    <h1 data-dic="d177">Crear cuenta</h1>
+                    <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
+                    <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192.ph" />
+                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193.ph" />
+                    <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194.ph" />
+                    <button class="btn_wide" type="button" onclick="crearCuenta()" data-dic="d177">Crear cuenta</button>
+                    <p class="message"><span data-dic="d179">¿Ya estás registrado?</span> <a href="#" onclick="mostrarLoginForm()" data-dic="d180">Entrar</a></p>
                 </form>
             </div>
 
             <div id="bl_email_form" style="display:$st_bl_email_form;">
                 <form class="email-form">
-                    <h1 data-dic="d">Recuperar contraseña</h1>
-                    <p class="mensaje" data-dic="d">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
-                    <input id="rec_email" name="email" type="text" autocomplete="on" placeholder="email address"/>
-                    <button class="btn_wide" data-dic="d" type="button" onclick="enviarEmail()">Enviar</button>
-                    <p class="message"><a href="#" data-dic="d" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
+                    <h1 data-dic="d181">Recuperar contraseña</h1>
+                    <p class="mensaje" data-dic="d182">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
+                    <input id="rec_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194.ph" />
+                    <button class="btn_wide" type="button" onclick="enviarEmail()" data-dic="d183">Enviar</button>
+                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
                 </form>
             </div>
 
             <div id="bl_change_email_form" style="display:$st_bl_change_email_form;">
                 <form class="change-email-form">
-                    <h1 data-dic="d">Cambiar contraseña</h1>
-                    <p class="mensaje" data-dic="d">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
-                    <input id="act_email" name="email" type="text" autocomplete="on" placeholder="actual email address"/>
-                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="actual password"/>
-                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="new password"/>
-                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="repeat new password"/>
-                    <button class="btn_wide" data-dic="d" type="button" onclick="enviarChangeEmail()">Cambiar</button>
-                    <p class="message"><a href="#" data-dic="d" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
+                    <h1 data-dic="d185">Cambiar contraseña</h1>
+                    <p class="mensaje" data-dic="d186">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
+                    <input id="act_email" name="email" type="text" autocomplete="on" placeholder="Actual email" data-dic="d195.ph" />
+                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196.ph" />
+                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197.ph" />
+                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198.ph" />
+                    <button class="btn_wide" type="button" onclick="enviarChangeEmail()" data-dic="d187">Cambiar</button>
+                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
                 </form>
             </div>
             
             <div id="bl_login" style="display:$st_bl_login;">
                 <form class="login-form">
-                    <h1 data-dic="d">Iniciar sesión</h1>
-                    <p class="mensaje" data-dic="d">Tendrás acceso a tus ajustes personales.</p>
-                    <input id="username" name="username" type="text" autocomplete="on" placeholder="username" required/>
-                    <input id="password" name="password" type="password" autocomplete="on" placeholder="password" required/>
-                    <button class="btn_wide" data-dic="d" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
+                    <h1 data-dic="d184">Iniciar sesión</h1>
+                    <p class="mensaje" data-dic="d188">Tendrás acceso a tus ajustes personales.</p>
+                    <input id="username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192.ph" required />
+                    <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193.ph" required />
+                    <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
                     <p class="message">
-                        <span data-dic="d">¿No estás registrado?</span> <a href="#" data-dic="d" onclick="mostrarForm('bl_register_form')">Crear una cuenta</a>
-                        <br><span data-dic="d">¿Has olvidado la contraseña?</span> <a href="#" data-dic="d" onclick="mostrarForm('bl_email_form')">Recuperar contraseña</a>
-                        <br><span data-dic="d">¿Quieres cambiar la contraseña?</span> <a href="#" data-dic="d" onclick="mostrarForm('bl_change_email_form')">Cambiar contraseña</a>
+                        <span data-dic="d189">¿No estás registrado?</span> <a href="#" onclick="mostrarForm('bl_register_form')" data-dic="d177">Crear cuenta</a>
+                        <br><span data-dic="d190">¿Has olvidado la contraseña?</span> <a href="#" onclick="mostrarForm('bl_email_form')" data-dic="d181">Recuperar contraseña</a>
+                        <br><span data-dic="d191">¿Quieres cambiar la contraseña?</span> <a href="#" onclick="mostrarForm('bl_change_email_form')" data-dic="d185">Cambiar contraseña</a>
                     </p>
                 </form>
             </div>
@@ -934,7 +934,7 @@ print<<<HERE
                 <h1>$frase_bienvenida!</h1>
                 <p class="mensaje">$mensaje</p>
                 <br>
-                <button class="cerr_ses" data-dic="d153" onclick="cerrarSesion()">Cerrar Sesión</button>
+                <button class="cerr_ses" onclick="cerrarSesion()" data-dic="d153">Cerrar Sesión</button>
             </div>
 
         </div>
@@ -951,7 +951,7 @@ HERE;
 <?php
 print<<<HERE
                                     <div id="m_login_menu" class="dbtn" data-dic="d18.t" title="login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
-                                    <div class="dbtn_inner">
+                                        <div class="dbtn_inner">
                                             <img src="$login_img_src">    
                                             <span data-dic="d18.t">Login</span>
                                         </div>
@@ -1004,10 +1004,10 @@ HERE;
                                     </div>
 
                                     <div class="dbtn" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
-                                        <div>Модули</div>
+                                        <div data-dic="d161">Модули</div>
                                     </div>
                                     <div class="dbtn" data-dic="d154.t" title="Вкладки" onclick="showTabs()" style="width:50%;">
-                                        <div data-dic="d155.t">Вкладки</div>
+                                        <div data-dic="d155">Вкладки</div>
                                     </div>
 
 
@@ -1075,6 +1075,17 @@ HERE;
                                             <img src="./images/history_icon_white.svg">    
                                             <span data-dic="d163">Strong</span>
                                         </div>
+                                    </div>
+
+
+                                    <div class="dbtn btns_sw" style="width: 100%;">
+                                        <span data-dic="d199">Язык итнерфейса: </span>
+                                        <select id="m_sel_lang" class="select_lang" onchange="changeLang(this.value)">
+                                            <option value="ru">RU</option>
+                                            <option value="ua">UA</option>
+                                            <option value="es">ES</option>
+                                            <option value="en">EN</option>
+                                        </select>
                                     </div>
 
 

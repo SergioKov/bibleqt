@@ -1833,6 +1833,7 @@ checkLang();
 
 function checkLang(){
     eid_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
+    eid_m_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
     changeLang(lang);
 }
 

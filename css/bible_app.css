@@ -3863,7 +3863,7 @@ input:checked + .slider:before {
     width: 100%;
 }
 
-#sel_lang {
+.select_lang {
     border: 1px solid #000000;
     border-radius: 3px;
     background: #000000;
@@ -3875,6 +3875,9 @@ input:checked + .slider:before {
     color: white;
     text-align: center;
     cursor: pointer;
+    width: 50px;
 }
+
+
 
 

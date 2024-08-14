@@ -2,8 +2,9 @@
 //  C O N S T A N T A S
 //====================================================================//
 
-let lang = 'en';//español por defecto
+let lang = 'ru';//español por defecto
 const eid_sel_lang = document.getElementById('sel_lang');
+const eid_m_sel_lang = document.getElementById('m_sel_lang');
 
 // prefijo 'eid_' se usa para lod elementos html con su id.
 
