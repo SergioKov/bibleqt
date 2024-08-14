@@ -112,13 +112,18 @@ session_start();
                         (<span class="test_font_greek">λόγος</span>)
                     </div>
 
-
                     
                 </div>
 
 
                 <div class="wr_menu_r">
-                    <h3>BQ</h3>    
+                    <h3>BQ</h3>
+                    <select id="sel_lang" onchange="changeLang(this.value)">
+                        <option value="ru">RU</option>
+                        <option value="ua">UA</option>
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>    
                     <div id="login_menu" data-dic="d18.t" title="login" onclick="openModal('top','Login',null,'showLogin')">
                         <img src="images/login2_white.svg">
                     </div>
@@ -688,77 +693,77 @@ session_start();
 
                             
                             <!--testings start-->
-                            <p id="ukr_umts__0__1__2" data-verse="2" style="display: none;">
-                                <a href="#">Бут.1:2</a> 
-                                <span class="vt">
-                                    <span>земля була <button id="myButton">myButton</button> безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду. Дух Божий, неначе буря, носився над водами. </span>
-                                    
-                                    
-                                    <span class="wr_tooltip" onclick="hideShowComment(event)">
-                                        <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
-                                            <span class="asterisco">*</span>
-                                            <span class="trik d-none"></span>
-                                        </span>
-                                        <span class="comment d-none">
-                                            <span class="commentInner">
-                                                <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                <span class="text">
-                                                    <em>морській безодні </em>Або «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
-                                                </span>
-                                            </span>
-                                        </span>
-                                    </span>
-
-
-                                    <span> (продолжение) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
-
-
-                                    <span class="wr_tooltip" onclick="hideShowComment(event)">
-
-                                        <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
-                                            <span class="asterisco">*</span>
-                                            <span class="trik d-none"></span>
-                                        </span>
+                                <p id="ukr_umts__0__1__2" data-verse="2" style="display: none;">
+                                    <a href="#">Бут.1:2</a> 
+                                    <span class="vt">
+                                        <span>земля була <button id="myButton">myButton</button> безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду. Дух Божий, неначе буря, носився над водами. </span>
                                         
-                                        <span class="comment d-none">
-                                            <span class="commentInner">
-                                                <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                <span class="text" onclick="e.stopPropagation()">
-                                                    <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
-                                                </span>
-                                            </span>
-                                        </span>
-
-                                    </span>
-
-
-                                    <span> (продолжение 2) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
-
-                                    <span class="wr_tooltip" onclick="hideShowComment(event)">
-
-                                        <span class="tooltip" data-tooltip="<em>морській безодні </em> ">
-                                            <span class="asterisco">*</span>
-                                            <span class="trik d-none"></span>
-                                        </span>
                                         
-                                        <span class="comment d-none">
-                                            <span class="commentInner">
-                                                <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                <span class="text" onclick="e.stopPropagation()">
-                                                    <em>морській безодні </em>
+                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
+                                            <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+                                                <span class="asterisco">*</span>
+                                                <span class="trik d-none"></span>
+                                            </span>
+                                            <span class="comment d-none">
+                                                <span class="commentInner">
+                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                    <span class="text">
+                                                        <em>морській безодні </em>Або «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+                                                    </span>
                                                 </span>
                                             </span>
                                         </span>
 
-                                    </span>
 
-                                
-                                
-                                
-                                </span>
+                                        <span> (продолжение) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
+
+
+                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
+
+                                            <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+                                                <span class="asterisco">*</span>
+                                                <span class="trik d-none"></span>
+                                            </span>
+                                            
+                                            <span class="comment d-none">
+                                                <span class="commentInner">
+                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                    <span class="text" onclick="e.stopPropagation()">
+                                                        <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+                                                    </span>
+                                                </span>
+                                            </span>
+
+                                        </span>
+
+
+                                        <span> (продолжение 2) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
+
+                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
+
+                                            <span class="tooltip" data-tooltip="<em>морській безодні </em> ">
+                                                <span class="asterisco">*</span>
+                                                <span class="trik d-none"></span>
+                                            </span>
+                                            
+                                            <span class="comment d-none">
+                                                <span class="commentInner">
+                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                    <span class="text" onclick="e.stopPropagation()">
+                                                        <em>морській безодні </em>
+                                                    </span>
+                                                </span>
+                                            </span>
+
+                                        </span>
+
                                     
-                                    <span class="btn_verse_menu"></span>
-                            </p>
+                                    
+                                    
+                                    </span>
+                                        
+                                        <span class="btn_verse_menu"></span>
+                                </p>
                             <!--testings end-->
 
                         </div>
@@ -788,7 +793,7 @@ session_start();
                 <div class="inner">
                     <h4>
                         <span class="close" onclick="closeModal(null,true)">&#10005;</span><!-- x -->
-                        <span id="btn_sp_atras" class="sp_atras" onclick="openModal('top','Меню',null,'showMenu')"></span>
+                        <span id="btn_sp_atras" class="sp_atras" data-dic="d19.t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>
                     </h4>
                 </div>
@@ -796,7 +801,6 @@ session_start();
 
             <div id="modcont_body">
                 <div class="inner">
-
 
                     <div id="bl_modalTop" class="body_bls" style="display:none;">
                         <div id="bl_modalTopInner">
@@ -824,9 +828,9 @@ HERE;
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
-        $frase_bienvenida = "Bienvenido, " . $_SESSION['username'];
+        $frase_bienvenida = '<span data-dic="d151">Bienvenido</span>, ' . $_SESSION['username'];
         //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
-        $mensaje = '<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.';
+        $mensaje = '<span class="clr_green" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
@@ -854,8 +858,8 @@ HERE;
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
-        $frase_bienvenida = "No estás logueado.";
-        $mensaje = "Sesión no iniciada.";
+        $frase_bienvenida = '<span data-dic="d152">No estás logueado.</span>';
+        $mensaje = '<span data-dic="d150">Sesión no iniciada.</span>';
         $login_img_src = './images/login2_grey2.svg';
         //echo "<script>alert('js session cerrada')</script>";
 print<<<HERE
@@ -927,10 +931,10 @@ print<<<HERE
             </div>
 
             <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
-                <h1 data-dic="d">$frase_bienvenida!</h1>
-                <p class="mensaje" data-dic="d">$mensaje</p>
+                <h1>$frase_bienvenida!</h1>
+                <p class="mensaje">$mensaje</p>
                 <br>
-                <button class="cerr_ses" data-dic="d" onclick="cerrarSesion()">Cerrar Sesión</button>
+                <button class="cerr_ses" data-dic="d153" onclick="cerrarSesion()">Cerrar Sesión</button>
             </div>
 
         </div>
@@ -946,73 +950,74 @@ HERE;
                                 <div id="topMenuInner">
 <?php
 print<<<HERE
-                                    <div id="m_login_menu" class="dbtn" data-dic="d" title="Sesion" onclick="openModal('top','Login',null,'showLogin')" style="width:100%;">
+                                    <div id="m_login_menu" class="dbtn" data-dic="d18.t" title="login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
                                     <div class="dbtn_inner">
                                             <img src="$login_img_src">    
-                                            <span data-dic="d">Login</span>
+                                            <span data-dic="d18.t">Login</span>
                                         </div>
                                     </div>
 HERE;
 ?>                                    
 
-                                    <div class="dbtn" data-dic="d" title="Remove Bible Translation" onclick="removeTrans()">
+                                    <div class="dbtn" data-dic="d3.t" title="Remove Bible Translation" onclick="removeTrans()">
                                         <div>Tr -</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+                                    <div class="dbtn" data-dic="d4.t" title="Add Bible Translation" onclick="addTrans('askForTrans')">
                                         <div>Tr +</div>
                                     </div>
 
-                                    <div class="dbtn" data-dic="d" title="Quitar Pestaña" onclick="removeTab()">
+                                    <div class="dbtn" data-dic="d5.t" title="Quitar Pestaña" onclick="removeTab()">
                                         <div>Vk -</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+                                    <div class="dbtn" data-dic="d6.t" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
                                         <div>Vk +</div>
                                     </div>
 
 
-                                    <div class="dbtn" data-dic="d" title="Previous book" onclick="bookGo('prev')">
+                                    <div class="dbtn" data-dic="d7.t" title="Previous book" onclick="bookGo('prev')">
                                         <img src="images/arrow_backward_white.svg">
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Next book"onclick="bookGo('next')">
+                                    <div class="dbtn" data-dic="d8.t" title="Next book"onclick="bookGo('next')">
                                         <img src="images/arrow_forward_white.svg">
                                     </div>
 
-                                    <div class="dbtn" data-dic="d" title="Previous chapter" onclick="chapterGo('prev')">
+                                    <div class="dbtn" data-dic="d9.t" title="Previous chapter" onclick="chapterGo('prev')">
                                         <img src="images/arrow_chevron_left_white.svg">                            
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Next chapter" onclick="chapterGo('next')">
+                                    <div class="dbtn" data-dic="d10.t" title="Next chapter" onclick="chapterGo('next')">
                                         <img src="images/arrow_chevron_right_white.svg">
                                     </div>
 
-                                    <div class="dbtn" data-dic="d" title="History previous register" onclick="hist('prev')">
+                                    <div class="dbtn" data-dic="d11.t" title="History previous register" onclick="hist('prev')">
                                         <div>< H</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="History next register" onclick="hist('next')">
+                                    <div class="dbtn" data-dic="d12.t" title="History next register" onclick="hist('next')">
                                         <div>H ></div>
                                     </div>                        
 
-                                    <div id="btn_changePositionShowModal" class="dbtn" data-dic="d" title="Change position: Columns or Rows" onclick="changePositionShow()">
+                                    <div id="btn_changePositionShowModal" class="dbtn" data-dic="d13.t" title="Change position: Columns or Rows" onclick="changePositionShow()">
                                         <!--<div>Row</div>-->
                                         <img class="col_row position_row" src="images/col_row_white.svg">
                                     </div>
-                                    <div id="m_btnStrong" class="dbtn" data-dic="d" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                                    <div id="m_btnStrong" class="dbtn" data-dic="d14.t" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                                         <div>S#</div>
                                     </div>
 
-                                    <div class="dbtn" data-dic="d" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+                                    <div class="dbtn" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
                                         <div>Модули</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Вкладки" onclick="showTabs()" style="width:50%;">
-                                        <div>Вкладки</div>
+                                    <div class="dbtn" data-dic="d154.t" title="Вкладки" onclick="showTabs()" style="width:50%;">
+                                        <div data-dic="d155.t">Вкладки</div>
                                     </div>
 
 
-                                    <div class="dbtn" data-dic="d" title="Маркеры / Закладки" onclick="openModal('full','Маркеры',null,'showMarkers')" style="width:50%;">
-                                        <div>Маркеры</div>
+                                    <div class="dbtn" data-dic="d156.t" title="Маркеры / Закладки" onclick="openModal('full','Маркеры',null,'showMarkers')" style="width:50%;">
+                                        <div data-dic="d157">Маркеры</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
-                                        <div>Заметки</div>
+                                    <div class="dbtn" data-dic="d158.t" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
+                                        <div data-dic="d159">Заметки</div>
                                     </div>
+
 
 
                                     <div style="display:none;">                                    
@@ -1040,48 +1045,48 @@ HERE;
 
 
 
-                                    <h3 data-dic="d">Загрузки (RAM)</h3>
+                                    <h3 data-dic="d160">Загрузки (RAM)</h3>
                                     <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
-                                        <div data-dic="d">Modules</div>
+                                        <div data-dic="d161">Модули</div>
                                     </div>
                                     <div id="m_btn_loadAllFavTskFiles" class="dbtn" onclick="loadAllFavTskFiles()" style="width:33.33%;">
-                                        <div data-dic="d">TSK</div>
+                                        <div data-dic="d162">TSK</div>
                                     </div>
                                     <div id="m_btn_loadAllFavStrongFiles" class="dbtn" onclick="loadAllFavStrongFiles()" style="width:33.33%;">
-                                        <div data-dic="d">Strong</div>
+                                        <div data-dic="d163">Стронг</div>
                                     </div>
 
 
-                                    <h3 data-dic="d">История</h3>
-                                    <div class="dbtn" data-dic="d" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
+                                    <h3 data-dic="d164">История</h3>
+                                    <div class="dbtn" data-dic="d165.t" title="История навигации" onclick="openModal('full',this.title,null,'showHistoryNav')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
-                                            <span data-dic="d">Nav.</span>
+                                            <span data-dic="d166">Nav.</span>
                                         </div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="История поиска" onclick="openModal('full','История поиска',null,'showHistoryFind')" style="width:33.33%;">
+                                    <div class="dbtn" data-dic="d167.t" title="История поиска" onclick="openModal('full',this.title,null,'showHistoryFind')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
-                                            <span data-dic="d">Find</span>
+                                            <span data-dic="d168">Find</span>
                                         </div>
                                     </div>
-                                    <div class="dbtn" data-dic="d" title="История номеров Стронга" onclick="openModal('full','История номеров Стронга',null,'showHistoryStrong')" style="width:33.33%;">
+                                    <div class="dbtn" data-dic="d169.t" title="История номеров Стронга" onclick="openModal('full',this.title,null,'showHistoryStrong')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
-                                            <span data-dic="d">Strong</span>
+                                            <span data-dic="d163">Strong</span>
                                         </div>
                                     </div>
 
 
 
-                                    <h3 data-dic="d">Функциональность</h3>
+                                    <h3 data-dic="d170">Функциональность</h3>
                                     <div id="d_sw_MinOtrasTrans" class="dbtn btns_sw" onclick="enableDisableMinOtrasTrans()">
                                         <div class="wr_sw_text">                                            
                                             <span class="sp_com">
                                                 Tr_min
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Minimizar otras traducciones para ver sólo la traducción base (la primera columna a la izquierda)
+                                            <span class="sp_expl" data-dic="d171">
+                                                Свернуть другие переводы, чтобы видеть только основной перевод (первая колонка слева)
                                             </span>
                                         </div>
                                         <label class="switch">
@@ -1095,8 +1100,8 @@ HERE;
                                             <span class="sp_com">
                                                 mw_Col
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Habilitar ancho máximo de 350px para ver las columnas como en periódico
+                                            <span class="sp_expl" data-dic="d172">
+                                                Включить максимальную ширину 350px для просмотра колонок, как в газете
                                             </span>
                                         </div>
                                         <label class="switch">
@@ -1110,8 +1115,8 @@ HERE;
                                             <span class="sp_com">
                                                 IMGx2
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Aumentar el tamaño de la imagen x2 si la hay
+                                            <span class="sp_expl" data-dic="d173">
+                                                Увеличьте размер изображения x2, если таковое имеется
                                             </span>
                                         </div>
                                         <label class="switch">
@@ -1125,8 +1130,8 @@ HERE;
                                             <span class="sp_com">
                                                 Tabs_in_Mob
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Mostrar pestañas en modo móvil
+                                            <span class="sp_expl" data-dic="d174">
+                                                Показывайте вкладки в мобильном режиме
                                             </span>
                                         </div>
                                         <label class="switch">
@@ -1140,8 +1145,8 @@ HERE;
                                             <span class="sp_com">
                                                 by_text
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Obtener módulos como texto (más rápido)
+                                            <span class="sp_expl" data-dic="d175">
+                                                Получать модули в формате текста (быстрее)
                                             </span>
                                         </div>
                                         <label class="switch">
@@ -1155,8 +1160,8 @@ HERE;
                                             <span class="sp_com">
                                                 by_json
                                             </span>
-                                            <span class="sp_expl" data-dic="d">
-                                                Obtener módulos como json
+                                            <span class="sp_expl" data-dic="d176">
+                                                Получать модули в формате json
                                             </span>
                                         </div>
                                         <label class="switch">

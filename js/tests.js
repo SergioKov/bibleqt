@@ -1828,7 +1828,13 @@ function makeAllImgSrc(arr){
 
 
 
-changeLang('ru');
+// changeLang(lang);
+checkLang();
+
+function checkLang(){
+    eid_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
+    changeLang(lang);
+}
 
 async function changeLang(lang) {
     console.log('=== function changeLanguage(lang) ===');
@@ -1843,41 +1849,46 @@ async function changeLang(lang) {
         document.querySelectorAll('[data-dic]').forEach(element => {
             const dic = element.dataset.dic;
 
-            if(dic.includes('.')){
-                dic_place = dic.split('.')[1];//title
-                console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
+            if(dic.length > 1){            
 
-                switch (dic_place) {
-                    case 't'://title
-                        element.title = obj_lang[dic];
-                        break;
-                
-                    case 'ph'://placeholder
-                        element.placeholder = obj_lang[dic];
-                        break;
+                if(dic.includes('.')){
+                    dic_place = dic.split('.')[1];//title
+                    console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
 
-                    case 'lab'://label
-                        element.label = obj_lang[dic];
-                        break;
-                
-                    case 'ttip'://tooltip
-                        element.dataset.tooltip = obj_lang[dic];
-                        break;
-                
-                    default:
-                        console.error('no es title');
-                        break;
+                    switch (dic_place) {
+                        case 't'://title
+                            element.title = obj_lang[dic];
+                            break;
+                    
+                        case 'ph'://placeholder
+                            element.placeholder = obj_lang[dic];
+                            break;
+
+                        case 'lab'://label
+                            element.label = obj_lang[dic];
+                            break;
+                    
+                        case 'ttip'://tooltip
+                            element.dataset.tooltip = obj_lang[dic];
+                            break;
+                    
+                        default:
+                            console.error('no es title');
+                            break;
+                    }
+                    
+                }else{
+                    element.textContent = obj_lang[dic];
+                    console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
                 }
-                
-            }else{
-                element.textContent = obj_lang[dic];
-                console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
-            }
+
+            }//end
         });
         
     }else{
-        console.error('no existe este idioma para las traducciones');
-        return false;
+        console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
+        changeLang('ru');//por defecto
+        //return false;
     }
 }
 

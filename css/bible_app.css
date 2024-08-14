@@ -3863,5 +3863,18 @@ input:checked + .slider:before {
     width: 100%;
 }
 
+#sel_lang {
+    border: 1px solid #000000;
+    border-radius: 3px;
+    background: #000000;
+    margin-right: 8px;
+    margin-left: 2px;
+    position: relative;
+    padding: 2px 2px;
+    top: -1px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
 
 
