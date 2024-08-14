@@ -2567,7 +2567,7 @@ span.prim_tsk {
 #login_menu img{
     width: 20px;
 }
-#tres_puntos_menu{
+#tres_puntos_menu {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -2576,7 +2576,8 @@ span.prim_tsk {
     align-items: center;
     color: white;
     transition: 0.3s;
-    cursor: pointer;    
+    cursor: pointer;
+    margin-right: 4px;
 }
 #tres_puntos_menu img{
     width: 24px;
@@ -3791,8 +3792,10 @@ span.vt img {
 
 
 
-.wr_sw_text{
+.wr_sw_text {
     /* background: #68685f; */
+    display: flex;
+    flex-direction: column;
 }
 .sp_com {
     display: inline-block;
@@ -3804,7 +3807,7 @@ span.vt img {
     color: #929292;
 }
 
-/* Estilos del switcher */
+/* Estilos del switcher - start*/
 .switch {
     position: relative;
     display: inline-block;
@@ -3844,11 +3847,20 @@ span.vt img {
 }
 
 input:checked + .slider {
-    background-color: #1875bf;
+    background-color: red;
 }
 
 input:checked + .slider:before {
     transform: translateX(16px);
+}
+/* Estilos del switcher - end*/
+
+#modcont_body h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #979797;
+    font-size: 1rem;
+    width: 100%;
 }
 
 

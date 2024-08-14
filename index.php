@@ -86,10 +86,10 @@ session_start();
                     <div id="btnStrong" class="dbtn" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
                     </div>
-                    <div id="btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()">
+                    <div id="btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDisableMinOtrasTrans()">
                         <div>Tr_m</div>
                     </div>
-                    <div id="btnMaxWidthCol" class="dbtn" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDesableMaxWidthCol()">
+                    <div id="btnMaxWidthCol" class="dbtn" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDisableMaxWidthCol()">
                         <div>mw_Col</div>
                     </div>
 
@@ -1006,29 +1006,33 @@ HERE;
                                         <div>Заметки</div>
                                     </div>
 
-                                    <div id="m_btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDesableMinOtrasTrans()" style="width:33.33%;">
-                                        <div>Tr_min</div>
-                                    </div>
-                                    <div id="m_btnMaxWidthCol" class="dbtn" onclick="enableDesableMaxWidthCol()" style="width:33.33%;">
-                                        <div>mw_Col</div>
-                                    </div>
-                                    <div id="m_btnIMGx2" class="dbtn" title="Aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()" style="width:33.33%;">
-                                        <div>IMGx2</div>
+
+                                    <div style="display:none;">                                    
+                                        <div id="m_btnMinOtrasTrans" class="dbtn" title="Minimizar Otras Trans" onclick="enableDisableMinOtrasTrans()" style="width:33.33%;">
+                                            <div>Tr_min</div>
+                                        </div>
+                                        <div id="m_btnMaxWidthCol" class="dbtn" onclick="enableDisableMaxWidthCol()" style="width:33.33%;">
+                                            <div>mw_Col</div>
+                                        </div>
+                                        <div id="m_btnIMGx2" class="dbtn" title="Aumentar la anchura de la imagen x2" onclick="enableDisableIMGx2()" style="width:33.33%;">
+                                            <div>IMGx2</div>
+                                        </div>
+
+
+                                        <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:33.33%;">
+                                            <div>by_text</div>
+                                        </div>
+                                        <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:33.33%;">
+                                            <div>by_json</div>
+                                        </div>
+                                        <div id="m_btnVkladkiInMob" class="dbtn" onclick="hideShowVkladkiInMob()" style="width:33.33%;">
+                                            <div>Tabs_in_Mob</div>
+                                        </div>
                                     </div>
 
 
 
-                                    <div id="m_btnByText" class="dbtn" onclick="changeModo('by_text')" style="width:33.33%;">
-                                        <div>by_text</div>
-                                    </div>
-                                    <div id="m_btnByJson" class="dbtn" onclick="changeModo('by_json')" style="width:33.33%;">
-                                        <div>by_json</div>
-                                    </div>
-                                    <div id="m_btnVkladkiInMob" class="dbtn" onclick="hideShowVkladkiInMob()" style="width:33.33%;">
-                                        <div>Tabs_in_Mob</div>
-                                    </div>
-
-
+                                    <h3>Загрузки (RAM)</h3>
                                     <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
                                         <div>Modules</div>
                                     </div>
@@ -1040,6 +1044,7 @@ HERE;
                                     </div>
 
 
+                                    <h3>История</h3>
                                     <div class="dbtn" title="История навигации" onclick="openModal('full','История навигации',null,'showHistoryNav')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
@@ -1061,33 +1066,93 @@ HERE;
 
 
 
-
-                                    <div id="btn_sw1" class="dbtn btns_sw" onclick="enableDesableMinOtrasTrans();toggleSwitcher(this.id)">
+                                    <h3>Функциональность</h3>
+                                    <div id="d_sw_MinOtrasTrans" class="dbtn btns_sw" onclick="enableDisableMinOtrasTrans()">
                                         <div class="wr_sw_text">                                            
                                             <span class="sp_com">
                                                 Tr_min
                                             </span>
                                             <span class="sp_expl">
-                                                Minimizar otras traducciones para ver sólo la traducción base (primera columna a la izda)
+                                                Minimizar otras traducciones para ver sólo la traducción base (la primera columna a la izquierda)
                                             </span>
                                         </div>
                                         <label class="switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" onclick="enableDisableMinOtrasTrans()">
                                             <span class="slider"></span>
                                         </label>
                                     </div>
 
-                                    <div id="btn_sw2" class="dbtn btns_sw" onclick="toggleSwitcher(this.id)">
+                                    <div id="d_sw_MaxWidthCol" class="dbtn btns_sw" onclick="enableDisableMaxWidthCol()">
                                         <div class="wr_sw_text">
                                             <span class="sp_com">
                                                 mw_Col
                                             </span>
                                             <span class="sp_expl">
-                                                Habilitar ancho máximo de 350px para ver las columnas como en peiódico
+                                                Habilitar ancho máximo de 350px para ver las columnas como en periódico
                                             </span>
                                         </div>
                                         <label class="switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" onclick="enableDisableMaxWidthCol()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="d_sw_btnIMGx2" class="dbtn btns_sw" onclick="enableDisableIMGx2()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                IMGx2
+                                            </span>
+                                            <span class="sp_expl">
+                                                Aumentar el tamaño de la imagen x2 si la hay
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="enableDisableIMGx2()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="d_sw_VkladkiInMob" class="dbtn btns_sw" onclick="hideShowVkladkiInMob()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                Tabs_in_Mob
+                                            </span>
+                                            <span class="sp_expl">
+                                                Mostrar pestañas en modo móvil
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="hideShowVkladkiInMob()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="d_sw_ByText" class="dbtn btns_sw" onclick="changeModo('by_text')">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                by_text
+                                            </span>
+                                            <span class="sp_expl">
+                                                Obtener módulos como texto (más rápido)
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="changeModo('by_text')">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="d_sw_ByJson" class="dbtn btns_sw" onclick="changeModo('by_json')">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                by_json
+                                            </span>
+                                            <span class="sp_expl">
+                                                Obtener módulos como json
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="changeModo('by_json')">
                                             <span class="slider"></span>
                                         </label>
                                     </div>

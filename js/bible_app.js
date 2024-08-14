@@ -784,7 +784,7 @@ function loadAllFavTskFiles(){
                                 let tamanio = obtenerTamanioObjeto(obj_tsk_files);
                                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                                let aviso_load = `Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. 
+                                let aviso_load = `Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo. 
                                 <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
                                 openModal('center','Aviso TSK',aviso_load,'showAviso');                
                             }
@@ -880,7 +880,7 @@ function loadAllFavStrongFiles(){
                 let tamanio = obtenerTamanioObjeto(obj_strong_files);
                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                let aviso_load = `Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderan datos y tendrás que cargarlos de nuevo. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
+                let aviso_load = `Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
                 openModal('center','Aviso Strong',aviso_load,'showAviso');
             }
         })
@@ -1036,37 +1036,47 @@ function changeModo(param){
 function checkModoFetchVersesForCols(){
     const eid_m_btnByText = document.getElementById('m_btnByText');
     const eid_m_btnByJson = document.getElementById('m_btnByJson');
+    const eid_d_sw_ByText = document.getElementById('d_sw_ByText');
+    const eid_d_sw_ByJson = document.getElementById('d_sw_ByJson');
+    const switcher_ByText = eid_d_sw_ByText.querySelector('input');
+    const switcher_ByJson = eid_d_sw_ByJson.querySelector('input');
 
     if(modo_fetch_verses_for_cols == 'by_json'){
         eid_m_btnByText.classList.remove('btn_active');
-        eid_m_btnByJson.classList.add('btn_active');    
+        eid_m_btnByJson.classList.add('btn_active');
+        enableSwitcher(switcher_ByJson);
+        disableSwitcher(switcher_ByText);
     }else{//'by_text' y por defecto...
         eid_m_btnByText.classList.add('btn_active');
-        eid_m_btnByJson.classList.remove('btn_active');    
+        eid_m_btnByJson.classList.remove('btn_active');
+        enableSwitcher(switcher_ByText);
+        disableSwitcher(switcher_ByJson);
     }
 }
 
 function hideShowVkladkiInMob(){
     const eid_m_btnVkladkiInMob = document.getElementById('m_btnVkladkiInMob');
-
+    const eid_d_sw_VkladkiInMob = document.getElementById('d_sw_VkladkiInMob');
+    const switcher = eid_d_sw_VkladkiInMob.querySelector('input');
     if(vkladkiInMobShow){//si es true, lo cambio a false
         vkladkiInMobShow = false;
         eid_headerContainer.classList.remove('vkladki_in_mob');
         eid_headerContainer.querySelector('.partDesk').classList.remove('vkladki_in_mob');
         eid_m_btnVkladkiInMob.classList.remove('btn_active');
+        disableSwitcher(switcher);
     }else{//si es false, lo cambio a true
         vkladkiInMobShow = true;
         eid_headerContainer.classList.add('vkladki_in_mob');
         eid_headerContainer.querySelector('.partDesk').classList.add('vkladki_in_mob');
         eid_m_btnVkladkiInMob.classList.add('btn_active');
+        enableSwitcher(switcher);
     }
     scrollToVkladkaActive();
     mySizeWindow();
 }
 
 function showTooltip(el){//old //hover //find parameters
-    //console.log('=== function showTooltipOnMouseHover(el) ===');
-    
+    //console.log('=== function showTooltipOnMouseHover(el) ===');    
     //console.log(el);
     //console.log(el.getAttribute('data-tooltip'));
     if(el.children[0] != null){
@@ -10585,14 +10595,17 @@ function hideShowSidebar(){
 
 function hideShowFooter(){
     let disp = eid_footer.style.display;
+    const btn_pageDown_bottom_value = parseInt(window.getComputedStyle(eid_btn_pageDown).getPropertyValue('bottom'));
+
     if(disp != 'none' || eid_footer.offsetHeight > 0){//si se ve
         disp = 'none';//lo oculto
         btn_hideShowFooter.innerHTML = '<img src="images/sidebar_hide_white.svg">';//estado -> ocultado
+        eid_btn_pageDown.style.bottom = (btn_pageDown_bottom_value - eid_footer.offsetHeight) + 5 + 'px';
     }else{
-        disp = 'block';//lo muestro
+        disp = '';//lo muestro
         btn_hideShowFooter.innerHTML = '<img src="images/sidebar_show_white.svg">';//estado -> mostrado
+        eid_btn_pageDown.removeAttribute('style');
     }
-    eid_footer.removeAttribute('class');
     eid_footer.style.display = disp;
     
     mySizeWindow();
@@ -21397,16 +21410,20 @@ function showAllStrongNumber(){
 function checkMaxWidthCol(){
     const eid_btnMaxWidthCol = document.getElementById('btnMaxWidthCol');
     const eid_m_btnMaxWidthCol = document.getElementById('m_btnMaxWidthCol');
+    const eid_d_sw_MaxWidthCol = document.getElementById('d_sw_MaxWidthCol');
+    const switcher = eid_d_sw_MaxWidthCol.querySelector('input');
     if(enable_maxWidthCol){
         eid_btnMaxWidthCol.classList.add('btn_active');
         eid_m_btnMaxWidthCol.classList.add('btn_active');
+        enableSwitcher(switcher);
     }else{
         eid_btnMaxWidthCol.classList.remove('btn_active');
         eid_m_btnMaxWidthCol.classList.remove('btn_active');
+        disableSwitcher(switcher);
     }
 }
 
-function enableDesableMaxWidthCol(){
+function enableDisableMaxWidthCol(){
     if(enable_maxWidthCol){
         enable_maxWidthCol = false;
     }else{
@@ -21426,16 +21443,20 @@ function enableDesableMaxWidthCol(){
 function checkMinOtrasTrans(){
     const eid_btnMinOtrasTrans = document.getElementById('btnMinOtrasTrans');
     const eid_m_btnMinOtrasTrans = document.getElementById('m_btnMinOtrasTrans');
+    const eid_d_sw_MinOtrasTrans = document.getElementById('d_sw_MinOtrasTrans');
+    const switcher = eid_d_sw_MinOtrasTrans.querySelector('input');
     if(minOtrasTrans){
         eid_btnMinOtrasTrans.classList.add('btn_active');
         eid_m_btnMinOtrasTrans.classList.add('btn_active');
+        enableSwitcher(switcher);
     }else{
         eid_btnMinOtrasTrans.classList.remove('btn_active');
         eid_m_btnMinOtrasTrans.classList.remove('btn_active');
+        disableSwitcher(switcher);
     }
 }
 
-function enableDesableMinOtrasTrans(){
+function enableDisableMinOtrasTrans(){
     if(minOtrasTrans){
         minOtrasTrans = false;
     }else{
@@ -21444,7 +21465,6 @@ function enableDesableMinOtrasTrans(){
     checkMinOtrasTrans();
     mySizeWindow();
     mySizeVerse();
-
     closeModal(null,true);
 }
 
@@ -21496,12 +21516,16 @@ function toggleIMGx2(){
 function checkIMGx2(){
     const eid_btnIMGx2 = document.getElementById('btnIMGx2');
     const eid_m_btnIMGx2 = document.getElementById('m_btnIMGx2');
+    const eid_d_sw_btnIMGx2 = document.getElementById('d_sw_btnIMGx2');
+    const switcher = eid_d_sw_btnIMGx2.querySelector('input');
     if(enable_IMGx2){
         eid_btnIMGx2.classList.add('btn_active');
         eid_m_btnIMGx2.classList.add('btn_active');
+        enableSwitcher(switcher);
     }else{
         eid_btnIMGx2.classList.remove('btn_active');
         eid_m_btnIMGx2.classList.remove('btn_active');
+        disableSwitcher(switcher);
     }
 }
 
@@ -21523,7 +21547,7 @@ function toggleSwitcher(id_switcher){
 
     if(switcher.checked) {
         console.log('switcher is ON lo pongo a OFF');
-        dishableSwitcher(switcher)//lo desmarco
+        disableSwitcher(switcher)//lo desmarco
     }else{
         console.log('--- switcher is OFF lo pongo a ON');
         enableSwitcher(switcher)//lo marco
@@ -21534,6 +21558,6 @@ function enableSwitcher(switcher){
     switcher.checked = true;//lo marco
 }
 
-function dishableSwitcher(switcher){
+function disableSwitcher(switcher){
     switcher.checked = false;//lo desmarco
 }
