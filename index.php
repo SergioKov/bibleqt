@@ -872,9 +872,9 @@ print<<<HERE
                 <form class="register-form">
                     <h1>Crear cuenta</h1>
                     <p class="mensaje">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
-                    <input id="reg_username" name="username" type="text" placeholder="name"/>
-                    <input id="reg_password" name="password" type="password" autocomplete="password" placeholder="password"/>
-                    <input id="reg_email" name="email" type="text" placeholder="email address"/>
+                    <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="name"/>
+                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="password"/>
+                    <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="email address"/>
                     <button class="btn_wide" type="button" onclick="crearCuenta()">Crear cuenta</button>
                     <p class="message">¿Ya estás registrado? <a href="#" onclick="mostrarLoginForm()">Entrar</a></p>
                 </form>
@@ -884,7 +884,7 @@ print<<<HERE
                 <form class="email-form">
                     <h1>Recuperar contraseña</h1>
                     <p class="mensaje">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
-                    <input id="rec_email" name="email" type="text" placeholder="email address"/>
+                    <input id="rec_email" name="email" type="text" autocomplete="on" placeholder="email address"/>
                     <button class="btn_wide" type="button" onclick="enviarEmail()">Enviar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
                 </form>
@@ -894,10 +894,10 @@ print<<<HERE
                 <form class="change-email-form">
                     <h1>Cambiar contraseña</h1>
                     <p class="mensaje">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
-                    <input id="act_email" name="email" type="text" placeholder="actual email address"/>
-                    <input id="act_password" name="password" type="password" autocomplete="password" placeholder="actual password"/>
-                    <input id="new_password" name="password" type="password" autocomplete="" placeholder="new password"/>
-                    <input id="new_password_rep" name="password" type="password" autocomplete="" placeholder="repeat new password"/>
+                    <input id="act_email" name="email" type="text" autocomplete="on" placeholder="actual email address"/>
+                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="actual password"/>
+                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="new password"/>
+                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="repeat new password"/>
                     <button class="btn_wide" type="button" onclick="enviarChangeEmail()">Cambiar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()">Iniciar sesión</a></p>
                 </form>
@@ -907,8 +907,8 @@ print<<<HERE
                 <form class="login-form">
                     <h1>Iniciar sesión</h1>
                     <p class="mensaje">Tendrás acceso a tus ajustes personales.</p>
-                    <input id="username" name="username" type="text" placeholder="username" required/>
-                    <input id="password" name="password" type="password" autocomplete="password" placeholder="password" required/>
+                    <input id="username" name="username" type="text" autocomplete="on" placeholder="username" required/>
+                    <input id="password" name="password" type="password" autocomplete="on" placeholder="password" required/>
                     <button class="btn_wide" type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
                     <p class="message">
                         ¿No estás registrado? <a href="#" onclick="mostrarForm('bl_register_form')">Crear una cuenta</a>
