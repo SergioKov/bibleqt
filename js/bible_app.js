@@ -21626,12 +21626,14 @@ async function changeLang(lang) {
             }//end
         });
 
+        /*
         let aviso_lang = `${obj_lang['d199']}: <span class="f_r">${lang.toUpperCase()}</span>`;
         openModal('center',`${obj_lang['d200']}`,aviso_lang,'showAviso');
     
         setTimeout(()=>{
             closeModal(`${obj_lang['d200']}`);
         },1500);
+        */
         
     }else{
         console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
