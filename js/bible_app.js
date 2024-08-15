@@ -278,11 +278,15 @@ async function iniciarSesion(){//antes login() //username,password
                 
                 // Redirigir a la página de inicio si la autenticación es exitosa
                 //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
-                location.reload(); // Recargar la página
-
+                
+                //loadDefaultFunctions();//no trae todos los datos, hay que reload!
                 setTimeout(()=>{
                     closeModal('Login');
+                },4000);
+                setTimeout(()=>{
+                    location.reload(); // Recargar la página
                 },5000);
+                
 
             } else {
                 let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
@@ -302,7 +306,6 @@ async function iniciarSesion(){//antes login() //username,password
         // Código a realizar cuando se rechaza la promesa
         console.error('iniciarSesion. error: ',error);
     }
-
 }
 
 async function cerrarSesion(){
@@ -311,8 +314,7 @@ async function cerrarSesion(){
     try {
         
         //antes de cerra sesion actualizo/guardo los ajustes y estado de los arrays
-        updateArrTabs();
-        
+        updateArrTabs();        
         
         // Realizar una petición al servidor para cerrar la sesión
         // y actualizar el contenido después de cerrar la sesión.

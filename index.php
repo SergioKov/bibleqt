@@ -830,7 +830,7 @@ HERE;
         $st_bl_change_email_form = 'none';
         $frase_bienvenida = '<span data-dic="d151">Bienvenido</span>, ' . $_SESSION['username'];
         //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
-        $mensaje = '<span class="clr_green" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
+        $mensaje = '<span class="clr_gre---en" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
@@ -934,7 +934,17 @@ print<<<HERE
                 <h1>$frase_bienvenida!</h1>
                 <p class="mensaje">$mensaje</p>
                 <br>
-                <button class="cerr_ses" onclick="cerrarSesion()" data-dic="d153">Cerrar Sesión</button>
+                <p class="p_svit">
+                    <span class="sp_svit">
+                        <span data-dic="d201">Исследуйте Писания, ибо вы думаете чрез них иметь жизнь вечную; а они свидетельствуют о Мне.</span>
+                        <a href="#" class="" onclick="getRefByBibleRef(this.textContent);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
+                    </span>                    
+                    <img src="./images/svitok3.png">
+                </p>
+                <button class="cerr_ses" onclick="cerrarSesion()" style="display:none;" data-dic="d153">Cerrar Sesión</button>
+                <p class="p_cerr_ses">
+                    <a href="#" class="a_cerr_ses" onclick="cerrarSesion()" data-dic="d153">Cerrar sesión</a>
+                </p>
             </div>
 
         </div>
@@ -1046,6 +1056,7 @@ HERE;
 
 
                                     <h3 data-dic="d160">Загрузки (RAM)</h3>
+
                                     <div id="m_btn_loadAllFavBibleFiles" class="dbtn" onclick="loadAllFavBibleFiles()" style="width:33.33%;">
                                         <div data-dic="d161">Модули</div>
                                     </div>
@@ -1058,6 +1069,7 @@ HERE;
 
 
                                     <h3 data-dic="d164">История</h3>
+
                                     <div class="dbtn" data-dic="d165.t" title="История навигации" onclick="openModal('full',this.title,null,'showHistoryNav')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
@@ -1078,6 +1090,8 @@ HERE;
                                     </div>
 
 
+                                    <h3 data-dic="d170">Функциональность</h3>
+
                                     <div class="dbtn btns_sw" style="width: 100%;">
                                         <span data-dic="d199">Язык итнерфейса: </span>
                                         <select id="m_sel_lang" class="select_lang" onchange="changeLang(this.value)">
@@ -1088,9 +1102,6 @@ HERE;
                                         </select>
                                     </div>
 
-
-
-                                    <h3 data-dic="d170">Функциональность</h3>
                                     <div id="d_sw_MinOtrasTrans" class="dbtn btns_sw" onclick="enableDisableMinOtrasTrans()">
                                         <div class="wr_sw_text">                                            
                                             <span class="sp_com">

@@ -1824,7 +1824,7 @@ select  optgroup option {
 {
     /* margin: 0 0 1px; */
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
     transition: 0.3s;
     background: black;
     border-bottom: 1px solid #373737;
@@ -3037,7 +3037,7 @@ pr {
     gap: 10px;
 }
 #bl_modalFullInner p{
-    padding: 5px;
+    padding: 10px;
     transition: 0.3s;
 }
 #bl_modalFullInner .p_pointer{
@@ -3516,7 +3516,8 @@ span.vt {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;    
-    background: #43A047;
+    /* background: #43A047; */
+    background: #008bca;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -3530,7 +3531,8 @@ span.vt {
 .form button:hover,
 .form button:active,
 .form button:focus {
-    background: #4CAF50;
+    /* background: #4CAF50; */
+    background: #01aeff;
 }
 .form button.cerr_ses {
     background: red;
@@ -3547,10 +3549,17 @@ span.vt {
 }
 
 .form .message a {
-    color: #4CAF50;
+    /* color: #4CAF50; */
+    color: #0091d2;
     text-decoration: none;
-    padding: 0 5px;
+    padding: 2px 5px;
     text-wrap: nowrap;
+    line-height: 18px;
+}
+.form .message a:hover {
+    color: #d0f0ff;
+    background: #0091d2;
+    outline: none;
 }
 
 .form p {
@@ -3558,6 +3567,27 @@ span.vt {
     margin: 0 0 10px;
     color: grey
 }
+.form .p_cerr_ses{
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+    text-wrap: pretty;  
+}
+p a.a_cerr_ses {
+    color: red;
+    font-size: 14px;
+    font-weight: normal;
+    transition: color 0.3s, background 0.1s;
+    padding: 5px 10px;
+}
+p a.a_cerr_ses:hover{
+    background: red;
+    color: white;
+    outline: 1px solid brown;
+}
+
+
+
 .btn_wide{
     width: 100%;
 }
@@ -3567,12 +3597,49 @@ span.vt {
 .email-form h1,
 .login-form h1
  {
-    color: green;
+    /*color: green;*/
+    color: #03A9F4;
 }
 #bl_sesion_iniciada h1 {
     color: #1875bf;
+    margin-bottom: 20px;
 }
 
+.p_svit {
+    position: relative;
+    /* background: yellow; */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sp_svit {
+    position: absolute;
+    z-index: 1;
+    color: #2d0101;
+    font-size: 18px;
+    /* background: #ff9800bf; */
+    padding: 15px 70px;
+    font-weight: bolder;
+    font-family: cursive;
+    min-width: 170px;
+}
+.p_svit img{
+    width: 100%;
+    /* transform: rotate(90deg); */
+    min-width: 280px;
+}
+.sp_svit a{
+    display: block;
+    font-size: 12px;
+    color: #602f1d;
+    margin-top: 10px;
+    padding: 2px;
+}
+p .sp_svit a:hover{
+    color: red;
+}
 
 
 
@@ -3730,7 +3797,7 @@ j{
 
 .colsInner img {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0px auto;
     display: block;
     position: relative;
