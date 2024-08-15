@@ -830,7 +830,7 @@ HERE;
         $st_bl_change_email_form = 'none';
         $frase_bienvenida = '<span data-dic="d151">Bienvenido</span>, ' . $_SESSION['username'];
         //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
-        $mensaje = '<span class="clr_gre---en" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
+        $mensaje = '<span class="clr_gre___en" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
