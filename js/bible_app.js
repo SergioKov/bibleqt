@@ -11946,14 +11946,22 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
                 ? tabActive_ref 
                 : inpt_nav.value ;
 
-        const obj_ref_trans = arrFavTransObj.find(v => v.Translation === htmlTab.dataset.ref_trans);
+        let ref_trans_to_find;
+        //si ref_trans está en el objeto le asigno valor para luego buscar... 
+        if(arrFavTrans.includes(htmlTab.dataset.ref_trans)){
+            ref_trans_to_find = htmlTab.dataset.ref_trans;
+        }else{
+            ref_trans_to_find = arrFavTrans[0];//pongo rstStrongRed, si no está
+        }
+
+        const obj_ref_trans = arrFavTransObj.find(v => v.Translation === ref_trans_to_find);
         //console.log('1. obj_ref_trans.BibleShortName: ', obj_ref_trans.BibleShortName);
 
-        const spanBibTransName = document.createElement("span");
+        let spanBibTransName = document.createElement("span");
         spanBibTransName.className = 'tab_trans_name';
         spanBibTransName.innerHTML = obj_ref_trans.BibleShortName;
         
-        const spanBibShortRef = document.createElement("span");
+        let spanBibShortRef = document.createElement("span");
         spanBibShortRef.className = 'tab_ref';
         spanBibShortRef.innerHTML = (bibShortRef != null) ? bibShortRef : `New Tab${next_n}` ;
         //spanBibShortRef.title = str_trans;
@@ -21587,6 +21595,7 @@ async function changeLang(lang) {
         const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
         //console.log('obj_lang:');
         //console.log(obj_lang);
+        localStorage.setItem('lang',lang);
 
         // Selecciona todos los elementos con la clase 'lng'
         document.querySelectorAll('[data-dic]').forEach(element => {
