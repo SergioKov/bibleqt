@@ -52,41 +52,83 @@ async function crear_arrFavTskObj() {
 
 
 
-let obj_ajustes_bd = {};
-crear_obj_ajustes_bd(); // Llamamos a la función para que crea obj_ajustes_bd
+let obj_lang = {};
+crear_obj_lang(); // Llamamos a la función para que crea obj_lang
 
-async function crear_obj_ajustes_bd() {
-    obj_ajustes_bd = await make_obj_ajustes_bd();
-    console.log(obj_ajustes_bd);
+async function crear_obj_lang() {
+    obj_lang = await make_obj_lang();
+    console.log(obj_lang);
 }
 
-async function make_obj_ajustes_bd(){
-    console.log('=== function make_obj_ajustes_bd() ===');
+async function make_obj_lang(){
+    console.log('=== function make_obj_lang() ===');
     
     try {
 
-        const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles    
+        if(!arr_langs.includes(lang)){
+            console.error(`No existe este idioma '${lang}' para las traducciones. Creo objeto con lang '${arr_langs[0]}' por defecto`);
+            lang = arr_langs[0];
+        }            
+        
+        let obj_lang_f = await fetchDataToJson(`modules/json/${lang}.json`);
+        console.log('obj_lang_f:');
+        console.log(obj_lang_f);
+        //localStorage.setItem('lang',lang);
 
-        if(arr_langs.includes(lang)){
-            const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
-            console.log('obj_lang:');
-            console.log(obj_lang);
-            //localStorage.setItem('lang',lang); 
-            
-            return obj_lang;
-            
-        }else{
-            console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
-            //changeLang('ru');//por defecto
-            //return false;
-        }
+        return obj_lang_f;
 
     } catch (error) {
         // Código a realizar cuando se rechaza la promesa
-        console.error('make_obj_ajustes_bd. error: ',error);
-    }
+        console.error('make_obj_lang. error: ',error);
+    }    
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+let fav_ajustes = {};
+crear_fav_ajustes(); // Llamamos a la función para que crea obj_lang
+
+async function crear_fav_ajustes() {
+    fav_ajustes = await make_fav_ajustes();
+    console.log(fav_ajustes);
+}
+
+async function make_fav_ajustes(){
+    console.log('=== function make_fav_ajustes() ===');
+    
+    try {          
+        
+        let fav_ajustes_f = await fetchDataToJson(`modules/json/${lang}.json`);//??
+        console.log('fav_ajustes_f:');
+        console.log(fav_ajustes_f);
+        //localStorage.setItem('lang',lang);
+
+        return fav_ajustes_f;
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('make_fav_ajustes. error: ',error);
+    }    
+}
+*/
 
 
 
@@ -306,7 +348,7 @@ async function iniciarSesion(){//antes login() //username,password
         let password = document.getElementById("password").value;
     
         if(username == '' || password == ''){
-            alert('Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.');
+            alert(obj_lang.d203);//'Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.'
             return;
         }
     
@@ -338,8 +380,8 @@ async function iniciarSesion(){//antes login() //username,password
                 // Actualizar el contenido después del inicio de sesión exitoso
                 mostrarForm('bl_sesion_iniciada');
     
-                eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `¡Bienvenido, ${username}!`;
-                eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_green">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>`;
+                eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `<span data-dic="d207">${obj_lang.d207}</span>, ${username}!`;//¡Bienvenido
+                eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een" data-dic="d149">${obj_lang.d149}</span>`;//Sesión iniciada correctamente. Tus ajustes personales se han cargado.
                 eid_login_menu.title = `${username}`;
     
                 hay_sesion = true;
@@ -364,15 +406,14 @@ async function iniciarSesion(){//antes login() //username,password
                 },4000);
                 setTimeout(()=>{
                     location.reload(); // Recargar la página
-                },5000);
-                
+                },5000);                
 
             } else {
                 let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
                 //console.log(error_text);
     
-                eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red">Autenticación fallida.</span>`;
-                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.</span>.`;
+                eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red" data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
+                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span></span>.`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
     
                 hay_sesion = false;
                 pintLoginImg(hay_sesion);
@@ -404,16 +445,14 @@ async function cerrarSesion(){
         //console.log(data);
 
         if (data.cerrada) {
-            
-            let text_mensaje = 'Sesión cerrada con exito!';
-            //console.log(text_mensaje);
-            
+                       
             //mostrarForm('bl_login');
             hay_sesion = false;
             pintLoginImg(hay_sesion);
 
-            document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
-            eid_login_menu.title = `Login`;            
+            //document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
+            eid_bl_login.querySelector('.mensaje').innerHTML = `<span data-dic="d208">${obj_lang.d208}</span>`;//Sesión cerrada correctamente
+            eid_login_menu.title = obj_lang.d209;//`Login`;            
 
             eid_partDeskTabs.innerHTML = '';
             addTab(null,null,null,'tab_new');
@@ -430,7 +469,7 @@ async function cerrarSesion(){
         //console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
         pushStateHome();
 
-        let aviso_sesion = `Sesión cerrada correctamente`;
+        let aviso_sesion = obj_lang.d208;//`Sesión cerrada correctamente`;
         openModal('center','Sesión',aviso_sesion,'showAviso'); 
 
         setTimeout(()=>{
@@ -462,8 +501,8 @@ function mostrarLoginForm(){
     //cuando Sesion está cerrada, se muestra Formulario de Inicio de Sesión
     mostrarForm('bl_login');
 
-    eid_bl_login.querySelector("h1").innerHTML = 'Iniciar sesión.';
-    eid_bl_login.querySelector(".mensaje").innerHTML = 'Tendrás acceso a tus ajustes personales.';
+    eid_bl_login.querySelector("h1").textContent = obj_lang.d184;//'Iniciar sesión.';
+    eid_bl_login.querySelector(".mensaje").textContent = obj_lang.d188;//'Tendrás acceso a tus ajustes personales.';
 }
 
 async function crearCuenta(){
@@ -476,7 +515,7 @@ async function crearCuenta(){
         let email = document.getElementById("reg_email").value;
     
         if(username == '' || password == '' || email == ''){
-            alert('Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.');
+            alert(obj_lang.d210);//'Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.';
             return;
         }
     
@@ -500,7 +539,7 @@ async function crearCuenta(){
                 
             //console.log(`Usuario registrado con éxito.`);
     
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Usuario ${username} se ha registrado con éxito.</span>`;
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">` + reemplazarValores(obj_lang.d211, [username]) + `</span>`;//Usuario ${username} se ha registrado con éxito.
     
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -513,7 +552,7 @@ async function crearCuenta(){
             console.error(data.error);
             console.error(error_text);
     
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al crear el usuario ${username}. <br>${data.error}</span>.`;
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d212, [username, data.error]) + `</span>.`;//Hubo problemas al crear el usuario ${username}. <br>${data.error}
         }
     
         mySizeWindow();
@@ -532,7 +571,7 @@ async function enviarEmail(){
         let email = document.getElementById("rec_email").value;
 
         if(email == ''){
-            alert('El campo email es obligatorio. Introduce tu email por favor.');
+            alert(obj_lang.d213);//'El campo email es obligatorio. Introduce tu email por favor.');
             return;
         }
     
@@ -560,7 +599,7 @@ async function enviarEmail(){
             
             //console.log(`Email enviado con éxito.`);
     
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_green">Email ${email} se ha enviado con éxito.</span>`;
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">`+ reemplazarValores(obj_lang.d214, [email]) +`</span>`;//Email ${email} se ha enviado con éxito.
     
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -573,7 +612,7 @@ async function enviarEmail(){
             console.error(data.error);
             console.error(error_text);
     
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}</span>.`;
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d215, [email, data.error]) + `</span>.`;//Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}
         }
     
         mySizeWindow();
@@ -597,8 +636,9 @@ function loadAllFavBibleFiles(){
     //si ya está creado el objeto...
     if(arrFavTrans.length == Object.keys(obj_bible_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_bible_files) / 1000 / 1000).toFixed(1) + ' MB';
-        let aviso_load = `Todos los módulos de las traducciones favoritas ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
-        openModal('center','Aviso Modulos',aviso_load,'showAviso'); 
+        let aviso_load = obj_lang.d216;//`Todos los módulos de las traducciones favoritas ya están cargados.`;
+        aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+        openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos
         return;
     }
 
@@ -689,7 +729,7 @@ function loadAllFavBibleFiles(){
                             //console.log('obj_bible_files: ',obj_bible_files);
                             let countModulesInObj = Object.keys(obj_bible_files).length;
                             let eid_m_btn_loadAllFavBibleFiles = document.getElementById('m_btn_loadAllFavBibleFiles');
-                            eid_m_btn_loadAllFavBibleFiles.innerHTML = `Modules (${countModulesInObj})`;
+                            eid_m_btn_loadAllFavBibleFiles.innerHTML = `${obj_lang.d219} (${countModulesInObj})`;//Módulos
 
 
                             i_book++;
@@ -714,8 +754,9 @@ function loadAllFavBibleFiles(){
                                     let tamanio = obtenerTamanioObjeto(obj_bible_files);
                                     let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                                     let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) +' MB';
-                                    let aviso_load = `Todos los módulos de las traducciones favoritas se han cargado con éxito <br><br>Tamaño:  <span class="f_r">${tamanioMB}</span>`;
-                                    openModal('center','Aviso Modulos',aviso_load,'showAviso');                
+                                    let aviso_load = obj_lang.d220;//`Todos los módulos de las traducciones favoritas se han cargado con éxito.`;
+                                    aviso_load += `<br><br>${obj_lang.d217}:  <span class="f_r">${tamanioMB}</span>`;//Tamaño
+                                    openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos               
                                 }
                             }
                         })
@@ -754,8 +795,9 @@ function loadAllFavTskFiles(){
     //si ya está creado el objeto...
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_tsk_files) / 1000 / 1000).toFixed(1) + ' MB';
-        let aviso_load = `Todos los módulos TSK favoritos ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
-        openModal('center','Aviso TSK',aviso_load,'showAviso');
+        let aviso_load = obj_lang.d221;//`Todos los módulos TSK favoritos ya están cargados.`;
+        aviso_load += `<br><br>${obj_lang.d221}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+        openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK
         return;
     }
 
@@ -865,9 +907,9 @@ function loadAllFavTskFiles(){
                                 let tamanio = obtenerTamanioObjeto(obj_tsk_files);
                                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                                let aviso_load = `Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo. 
-                                <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
-                                openModal('center','Aviso TSK',aviso_load,'showAviso');                
+                                let aviso_load = obj_lang.d223;//`Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.`;
+                                aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+                                openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK               
                             }
                         }
                     })
@@ -908,8 +950,9 @@ function loadAllFavStrongFiles(){
     //si ya está creado el objeto...
     if(arrFavStrongLangs.length == Object.keys(obj_strong_files).length){
         let tamanioMB = (obtenerTamanioObjeto(obj_strong_files) / 1000 / 1000).toFixed(1) + ' MB';
-        let aviso_load = `Los ficheros de Strong ya están cargados. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
-        openModal('center','Aviso Strong',aviso_load,'showAviso');
+        let aviso_load = obj_lang.d224;//`Los ficheros de Strong ya están cargados.`;
+        aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+        openModal('center', obj_lang.d225, aviso_load, 'showAviso');
         return;
     }
 
@@ -945,7 +988,7 @@ function loadAllFavStrongFiles(){
             //console.log(obj_strong_files);
             let countStrongInObj = Object.keys(obj_strong_files).length;
             let eid_m_btn_loadAllFavStrongFiles = document.getElementById('m_btn_loadAllFavStrongFiles');
-            eid_m_btn_loadAllFavStrongFiles.innerHTML = `Strong (${countStrongInObj})`;
+            eid_m_btn_loadAllFavStrongFiles.innerHTML = `${obj_lang.d163} (${countStrongInObj})`;//Strong
 
             i_strong++;
             if(i_strong < arrFavStrongLangs.length){
@@ -961,8 +1004,9 @@ function loadAllFavStrongFiles(){
                 let tamanio = obtenerTamanioObjeto(obj_strong_files);
                 let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
                 let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
-                let aviso_load = `Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo. <br><br>Tamaño: <span class="f_r">${tamanioMB}</span>`;
-                openModal('center','Aviso Strong',aviso_load,'showAviso');
+                let aviso_load = obj_lang.d226;//`Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.`;
+                aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+                openModal('center', obj_lang.d225, aviso_load, 'showAviso');//Aviso Strong
             }
         })
         .catch(error => { 
@@ -1003,6 +1047,9 @@ async function loadDefaultFunctions(){
         //console.log(arrTabs);
 
         //NO PONER  aquí 'await obtenerDatosDeBD' con 'arrFavTrans' YA QUE SE HACE UN BUCLE INFINITO!
+        
+        await obtenerDatosDeBD('fav_ajustes','fav_ajustes');//SEGUIR haciendo!!!
+
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
@@ -12311,6 +12358,19 @@ async function obtenerDatosDeBD(tabla, campo){
                         //console.log('despues - arrFavTransObj: ', arrFavTransObj);
                     };
                     //crear_arrFavTransObj();
+                }
+                break;
+    
+            case 'fav_ajustes':
+                if(data == 'no_tiene_datos' || data == '[]'){
+                    //console.log('no_tiene_datos');
+                    console.log(obj_ajustes);
+                    fav_ajustes = obj_ajustes;
+                }else{
+                    console.log('Si. fav_trans tiene_datos');
+                    //fav_ajustes = convertArrBdToArrOk('fav_ajustes',data);// como no es un array sino objeto esto no vale!!
+                    fav_ajustes = JSON.parse(data);
+                    console.log('1. fav_ajustes: ', fav_ajustes);
                 }
                 break;
     

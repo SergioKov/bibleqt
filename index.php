@@ -124,7 +124,7 @@ session_start();
                         <option value="es">ES</option>
                         <option value="en">EN</option>
                     </select>    
-                    <div id="login_menu" data-dic="d18_t" title="login" onclick="openModal('top','Login',null,'showLogin')">
+                    <div id="login_menu" data-dic="d18_t" title="Login" onclick="openModal('top',this.title,null,'showLogin')">
                         <img src="images/login2_white.svg">
                     </div>
                     <div id="tres_puntos_menu" data-dic="d19_t" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
@@ -478,7 +478,7 @@ session_start();
                                         <label>
                                             <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d136">7. Искать только номер Стронга (если есть)</span>
-                                            <span class="tooltip" data-dic="d137_ttip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d137_ttip" data-tooltip="Пример: Искать толко номер Стронга 'H430' (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
 
                                         </label>
                                     </p>                                    
@@ -830,7 +830,7 @@ HERE;
         $st_bl_change_email_form = 'none';
         $frase_bienvenida = '<span data-dic="d151">Bienvenido</span>, ' . $_SESSION['username'];
         //$frase_bienvenida .= "<br>(id_user: " .$_SESSION['id_user'] . ")";//para test
-        $mensaje = '<span class="clr_gre___en" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
+        $mensaje = '<span class="clr_gr-een" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
 print<<<HERE
@@ -918,7 +918,9 @@ print<<<HERE
             <div id="bl_login" style="display:$st_bl_login;">
                 <form class="login-form">
                     <h1 data-dic="d184">Iniciar sesión</h1>
-                    <p class="mensaje" data-dic="d188">Tendrás acceso a tus ajustes personales.</p>
+                    <p class="mensaje">
+                        <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
+                    </p>
                     <input id="username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" required />
                     <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
                     <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
@@ -960,7 +962,7 @@ HERE;
                                 <div id="topMenuInner">
 <?php
 print<<<HERE
-                                    <div id="m_login_menu" class="dbtn" data-dic="d18_t" title="login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
+                                    <div id="m_login_menu" class="dbtn" data-dic="d18_t" title="Login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
                                         <div class="dbtn_inner">
                                             <img src="$login_img_src">    
                                             <span data-dic="d18_t">Login</span>

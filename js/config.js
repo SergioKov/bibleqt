@@ -3,6 +3,8 @@
 //====================================================================//
 const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles
 let lang = localStorage.getItem('lang') || navigator.languages[1] || 'ru';//idioma por defecto
+//lang = 'ddddru';//test ok
+
 const eid_sel_lang = document.getElementById('sel_lang');
 const eid_m_sel_lang = document.getElementById('m_sel_lang');
 
@@ -188,7 +190,8 @@ const pantallaDesktopSmallMinPx = 1024;
 
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
-const obj_ajustes = {};//todos los ajustes del usuario 
+let obj_ajustes = {};//todos los ajustes del usuario 
+let fav_ajustes = {};//todos los ajustes del usuario de bd
 
 const ajuste1 = {
     wr_filter: {

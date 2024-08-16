@@ -1675,7 +1675,7 @@ async function changeLang(lang) {
     //console.log('=== function changeLanguage(lang) ===');    
 
     if(arr_langs.includes(lang)){
-        const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
+        obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
         //console.log('obj_lang:');
         //console.log(obj_lang);
         localStorage.setItem('lang',lang);
@@ -1684,38 +1684,45 @@ async function changeLang(lang) {
         document.querySelectorAll('[data-dic]').forEach(element => {
             const dic = element.dataset.dic;
 
-            if(dic.length > 1){            
+            if(dic.startsWith('d') && dic.length > 1){            
 
-                if(dic.includes('_')){
-                    dic_place = dic.split('_')[1];//title
-                    //console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
+                if(typeof obj_lang[dic] !== 'undefined'){
+                    //console.log(` dic válido --- ${dic} => ${obj_lang[dic]}`);
 
-                    switch (dic_place) {
-                        case 't'://title
-                            element.title = obj_lang[dic];
-                            break;
-                    
-                        case 'ph'://placeholder
-                            element.placeholder = obj_lang[dic];
-                            break;
-
-                        case 'lab'://label
-                            element.label = obj_lang[dic];
-                            break;
-                    
-                        case 'ttip'://tooltip
-                            element.dataset.tooltip = obj_lang[dic];
-                            break;
-                    
-                        default:
-                            console.error(`El valor '${dic}' en el atributo data-dic="${dic}" no se encuentra en el objeto de idiomas 'obj_lang'. Revisar ${lang}.json o el attributo data-dic="${dic}"`);
-                            console.log(element);
-                            break;
+                    if(dic.includes('_')){
+                        dic_place = dic.split('_')[1];//title
+                        //console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
+    
+                        switch (dic_place) {
+                            case 't'://title
+                                element.title = obj_lang[dic];
+                                break;
+                        
+                            case 'ph'://placeholder
+                                element.placeholder = obj_lang[dic];
+                                break;
+    
+                            case 'lab'://label
+                                element.label = obj_lang[dic];
+                                break;
+                        
+                            case 'ttip'://tooltip
+                                element.dataset.tooltip = obj_lang[dic];
+                                break;
+                        
+                            default:
+                                console.error(`El valor '${dic}' en el atributo data-dic="${dic}" no se encuentra en el objeto de idiomas 'obj_lang'. Revisar ${lang}.json o el attributo data-dic="${dic}"`);
+                                console.log(element);
+                                break;
+                        }
+                        
+                    }else{
+                        element.textContent = obj_lang[dic];
+                        //console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
                     }
-                    
+
                 }else{
-                    element.textContent = obj_lang[dic];
-                    //console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
+                    console.log(` dic inválido --- ${dic} => ${obj_lang[dic]} --- NO HAGO NADA`);
                 }
 
             }//end
@@ -1736,5 +1743,23 @@ async function changeLang(lang) {
         //return false;
     }
     checkLang(lang);
+}
+
+
+
+
+
+
+//let frase = 'Usuario __VAR__ se ha registrado y usuario2 __VAR__ no.';
+//let valores = ['Sergio', 'Pedro'];
+
+function reemplazarValores(frase, valores) {
+    if(valores && valores.length > 0){
+        valores.forEach(valor => {
+            // Reemplaza la primera ocurrencia de __VAR__ con el valor actual
+            frase = frase.replace('__VAR__', valor);
+        });
+    }
+    return frase;
 }
 
