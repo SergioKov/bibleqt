@@ -6,8 +6,6 @@ ALTER TABLE `fav_trans`
   ADD CONSTRAINT `FK_fav_trans_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 
-ALTER TABLE `fav_ajustes`
-  ADD CONSTRAINT `FK_fav_ajustes_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 
 
@@ -82,3 +80,13 @@ ALTER TABLE `fav_ajustes`
     ],
     "aaa": "aaa"
 }
+
+
+
+
+
+
+//-----------------------------------
+
+RENAME TABLE `db_bibleqt`.`fav_ajustes` TO `db_bibleqt`.`ajustes`;
+

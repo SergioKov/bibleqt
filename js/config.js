@@ -190,10 +190,10 @@ const pantallaDesktopSmallMinPx = 1024;
 
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
+let obj_ajustes_def = {};//todos los ajustes del usuario 
 let obj_ajustes = {};//todos los ajustes del usuario 
-let fav_ajustes = {};//todos los ajustes del usuario de bd
 
-const ajuste1 = {
+obj_ajustes.verseCompare = {
     wr_filter: {
         display: 'none'
     },
@@ -223,9 +223,10 @@ const ajuste1 = {
 
     aaa: 'aaa'
 };
+//console.log(obj_ajustes);
 
-obj_ajustes.ajuste1 = ajuste1;
-obj_ajustes.ajuste2 = 'algo';
+
+
 
 const obj_ref = {
     "input": {
@@ -403,3 +404,11 @@ let arr_verses_compare = [];
 let arr_verses_lang = [];
 
 let is_loading_def_functions = false;//por defecto . para no llamar 2 veces a loadDefaultFunctions()
+
+
+
+
+
+obj_ajustes.lang = lang;
+
+obj_ajustes_def = obj_ajustes;

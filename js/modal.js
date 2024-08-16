@@ -1752,7 +1752,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         //title_filter
         const div_title_filter = document.createElement('div');
         div_title_filter.id = 'title_filter';
-        let cl_filter_img = (ajuste1.wr_filter.display == 'block') ? 'razv' : '' ;
+        let cl_filter_img = (obj_ajustes.verseCompare.wr_filter.display == 'block') ? 'razv' : '' ;
         div_title_filter.innerHTML = `Фильтр: <img src="images/icon_razvernut.png" class="${cl_filter_img}">`;
         div_title_filter.onclick = () => {
             hideShowWrFilter();
@@ -1761,7 +1761,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         //wr_filter
         const div_wr_filter = document.createElement('div');
         div_wr_filter.id = 'wr_filter';
-        div_wr_filter.style.display = ajuste1.wr_filter.display;//por defecto es oculto
+        div_wr_filter.style.display = obj_ajustes.verseCompare.wr_filter.display;//por defecto es oculto
     
             //wr_filter_inner
             const div_wr_filter_inner = document.createElement('div');
@@ -1782,8 +1782,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     const boton_btn_show_refs = document.createElement('button');
                     boton_btn_show_refs.id = 'btn_show_refs';
                     //boton_btn_show_refs.innerHTML = `<button id="btn_show_refs" class="btn" onclick="hideShowRefsCompare(this)">Show Refs</button>`;
-                    boton_btn_show_refs.style.display = ajuste1.btn_show_refs.display;
-                    boton_btn_show_refs.className = ajuste1.btn_show_refs.classText;
+                    boton_btn_show_refs.style.display = obj_ajustes.verseCompare.btn_show_refs.display;
+                    boton_btn_show_refs.className = obj_ajustes.verseCompare.btn_show_refs.classText;
                     boton_btn_show_refs.textContent = 'Паказывать ссылки';
                     //hideShowRefsCompare();
                     boton_btn_show_refs.onclick = (e) => {
@@ -1825,7 +1825,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     radio_one_lang.id = 'one_lang';
                     radio_one_lang.type = 'radio';
                     radio_one_lang.name = 'modo_lang';
-                    radio_one_lang.checked = ajuste1.one_lang.checked;
+                    radio_one_lang.checked = obj_ajustes.verseCompare.one_lang.checked;
                     radio_one_lang.onchange = (e) => {
                         filterTransCompare(e.target,null);//e.srcElement = this 
                     };
@@ -1843,7 +1843,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     radio_many_lang.id = 'many_lang';
                     radio_many_lang.type = 'radio';
                     radio_many_lang.name = 'modo_lang';
-                    radio_many_lang.checked = ajuste1.many_lang.checked;
+                    radio_many_lang.checked = obj_ajustes.verseCompare.many_lang.checked;
                     radio_many_lang.onchange = (e) => {
                         filterTransCompare(e.target,null);//e.srcElement = this 
                     }; 
@@ -1872,7 +1872,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                 arr_verses_lang.forEach(el=>{
                     //ejemplo boton: <button class="btn btn_active" data-lang="ru" onclick="filterTransCompare(this,'ru')">Rus</button>
                     const btn = document.createElement('button');
-                    btn.className = (ajuste1.arr_lang_act.includes(el) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+                    btn.className = (obj_ajustes.verseCompare.arr_lang_act.includes(el) || (obj_ajustes.verseCompare.arr_lang_act.length == 0 && obj_ajustes.verseCompare.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
                     btn.dataset.lang = el;//['ru','ua','es']
                     btn.textContent = el.toUpperCase();
                     btn.onclick = (e) => {
@@ -1886,8 +1886,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                 const boton_btn_lang_all = document.createElement('button');
                 boton_btn_lang_all.id = 'btn_lang_all';
                 //div_btn_lang_all.innerHTML = `<button id="btn_lang_all" class="btn btn_active" onclick="filterTransCompare(this,'all')">Todos</button>`;
-                boton_btn_lang_all.className = (ajuste1.arr_lang_act.length == arr_verses_lang.length || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
-                boton_btn_lang_all.style.display = (ajuste1.many_lang.checked) ? 'block' : 'none' ;
+                boton_btn_lang_all.className = (obj_ajustes.verseCompare.arr_lang_act.length == arr_verses_lang.length || (obj_ajustes.verseCompare.arr_lang_act.length == 0 && obj_ajustes.verseCompare.arr_lang_noact.length == 0) ) ? 'btn btn_active' : 'btn' ;
+                boton_btn_lang_all.style.display = (obj_ajustes.verseCompare.many_lang.checked) ? 'block' : 'none' ;
                 boton_btn_lang_all.textContent = 'Все языки';
                 boton_btn_lang_all.onclick = (e) => {
                     filterTransCompare(e.target,'all');
@@ -1923,13 +1923,13 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
                     //ejemplo boton: <button class="btn btn_active" data-lang="ru" data-trans="rstStrongRed" onclick="filterTransCompare(this,'ru')">RSTr+</button>
                     const btn = document.createElement('button');
 
-                    if(ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ){
+                    if(obj_ajustes.verseCompare.arr_lang_act.includes(el.Lang) || (obj_ajustes.verseCompare.arr_lang_act.length == 0 && obj_ajustes.verseCompare.arr_lang_noact.length == 0) ){
                         btn.style.display = 'block';
                     }else{
                         btn.style.display = 'none';
                     }
 
-                    if(ajuste1.arr_trans_act.includes(el.Translation) || (ajuste1.arr_trans_act.length == 0 && ajuste1.arr_trans_noact.length == 0) ){
+                    if(obj_ajustes.verseCompare.arr_trans_act.includes(el.Translation) || (obj_ajustes.verseCompare.arr_trans_act.length == 0 && obj_ajustes.verseCompare.arr_trans_noact.length == 0) ){
                         btn.className = 'btn btn_active';
                     }else{
                         btn.className = 'btn';
@@ -2018,8 +2018,8 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         p.dataset.verse_trans = el.Translation;
 
         if( i == 0 || 
-            //(ajuste1.arr_lang_act.includes(el.Lang) || (ajuste1.arr_lang_act.length == 0 && ajuste1.arr_lang_noact.length == 0) ) || 
-            (ajuste1.arr_trans_act.includes(el.Translation) || (ajuste1.arr_trans_act.length == 0 && ajuste1.arr_trans_noact.length == 0) )
+            //(obj_ajustes.verseCompare.arr_lang_act.includes(el.Lang) || (obj_ajustes.verseCompare.arr_lang_act.length == 0 && obj_ajustes.verseCompare.arr_lang_noact.length == 0) ) || 
+            (obj_ajustes.verseCompare.arr_trans_act.includes(el.Translation) || (obj_ajustes.verseCompare.arr_trans_act.length == 0 && obj_ajustes.verseCompare.arr_trans_noact.length == 0) )
         ){
             p.style.display = 'block';
         }else{
@@ -2030,7 +2030,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         p.innerHTML = ` 
         <span class="pv_inner">
             <span class="b_trans" title="${el.BibleName}">${el.BibleShortName}</span> 
-            <a href="#" class="a_ref" style="display: ${ajuste1.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
+            <a href="#" class="a_ref" style="display: ${obj_ajustes.verseCompare.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
             <span class="v_trans">${el.verseText}</span>
         </span>
         `;
@@ -2042,7 +2042,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         <span class="pv_inner">
             <span class="wr_b_trans_a_ref">
                 <span class="b_trans" title="${el.BibleName}">${el.BibleShortName}</span> 
-                <a href="#" class="a_ref" style="display: ${ajuste1.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
+                <a href="#" class="a_ref" style="display: ${obj_ajustes.verseCompare.a_ref.display}">${el.BibleBookShortName}${el.chapter}:${el.verse}</a> 
             </span>
             <span class="v_trans">${el.verseText}</span>
         </span>
@@ -2068,7 +2068,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
         const a_ref = document.createElement('a');
         a_ref.className = 'a_ref';
         a_ref.href = '#';
-        a_ref.style.display = ajuste1.a_ref.display;
+        a_ref.style.display = obj_ajustes.verseCompare.a_ref.display;
         let refLink = `${el.BibleBookShortName} ${el.chapter}:${el.verse}`;
         a_ref.innerHTML = refLink;
         a_ref.onclick = (e) => {
@@ -2185,6 +2185,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     }
 
     mySizeVersesCompare();
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 function updateArrTrans(){
@@ -2252,8 +2253,10 @@ function hideShowWrFilter(){
     }
 
     wr_filter.style.display = val;
-    ajuste1.wr_filter.display = val;
+    obj_ajustes.verseCompare.wr_filter.display = val;
     mySizeVersesCompare();
+
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 function hideShowRefsCompare(e = null){
@@ -2262,23 +2265,24 @@ function hideShowRefsCompare(e = null){
     //let elementoRef = a_ref_all[0];//primer link   
 
     
-    if(ajuste1.btn_show_refs.stateActive /*esVisible(elementoRef)*/){
+    if(obj_ajustes.verseCompare.btn_show_refs.stateActive /*esVisible(elementoRef)*/){
         btn_show_refs.classList.remove('btn_active');
-        ajuste1.btn_show_refs.classText = 'btn';
-        ajuste1.btn_show_refs.stateActive = false;
-        ajuste1.a_ref.display = 'none';
+        obj_ajustes.verseCompare.btn_show_refs.classText = 'btn';
+        obj_ajustes.verseCompare.btn_show_refs.stateActive = false;
+        obj_ajustes.verseCompare.a_ref.display = 'none';
         a_ref_all.forEach(el=>{
             el.style.display = 'none';
         });
     }else{
         btn_show_refs.classList.add('btn_active');
-        ajuste1.btn_show_refs.classText = 'btn btn_active';
-        ajuste1.btn_show_refs.stateActive = true;
-        ajuste1.a_ref.display = 'inline-block';
+        obj_ajustes.verseCompare.btn_show_refs.classText = 'btn btn_active';
+        obj_ajustes.verseCompare.btn_show_refs.stateActive = true;
+        obj_ajustes.verseCompare.a_ref.display = 'inline-block';
         a_ref_all.forEach(el=>{
             el.style.display = 'inline-block';
         });
     }
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 function filterTransCompare(e, param = 'all'){
@@ -2295,12 +2299,12 @@ function filterTransCompare(e, param = 'all'){
 
     if(radio_one_lang.checked){//solo mostrar un idioma
 
-        ajuste1.one_lang.checked = true;
-        ajuste1.many_lang.checked = false;
+        obj_ajustes.verseCompare.one_lang.checked = true;
+        obj_ajustes.verseCompare.many_lang.checked = false;
         
         btn_lang_all.style.display = 'none';
-        ajuste1.btn_lang_all.display = 'none';
-        ajuste1.btn_lang_all.class = 'tab';
+        obj_ajustes.verseCompare.btn_lang_all.display = 'none';
+        obj_ajustes.verseCompare.btn_lang_all.class = 'tab';
 
         btns_lang_all.forEach(el=>{
             if(el.className.includes('btn_active')){
@@ -2314,7 +2318,7 @@ function filterTransCompare(e, param = 'all'){
             if(el.className.includes('btn_active')){
                 el.classList.remove('btn_active');
                 el.style.display = 'none';
-                ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                obj_ajustes.verseCompare.arr_trans_act.splice(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.trans),1);
             } 
         });
 
@@ -2331,8 +2335,8 @@ function filterTransCompare(e, param = 'all'){
         //console.log('arr_lang_act: ',arr_lang_act );
         //console.log('arr_lang_noact: ',arr_lang_noact);
 
-        ajuste1.arr_lang_act = arr_lang_act;
-        ajuste1.arr_lang_noact = arr_lang_noact;
+        obj_ajustes.verseCompare.arr_lang_act = arr_lang_act;
+        obj_ajustes.verseCompare.arr_lang_noact = arr_lang_noact;
 
         //btns_trans
         btns_trans_all.forEach(el=>{
@@ -2341,13 +2345,13 @@ function filterTransCompare(e, param = 'all'){
                 el.style.display = 'block';        
                 if(!el.className.includes('btn_active') && this_btn.dataset.lang == el.dataset.lang){
                     el.classList.add('btn_active');
-                    ajuste1.arr_trans_act.push(el.dataset.trans);
+                    obj_ajustes.verseCompare.arr_trans_act.push(el.dataset.trans);
                 }    
             }else{
                 el.style.display = 'none';                
                 if(el.className.includes('btn_active')){
                     el.classList.remove('btn_active');
-                    ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                    obj_ajustes.verseCompare.arr_trans_act.splice(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.trans),1);
                 }
             }
         });
@@ -2366,12 +2370,12 @@ function filterTransCompare(e, param = 'all'){
 
     }else{//mostrar VARIOS idiomas marcadas
 
-        ajuste1.one_lang.checked = false;
-        ajuste1.many_lang.checked = true;
+        obj_ajustes.verseCompare.one_lang.checked = false;
+        obj_ajustes.verseCompare.many_lang.checked = true;
 
         btn_lang_all.style.display = 'block';
-        ajuste1.btn_lang_all.display = 'block';
-        ajuste1.btn_lang_all.class = 'tab tab_active';
+        obj_ajustes.verseCompare.btn_lang_all.display = 'block';
+        obj_ajustes.verseCompare.btn_lang_all.class = 'tab tab_active';
 
         if(this_btn.id == 'btn_lang_all'){
 
@@ -2389,7 +2393,7 @@ function filterTransCompare(e, param = 'all'){
                 btns_trans_all.forEach(el=>{
                     if(el.className.includes('btn_active')){
                         el.classList.remove('btn_active');
-                        ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                        obj_ajustes.verseCompare.arr_trans_act.splice(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.trans),1);
                     } 
                 });
                 
@@ -2407,7 +2411,7 @@ function filterTransCompare(e, param = 'all'){
                 btns_trans_all.forEach(el=>{
                     if(!el.className.includes('btn_active') ){
                         el.classList.add('btn_active');
-                        ajuste1.arr_trans_act.push(el.dataset.trans);
+                        obj_ajustes.verseCompare.arr_trans_act.push(el.dataset.trans);
                     } 
                 });
             }
@@ -2437,8 +2441,8 @@ function filterTransCompare(e, param = 'all'){
         //console.log('arr_lang_act: ',arr_lang_act );
         //console.log('arr_lang_noact: ',arr_lang_noact);
 
-        ajuste1.arr_lang_act = arr_lang_act;
-        ajuste1.arr_lang_noact = arr_lang_noact;
+        obj_ajustes.verseCompare.arr_lang_act = arr_lang_act;
+        obj_ajustes.verseCompare.arr_lang_noact = arr_lang_noact;
         
         //btns_trans
         btns_trans_all.forEach(el=>{
@@ -2448,13 +2452,13 @@ function filterTransCompare(e, param = 'all'){
                 el.style.display = 'block';        
                 if(!el.className.includes('btn_active') && this_btn.dataset.lang == el.dataset.lang){
                     el.classList.add('btn_active');
-                    ajuste1.arr_trans_act.push(el.dataset.trans);
+                    obj_ajustes.verseCompare.arr_trans_act.push(el.dataset.trans);
                 }    
             }else{
                 el.style.display = 'none';                
                 if(el.className.includes('btn_active')){
                     el.classList.remove('btn_active');
-                    ajuste1.arr_trans_act.splice(ajuste1.arr_trans_act.indexOf(el.dataset.trans),1);
+                    obj_ajustes.verseCompare.arr_trans_act.splice(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.trans),1);
                 }
             }
         });
@@ -2467,7 +2471,7 @@ function filterTransCompare(e, param = 'all'){
                 //console.log(`${el.dataset.verse_lang} --- ${el.dataset.verse_trans}`);
 
                 //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
-                if(ajuste1.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
+                if(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
                     //console.log('muestro pv');
                     el.style.display = 'block';
                 }else{
@@ -2479,6 +2483,7 @@ function filterTransCompare(e, param = 'all'){
     }
     
     mySizeVersesCompare();
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 
@@ -2520,34 +2525,36 @@ function filterTransCompareBtns(e){
     arr_trans_lang = [... new Set(arr_trans_lang)];//quito elementos duplicados 
     //console.log('sin duplicados --- arr_trans_lang: ',arr_trans_lang );
 
-    ajuste1.arr_trans_act = arr_trans_act;
-    ajuste1.arr_trans_noact = arr_trans_noact;    
+    obj_ajustes.verseCompare.arr_trans_act = arr_trans_act;
+    obj_ajustes.verseCompare.arr_trans_noact = arr_trans_noact;    
     
     btns_lang_all.forEach(el => {
         if(el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) == -1 ){
             //console.log(' noo ok. --- quito act');
             el.classList.remove('btn_active');
-            ajuste1.arr_lang_act.splice(ajuste1.arr_lang_act.indexOf(el.dataset.lang),1)
+            obj_ajustes.verseCompare.arr_lang_act.splice(obj_ajustes.verseCompare.arr_lang_act.indexOf(el.dataset.lang),1)
         }
         else if(!el.className.includes('btn_active') && arr_trans_lang.indexOf(el.dataset.lang) >= 0 ){
             //console.log(' todo ok. no quito act');
             el.classList.add('btn_active');
-            ajuste1.arr_lang_act.push(el.dataset.lang);
+            obj_ajustes.verseCompare.arr_lang_act.push(el.dataset.lang);
         }       
     });
-    ajuste1.arr_lang_act = [... new Set(ajuste1.arr_lang_act)];//quito elementos duplicados
+    obj_ajustes.verseCompare.arr_lang_act = [... new Set(obj_ajustes.verseCompare.arr_lang_act)];//quito elementos duplicados
 
 
     pv_all.forEach((el,i)=>{   
         if(i != 0){//siempre dejo visible el primer parafo con el verse comparado 
             //si lang de pv esta en el 'array arr_lang_act' su index sera >= 0
-            if(ajuste1.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
+            if(obj_ajustes.verseCompare.arr_trans_act.indexOf(el.dataset.verse_trans) >= 0){
                 el.style.display = 'block';
             }else{
                 el.style.display = 'none';
             }
         }
     });
+    
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 

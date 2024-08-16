@@ -1661,7 +1661,7 @@ function scrollToVkladkaActive(){
 
 
 
-changeLang(lang);
+//changeLang(lang);
 //checkLang(lang);
 
 function checkLang(lang){
@@ -1739,10 +1739,13 @@ async function changeLang(lang) {
         
     }else{
         console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
-        changeLang('ru');//por defecto
+        changeLang(arr_langs[0]);//'ru' por defecto
         //return false;
     }
     checkLang(lang);
+    
+    obj_ajustes.lang = lang;
+    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
 }
 
 

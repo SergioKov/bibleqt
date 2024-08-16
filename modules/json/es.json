@@ -211,6 +211,7 @@
 
     "d203" : "Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.",
     "d204" : "Autenticación fallida.",
+
     "d205" : "Hubo problemas al iniciar sesión para el usuario",
     "d206" : "Verifica tu usuario y contraseña.",
     "d207" : "¡Bienvenido",
@@ -233,6 +234,7 @@
     "d224" : "Los ficheros de Strong ya están cargados.",
     "d225" : "Aviso Strong",
     "d226" : "Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.",
+    
     "d227" : "",
     "d228" : "",
     "d229" : "",

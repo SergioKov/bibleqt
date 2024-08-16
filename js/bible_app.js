@@ -57,11 +57,11 @@ crear_obj_lang(); // Llamamos a la función para que crea obj_lang
 
 async function crear_obj_lang() {
     obj_lang = await make_obj_lang();
-    console.log(obj_lang);
+    //console.log(obj_lang);
 }
 
 async function make_obj_lang(){
-    console.log('=== function make_obj_lang() ===');
+    //console.log('=== function make_obj_lang() ===');
     
     try {
 
@@ -71,8 +71,8 @@ async function make_obj_lang(){
         }            
         
         let obj_lang_f = await fetchDataToJson(`modules/json/${lang}.json`);
-        console.log('obj_lang_f:');
-        console.log(obj_lang_f);
+        //console.log('obj_lang_f:');
+        //console.log(obj_lang_f);
         //localStorage.setItem('lang',lang);
 
         return obj_lang_f;
@@ -100,35 +100,6 @@ async function make_obj_lang(){
 
 
 
-
-
-/*
-let fav_ajustes = {};
-crear_fav_ajustes(); // Llamamos a la función para que crea obj_lang
-
-async function crear_fav_ajustes() {
-    fav_ajustes = await make_fav_ajustes();
-    console.log(fav_ajustes);
-}
-
-async function make_fav_ajustes(){
-    console.log('=== function make_fav_ajustes() ===');
-    
-    try {          
-        
-        let fav_ajustes_f = await fetchDataToJson(`modules/json/${lang}.json`);//??
-        console.log('fav_ajustes_f:');
-        console.log(fav_ajustes_f);
-        //localStorage.setItem('lang',lang);
-
-        return fav_ajustes_f;
-
-    } catch (error) {
-        // Código a realizar cuando se rechaza la promesa
-        console.error('make_fav_ajustes. error: ',error);
-    }    
-}
-*/
 
 
 
@@ -1048,8 +1019,7 @@ async function loadDefaultFunctions(){
 
         //NO PONER  aquí 'await obtenerDatosDeBD' con 'arrFavTrans' YA QUE SE HACE UN BUCLE INFINITO!
         
-        await obtenerDatosDeBD('fav_ajustes','fav_ajustes');//SEGUIR haciendo!!!
-
+        await obtenerDatosDeBD('ajustes','obj_ajustes');//creo objeto obj_ajustes desde datos de usuario sacados de bd
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
         await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
@@ -1062,7 +1032,6 @@ async function loadDefaultFunctions(){
         //console.log(arr_hist_strong);
         //console.log(arr_markers);
 
-        //insertarDatos(arrTabs);//test
     }else{
         //console.log('js: verificarAutenticacion: false --- El usuario no está autenticado.');
 
@@ -1094,6 +1063,8 @@ async function loadDefaultFunctions(){
     
     doPageDownOnScroll();
     document.onkeydown = checkKey;
+
+    changeLang(obj_ajustes.lang);;//default
 
     setTimeout(()=>{    
         pintRefOnScroll();
@@ -12361,24 +12332,21 @@ async function obtenerDatosDeBD(tabla, campo){
                 }
                 break;
     
-            case 'fav_ajustes':
+            case 'ajustes':
                 if(data == 'no_tiene_datos' || data == '[]'){
                     //console.log('no_tiene_datos');
-                    console.log(obj_ajustes);
-                    fav_ajustes = obj_ajustes;
+                    obj_ajustes = obj_ajustes_def;
+                    //console.log(obj_ajustes);
                 }else{
-                    console.log('Si. fav_trans tiene_datos');
-                    //fav_ajustes = convertArrBdToArrOk('fav_ajustes',data);// como no es un array sino objeto esto no vale!!
-                    fav_ajustes = JSON.parse(data);
-                    console.log('1. fav_ajustes: ', fav_ajustes);
+                    //console.log('Si. obj_ajustes tiene_datos');
+                    obj_ajustes = JSON.parse(data);
+                    //console.log('1. obj_ajustes: ', obj_ajustes);
                 }
                 break;
     
             default:
                 break;
         }
-
-
 
     } catch (error) {
         console.error('Error: ', error.message);
