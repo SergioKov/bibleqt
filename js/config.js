@@ -1,7 +1,7 @@
 //====================================================================//
 //  C O N S T A N T A S
 //====================================================================//
-
+const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles
 let lang = localStorage.getItem('lang') || navigator.languages[1] || 'ru';//idioma por defecto
 const eid_sel_lang = document.getElementById('sel_lang');
 const eid_m_sel_lang = document.getElementById('m_sel_lang');
@@ -188,6 +188,8 @@ const pantallaDesktopSmallMinPx = 1024;
 
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
+const obj_ajustes = {};//todos los ajustes del usuario 
+
 const ajuste1 = {
     wr_filter: {
         display: 'none'
@@ -218,6 +220,9 @@ const ajuste1 = {
 
     aaa: 'aaa'
 };
+
+obj_ajustes.ajuste1 = ajuste1;
+obj_ajustes.ajuste2 = 'algo';
 
 const obj_ref = {
     "input": {

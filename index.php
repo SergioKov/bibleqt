@@ -36,73 +36,73 @@ session_start();
                 
                 <div id="bl_headerBtns">
                     
-                    <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1.t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
+                    <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1_t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
                         <!--<div>Hide</div>-->
                         <img src="images/sidebar_show_white.svg">
                     </div>
-                    <div id="btn_hideShowFooter" class="dbtn" data-dic="d2.t" title="Hide or Show footer" onclick="hideShowFooter()">
+                    <div id="btn_hideShowFooter" class="dbtn" data-dic="d2_t" title="Hide or Show footer" onclick="hideShowFooter()">
                         <img src="images/sidebar_show_white.svg">
                     </div>
 
-                    <div class="dbtn" data-dic="d3.t" title="Remove Bible Translation" onclick="removeTrans()">
+                    <div class="dbtn" data-dic="d3_t" title="Remove Bible Translation" onclick="removeTrans()">
                         <div>Tr -</div>
                     </div>
-                    <div class="dbtn" data-dic="d4.t" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+                    <div class="dbtn" data-dic="d4_t" title="Add Bible Translation" onclick="addTrans('askForTrans')">
                         <div>Tr +</div>
                     </div>
 
-                    <div class="dbtn" data-dic="d5.t" title="Quitar Pestaña" onclick="removeTab()">
+                    <div class="dbtn" data-dic="d5_t" title="Quitar Pestaña" onclick="removeTab()">
                         <div>Vk -</div>
                     </div>
-                    <div class="dbtn" data-dic="d6.t" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+                    <div class="dbtn" data-dic="d6_t" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
                         <div>Vk +</div>
                     </div>
 
-                    <div class="dbtn" data-dic="d7.t" title="Previous book" onclick="bookGo('prev')">
+                    <div class="dbtn" data-dic="d7_t" title="Previous book" onclick="bookGo('prev')">
                         <img src="images/arrow_backward_white.svg">
                     </div>
-                    <div class="dbtn" data-dic="d8.t" title="Next book"onclick="bookGo('next')">
+                    <div class="dbtn" data-dic="d8_t" title="Next book"onclick="bookGo('next')">
                         <img src="images/arrow_forward_white.svg">
                     </div>
 
-                    <div id="btn_chapterGoPrev" class="dbtn" data-dic="d9.t" title="Previous chapter" onclick="chapterGo('prev')">
+                    <div id="btn_chapterGoPrev" class="dbtn" data-dic="d9_t" title="Previous chapter" onclick="chapterGo('prev')">
                         <img src="images/arrow_chevron_left_white.svg">                            
                     </div>
-                    <div id="btn_chapterGoNext" class="dbtn" data-dic="d10.t" title="Next chapter" onclick="chapterGo('next')">
+                    <div id="btn_chapterGoNext" class="dbtn" data-dic="d10_t" title="Next chapter" onclick="chapterGo('next')">
                         <img src="images/arrow_chevron_right_white.svg">
                     </div>
 
-                    <div class="dbtn" data-dic="d11.t" title="History previous register" onclick="hist('prev')">
+                    <div class="dbtn" data-dic="d11_t" title="History previous register" onclick="hist('prev')">
                         <div>< H</div>
                     </div>
-                    <div class="dbtn" data-dic="d12.t" title="History next register" onclick="hist('next')">
+                    <div class="dbtn" data-dic="d12_t" title="History next register" onclick="hist('next')">
                         <div>H ></div>
                     </div>                        
 
-                    <div id="btn_changePositionShowHeader" class="dbtn" data-dic="d13.t" title="Change position: Columns or Rows" onclick="changePositionShow()">
+                    <div id="btn_changePositionShowHeader" class="dbtn" data-dic="d13_t" title="Change position: Columns or Rows" onclick="changePositionShow()">
                         <!--<div>Row</div>-->
                         <img class="col_row position_row" src="images/col_row_white.svg">
                     </div>
-                    <div id="btnStrong" class="dbtn" data-dic="d14.t" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                    <div id="btnStrong" class="dbtn" data-dic="d14_t" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                         <div>S#</div>
                     </div>
-                    <div id="btnMinOtrasTrans" class="dbtn" data-dic="d15.t" title="Minimizar Otras Trans" onclick="enableDisableMinOtrasTrans()">
+                    <div id="btnMinOtrasTrans" class="dbtn" data-dic="d15_t" title="Minimizar Otras Trans" onclick="enableDisableMinOtrasTrans()">
                         <div>Tr_m</div>
                     </div>
-                    <div id="btnMaxWidthCol" class="dbtn" data-dic="d16.t" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDisableMaxWidthCol()">
+                    <div id="btnMaxWidthCol" class="dbtn" data-dic="d16_t" title="Habilitar/Deshabilitar ancho máximo de una columna" onclick="enableDisableMaxWidthCol()">
                         <div>mw_Col</div>
                     </div>
 
-                    <div id="btnIMGx2" class="dbtn" data-dic="d17.t" title="Aumentar el ancho de la imagen x2" onclick="enableDisableIMGx2()">
+                    <div id="btnIMGx2" class="dbtn" data-dic="d17_t" title="Aumentar el ancho de la imagen x2" onclick="enableDisableIMGx2()">
                         <div>IMGx2</div>
                     </div>
-                    <div id="" class="dbtn" data-dic=".t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
+                    <div id="" class="dbtn" data-dic="_t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn2</div>
                     </div>
-                    <div id="" class="dbtn" data-dic=".t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
+                    <div id="" class="dbtn" data-dic="_t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn3</div>
                     </div>
-                    <div id="" class="dbtn" data-dic=".t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
+                    <div id="" class="dbtn" data-dic="_t" title="un botón más" onclick="alert('para futura función')" style="display:none;">
                         <div>btn4</div>
                     </div>
 
@@ -124,10 +124,10 @@ session_start();
                         <option value="es">ES</option>
                         <option value="en">EN</option>
                     </select>    
-                    <div id="login_menu" data-dic="d18.t" title="login" onclick="openModal('top','Login',null,'showLogin')">
+                    <div id="login_menu" data-dic="d18_t" title="login" onclick="openModal('top','Login',null,'showLogin')">
                         <img src="images/login2_white.svg">
                     </div>
-                    <div id="tres_puntos_menu" data-dic="d19.t" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
+                    <div id="tres_puntos_menu" data-dic="d19_t" title="menu..." onclick="openModal('top','Меню',null,'showMenu')">
                         <img src="images/tres_puntos2_white.svg">
                     </div>
                 </div>
@@ -154,23 +154,23 @@ session_start();
 
                         <div id="restoTabs" class="f_r">                    
                             <div class="wr_btns_scr f_l">
-                                <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" data-dic="d20.t" title="Навигация">
+                                <button id="btn_nav" class="btn btn_active" onclick="showTab(this,'nav')" data-dic="d20_t" title="Навигация">
                                     <img class="btn_img" src="./images/open_book_white.png">
                                 </button>
-                                <button id="btn_find" class="btn" onclick="showTab(this,'find')" data-dic="d21.t" title="Поиск">
+                                <button id="btn_find" class="btn" onclick="showTab(this,'find')" data-dic="d21_t" title="Поиск">
                                     <img class="btn_img" src="./images/search_zoom_icon_white.svg">
                                 </button>
-                                <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" data-dic="d22.t" title="TSK - Перекрестные Ссылки">
+                                <button id="btn_tsk" class="btn" onclick="showTab(this,'tsk')" data-dic="d22_t" title="TSK - Перекрестные Ссылки">
                                     <img class="btn_img" src="./images/book_reference_white.svg">
                                 </button>
-                                <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" data-dic="d23.t" title="Словарь Стронга">
+                                <button id="btn_strong" class="btn" onclick="showTab(this,'strong')" data-dic="d23_t" title="Словарь Стронга">
                                     <span>S#</span>
                                 </button>
-                                <button id="btn_markers" class="btn" onclick="showTab(this,'markers')" data-dic="d24.t" title="Маркеры / Закладки">
+                                <button id="btn_markers" class="btn" onclick="showTab(this,'markers')" data-dic="d24_t" title="Маркеры / Закладки">
                                     <img class="btn_img" src="./images/book_marker_white.svg">
                                 </button>
-                                <button id="btn_comm" class="btn d-none" onclick="" data-dic="d25.t" title="Комментарии">Comm</button>
-                                <button id="btn_dic" class="btn d-none" onclick="" data-dic="d26.t" title="Словари">Dic</button>
+                                <button id="btn_comm" class="btn d-none" onclick="" data-dic="d25_t" title="Комментарии">Comm</button>
+                                <button id="btn_dic" class="btn d-none" onclick="" data-dic="d26_t" title="Словари">Dic</button>
                             </div>
                         </div>
 
@@ -254,7 +254,7 @@ session_start();
                     <div id="wr_find_head">
                         <div class="wr_nav">
                             <div class="wr_inpt_x">
-                                <input id="inpt_find" data-dic="d30.ph" placeholder="Введите слово или фразу..." value="">
+                                <input id="inpt_find" data-dic="d30_ph" placeholder="Введите слово или фразу..." value="">
                                 <div id="clear_inpt" onclick="clear_inpt('find')">&times;</div>
                             </div>
                             <div id="hist_find" onclick="hideShowHistFind()">
@@ -297,7 +297,7 @@ session_start();
                                             <option value="NT" data-dic="d34">НОВЫЙ ЗАВЕТ</option>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d35.lab" label="Категории">
+                                            <optgroup data-dic="d35_lab" label="Категории">
                                                 <option disabled data-dic="d36">--- Ветхий Завет ---</option>
                                                 <option value="M" data-dic="d37">#Пятикнижье</option>
                                                 <option value="Hist" data-dic="d38">#Исторические книги</option>
@@ -314,7 +314,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup data-dic="d48.lab" label="Пятикнижье">
+                                            <optgroup data-dic="d48_lab" label="Пятикнижье">
                                                 <option value="0" data-dic="d49">Бытие</option>
                                                 <option value="1" data-dic="d50">Исход</option>
                                                 <option value="2" data-dic="d51">Левит</option>
@@ -323,7 +323,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup data-dic="d54.lab" label="Исторические книги">
+                                            <optgroup data-dic="d54_lab" label="Исторические книги">
                                                 <option value="5" data-dic="d55">Иисус Навин</option>
                                                 <option value="6" data-dic="d56">Судьи</option>
                                                 <option value="7" data-dic="d57">Руфь</option>
@@ -339,7 +339,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup data-dic="d67.lab" label="Поэтические книги">
+                                            <optgroup data-dic="d67_lab" label="Поэтические книги">
                                                 <option value="17" data-dic="d68">Иов</option>
                                                 <option value="18" data-dic="d69">Псалтирь</option>
                                                 <option value="19" data-dic="d70">Притчи</option>
@@ -348,7 +348,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup data-dic="d73.lab" label="Большие Пророки">
+                                            <optgroup data-dic="d73_lab" label="Большие Пророки">
                                                 <option value="22" data-dic="d74">Исаия</option>
                                                 <option value="23" data-dic="d75">Иеремия</option>
                                                 <option value="24" data-dic="d76">Плач Иеремии</option>
@@ -357,7 +357,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d79.lab" label="Малые Пророки">
+                                            <optgroup data-dic="d79_lab" label="Малые Пророки">
                                                 <option value="27" data-dic="d80">Осия</option>
                                                 <option value="28" data-dic="d81">Иоиль</option>
                                                 <option value="29" data-dic="d82">Амос</option>
@@ -373,7 +373,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
                                             
-                                            <optgroup data-dic="d92.lab" label="Евангелия">
+                                            <optgroup data-dic="d92_lab" label="Евангелия">
                                                 <option value="39" data-dic="d93">Матфея</option>
                                                 <option value="40" data-dic="d94">Марка</option>
                                                 <option value="41" data-dic="d95">Луки</option>
@@ -381,12 +381,12 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d97.lab" label="Деяния">
+                                            <optgroup data-dic="d97_lab" label="Деяния">
                                                 <option value="43" data-dic="d98">Деяния</option>
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d99.lab" label="Послания Павла">
+                                            <optgroup data-dic="d99_lab" label="Послания Павла">
                                                 <option value="44" data-dic="d100">Римлянам</option>
                                                 <option value="45" data-dic="d101">1 Коринфянам</option>
                                                 <option value="46" data-dic="d102">2 Коринфянам</option>
@@ -404,7 +404,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d114.lab" label="Соборные Послания">
+                                            <optgroup data-dic="d114_lab" label="Соборные Послания">
                                                 <option value="58" data-dic="d115">Иакова</option>
                                                 <option value="59" data-dic="d116">1 Петра</option>
                                                 <option value="60" data-dic="d117">2 Петра</option>
@@ -415,7 +415,7 @@ session_start();
                                             </optgroup>
                                             <option disabled></option>
 
-                                            <optgroup data-dic="d122.lab" label="Откровение">
+                                            <optgroup data-dic="d122_lab" label="Откровение">
                                                 <option value="65" data-dic="d123">Откровение</option>
                                             </optgroup>
                                             <option disabled></option>
@@ -435,21 +435,21 @@ session_start();
                                         <label>
                                             <input id="cbox1" type="checkbox" onclick="cboxChange(this)"> 
                                             <span data-dic="d124">1. Искомое содержит хотя бы одно слово</span>
-                                            <span class="tooltip"  data-dic="d125.ttip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip"  data-dic="d125_ttip" data-tooltip="Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox2" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d126">2. Cлова идут в заданном порядке</span>
-                                            <span class="tooltip" data-dic="d127.ttip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d127_ttip" data-tooltip="Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox3" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d128">3. Искать точную фразу</span>
-                                            <span class="tooltip" data-dic="d129.ttip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d129_ttip" data-tooltip="Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
 
                                         </label>
                                     </p>
@@ -457,28 +457,28 @@ session_start();
                                         <label>
                                             <input id="cbox4" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d130">4. Выражения не могут быть частями слов</span>
-                                            <span class="tooltip" data-dic="d131.ttip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d131_ttip" data-tooltip="Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox5" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d132">5. Различать прописные и ЗАГЛАВНЫЕ буквы</span>
-                                            <span class="tooltip" data-dic="d133.ttip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d133_ttip" data-tooltip="Пример: различать при поиске слова 'БОГ' и 'бог'." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox6" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d134">6. Различать буквы с ударениями (если есть)</span>
-                                            <span class="tooltip" data-dic="d135.ttip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d135_ttip" data-tooltip="Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю)." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
                                         </label>
                                     </p>
                                     <p>
                                         <label>
                                             <input id="cbox7" type="checkbox" onclick="cboxChange(this)" value=""> 
                                             <span data-dic="d136">7. Искать только номер Стронга (если есть)</span>
-                                            <span class="tooltip" data-dic="d137.ttip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
+                                            <span class="tooltip" data-dic="d137_ttip" data-tooltip="Пример: Искать толко номер Стронга <S>H430</S> (Бог) в модулях, где он есть." onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">*</span>
 
                                         </label>
                                     </p>                                    
@@ -594,24 +594,24 @@ session_start();
                                 <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)">
                                     <img src="images/menu_white.svg">
                                 </button>
-                                <button class="btn btn_svg"data-dic="d9.t" onclick="chapterGo('prev')" title="Previous Chapter">
+                                <button class="btn btn_svg"data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
                                     <img src="images/arrow_chevron_left_white.svg">
                                 </button>
                                 
                                 <div class="centralPart">
-                                    <button class="btn" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')">
+                                    <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')">
                                         <span class="mob_trans">RST+r</span>
                                     </button>
                                     <div class="separ_line"></div>
-                                    <button class="btn" data-dic="d147.t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
+                                    <button class="btn" data-dic="d147_t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
                                         <span>Быт. 1:1</span>
                                     </button>
                                 </div>
                                 
-                                <button class="btn btn_svg" data-dic="d10.t" onclick="chapterGo('next')" title="Next Chapter">
+                                <button class="btn btn_svg" data-dic="d10_t" onclick="chapterGo('next')" title="Next Chapter">
                                     <img src="images/arrow_chevron_right_white.svg">
                                 </button>
-                                <button class="btn btn_svg" data-dic="d19.t" title="Меню" onclick="openModal('top','Меню',null,'showMenu')">
+                                <button class="btn btn_svg" data-dic="d19_t" title="Меню" onclick="openModal('top','Меню',null,'showMenu')">
                                     <img src="images/tres_puntos2_white.svg" style="width:24px;">
                                 </button>
 
@@ -638,11 +638,11 @@ session_start();
 
                                     <div class="wr_desk_trans">
 
-                                        <button class="btn btn_svg" data-dic="d9.t" onclick="chapterGo('prev')" title="Previous Chapter">
+                                        <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
                                             <img src="images/arrow_chevron_left_white.svg">
                                         </button>
 
-                                        <div class="centralPart" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
+                                        <div class="centralPart" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
                                             <div class="desk_trans">RST</div>
                                             <div class="separ_line"></div>
                                             <div class="desk_sh_link">Gn. 1:1</div>
@@ -662,24 +662,24 @@ session_start();
                                         <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)">
                                             <img src="images/menu_white.svg">
                                         </button>
-                                        <button class="btn btn_svg" data-dic="d9.t" onclick="chapterGo('prev')" title="Previous Chapter">
+                                        <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
                                             <img src="images/arrow_chevron_left_white.svg">
                                         </button>
                                         
                                         <div class="centralPart">
-                                            <button class="btn" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
+                                            <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
                                                 <span class="mob_trans">RST+r</span>
                                             </button>
                                             <div class="separ_line"></div>
-                                            <button class="btn" data-dic="d147.t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
+                                            <button class="btn" data-dic="d147_t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
                                                 <span class="mob_sh_link">Быт. 1:1</span>
                                             </button>
                                         </div>
                                         
-                                        <button class="btn btn_svg" data-dic="d10.t" onclick="chapterGo('next')" title="Next Chapter">
+                                        <button class="btn btn_svg" data-dic="d10_t" onclick="chapterGo('next')" title="Next Chapter">
                                             <img src="images/arrow_chevron_right_white.svg">
                                         </button>
-                                        <button class="btn btn_svg" data-dic="d19.t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')">
+                                        <button class="btn btn_svg" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')">
                                             <img src="images/tres_puntos2_white.svg" style="width:24px;">
                                         </button>
                                         
@@ -793,7 +793,7 @@ session_start();
                 <div class="inner">
                     <h4>
                         <span class="close" onclick="closeModal(null,true)">&#10005;</span><!-- x -->
-                        <span id="btn_sp_atras" class="sp_atras" data-dic="d19.t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')"></span>
+                        <span id="btn_sp_atras" class="sp_atras" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>
                     </h4>
                 </div>
@@ -884,9 +884,9 @@ print<<<HERE
                 <form class="register-form">
                     <h1 data-dic="d177">Crear cuenta</h1>
                     <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
-                    <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192.ph" />
-                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193.ph" />
-                    <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194.ph" />
+                    <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" />
+                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" />
+                    <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194_ph" />
                     <button class="btn_wide" type="button" onclick="crearCuenta()" data-dic="d177">Crear cuenta</button>
                     <p class="message"><span data-dic="d179">¿Ya estás registrado?</span> <a href="#" onclick="mostrarLoginForm()" data-dic="d180">Entrar</a></p>
                 </form>
@@ -896,7 +896,7 @@ print<<<HERE
                 <form class="email-form">
                     <h1 data-dic="d181">Recuperar contraseña</h1>
                     <p class="mensaje" data-dic="d182">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
-                    <input id="rec_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194.ph" />
+                    <input id="rec_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194_ph" />
                     <button class="btn_wide" type="button" onclick="enviarEmail()" data-dic="d183">Enviar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
                 </form>
@@ -906,10 +906,10 @@ print<<<HERE
                 <form class="change-email-form">
                     <h1 data-dic="d185">Cambiar contraseña</h1>
                     <p class="mensaje" data-dic="d186">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
-                    <input id="act_email" name="email" type="text" autocomplete="on" placeholder="Actual email" data-dic="d195.ph" />
-                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196.ph" />
-                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197.ph" />
-                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198.ph" />
+                    <input id="act_email" name="email" type="text" autocomplete="on" placeholder="Actual email" data-dic="d195_ph" />
+                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196_ph" />
+                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197_ph" />
+                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198_ph" />
                     <button class="btn_wide" type="button" onclick="enviarChangeEmail()" data-dic="d187">Cambiar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
                 </form>
@@ -919,8 +919,8 @@ print<<<HERE
                 <form class="login-form">
                     <h1 data-dic="d184">Iniciar sesión</h1>
                     <p class="mensaje" data-dic="d188">Tendrás acceso a tus ajustes personales.</p>
-                    <input id="username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192.ph" required />
-                    <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193.ph" required />
+                    <input id="username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" required />
+                    <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
                     <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
                     <p class="message">
                         <span data-dic="d189">¿No estás registrado?</span> <a href="#" onclick="mostrarForm('bl_register_form')" data-dic="d177">Crear cuenta</a>
@@ -960,71 +960,71 @@ HERE;
                                 <div id="topMenuInner">
 <?php
 print<<<HERE
-                                    <div id="m_login_menu" class="dbtn" data-dic="d18.t" title="login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
+                                    <div id="m_login_menu" class="dbtn" data-dic="d18_t" title="login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
                                         <div class="dbtn_inner">
                                             <img src="$login_img_src">    
-                                            <span data-dic="d18.t">Login</span>
+                                            <span data-dic="d18_t">Login</span>
                                         </div>
                                     </div>
 HERE;
 ?>                                    
 
-                                    <div class="dbtn" data-dic="d3.t" title="Remove Bible Translation" onclick="removeTrans()">
+                                    <div class="dbtn" data-dic="d3_t" title="Remove Bible Translation" onclick="removeTrans()">
                                         <div>Tr -</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d4.t" title="Add Bible Translation" onclick="addTrans('askForTrans')">
+                                    <div class="dbtn" data-dic="d4_t" title="Add Bible Translation" onclick="addTrans('askForTrans')">
                                         <div>Tr +</div>
                                     </div>
 
-                                    <div class="dbtn" data-dic="d5.t" title="Quitar Pestaña" onclick="removeTab()">
+                                    <div class="dbtn" data-dic="d5_t" title="Quitar Pestaña" onclick="removeTab()">
                                         <div>Vk -</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d6.t" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
+                                    <div class="dbtn" data-dic="d6_t" title="Añadir Pestaña" onclick="addTab(null,null,null,'tab_new')">
                                         <div>Vk +</div>
                                     </div>
 
 
-                                    <div class="dbtn" data-dic="d7.t" title="Previous book" onclick="bookGo('prev')">
+                                    <div class="dbtn" data-dic="d7_t" title="Previous book" onclick="bookGo('prev')">
                                         <img src="images/arrow_backward_white.svg">
                                     </div>
-                                    <div class="dbtn" data-dic="d8.t" title="Next book"onclick="bookGo('next')">
+                                    <div class="dbtn" data-dic="d8_t" title="Next book"onclick="bookGo('next')">
                                         <img src="images/arrow_forward_white.svg">
                                     </div>
 
-                                    <div class="dbtn" data-dic="d9.t" title="Previous chapter" onclick="chapterGo('prev')">
+                                    <div class="dbtn" data-dic="d9_t" title="Previous chapter" onclick="chapterGo('prev')">
                                         <img src="images/arrow_chevron_left_white.svg">                            
                                     </div>
-                                    <div class="dbtn" data-dic="d10.t" title="Next chapter" onclick="chapterGo('next')">
+                                    <div class="dbtn" data-dic="d10_t" title="Next chapter" onclick="chapterGo('next')">
                                         <img src="images/arrow_chevron_right_white.svg">
                                     </div>
 
-                                    <div class="dbtn" data-dic="d11.t" title="History previous register" onclick="hist('prev')">
+                                    <div class="dbtn" data-dic="d11_t" title="History previous register" onclick="hist('prev')">
                                         <div>< H</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d12.t" title="History next register" onclick="hist('next')">
+                                    <div class="dbtn" data-dic="d12_t" title="History next register" onclick="hist('next')">
                                         <div>H ></div>
                                     </div>                        
 
-                                    <div id="btn_changePositionShowModal" class="dbtn" data-dic="d13.t" title="Change position: Columns or Rows" onclick="changePositionShow()">
+                                    <div id="btn_changePositionShowModal" class="dbtn" data-dic="d13_t" title="Change position: Columns or Rows" onclick="changePositionShow()">
                                         <!--<div>Row</div>-->
                                         <img class="col_row position_row" src="images/col_row_white.svg">
                                     </div>
-                                    <div id="m_btnStrong" class="dbtn" data-dic="d14.t" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
+                                    <div id="m_btnStrong" class="dbtn" data-dic="d14_t" title="Show / Hide Strong Numbers" onclick="showHideStrongNumbers()">
                                         <div>S#</div>
                                     </div>
 
-                                    <div class="dbtn" data-dic="d146.t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+                                    <div class="dbtn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
                                         <div data-dic="d161">Модули</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d154.t" title="Вкладки" onclick="showTabs()" style="width:50%;">
+                                    <div class="dbtn" data-dic="d154_t" title="Вкладки" onclick="showTabs()" style="width:50%;">
                                         <div data-dic="d155">Вкладки</div>
                                     </div>
 
 
-                                    <div class="dbtn" data-dic="d156.t" title="Маркеры / Закладки" onclick="openModal('full','Маркеры',null,'showMarkers')" style="width:50%;">
+                                    <div class="dbtn" data-dic="d156_t" title="Маркеры / Закладки" onclick="openModal('full','Маркеры',null,'showMarkers')" style="width:50%;">
                                         <div data-dic="d157">Маркеры</div>
                                     </div>
-                                    <div class="dbtn" data-dic="d158.t" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
+                                    <div class="dbtn" data-dic="d158_t" title="Заметки" onclick="alert('функция в разработке...')" style="width:50%;">
                                         <div data-dic="d159">Заметки</div>
                                     </div>
 
@@ -1070,19 +1070,19 @@ HERE;
 
                                     <h3 data-dic="d164">История</h3>
 
-                                    <div class="dbtn" data-dic="d165.t" title="История навигации" onclick="openModal('full',this.title,null,'showHistoryNav')" style="width:33.33%;">
+                                    <div class="dbtn" data-dic="d165_t" title="История навигации" onclick="openModal('full',this.title,null,'showHistoryNav')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
                                             <span data-dic="d166">Nav.</span>
                                         </div>
                                     </div>
-                                    <div class="dbtn" data-dic="d167.t" title="История поиска" onclick="openModal('full',this.title,null,'showHistoryFind')" style="width:33.33%;">
+                                    <div class="dbtn" data-dic="d167_t" title="История поиска" onclick="openModal('full',this.title,null,'showHistoryFind')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
                                             <span data-dic="d168">Find</span>
                                         </div>
                                     </div>
-                                    <div class="dbtn" data-dic="d169.t" title="История номеров Стронга" onclick="openModal('full',this.title,null,'showHistoryStrong')" style="width:33.33%;">
+                                    <div class="dbtn" data-dic="d169_t" title="История номеров Стронга" onclick="openModal('full',this.title,null,'showHistoryStrong')" style="width:33.33%;">
                                         <div class="dbtn_inner">
                                             <img src="./images/history_icon_white.svg">    
                                             <span data-dic="d163">Strong</span>

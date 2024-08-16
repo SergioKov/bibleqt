@@ -32,6 +32,73 @@ async function crear_arrFavTskObj() {
     //console.log(arrFavTskObj);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let obj_ajustes_bd = {};
+crear_obj_ajustes_bd(); // Llamamos a la función para que crea obj_ajustes_bd
+
+async function crear_obj_ajustes_bd() {
+    obj_ajustes_bd = await make_obj_ajustes_bd();
+    console.log(obj_ajustes_bd);
+}
+
+async function make_obj_ajustes_bd(){
+    console.log('=== function make_obj_ajustes_bd() ===');
+    
+    try {
+
+        const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles    
+
+        if(arr_langs.includes(lang)){
+            const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
+            console.log('obj_lang:');
+            console.log(obj_lang);
+            //localStorage.setItem('lang',lang); 
+            
+            return obj_lang;
+            
+        }else{
+            console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
+            //changeLang('ru');//por defecto
+            //return false;
+        }
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('make_obj_ajustes_bd. error: ',error);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //===================================================================//
 // LLAMADAS DE FUNCIONES POR DEFECTO
 //===================================================================//
@@ -205,6 +272,18 @@ async function make_arrFavTskObj(){
         console.error('make_arrFavTskObj. error: ',error);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 function checkPositionShowForMob(){
     //console.log('=== function checkPositionShowForMob() ===');
@@ -14800,6 +14879,8 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
             if(eid_v_book.querySelector('.li_active') != null){
                 eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
                 eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
+            }else{
+                console.log(`da error luego en catch(): Cannot read properties of null (reading 'classList')`);
             }
             
             allowUseShowTrans = true;
@@ -14979,11 +15060,11 @@ function selectModule2(htmlTrans){
         transSelected = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} //trans selected con el click on menu
         
         arrFavTransObj.forEach((el,i)=>{
-            const p = document.createElement('p');
-            p.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
-            p.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
-            p.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
-            p.onclick = (e) => {
+            const p_cl_trans = document.createElement('p');
+            p_cl_trans.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
+            p_cl_trans.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
+            p_cl_trans.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+            p_cl_trans.onclick = (e) => {
                 
                 //thisDiv = (thisDiv.tagName === 'DIV') ? thisDiv : thisDiv.currentTarget ;  //no funciona...     
                 
@@ -14992,7 +15073,7 @@ function selectModule2(htmlTrans){
                 closeModal(null,true);
             }        
     
-            eid_bl_modalFullInner.appendChild(p);
+            eid_bl_modalFullInner.appendChild(p_cl_trans);
         });
     
         if(document.querySelector('.cl_trans_active') != null){
@@ -21588,79 +21669,3 @@ function disableSwitcher(switcher){
 
 
 
-changeLang(lang);
-//checkLang(lang);
-
-function checkLang(lang){
-    eid_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
-    eid_sel_lang.querySelector(`option[value="${lang}"]`).setAttribute('selected',true);
-    eid_m_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
-    eid_m_sel_lang.querySelector(`option[value="${lang}"]`).setAttribute('selected',true);
-}
-
-async function changeLang(lang) {
-    //console.log('=== function changeLanguage(lang) ===');
-    const arr_langs = ['es','ru','en','ua'];
-
-    if(arr_langs.includes(lang)){
-        const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
-        //console.log('obj_lang:');
-        //console.log(obj_lang);
-        localStorage.setItem('lang',lang);
-
-        // Selecciona todos los elementos con la clase 'lng'
-        document.querySelectorAll('[data-dic]').forEach(element => {
-            const dic = element.dataset.dic;
-
-            if(dic.length > 1){            
-
-                if(dic.includes('.')){
-                    dic_place = dic.split('.')[1];//title
-                    //console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
-
-                    switch (dic_place) {
-                        case 't'://title
-                            element.title = obj_lang[dic];
-                            break;
-                    
-                        case 'ph'://placeholder
-                            element.placeholder = obj_lang[dic];
-                            break;
-
-                        case 'lab'://label
-                            element.label = obj_lang[dic];
-                            break;
-                    
-                        case 'ttip'://tooltip
-                            element.dataset.tooltip = obj_lang[dic];
-                            break;
-                    
-                        default:
-                            console.error('no es title');
-                            break;
-                    }
-                    
-                }else{
-                    element.textContent = obj_lang[dic];
-                    //console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
-                }
-
-            }//end
-        });
-
-        /*
-        let aviso_lang = `${obj_lang['d199']}: <span class="f_r">${lang.toUpperCase()}</span>`;
-        openModal('center',`${obj_lang['d200']}`,aviso_lang,'showAviso');
-    
-        setTimeout(()=>{
-            closeModal(`${obj_lang['d200']}`);
-        },1500);
-        */
-        
-    }else{
-        console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
-        changeLang('ru');//por defecto
-        //return false;
-    }
-    checkLang(lang);
-}

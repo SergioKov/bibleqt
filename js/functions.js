@@ -1661,53 +1661,80 @@ function scrollToVkladkaActive(){
 
 
 
+changeLang(lang);
+//checkLang(lang);
 
+function checkLang(lang){
+    eid_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
+    eid_sel_lang.querySelector(`option[value="${lang}"]`).setAttribute('selected',true);
+    eid_m_sel_lang.querySelector(`option[value="${lang}"]`).selected = true;
+    eid_m_sel_lang.querySelector(`option[value="${lang}"]`).setAttribute('selected',true);
+}
 
+async function changeLang(lang) {
+    //console.log('=== function changeLanguage(lang) ===');    
 
+    if(arr_langs.includes(lang)){
+        const obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
+        //console.log('obj_lang:');
+        //console.log(obj_lang);
+        localStorage.setItem('lang',lang);
 
+        // Selecciona todos los elementos con la clase 'lng'
+        document.querySelectorAll('[data-dic]').forEach(element => {
+            const dic = element.dataset.dic;
 
+            if(dic.length > 1){            
 
+                if(dic.includes('_')){
+                    dic_place = dic.split('_')[1];//title
+                    //console.log(`[if] --- dic_place: ${dic_place} --- ${dic} => ${obj_lang[dic]}`);
 
+                    switch (dic_place) {
+                        case 't'://title
+                            element.title = obj_lang[dic];
+                            break;
+                    
+                        case 'ph'://placeholder
+                            element.placeholder = obj_lang[dic];
+                            break;
 
+                        case 'lab'://label
+                            element.label = obj_lang[dic];
+                            break;
+                    
+                        case 'ttip'://tooltip
+                            element.dataset.tooltip = obj_lang[dic];
+                            break;
+                    
+                        default:
+                            console.error(`El valor '${dic}' en el atributo data-dic="${dic}" no se encuentra en el objeto de idiomas 'obj_lang'. Revisar ${lang}.json o el attributo data-dic="${dic}"`);
+                            console.log(element);
+                            break;
+                    }
+                    
+                }else{
+                    element.textContent = obj_lang[dic];
+                    //console.log(`[else] --- textContent --- ${dic} => ${obj_lang[dic]}`);
+                }
 
+            }//end
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        /*
+        let aviso_lang = `${obj_lang['d199']}: <span class="f_r">${lang.toUpperCase()}</span>`;
+        openModal('center',`${obj_lang['d200']}`,aviso_lang,'showAviso');
+    
+        setTimeout(()=>{
+            closeModal(`${obj_lang['d200']}`);
+        },1500);
+        */
+        
+    }else{
+        console.error(`No existe este idioma '${lang}' para las traducciones. Cargo 'ru' por defecto`);
+        changeLang('ru');//por defecto
+        //return false;
+    }
+    checkLang(lang);
+}
 
