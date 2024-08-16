@@ -14709,7 +14709,6 @@ function getRefByBibleRef(ref){//ref: 'Gen.2:5'
 function getRefByCodeWithoutTrans(book, chapter, verse){
     //console.log('=== function getRefByCodeWithoutTrans() ===');
     let act_trans = eid_trans1.dataset.trans;
-
     //creo una string parecida a code 'rv60__0__14__7' para llamar luego getRefByCode()
     let code = `${act_trans}__${book}__${chapter}__${verse}`;
     //console.log('code: ',code);
