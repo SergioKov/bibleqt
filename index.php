@@ -937,7 +937,7 @@ print<<<HERE
                 <p class="p_svit">
                     <span class="sp_svit">
                         <span data-dic="d201">Исследуйте Писания, ибо вы думаете чрез них иметь жизнь вечную; а они свидетельствуют о Мне.</span>
-                        <a href="#" class="" onclick="getRefByBibleRef(this.textContent);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
+                        <a href="#" class="" onclick="getRefByCodeWithoutTrans(42,5,39);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
                     </span>                    
                     <img src="./images/svitok3.png">
                 </p>

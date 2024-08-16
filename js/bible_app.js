@@ -14706,6 +14706,16 @@ function getRefByBibleRef(ref){//ref: 'Gen.2:5'
     getRef();
 }
 
+function getRefByCodeWithoutTrans(book, chapter, verse){
+    //console.log('=== function getRefByCodeWithoutTrans() ===');
+    let act_trans = eid_trans1.dataset.trans;
+
+    //creo una string parecida a code 'rv60__0__14__7' para llamar luego getRefByCode()
+    let code = `${act_trans}__${book}__${chapter}__${verse}`;
+    //console.log('code: ',code);
+    getRefByCode(code);
+}
+
 
 function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
@@ -14788,8 +14798,10 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
                 eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
             }
 
-            eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
-            eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
+            if(eid_v_book.querySelector('.li_active') != null){
+                eid_v_book.querySelector('.li_active').classList.remove('li_active');//quito anterior book
+                eid_v_book.querySelector('li[data-id_book="'+book+'"]').classList.add('li_active');//añado book
+            }
             
             allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
