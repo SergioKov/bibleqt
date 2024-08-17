@@ -385,7 +385,7 @@ async function iniciarSesion(){//antes login() //username,password
                 //console.log(error_text);
     
                 eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red" data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
-                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span></span>.`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
+                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
     
                 hay_sesion = false;
                 pintLoginImg(hay_sesion);
@@ -1013,7 +1013,7 @@ async function loadDefaultFunctions(){
     toggleIMGx2();//va junto con checkIMGx2()
     checkModoFetchVersesForCols();//muestro btn activo o no si está modo_fetch_verses_for_cols con su valor 'by_text' o 'by_json'
 
-    if(await verificarAutenticacion()){
+    if(hay_sesion && await verificarAutenticacion()){
         //console.log('js: verificarAutenticacion: true --- El usuario está autenticado.');
         //console.log(' guardo datos en bd');
         //console.log(arrTabs);
@@ -11809,6 +11809,9 @@ function removeTrans(){
 
         mySizeWindow();
         mySizeVerse();
+    }else{
+        let aviso_text = `No se puede eliminar la única traducción.`;
+        openModal('center','Aviso Traducción',aviso_text,'showAviso');        
     }
 }
 
@@ -12053,11 +12056,11 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         }
 
         const obj_ref_trans = arrFavTransObj.find(v => v.Translation === ref_trans_to_find);
-        //console.log('1. obj_ref_trans.BibleShortName: ', obj_ref_trans.BibleShortName);
+        //console.log('1. obj_ref_trans: ', obj_ref_trans);
 
         let spanBibTransName = document.createElement("span");
         spanBibTransName.className = 'tab_trans_name';
-        spanBibTransName.innerHTML = obj_ref_trans.BibleShortName;
+        spanBibTransName.innerHTML = (typeof obj_ref_trans !== 'undefined' && Object.keys(obj_ref_trans).length > 0) ? obj_ref_trans.BibleShortName : '---' ;
         
         let spanBibShortRef = document.createElement("span");
         spanBibShortRef.className = 'tab_ref';
@@ -12143,7 +12146,9 @@ function updateArrTabs(){
     });
     //console.log(arrTabs);
 
-    guardarEnBd('vkladki', 'arrTabs', arrTabs);
+    if(hay_sesion){
+        guardarEnBd('vkladki', 'arrTabs', arrTabs);
+    }
 }
 
 async function guardarEnBd(tabla, campo, arr){
@@ -12323,14 +12328,16 @@ async function obtenerDatosDeBD(tabla, campo){
                     //console.log('1. editado arrFavTrans: ', arrFavTrans);
                     arrFavTrans = [... new Set(arrFavTrans)];//quito elementos duplicados
                     //console.log('2. editado arrFavTrans: ', arrFavTrans);
-                    ccc();
-                    async function ccc(){
-                        //console.log('antes - arrFavTransObj: ', arrFavTransObj);
-                        await crear_arrFavTransObj();
-                        //console.log('despues - arrFavTransObj: ', arrFavTransObj);
-                    };
-                    //crear_arrFavTransObj();
                 }
+                ccc();
+                async function ccc(){
+                    //console.log('antes tabla: ', tabla);
+                    //console.log('antes - arrFavTransObj: ', arrFavTransObj);
+                    await crear_arrFavTransObj();
+                    //console.log('despues tabla: ', tabla);
+                    //console.log('despues - arrFavTransObj: ', arrFavTransObj);
+                    //alert(1);
+                };
                 break;
     
             case 'ajustes':
@@ -12504,11 +12511,11 @@ function makeTabsFromDatosDeVkladki(){
                 };
 
                 const obj_ref_trans = arrFavTransObj.find(v => v.Translation === htmlTab.dataset.ref_trans);
-                //console.log('2. obj_ref_trans.BibleShortName: ', obj_ref_trans.BibleShortName);        
+                //console.log('2. obj_ref_trans: ', obj_ref_trans);        
         
                 const spanBibTransName = document.createElement("span");
                 spanBibTransName.className = 'tab_trans_name';
-                spanBibTransName.innerHTML = obj_ref_trans.BibleShortName;
+                spanBibTransName.innerHTML = (typeof obj_ref_trans !== 'undefined' && Object.keys(obj_ref_trans).length > 0) ? obj_ref_trans.BibleShortName : '---' ;
 
                 const spanBibShortRef = document.createElement("span");
                 spanBibShortRef.className = 'tab_ref';

@@ -916,7 +916,10 @@ const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_nav.splice(arr_hist_nav_limit); 
         }
-        guardarEnBd('hist_nav','arr_hist_nav',arr_hist_nav);
+        
+        if(hay_sesion){
+            guardarEnBd('hist_nav','arr_hist_nav',arr_hist_nav);
+        }
     }else{
         //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
@@ -1098,7 +1101,9 @@ const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse 
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_markers.splice(arr_markers_limit); 
         }
-        guardarEnBd('markers','arr_markers',arr_markers);
+        if(hay_sesion){
+            guardarEnBd('markers','arr_markers',arr_markers);
+        }
     }else{
         //console.log('este trans y ref se repitуn. no meto item en el arr_hist_nav...');
     }
@@ -1201,7 +1206,9 @@ function buildMarkersDesktop(){
                 //console.log(e.currentTarget.dataset.indexMarker);
                 //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
-                guardarEnBd('markers','arr_markers',arr_markers);
+                if(hay_sesion){
+                    guardarEnBd('markers','arr_markers',arr_markers);
+                }
                 buildMarkersDesktop();
                 showMarkers();
             }
@@ -1444,8 +1451,9 @@ const addWordsToHistFind = async (trans, words, count_verses, count_matches) => 
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_find.splice(arr_hist_find_limit); 
         }
-        guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
-
+        if(hay_sesion){
+            guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
+        }
     }else{
         //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
     }
@@ -1561,8 +1569,9 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex, strongTextWo
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_strong.splice(arr_hist_strong_limit); 
         }
-        guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
-
+        if(hay_sesion){
+            guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
+        }
     }else{
         //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
     }
@@ -1745,7 +1754,10 @@ async function changeLang(lang) {
     checkLang(lang);
     
     obj_ajustes.lang = lang;
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 

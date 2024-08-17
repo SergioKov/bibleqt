@@ -2185,7 +2185,10 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
     }
 
     mySizeVersesCompare();
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 function updateArrTrans(){
@@ -2256,7 +2259,9 @@ function hideShowWrFilter(){
     obj_ajustes.verseCompare.wr_filter.display = val;
     mySizeVersesCompare();
 
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 function hideShowRefsCompare(e = null){
@@ -2282,7 +2287,10 @@ function hideShowRefsCompare(e = null){
             el.style.display = 'inline-block';
         });
     }
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 function filterTransCompare(e, param = 'all'){
@@ -2483,7 +2491,10 @@ function filterTransCompare(e, param = 'all'){
     }
     
     mySizeVersesCompare();
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 
@@ -2553,8 +2564,10 @@ function filterTransCompareBtns(e){
             }
         }
     });
-    
-    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+
+    if(hay_sesion){
+        guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
+    }
 }
 
 
@@ -2749,7 +2762,9 @@ function showMarkers(){
                 //console.log(e.currentTarget.dataset.indexMarker);
                 //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
-                guardarEnBd('markers','arr_markers',arr_markers);
+                if(hay_sesion){
+                    guardarEnBd('markers','arr_markers',arr_markers);
+                }
                 buildMarkersDesktop();
                 showMarkers();
             }
