@@ -362,6 +362,7 @@ async function iniciarSesion(){//antes login() //username,password
                 //console.log('en iniciarSesion() --- allowUseShowTrans: ',allowUseShowTrans);
     
                 await obtenerDatosDeBD('fav_trans','arrFavTrans');
+                await obtenerDatosDeBD('ajustes','obj_ajustes');//creo objeto obj_ajustes desde datos de usuario sacados de bd
                 await obtenerDatosDeBD('vkladki','arrTabs');
                 await obtenerDatosDeBD('hist_nav','arr_hist_nav');
                 await obtenerDatosDeBD('hist_find','arr_hist_find');
