@@ -3948,3 +3948,31 @@ input:checked + .slider:before {
 
 
 
+#bl_modalCenterInner #wr_sel_copy {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.sel_copy {
+    padding: 8px;
+    border-radius: 3px;
+    font-size: 16px;
+}
+.d_sel_bl {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+.btn_only_one_verse,
+.btn_many_verses
+ {
+    width: 100%;
+    padding: 10px;
+}

@@ -15033,7 +15033,15 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
 //document.onkeydown = checkKey;
 
 function checkKey(e) {//funciona .codigo mas limpio aunque .keyCode is deprecated
+    //console.log('=== function checkKey(e) ===');
     e = e || window.event;
+    
+    //console.log('e.e.key: ', e.key);
+    //console.log('e.e.keyCode: ', e.keyCode);
+    //console.log('e.e.code: ', e.code);
+    //console.log('e.shiftKey: ', e.shiftKey);
+    //console.log('e.ctrlKey: ', e.ctrlKey);
+    
     switch (e.keyCode) {
         case 13:// tecla "Enter"
             if(eid_btn_nav.classList.contains('btn_active')){

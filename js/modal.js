@@ -716,7 +716,7 @@ function showAviso(htmlTrans, positionModal){
 
 }
 
-function buildVerseMenu(arr_p_id,positionModal){
+function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3']
     //console.log('=== function buildVerseMenu(arr_p_id) ===');
 
     
@@ -725,6 +725,8 @@ function buildVerseMenu(arr_p_id,positionModal){
     }else if(positionModal == 'bottom'){
         eid_bl_modalBottomInner.innerHTML = '';
     }
+
+    let enable_otro_div = false;//por defecto
     
     //Copiar texto de verso
     const btn1 = document.createElement('div');
@@ -733,6 +735,121 @@ function buildVerseMenu(arr_p_id,positionModal){
     btn1.title = 'Копировать текст стиха';
     btn1.innerHTML = '<img src="./images/copy_icon_white.svg">';
     btn1.onclick = ()=>{
+        
+        enable_otro_div = true;
+        let btn_copiar_delay = 500;
+
+        const wr_sel_copy = document.createElement('div');
+        wr_sel_copy.id = 'wr_sel_copy';
+        wr_sel_copy.className = 'dbtn';
+        //wr_sel_copy.innerHTML = `
+        //    <p>Selecciona el versículo hasta donde copiar:
+        //        <select class="zzz">
+        //            <option value="1">1</option>
+        //            <option value="2">2</option>
+        //            <option value="3">3</option>
+        //        </select>
+        //    </p>
+        //`;
+        
+
+        const btn_only_one_verse = document.createElement('button');
+        btn_only_one_verse.className = 'btn btn_only_one_verse'; 
+        btn_only_one_verse.innerHTML = '<span>Solo un versículo</span>'; 
+        btn_only_one_verse.onclick = (event, idelement) =>{
+            window.focus(); // Opción para intentar dar foco a la ventana
+            let idElement = arr_p_id.join('__');
+            copyTextFromIdElement(idElement);
+
+            btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
+            wr_sel_copy.innerHTML = '<span>¡Texto copiado!</span>';
+            setTimeout(()=>{
+                closeModal(null,true);
+            },btn_copiar_delay);
+        };
+        
+
+        
+        const d_sel_bl = document.createElement('div');
+        d_sel_bl.className = 'd_sel_bl';
+
+
+        //saco verses posteriores para formar un select
+        let verse_base_id = `${arr_p_id[0]}__${arr_p_id[1]}__${arr_p_id[2]}`;//"rstStrongRed__42__1__"
+        let versesAll = document.querySelectorAll(`[id^="${verse_base_id}"]`);
+        let verse_start = parseInt(arr_p_id[3]);
+        let verse_last = parseInt(versesAll.length);
+
+
+        const btn_many_verses = document.createElement('button');
+        btn_many_verses.className = 'btn btn_many_verses'; 
+        btn_many_verses.innerHTML = '<span>Copiar hasta el versículo:</span>'; 
+        btn_many_verses.onclick = (event) =>{
+
+            let verse_end = parseInt(d_sel_bl.querySelector('.sel_copy').value);
+            console.log(`copiar verses: (${verse_start} - ${verse_end})`);
+            
+            let arr_text_ref = document.querySelector('#h4_text').innerText.split(':');
+            let ref_all = `${arr_text_ref[0]}:${verse_start}-${verse_end}`;
+            document.querySelector('#h4_text').textContent = ref_all;
+
+            let idElement = arr_p_id.join('__');
+            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);           
+            
+            btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
+            wr_sel_copy.innerHTML = `<span>¡Texto copiado!</span>`;
+            setTimeout(()=>{
+                closeModal(null,true);
+            },btn_copiar_delay);            
+        }
+
+       
+
+        const sel_copy = document.createElement('select');
+        sel_copy.className = 'sel_copy';        
+
+        for (let i = (verse_start + 1); i <= verse_last; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = i;
+            sel_copy.append(opt);            
+        }
+
+        sel_copy.onchange = (event)=>{
+            console.log(event);
+            window.focus(); // Opción para intentar dar foco a la ventana
+
+            let verse_end = parseInt(event.currentTarget.value);
+            console.log(`copiar verses: (${verse_start + 1} - ${verse_end})`);
+            
+            let arr_text_ref = document.querySelector('#h4_text').innerText.split(':');
+            let ref_all = `${arr_text_ref[0]}:${verse_start}-${verse_end}`;
+            document.querySelector('#h4_text').textContent = ref_all;
+
+            let idElement = arr_p_id.join('__');
+            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);           
+            
+            btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
+            wr_sel_copy.innerHTML = `<span>¡Texto copiado!</span>`;
+            setTimeout(()=>{
+                closeModal(null,true);
+            },btn_copiar_delay);
+
+        };
+
+        d_sel_bl.append(btn_many_verses);
+        d_sel_bl.append(sel_copy);
+
+        wr_sel_copy.append(btn_only_one_verse); 
+        wr_sel_copy.append(d_sel_bl);
+
+        if(enable_otro_div){            
+            if(eid_bl_modalCenterInner.querySelector('#wr_sel_copy') == null){
+                eid_bl_modalCenterInner.append(wr_sel_copy);                
+            }
+        }
+        
+        /*
         //console.log('llamo func para copiar');
         //console.log(arr_p_id);
         let idElement = arr_p_id.join('__');
@@ -741,6 +858,7 @@ function buildVerseMenu(arr_p_id,positionModal){
         setTimeout(()=>{
             closeModal(null,true);
         },500);
+        */
     }
 
     //Marker
@@ -824,35 +942,98 @@ function buildVerseMenu(arr_p_id,positionModal){
     
 }
 
-function copyTextFromIdElement(idElement) {//"rstStrongRed__22__66__2"
-    let textoAll = document.getElementById(idElement).innerText;
-    let textoRef = document.getElementById(idElement).querySelectorAll('a')[0].innerText;
-    let textoACopiar = textoAll.replace(textoRef, '').trim();
-    //console.log(textoACopiar.length);
-    let copy_with_trans = true;
-    if(copy_with_trans){
+
+function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = null, verse_end = null) {//"rstStrongRed__22__66__2"
+    
+    if(verse_start == null && verse_end == null){//1 verse
+        
+        if(verse_start == verse_end){
+            console.log('es un verse');
+        }
+
+        let textoAll = document.getElementById(idElement).innerText;
+        let textoRef = document.getElementById(idElement).querySelectorAll('a')[0].innerText;
+        let textoACopiar = textoAll.replace(textoRef, '').trim();
+        //console.log(textoACopiar.length);
+        let copy_with_trans = true;
+        if(copy_with_trans){
+            let arr = idElement.split('__');
+            let trans = arr[0];
+            let book = arr[1];
+            let chapter = arr[2];
+            let verse = arr[3];
+            let this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
+            let BibleShortName = this_trans_obj.BibleShortName;
+            let BookShortName = this_trans_obj.Books[book].ShortNames[0];
+            let ref = `${BookShortName} ${chapter}:${verse}`;
+            textoACopiar = `${ref} ${textoACopiar} \n(${BibleShortName})`;
+        }
+
+        if(textoACopiar.length > 1 && textoACopiar != "" || true) {          
+            copyTextToClibboard(textoACopiar);
+            //console.log(`textoACopiar: \n${textoACopiar}`);
+        }
+
+    }else{//many verses
+
+        let textoACopiarAll = '';
         let arr = idElement.split('__');
         let trans = arr[0];
         let book = arr[1];
         let chapter = arr[2];
         let verse = arr[3];
+
         let this_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
         let BibleShortName = this_trans_obj.BibleShortName;
         let BookShortName = this_trans_obj.Books[book].ShortNames[0];
-        let ref = `${BookShortName} ${chapter}:${verse}`;
-        textoACopiar = `${ref} ${textoACopiar} (${BibleShortName})`;
+        let ref = `(${BookShortName} ${chapter}:${verse_start}-${verse_end} | ${BibleShortName})`;//(Иоан. 1:15-23 | RST+r)
+        textoACopiarAll += ref + '\n';
+
+        for (let i = verse_start; i <= verse_end; i++) {
+            let id_element = `${verse_base_id}__${i}`;
+            const element = document.getElementById(id_element);
+
+            let textoAll = element.innerText;
+            let textoRef = element.querySelectorAll('a')[0].innerText;
+            let textoACopiar = textoAll.replace(textoRef, '').trim();
+            //console.log(textoACopiar.length);
+            
+            let copy_with_trans = true;
+            if(copy_with_trans){
+                textoACopiar = `${i}. ${textoACopiar}`;
+                textoACopiarAll += textoACopiar + '\n';
+            }
+            
+            if(i == verse_end){
+                //textoACopiarAll += `(${BibleShortName})`;//(RST+r)
+
+                if(textoACopiarAll.length > 1 && textoACopiarAll != "" || true) {       
+                    fn_await();
+                    async function fn_await(){                
+                        const res = await copyTextToClibboard(textoACopiarAll);
+                        
+                        if(res){
+                            console.log(`textoACopiarAll: \n${textoACopiarAll}`);
+                        }else{
+                            console.log('el texto no se copió');
+                        }
+                    }
+                }
+            }
+        }
+        
+
     }
-    if(textoACopiar.length > 1 && textoACopiar != "" || true) {       
-        copyTextToClibboard(textoACopiar);
-    }
+    
 }
 
 
 
-function copyTextToClibboard(text) {
+async function copyTextToClibboard(text) {  
     navigator.clipboard.writeText(text)
-        .then(() => {
+        .then((text2) => {
             //console.log('Texto copiado al portapapeles: ', text);
+            //console.log(`text2 copiado: \n${text2}`);
         })
         .catch(error => {
             console.error('Error al copiar al portapapeles: ', error);
