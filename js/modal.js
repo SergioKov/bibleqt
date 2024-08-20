@@ -944,18 +944,17 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
 
 
 function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = null, verse_end = null) {//"rstStrongRed__22__66__2"
-    
-    if(verse_start == null && verse_end == null){//1 verse
+    //console.log('=== function copyTextFromIdElement() ===');
+    let copy_with_trans = true;
+
+    if(verse_base_id = null && verse_start == null && verse_end == null){//1 verse
         
-        if(verse_start == verse_end){
-            console.log('es un verse');
-        }
+        //console.log('es un verse');
 
         let textoAll = document.getElementById(idElement).innerText;
         let textoRef = document.getElementById(idElement).querySelectorAll('a')[0].innerText;
         let textoACopiar = textoAll.replace(textoRef, '').trim();
         //console.log(textoACopiar.length);
-        let copy_with_trans = true;
         if(copy_with_trans){
             let arr = idElement.split('__');
             let trans = arr[0];
@@ -975,7 +974,9 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
         }
 
     }else{//many verses
-
+        
+        console.log('son muchos verses');
+        
         let textoACopiarAll = '';
         let arr = idElement.split('__');
         let trans = arr[0];
@@ -998,7 +999,6 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
             let textoACopiar = textoAll.replace(textoRef, '').trim();
             //console.log(textoACopiar.length);
             
-            let copy_with_trans = true;
             if(copy_with_trans){
                 textoACopiar = `${i}. ${textoACopiar}`;
                 textoACopiarAll += textoACopiar + '\n';
@@ -1006,25 +1006,20 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
             
             if(i == verse_end){
                 //textoACopiarAll += `(${BibleShortName})`;//(RST+r)
-
                 if(textoACopiarAll.length > 1 && textoACopiarAll != "" || true) {       
                     fn_await();
                     async function fn_await(){                
-                        const res = await copyTextToClibboard(textoACopiarAll);
-                        
-                        if(res){
-                            console.log(`textoACopiarAll: \n${textoACopiarAll}`);
-                        }else{
-                            console.log('el texto no se copió');
-                        }
+                        const res = await copyTextToClibboard(textoACopiarAll);                        
+                        //if(res){
+                        //    console.log(`textoACopiarAll: \n${textoACopiarAll}`);
+                        //}else{
+                        //    console.log('el texto no se copió');
+                        //}
                     }
                 }
             }
         }
-        
-
-    }
-    
+    }    
 }
 
 
