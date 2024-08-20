@@ -947,7 +947,7 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
     //console.log('=== function copyTextFromIdElement() ===');
     let copy_with_trans = true;
 
-    if(verse_base_id = null && verse_start == null && verse_end == null){//1 verse
+    if(verse_base_id == null && verse_start == null && verse_end == null){//1 verse
         
         //console.log('es un verse');
 
