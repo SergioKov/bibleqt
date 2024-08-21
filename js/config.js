@@ -204,7 +204,6 @@ if(modoMobile){
     pantallaTabletMinPx = 1201;//pongo 1201 y no 1200 ya qye Samsung tab A9+ verticalmente es de 1200
     pantallaTabletMaxPx = 1439;//uso 1 vez
     pantallaDesktopSmallMinPx = 1439;//uso 1 vez
-    document.body.classList.add('asMobile');
 }
 //====================================================//
 //Medidas de pantallas para Media Queries - END

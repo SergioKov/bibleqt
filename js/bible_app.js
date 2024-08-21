@@ -1009,6 +1009,7 @@ async function loadDefaultFunctions(){
 
     hideShowVkladkiInMob();//muestro o oculto vkladki en mobile con var vkladkiInMobShow
     checkMaxWidthCol();//muestro btn activo o no si está maxWidthCol en desktop con var maxWidthCol
+    checkModoMobile();//muestro btn activo o no si está modoMobile true
     checkIMGx2();//muestro btn activo o no si está maxWidthCol en desktop con var maxWidthCol
     toggleIMGx2();//va junto con checkIMGx2()
     checkModoFetchVersesForCols();//muestro btn activo o no si está modo_fetch_verses_for_cols con su valor 'by_text' o 'by_json'
@@ -21570,46 +21571,6 @@ function enableDisableMaxWidthCol(){
 }
 
 
-
-
-
-
-function checkModoMobile(){
-    //const eid_btnModoMobile = document.getElementById('btnModoMobile');
-    //const eid_m_btnModoMobile = document.getElementById('m_btnModoMobile');
-    const eid_d_sw_modoMobile = document.getElementById('d_sw_modoMobile');
-    const switcher = eid_d_sw_modoMobile.querySelector('input');
-    if(modoMobile){
-        //eid_btnModoMobile.classList.add('btn_active');
-        //eid_m_btnModoMobile.classList.add('btn_active');
-        document.body.classList.add('asMobile');
-        positionShow = 'row';
-        enableSwitcher(switcher);
-    }else{
-        //eid_btnModoMobile.classList.remove('btn_active');
-        //eid_m_btnModoMobile.classList.remove('btn_active');
-        document.body.classList.remove('asMobile');
-        disableSwitcher(switcher);
-    }
-}
-function enableDisableModoMobile(){
-    if(modoMobile){
-        modoMobile = false;
-    }else{
-        modoMobile = true;
-    }
-    checkModoMobile();
-    mySizeWindow();
-    mySizeVerse();
-    //closeModal(null,true);
-}
-
-
-
-
-
-
-
 function checkMinOtrasTrans(){
     const eid_btnMinOtrasTrans = document.getElementById('btnMinOtrasTrans');
     const eid_m_btnMinOtrasTrans = document.getElementById('m_btnMinOtrasTrans');
@@ -21737,3 +21698,51 @@ function disableSwitcher(switcher){
 
 
 
+function checkModoMobile(){
+    const eid_d_sw_modoMobile = document.getElementById('d_sw_modoMobile');
+    const switcher = eid_d_sw_modoMobile.querySelector('input');
+    if(modoMobile){
+        positionShow = 'row';
+        enableSwitcher(switcher);
+    }else{
+        disableSwitcher(switcher);
+    }
+    enableDisableResp1200();
+}
+
+function enableDisableModoMobile(){
+    if(modoMobile){
+        modoMobile = false;
+    }else{
+        modoMobile = true;
+    }
+    checkModoMobile();
+    enableDisableResp1200();
+    //closeModal(null,true);
+}
+
+
+function enableDisableResp1200() {
+    // Selecciona el archivo CSS actual que quieres eliminar
+    const link_resp = document.getElementById('estilos_resp');
+
+    if (modoMobile) {
+        positionShow = 'row';
+        link_resp.href = './css/bible_app_resp1200.css';//1200
+    }else{
+        link_resp.href = './css/bible_app_resp.css';
+    }
+    setTimeout(()=>{
+        mySizeWindow();
+        mySizeVerse();
+
+        setTimeout(()=>{
+            mySizeNav();
+            mySizeFind();
+            mySizeTsk();
+            mySizeStrong();
+        },10);
+
+    },10);
+
+}

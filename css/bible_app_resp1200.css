@@ -1,5 +1,11 @@
+.colsInner {
+    /* background: #98f358; */
+}
+
+
 /* Desktop */
-@media screen and (min-width: 1024px){
+/* antes @media screen and (min-width: 1024px){ */
+@media screen and (min-width: 1201px){
     .partMob,
     #arrowBack,
     #closeBack,
@@ -16,17 +22,13 @@
         /* display:block !important; */
     }
 
-    .sideHide, 
-    .sideShow 
-    {
+    .sideHide, .sideShow {
         width: 30% !important;
     }
-    .sideShow 
-    {
+    .sideShow {
         position: inherit;
     }
-    #btn_pageDown img 
-    {
+    #btn_pageDown img {
         left: 0px;
     }
 
@@ -34,7 +36,8 @@
 /* end Desktop */
 
 /* Tablet */
-@media screen and (min-width: 768px) and (max-width: 1023px){
+/* antes @media screen and (min-width: 768px) and (max-width: 1023px){ */
+@media screen and (min-width: 1201px) and (max-width: 1440px){
 
     .partMob,
     #arrowBack,
@@ -61,6 +64,7 @@
         height: 50px;
         width: 50px;
     }
+
     /* width */
     #tsk_head::-webkit-scrollbar, 
     #tsk_body::-webkit-scrollbar, 
@@ -79,7 +83,8 @@
 
 
 /* mobilka */
-@media screen and (min-width: 1px) and (max-width: 767px) {
+/* antes @media screen and (min-width: 1px) and (max-width: 767px) { */
+@media screen and (min-width: 1px) and (max-width: 1200px) {
  
     #headerMain,
     #footer,
@@ -89,7 +94,7 @@
     .partDesk,
     #vert_line
     {
-        display:none;
+        display: none;
     }
 
     .vkladki_in_mob
@@ -112,8 +117,7 @@
         margin:0;
     }
 
-    #btn_pageUp, 
-    #btn_pageDown 
+    #btn_pageUp, #btn_pageDown 
     {
         height: 50px;
         width: 50px;
@@ -126,6 +130,7 @@
     {
         bottom: 10px;    
     }
+
     /* width */
     #tsk_head::-webkit-scrollbar, 
     #tsk_body::-webkit-scrollbar, 
@@ -138,8 +143,7 @@
     {
         width: 3px;
     }
-    .colsHeadInner 
-    {
+    .colsHeadInner {
         margin: 2px;
     } 
     
@@ -150,8 +154,7 @@
     {
        margin-right: -3px; 
     } 
-    span.res_link
-    {
+    span.res_link{
         padding: 5px 0;
     }
     #menuTabsInner 
@@ -168,19 +171,16 @@
     {
         outline: none;
     }
-    .pv_inner
-    {
+    .pv_inner{
         flex-direction: column; 
     }
-    .wr_b_trans_a_ref 
-    {
+    .wr_b_trans_a_ref {
         display: flex;
         flex-direction: row;
         width: 100%;
         justify-content: space-between;
     }
-    .wr_b_trans_a_ref .b_trans
-    {
+    .wr_b_trans_a_ref .b_trans{
         min-width: auto;
     }
     #wr_hist_nav,
@@ -251,4 +251,5 @@
         min-width: 120px; 
     }
 }
+
 

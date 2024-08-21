@@ -12,8 +12,8 @@ session_start();
     <link rel="icon" type="image/png" href="./images/bq.png">
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
 
-    <link rel="stylesheet" href="./css/bible_app.css">
-    <link rel="stylesheet" href="./css/bible_app_resp.css">
+    <link id="estilos_base" rel="stylesheet" href="./css/bible_app.css">
+    <link id="estilos_resp" rel="stylesheet" href="./css/bible_app_resp.css">
    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1094,6 +1094,21 @@ HERE;
 
                                     <h3 data-dic="d170">Функциональность</h3>
 
+                                    <div id="d_sw_modoMobile" class="dbtn btns_sw" onclick="enableDisableModoMobile()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                modo_Mobile
+                                            </span>
+                                            <span class="sp_expl" data-dic="d174">
+                                                Мобильный режим (hasta 1200px)
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="enableDisableModoMobile()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
                                     <div class="dbtn btns_sw" style="width: 100%;">
                                         <span data-dic="d199">Язык итнерфейса: </span>
                                         <select id="m_sel_lang" class="select_lang" onchange="changeLang(this.value)">
@@ -1164,20 +1179,6 @@ HERE;
                                         </label>
                                     </div>
 
-                                    <div id="d_sw_modoMobile" class="dbtn btns_sw" onclick="enableDisableModoMobile()">
-                                        <div class="wr_sw_text">
-                                            <span class="sp_com">
-                                                modoMobile
-                                            </span>
-                                            <span class="sp_expl" data-dic="d174">
-                                                Мобильный режим (hasta 1200px)
-                                            </span>
-                                        </div>
-                                        <label class="switch">
-                                            <input type="checkbox" onclick="enableDisableModoMobile()">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
 
 
                                     <div id="d_sw_ByText" class="dbtn btns_sw" onclick="changeModo('by_text')">

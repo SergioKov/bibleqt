@@ -2228,7 +2228,7 @@ select  optgroup option {
     flex-wrap: nowrap;
     align-content: center;
     justify-content: space-evenly;
-    /* width: 100%; */
+    width: 50%;
     align-items: stretch;
 }
 .partMobInner button.btn_svg {

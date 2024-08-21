@@ -1838,3 +1838,6 @@ function generarLangJson(n_start,n_end){
         console.log(`"d${i}": "",`);
     }
 }
+
+
+
