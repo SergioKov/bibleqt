@@ -2354,7 +2354,7 @@ function buildVersesFromArr(arr_p_id, arr_verses_compare){
 
     mySizeVersesCompare();
 
-    //si es mobile, ciero menu
+    //si no es mobile, aplico ancho maximo a la clase...
     if(window.innerWidth > pantallaTabletMinPx){
         //console.log('func selVerse(). mobile.');
         applyMaxWidthToClass('wr_b_trans_a_ref');

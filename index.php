@@ -557,7 +557,7 @@ session_start();
             </div><!--/sidebarInner-->
         </div>
         
-        <div id="v_line"></div>
+        <div id="vert_line"></div>
 
         <div id="container">
             <div id="containerInner">
@@ -1163,6 +1163,22 @@ HERE;
                                             <span class="slider"></span>
                                         </label>
                                     </div>
+
+                                    <div id="d_sw_modoMobile" class="dbtn btns_sw" onclick="enableDisableModoMobile()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                modoMobile
+                                            </span>
+                                            <span class="sp_expl" data-dic="d174">
+                                                Мобильный режим (hasta 1200px)
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="enableDisableModoMobile()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
 
                                     <div id="d_sw_ByText" class="dbtn btns_sw" onclick="changeModo('by_text')">
                                         <div class="wr_sw_text">

@@ -2051,7 +2051,7 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 let isMouseDown = false;
 
 //start - Desktop (mouse)
-eid_v_line.onmousedown = function() { isMouseDown = true  };
+eid_vert_line.onmousedown = function() { isMouseDown = true  };
 eid_wrapper.onmousemove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
@@ -2059,7 +2059,7 @@ eid_wrapper.onmousemove = function(e) {
         eid_sidebar.style.width = e.pageX - 3 + 'px';
     }
 };
-eid_v_line.onmouseup = function() { 
+eid_vert_line.onmouseup = function() { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -2068,7 +2068,7 @@ eid_v_line.onmouseup = function() {
 
 
 //start - Mobile (touch)
-eid_v_line.ontouchstart = function() { isMouseDown = true  };
+eid_vert_line.ontouchstart = function() { isMouseDown = true  };
 eid_wrapper.ontouchmove = function(e) { 
     if(isMouseDown) { 
         /* do drag things */ 
@@ -2077,7 +2077,7 @@ eid_wrapper.ontouchmove = function(e) {
         //console.log('eid_wrapper.ontouchmove');
     }
 };
-eid_v_line.ontouchend = function() { 
+eid_vert_line.ontouchend = function() { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -10654,11 +10654,13 @@ function openSidebar(el){
          setTimeout(()=>{
             eid_sidebar.classList.remove('sideHide');
             eid_sidebar.classList.add('sideShow');
+            //eid_sidebar.style.display = 'block !important';//test
          },3);
      }else if(eid_sidebar.classList.contains('sideHide')){//no se ve, lo muestro
          //console.log("2, contains('sideHide')");
          eid_sidebar.classList.remove('sideHide')
          eid_sidebar.classList.add('sideShow');
+         //eid_sidebar.style.display = 'none !important';//test
      }
      
      mySizeWindow();
@@ -10687,7 +10689,7 @@ function hideShowSidebar(){
     }
     eid_sidebar.removeAttribute('class');
     eid_sidebar.style.display = disp;
-    eid_v_line.style.display = disp;
+    eid_vert_line.style.display = disp;
     
     mySizeWindow();
     mySizeVerse();
@@ -11204,11 +11206,12 @@ function mySizeWindow() {
         pantalla = 'mobile';
         marginSidebar = 0;
         eid_sidebar.removeAttribute('style');
+        //eid_sidebar.style.display = 'none';
     }else if(window_w >= pantallaTabletMinPx /*768*/ && window_w <= pantallaTabletMaxPx /*1023*/){
         pantalla = 'tablet';
         marginSidebar = 10;
         eid_sidebar.removeAttribute('class');
-    }else if(window_w >= 1024){
+    }else if(window_w >= pantallaDesktopSmallMinPx /*1024*/){
         pantalla = 'desktop';
         marginSidebar = 10;
         eid_sidebar.removeAttribute('class');
@@ -11234,14 +11237,14 @@ function mySizeWindow() {
     - footer_h //46
     ;
     let container_h = sidebar_h; 
-    let v_line_h = sidebar_h; 
+    let vert_line_h = sidebar_h; 
 
     eid_wrapper.style.top = header_h + 'px';
     eid_wrCols.style.height = wrCols_h + 'px';
 
     eid_sidebar.style.height = sidebar_h + 'px';
     eid_container.style.height = container_h + 'px';
-    eid_v_line.style.height = v_line_h + 'px';
+    eid_vert_line.style.height = vert_line_h + 'px';
 
     let colsAll = document.querySelectorAll('.cols');
     let colsHeadAll = document.querySelectorAll('.colsHead');
@@ -14787,20 +14790,6 @@ function getRefByHrefMB(trans,code, separador = ' ', first_book_index = 0){//hre
                 //console.log('en getRefByHrefMB() --- convertido to_verse: '+to_verse);//empezando de 1
             }
         }
-
-        //si es mobile 
-        //if(window.innerWidth < pantallaTabletMinPx){
-        //    eid_inpt_nav.dataset.divtrans = 'trans1';
-        //    eid_inpt_nav.dataset.trans = trans;
-        //}
-
-        //si no es movil
-        if(window.innerWidth < pantallaTabletMinPx){
-            //console.log(' es mobile');
-            //eid_inpt_nav.dataset.divtrans = 'trans1';
-            //eid_inpt_nav.dataset.trans = trans;
-        }
-
 
         let ref = `${obj_trans_this.Books[book].ShortNames[0]}${chapter}:${verse}`;
         if(to_verse != null) ref += `-${to_verse}`;
@@ -21578,6 +21567,41 @@ function enableDisableMaxWidthCol(){
     checkMaxWidthCol();
     mySizeWindow();
     mySizeVerse();
+}
+
+
+
+
+
+
+function checkModoMobile(){
+    //const eid_btnModoMobile = document.getElementById('btnModoMobile');
+    //const eid_m_btnModoMobile = document.getElementById('m_btnModoMobile');
+    const eid_d_sw_modoMobile = document.getElementById('d_sw_modoMobile');
+    const switcher = eid_d_sw_modoMobile.querySelector('input');
+    if(modoMobile){
+        //eid_btnModoMobile.classList.add('btn_active');
+        //eid_m_btnModoMobile.classList.add('btn_active');
+        document.body.classList.add('asMobile');
+        positionShow = 'row';
+        enableSwitcher(switcher);
+    }else{
+        //eid_btnModoMobile.classList.remove('btn_active');
+        //eid_m_btnModoMobile.classList.remove('btn_active');
+        document.body.classList.remove('asMobile');
+        disableSwitcher(switcher);
+    }
+}
+function enableDisableModoMobile(){
+    if(modoMobile){
+        modoMobile = false;
+    }else{
+        modoMobile = true;
+    }
+    checkModoMobile();
+    mySizeWindow();
+    mySizeVerse();
+    //closeModal(null,true);
 }
 
 

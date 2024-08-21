@@ -297,7 +297,7 @@ body{
 #sidebarInner p{
     /* margin: 5px; */
 }
-#v_line {
+#vert_line {
     width: 6px;
     display: block;
     height: 820px;
@@ -305,7 +305,7 @@ body{
     position: relative;
     float: left;
 }
-#v_line:hover {
+#vert_line:hover {
     background: #5ac7f9;
     cursor: col-resize;
     transition: 0.3s;

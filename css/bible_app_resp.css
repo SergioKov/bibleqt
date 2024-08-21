@@ -1,22 +1,17 @@
 /* Desktop */
 @media screen and (min-width: 1024px){
-    .partMob,
-    #arrowBack,
-    #closeBack,
-    #m_login_menu
+    .partMob:not(.asMobile .partMob),
+    #arrowBack:not(.asMobile #arrowBack),
+    #closeBack:not(.asMobile #closeBack),
+    #m_login_menu:not(.asMobile #closeBack)
     {
         display:none !important;
     }
 
-    #sidebar,
-    #headerSidebar,
-    #headerContainer,
-    .partDesk
-    {
-        /* display:block !important; */
-    }
 
-    .sideHide, .sideShow {
+    .sideHide:not(.asMobile .sideHide), 
+    .sideShow:not(.asMobile .sideShow) 
+    {
         width: 30% !important;
     }
     .sideShow {
@@ -26,27 +21,31 @@
         left: 0px;
     }
 
-
 }
 /* end Desktop */
+
+
+
 
 /* Tablet */
 @media screen and (min-width: 768px) and (max-width: 1023px){
 
-    .partMob,
-    #arrowBack,
-    #closeBack,
-    #m_login_menu
+    .partMob:not(.asMobile .partMob),
+    #arrowBack:not(.asMobile #arrowBack),
+    #closeBack:not(.asMobile #closeBack),
+    #m_login_menu:not(.asMobile #m_login_menu)
     {
         display:none !important;
     }
 
-    .partDesk
+    .partDesk:not(.asMobile .partDesk)
     {
         display:block !important;
     }
 
-    .sideHide, .sideShow {
+    .sideHide:not(.asMobile .sideHide), 
+    .sideShow:not(.asMobile .sideShow) 
+    {
         width: 60% !important;
     }
     
@@ -71,6 +70,56 @@
 /* end tablet */
 
 
+
+/* Tablet en modo asMobile */
+@media screen and (min-width: 1201px) and (max-width: 1439px){
+
+    .asMobile .partMob,
+    .asMobile #arrowBack,
+    .asMobile #closeBack,
+    .asMobile #m_login_menu
+    {
+        display:none !important;
+    }
+
+    .asMobile .partDesk
+    {
+        display:block !important;
+    }
+
+    .asMobile .sideHide, 
+    .asMobile .sideShow 
+    {
+        width: 60% !important;
+    }
+    
+    .asMobile #btn_pageUp, 
+    .asMobile #btn_pageDown 
+    {
+        height: 50px;
+        width: 50px;
+    }
+    /* width */
+    #tsk_head::-webkit-scrollbar, 
+    #tsk_body::-webkit-scrollbar, 
+    #find_head::-webkit-scrollbar, 
+    #find_body::-webkit-scrollbar, 
+    #strong_head::-webkit-scrollbar, 
+    #strong_body::-webkit-scrollbar, 
+    .wr_bcv_uls::-webkit-scrollbar, 
+    .colsInner::-webkit-scrollbar 
+    {
+        width: 5px;
+    }  
+
+}
+/* end Tablet en modo asMobile */
+
+
+
+
+
+
 /* mobilka */
 @media screen and (min-width: 1px) and (max-width: 767px) {
  
@@ -80,27 +129,27 @@
     #headerSidebar,
     #headerContainer,
     .partDesk,
-    #v_line
+    #vert_line
     {
-        display:none;
+        display: none;
     }
 
     .vkladki_in_mob
     {
-        display:block !important;
+        display: block !important;
     }
 
     .partMob,
     #m_login_menu
     {
-        display:block;
+        display: block;
     }
 
     #headerContainerInner{
         overflow-x:hidden;
     }
     #sidebarInner{
-        margin:0;
+        margin: 0;
     }
 
     #btn_pageUp, #btn_pageDown {
@@ -181,6 +230,122 @@
     }
 }
 /* end mobilka */
+
+
+
+/* mobilka en modo asMobile */
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+ 
+    .asMobile #headerMain,
+    .asMobile #footer,
+    .asMobile #sidebar,
+    .asMobile #headerSidebar,
+    .asMobile #headerContainer,
+    .asMobile .partDesk,
+    .asMobile #vert_line
+    {
+        display: none !important;
+    }
+
+    .asMobile .vkladki_in_mob
+    {
+        display: block !important;
+    }
+
+    .asMobile .partMob,
+    .asMobile #m_login_menu
+    {
+        display: block !important;
+    }
+
+    .asMobile #headerContainerInner{
+        overflow-x: hidden;
+    }
+    .asMobile #sidebarInner{
+        margin: 0;
+    }
+
+    .asMobile .asMobile #btn_pageUp, 
+    .asMobile #btn_pageDown 
+    {
+        height: 50px;
+        width: 50px;
+    }
+    .asMobile #btn_pageUp {
+        top: 44px;
+    }
+    .asMobile #btn_pageDown {
+        bottom: 10px;    
+    }
+    /* width */
+    #tsk_head::-webkit-scrollbar, 
+    #tsk_body::-webkit-scrollbar, 
+    #find_head::-webkit-scrollbar, 
+    #find_body::-webkit-scrollbar, 
+    #strong_head::-webkit-scrollbar, 
+    #strong_body::-webkit-scrollbar, 
+    .wr_bcv_uls::-webkit-scrollbar, 
+    .colsInner::-webkit-scrollbar 
+    {
+        width: 3px;
+    }
+    .colsHeadInner {
+        margin: 2px;
+    } 
+    
+    .asMobile .wr_op, 
+    .asMobile p.res_f,
+    .asMobile #wr_hist_find,
+    .asMobile .wr_strong_btns
+    {
+       margin-right: -3px; 
+    } 
+    .asMobile span.res_link{
+        padding: 5px 0;
+    }
+    .asMobile #menuTabsInner {
+        border: 1px solid #2c7fc1;
+        padding: 3px;
+        padding-bottom: 4px;
+    }
+    .asMobile #menuTabsInner,
+    .asMobile #vklad_nav,
+    .asMobile #vklad_find,
+    .asMobile #vklad_tsk,
+    .asMobile #vklad_strong
+    {
+        outline: none;
+    }
+    .asMobile .pv_inner{
+        flex-direction: column; 
+    }
+    .asMobile .wr_b_trans_a_ref {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .asMobile .wr_b_trans_a_ref .b_trans{
+        min-width: auto;
+    }
+    .asMobile #wr_hist_nav,
+    .asMobile #find_head,
+    .asMobile #wr_hist_strong
+    {
+        border-left: 1px solid #2c7fc1;
+        border-right: 1px solid #2c7fc1;
+        /* border-bottom: 1px solid #2c7fc1; */
+    }
+
+    .asMobile .colsInner p {
+        /* padding: 0px 5px 0px !important; */
+    }
+    .asMobile .colsInner p:hover {
+        /* padding: 0px 5px 10px !important;  */
+    }
+}
+/* end mobilka en modo asMobile */
+
 
 
 /* mobilka XS */

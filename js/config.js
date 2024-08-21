@@ -19,7 +19,7 @@ const def_w = eid_wrapper.offsetWidth * 0.3;//30%
 eid_sidebar.style.width = def_w +'px';
 
 const eid_sidebarInner = document.getElementById('sidebarInner');
-const eid_v_line = document.getElementById('v_line');
+const eid_vert_line = document.getElementById('vert_line');
 const eid_container = document.getElementById('container');
 const eid_containerInner = document.getElementById('containerInner');
 const eid_headerContainer = document.getElementById('headerContainer');
@@ -175,18 +175,42 @@ const eid_login_menu = document.getElementById('login_menu');
 const eid_m_login_menu = document.getElementById('m_login_menu');
 
 
-//Medidas de pantallas para Media Queries
-const pantallaMobileMaxPx = 575;
-const pantallaTabletMinPx = 768;//valor de tablet y mas 
+//====================================================//
+//Medidas de pantallas para Media Queries - START
+//====================================================//
 
-//const pantallaTabletMaxPx = 991;
-//const pantallaDesktopSmallMinPx = 992;
+//MOBILE (0px - 767px)
+//const pantallaMobileMinPx = 0;//por ahora no lo uso...
+//const pantallaMobileMaxPx = 575;//por ahora no lo uso...
+//const pantallaMobileMaxPx = 767;//por ahora no lo uso...
 
-const pantallaTabletMaxPx = 1023;
-const pantallaDesktopSmallMinPx = 1024;
+//TABLET (768px - )
+let pantallaTabletMinPx = 768;//valor de tablet y mas (se usa muchisimo!)
+//let pantallaTabletMaxPx = 991;//no uso
 
-//const pantallaDesktopSmallMaxPx = 1999;
-//const pantallaDesktopBigMinPx = 1200;
+
+//let pantallaDesktopSmallMinPx = 992;//no uso
+let pantallaTabletMaxPx = 1023;//uso 1 vez!
+
+let pantallaDesktopSmallMinPx = 1024;//uso 1 vez
+//let pantallaDesktopSmallMaxPx = 1199;// no uso
+
+//let pantallaDesktopBigMinPx = 1200;//no uso
+
+//Para ver en tablet verticalmente como en móvil
+let modoMobile = false;//[true,false]//para ver como si fuera el móvil en tablet 
+
+if(modoMobile){
+    pantallaTabletMinPx = 1201;//pongo 1201 y no 1200 ya qye Samsung tab A9+ verticalmente es de 1200
+    pantallaTabletMaxPx = 1439;//uso 1 vez
+    pantallaDesktopSmallMinPx = 1439;//uso 1 vez
+    document.body.classList.add('asMobile');
+}
+//====================================================//
+//Medidas de pantallas para Media Queries - END
+//====================================================//
+
+
 
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
