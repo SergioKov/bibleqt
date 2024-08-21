@@ -21710,8 +21710,14 @@ function checkModoMobile(){
     const switcher = eid_d_sw_modoMobile.querySelector('input');
     if(modoMobile){
         positionShow = 'row';
+        pantallaTabletMinPx = 1201;//pongo 1201 y no 1200 ya qye Samsung tab A9+ verticalmente es de 1200
+        pantallaTabletMaxPx = 1439;//uso 1 vez
+        pantallaDesktopSmallMinPx = 1439;//uso 1 vez    
         enableSwitcher(switcher);
     }else{
+        pantallaTabletMinPx = 768;//tamaño min de una tablet normal
+        pantallaTabletMaxPx = 1023;//uso 1 vez
+        pantallaDesktopSmallMinPx = 1024;//uso 1 vez    
         disableSwitcher(switcher);
     }
     enableDisableResp1200();
