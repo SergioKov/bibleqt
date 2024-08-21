@@ -10666,6 +10666,13 @@ function openSidebar(el){
      
      mySizeWindow();
      mySizeVerse();
+
+     setTimeout(()=>{
+        mySizeNav();
+        mySizeFind();
+        mySizeTsk();
+        mySizeStrong();
+    },10);
 }
 
 function closeSidebar(el){
