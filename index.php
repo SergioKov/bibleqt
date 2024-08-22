@@ -1094,21 +1094,6 @@ HERE;
 
                                     <h3 data-dic="d170">Функциональность</h3>
 
-                                    <div id="d_sw_modoMobile" class="dbtn btns_sw" onclick="enableDisableModoMobile()">
-                                        <div class="wr_sw_text">
-                                            <span class="sp_com">
-                                                modo_Mobile
-                                            </span>
-                                            <span class="sp_expl" data-dic="d174">
-                                                Мобильный режим (hasta 1200px)
-                                            </span>
-                                        </div>
-                                        <label class="switch">
-                                            <input type="checkbox" onclick="enableDisableModoMobile()">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-
                                     <div class="dbtn btns_sw" style="width: 100%;">
                                         <span data-dic="d199">Язык итнерфейса: </span>
                                         <select id="m_sel_lang" class="select_lang" onchange="changeLang(this.value)">
@@ -1117,6 +1102,21 @@ HERE;
                                             <option value="es">ES</option>
                                             <option value="en">EN</option>
                                         </select>
+                                    </div>
+
+                                    <div id="d_sw_modoMobile" class="dbtn btns_sw" onclick="enableDisableModoMobile()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                modo_Mobile
+                                            </span>
+                                            <span class="sp_expl" data-dic="d227">
+                                                Форсировать мобильный режим (до 1200px)
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="enableDisableModoMobile()">
+                                            <span class="slider"></span>
+                                        </label>
                                     </div>
 
                                     <div id="d_sw_MinOtrasTrans" class="dbtn btns_sw" onclick="enableDisableMinOtrasTrans()">
@@ -1170,7 +1170,7 @@ HERE;
                                                 Tabs_in_Mob
                                             </span>
                                             <span class="sp_expl" data-dic="d174">
-                                                Показывайте вкладки в мобильном режиме
+                                                Показывать вкладки в мобильном режиме
                                             </span>
                                         </div>
                                         <label class="switch">

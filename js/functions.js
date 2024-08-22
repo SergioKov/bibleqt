@@ -813,7 +813,8 @@ function buildDivShow(arrData, indexColToBuild = null){
     //console.log('en buildDivShow() --- allowUseShowTrans: ',allowUseShowTrans);
 
     addListenerToScrollLeft();//test eg_img
-
+    mySizeModoMobile();//test modoMobile
+    
     setTimeout(()=>{
         getFirstPVisibleAndPutInVkladka();
     },50);    

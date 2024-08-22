@@ -3976,3 +3976,10 @@ input:checked + .slider:before {
     width: 100%;
     padding: 10px;
 }
+
+.pad5{
+    padding: 5px;
+}
+.pad10{
+    padding: 10px;
+}

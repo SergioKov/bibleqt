@@ -2249,8 +2249,7 @@ function showTrans(book, chapter, verseNumber = null, to_verseNumber = null, ver
     //creo array de trans desde los que hay en cols
     makeArrTransFromCols();
 
-    if(allowUseShowTrans){
-    
+    if(allowUseShowTrans){    
 
         //cuando se llama showTrans() bloqueo la posibilidad de ejecutar showChapterText4() hasta que termine de pintar los trans en el bucle. Lo vuelvo a permitir en function buildDivShow()
         
@@ -10582,6 +10581,7 @@ window.addEventListener('load',function(d){
     mySizeWindow();
     mySizeVerse();
     mySizeVersesCompare();//si no hay verses , no hace nada
+    enableDisableResp1200();
 });
 
 window.addEventListener('resize',function(d){
@@ -10590,6 +10590,7 @@ window.addEventListener('resize',function(d){
     mySizeWindow();
     mySizeVerse();
     mySizeVersesCompare();//si no hay verses , no hace nada
+    enableDisableResp1200();
 });
 
 
@@ -11950,8 +11951,7 @@ function getRefOfTab(tab_id, ref, str_trans = null){
             if(colsAll[i] != null){//existe una columna
                 if(el == this_tab.dataset.ref_trans){
                     eid_inpt_nav.dataset.divtrans = colsAll[i].querySelector('.colsHead').id;//'trans3' o 'trans1'
-                }
-                
+                }                
                 colsAll[i].querySelector('.colsHead').dataset.trans = obj_el_trans.Translation;
                 colsAll[i].querySelector('.colsHead').dataset.base_ep = obj_el_trans.EnglishPsalms;
             }else{//no existe columna. añado una trans 
@@ -21715,6 +21715,7 @@ function checkModoMobile(){
         pantallaDesktopSmallMinPx = 1439;//uso 1 vez    
         enableSwitcher(switcher);
     }else{
+        positionShow = 'col';
         pantallaTabletMinPx = 768;//tamaño min de una tablet normal
         pantallaTabletMaxPx = 1023;//uso 1 vez
         pantallaDesktopSmallMinPx = 1024;//uso 1 vez    
@@ -21738,24 +21739,40 @@ function enableDisableModoMobile(){
 function enableDisableResp1200() {
     // Selecciona el archivo CSS actual que quieres eliminar
     const link_resp = document.getElementById('estilos_resp');
-
-    if (modoMobile) {
+    if(modoMobile) {
         positionShow = 'row';
         link_resp.href = './css/bible_app_resp1200.css';//1200
     }else{
+        positionShow = 'col';
         link_resp.href = './css/bible_app_resp.css';
     }
     setTimeout(()=>{
-        mySizeWindow();
-        mySizeVerse();
-
+        //mySizeWindow();
+        //mySizeVerse();
+        mySizeModoMobile();
         setTimeout(()=>{
-            mySizeNav();
-            mySizeFind();
-            mySizeTsk();
-            mySizeStrong();
+            //mySizeNav();
+            //mySizeFind();
+            //mySizeTsk();
+            //mySizeStrong();
         },10);
-
     },10);
+}
 
+function mySizeModoMobile(){
+    document.querySelectorAll('.colsHead').forEach(el =>{
+        el.removeAttribute('style');        
+        if(modoMobile){
+            if(window.innerWidth < pantallaTabletMinPx /* 1200 */ && window.innerWidth > pantallaMobileMaxPx /*767*/){
+                el.querySelector('.partMobInner').classList.add('pad5');
+            }else{
+                el.querySelector('.partMobInner').classList.remove('pad5');
+            }
+        }else{
+            el.querySelector('.partMobInner').classList.remove('pad5');
+        }        
+    });    
+    setTimeout(()=>{        
+        mySizeWindow();
+    },100);
 }
