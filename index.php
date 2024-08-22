@@ -1118,6 +1118,21 @@ HERE;
                                             <span class="slider"></span>
                                         </label>
                                     </div>
+                                    
+                                    <div id="d_sw_VkladkiInMob" class="dbtn btns_sw" onclick="hideShowVkladkiInMob()">
+                                        <div class="wr_sw_text">
+                                            <span class="sp_com">
+                                                Tabs_in_Mob
+                                            </span>
+                                            <span class="sp_expl" data-dic="d174">
+                                                Показывать вкладки в мобильном режиме
+                                            </span>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="hideShowVkladkiInMob()">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
 
                                     <div id="d_sw_MinOtrasTrans" class="dbtn btns_sw" onclick="enableDisableMinOtrasTrans()">
                                         <div class="wr_sw_text">                                            
@@ -1163,23 +1178,6 @@ HERE;
                                             <span class="slider"></span>
                                         </label>
                                     </div>
-
-                                    <div id="d_sw_VkladkiInMob" class="dbtn btns_sw" onclick="hideShowVkladkiInMob()">
-                                        <div class="wr_sw_text">
-                                            <span class="sp_com">
-                                                Tabs_in_Mob
-                                            </span>
-                                            <span class="sp_expl" data-dic="d174">
-                                                Показывать вкладки в мобильном режиме
-                                            </span>
-                                        </div>
-                                        <label class="switch">
-                                            <input type="checkbox" onclick="hideShowVkladkiInMob()">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-
-
 
                                     <div id="d_sw_ByText" class="dbtn btns_sw" onclick="changeModo('by_text')">
                                         <div class="wr_sw_text">
