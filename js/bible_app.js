@@ -21748,9 +21748,9 @@ function enableDisableResp1200() {
     }
     setTimeout(()=>{
         //mySizeWindow();
-        mySizeVerse();
+        //mySizeVerse();
         mySizeModoMobile();
-        
+
         setTimeout(()=>{
             //mySizeNav();
             //mySizeFind();
@@ -21775,5 +21775,6 @@ function mySizeModoMobile(){
     });    
     setTimeout(()=>{        
         mySizeWindow();
+        mySizeVerse();
     },100);
 }
