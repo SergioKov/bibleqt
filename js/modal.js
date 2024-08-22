@@ -816,11 +816,11 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
         }
 
         sel_copy.onchange = (event)=>{
-            console.log(event);
+            //console.log(event);
             window.focus(); // Opción para intentar dar foco a la ventana
 
             let verse_end = parseInt(event.currentTarget.value);
-            console.log(`copiar verses: (${verse_start + 1} - ${verse_end})`);
+            //console.log(`copiar verses: (${verse_start + 1} - ${verse_end})`);
             
             let arr_text_ref = document.querySelector('#h4_text').innerText.split(':');
             let ref_all = `${arr_text_ref[0]}:${verse_start}-${verse_end}`;
@@ -975,7 +975,7 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
 
     }else{//many verses
         
-        console.log('son muchos verses');
+        //console.log('son muchos verses');
         
         let textoACopiarAll = '';
         let arr = idElement.split('__');
