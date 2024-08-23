@@ -11145,8 +11145,6 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
 
 function changePositionShow(param_positionShow = null){//row,col, default = col   
-    let eid_btn_changePositionShowHeader = document.getElementById('btn_changePositionShowHeader');
-    let eid_btn_changePositionShowModal = document.getElementById('btn_changePositionShowModal');
 
     let textPositionShow;
     let new_positionShow;
@@ -11178,21 +11176,24 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
             textPositionShow = 'Col';//futura acción
         }
     }
+
     //eid_btn_changePositionShowHeader.innerHTML = `<span>${textPositionShow}</span>`;
     //eid_btn_changePositionShowModal.innerHTML = `<span>${textPositionShow}</span>`;
 
-    if(textPositionShow == 'Col'){
-        eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_row');
-        eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_col'); 
-        eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_row');
-        eid_btn_changePositionShowModal.querySelector('img').classList.add('position_col'); 
-    }else{
-        eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_col');
-        eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_row');    
-        eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_col');
-        eid_btn_changePositionShowModal.querySelector('img').classList.add('position_row');    
-    }
+    // if(textPositionShow == 'Col'){
+    //     eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_row');
+    //     eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_col'); 
+    //     eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_row');
+    //     eid_btn_changePositionShowModal.querySelector('img').classList.add('position_col'); 
+    // }else{
+    //     eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_col');
+    //     eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_row');    
+    //     eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_col');
+    //     eid_btn_changePositionShowModal.querySelector('img').classList.add('position_row');    
+    // }
+
     positionShow = new_positionShow;//importante
+    checkNextPositionShow();
     
     setTimeout(()=>{
         mySizeWindow();
@@ -11200,6 +11201,35 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
     },100);//antes 100 y nuevo 100 ya que transition de 'col_row position_row' es 0.1s
 }
 
+function checkPositionShow(){//solo mueve la imagen
+    let btn_Header = eid_btn_changePositionShowHeader.querySelector('img');
+    let btn_Modal = eid_btn_changePositionShowModal.querySelector('img');
+    if(positionShow == 'col'){
+        //muestro siguiente acción => horizontal (=)
+        btn_Header.classList.replace('position_col','position_row');    
+        btn_Modal.classList.replace('position_col','position_row');
+    }
+    else if(positionShow == 'row'){//muestro horizontal (=)
+        //muestro siguiente acción => vertical (||)
+        btn_Header.classList.replace('position_row','position_col');
+        btn_Modal.classList.replace('position_row','position_col');
+    }
+}
+
+function checkNextPositionShow(){//solo mueve la imagen
+    let btn_Header = eid_btn_changePositionShowHeader.querySelector('img');
+    let btn_Modal = eid_btn_changePositionShowModal.querySelector('img');
+    if(positionShow == 'col'){
+        //muestro siguiente acción => horizontal (=)
+        btn_Header.classList.replace('position_col','position_row');    
+        btn_Modal.classList.replace('position_col','position_row');
+    }
+    else if(positionShow == 'row'){//muestro horizontal (=)
+        //muestro siguiente acción => vertical (||)
+        btn_Header.classList.replace('position_row','position_col');
+        btn_Modal.classList.replace('position_row','position_col');
+    }
+}
 
 function mySizeWindow() {
     //console.log('mySizeWindow');   
@@ -21746,6 +21776,8 @@ function enableDisableResp1200() {
         positionShow = 'col';
         link_resp.href = './css/bible_app_resp.css';
     }
+    checkPositionShow();
+
     setTimeout(()=>{
         //mySizeWindow();
         //mySizeVerse();
