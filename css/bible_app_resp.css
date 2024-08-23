@@ -3,7 +3,8 @@
     .partMob,
     #arrowBack,
     #closeBack,
-    #m_login_menu
+    #m_login_menu,
+    #btn_settings
     {
         display:none !important;
     }
@@ -39,7 +40,8 @@
     .partMob,
     #arrowBack,
     #closeBack,
-    #m_login_menu
+    #m_login_menu,
+    #btn_settings
     {
         display:none !important;
     }
@@ -197,6 +199,10 @@
     }
     .colsInner p:hover {
         /* padding: 0px 5px 10px !important;  */
+    }
+
+    #btn_settings{
+        margin-left: 10px;
     }
 }
 /* end mobilka */

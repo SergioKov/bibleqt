@@ -169,11 +169,20 @@ session_start();
                                 <button id="btn_markers" class="btn" onclick="showTab(this,'markers')" data-dic="d24_t" title="Маркеры / Закладки">
                                     <img class="btn_img" src="./images/book_marker_white.svg">
                                 </button>
+
+                                
+
+
                                 <button id="btn_comm" class="btn d-none" onclick="" data-dic="d25_t" title="Комментарии">Comm</button>
                                 <button id="btn_dic" class="btn d-none" onclick="" data-dic="d26_t" title="Словари">Dic</button>
                             </div>
                         </div>
 
+
+                        <div id="btn_settings" class="" onclick="alert('en derarrollo...')" data-dic="" title="Ajustes">
+                            <img class="btn_img posi-tion_row" src="./images/settings3_white.svg">
+                        </div>
+                        
                         <div id="closeBack" onclick="closeSidebar(this)">
                             <div>&#10005;</div><!--X-->
                         </div>
@@ -793,6 +802,8 @@ session_start();
                 <div class="inner">
                     <h4>
                         <span class="close" onclick="closeModal(null,true)">&#10005;</span><!-- x -->
+                        <span id="btn_sp_menu_settings" class="sp_menu_settings" onclick="alert('en desarrollo...')"></span>
+
                         <span id="btn_sp_atras" class="sp_atras" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>
                     </h4>
@@ -969,8 +980,7 @@ print<<<HERE
                                         </div>
                                     </div>
 HERE;
-?>                                    
-
+?>
                                     <div class="dbtn" data-dic="d3_t" title="Remove Bible Translation" onclick="removeTrans()">
                                         <div>Tr -</div>
                                     </div>

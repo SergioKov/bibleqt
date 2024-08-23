@@ -11177,21 +11177,6 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
         }
     }
 
-    //eid_btn_changePositionShowHeader.innerHTML = `<span>${textPositionShow}</span>`;
-    //eid_btn_changePositionShowModal.innerHTML = `<span>${textPositionShow}</span>`;
-
-    // if(textPositionShow == 'Col'){
-    //     eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_row');
-    //     eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_col'); 
-    //     eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_row');
-    //     eid_btn_changePositionShowModal.querySelector('img').classList.add('position_col'); 
-    // }else{
-    //     eid_btn_changePositionShowHeader.querySelector('img').classList.remove('position_col');
-    //     eid_btn_changePositionShowHeader.querySelector('img').classList.add('position_row');    
-    //     eid_btn_changePositionShowModal.querySelector('img').classList.remove('position_col');
-    //     eid_btn_changePositionShowModal.querySelector('img').classList.add('position_row');    
-    // }
-
     positionShow = new_positionShow;//importante
     checkNextPositionShow();
     
@@ -11201,20 +11186,6 @@ function changePositionShow(param_positionShow = null){//row,col, default = col
     },100);//antes 100 y nuevo 100 ya que transition de 'col_row position_row' es 0.1s
 }
 
-function checkPositionShow(){//solo mueve la imagen
-    let btn_Header = eid_btn_changePositionShowHeader.querySelector('img');
-    let btn_Modal = eid_btn_changePositionShowModal.querySelector('img');
-    if(positionShow == 'col'){
-        //muestro siguiente acción => horizontal (=)
-        btn_Header.classList.replace('position_col','position_row');    
-        btn_Modal.classList.replace('position_col','position_row');
-    }
-    else if(positionShow == 'row'){//muestro horizontal (=)
-        //muestro siguiente acción => vertical (||)
-        btn_Header.classList.replace('position_row','position_col');
-        btn_Modal.classList.replace('position_row','position_col');
-    }
-}
 
 function checkNextPositionShow(){//solo mueve la imagen
     let btn_Header = eid_btn_changePositionShowHeader.querySelector('img');
@@ -11333,7 +11304,8 @@ function mySizeWindow() {
         eid_wrCols.classList.remove('wrCols_center');
         eid_wrCols.style.maxWidth = '';
         
-    }else{//col
+    }else if(positionShow == 'col'){//col
+        
         colsAll.forEach((el,i)=>{
             if(minOtrasTrans){
                 if(i == 0){//si es trans_base
@@ -11387,8 +11359,25 @@ function mySizeWindow() {
         });
 
         eid_wrCols.classList.add('wrCols_center');
+
     }
 
+    //let colsInnerAll = document.querySelectorAll('.colsInner');
+    if(positionShow == 'col' && colsInnerAll.length > 1 && (typeof iter_i !== 'undefined' && iter_i == colsInnerAll.length) && colsInnerAll[0].offsetWidth < 100){
+        let aviso_text = `El ancho de la pantalla es ${window.innerWidth} píxeles y el ancho de una columna (${colsInnerAll[0].offsetWidth} px) es demasiado pequeño para mostrar correctamente el contenido. En 5 segundos la posición 'col' se cambiará a 'row'.`;//`Sesión cerrada correctamente`;
+        console.log(aviso_text);
+        openModal('center','Info',aviso_text,'showAviso');
+
+        setTimeout(()=>{
+            positionShow = 'row';
+            mySizeWindow();
+        },5000);
+        
+        //setTimeout(()=>{
+        //    closeModal('Info',true);
+        //},5000);
+    }
+    
     setTimeout(()=>{
         init_scroll_in_colsInner();
         getArrSumLineH();
@@ -21776,7 +21765,7 @@ function enableDisableResp1200() {
         positionShow = 'col';
         link_resp.href = './css/bible_app_resp.css';
     }
-    checkPositionShow();
+    checkNextPositionShow();
 
     setTimeout(()=>{
         //mySizeWindow();
