@@ -11363,19 +11363,19 @@ function mySizeWindow() {
     }
 
     //let colsInnerAll = document.querySelectorAll('.colsInner');
-    if(positionShow == 'col' && colsInnerAll.length > 1 && (typeof iter_i !== 'undefined' && iter_i == colsInnerAll.length) && colsInnerAll[0].offsetWidth < 100){
-        let aviso_text = `El ancho de la pantalla es ${window.innerWidth} píxeles y el ancho de una columna (${colsInnerAll[0].offsetWidth} px) es demasiado pequeño para mostrar correctamente el contenido. En 5 segundos la posición 'col' se cambiará a 'row'.`;//`Sesión cerrada correctamente`;
+    if(positionShow == 'col' && colsInnerAll.length > 1 && colsInnerAll[0].offsetWidth < 300 && window.innerWidth < pantallaTabletMinPx && !modoMobile){
+        let aviso_text = `El ancho de la pantalla es <b>${window.innerWidth}</b> px y el ancho de una columna es <b>${colsInnerAll[0].offsetWidth}</b> px lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. <br>En 3 segundos la posición <b>'col'</b> se cambiará a <b>'row'</b>.`;//`Sesión cerrada correctamente`;
         console.log(aviso_text);
         openModal('center','Info',aviso_text,'showAviso');
 
         setTimeout(()=>{
             positionShow = 'row';
             mySizeWindow();
-        },5000);
+        },3000);
         
         //setTimeout(()=>{
         //    closeModal('Info',true);
-        //},5000);
+        //},3100);
     }
     
     setTimeout(()=>{

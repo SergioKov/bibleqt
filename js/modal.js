@@ -1,4 +1,4 @@
-function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true){
+function openModal(param = null, headerTitle = null, htmlTrans = null, action = null, modalFadeIn = true, showSettings = false){
     //console.log('=== function openModal() ===');
     //console.log(`param: ${param} --- headerTitle: ${headerTitle}`); 
     
