@@ -236,9 +236,10 @@
     "d226": "All favorite Strong's files have been loaded into memory as text for faster work with them and offline. <br>Do not reload the webpage because data will be lost and you'll have to load them again.",
 
     "d227" : "Force mobile mode (width up to 1200px)",
-    "d228" : "",
-    "d229" : "",
-    "d230" : "",
+    "d228": "modules",
+    "d229": "module",
+    "d230": "The screen width is <b>__VAR__ px</b> and the width of a column in <b>vertical</b> mode is <b>__VAR__ px</b>, which is too small to correctly display the navigation buttons in the header of each translation. Therefore, the <b>vertical</b> mode has been changed to <b>horizontal</b>. <br><br>If you prefer to see the translations in <b>vertical</b> mode, close <b>__VAR__</b> __VAR__.",
+
 
 
 

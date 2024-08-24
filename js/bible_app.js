@@ -11360,8 +11360,17 @@ function mySizeWindow() {
     }
 
     //let colsInnerAll = document.querySelectorAll('.colsInner');
-    if(positionShow == 'col' && colsInnerAll.length > 1 && colsInnerAll[0].offsetWidth < 300 && window.innerWidth < pantallaTabletMinPx /*&& !modoMobile*/){
-        let aviso_text = `El ancho de la pantalla es <b>${window.innerWidth} px</b> y el ancho de una columna en la posición <b>col</b> es <b>${colsInnerAll[0].offsetWidth} px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. <br>Por eso la posición <b>col</b> se ha cambiado a <b>row</b>.`;//`Sesión cerrada correctamente`;
+    let minColumnaWidth = 300;
+    if(positionShow == 'col' && colsInnerAll.length > 1 && colsInnerAll[0].offsetWidth < minColumnaWidth /* 300px */ && window.innerWidth < pantallaTabletMinPx /*&& !modoMobile*/){
+        
+        const contenedorWidth = window.innerWidth;
+        const columnaWidth = minColumnaWidth;
+        // Calcula el número máximo de columnas que caben en el contenedor
+        const maxColumnas = Math.floor(contenedorWidth / columnaWidth);
+        const numColumnasQuitar = colsInnerAll.length - maxColumnas;
+        let palabra_modulos = (numColumnasQuitar > 1) ? obj_lang.d228 : obj_lang.d229 ;//d228 => módulos; d229 => módulo
+
+        let aviso_text = reemplazarValores(obj_lang.d230, [contenedorWidth, colsInnerAll[0].offsetWidth, numColumnasQuitar, palabra_modulos])//`El ancho de la pantalla es <b>${contenedorWidth} px</b> y el ancho de una columna en el modo <b>vertical</b> es <b>${colsInnerAll[0].offsetWidth} px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. Por eso el modo <b>vertical</b> se ha cambiado al <b>horizontal</b>. <br><br>Si prefieres ver las traducciones en modo <b>vertical</b> cierra <b>${numColumnasQuitar}</b> ${palabra_modulos}.`;//``;
         //console.log(aviso_text);
         openModal('center','Info',aviso_text,'showAviso');
 

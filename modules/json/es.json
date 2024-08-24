@@ -236,9 +236,9 @@
     "d226" : "Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.",
     
     "d227" : "Forzar modo móvil (ancho hasta 1200px)",
-    "d228" : "",
-    "d229" : "",
-    "d230" : "",
+    "d228" : "módulos",
+    "d229" : "módulo",
+    "d230" : "El ancho de la pantalla es <b>__VAR__ px</b> y el ancho de una columna en el modo <b>vertical</b> es <b>__VAR__ px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. Por eso el modo <b>vertical</b> se ha cambiado al <b>horizontal</b>. <br><br>Si prefieres ver las traducciones en modo <b>vertical</b> cierra <b>__VAR__</b> __VAR__.",
 
 
 
