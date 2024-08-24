@@ -179,7 +179,7 @@ session_start();
                         </div>
 
 
-                        <div id="btn_settings" class="" onclick="alert('en derarrollo...')" data-dic="" title="Ajustes">
+                        <div id="btn_settings" class="" onclick="alert('en derarrollo...')" data-dic="" title="Ajustes" style="display: ;">
                             <img class="btn_img posi-tion_row" src="./images/settings3_white.svg">
                         </div>
                         
@@ -802,7 +802,7 @@ session_start();
                 <div class="inner">
                     <h4>
                         <span class="close" onclick="closeModal(null,true)">&#10005;</span><!-- x -->
-                        <span id="btn_sp_menu_settings" class="sp_menu_settings" onclick="alert('en desarrollo...')"></span>
+                        <span id="btn_sp_menu_settings" class="sp_menu_settings" onclick="alert('en desarrollo...')" style="display:none;"></span>
 
                         <span id="btn_sp_atras" class="sp_atras" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')"></span>
                         <span id="h4_text">aki modal content header</span>

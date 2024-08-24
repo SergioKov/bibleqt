@@ -3026,7 +3026,7 @@ pr {
 }
 #h4_text {
     margin-right: 40px;
-    margin-right: 75px;
+    /* margin-right: 75px; */
     /* background: red; */
     display: block;
 }

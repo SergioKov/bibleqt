@@ -11146,34 +11146,28 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
 function changePositionShow(param_positionShow = null){//row,col, default = col   
 
-    let textPositionShow;
     let new_positionShow;
 
     if(param_positionShow != null){//row
         
         new_positionShow = param_positionShow;//new valor row
         if(new_positionShow == 'row'){
-            textPositionShow = 'Col';//futura acción
             //hago scroll to top en columna para todos cols
             document.querySelectorAll('.colsInner').forEach(el=>{
                 el.scrollTop = 0;
             });
-        }else if(new_positionShow == 'col'){
-            textPositionShow = 'Row';//futura acción
-        }  
+        }
 
     }else{
 
         if(positionShow == 'row'){//actual
             new_positionShow = 'col';//new valor
-            textPositionShow = 'Row';//futura acción
             //hago scroll to top en columna para todos cols
             document.querySelectorAll('.colsInner').forEach(el=>{
                 el.scrollTop = 0;
             });
         }else if(positionShow == 'col'){
             new_positionShow = 'row';//new valor
-            textPositionShow = 'Col';//futura acción
         }
     }
 
@@ -11279,6 +11273,8 @@ function mySizeWindow() {
     let trans_max_h = Math.max(...arr_th);
 
     if(positionShow == 'row'){
+        //console.log('positionShow: '+positionShow);
+
         colsAll.forEach(el=>{
             el.style.width = 100 + '%';//100%
         });
@@ -11305,6 +11301,7 @@ function mySizeWindow() {
         eid_wrCols.style.maxWidth = '';
         
     }else if(positionShow == 'col'){//col
+        //console.log('positionShow: '+positionShow);
         
         colsAll.forEach((el,i)=>{
             if(minOtrasTrans){
@@ -11363,15 +11360,13 @@ function mySizeWindow() {
     }
 
     //let colsInnerAll = document.querySelectorAll('.colsInner');
-    if(positionShow == 'col' && colsInnerAll.length > 1 && colsInnerAll[0].offsetWidth < 300 && window.innerWidth < pantallaTabletMinPx && !modoMobile){
-        let aviso_text = `El ancho de la pantalla es <b>${window.innerWidth}</b> px y el ancho de una columna es <b>${colsInnerAll[0].offsetWidth}</b> px lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. <br>En 3 segundos la posición <b>'col'</b> se cambiará a <b>'row'</b>.`;//`Sesión cerrada correctamente`;
-        console.log(aviso_text);
+    if(positionShow == 'col' && colsInnerAll.length > 1 && colsInnerAll[0].offsetWidth < 300 && window.innerWidth < pantallaTabletMinPx /*&& !modoMobile*/){
+        let aviso_text = `El ancho de la pantalla es <b>${window.innerWidth} px</b> y el ancho de una columna en la posición <b>col</b> es <b>${colsInnerAll[0].offsetWidth} px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. <br>Por eso la posición <b>col</b> se ha cambiado a <b>row</b>.`;//`Sesión cerrada correctamente`;
+        //console.log(aviso_text);
         openModal('center','Info',aviso_text,'showAviso');
 
-        setTimeout(()=>{
-            positionShow = 'row';
-            mySizeWindow();
-        },3000);
+        positionShow = 'row';
+        mySizeWindow();
         
         //setTimeout(()=>{
         //    closeModal('Info',true);
@@ -21759,12 +21754,13 @@ function enableDisableResp1200() {
     // Selecciona el archivo CSS actual que quieres eliminar
     const link_resp = document.getElementById('estilos_resp');
     if(modoMobile) {
-        positionShow = 'row';
+        //positionShow = 'row';//antes        
         link_resp.href = './css/bible_app_resp1200.css';//1200
     }else{
-        positionShow = 'col';
+        //positionShow = 'col';
         link_resp.href = './css/bible_app_resp.css';
     }
+    positionShow = (window.innerWidth < pantallaTabletMinPx) ? 'row' : 'col' ;
     checkNextPositionShow();
 
     setTimeout(()=>{
