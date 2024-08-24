@@ -11197,7 +11197,7 @@ function checkNextPositionShow(){//solo mueve la imagen
 }
 
 function mySizeWindow() {
-    //console.log('mySizeWindow');   
+    //console.log('mySizeWindow');
     
     let window_w = window.innerWidth;
     let window_h = window.innerHeight;
