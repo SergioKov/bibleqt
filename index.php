@@ -180,7 +180,7 @@ session_start();
 
 
                         <div id="btn_settings" class="" onclick="alert('en derarrollo...')" data-dic="" title="Ajustes" style="display: ;">
-                            <img class="btn_img posi-tion_row" src="./images/settings3_white.svg">
+                            <img class="btn_img posi-tion_row" src="./images/settings7_white.svg">
                         </div>
                         
                         <div id="closeBack" onclick="closeSidebar(this)">
