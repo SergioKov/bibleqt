@@ -794,13 +794,13 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
             document.querySelector('#h4_text').textContent = ref_all;
 
             let idElement = arr_p_id.join('__');
-            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);           
+            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);
             
             btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
             wr_sel_copy.innerHTML = `<span>¡Texto copiado!</span>`;
             setTimeout(()=>{
                 closeModal(null,true);
-            },btn_copiar_delay);            
+            },btn_copiar_delay);
         }
 
        
@@ -827,14 +827,13 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
             document.querySelector('#h4_text').textContent = ref_all;
 
             let idElement = arr_p_id.join('__');
-            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);           
-            
+            copyTextFromIdElement(idElement, verse_base_id, verse_start, verse_end);
+
             btn1.innerHTML = '<img src="./images/icon_ok_white.svg">';
             wr_sel_copy.innerHTML = `<span>¡Texto copiado!</span>`;
             setTimeout(()=>{
                 closeModal(null,true);
             },btn_copiar_delay);
-
         };
 
         d_sel_bl.append(btn_many_verses);
@@ -970,7 +969,7 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
 
         if(textoACopiar.length > 1 && textoACopiar != "" || true) {          
             copyTextToClibboard(textoACopiar);
-            //console.log(`textoACopiar: \n${textoACopiar}`);
+            console.log(`textoACopiar: \n${textoACopiar}`);            
         }
 
     }else{//many verses
@@ -1007,15 +1006,8 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
             if(i == verse_end){
                 //textoACopiarAll += `(${BibleShortName})`;//(RST+r)
                 if(textoACopiarAll.length > 1 && textoACopiarAll != "" || true) {       
-                    fn_await();
-                    async function fn_await(){                
-                        const res = await copyTextToClibboard(textoACopiarAll);                        
-                        //if(res){
-                        //    console.log(`textoACopiarAll: \n${textoACopiarAll}`);
-                        //}else{
-                        //    console.log('el texto no se copió');
-                        //}
-                    }
+                    copyTextToClibboard(textoACopiarAll);                        
+                    console.log(`textoACopiarAll: \n${textoACopiarAll}`);
                 }
             }
         }
@@ -1024,15 +1016,37 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
 
 
 
-async function copyTextToClibboard(text) {  
-    navigator.clipboard.writeText(text)
-        .then((text2) => {
-            //console.log('Texto copiado al portapapeles: ', text);
-            //console.log(`text2 copiado: \n${text2}`);
-        })
-        .catch(error => {
-            console.error('Error al copiar al portapapeles: ', error);
-        });
+async function copyTextToClibboard(text = null) {  
+    if(text != null){
+        
+        // Verifica si la API de portapapeles está disponible
+        if(navigator.clipboard) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    //console.log('[copyTextToClibboard()] --- [navigator.clipboard] --- Texto copiado al portapapeles con éxito');
+                    //console.log('El texto copiado: \n', text);
+                })
+                .catch(error => {
+                    console.error('[copyTextToClibboard()] --- Error al copiar el texto al portapapeles:', error);
+                });
+        } else {
+            //console.log('[copyTextToClibboard()] --- La API de portapapeles no está disponible en este navegador. Intento copiar con document.execCommand(copy)');
+
+            const areaTexto = document.createElement('textarea');
+            areaTexto.style.position = 'fixed';
+            areaTexto.style.top = '-9999px';
+            areaTexto.style.left = '-9999px';
+            document.body.appendChild(areaTexto);
+            areaTexto.value = text;
+            areaTexto.select();
+            document.execCommand('copy');
+            document.body.removeChild(areaTexto);
+            console.log('[copyTextToClibboard] --- El texto copiado: \n', text);
+        }
+
+    }else{
+        console.error('[copyTextToClibboard()] --- El texto no se ha copiado porque no está seleccionado.');
+    }    
 }
 
 
