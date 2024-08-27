@@ -3707,10 +3707,11 @@ p .sp_svit a:hover{
     padding-top: 3px;
     margin-right: 5px;
 }
-#btn_settings img{
+#btn_settings img {
     position: relative;
     top: 2px;
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
+    width: 20px;
 }
 
 .sp_vtext {
