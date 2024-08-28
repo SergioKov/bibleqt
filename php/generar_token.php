@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $message = "Haga clic en el siguiente enlace para restablecer su contraseña: $resetLink";
 
         $message_html = '
-        <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: red;">    
-            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+        <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin: 0 auto; max-width: 480px;">
                 <tbody>
                 <tr>
                     <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td align="center" style="font-size:0px;padding:32px 44px;padding-bottom:10px;word-break:break-word">
                         <a 
                         href="' . $resetLink . '" 
-                        style="background:#13c1ac;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
+                        style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
                         target="_blank"
                         >
                             Restablecer contraseña
