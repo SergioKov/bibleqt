@@ -51,16 +51,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $subject = "Restablecer Contraseña";
         $message = "Haga clic en el siguiente enlace para restablecer su contraseña: $resetLink";
         
-        $from_email = "sergiokovalchuk@gmail.com";
-        $reply_to_email = "sergiokovalchuk@gmail.com";
+        //$from_email = "sergiokovalchuk@gmail.com";
+        //$reply_to_email = "sergiokovalchuk@gmail.com";
 
         // Для отправки HTML-письма должен быть установлен заголовок Content-type
+        //$headers  = "MIME-Version: 1.0" . "\r\n";
+        //$headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
+            //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
+            //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
+        //$headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
+        //$headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
+
+
+
         $headers  = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-        //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
-        //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
-        $headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
-        $headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
+        $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
+        $headers .= "From: bq mitest - YO <contact@serg.es>" . "\r\n"; 
+        $headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
+
 
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
