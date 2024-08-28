@@ -3565,7 +3565,8 @@ span.vt {
 
 .form p {
     padding: 5px;
-    margin: 0 0 10px;
+    /* margin: 0 0 10px; */
+    margin: 15px 0 15px;
     color: grey
 }
 .form .p_cerr_ses{

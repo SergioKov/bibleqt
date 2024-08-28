@@ -12,6 +12,7 @@ function saveNewPassword(){
     }
     if(password != password_rep){
         alert('Las contraseñas introducidas no son iguales.');
+        document.getElementById("password_rep").value = '';
         return;
     }
     if(email == '' || token == ''){
@@ -45,14 +46,20 @@ function saveNewPassword(){
 
             eid_bl_reset_pwd_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">La contraseña se ha guardado correctamente.</span>`;
 
+            //para evitar que presionen otra vez, quito los elementos del formulario
+            eid_bl_reset_pwd_form.querySelectorAll('input').forEach(el=>{
+                el.remove();//cada input
+            });
+            eid_bl_reset_pwd_form.querySelector('#btn_guardar').remove();//botón Guardar
+
             setTimeout(()=>{
                 window.location.href = "../index.php?reset_pwd_ok";  //de momento comento para no hacer la redirección...
                 //mostrarLoginForm();
-            },3000);
-            
+            },3000);            
 
             // Redirigir a la página de inicio si la autenticación es exitosa
         } else {
+            
             let error_text = "Error al guardar la contraseña";
             console.error(data.error);
             console.error(error_text);

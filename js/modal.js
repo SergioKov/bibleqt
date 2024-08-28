@@ -728,6 +728,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
 
     let enable_otro_div = false;//por defecto
     
+
     //Copiar texto de verso
     const btn1 = document.createElement('div');
     btn1.id = 'btn_copiar';
@@ -741,17 +742,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
 
         const wr_sel_copy = document.createElement('div');
         wr_sel_copy.id = 'wr_sel_copy';
-        wr_sel_copy.className = 'dbtn';
-        //wr_sel_copy.innerHTML = `
-        //    <p>Selecciona el versículo hasta donde copiar:
-        //        <select class="zzz">
-        //            <option value="1">1</option>
-        //            <option value="2">2</option>
-        //            <option value="3">3</option>
-        //        </select>
-        //    </p>
-        //`;
-        
+        wr_sel_copy.className = 'dbtn';       
 
         const btn_only_one_verse = document.createElement('button');
         btn_only_one_verse.className = 'btn btn_only_one_verse'; 
@@ -766,8 +757,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
             setTimeout(()=>{
                 closeModal(null,true);
             },btn_copiar_delay);
-        };
-        
+        };        
 
         
         const d_sel_bl = document.createElement('div');
@@ -787,7 +777,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
         btn_many_verses.onclick = (event) =>{
 
             let verse_end = parseInt(d_sel_bl.querySelector('.sel_copy').value);
-            console.log(`copiar verses: (${verse_start} - ${verse_end})`);
+            //console.log(`copiar verses: (${verse_start} - ${verse_end})`);
             
             let arr_text_ref = document.querySelector('#h4_text').innerText.split(':');
             let ref_all = `${arr_text_ref[0]}:${verse_start}-${verse_end}`;
@@ -802,7 +792,6 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
                 closeModal(null,true);
             },btn_copiar_delay);
         }
-
        
 
         const sel_copy = document.createElement('select');
@@ -860,6 +849,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
         */
     }
 
+
     //Marker
     const btn2 = document.createElement('div');
     btn2.id = 'btn_marker';
@@ -878,7 +868,7 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
         let a_verseText = document.getElementById(id_p).cloneNode(true); // Clonar el nodo para preservar su estructura
         a_verseText.querySelectorAll('a')[0].remove(); // Eliminar 1-r el elemento <a> del clon
         
-        //si hay yooltips, los quito del texto
+        //si hay tooltips, los quito del texto
         let wr_tooltip_all = a_verseText.querySelectorAll('.wr_tooltip');
         if(wr_tooltip_all != null){
             wr_tooltip_all.forEach(el=>{
@@ -896,7 +886,8 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
         },500);
     }
 
-    //comparar verses
+
+    //Comparar verses
     const btn3 = document.createElement('div');
     btn3.id = 'btn_comparar';
     btn3.className = 'dbtn';
@@ -905,10 +896,11 @@ function buildVerseMenu(arr_p_id,positionModal){//['rstStrongRed', '42', '1', '3
     btn3.onclick = ()=>{
         //console.log('llamo func para comparar');
         //console.log(arr_p_id);
-        eid_bl_modalFullInner.innerHTML = '<div id="wr_vc">cargando...</div>';//reset
+        eid_bl_modalFullInner.innerHTML = '<div id="wr_vc">Cargando...</div>';//reset
         openModal('full', 'Сравнение переводов', arr_p_id, 'compareVerse');
     }
     
+
     //Compartir enlace
     const btn4 = document.createElement('div');
     btn4.id = 'btn_compartir';
@@ -969,7 +961,7 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
 
         if(textoACopiar.length > 1 && textoACopiar != "" || true) {          
             copyTextToClibboard(textoACopiar);
-            console.log(`textoACopiar: \n${textoACopiar}`);            
+            //console.log(`textoACopiar: \n${textoACopiar}`);            
         }
 
     }else{//many verses
@@ -1007,7 +999,7 @@ function copyTextFromIdElement(idElement, verse_base_id = null, verse_start = nu
                 //textoACopiarAll += `(${BibleShortName})`;//(RST+r)
                 if(textoACopiarAll.length > 1 && textoACopiarAll != "" || true) {       
                     copyTextToClibboard(textoACopiarAll);                        
-                    console.log(`textoACopiarAll: \n${textoACopiarAll}`);
+                    //console.log(`textoACopiarAll: \n${textoACopiarAll}`);
                 }
             }
         }
@@ -1041,7 +1033,7 @@ async function copyTextToClibboard(text = null) {
             areaTexto.select();
             document.execCommand('copy');
             document.body.removeChild(areaTexto);
-            console.log('[copyTextToClibboard] --- El texto copiado: \n', text);
+            //console.log('[copyTextToClibboard] --- El texto copiado: \n', text);
         }
 
     }else{

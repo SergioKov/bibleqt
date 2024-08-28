@@ -222,7 +222,7 @@
     "d212" : "Hubo problemas al crear el usuario __VAR__. <br>__VAR__",
     "d213" : "El campo email es obligatorio. Introduce tu email por favor.",
     "d214" : "Email __VAR__ se ha enviado con éxito.",
-    "d215" : "Hubo problemas al enviar el correo de resauración de contraseña al __VAR__. <br>__VAR__",
+    "d215" : "Hubo problemas al enviar el correo de resauración de contraseña al __VAR__. <br><br>__VAR__",
     "d216" : "Todos los módulos de las traducciones favoritas ya están cargados.",
     "d217" : "Tamaño",
     "d218" : "Aviso Módulos",
@@ -239,7 +239,7 @@
     "d228" : "módulos",
     "d229" : "módulo",
     "d230" : "El ancho de la pantalla es <b>__VAR__ px</b> y el ancho de una columna en el modo <b>vertical</b> es <b>__VAR__ px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. Por eso el modo <b>vertical</b> se ha cambiado al <b>horizontal</b>. <br><br>Si prefieres ver las traducciones en modo <b>vertical</b> cierra <b>__VAR__</b> __VAR__.",
-
+    "d231" : "Eыste correo electrónico no está registrado en nuestro sistema.",
 
 
 

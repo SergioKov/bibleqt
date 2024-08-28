@@ -35,14 +35,14 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
             <div class="form">
 
                 <div id="bl_reset_pwd_form">
-                    <form class="reset-pwd-form" action="./php/reset_password_action.php" method="post">
+                    <form class="reset-pwd-form" action="./php/reset_password_action.php" method="POST">
                         <h1>Recuperar contraseña</h1>
                         <p class="mensaje">Introduce tu contraseña nueva.</p>
                         <input id="email" name="email" type="hidden" value="<?=$email?>"/>
                         <input id="token" name="token" type="hidden" value="<?=$token?>"/>
                         <input id="password" name="password" type="password" placeholder="password" required/>
                         <input id="password_rep" name="password" type="password" placeholder="repeat password" required/>
-                        <button class="btn_wide" type="button" onclick="saveNewPassword();">Guardar</button>
+                        <button id="btn_guardar" class="btn_wide" type="button" onclick="saveNewPassword();">Guardar</button>
                         <p class="message"><a href="#" onclick="window.location.href = '<?=$baseUrl?>'">Ir al inicio</a></p>
                     </form>
                 </div>

@@ -34,7 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 
         // Nombre del host (dominio)
-        $host = $_SERVER['HTTP_HOST'];
+        $host = $_SERVER['HTTP_HOST'];//'bibleqt.local' o 'bibleqt.es'
+        //echo $host;
+        //exit();
 
         // Ruta base
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -55,14 +57,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Для отправки HTML-письма должен быть установлен заголовок Content-type
         $headers  = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-        $headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n"; 
-        $headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n"; 
+        //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
+        //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
+        $headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
+        $headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
 
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
         
 
-        if($host == 'localhost'){//produccion
+        if($host == 'bibleqt.local'){//localhost
 
             echo json_encode([
                 'success' => true, 
@@ -72,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //exit;
 
         }else{//produccion
+            
             $result_mail = mail($email, $subject, $message, $headers);
 
             if ($result_mail) {
@@ -85,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } else {
         //echo "El correo electrónico no está registrado en nuestro sistema.";
-        echo json_encode(['success' => false, 'error' => 'El correo electrónico no está registrado en nuestro sistema.']);
+        echo json_encode(['success' => false, 'error' => 'El correo electrónico no está registrado en nuestro sistema.', 'error_text_code' => 'd231']);//d231 = Este correo electrónico no está registrado en nuestro sistema.
     }
 }else{
     echo json_encode(['info' => false]);

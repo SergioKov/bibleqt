@@ -561,10 +561,12 @@ async function enviarEmail(){
         const data = await response.json();
         //const data = await response.text();//test
         //console.log(data);
+        //console.log(data.resetLink);
     
         if(typeof data.localhost != 'undefined'){
-            //console.log(data.localhost);
-            //console.log(data.resetLink);
+            console.log(data);
+            console.log(data.localhost);
+            console.log(data.resetLink);
         }
                 
         if(data.success) {
@@ -580,11 +582,12 @@ async function enviarEmail(){
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
-            let error_text = "Error al enviar el email";
-            console.error(data.error);
-            console.error(error_text);
+            console.error('Error al enviar el email');
+            console.error('data.error: ', data.error);
+            console.error('data.error_text_code: ', data.error_text_code);
+            console.error(obj_lang[data.error_text_code]);//pongo con [] ya que viene  obj_lang['d231']
     
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d215, [email, data.error]) + `</span>.`;//Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br>${data.error}
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d215, [email, obj_lang[data.error_text_code]]) + `</span>`;//Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br><br>${obj_lang[data.error_text_code]}
         }
     
         mySizeWindow();

@@ -1,10 +1,20 @@
 <?php
 include('connect_db.php');
 
-echo "file: ../php/reset_password.php";
+echo "file: /php/reset_password.php";
 //die();
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    
+    debug($_GET);
+    //exit();
+    
     $email = mysqli_real_escape_string($conn, $_GET['email']);
     $token = mysqli_real_escape_string($conn, $_GET['token']);
 
@@ -15,28 +25,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (mysqli_num_rows($result) > 0) {
         
         // Protocolo (http o https)
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+        debug($protocol);
 
         // Nombre del host (dominio)
         $host = $_SERVER['HTTP_HOST'];
+        echo "<br>$ host: $host";
 
         // Ruta base
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        echo "<br>$ basePath: $basePath";
 
         // Construir la URL base
         $baseUrl = "$protocol://$host$basePath/";
-        //echo "<br>La URL base es: $baseUrl";
+        echo "<br>$ baseUrl: $baseUrl";
         
-        $location = "Location: " . $baseUrl . "reset_password_form.php?email=$email&token=$token";
-        //echo "<br>$ location: $location";
+        $location = "Location: " . $protocol . "://" . $host . "/reset_password_form.php?email=$email&token=$token";
+        echo "<br>$ location: $location";
+        //exit();
         
-        //echo "<br>1. redirijo...";
+        echo "<br>1. redirijo a ...";
+        echo "<br>$location";
         //die();
         
         // Permitir al usuario restablecer la contraseña
         // Puedes redirigir al usuario a un formulario para ingresar la nueva contraseña
         header($location);
-        exit();
+
     } else {
         echo "Enlace no válido o expirado.";
     }

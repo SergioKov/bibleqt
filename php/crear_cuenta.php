@@ -28,7 +28,7 @@ $checkQuery  = "SELECT  `username`, `email`
         FROM users 
         WHERE username = '$username' OR email = '$email'
 ";
-$result = $conn->query($checkQuery );
+$result = $conn->query($checkQuery);
 
 
 if (mysqli_num_rows($result) > 0) {
