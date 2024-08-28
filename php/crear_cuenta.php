@@ -26,14 +26,14 @@ $email = isset($input['email']) ? mysqli_real_escape_string($conn, $input['email
 //saco datos de user de la bd.
 $checkQuery  = "SELECT  `username`, `email` 
         FROM users 
-        WHERE username = '$username' OR email = '$email'
+        WHERE email = '$email'
 ";
 $result = $conn->query($checkQuery);
 
 
 if (mysqli_num_rows($result) > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
-    echo json_encode(['success' => false, 'error' => 'El nombre de usuario o correo electrónico ya está en uso.']);
+    echo json_encode(['success' => false, 'error' => 'El correo electrónico ya está en uso.']);
 } else {
     // Insertar el nuevo usuario si no existe
     //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.

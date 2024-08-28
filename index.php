@@ -848,6 +848,7 @@ print<<<HERE
 <script>
     let hay_sesion = true;
     let username = '$_SESSION[username]';
+    let email = '$_SESSION[email]';
     //console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -932,7 +933,7 @@ print<<<HERE
                     <p class="mensaje">
                         <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
                     </p>
-                    <input id="username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" required />
+                    <input id="username_email" name="username_email" type="text" autocomplete="on" placeholder="Nombre" data-dic="d194_ph" required />
                     <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
                     <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
                     <p class="message">
@@ -1289,8 +1290,8 @@ HERE;
     }
     //die();
 
-    if(isset($_SESSION) && !empty($_SESSION) && !empty($_SESSION['username'])){
-        //echo "<p>isset $ _SESSION. $ _SESSION[username]: " . $_SESSION['username'];
+    if(isset($_SESSION) && !empty($_SESSION) && !empty($_SESSION['email'])){
+        //echo "<p>isset $ _SESSION. $ _SESSION[email]: " . $_SESSION['email'];
     }else{
         //echo "<p>NO isset $ _SESSION";
     }

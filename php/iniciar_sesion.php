@@ -10,10 +10,10 @@ $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
 
 // Obtener usuario y contraseña del cuerpo de la solicitud
-$username = isset($input['username']) ? $input['username'] : '';
+$email = isset($input['email']) ? $input['email'] : '';
 $password = isset($input['password']) ? $input['password'] : '';
 
-if($username == '' && $password == ''){
+if($email == '' && $password == ''){
     echo json_encode(['success' => false, 'error' => 'Usuario y contraseña vacios']);
     return;
 }
@@ -28,9 +28,9 @@ $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
 
 
 //saco datos de user de la bd.
-$sql = "SELECT `id_user`, `username`, `password_text`, `password`, `salt` 
+$sql = "SELECT `id_user`, `username`, `email`, `password_text`, `password`, `salt` 
         FROM users 
-        WHERE BINARY username = '$username' 
+        WHERE BINARY email = '$email' 
 ";
 $result = $conn->query($sql);
 //echo json_encode(['info' => $sql]);
@@ -41,6 +41,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $storedId_user = $row["id_user"];//1
     $storedUsername = $row["username"];//Sergio
+    $storedEmail = $row["email"];//sergiokovalchuk@gmail.com
     $storedHashedPassword = $row["password"];//123123
     $storedSalt = $row["salt"];//32303030
 
@@ -58,8 +59,9 @@ if ($result->num_rows > 0) {
         //echo "¡Contraseña correcta! Usuario autenticado.";
         $_SESSION['id_user'] = $storedId_user;
         $_SESSION['username'] = $storedUsername;
+        $_SESSION['email'] = $storedEmail;
     
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'username' => $storedUsername]);
 
         //echo"<hr>$ _SESSION <pre>";
         //echo print_r($_SESSION);

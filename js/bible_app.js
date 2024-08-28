@@ -315,10 +315,10 @@ async function iniciarSesion(){//antes login() //username,password
 
     try {
 
-        let username = document.getElementById("username").value;
+        let email = document.getElementById("username_email").value;
         let password = document.getElementById("password").value;
     
-        if(username == '' || password == ''){
+        if(email == '' || password == ''){
             alert(obj_lang.d203);//'Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.'
             return;
         }
@@ -330,7 +330,7 @@ async function iniciarSesion(){//antes login() //username,password
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username,
+                email: email,
                 password: password
             })
         });
@@ -351,9 +351,9 @@ async function iniciarSesion(){//antes login() //username,password
                 // Actualizar el contenido después del inicio de sesión exitoso
                 mostrarForm('bl_sesion_iniciada');
     
-                eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `<span data-dic="d207">${obj_lang.d207}</span>, ${username}!`;//¡Bienvenido
+                eid_bl_sesion_iniciada.querySelector('h1').innerHTML = `<span data-dic="d207">${obj_lang.d207}</span>, ${data.username}!`;//¡Bienvenido, Sergio
                 eid_bl_sesion_iniciada.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een" data-dic="d149">${obj_lang.d149}</span>`;//Sesión iniciada correctamente. Tus ajustes personales se han cargado.
-                eid_login_menu.title = `${username}`;
+                eid_login_menu.title = `${data.username}`;
     
                 hay_sesion = true;
                 pintLoginImg(hay_sesion);
@@ -375,10 +375,10 @@ async function iniciarSesion(){//antes login() //username,password
                 //loadDefaultFunctions();//no trae todos los datos, hay que reload!
                 setTimeout(()=>{
                     closeModal('Login');
-                },4000);
+                },3000);
                 setTimeout(()=>{
                     location.reload(); // Recargar la página
-                },5000);                
+                },4000);                
 
             } else {
                 let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";

@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $headers  = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
-        $headers .= "From: Bibleqt - YO <contact@serg.es>" . "\r\n"; 
+        $headers .= "From: Bibleqt - <contact@serg.es>" . "\r\n"; 
         $headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
 
 
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result_mail) {
                 //echo "1. El correo electrónico se envió correctamente.";
-                echo json_encode(['success' => true, 'resetLink' => $resetLink, 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
+                echo json_encode(['success' => true, 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.']);
             } else {
                 //echo "2. Error al enviar el correo electrónico.";
                 echo json_encode(['success' => false, 'mensaje' => 'Error al enviar el correo electrónico']);
