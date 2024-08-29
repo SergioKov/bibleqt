@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         'success' => false, 
                         'mensaje' => 'Error al actualizar la contraseña.', 
                         'error' => 'Error al actualizar la contraseña.',
-                        'error_text_code' => 'd233'
+                        'dic_code' => 'd233'
                     ]);
                 }
             }
@@ -199,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo json_encode([
                 'success' => false, 
                 'error' => 'Contrasena actual es incorrecta. Los datos no se han actualizado.',
-                'error_text_code' => 'd234'
+                'dic_code' => 'd234'
             ]);
 
         }
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode([
             'success' => false, 
             'error' => 'El correo electrónico no está registrado en nuestro sistema.', 
-            'error_text_code' => 'd231'
+            'dic_code' => 'd231'
         ]);//d231 = Este correo electrónico no está registrado en nuestro sistema.
 
     }

@@ -1504,6 +1504,9 @@ async function getVerseQty(url,book,chapter){
     }
 }
 
+
+
+
 var arrBooks = [];
 var arrText = [];
 let url = 'https://bolls.life/static/translations/UMT.json';
@@ -1714,8 +1717,7 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
     for (let index = start_index_book; index <= end_index_book; index++) {
         const el = arr_books[index];
         //console.log('el: ',el);
-        arr_new.push(el.PathName);
-        
+        arr_new.push(el.PathName);        
     }
     return arr_new.join(',');
 }
@@ -1834,9 +1836,13 @@ function makeAllImgSrc(arr){
 //generarLangJson(31,250);
 
 function generarLangJson(n_start,n_end){
+    const obj = {};
     for (let i = n_start; i <= n_end; i++) {
-        console.log(`"d${i}": "",`);
+        //console.log(`"d${i}" : "",`);
+        obj[`d${i}`] = "";//returns json de la traducción "d1_t":
     }
+    obj[`es_end`] = "";
+    return obj;
 }
 
 

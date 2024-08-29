@@ -4,6 +4,19 @@ session_start();
 
 include('connect_db.php');
 
+/*
+//test meensaje texto...
+echo json_encode([
+    'success' => false, 
+    // 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn), 
+    'mensaje' => 'Error al registrar el usuario: ',
+    'conn_error' => 'aki $conn->error', 
+    'dic_code' => 'd238'
+]);
+exit;
+*/
+
+
 // Obtener datos del cuerpo de la solicitud (en formato JSON)
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
@@ -11,7 +24,11 @@ $input = json_decode($inputJSON, true);
 // Verificar si se recibió correctamente el JSON
 if ($input === null) {
     //echo "Error al procesar el JSON.";
-    echo json_encode(['success' => false, 'error' => 'Error al procesar el JSON.']);
+    echo json_encode([
+        'success' => false, 
+        'error' => 'Error al procesar el JSON.',
+        'dic_code' => 'd235'
+    ]);
     exit;
 }
 
@@ -32,7 +49,8 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
     echo json_encode([
         'success' => false, 
-        'error' => 'El correo electrónico ya está en uso.'
+        'error' => 'El correo electrónico ya está en uso.',
+        'dic_code' => 'd236'
     ]);
 } else {
     // Insertar el nuevo usuario si no existe
@@ -52,17 +70,18 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     $result_in = $conn->query($insertQuery);
 
     if (/*mysqli_query($conn, $insertQuery)*/ $result_in) {
-        //echo "Usuario registrado con éxito.";
         echo json_encode([
             'success' => true, 
-            'mensaje' => 'Usuario registrado con éxito.'
+            'mensaje' => 'Usuario registrado con éxito.',
+            'dic_code' => 'd237'
         ]);
     } else {
-        //echo "Error al registrar el usuario: " . mysqli_error($conn);
         echo json_encode([
             'success' => false, 
             // 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn), 
-            'mensaje' => 'Error al registrar el usuario: ' . $conn->error 
+            'mensaje' => 'Error al registrar el usuario: ',
+            'conn_error' => $conn->error, 
+            'dic_code' => 'd238'
         ]);
     }
 }

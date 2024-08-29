@@ -381,11 +381,13 @@ async function iniciarSesion(){//antes login() //username,password
                 },4000);                
 
             } else {
-                let error_text = "Autenticación fallida. Verifica tu usuario y contraseña.";
-                //console.log(error_text);
+                
+                //Autenticación fallida. Verifica tu usuario y contraseña.
+                let text_show = obj_lang[data.dic_code];//'Contrasena incorrecta' o 'Usuario no encontrado'
+                //console.log(text_show);
     
                 eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red" data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
-                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
+                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span><br><span>${text_show}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
     
                 hay_sesion = false;
                 pintLoginImg(hay_sesion);
@@ -507,8 +509,7 @@ async function crearCuenta(){
         const data = await response.json();
         //console.log(data);
     
-        if(data.success){
-                
+        if(data.success){                
             //console.log(`Usuario registrado con éxito.`);
     
             eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">` + reemplazarValores(obj_lang.d211, [username]) + `</span>`;//Usuario ${username} se ha registrado con éxito.
@@ -520,11 +521,20 @@ async function crearCuenta(){
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
         } else {
-            let error_text = "Error al registrar el usuario";
+            //"Error al registrar el usuario";
             console.error(data.error);
-            console.error(error_text);
+            console.error(data.dic_code);
+
+            let error_text;
+            if(data.conn_error){
+                let text_conn_error = reemplazarValores(obj_lang.d238, [data.conn_error]);
+                console.log(text_conn_error);
+                error_text = reemplazarValores(obj_lang.d212, [username, text_conn_error ]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__" + (php) $conn->error
+            }else{
+                error_text = reemplazarValores(obj_lang.d212, [username, obj_lang[data.dic_code]]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__"
+            }
     
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d212, [username, data.error]) + `</span>.`;//Hubo problemas al crear el usuario ${username}. <br>${data.error}
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">${error_text}</span>`;
         }
     
         mySizeWindow();
@@ -570,10 +580,9 @@ async function enviarEmail(){
         }
                 
         if(data.success) {
-            
             //console.log(`Email enviado con éxito.`);
-    
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">`+ reemplazarValores(obj_lang.d214, [email]) +`</span>`;//Email ${email} se ha enviado con éxito.
+            let text_show = reemplazarValores(obj_lang.d214, [email]);//Email ${email} se ha enviado con éxito.    
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">${text_show}</span>`;
     
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -584,10 +593,11 @@ async function enviarEmail(){
         } else {
             console.error('Error al enviar el email');
             console.error('data.error: ', data.error);
-            console.error('data.error_text_code: ', data.error_text_code);
-            console.error(obj_lang[data.error_text_code]);//pongo con [] ya que viene  obj_lang['d231']
-    
-            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + reemplazarValores(obj_lang.d215, [email, obj_lang[data.error_text_code]]) + `</span>`;//Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br><br>${obj_lang[data.error_text_code]}
+            console.error('data.dic_code: ', data.dic_code);
+            console.error(obj_lang[data.dic_code]);//pongo con [] ya que viene  obj_lang['d231']
+
+            let text_show = reemplazarValores(obj_lang.d215, [email, obj_lang[data.dic_code]]);//Hubo problemas al enviar el correo de resauración de contraseña al ${email}. <br><br>${obj_lang[data.dic_code]}    
+            eid_bl_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">${text_show}</span>`;
         }
     
         mySizeWindow();
@@ -683,10 +693,10 @@ async function enviarChangeEmail(){
         } else {
             console.error('Error al actualizar la contraseña');
             console.error('data.error: ', data.error);
-            console.error('data.error_text_code: ', data.error_text_code);
-            console.error(obj_lang[data.error_text_code]);//pongo con [] ya que viene  obj_lang['d231']
+            console.error('data.dic_code: ', data.dic_code);
+            console.error(obj_lang[data.dic_code]);//pongo con [] ya que viene  obj_lang['d231']
     
-            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + obj_lang[data.error_text_code] + `</span>`;
+            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + obj_lang[data.dic_code] + `</span>`;
         }
     
         mySizeWindow();
@@ -12319,7 +12329,62 @@ async function guardarEnBd(tabla, campo, arr){
 }
 
 
-function insertarDatos(tabla, campo, arr) {
+async function insertarDatos(tabla, campo, arr) {
+    //console.log('=== function insertarDatos(tabla, campo, arr) ===');
+
+    try {
+
+        if(tabla == '' || campo == '' || arr == ''){
+            alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
+            return;
+        }
+
+        const datos = {
+            tabla: tabla,
+            campo: campo,
+            arr: arr
+        };
+        //console.log(datos);
+
+        const response = await fetch('./php/insertar_datos.php', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datos)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener datos');
+        }
+
+        const data = await response.json();
+        //console.log(data);
+
+        let debuguear;
+        //debuguear = true;//poner 'true' para debuguear //'false' o comentar en prod
+
+        if(debuguear){
+            if(data.success){
+                let text_show = obj_lang[data.dic_code];
+                console.log(text_show + ` tabla: ${tabla}`);
+            }else{
+                let text_show = obj_lang[data.dic_code];
+                console.error(text_show + ` tabla: ${tabla}`);
+                if(data.conn_error){
+                    let text_show2 = `${obj_lang[data.dic_code]} ${data.conn_error}`;
+                    console.error(text_show2);
+                }
+            }    
+        }        
+
+    } catch (error) {
+        console.error('Error en la función insertarDatos: ', error);
+    }
+}
+
+
+function insertarDatos_old(tabla, campo, arr) {
     //const nombre = document.getElementById('nombre').value;
     //const correo = document.getElementById('correo').value;
 
@@ -12328,9 +12393,7 @@ function insertarDatos(tabla, campo, arr) {
         campo: campo,
         arr: arr
     };
-
     //console.log(datos);
-
 
     fetch('./php/insertar_datos.php', {
         method: 'POST',
@@ -12345,6 +12408,17 @@ function insertarDatos(tabla, campo, arr) {
 
         //console.log(data);
         // Puedes realizar acciones adicionales después de la inserción, si es necesario
+        if(data.success){
+            let text_show = obj_lang[data.dic_code];
+            console.log(text_show);
+        }else{
+            let text_show = obj_lang[data.dic_code];
+            console.error(text_show);
+            if(data.conn_error){
+                let text_show2 = `${obj_lang[data.dic_code]} ${data.conn_error}`;
+                console.error(text_show2);
+            }
+        }
 
     })
     .catch(error => { 
@@ -12358,6 +12432,11 @@ async function obtenerDatosDeBD(tabla, campo){
     //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
+        
+        if(tabla == '' || campo == ''){
+            alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
+            return;
+        }
        
         //datos para hacer consulta a bd
         const datos = {
@@ -12384,10 +12463,12 @@ async function obtenerDatosDeBD(tabla, campo){
         // const data = await response.text();//test
         //console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
         //console.log(data);
+        //console.log(data.success);
+        //console.log(data.valorCampo);
 
         switch (tabla) {
             case 'vkladki':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
@@ -12405,55 +12486,55 @@ async function obtenerDatosDeBD(tabla, campo){
                     makeTabsFromDatosDeVkladki();
                 }else{
                     //console.log('Si. tiene_vkladki');
-                    arrTabs = convertArrBdToArrOk('arrTabs',data);
+                    arrTabs = convertArrBdToArrOk('arrTabs',data.valorCampo);
                     makeTabsFromDatosDeVkladki();
                 }
                 break;
                 
             case 'hist_nav':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_nav);
                 }else{
                     //console.log('Si. hist_nav tiene_datos');
-                    arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data);
+                    arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data.valorCampo);
                     //console.log('editado arr_hist_nav: ', arr_hist_nav);
                     buildHistoryNavDesktop();
                 }
                 break;
 
             case 'hist_find':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_find);
                 }else{
                     //console.log('Si. hist_find tiene_datos');
-                    arr_hist_find = convertArrBdToArrOk('arr_hist_find',data);
+                    arr_hist_find = convertArrBdToArrOk('arr_hist_find',data.valorCampo);
                     //console.log('editado arr_hist_nav: ', arr_hist_find);
                     buildHistoryFindDesktop();
                 }
                 break;
 
             case 'hist_strong':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_strong);
                 }else{
                     //console.log('Si. hist_strong tiene_datos');
-                    //arr_hist_strong = JSON.parse(data);//antes
-                    arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data);
+                    //arr_hist_strong = JSON.parse(data.valorCampo);//antes
+                    arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data.valorCampo);
                     //console.log('editado arr_hist_strong: ', arr_hist_strong);
                     buildHistoryStrongDesktop();
                 }
                 break;
 
             case 'markers':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arr_markers);
                 }else{
                     //console.log('Si. markers tiene_datos');
-                    arr_markers = convertArrBdToArrOk('arr_markers',data);
+                    arr_markers = convertArrBdToArrOk('arr_markers',data.valorCampo);
                     //console.log('editado arr_markers: ', arr_markers);
                     // buildHistoryNavDesktop();
                     buildMarkersDesktop();
@@ -12461,19 +12542,19 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'fav_trans':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     //console.log(arrFavTrans);
                     arrFavTrans = arrFavTransDef;
                 }else{
                     //console.log('Si. fav_trans tiene_datos');
-                    arrFavTrans = convertArrBdToArrOk('arrFavTrans',data);
+                    arrFavTrans = convertArrBdToArrOk('arrFavTrans',data.valorCampo);
                     //console.log('1. editado arrFavTrans: ', arrFavTrans);
                     arrFavTrans = [... new Set(arrFavTrans)];//quito elementos duplicados
                     //console.log('2. editado arrFavTrans: ', arrFavTrans);
                 }
-                ccc();
-                async function ccc(){
+                async_fn();
+                async function async_fn(){
                     //console.log('antes tabla: ', tabla);
                     //console.log('antes - arrFavTransObj: ', arrFavTransObj);
                     await crear_arrFavTransObj();
@@ -12484,23 +12565,30 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
     
             case 'ajustes':
-                if(data == 'no_tiene_datos' || data == '[]'){
+                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
                     //console.log('no_tiene_datos');
                     obj_ajustes = obj_ajustes_def;
                     //console.log(obj_ajustes);
                 }else{
                     //console.log('Si. obj_ajustes tiene_datos');
-                    obj_ajustes = JSON.parse(data);
+                    obj_ajustes = JSON.parse(data.valorCampo);
                     //console.log('1. obj_ajustes: ', obj_ajustes);
                 }
                 break;
     
             default:
+                if(data.valorCampo == 'no_tiene_datos'){
+                    console.error(obj_lang.d252);//No tiene datos o solicitud incorrecta.
+                }
                 break;
         }
 
+        if(data.success == false && data.error && Object.keys(obj_lang).length > 0){
+            console.error(obj_lang[data.dic_code]);//'No hay todos los parametros necesarios.' o 'Solicitud incorrecta.'
+        }
+
     } catch (error) {
-        console.error('Error: ', error.message);
+        console.error('Error en obtenerDatosDeBD(): error.message: ', error.message);
     }
 }
 

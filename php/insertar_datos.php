@@ -1,6 +1,16 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+/*
+//test error
+echo json_encode([
+    'success' => true,
+    'message' => 'No existe sessión. Para insertar datos hay que loguearse antes. Solicitud incorrecta.',
+    'dic_code' => 'd245'
+]);
+die();
+*/
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
        
     // Recuperar datos JSON
@@ -13,7 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     if ($datos === null) {
         http_response_code(400);
         echo json_encode([
-            'mensaje' => 'Error al decodificar los datos JSON'
+            'success' => false,
+            'error' => 'Error al procesar el JSON.',
+            'dic_code' => 'd235'
         ]);
         exit;
     }
@@ -32,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         // Manejar solicitudes incorrectas
         http_response_code(400);
         echo json_encode([
-            'mensaje' => 'No existe session. Para insertar datos hay que loguearse antes. Solicitud incorrecta'
+            'success' => false,
+            'error' => 'No existe sessión. Para insertar datos hay que loguearse antes. Solicitud incorrecta.',
+            'dic_code' => 'd245'
         ]);
         die();
     }
@@ -68,7 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     include('connect_db.php');
 
     //busco si hay registro en la tabla a donde insertar array
-    $sql = "SELECT * FROM $tabla where id_user = '$id_user_logged' ";
+    $sql = "SELECT * 
+            FROM $tabla 
+            WHERE id_user = '$id_user_logged' 
+    ";
 	// $result = mysqli_query($conn, $sql);
 	$result = $conn->query($sql);
 
@@ -86,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
 	//echo json_encode(['$hay_id_user_en_tabla' => $hay_id_user_en_tabla]);
 	//die();
-
 
     // Realizar la inserción o (update) en la base de datos 
     if($hay_id_user_en_tabla){
@@ -112,21 +128,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     if($result2 === TRUE) {
         if($hay_id_user_en_tabla){
             $respuesta = [
-                'mensaje' => 'Datos actualizados correctamente'
+                'success' => true,
+                'mensaje' => 'Datos actualizados correctamente.',
+                'dic_code' => 'd246'
             ];
         }else{
             $respuesta = [
-                'mensaje' => 'Datos insertados correctamente'
+                'success' => true,
+                'mensaje' => 'Datos insertados correctamente.',
+                'dic_code' => 'd247'
             ];
         }
     } else {
         if($hay_id_user_en_tabla){
             $respuesta = [
-                'mensaje' => 'Error al actualizar datos: ' . $conn->error
+                'success' => false,
+                'error' => 'Error al actualizar datos: ',
+                'conn_error' => $conn->error,
+                'dic_code' => 'd248'
             ];
         }else{
             $respuesta = [
-                'mensaje' => 'Error al insertar datos: ' . $conn->error
+                'success' => false,
+                'mensaje' => 'Error al insertar datos: ',
+                'conn_error' => $conn->error,
+                'dic_code' => 'd249'
             ];
         }
     }
@@ -143,10 +169,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 	// Manejar solicitudes incorrectas
     http_response_code(400);
     echo json_encode([
-        'mensaje' => 'Solicitud incorrecta'
+        'success' => false,
+        'error' => 'Solicitud incorrecta.',
+        'dic_code' => 'd250'
     ]);
 }
-
 
 
 function agregarBarrasUnicode($cadena) {

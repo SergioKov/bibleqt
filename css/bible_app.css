@@ -4018,17 +4018,23 @@ input:checked + .slider:before {
 }
 
 
-.ch_lab{
+.ch_lab {
+    /* background: red; */
     display: flex;
     width: 100%;
     justify-content: flex-start;
-    /* background: red; */
     align-items: center;
     align-content: center;
     gap: 10px;
+    cursor: pointer;
+    margin: 5px 0;
+    transition: 0.3s;
 }
-.ch_mostrar{
-    margin: 15px 0 15px !important;
+.ch_lab:hover {
+    background: #393939;
+}
+.ch_mostrar {
+    margin: 10px 0 10px !important;
     width: 15px !important;
     height: 15px;
 }

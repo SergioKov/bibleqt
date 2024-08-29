@@ -120,16 +120,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result_mail = mail($email, $subject, $message_html, $headers);
 
             if ($result_mail) {
-                //echo "1. El correo electrónico se envió correctamente.";
                 echo json_encode([
                     'success' => true, 
-                    'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.'
+                    'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.',
+                    'dic_code' => 'd239'
                 ]);
             } else {
-                //echo "2. Error al enviar el correo electrónico.";
                 echo json_encode([
                     'success' => false, 
-                    'mensaje' => 'Error al enviar el correo electrónico'
+                    'mensaje' => 'Error al enviar el correo electrónico.',
+                    'dic_code' => 'd240'
                 ]);
             }
         }
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode([
             'success' => false, 
             'error' => 'El correo electrónico no está registrado en nuestro sistema.', 
-            'error_text_code' => 'd231'
+            'dic_code' => 'd231'
         ]);//d231 = Este correo electrónico no está registrado en nuestro sistema.
     }
 

@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($email == '' || $token == '' || $password == ''){
         echo json_encode([
             'success' => false, 
-            'error' => 'No existen los datos necesarios para hacer la comprobación'
+            'error' => 'No hay todos los parametros necesarios.',
+            'dic_code' => 'd251'
         ]);
         return; 
     }
@@ -59,19 +60,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($result_up){
             echo json_encode([
                 'success' => true, 
-                'mensaje' => 'Contraseña restablecida con éxito.'
+                'mensaje' => 'Contraseña restablecida con éxito.',
+                'dic_code' => 'd253'
             ]);
         }else{
             echo json_encode([
                 'success' => false, 
-                'mensaje' => 'la Contraseña no se ha restablecido. Error en la consulta.'
+                'mensaje' => 'la Contraseña no se ha restablecido. Error en la consulta.',
+                'dic_code' => 'd254'
             ]);
         }
 
     }else{
         echo json_encode([
             'success' => false, 
-            'mensaje' => 'No existe usuario con el email ' . $email
+            'mensaje' => 'No existe usuario con el email introducido.',
+            'dic_code' => 'd255'
         ]);
     }
 
@@ -80,7 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo "<p>else. REQUEST_METHOD";
     echo json_encode([
         'success' => false, 
-        'error' => 'REQUEST_METHOD no es correcto'
+        'error' => 'El método de pasar los parametros no es correcto.',
+        'dic_code' => 'd256'
     ]);
     
 }

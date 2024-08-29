@@ -1,6 +1,18 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+/*
+//hacer test...
+echo json_encode([
+    'success' => false,
+    'valorCampo' => 'no_tiene_datos',
+    'error' => 'No hay todos los parametros necesarios.',
+    'dic_code' => 'd251'
+]);
+exit;
+*/
+
+
 if (true) {
 
     //hacer test en postman
@@ -22,7 +34,10 @@ if (true) {
     if ($datos === null) {
         http_response_code(400);
         echo json_encode([
-            'mensaje' => 'Error al decodificar los datos JSON'
+            'success' => false,
+            'valorCampo' => 'no_tiene_datos',
+            'error' => 'No hay todos los parametros necesarios.',
+            'dic_code' => 'd251'
         ]);
         exit;
     }
@@ -65,19 +80,22 @@ if (true) {
 		//die();
         
         $hay_id_user_en_tabla = true;
-        $data = $row[$campo];
-
-        //echo json_encode(['tabla' => $tabla, 'campo' => $campo, '$sql' => $sql, 'data' => $data]);
-        //die();
+        $valorCampo = $row[$campo];
+        $data = [
+            'success' => true,
+            'valorCampo' => $valorCampo
+        ];
 
     }else{
         
         $hay_id_user_en_tabla = false;
-        $data = 'no_tiene_datos';
-        //echo"(else)";
+        $data = [
+            'success' => true,//AUNQUE NO TIENE DATOS , PONGO TRUE PARA QUE ENTRE EN EL BLOQUE
+            'valorCampo' => 'no_tiene_datos'
+        ];
 
     }
-    //die();
+
 
     //Cierro conexion con bd
     $conn->close();
@@ -91,7 +109,10 @@ if (true) {
     // Manejar solicitudes incorrectas
     http_response_code(400);
     echo json_encode([
-        'mensaje' => 'Solicitud incorrecta'
+        'success' => false,
+        'valorCampo' => 'no_tiene_datos',
+        'error' => 'Solicitud incorrecta.',
+        'dic_code' => '250'
     ]);
 
 }

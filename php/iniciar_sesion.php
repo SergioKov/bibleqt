@@ -15,14 +15,16 @@ $password = isset($input['password']) ? $input['password'] : '';
 if($email == '' && $password == ''){
     echo json_encode([
         'success' => false, 
-        'error' => 'Email y contraseña vacios'
+        'error' => 'Email y contraseña vacios',
+        'dic_code' => 'd241'
     ]);
     return;
 }
 if($email == '' || $password == ''){
     echo json_encode([
         'success' => false, 
-        'error' => 'Email o contraseña vacios'
+        'error' => 'Email o contraseña vacios',
+        'dic_code' => 'd242'
     ]);
     return;
 }
@@ -93,7 +95,8 @@ if($result->num_rows > 0){
         // Autenticación fallida
         echo json_encode([
             'success' => false, 
-            'error' => 'Contrasena incorrecta'
+            'error' => 'Contrasena incorrecta',
+            'dic_code' => 'd243'
         ]);
 
     }
@@ -104,7 +107,8 @@ if($result->num_rows > 0){
     // Autenticación fallida
     echo json_encode([
         'success' => false, 
-        'error' => 'Usuario no encontrado'
+        'error' => 'Usuario no encontrado',
+        'dic_code' => 'd244'
     ]);
 
 }
