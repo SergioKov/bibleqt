@@ -34,13 +34,13 @@ if (true) {
 
 
     // Recuperar los valores
-    if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ) {
+    if(isset($_SESSION['id_user']) ) {
         $id_user_logged = $_SESSION['id_user'];
-        $username_logged = $_SESSION['username'];
+        //$username_logged = $_SESSION['username'];
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
     } else {
         $id_user_logged = 5;//0
-        $username_logged = 'user_test';//'nobody';
+        //$username_logged = 'user_test';//'nobody';
         //echo json_encode(['mensaje' => $username_logged]);
     }
 	//die();

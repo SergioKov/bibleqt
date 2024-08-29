@@ -598,6 +598,112 @@ async function enviarEmail(){
     }
 }
 
+
+
+
+
+
+
+
+async function enviarChangeEmail(){
+    console.log('=== function enviarChangeEmail() ===');
+
+    try {
+        
+        let email = document.getElementById("act_email").value;
+        let password = document.getElementById("act_password").value;
+        let new_password = document.getElementById("new_password").value;
+        let new_password_rep = document.getElementById("new_password_rep").value;
+
+        let errors = [];
+
+        if(email == ''){
+            alert(obj_lang.d213);//'El campo email es obligatorio. Introduce tu email por favor.');
+            errors.push(obj_lang.d213);
+        }
+        if(password == ''){
+            alert('El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
+            errors.push('error2');
+        }
+        if(new_password == ''){
+            alert('El campo nueva contraseña es obligatorio. Introduce tu nueva contraseña por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
+            errors.push('error3');
+        }
+        if(new_password_rep == ''){
+            alert('El campo repite la contraseña es obligatorio. Introduce tu nueva contraseña por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
+            errors.push('error4');
+        }
+        if(new_password != new_password_rep){
+            alert('El campo nueva contraseña y su repetición no son iguales.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
+            errors.push('error5');
+        }
+        if(errors.length > 0){
+            let error_text = '';
+            errors.forEach(error => {
+                error_text += error + '<br>';
+            });
+            alert(error_text);
+            return;
+        }
+    
+        // Enviar los datos al servidor para la autenticación
+        const response = await fetch("./php/update_password.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                new_password: new_password,
+                new_password_rep: new_password_rep
+            })
+        });
+    
+        const data = await response.json();
+        //const data = await response.text();//test
+        console.log(data);
+    
+        if(typeof data.localhost != 'undefined'){
+            console.log(data);
+            console.log(data.localhost);
+        }
+                
+        if(data.success) {
+            console.log(`Contraseña actualizada con éxito.`);
+    
+            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">`+ reemplazarValores(obj_lang.d232, [email]) +`</span>`;//'La contraseña para el email __VAR__ ha sido actualizado con éxito.'
+    
+            setTimeout(()=>{
+                mostrarLoginForm();
+            },3000);            
+    
+            // Redirigir a la página de inicio si la autenticación es exitosa
+            //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        } else {
+            console.error('Error al actualizar la contraseña');
+            console.error('data.error: ', data.error);
+            console.error('data.error_text_code: ', data.error_text_code);
+            console.error(obj_lang[data.error_text_code]);//pongo con [] ya que viene  obj_lang['d231']
+    
+            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + obj_lang[data.error_text_code] + `</span>`;
+        }
+    
+        mySizeWindow();
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('enviarChangeEmail. error: ',error);
+    }
+}
+
+
+
+
+
+
+
+
 function loadRefDefault(ref, trans = null) {
     if (trans == null) trans = arrFavTrans[0];
     addTab(ref, trans, 'act', null, );
@@ -21806,4 +21912,16 @@ function mySizeModoMobile(){
         mySizeWindow();
         mySizeVerse();
     },100);
+}
+
+function showHidePassword(el){
+    if(el.checked){
+        el.parentElement.parentElement.parentElement.querySelectorAll('.type_password').forEach(input => {
+            input.type = 'text';
+        });
+    }else{
+        el.parentElement.parentElement.parentElement.querySelectorAll('.type_password').forEach(input => {
+            input.type = 'password';
+        });
+    }
 }

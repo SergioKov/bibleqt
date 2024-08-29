@@ -897,8 +897,16 @@ print<<<HERE
                     <h1 data-dic="d177">Crear cuenta</h1>
                     <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
                     <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" />
-                    <input id="reg_password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" />
+                    <input id="reg_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" />
                     <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194_ph" />
+
+                    <p class="p_ch_lab">
+                        <label class="ch_lab">
+                            <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                            <span class="ch_mostrar_sp">mostrar contraseña</span>
+                        </label>
+                    </p>
+                    
                     <button class="btn_wide" type="button" onclick="crearCuenta()" data-dic="d177">Crear cuenta</button>
                     <p class="message"><span data-dic="d179">¿Ya estás registrado?</span> <a href="#" onclick="mostrarLoginForm()" data-dic="d180">Entrar</a></p>
                 </form>
@@ -919,9 +927,17 @@ print<<<HERE
                     <h1 data-dic="d185">Cambiar contraseña</h1>
                     <p class="mensaje" data-dic="d186">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
                     <input id="act_email" name="email" type="text" autocomplete="on" placeholder="Actual email" data-dic="d195_ph" />
-                    <input id="act_password" name="password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196_ph" />
-                    <input id="new_password" name="password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197_ph" />
-                    <input id="new_password_rep" name="password" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198_ph" />
+                    <input id="act_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196_ph" />
+                    <input id="new_password" name="password" class="type_password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197_ph" />
+                    <input id="new_password_rep" name="password" class="type_password" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198_ph" />
+                    
+                    <p class="p_ch_lab">
+                        <label class="ch_lab">
+                            <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                            <span class="ch_mostrar_sp">mostrar contraseña</span>
+                        </label>
+                    </p>                   
+                    
                     <button class="btn_wide" type="button" onclick="enviarChangeEmail()" data-dic="d187">Cambiar</button>
                     <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
                 </form>
@@ -934,7 +950,15 @@ print<<<HERE
                         <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
                     </p>
                     <input id="username_email" name="username_email" type="text" autocomplete="on" placeholder="Nombre" data-dic="d194_ph" required />
-                    <input id="password" name="password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
+                    <input id="password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
+
+                    <p class="p_ch_lab">
+                        <label class="ch_lab">
+                            <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                            <span class="ch_mostrar_sp">mostrar contraseña</span>
+                        </label>
+                    </p>
+
                     <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
                     <p class="message">
                         <span data-dic="d189">¿No estás registrado?</span> <a href="#" onclick="mostrarForm('bl_register_form')" data-dic="d177">Crear cuenta</a>

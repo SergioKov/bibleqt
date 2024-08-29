@@ -240,7 +240,9 @@
     "d229" : "module",
     "d230" : "The screen width is <b>__VAR__ px</b> and the width of a column in <b>vertical</b> mode is <b>__VAR__ px</b>, which is too small to correctly display the navigation buttons in the header of each translation. Therefore, the <b>vertical</b> mode has been changed to <b>horizontal</b>. <br><br>If you prefer to see the translations in <b>vertical</b> mode, close <b>__VAR__</b> __VAR__.",
     "d231" : "This email address is not registered in our system.",
-
+    "d232": "The password for email __VAR__ has been successfully updated.",
+    "d233": "Error updating the password.",
+    "d234": "Current password is incorrect. Data has not been updated.",
 
 
 

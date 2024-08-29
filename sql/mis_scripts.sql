@@ -90,3 +90,12 @@ ALTER TABLE `fav_trans`
 
 RENAME TABLE `db_bibleqt`.`fav_ajustes` TO `db_bibleqt`.`ajustes`;
 
+
+
+//-----------------
+ALTER TABLE `users` ADD `lasr_login` DATETIME NULL AFTER `email`;
+ALTER TABLE `users` CHANGE `lasr_login` `last_login` DATETIME NULL DEFAULT NULL;
+
+//abo
+ALTER TABLE `users` ADD `last_login` DATETIME NULL AFTER `email`;
+

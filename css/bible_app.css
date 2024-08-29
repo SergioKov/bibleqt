@@ -4016,3 +4016,27 @@ input:checked + .slider:before {
     background-position: center;
     background-size: 24px 24px;
 }
+
+.p_ch_lab {
+    margin: -10px 0 0 !important;
+    /* background: grey; */
+    padding: 0 !important;
+}
+.ch_lab{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    /* background: red; */
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+}
+.ch_mostrar{
+    margin: 15px 0 15px !important;
+    width: 15px !important;
+    height: 15px;
+}
+.ch_mostrar_sp {
+    color: #b3b3b3;
+    font-size: 12px;
+}

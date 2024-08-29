@@ -14,9 +14,17 @@ $email = isset($input['email']) ? $input['email'] : '';
 $password = isset($input['password']) ? $input['password'] : '';
 
 if($email == '' && $password == ''){
-    echo json_encode(['success' => false, 'error' => 'Usuario y contraseña vacios']);
+    echo json_encode(['success' => false, 'error' => 'Email y contraseña vacios']);
     return;
 }
+if($email == '' || $password == ''){
+    echo json_encode(['success' => false, 'error' => 'Email o contraseña vacios']);
+    return;
+}
+
+$email = strtolower($email);
+$email = mysqli_real_escape_string($conn, $email);
+
 
 //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
 $salt = bin2hex(2000);//32303030 lo mismo que en bd por ahora...
@@ -60,6 +68,13 @@ if ($result->num_rows > 0) {
         $_SESSION['id_user'] = $storedId_user;
         $_SESSION['username'] = $storedUsername;
         $_SESSION['email'] = $storedEmail;
+
+        $fechaHoraActual = date('Y-m-d H:i:s');
+
+        $sql_up = "UPDATE users SET `last_login` = '$fechaHoraActual'
+                   WHERE id_user = '$storedId_user'
+        ";
+        $result_up = $conn->query($sql_up);
     
         echo json_encode(['success' => true, 'username' => $storedUsername]);
 

@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return; 
     }
 
+    $email = strtolower($email);
+    $email = mysqli_real_escape_string($conn, $email);
+    $token = mysqli_real_escape_string($conn, $token);
+
+
     //saco datos de user de la bd.
     $sql = "SELECT * 
             FROM users 

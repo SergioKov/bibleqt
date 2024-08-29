@@ -3,7 +3,6 @@
 session_start();
 
 
-
 // Llamada a la función de verificación de autenticación
 if (verificarAutenticacion()) {
     http_response_code(200); // OK
@@ -19,7 +18,7 @@ if (verificarAutenticacion()) {
 // Función para verificar la autenticación
 function verificarAutenticacion() {
     // Verificar si el usuario está autenticado
-    if (isset($_SESSION['username'])) {
+    if (isset($_SESSION['id_user'])) {
         return true;
     } else {
         return false;

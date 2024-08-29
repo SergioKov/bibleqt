@@ -239,7 +239,11 @@
     "d228" : "módulos",
     "d229" : "módulo",
     "d230" : "El ancho de la pantalla es <b>__VAR__ px</b> y el ancho de una columna en el modo <b>vertical</b> es <b>__VAR__ px</b> lo que es demasiado pequeño para mostrar correctamente los botones de navegación en el header de cada traducción. Por eso el modo <b>vertical</b> se ha cambiado al <b>horizontal</b>. <br><br>Si prefieres ver las traducciones en modo <b>vertical</b> cierra <b>__VAR__</b> __VAR__.",
-    "d231" : "Eыste correo electrónico no está registrado en nuestro sistema.",
+    "d231" : "Este correo electrónico no está registrado en nuestro sistema.",
+    "d232" : "La contraseña para el email __VAR__ ha sido actualizado con éxito.",
+    "d233" : "Error al actualizar la contraseña.",
+    "d234" : "Contrasena actual es incorrecta. Los datos no se han actualizado.",
+    "d235" : "",
 
 
 
