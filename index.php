@@ -897,8 +897,8 @@ print<<<HERE
                     <h1 data-dic="d177">Crear cuenta</h1>
                     <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
                     <input id="reg_username" name="username" type="text" autocomplete="on" placeholder="Nombre" data-dic="d192_ph" />
-                    <input id="reg_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" />
                     <input id="reg_email" name="email" type="text" autocomplete="on" placeholder="Email" data-dic="d194_ph" />
+                    <input id="reg_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" />
 
                     <p class="p_ch_lab">
                         <label class="ch_lab">

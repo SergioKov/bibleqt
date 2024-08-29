@@ -87,6 +87,7 @@ if ($result->num_rows > 0) {
         // Autenticación fallida
         echo json_encode(['success' => false, 'error' => 'Contrasena incorrecta']);
     }
+    
 }else{
     //echo "Usuario no encontrado.";
     // Autenticación fallida
