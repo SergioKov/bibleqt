@@ -1063,7 +1063,7 @@ function old_iniciarSession(user, pass){//test
     formData.append('user',user);
     formData.append('pass',pass);
 
-    fetch('./php/session_start.php',{
+    fetch('./php/test_session_start.php',{
         method: 'POST',
         body: formData
     })

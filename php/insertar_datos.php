@@ -12,7 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     // Verificar que se decodificó correctamente
     if ($datos === null) {
         http_response_code(400);
-        echo json_encode(['mensaje' => 'Error al decodificar los datos JSON']);
+        echo json_encode([
+            'mensaje' => 'Error al decodificar los datos JSON'
+        ]);
         exit;
     }
     
@@ -29,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         
         // Manejar solicitudes incorrectas
         http_response_code(400);
-        echo json_encode(['mensaje' => 'No existe session. Para insertar datos hay que loguearse antes. Solicitud incorrecta']);
+        echo json_encode([
+            'mensaje' => 'No existe session. Para insertar datos hay que loguearse antes. Solicitud incorrecta'
+        ]);
         die();
     }
 	//echo json_encode(['$id_user_logged' => $id_user_logged]);
@@ -37,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
     /*
     foreach ($datos['arr'] as $arr_k => $arr_v) {
-
         foreach ($arr_v as $k => $v) {
             if($k == 'ref'){
                 //echo "<p>$k: $v </p>";
@@ -52,11 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     //print_r($datos['arr']);
     //die();
 
-
     $tabla = $datos['tabla'];//vkladki
     $campo = $datos['campo'];//arrTabs
-    $arr = json_encode($datos['arr']);//arrTabs
-    
+    $arr = json_encode($datos['arr']);//arrTabs    
     
     //$arr = json_encode(agregarBarrasUnicode($datos['arr']));
     //exit;
@@ -64,20 +65,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     // Obtener la fecha y hora actual
     $fechaHoraActual = date("Y-m-d H:i:s");
 
-
     include('connect_db.php');
-
 
     //busco si hay registro en la tabla a donde insertar array
     $sql = "SELECT * FROM $tabla where id_user = '$id_user_logged' ";
-	$result = mysqli_query($conn, $sql);
+	// $result = mysqli_query($conn, $sql);
+	$result = $conn->query($sql);
 
-    if(mysqli_num_rows($result) > 0){
-		$myrow = mysqli_fetch_assoc($result);
-		//echo json_encode(['$myrow' => $myrow]);
+    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0){
+		//$row = mysqli_fetch_assoc($result);
+        $row = $result->fetch_assoc();
+		//echo json_encode(['$row' => $row]);
 		//die();
 		
-        $storedId_user = $myrow["id_user"];//1
+        $storedId_user = $row["id_user"];//1
         $hay_id_user_en_tabla = true;
     }else{
         $hay_id_user_en_tabla = false;
@@ -101,7 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                  VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
     }
-	$result2 = mysqli_query($conn, $sql2);	
+	// $result2 = mysqli_query($conn, $sql2);	
+	$result2 = $conn->query($sql2);	
 	//echo json_encode(['$result2' => $result2]);
 	//die();
 
@@ -109,21 +111,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     //Update o insert datos en la tabla $tabla
     if($result2 === TRUE) {
         if($hay_id_user_en_tabla){
-            $respuesta = ['mensaje' => 'Datos actualizados correctamente'];
+            $respuesta = [
+                'mensaje' => 'Datos actualizados correctamente'
+            ];
         }else{
-            $respuesta = ['mensaje' => 'Datos insertados correctamente'];
+            $respuesta = [
+                'mensaje' => 'Datos insertados correctamente'
+            ];
         }
     } else {
         if($hay_id_user_en_tabla){
-            $respuesta = ['mensaje' => 'Error al actualizar datos: ' . $conn->error];
+            $respuesta = [
+                'mensaje' => 'Error al actualizar datos: ' . $conn->error
+            ];
         }else{
-            $respuesta = ['mensaje' => 'Error al insertar datos: ' . $conn->error];
+            $respuesta = [
+                'mensaje' => 'Error al insertar datos: ' . $conn->error
+            ];
         }
     }
 
     //Cierro conexion con bd
-    $conn->close();
-	
+    $conn->close();	
 
     // Enviar respuesta al cliente en formato JSON
     header('Content-Type: application/json');
@@ -133,7 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     
 	// Manejar solicitudes incorrectas
     http_response_code(400);
-    echo json_encode(['mensaje' => 'Solicitud incorrecta']);
+    echo json_encode([
+        'mensaje' => 'Solicitud incorrecta'
+    ]);
 }
 
 

@@ -2,16 +2,22 @@
 // Iniciar la sesión
 session_start();
 
-
 // Llamada a la función de verificación de autenticación
-if (verificarAutenticacion()) {
+if(verificarAutenticacion()){
+    
     http_response_code(200); // OK
-    echo json_encode(['mensaje' => 'php -> El usuario está autenticado.']);
-} else {
-    http_response_code(401); // No autorizado
-    echo json_encode(['mensaje' => 'php -> El usuario no está autenticado.']);
-}
+    echo json_encode([
+        'mensaje' => 'php -> El usuario está autenticado.'
+    ]);
 
+} else {
+    
+    http_response_code(401); // No autorizado
+    echo json_encode([
+        'mensaje' => 'php -> El usuario no está autenticado.'
+    ]);
+
+}
 
 //verificarAutenticacion();
 
@@ -24,4 +30,5 @@ function verificarAutenticacion() {
         return false;
     }
 }
+
 ?>

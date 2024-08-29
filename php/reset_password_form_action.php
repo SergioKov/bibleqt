@@ -16,14 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = isset($input['password']) ? $input['password'] : '';
 
     if($email == '' || $token == '' || $password == ''){
-        echo json_encode(['success' => false, 'error' => 'No existen los datos necesarios para hacer la comprobación']);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'No existen los datos necesarios para hacer la comprobación'
+        ]);
         return; 
     }
 
-    $email = strtolower($email);
-    $email = mysqli_real_escape_string($conn, $email);
-    $token = mysqli_real_escape_string($conn, $token);
-
+    $email = $conn->real_escape_string(strtolower($email));
+    $token = $conn->real_escape_string($token);
 
     //saco datos de user de la bd.
     $sql = "SELECT * 
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if($result->num_rows > 0){
         // Usuario encontrado, le permito guardar nueva contraseña
         //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
         $salt = bin2hex(2000);
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
         //echo"<p>$ hashedPassword; $hashedPassword</p>";
         
-        $password = mysqli_real_escape_string($conn, $password);
+        $password = $conn->real_escape_string($password);
 
         // Actualizar la contraseña y borrar el token
         $updateQuery = "UPDATE users SET 
@@ -52,19 +53,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         reset_token_expiry = NULL 
                         WHERE email = '$email' AND reset_token = '$token'
         ";
-        mysqli_query($conn, $updateQuery);
+        // mysqli_query($conn, $updateQuery);
+        $result_up = $conn->query($updateQuery);
 
-        //echo "Contraseña restablecida con éxito.";
-        echo json_encode(['success' => true, 'mensaje' => 'Contraseña restablecida con éxito.']);
+        if($result_up){
+            echo json_encode([
+                'success' => true, 
+                'mensaje' => 'Contraseña restablecida con éxito.'
+            ]);
+        }else{
+            echo json_encode([
+                'success' => false, 
+                'mensaje' => 'la Contraseña no se ha restablecido. Error en la consulta.'
+            ]);
+        }
 
     }else{
-        echo json_encode(['success' => false, 'mensaje' => 'No existe usuario con el email ' . $email]);
+        echo json_encode([
+            'success' => false, 
+            'mensaje' => 'No existe usuario con el email ' . $email
+        ]);
     }
 
 }else{
+    
     //echo "<p>else. REQUEST_METHOD";
-    echo json_encode(['success' => false, 'error' => 'REQUEST_METHOD no es correcto']);
+    echo json_encode([
+        'success' => false, 
+        'error' => 'REQUEST_METHOD no es correcto'
+    ]);
+    
 }
 
-mysqli_close($conn);
+// mysqli_close($conn);
+$conn->close();
+
 ?>

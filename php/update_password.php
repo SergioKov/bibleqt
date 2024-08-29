@@ -1,6 +1,7 @@
 <?php
 
 include('connect_db.php');
+include('base_url.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo json_encode(['info' => true]);
@@ -17,21 +18,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_password_rep = isset($input['new_password_rep']) ? $input['new_password_rep'] : '';
 
     if($email == '' && $password == '' && $new_password == '' && $new_password_rep == ''){
-        echo json_encode(['success' => false, 'error' => 'Email y contraseñas vacios']);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'Email y contraseñas vacios'
+        ]);
         return;
     }
     if($email == '' || $password == '' || $new_password == '' || $new_password_rep == ''){
-        echo json_encode(['success' => false, 'error' => 'Email o contraseñas vacios']);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'Email o contraseñas vacios'
+        ]);
         return;
     }
     if($new_password !=  $new_password_rep){
-        echo json_encode(['success' => false, 'error' => 'La contraseña nueva y su repetición no son iguales']);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'La contraseña nueva y su repetición no son iguales'
+        ]);
         return;
     }
 
-    $email = strtolower($email);
-    $email = mysqli_real_escape_string($conn, $input['email']);
-    
+    $email = $conn->real_escape_string(strtolower($email));    
 
     //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
     $salt = bin2hex(2000);
@@ -40,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
     $hashedNewPassword = password_hash($salt . $new_password, PASSWORD_BCRYPT);
     //echo"<p>$ hashedPassword; $hashedPassword</p>";
-
 
 
     // Verificar si el correo electrónico existe en la base de datos
@@ -53,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo json_encode(['info' => $checkQuery]);
     //exit;
 
-    if($result->num_rows > 0 /*mysqli_num_rows($result) > 0*/) {
+    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
         
         // Usuario encontrado, verificar la contraseña
         $row = $result->fetch_assoc();
@@ -66,11 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //echo json_encode(['info' => "storedSalt: $storedSalt --- salt: $salt" ]);
         //exit;
 
-
         //funcción password_verify(contraseña_input, contraseña_hasheada_de_bd)
         if(password_verify($storedSalt . $password, $storedHashedPassword)) { 
             //echo "¡Contraseña correcta! Usuario autenticado.";
-
             //echo json_encode(['info' => 'dentro de password_verify']);
             //exit;
 
@@ -85,25 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ";
             $result_up = $conn->query($sql_up);
             //echo json_encode(['info' => $sql_up]);
-            //exit;       
-
-
-
-            // Protocolo (http o https)
-            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-
-            // Nombre del host (dominio)
-            $host = $_SERVER['HTTP_HOST'];//'bibleqt.local' o 'bibleqt.es'
-            //echo $host;
-            //exit();
-
-            // Ruta base
-            $basePath = dirname($_SERVER['SCRIPT_NAME']);
-
-            // Construir la URL base
-            $baseUrl = "$protocol://$host$basePath/";
-            //echo "<br>La URL base es: $baseUrl";
-
+            //exit;
 
             // Enviar un correo electrónico al usuario con el enlace de restablecimiento
             //$resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";
@@ -206,6 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
         }else{
+            
             //echo "Contraseña incorrecta. Usuario no autenticado.";
             // Autenticación fallida
             echo json_encode([
@@ -213,19 +201,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'error' => 'Contrasena actual es incorrecta. Los datos no se han actualizado.',
                 'error_text_code' => 'd234'
             ]);
+
         }
 
     } else {
+        
         //echo "El correo electrónico no está registrado en nuestro sistema.";
         echo json_encode([
             'success' => false, 
             'error' => 'El correo electrónico no está registrado en nuestro sistema.', 
             'error_text_code' => 'd231'
         ]);//d231 = Este correo electrónico no está registrado en nuestro sistema.
+
     }
+
 }else{
-    echo json_encode(['info' => false]);
+    echo json_encode([
+        'info' => false
+    ]);
 }
 
-mysqli_close($conn);
+// mysqli_close($conn);
+$conn->close();
+
 ?>

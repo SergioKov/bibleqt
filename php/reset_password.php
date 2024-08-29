@@ -1,7 +1,9 @@
 <?php
-include('connect_db.php');
 
-echo "file: /php/reset_password.php";
+include('connect_db.php');
+include('base_url.php');
+
+//echo "file: /php/reset_password.php";
 //die();
 
 function debug($variable){
@@ -12,40 +14,36 @@ function debug($variable){
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     
-    debug($_GET);
+    //debug($_GET);
     //exit();
     
-    $email = mysqli_real_escape_string($conn, $_GET['email']);
-    $token = mysqli_real_escape_string($conn, $_GET['token']);
+    // Escapar el valor de $_GET['email'] para evitar inyecciones SQL
+    $email = (isset($_GET['email'])) ? $conn->real_escape_string(strtolower($_GET['email'])) : '' ;
+    $token = (isset($_GET['token'])) ? $conn->real_escape_string($_GET['token']) : '' ;
 
+    if($email == '' || $token == ''){
+        echo 'Email o token vacios';
+        return;
+    }
+    
     // Verificar si el correo electrónico y el token son válidos
-    $checkQuery = "SELECT * FROM users WHERE email = '$email' AND reset_token = '$token' AND reset_token_expiry > NOW()";
-    $result = mysqli_query($conn, $checkQuery);
+    $checkQuery = "SELECT * 
+                    FROM users 
+                    WHERE email = '$email' 
+                    AND reset_token = '$token' 
+                    AND reset_token_expiry > NOW()
+    ";
+    // $result = mysqli_query($conn, $checkQuery);
+    $result = $conn->query($checkQuery);
 
-    if (mysqli_num_rows($result) > 0) {
-        
-        // Protocolo (http o https)
-        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-        debug($protocol);
-
-        // Nombre del host (dominio)
-        $host = $_SERVER['HTTP_HOST'];
-        echo "<br>$ host: $host";
-
-        // Ruta base
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
-        echo "<br>$ basePath: $basePath";
-
-        // Construir la URL base
-        $baseUrl = "$protocol://$host$basePath/";
-        echo "<br>$ baseUrl: $baseUrl";
-        
+    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0){
+                
         $location = "Location: " . $protocol . "://" . $host . "/reset_password_form.php?email=$email&token=$token";
-        echo "<br>$ location: $location";
+        //echo "<br>$ location: $location";
         //exit();
         
-        echo "<br>1. redirijo a ...";
-        echo "<br>$location";
+        //echo "<br>1. redirijo a ...";
+        //echo "<br>$location";
         //die();
         
         // Permitir al usuario restablecer la contraseña
@@ -57,5 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 }
 
-mysqli_close($conn);
+// mysqli_close($conn);
+$conn->close();
+
 ?>

@@ -4,11 +4,9 @@ session_start();
 
 include('connect_db.php');
 
-
 // Obtener datos del cuerpo de la solicitud (en formato JSON)
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
-
 
 // Verificar si se recibió correctamente el JSON
 if ($input === null) {
@@ -18,10 +16,9 @@ if ($input === null) {
 }
 
 // Obtener usuario y contraseña del cuerpo de la solicitud
-$username = isset($input['username']) ? mysqli_real_escape_string($conn, $input['username']) : '';
-$password = isset($input['password']) ? $input['password'] : '';
-$email = isset($input['email']) ? mysqli_real_escape_string($conn, $input['email']) : '';
-
+$username = (isset($input['username'])) ? $conn->real_escape_string($input['username']) : '' ;
+$email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
+$password = (isset($input['password'])) ? $input['password'] : '' ;
 
 //saco datos de user de la bd.
 $checkQuery  = "SELECT  `username`, `email` 
@@ -31,9 +28,12 @@ $checkQuery  = "SELECT  `username`, `email`
 $result = $conn->query($checkQuery);
 
 
-if (mysqli_num_rows($result) > 0) {
+if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
-    echo json_encode(['success' => false, 'error' => 'El correo electrónico ya está en uso.']);
+    echo json_encode([
+        'success' => false, 
+        'error' => 'El correo electrónico ya está en uso.'
+    ]);
 } else {
     // Insertar el nuevo usuario si no existe
     //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
@@ -49,20 +49,25 @@ if (mysqli_num_rows($result) > 0) {
     $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
                     VALUES ('$username', '$password', '$hashedPassword', '$salt','$email', '$created_at')
     ";
+    $result_in = $conn->query($insertQuery);
 
-    if (mysqli_query($conn, $insertQuery)) {
+    if (/*mysqli_query($conn, $insertQuery)*/ $result_in) {
         //echo "Usuario registrado con éxito.";
-        echo json_encode(['success' => true, 'mensaje' => 'Usuario registrado con éxito.']);
+        echo json_encode([
+            'success' => true, 
+            'mensaje' => 'Usuario registrado con éxito.'
+        ]);
     } else {
         //echo "Error al registrar el usuario: " . mysqli_error($conn);
-        echo json_encode(['success' => false, 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn) ]);
+        echo json_encode([
+            'success' => false, 
+            // 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn), 
+            'mensaje' => 'Error al registrar el usuario: ' . $conn->error 
+        ]);
     }
 }
 
-
 //mysqli_close($conn);
-
-
-
 $conn->close();
+
 ?>
