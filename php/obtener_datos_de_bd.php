@@ -50,7 +50,7 @@ if (true) {
     //die();
 
     // Recuperar los valores
-    if(isset($_SESSION['id_user']) ) {
+    if( isset($_SESSION['id_user']) ){
         $id_user_logged = $_SESSION['id_user'];
         //$username_logged = $_SESSION['username'];
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
@@ -58,6 +58,13 @@ if (true) {
         $id_user_logged = 5;//0
         //$username_logged = 'user_test_no_borrar';//'nobody';
         //echo json_encode(['mensaje' => $username_logged]);
+        echo json_encode([
+            'success' => false,
+            'valorCampo' => 'no_tiene_datos',
+            'error' => 'No se puede obtener datos del usuario que no ha iniciado la sesión.',
+            'dic_code' => 'd280'
+        ]);
+        exit;
     }
 	//die();
 
