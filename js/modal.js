@@ -52,6 +52,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
 
                     eid_topLogin.style.display = 'block';
                     eid_topMenu.style.display = 'none';
+                    listenLoginFormInput();
 
                     //showLogin(htmlTrans, param);
                     break;

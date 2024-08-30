@@ -3594,6 +3594,7 @@ p a.a_cerr_ses:hover{
     width: 100%;
 }
 .register-form h1,
+.aviso-form h1,
 .reset-pwd-form h1,
 .change-email-form h1,
 .email-form h1,
@@ -3645,7 +3646,9 @@ p .sp_svit a:hover{
 
 
 
-#body_reset_pwd {
+#body_aviso,
+#body_reset_pwd
+ {
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -4044,4 +4047,7 @@ input:checked + .slider:before {
 }
 .m_bot0{
     margin-bottom: 0 !important;
+}
+.color_red{
+    color: red !important;
 }

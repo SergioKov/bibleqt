@@ -821,6 +821,17 @@ session_start();
 
 <?php
     
+    if(isset($_GET['from_aviso'])){
+print<<<HERE
+<script>
+    setTimeout(()=>{
+        openModal('top','Login',null,'showLogin');
+    },3000);
+</script>
+HERE;
+    }
+
+
     if(isset($_GET['reset_pwd_ok'])){
 print<<<HERE
 <script>
@@ -835,7 +846,7 @@ HERE;
     if( isset($_SESSION['username']) && isset($_SESSION['id_user']) ){
         // El usuario está logueado, muestra el contenido protegido
         $st_bl_sesion_iniciada = 'block';
-        $st_bl_login = 'none';
+        $st_bl_login_form = 'none';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
@@ -866,7 +877,7 @@ HERE;
     }else{
         // El usuario no está logueado, muestra el formulario de inicio de sesión
         $st_bl_sesion_iniciada = 'none';
-        $st_bl_login = 'block';
+        $st_bl_login_form = 'block';
         $st_bl_register_form = 'none';
         $st_bl_email_form = 'none';
         $st_bl_change_email_form = 'none';
@@ -939,7 +950,7 @@ print<<<HERE
                 </form>
             </div>
             
-            <div id="bl_login" style="display:$st_bl_login;">
+            <div id="bl_login_form" style="display:$st_bl_login_form;">
                 <form class="login-form">
                     <h1 data-dic="d184">Iniciar sesión</h1>
                     <p class="mensaje">

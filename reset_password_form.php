@@ -53,7 +53,6 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
                 
             </div>
 
-
         </div>
 
     </div>

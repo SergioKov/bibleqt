@@ -171,13 +171,13 @@ const eid_bl_register_form = document.getElementById('bl_register_form');
 const eid_bl_email_form = document.getElementById('bl_email_form');
 const eid_bl_change_email_form = document.getElementById('bl_change_email_form');
 const eid_bl_sesion_iniciada = document.getElementById('bl_sesion_iniciada');
-const eid_bl_login = document.getElementById('bl_login');
+const eid_bl_login_form = document.getElementById('bl_login_form');
 const arrIdForms = [
     'bl_register_form',
     'bl_email_form',
     'bl_change_email_form',
-    'bl_sesion_iniciada',
-    'bl_login'
+    'bl_login_form',
+    'bl_sesion_iniciada'
 ];
 
 const eid_login_menu = document.getElementById('login_menu');

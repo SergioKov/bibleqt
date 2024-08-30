@@ -94,7 +94,7 @@ if($result->num_rows > 0){
         //echo "Contraseña incorrecta. Usuario no autenticado.";
         // Autenticación fallida
         echo json_encode([
-            'success' => false, 
+            'success' => false,
             'error' => 'Contrasena incorrecta',
             'dic_code' => 'd243'
         ]);

@@ -319,7 +319,10 @@ async function iniciarSesion(){//antes login() //username,password
         let password = document.getElementById("password").value;
     
         if(email == '' || password == ''){
-            alert(obj_lang.d203);//'Ambos campos son obligatorios. Introduce tu usuario y contraseña por favor.'
+            //alert(obj_lang.d203);//Ambos campos son obligatorios. Introduce tu email y contraseña.
+            const p_mensaje = eid_bl_login_form.querySelector('.mensaje');
+            p_mensaje.classList.add('color_red');
+            p_mensaje.innerHTML = obj_lang.d203;
             return;
         }
     
@@ -341,8 +344,7 @@ async function iniciarSesion(){//antes login() //username,password
         //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
         work_with_data(data);
     
-        async function work_with_data(data){
-            
+        async function work_with_data(data){            
             //console.log(data);
                 
             if (data.success) {
@@ -378,7 +380,7 @@ async function iniciarSesion(){//antes login() //username,password
                 },3000);
                 setTimeout(()=>{
                     location.reload(); // Recargar la página
-                },4000);                
+                },3500);                
 
             } else {
                 
@@ -386,8 +388,14 @@ async function iniciarSesion(){//antes login() //username,password
                 let text_show = obj_lang[data.dic_code];//'Contrasena incorrecta' o 'Usuario no encontrado'
                 //console.log(text_show);
     
-                eid_bl_login.querySelector('h1').innerHTML = `<span class="clr_red" data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
-                eid_bl_login.querySelector('.mensaje').innerHTML = `<span class="clr_red"><span data-dic="d205">${obj_lang.d205}</span> ${username}. <br><span data-dic="d206">${obj_lang.d206}</span><br><span>${text_show}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
+                eid_bl_login_form.querySelector('h1').innerHTML = `<span data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
+                eid_bl_login_form.querySelector('.mensaje').innerHTML = `<span><span data-dic="d205">${obj_lang.d205}</span> ${email}. <br><span data-dic="d206">${obj_lang.d206}</span><br><span>${text_show}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
+
+                const login_h1 = eid_bl_login_form.querySelector('h1');
+                login_h1.classList.add('color_red');
+
+                const p_mensaje = eid_bl_login_form.querySelector('.mensaje');
+                p_mensaje.classList.add('color_red');
     
                 hay_sesion = false;
                 pintLoginImg(hay_sesion);
@@ -420,12 +428,12 @@ async function cerrarSesion(){
 
         if (data.cerrada) {
                        
-            //mostrarForm('bl_login');
+            //mostrarForm('bl_login_form');
             hay_sesion = false;
             pintLoginImg(hay_sesion);
 
-            //document.querySelector("#bl_login .mensaje").innerHTML = text_mensaje;
-            eid_bl_login.querySelector('.mensaje').innerHTML = `<span data-dic="d208">${obj_lang.d208}</span>`;//Sesión cerrada correctamente
+            //document.querySelector("#bl_login_form .mensaje").innerHTML = text_mensaje;
+            eid_bl_login_form.querySelector('.mensaje').innerHTML = `<span data-dic="d208">${obj_lang.d208}</span>`;//Sesión cerrada correctamente
             eid_login_menu.title = obj_lang.d209;//`Login`;            
 
             eid_partDeskTabs.innerHTML = '';
@@ -450,7 +458,7 @@ async function cerrarSesion(){
             //closeModal('Login');//no hace falta ya que al abrir openModal() se cierra automaticamente
             location.reload();
             //crear_arrFavTransObj();//no hace falta ya que al reload se carga
-        },3000);
+        },2500);
 
         mySizeWindow();
 
@@ -467,16 +475,17 @@ function mostrarForm(id_form){
         document.getElementById(el).style.display = 'none';
     });
     document.getElementById(id_form).style.display = 'block';
+    listenFormOnInput(id_form);
 }
 
 function mostrarLoginForm(){
     //console.log('=== function mostrarLoginForm() ===');
 
     //cuando Sesion está cerrada, se muestra Formulario de Inicio de Sesión
-    mostrarForm('bl_login');
+    mostrarForm('bl_login_form');
 
-    eid_bl_login.querySelector("h1").textContent = obj_lang.d184;//'Iniciar sesión.';
-    eid_bl_login.querySelector(".mensaje").textContent = obj_lang.d188;//'Tendrás acceso a tus ajustes personales.';
+    eid_bl_login_form.querySelector("h1").textContent = obj_lang.d184;//'Iniciar sesión.';
+    eid_bl_login_form.querySelector(".mensaje").textContent = obj_lang.d188;//'Tendrás acceso a tus ajustes personales.';
 }
 
 async function crearCuenta(){
@@ -610,7 +619,60 @@ async function enviarEmail(){
 
 
 
+function listenFormOnInput(id_form){
 
+    switch (id_form) {
+        case 'bl_register_form':
+            //listenRegisterFormInput();
+            break;
+    
+        case 'bl_email_form':
+            //listenEmailFormInput();
+            break;
+    
+        case 'bl_change_email_form':
+            listenChangeEmailFormInput();
+            break;
+    
+        case 'bl_login_form':
+            listenLoginFormInput();
+            break;
+        
+        default:
+            break;
+    }
+}
+
+function listenChangeEmailFormInput(){
+    document.querySelectorAll('.change-email-form input').forEach(el =>{    
+        el.oninput = () =>{
+            console.log(el.value);
+            const p_mensaje = document.querySelector('.change-email-form .mensaje');
+            if(p_mensaje.classList.contains('color_red')){
+                p_mensaje.classList.remove('color_red');
+                p_mensaje.innerHTML = obj_lang.d186;//Introduce tu correo electrónico actual y las contraseñas, actual y nueva.
+            }
+        }
+    });
+}
+
+function listenLoginFormInput(){
+    document.querySelectorAll('.login-form input').forEach(el =>{    
+        el.oninput = () =>{
+            console.log(el.value);
+            const login_h1 = document.querySelector('.login-form h1');
+            if(login_h1.classList.contains('color_red')){
+                login_h1.classList.remove('color_red');
+                login_h1.innerHTML = obj_lang.d184;//Inicior sesión.
+            }
+            const p_mensaje = document.querySelector('.login-form .mensaje');
+            if(p_mensaje.classList.contains('color_red')){
+                p_mensaje.classList.remove('color_red');
+                p_mensaje.innerHTML = obj_lang.d188;//Tendrás acceso a tus ajustes personales.
+            }
+        }
+    });
+}
 
 
 
@@ -628,31 +690,29 @@ async function enviarChangeEmail(){
         let errors = [];
 
         if(email == ''){
-            alert(obj_lang.d213);//'El campo email es obligatorio. Introduce tu email por favor.');
-            errors.push(obj_lang.d213);
+            errors.push(obj_lang.d213);//El campo email es obligatorio.
         }
         if(password == ''){
-            alert('El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
-            errors.push('error2');
+            errors.push(obj_lang.d268);//El campo contraseña es obligatorio.
         }
         if(new_password == ''){
-            alert('El campo nueva contraseña es obligatorio. Introduce tu nueva contraseña por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
-            errors.push('error3');
+            errors.push(obj_lang.d269);//El campo nueva contraseña es obligatorio.
         }
         if(new_password_rep == ''){
-            alert('El campo repite la contraseña es obligatorio. Introduce tu nueva contraseña por favor.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
-            errors.push('error4');
+            errors.push(obj_lang.d270);//El campo repite la contraseña es obligatorio.
         }
         if(new_password != new_password_rep){
-            alert('El campo nueva contraseña y su repetición no son iguales.');//'El campo contraseña es obligatorio. Introduce tu contraseña actual por favor.');
-            errors.push('error5');
+            errors.push(obj_lang.d271);//El campo nueva contraseña y su repetición no son iguales.
         }
         if(errors.length > 0){
             let error_text = '';
             errors.forEach(error => {
                 error_text += error + '<br>';
             });
-            alert(error_text);
+            //alert(error_text);
+            const p_mensaje = document.querySelector('.change-email-form .mensaje');
+            p_mensaje.classList.add('color_red');
+            p_mensaje.innerHTML = error_text;
             return;
         }
     
@@ -680,9 +740,15 @@ async function enviarChangeEmail(){
         }
                 
         if(data.success) {
-            console.log(`Contraseña actualizada con éxito.`);
+            //console.log(`Su contraseña ha sido actualizada con éxito.`);
+            let text_show = reemplazarValores(obj_lang.d232, [email]);//'La contraseña para el email __VAR__ ha sido actualizado con éxito.'
+            
+            let text_show2 = '';
+            if(data.mail_sent){
+                text_show2 = '<br>' + obj_lang.d273;//Se te ha enviado un mensaje de este cambio a tu correo electrónico.
+            }
     
-            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">`+ reemplazarValores(obj_lang.d232, [email]) +`</span>`;//'La contraseña para el email __VAR__ ha sido actualizado con éxito.'
+            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">${text_show} ${text_show2}</span>`;
     
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -690,13 +756,18 @@ async function enviarChangeEmail(){
     
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+
         } else {
+            
             console.error('Error al actualizar la contraseña');
             console.error('data.error: ', data.error);
             console.error('data.dic_code: ', data.dic_code);
             console.error(obj_lang[data.dic_code]);//pongo con [] ya que viene  obj_lang['d231']
+
+            let text_show = obj_lang.d267;//Error al actualizar la contraseña
+            let text_show2 = obj_lang[data.dic_code];
     
-            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">` + obj_lang[data.dic_code] + `</span>`;
+            eid_bl_change_email_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">${text_show} <br>${text_show2}</span>`;
         }
     
         mySizeWindow();
@@ -12821,7 +12892,7 @@ async function verificarAutenticacion() {
             credentials: 'include'
         });
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
 
         if(response.ok) {
             return true;

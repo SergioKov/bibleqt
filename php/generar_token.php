@@ -146,9 +146,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }else{
 
+    //echo "<p>else. REQUEST_METHOD";
+    
+    // Establecer la redirección después de 5 segundos
+    header("Refresh: 5; url=../aviso.php");
+
     echo json_encode([
-        'info' => false
-    ]);
+        'success' => false, 
+        'error' => 'El método de pasar los parametros no es correcto.',
+        'dic_code' => 'd256'
+    ]);    
 
 }
 

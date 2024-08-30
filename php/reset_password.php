@@ -22,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $token = (isset($_GET['token'])) ? $conn->real_escape_string($_GET['token']) : '' ;
 
     if($email == '' || $token == ''){
-        echo 'Email o token vacios';
+        // Establecer la redirección después de 5 segundos
+        header("Refresh: 0; url=../aviso.php?m=d258");
+        //echo '<p>Email o token vacios. <br>Para restablecer la contraseña son imprescindibles estos datos.</p>';
         return;
     }
     
@@ -51,7 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         header($location);
 
     } else {
-        echo "Enlace no válido o expirado.";
+        
+        // Establecer la redirección después de 5 segundos
+        header("Refresh: 0; url=../aviso.php?m=d260");
+        //echo '<p>Enlace no válido o expirado. <br>Intenta recuperar la contraseña de nuevo por favor.</p>'; 
     }
 }
 

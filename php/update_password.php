@@ -3,6 +3,18 @@
 include('connect_db.php');
 include('base_url.php');
 
+
+/*
+//hacer test...
+echo json_encode([
+    'success' => false, 
+    'error' => 'Este correo electrónico no está registrado en nuestro sistema.', 
+    'dic_code' => 'd231'
+]);
+exit;
+*/
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo json_encode(['info' => true]);
     //exit;
@@ -20,21 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($email == '' && $password == '' && $new_password == '' && $new_password_rep == ''){
         echo json_encode([
             'success' => false, 
-            'error' => 'Email y contraseñas vacios'
+            'error' => 'Email y contraseñas vacios.',
+            'dic_code' => 'd263'
         ]);
         return;
     }
     if($email == '' || $password == '' || $new_password == '' || $new_password_rep == ''){
         echo json_encode([
             'success' => false, 
-            'error' => 'Email o contraseñas vacios'
+            'error' => 'Email o contraseñas vacios.',
+            'dic_code' => 'd264'
         ]);
         return;
     }
     if($new_password !=  $new_password_rep){
         echo json_encode([
             'success' => false, 
-            'error' => 'La contraseña nueva y su repetición no son iguales'
+            'error' => 'La contraseña nueva y su repetición no son iguales.',
+            'dic_code' => 'd265'
         ]);
         return;
     }
@@ -92,104 +107,118 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //echo json_encode(['info' => $sql_up]);
             //exit;
 
-            // Enviar un correo electrónico al usuario con el enlace de restablecimiento
-            //$resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";
-            $subject = "Actualizar Contraseña";
-            $message = "Tu contraseña ha sido actualizada con éxito.";
+            //si se ha actualizdo el password en bd...
+            if($result_up){
 
-            $message_html = '
-            <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin: 0 auto; max-width: 480px;">
-                    <tbody>
-                    <tr>
-                        <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
-                            <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Hola, <a href="mailto:' . $email . '" target="_blank">' . $email . '</a>:
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
-                            <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Tu contraseña ha sido actualizada con éxito. Pulsa "Entrar" para loguearte con la nueva contraseña. 
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
-                            <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                <b>Por seguridad, nunca compartas tu contraseña con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.</b>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="font-size:0px;padding:32px 44px;padding-bottom:10px;word-break:break-word">
-                            <a 
-                            href="' . $host . '" 
-                            style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
-                            target="_blank"
-                            >
-                                Entrar
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
-                            <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Gracias, <br>El equipo de Bibleqt
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            ';
-            
-            //$from_email = "sergiokovalchuk@gmail.com";
-            //$reply_to_email = "sergiokovalchuk@gmail.com";
+                // Enviar un correo electrónico al usuario con el enlace de restablecimiento
+                $subject = "Actualizar Contraseña";
+                $message = "Tu contraseña ha sido actualizada con éxito.";
 
-            // Для отправки HTML-письма должен быть установлен заголовок Content-type
-            //$headers  = "MIME-Version: 1.0" . "\r\n";
-            //$headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-                //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
-                //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
-            //$headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
-            //$headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n";
-
-            $headers  = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
-            $headers .= "From: Bibleqt - <contact@bibleqt.es>" . "\r\n"; 
-            $headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
-            
-            // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
-            if($host == 'bibleqt.local'){//localhost
-
-                echo json_encode([
-                    'success' => true, 
-                    'localhost' => true,
-                    'mensaje' => 'Su contraseña ha sido actualizada con éxito.'
-                ]);
-                //exit;
-
-            }else{//produccion
+                $message_html = '
+                    <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin: 0 auto; max-width: 480px;">
+                            <tbody>
+                            <tr>
+                                <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
+                                    <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
+                                        Hola, <a href="mailto:' . $email . '" target="_blank">' . $email . '</a>:
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
+                                    <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
+                                        Tu contraseña ha sido actualizada con éxito. Pulsa "Entrar" para loguearte con la nueva contraseña. 
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
+                                    <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
+                                        <b>Por seguridad, nunca compartas tu contraseña con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.</b>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="font-size:0px;padding:32px 44px;padding-bottom:10px;word-break:break-word">
+                                    <a 
+                                    href="' . $host . '" 
+                                    style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
+                                    target="_blank"
+                                    >
+                                        Entrar
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
+                                    <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
+                                        Gracias, <br>El equipo de Bibleqt
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                ';
                 
-                $result_mail = mail($email, $subject, $message_html, $headers);
+                //$from_email = "sergiokovalchuk@gmail.com";
+                //$reply_to_email = "sergiokovalchuk@gmail.com";
 
-                if($result_mail) {
-                    //echo "1. El correo electrónico se envió correctamente.";
+                // Для отправки HTML-письма должен быть установлен заголовок Content-type
+                //$headers  = "MIME-Version: 1.0" . "\r\n";
+                //$headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
+                    //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
+                    //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
+                //$headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
+                //$headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n";
+
+                $headers  = "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
+                $headers .= "From: Bibleqt - <contact@bibleqt.es>" . "\r\n"; 
+                $headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
+                
+                // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
+                if($host == 'bibleqt.local'){//localhost
+
                     echo json_encode([
                         'success' => true, 
-                        'mensaje' => 'Su contraseña ha sido actualizada con éxito.'
+                        'localhost' => true,
+                        'mensaje' => 'Su contraseña ha sido actualizada con éxito.',
+                        'dic_code' => 'd266'
                     ]);
-                } else {
-                    //echo "2. Error al actualizar la contraseña.";
-                    echo json_encode([
-                        'success' => false, 
-                        'mensaje' => 'Error al actualizar la contraseña.', 
-                        'error' => 'Error al actualizar la contraseña.',
-                        'dic_code' => 'd233'
-                    ]);
+                    //exit;
+
+                }else{//produccion
+                    
+                    $result_mail = mail($email, $subject, $message_html, $headers);
+
+                    if($result_mail) {
+                        //El correo electrónico se envió correctamente.";
+                        echo json_encode([
+                            'success' => true, 
+                            'mail_sent' => true,
+                            'mensaje' => 'Su contraseña ha sido actualizada con éxito.',
+                            'dic_code' => 'd266'
+                        ]);
+                    } else {
+                        //El correo electrónico NO se envió";
+                        echo json_encode([
+                            'success' => true, 
+                            'mail_sent' => false,
+                            'mensaje' => 'Su contraseña ha sido actualizada con éxito.',
+                            'dic_code' => 'd266'
+                        ]);
+                    }
                 }
+
+            }else{
+                echo json_encode([
+                    'success' => false, 
+                    'error' => 'Su contraseñaa no se ha actualizado. <br>Error en la consulta.',
+                    'dic_code' => 'd272'
+                ]);
+    
             }
 
         }else{
@@ -198,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Autenticación fallida
             echo json_encode([
                 'success' => false, 
-                'error' => 'Contrasena actual es incorrecta. Los datos no se han actualizado.',
+                'error' => 'la contrasena actual es incorrecta. Los datos no se han actualizado.',
                 'dic_code' => 'd234'
             ]);
 
@@ -206,19 +235,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } else {
         
-        //echo "El correo electrónico no está registrado en nuestro sistema.";
         echo json_encode([
             'success' => false, 
-            'error' => 'El correo electrónico no está registrado en nuestro sistema.', 
+            'error' => 'Este correo electrónico no está registrado en nuestro sistema.', 
             'dic_code' => 'd231'
-        ]);//d231 = Este correo electrónico no está registrado en nuestro sistema.
+        ]);
 
     }
 
 }else{
-    echo json_encode([
-        'info' => false
-    ]);
+    
+    // Establecer la redirección después de 5 segundos
+    header("Refresh: 0; url=../aviso.php?m=d256");
+    //echo '<p>El método de pasar los parametros no es correcto.</p>';
+    return;
+
 }
 
 // mysqli_close($conn);

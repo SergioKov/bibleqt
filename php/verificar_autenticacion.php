@@ -24,9 +24,9 @@ if(verificarAutenticacion()){
 // Función para verificar la autenticación
 function verificarAutenticacion() {
     // Verificar si el usuario está autenticado
-    if (isset($_SESSION['id_user'])) {
+    if(isset($_SESSION['id_user'])){
         return true;
-    } else {
+    }else{
         return false;
     }
 }
