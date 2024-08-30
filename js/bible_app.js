@@ -317,14 +317,30 @@ async function iniciarSesion(){//antes login() //username,password
 
         let email = document.getElementById("username_email").value;
         let password = document.getElementById("password").value;
+        email = email.toLowerCase();
+
+        let errors = [];
     
         if(email == '' || password == ''){
-            //alert(obj_lang.d203);//Ambos campos son obligatorios. Introduce tu email y contraseña.
-            const p_mensaje = eid_bl_login_form.querySelector('.mensaje');
+            errors.push(obj_lang.d203);//Ambos campos son obligatorios. Introduce tu email y contraseña.
+        }
+        if(!validarEmail(email)){
+            errors.push(obj_lang.d278);//El email no es válido.
+        }
+        if(!validarPassword(password)){
+            errors.push(obj_lang.d279);//La contraseña no es válida. Debe tener al menos 6 carácteres.
+        }        
+        if(errors.length > 0){
+            let error_text = '';
+            errors.forEach(error => {
+                error_text += error + '<br>';
+            });
+            const p_mensaje = document.querySelector('.login-form .mensaje');
             p_mensaje.classList.add('color_red');
-            p_mensaje.innerHTML = obj_lang.d203;
+            p_mensaje.innerHTML = error_text;
             return;
         }
+
     
         // Enviar los datos al servidor para la autenticación
         const response = await fetch("./php/iniciar_sesion.php", {
@@ -496,9 +512,27 @@ async function crearCuenta(){
         let username = document.getElementById("reg_username").value;
         let password = document.getElementById("reg_password").value;
         let email = document.getElementById("reg_email").value;
+        email = email.toLowerCase();
     
+        let errors = [];
+
         if(username == '' || password == '' || email == ''){
-            alert(obj_lang.d210);//'Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.';
+            errors.push(obj_lang.d210);//Todos los campos son obligatorios. Introduce tu usuario, contraseña y email por favor.
+        }
+        if(!validarEmail(email)){
+            errors.push(obj_lang.d278);//El email no es válido.
+        }
+        if(!validarPassword(password)){
+            errors.push(obj_lang.d279);//La contraseña no es válida. Debe tener al menos 6 carácteres.
+        }        
+        if(errors.length > 0){
+            let error_text = '';
+            errors.forEach(error => {
+                error_text += error + '<br>';
+            });
+            const p_mensaje = document.querySelector('.register-form .mensaje');
+            p_mensaje.classList.add('color_red');
+            p_mensaje.innerHTML = error_text;
             return;
         }
     
@@ -516,7 +550,7 @@ async function crearCuenta(){
         });
     
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
     
         if(data.success){                
             //console.log(`Usuario registrado con éxito.`);
@@ -529,7 +563,9 @@ async function crearCuenta(){
     
             // Redirigir a la página de inicio si la autenticación es exitosa
             //window.location.href = "index.php?auth_ok";  //de momento comento para no hacer la redirección...
+        
         } else {
+            
             //"Error al registrar el usuario";
             console.error(data.error);
             console.error(data.dic_code);
@@ -543,7 +579,8 @@ async function crearCuenta(){
                 error_text = reemplazarValores(obj_lang.d212, [username, obj_lang[data.dic_code]]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__"
             }
     
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_red">${error_text}</span>`;
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span>${error_text}</span>`;
+            eid_bl_register_form.querySelector('.mensaje').classList.add('color_red');
         }
     
         mySizeWindow();
@@ -560,11 +597,26 @@ async function enviarEmail(){
     try {
         
         let email = document.getElementById("rec_email").value;
+        email = email.toLowerCase();
+
+        let errors = [];
 
         if(email == ''){
-            alert(obj_lang.d213);//'El campo email es obligatorio. Introduce tu email por favor.');
-            return;
+            errors.push(obj_lang.d213);//El campo email es obligatorio.
         }
+        if(!validarEmail(email)){
+            errors.push(obj_lang.d278);//El email no es válido.
+        }
+        if(errors.length > 0){
+            let error_text = '';
+            errors.forEach(error => {
+                error_text += error + '<br>';
+            });
+            const p_mensaje = document.querySelector('.email-form .mensaje');
+            p_mensaje.classList.add('color_red');
+            p_mensaje.innerHTML = error_text;
+            return;
+        }        
     
         // Enviar los datos al servidor para la autenticación
         const response = await fetch("./php/generar_token.php", {
@@ -623,11 +675,11 @@ function listenFormOnInput(id_form){
 
     switch (id_form) {
         case 'bl_register_form':
-            //listenRegisterFormInput();
+            listenRegisterFormInput();
             break;
     
         case 'bl_email_form':
-            //listenEmailFormInput();
+            //no tiene campos de type="password"; solo de email
             break;
     
         case 'bl_change_email_form':
@@ -638,15 +690,48 @@ function listenFormOnInput(id_form){
             listenLoginFormInput();
             break;
         
+        case 'bl_reset_pwd_form':
+            //listenResetPwdFormInput();//está en el otro fichero: reset_password_form.php
+            break;
+        
         default:
             break;
     }
 }
 
+/*
+//funcción está en el otro fichero: reset_password_form.php
+function listenResetPwdFormInput(){
+    document.querySelectorAll('.reset-pwd-form input').forEach(el =>{    
+        el.oninput = () =>{
+            console.log(el.value);
+            const p_mensaje = document.querySelector('.reset-pwd-form .mensaje');
+            if(p_mensaje.classList.contains('color_red')){
+                p_mensaje.classList.remove('color_red');
+                p_mensaje.innerHTML = obj_lang.d277;//Introduce tu contraseña nueva.
+            }
+        }
+    });
+}
+*/
+
+function listenRegisterFormInput(){
+    document.querySelectorAll('.register-form input').forEach(el =>{    
+        el.oninput = () =>{
+            //console.log(el.value);
+            const p_mensaje = document.querySelector('.register-form .mensaje');
+            if(p_mensaje.classList.contains('color_red')){
+                p_mensaje.classList.remove('color_red');
+                p_mensaje.innerHTML = obj_lang.d178;//Al crear la cuenta tendrás acceso a tus ajustes personales.
+            }
+        }
+    });
+}
+
 function listenChangeEmailFormInput(){
     document.querySelectorAll('.change-email-form input').forEach(el =>{    
         el.oninput = () =>{
-            console.log(el.value);
+            //console.log(el.value);
             const p_mensaje = document.querySelector('.change-email-form .mensaje');
             if(p_mensaje.classList.contains('color_red')){
                 p_mensaje.classList.remove('color_red');
@@ -659,7 +744,7 @@ function listenChangeEmailFormInput(){
 function listenLoginFormInput(){
     document.querySelectorAll('.login-form input').forEach(el =>{    
         el.oninput = () =>{
-            console.log(el.value);
+            //console.log(el.value);
             const login_h1 = document.querySelector('.login-form h1');
             if(login_h1.classList.contains('color_red')){
                 login_h1.classList.remove('color_red');
@@ -686,6 +771,7 @@ async function enviarChangeEmail(){
         let password = document.getElementById("act_password").value;
         let new_password = document.getElementById("new_password").value;
         let new_password_rep = document.getElementById("new_password_rep").value;
+        email = email.toLowerCase();
 
         let errors = [];
 
@@ -704,12 +790,17 @@ async function enviarChangeEmail(){
         if(new_password != new_password_rep){
             errors.push(obj_lang.d271);//El campo nueva contraseña y su repetición no son iguales.
         }
+        if(!validarEmail(email)){
+            errors.push(obj_lang.d278);//El email no es válido.
+        }
+        if(!validarPassword(password)){
+            errors.push(obj_lang.d279);//La contraseña no es válida. Debe tener al menos 6 carácteres.
+        }        
         if(errors.length > 0){
             let error_text = '';
             errors.forEach(error => {
                 error_text += error + '<br>';
             });
-            //alert(error_text);
             const p_mensaje = document.querySelector('.change-email-form .mensaje');
             p_mensaje.classList.add('color_red');
             p_mensaje.innerHTML = error_text;
@@ -12891,8 +12982,9 @@ async function verificarAutenticacion() {
             method: 'GET',
             credentials: 'include'
         });
+
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
         if(response.ok) {
             return true;
@@ -22083,4 +22175,34 @@ function showHidePassword(el){
             input.type = 'password';
         });
     }
+}
+
+
+function validarEmail(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);//.test() returns true or false
+}
+
+function validarPassword(password) {
+    // Al menos 6 caracteres
+    const longitud = /^.{6,}$/;
+
+    // Al menos una letra mayúscula
+    //const mayuscula = /[A-Z]/;
+
+    // Al menos una letra minúscula
+    //const minuscula = /[a-z]/;
+
+    // Al menos un número
+    //const numero = /[0-9]/;
+
+    // Al menos un carácter especial
+    //const caracterEspecial = /[!@#$%^&*(),.?":{}|<>]/;
+
+    return longitud.test(password) 
+        //&& mayuscula.test(password) 
+        //&& minuscula.test(password) 
+        //&& numero.test(password) 
+        //&& caracterEspecial.test(password)
+        ;//.test() returns true or false
 }

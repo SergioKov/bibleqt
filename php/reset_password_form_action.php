@@ -2,6 +2,19 @@
 include('connect_db.php');
 //echo "<p>1. estoy aki";
 
+
+/*
+//HACER PRUEBAS...
+echo json_encode([
+    'HACIENDO_PRUEBAS' => 'DESCOMENTAR EN PROD', 
+    'success' => false, 
+    'error' => 'El método de pasar los parametros no es correcto.',
+    'dic_code' => 'd256'
+]);
+exit;
+*/
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo "<p>estoy aki";
     //exit;
@@ -60,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($result_up){
             echo json_encode([
                 'success' => true, 
-                'mensaje' => 'Contraseña restablecida con éxito.',
+                'mensaje' => 'La contraseña ha sido restablecida con éxito.',
                 'dic_code' => 'd253'
             ]);
         }else{

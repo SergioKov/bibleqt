@@ -5,8 +5,9 @@ include('base_url.php');
 
 
 /*
-//hacer test...
+//HACER PRUEBAS...
 echo json_encode([
+    'HACIENDO_PRUEBAS' => 'DESCOMENTAR EN PROD',
     'success' => false, 
     'error' => 'Este correo electrónico no está registrado en nuestro sistema.', 
     'dic_code' => 'd231'

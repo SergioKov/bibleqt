@@ -4,9 +4,11 @@ session_start();
 
 include('connect_db.php');
 
+
 /*
-//test meensaje texto...
+//HACER PRUEBAS...
 echo json_encode([
+    'HACIENDO_PRUEBAS' => 'DESCOMENTAR EN PROD',
     'success' => false, 
     // 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn), 
     'mensaje' => 'Error al registrar el usuario: ',

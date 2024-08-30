@@ -1,9 +1,11 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+
 /*
-//hacer test...
+//HACER PRUEBAS...
 echo json_encode([
+    'HACIENDO_PRUEBAS' => 'DESCOMENTAR EN PROD',
     'success' => false,
     'valorCampo' => 'no_tiene_datos',
     'error' => 'No hay todos los parametros necesarios.',

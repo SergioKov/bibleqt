@@ -1,15 +1,18 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+
 /*
-//test error
+//HACER PRUEBAS...
 echo json_encode([
+    'HACIENDO_PRUEBAS' => 'DESCOMENTAR EN PROD',
     'success' => true,
     'message' => 'No existe sessión. Para insertar datos hay que loguearse antes. Solicitud incorrecta.',
     'dic_code' => 'd245'
 ]);
-die();
+exit;
 */
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
        
