@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
     } else {
         $id_user_logged = 5;
-        $username_logged = 'user_test';
+        $username_logged = 'user_test_no_borrar';
         //echo json_encode(['mensaje' => $username_logged]);
         
         // Manejar solicitudes incorrectas

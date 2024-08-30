@@ -56,7 +56,7 @@ if (true) {
         //echo json_encode(['mensaje' => 'sesion username_logged: ' . $username_logged ]);        
     } else {
         $id_user_logged = 5;//0
-        //$username_logged = 'user_test';//'nobody';
+        //$username_logged = 'user_test_no_borrar';//'nobody';
         //echo json_encode(['mensaje' => $username_logged]);
     }
 	//die();

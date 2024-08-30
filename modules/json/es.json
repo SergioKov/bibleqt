@@ -290,8 +290,9 @@
     "d277": "Introduce tu contraseña nueva.",
     "d278": "El email no es válido.",
     "d279": "La contraseña no es válida. Debe tener al menos 6 carácteres.",
+
+    "d280": "No se puede obtener datos del usuario que no ha iniciado la sesión.",
     
-    "d280": "",
     "d281": "",
     "d282": "",
     "d283": "",

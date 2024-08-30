@@ -40,8 +40,8 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
                         <p class="mensaje">Introduce tu contraseña nueva.</p>
                         <input id="email" name="email" type="hidden" value="<?=$email?>"/>
                         <input id="token" name="token" type="hidden" value="<?=$token?>"/>
-                        <input id="password" name="password" class="type_password" type="password" placeholder="password" required/>
-                        <input id="password_rep" name="password" class="type_password m_bot0" type="password" placeholder="repeat password" required/>
+                        <input id="password" name="password" class="type_password" type="password" autocomplete="off" placeholder="password" required/>
+                        <input id="password_rep" name="password" class="type_password m_bot0" type="password" autocomplete="off" placeholder="repeat password" required/>
                         <label class="ch_lab">
                             <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
                             <span class="ch_mostrar_sp">mostrar contraseña</span>

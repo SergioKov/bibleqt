@@ -291,7 +291,8 @@
     "d278": "The email is invalid.",
     "d279": "The password is invalid. It must be at least 6 characters long.",
 
-    "d280": "",
+    "d280": "Cannot retrieve data from a user who is not logged in.",
+    
     "d281": "",
     "d282": "",
     "d283": "",

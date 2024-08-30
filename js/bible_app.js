@@ -634,9 +634,8 @@ async function enviarEmail(){
         //console.log(data);
         //console.log(data.resetLink);
     
-        if(typeof data.localhost != 'undefined'){
+        if(typeof data.resetLink != 'undefined'){
             console.log(data);
-            console.log(data.localhost);
             console.log(data.resetLink);
         }
                 
@@ -823,7 +822,7 @@ async function enviarChangeEmail(){
     
         const data = await response.json();
         //const data = await response.text();//test
-        console.log(data);
+        //console.log(data);
     
         if(typeof data.localhost != 'undefined'){
             console.log(data);
