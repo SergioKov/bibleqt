@@ -2,6 +2,8 @@
 // Iniciar sesión
 session_start();
 
+header('Content-Type: application/json; charset=utf-8');
+
 include('connect_db.php');
 
 // Obtener datos del cuerpo de la solicitud (en formato JSON)

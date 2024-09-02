@@ -26,4 +26,9 @@ if ($conn->connect_error) {
 	//echo "conn ok";
 }
 
+// Establecer el conjunto de caracteres a UTF-8
+if (!$conn->set_charset("utf8")) {
+    die("Error al establecer el conjunto de caracteres UTF-8: " . $conn->error);
+}
+
 ?>
