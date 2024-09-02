@@ -1683,7 +1683,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                         arr.shift(0);//elimino index 0
                         VerseText = arr.join(' ');
                     }else{
-                        VerseText = ' (no existe el texto del versículo...) ';
+                        VerseText = ' (текст стиха отсутствует...) ';
                     }
 
 
