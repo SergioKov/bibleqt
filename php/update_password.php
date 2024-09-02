@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <tr>
                                 <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                                     <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                        Hola, <a href="mailto:' . $email . '" target="_blank">' . $email . '</a>:
+                                        Hola, ' . $storedUsername . '.
                                     </div>
                                 </td>
                             </tr>
