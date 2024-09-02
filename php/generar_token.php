@@ -13,18 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $email = $conn->real_escape_string(strtolower($input['email']));    
 
+    //modo 1. simple
     // Verificar si el correo electrónico existe en la base de datos
+    /*
     $checkQuery = "SELECT * 
                     FROM users 
                     WHERE email = '$email' 
     ";
     // $result = mysqli_query($conn, $checkQuery);
     $result = $conn->query($checkQuery);
+    */
 
-    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
+
+    //modo 2. consulta preparada
+    $checkQuery = "SELECT * 
+                    FROM users 
+                    WHERE email = ? 
+    ";    
+    $stmt = $conn->prepare($checkQuery);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+
+    if($result->num_rows > 0) {
         
         // Usuario encontrado, verificar la contraseña
         $row = $result->fetch_assoc();
+
         //$storedId_user = $row["id_user"];//1
         $storedUsername = $row["username"];//Sergio
 
@@ -32,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resetToken = bin2hex(random_bytes(32));
         $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
         
-
+        //modo 1. simple
+        /*
         // Almacenar el token y la fecha de expiración en la base de datos
         $updateQuery = "UPDATE users SET 
                         reset_token = '$resetToken', 
@@ -41,6 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ";
         // $result_up = mysqli_query($conn, $updateQuery);
         $result_up = $conn->query($updateQuery);
+        */
+
+        //modo 2. Consulta segura
+        // Almacenar el token y la fecha de expiración en la base de datos
+        $updateQuery = "UPDATE users SET 
+                        reset_token = ?, 
+                        reset_token_expiry = ? 
+                        WHERE email = ? 
+        ";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("sss", $resetToken, $resetTokenExpiry, $email);
+        $stmt->execute();
+        $result_up = $stmt->get_result();
+        $stmt->close();
+
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
         $resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";

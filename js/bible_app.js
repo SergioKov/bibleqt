@@ -315,8 +315,8 @@ async function iniciarSesion(){//antes login() //username,password
 
     try {
 
-        let email = document.getElementById("username_email").value;
-        let password = document.getElementById("password").value;
+        let email = document.getElementById("username_email").value.trim();
+        let password = document.getElementById("password").value.trim();
         email = email.toLowerCase();
 
         let errors = [];
@@ -509,9 +509,9 @@ async function crearCuenta(){
 
     try {
 
-        let username = document.getElementById("reg_username").value;
-        let password = document.getElementById("reg_password").value;
-        let email = document.getElementById("reg_email").value;
+        let username = document.getElementById("reg_username").value.trim();
+        let password = document.getElementById("reg_password").value.trim();
+        let email = document.getElementById("reg_email").value.trim();
         email = email.toLowerCase();
     
         let errors = [];
@@ -596,7 +596,7 @@ async function enviarEmail(){
 
     try {
         
-        let email = document.getElementById("rec_email").value;
+        let email = document.getElementById("rec_email").value.trim();
         email = email.toLowerCase();
 
         let errors = [];
@@ -766,10 +766,10 @@ async function enviarChangeEmail(){
 
     try {
         
-        let email = document.getElementById("act_email").value;
-        let password = document.getElementById("act_password").value;
-        let new_password = document.getElementById("new_password").value;
-        let new_password_rep = document.getElementById("new_password_rep").value;
+        let email = document.getElementById("act_email").value.trim();
+        let password = document.getElementById("act_password").value.trim();
+        let new_password = document.getElementById("new_password").value.trim();
+        let new_password_rep = document.getElementById("new_password_rep").value.trim();
         email = email.toLowerCase();
 
         let errors = [];

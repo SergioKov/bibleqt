@@ -123,10 +123,10 @@ async function saveNewPassword(){
 
     try {
 
-        let email = document.getElementById("email").value;
+        let email = document.getElementById("email").value.trim();
         let token = document.getElementById("token").value;
-        let password = document.getElementById("password").value;
-        let password_rep = document.getElementById("password_rep").value;
+        let password = document.getElementById("password").value.trim();
+        let password_rep = document.getElementById("password_rep").value.trim();
         email = email.toLowerCase();
     
         let errors = [];

@@ -39,13 +39,43 @@ $username = (isset($input['username'])) ? $conn->real_escape_string($input['user
 $email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
 $password = (isset($input['password'])) ? $input['password'] : '' ;
 
+/*
+//antes con consulta simple => $conn->query($checkQuery)
 //saco datos de user de la bd.
 $checkQuery  = "SELECT  `username`, `email` 
         FROM users 
         WHERE email = '$email'
 ";
 $result = $conn->query($checkQuery);
+*/
 
+
+//con la consulta segura, preparando los parémetros
+$checkQuery  = "SELECT  `username`, `email` 
+        FROM users 
+        WHERE email = ?
+";
+
+// Preparar la consulta SQL con parámetros
+$stmt = $conn->prepare($checkQuery);
+if ($stmt === false) {
+    die("Error en la preparación de la consulta: " . $conn->error);
+}
+
+// Vincular los parámetros con diferentes tipos de datos
+//$stmt->bind_param("sis", $name, $age, $registration_date);//ejemplo si hay varios parametros...
+$stmt->bind_param("s", $email);
+
+// 's' => string
+// 'i' => integer
+// 's' => string (las fechas se manejan como strings en este caso)
+
+// Ejecutar la consulta
+$stmt->execute();
+
+// Obtener el resultado
+$result = $stmt->get_result();
+$stmt->close();//cerrar la declaración
 
 if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
@@ -65,13 +95,37 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
 
     // Obtener la fecha y hora actual
     $created_at = date("Y-m-d H:i:s");
-    
+
+    /*    
+    //modo 1. simple
     $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
                     VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
     ";
     $result_in = $conn->query($insertQuery);
+    */
 
-    if (/*mysqli_query($conn, $insertQuery)*/ $result_in) {
+    //modo 2. seguro
+    $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
+                    VALUES (?, ?, ?, ?, ?, ?)
+    ";//VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
+
+    // Preparar la consulta SQL con parámetros
+    $stmt = $conn->prepare($insertQuery);
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
+    // Vincular los parámetros con diferentes tipos de datos
+    $stmt->bind_param("ssssss", $username, $password, $hashedPassword, $salt, $email, $created_atl);
+    
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Obtener el resultado
+    $result_in = $stmt->get_result();
+    $stmt->close();//cerrar la declaración
+
+    if ($result_in) {
         echo json_encode([
             'success' => true, 
             'mensaje' => 'Usuario registrado con éxito.',
@@ -80,7 +134,6 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     } else {
         echo json_encode([
             'success' => false, 
-            // 'mensaje' => 'Error al registrar el usuario: ' . mysqli_error($conn), 
             'mensaje' => 'Error al registrar el usuario: ',
             'conn_error' => $conn->error, 
             'dic_code' => 'd238'
@@ -88,7 +141,7 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     }
 }
 
-//mysqli_close($conn);
+// Cerrar la conexión
 $conn->close();
 
 ?>
