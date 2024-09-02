@@ -23,9 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
         
+        // Usuario encontrado, verificar la contraseña
+        $row = $result->fetch_assoc();
+        //$storedId_user = $row["id_user"];//1
+        $storedUsername = $row["username"];//Sergio
+
         // Generar un token único y establecer la fecha de expiración
         $resetToken = bin2hex(random_bytes(32));
         $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        
 
         // Almacenar el token y la fecha de expiración en la base de datos
         $updateQuery = "UPDATE users SET 
@@ -48,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <tr>
                         <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Hola, <a href="mailto:' . $email . '" target="_blank">' . $email . '</a>:
+                                Hola, <b>' . $storedUsername . '</b>.
                             </div>
                         </td>
                     </tr>
@@ -102,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $headers  = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
-        $headers .= "From: Bibleqt - <contact@bibleqt.es>" . "\r\n"; 
-        $headers .= "Reply-To: Bibleqt - <contact@bibleqt.es>" . "\r\n"; 
+        $headers .= "From: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
+        $headers .= "Reply-To: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
         if($host == 'bibleqt.local'){//localhost
