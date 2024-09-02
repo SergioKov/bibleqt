@@ -67,7 +67,7 @@ if (/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
     $created_at = date("Y-m-d H:i:s");
     
     $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
-                    VALUES ('$username', '$password', '$hashedPassword', '$salt','$email', '$created_at')
+                    VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
     ";
     $result_in = $conn->query($insertQuery);
 

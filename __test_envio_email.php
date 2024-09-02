@@ -13,8 +13,8 @@ echo "<p>$ mensaje: $mensaje";
 // Для отправки HTML-письма должен быть установлен заголовок Content-type
 $headers  = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
-$headers .= "From: mitest - YO <contact@serg.es>" . "\r\n"; 
-$headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
+$headers .= "From: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
+$headers .= "Reply-To: Sergio <contact@bibleqt.es>" . "\r\n"; 
 
 
 echo "<pre>$ headers:<br> $headers </pre>";

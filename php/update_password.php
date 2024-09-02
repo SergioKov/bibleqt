@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $headers  = "MIME-Version: 1.0" . "\r\n";
                 $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
                 $headers .= "From: Bibleqt - <contact@bibleqt.es>" . "\r\n"; 
-                $headers .= "Reply-To: Sergio <sergiokovalchuk@gmail.com>" . "\r\n"; 
+                $headers .= "Reply-To: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
                 
                 // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
                 if($host == 'bibleqt.local'){//localhost
