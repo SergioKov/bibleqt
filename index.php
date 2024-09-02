@@ -951,7 +951,7 @@ print<<<HERE
                     <p class="mensaje">
                         <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
                     </p>
-                    <input id="username_email" name="username_email" type="text" autocomplete="on" placeholder="Nombre" data-dic="d194_ph" required />
+                    <input id="username_email" name="username_email" type="email" autocomplete="on" placeholder="Email" data-dic="d194_ph" required />
                     <input id="password" name="password" class="type_password m_bot0" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
                     <label class="ch_lab">
                         <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
