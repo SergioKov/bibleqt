@@ -820,6 +820,17 @@ session_start();
 
 <?php
     
+    if(isset($_GET['login'])){
+print<<<HERE
+<script>
+    setTimeout(()=>{
+        openModal('top','Login',null,'showLogin');
+    },3000);
+</script>
+HERE;
+    }
+
+
     if(isset($_GET['from_aviso'])){
 print<<<HERE
 <script>

@@ -114,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Enviar un correo electrónico al usuario con el enlace de restablecimiento
                 $subject = "Actualizar Contraseña";
                 $message = "Tu contraseña ha sido actualizada con éxito.";
+                $linkLogin = $host . "/?login";
 
                 $message_html = '
                     <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
@@ -143,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <tr>
                                 <td align="center" style="font-size:0px;padding:32px 44px;padding-bottom:10px;word-break:break-word">
                                     <a 
-                                    href="' . $host . '" 
+                                    href="' .$linkLogin . '" 
                                     style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
                                     target="_blank"
                                     >
