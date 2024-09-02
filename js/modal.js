@@ -1167,6 +1167,8 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             chapter = chapterNumber;
             verse = verseNumber;
 
+
+
             if(modo_fetch_verses_compare == 'by_text'){
                 //console.log(`modo_fetch_verses_compare == 'by_text'`);
 
@@ -1631,12 +1633,18 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
 
 
-
-
-
-
             if(modo_fetch_verses_compare == 'by_json'){
                 //console.log(`modo_fetch_verses_compare == 'by_json'`);
+
+                //saco ajustes de este modulo en json               
+                let bq = el_trans;
+                //console.log('1643. bq: ', bq);
+
+                let Translation = el_trans.Translation;//solo aqui
+
+                //url del libro necesario
+                url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
+                //console.log('1649. url: ', url);
 
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                 let formData = new FormData();
@@ -1667,11 +1675,16 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     
                     //console.log(`en then() --- el_trans.Translation: ${el_trans.Translation}`);
                     let bq = el_trans;
-
-
-                    let arr = dataRead.chapterData.arr_p_verses[verseNumber].split(' ');
-                    arr.shift(0);//elimino index 0
-                    let VerseText = arr.join(' ');
+                    
+                    let arr;
+                    let VerseText;
+                    if(typeof dataRead.chapterData.arr_p_verses[verseNumber] !== 'undefined'){
+                        arr = dataRead.chapterData.arr_p_verses[verseNumber].split(' ');
+                        arr.shift(0);//elimino index 0
+                        VerseText = arr.join(' ');
+                    }else{
+                        VerseText = ' (no existe el texto del versículo...) ';
+                    }
 
 
                     //========================================================//
