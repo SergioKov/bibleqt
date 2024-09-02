@@ -79,11 +79,17 @@ if($result->num_rows > 0){
                     WHERE id_user = '$storedId_user'
         ";
         $result_up = $conn->query($sql_up);
+
+        // Asegúrate de que la cadena esté en UTF-8
+        $storedUsername_utf8 = mb_convert_encoding($storedUsername, 'UTF-8', 'auto');
+
+        // Codificar la cadena a JSON con la opción JSON_UNESCAPED_UNICODE
+        //$json = json_encode($utf8_string, JSON_UNESCAPED_UNICODE);
     
         echo json_encode([
             'success' => true, 
-            'username' => $storedUsername
-        ]);
+            'username' => $storedUsername_utf8
+        ], JSON_UNESCAPED_UNICODE);
 
         //echo"<hr>$ _SESSION <pre>";
         //echo print_r($_SESSION);
