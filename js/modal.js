@@ -1641,7 +1641,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                 let formData = new FormData();
                 // formData.append('url', url );//antes
-                formData.append('url', './'+url);//importante './' delante de la url
+                formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
                 formData.append('base_ep', base_ep);
                 formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
                 if(book != null) formData.append('book', bookNumber);
@@ -1649,12 +1649,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
                 if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
                 if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+
+                //console.log('formData: ',[...formData]);
         
                 fetch('./app/read_file_to_json.php',{
                     method: 'POST',
                     body: formData
                 })
                 .then((response) => response.json())
+                //.then((response) => response.text())//test
                 .then((dataRead) => {
         
                     //console.log(dataRead);

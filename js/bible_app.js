@@ -4304,7 +4304,7 @@ function getTsk(e){
                                             //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                                             let formData = new FormData();
                                             //formData.append('url', url );//antes
-                                            formData.append('url', '../'+url);//importante '../' delante de la url
+                                            formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
                                             formData.append('base_ep', base_ep);
                                             formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
                                             if(book != null) formData.append('book', bookNumber);
@@ -4313,6 +4313,8 @@ function getTsk(e){
                                             if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
                                             if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
                                             if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+
+                                            //console.log('formData: ',[...formData]);
 
                                             fetch('./app/read_file_to_json.php',{
                                                 method: 'POST',
@@ -9063,7 +9065,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
             //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
             let formData = new FormData();
             // formData.append('url', url );//antes
-            formData.append('url', '../'+url);//importante '../' delante de la url
+            formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
             formData.append('base_ep', base_ep);
             formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
             if(book != null) formData.append('book', book);
@@ -9072,6 +9074,8 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
             //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
             //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
             if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+
+            //console.log('formData: ',[...formData]);
             
             fetch('./app/read_file_to_json.php',{
                 method: 'POST',
