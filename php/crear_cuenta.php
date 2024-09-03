@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $lang = (isset($_GET['lang'])) ? $_GET['lang'] : '' ;
 
     debug($_GET);
-    exit;
+    //exit;
 
 }else{//input
 
@@ -68,8 +68,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
 
 
-//$modo = 'simple';//modo1. simple
-$modo = 'seguro'; //modo 2. seguro 
+$modo = 'simple';//modo1. simple
+//$modo = 'seguro'; //modo 2. seguro 
 
 if($modo == 'simple'){
     //antes con consulta simple => $conn->query($checkQuery)
@@ -169,6 +169,7 @@ if ($result->num_rows > 0) {
         $result_in = $stmt->affected_rows;//$stmt->get_result() se usa solo con 'SELECT';
         $stmt->close();//cerrar la declaración
     }
+    
 
     if ($result_in) {
         //Cuando se ha creado el usuario, mando un email para que él confirme su correo y así finalice el proceso de creación de su cuenta    
