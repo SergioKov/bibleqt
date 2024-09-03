@@ -41,43 +41,50 @@ $email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input[
 $password = (isset($input['password'])) ? $input['password'] : '' ;
 $lang = (isset($input['lang'])) ? $input['lang'] : '' ;
 
-/*
-//antes con consulta simple => $conn->query($checkQuery)
-//saco datos de user de la bd.
-$checkQuery  = "SELECT  `username`, `email` 
-        FROM users 
-        WHERE email = '$email'
-";
-$result = $conn->query($checkQuery);
-*/
 
+//$modo = 'simple';//modo1. simple
+$modo = 'seguro'; //modo 2. seguro 
 
-//con la consulta segura, preparando los parémetros
-$checkQuery = "SELECT `username`, `email` 
-                FROM users 
-                WHERE email = ?
-";
-
-// Preparar la consulta SQL con parámetros
-$stmt = $conn->prepare($checkQuery);
-if ($stmt === false) {
-    die("Error en la preparación de la consulta: " . $conn->error);
+if($modo == 'simple'){
+    //antes con consulta simple => $conn->query($checkQuery)
+    //saco datos de user de la bd.
+    $checkQuery  = "SELECT  `username`, `email` 
+            FROM users 
+            WHERE email = '$email'
+    ";
+    $result = $conn->query($checkQuery);
 }
 
-// Vincular los parámetros con diferentes tipos de datos
-//$stmt->bind_param("sis", $name, $age, $registration_date);//ejemplo si hay varios parametros...
-$stmt->bind_param("s", $email);
 
-// 's' => string
-// 'i' => integer
-// 's' => string (las fechas se manejan como strings en este caso)
+if($modo == 'seguro'){
+    //con la consulta segura, preparando los parémetros
+    $checkQuery = "SELECT `username`, `email` 
+                    FROM users 
+                    WHERE email = ?
+    ";
 
-// Ejecutar la consulta
-$stmt->execute();
+    // Preparar la consulta SQL con parámetros
+    $stmt = $conn->prepare($checkQuery);
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
 
-// Obtener el resultado
-$result = $stmt->get_result();//->get_result() se usa solo con 'SELECT'
-$stmt->close();//cerrar la declaración
+    // Vincular los parámetros con diferentes tipos de datos
+    //$stmt->bind_param("sis", $name, $age, $registration_date);//ejemplo si hay varios parametros...
+    $stmt->bind_param("s", $email);
+
+    // 's' => string
+    // 'i' => integer
+    // 's' => string (las fechas se manejan como strings en este caso)
+
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Obtener el resultado
+    $result = $stmt->get_result();//->get_result() se usa solo con 'SELECT'
+    $stmt->close();//cerrar la declaración
+}
+
 
 if ($result->num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
@@ -98,8 +105,6 @@ if ($result->num_rows > 0) {
     // Obtener la fecha y hora actual
     $created_at = date("Y-m-d H:i:s");
 
-    //$modo = 'simple';//modo1. simple
-    $modo = 'seguro'; //modo 2. seguro 
     
     if($modo == 'simple'){
         //modo 1. simple
