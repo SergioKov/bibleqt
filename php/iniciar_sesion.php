@@ -6,6 +6,15 @@ header('Content-Type: application/json; charset=utf-8');
 
 include('connect_db.php');
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
+
+
+
+
 // Obtener datos del cuerpo de la solicitud (en formato JSON)
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);

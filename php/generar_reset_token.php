@@ -3,6 +3,12 @@
 include('connect_db.php');
 include('base_url.php');
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo json_encode(['info' => true]);
     //exit;

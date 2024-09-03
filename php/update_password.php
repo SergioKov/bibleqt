@@ -3,6 +3,11 @@
 include('connect_db.php');
 include('base_url.php');
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
 
 /*
 //HACER PRUEBAS...

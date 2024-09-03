@@ -2,6 +2,13 @@
 <?php
 include('./php/base_url.php');
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
+
+
 //mensaje
 $m = (isset($_GET['m']) && $_GET['m'] != '') ? $_GET['m'] : '';
 

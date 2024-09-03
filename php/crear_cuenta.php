@@ -5,6 +5,12 @@ session_start();
 include('connect_db.php');
 include('base_url.php');
 
+function debug($variable){
+    echo"<pre>";
+    var_dump($variable);
+    echo"</pre>";
+}
+
 
 /*
 //HACER PRUEBAS...
@@ -20,26 +26,46 @@ exit;
 */
 
 
-// Obtener datos del cuerpo de la solicitud (en formato JSON)
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, true);
 
-// Verificar si se recibió correctamente el JSON
-if ($input === null) {
-    //echo "Error al procesar el JSON.";
-    echo json_encode([
-        'success' => false, 
-        'error' => 'Error al procesar el JSON.',
-        'dic_code' => 'd235'
-    ]);
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+    
+    // Obtener usuario y contraseña del cuerpo de la solicitud
+    $username = (isset($_GET['username'])) ? $conn->real_escape_string($_GET['username']) : '' ;
+    $email = (isset($_GET['email'])) ? $conn->real_escape_string(strtolower($_GET['email'])) : '' ;
+    $password = (isset($_GET['password'])) ? $_GET['password'] : '' ;
+    $lang = (isset($_GET['lang'])) ? $_GET['lang'] : '' ;
+
+    debug($_GET);
     exit;
+
+}else{//input
+
+    // Obtener datos del cuerpo de la solicitud (en formato JSON)
+    $inputJSON = file_get_contents('php://input');
+    $input = json_decode($inputJSON, true);
+
+    // Verificar si se recibió correctamente el JSON
+    if ($input === null) {
+        //echo "Error al procesar el JSON.";
+        echo json_encode([
+            'success' => false, 
+            'error' => 'Error al procesar el JSON.',
+            'dic_code' => 'd235'
+        ]);
+        exit;
+    }
+
+    // Obtener usuario y contraseña del cuerpo de la solicitud
+    $username = (isset($input['username'])) ? $conn->real_escape_string($input['username']) : '' ;
+    $email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
+    $password = (isset($input['password'])) ? $input['password'] : '' ;
+    $lang = (isset($input['lang'])) ? $input['lang'] : '' ;
+
 }
 
-// Obtener usuario y contraseña del cuerpo de la solicitud
-$username = (isset($input['username'])) ? $conn->real_escape_string($input['username']) : '' ;
-$email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
-$password = (isset($input['password'])) ? $input['password'] : '' ;
-$lang = (isset($input['lang'])) ? $input['lang'] : '' ;
+
+
+
 
 
 //$modo = 'simple';//modo1. simple
