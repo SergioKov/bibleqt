@@ -356,7 +356,7 @@ async function iniciarSesion(){//antes login() //username,password
     
         const data = await response.json();
         //const data = await response.text();//test
-        console.log(data);
+        //console.log(data);
     
         //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
         work_with_data(data);
@@ -547,13 +547,13 @@ async function crearCuenta(){
                 username: username,
                 password: password,
                 email: email,
-                lang: lang //necesario para envío de email 
+                lang: lang 
             })
         });
     
         const data = await response.json();
         //const data = await response.text();//test
-        console.log(data);
+        //console.log(data);
         
         if(data.localhost){
             console.log(data.verifyLink);            
@@ -643,10 +643,8 @@ async function enviarEmail(){
         const data = await response.json();
         //const data = await response.text();//test
         //console.log(data);
-        //console.log(data.resetLink);
     
         if(typeof data.resetLink != 'undefined'){
-            console.log(data);
             console.log(data.resetLink);
         }
                 
@@ -837,8 +835,7 @@ async function enviarChangeEmail(){
         //console.log(data);
     
         if(typeof data.localhost != 'undefined'){
-            console.log(data);
-            console.log(data.localhost);
+            console.log(data.linkLogin);
         }
                 
         if(data.success) {

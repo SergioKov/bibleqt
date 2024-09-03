@@ -207,6 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode([
                         'success' => true, 
                         'localhost' => true,
+                        'linkLogin' => $linkLogin,
                         'mensaje' => 'Su contraseña ha sido actualizada con éxito.',
                         'dic_code' => 'd266'
                     ]);

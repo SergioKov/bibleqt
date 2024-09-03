@@ -182,8 +182,8 @@ if ($result->num_rows > 0) {
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
         $subject = "Confirmar el correo electrónico";
-        $message = "Para finalizar el proceso de creación de tu cuenta haz clic en el siguiente enlace para confirmar tu correo elecctrónico: $verifyLink";
         $verifyLink = $baseUrl . "verify_email.php?email=$email&token=$emailToken";
+        $message = "Para finalizar el proceso de creación de tu cuenta haz clic en el siguiente enlace para confirmar tu correo elecctrónico: $verifyLink";
 
         $frase_hola = $obj_lang['d287'];//'Hola';
         $frase2 = $obj_lang['d288'];//'Hemos recibido una solicitud para crear la cuenta. Pulsa "Confirmar email" para confirmar tu correo electrónico. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.';
