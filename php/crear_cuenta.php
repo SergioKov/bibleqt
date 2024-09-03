@@ -63,13 +63,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
 }
 
+//echo json_encode(['info' => 'aki 1']);
+//die();
 
 
 
 
-
-//$modo = 'simple';//modo1. simple
-$modo = 'seguro'; //modo 2. seguro 
+$modo = 'simple';//modo1. simple
+//$modo = 'seguro'; //modo 2. seguro no funciona en HOSTALIA 
 
 if($modo == 'simple'){
     //antes con consulta simple => $conn->query($checkQuery)
@@ -107,10 +108,13 @@ if($modo == 'seguro'){
     $stmt->execute();
 
     // Obtener el resultado
-    $result = $stmt->get_result();//->get_result() se usa solo con 'SELECT'
+    $result = $stmt->get_result();//->get_result() se usa solo con 'SELECT' no funciona en Hostalia
     $stmt->close();//cerrar la declaración
 }
 
+
+//echo json_encode(['info' => 'aki 2']);
+//die();
 
 if ($result->num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
@@ -170,6 +174,8 @@ if ($result->num_rows > 0) {
         $stmt->close();//cerrar la declaración
     }
 
+    //echo json_encode(['info' => 'aki 3']);
+    //die();
 
     if ($result_in) {
         //Cuando se ha creado el usuario, mando un email para que él confirme su correo y así finalice el proceso de creación de su cuenta    
