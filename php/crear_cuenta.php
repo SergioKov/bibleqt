@@ -68,8 +68,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
 
 
-$modo = 'simple';//modo1. simple
-//$modo = 'seguro'; //modo 2. seguro 
+//$modo = 'simple';//modo1. simple
+$modo = 'seguro'; //modo 2. seguro 
 
 if($modo == 'simple'){
     //antes con consulta simple => $conn->query($checkQuery)
@@ -169,7 +169,7 @@ if ($result->num_rows > 0) {
         $result_in = $stmt->affected_rows;//$stmt->get_result() se usa solo con 'SELECT';
         $stmt->close();//cerrar la declaración
     }
-    
+
 
     if ($result_in) {
         //Cuando se ha creado el usuario, mando un email para que él confirme su correo y así finalice el proceso de creación de su cuenta    
@@ -213,9 +213,9 @@ if ($result->num_rows > 0) {
 
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
-        $subject = "Confirmar el correo electrónico";
+        $subject = $obj_lang['d296'];//"Confirmar el correo electrónico";
         $verifyLink = $baseUrl . "verify_email.php?email=$email&token=$emailToken";
-        $message = "Para finalizar el proceso de creación de tu cuenta haz clic en el siguiente enlace para confirmar tu correo elecctrónico: $verifyLink";
+        //$message = "Para finalizar el proceso de creación de tu cuenta haz clic en el siguiente enlace para confirmar tu correo elecctrónico: $verifyLink";
 
         $frase_hola = $obj_lang['d287'];//'Hola';
         $frase2 = $obj_lang['d288'];//'Hemos recibido una solicitud para crear la cuenta. Pulsa "Confirmar email" para confirmar tu correo electrónico. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.';

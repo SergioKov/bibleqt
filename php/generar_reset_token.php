@@ -83,9 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
-        $subject = "Restablecer Contraseña";
+        $subject = $obj_lang['d295'];//'Restablecer contraseña';
         $resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";
-        $message = "Haga clic en el siguiente enlace para restablecer su contraseña: $resetLink";
+        //$message = "Haga clic en el siguiente enlace para restablecer su contraseña: $resetLink";
 
         $frase_hola = $obj_lang['d287'];//'Hola';
         $frase2 = $obj_lang['d294'];//Hemos recibido una solicitud para restablecer la contraseña. Pulsa "Restablecer contraseña" para crear una nueva contraseña. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.

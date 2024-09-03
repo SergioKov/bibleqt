@@ -140,8 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                 // Enviar un correo electrónico al usuario con el enlace de restablecimiento
-                $subject = "Actualizar Contraseña";
-                $message = "Tu contraseña ha sido actualizada con éxito.";
+                $subject = $obj_lang['d297'];//"Actualizar Contraseña";
+                //$message = "Tu contraseña ha sido actualizada con éxito.";
                 $linkLogin = $host . "/?login";
 
                 $frase_hola = $obj_lang['d287'];//'Hola';
