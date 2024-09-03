@@ -114,6 +114,7 @@ function pintMensaje(){
     document.head.querySelector('title').textContent = obj_lang.d261;//Aviso
     document.querySelector('.aviso-form h1').textContent = obj_lang.d261;//Aviso
     document.querySelector('#a_inicio').textContent = obj_lang.d262;//Ir al inicio
+
     setTimeout(()=>{
         window.location.href = "/index.php?from_aviso";
     },5000);

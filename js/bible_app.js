@@ -355,7 +355,8 @@ async function iniciarSesion(){//antes login() //username,password
         });
     
         const data = await response.json();
-        //console.log(data);
+        //const data = await response.text();//test
+        console.log(data);
     
         //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
         work_with_data(data);
@@ -545,17 +546,26 @@ async function crearCuenta(){
             body: JSON.stringify({
                 username: username,
                 password: password,
-                email: email
+                email: email,
+                lang: lang //necesario para envío de email 
             })
         });
     
         const data = await response.json();
+        //const data = await response.text();//test
         console.log(data);
+        
+        if(data.localhost){
+            console.log(data.verifyLink);            
+        }
     
         if(data.success){                
             //console.log(`Usuario registrado con éxito.`);
+
+            //let text_show = reemplazarValores(obj_lang.d211, [username]);////Usuario ${username} se ha registrado con éxito.
+            let text_show = obj_lang[data.dic_code];
     
-            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">` + reemplazarValores(obj_lang.d211, [username]) + `</span>`;//Usuario ${username} se ha registrado con éxito.
+            eid_bl_register_form.querySelector('.mensaje').innerHTML = `<span class="clr_gr-een">${text_show}</span>`;
     
             setTimeout(()=>{
                 mostrarLoginForm();
@@ -619,13 +629,14 @@ async function enviarEmail(){
         }        
     
         // Enviar los datos al servidor para la autenticación
-        const response = await fetch("./php/generar_token.php", {
+        const response = await fetch("./php/generar_reset_token.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email: email
+                email: email,
+                lang: lang
             })
         });
     
@@ -816,7 +827,8 @@ async function enviarChangeEmail(){
                 email: email,
                 password: password,
                 new_password: new_password,
-                new_password_rep: new_password_rep
+                new_password_rep: new_password_rep,
+                lang: lang
             })
         });
     

@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $input = json_decode($inputJSON, true);    
     
     $email = $conn->real_escape_string(strtolower($input['email']));    
+    $lang = $conn->real_escape_string(strtolower($input['lang']));    
 
     //modo 1. simple
     // Verificar si el correo electrónico existe en la base de datos
@@ -71,14 +72,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("sss", $resetToken, $resetTokenExpiry, $email);
         $stmt->execute();
-        $result_up = $stmt->get_result();
+        $result_up = $stmt->affected_rows;
         $stmt->close();
 
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
-        $resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";
         $subject = "Restablecer Contraseña";
         $message = "Haga clic en el siguiente enlace para restablecer su contraseña: $resetLink";
+        $resetLink = $baseUrl . "reset_password.php?email=$email&token=$resetToken";
+
+        $frase_hola = $obj_lang['d287'];//'Hola';
+        $frase2 = $obj_lang['d294'];//Hemos recibido una solicitud para restablecer la contraseña. Pulsa "Restablecer contraseña" para crear una nueva contraseña. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.
+        $frase3 = $obj_lang['d289'];//'Por seguridad, nunca compartas este enlace con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.';
+        $frase_link = $obj_lang['d295'];//'Restablecer contraseña';
+        $frase_gracias = $obj_lang['d291'];//'Gracias, <br>El equipo de Bibleqt';
+
+
+
 
         $message_html = '
             <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
@@ -87,21 +97,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <tr>
                         <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Hola, <b>' . $storedUsername . '</b>.
+                                ' . $frase_hola . ', <b>' . $storedUsername . '</b>.
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
                             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Hemos recibido una solicitud para restablecer la contraseña. Pulsa "Restablecer contraseña" para crear una nueva contraseña. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.
+                                ' . $frase2 . '
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
                             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                <b>Por seguridad, nunca compartas este enlace con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.</b>
+                                <b>' . $frase3 . '</b>
                             </div>
                         </td>
                     </tr>
@@ -112,14 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
                             target="_blank"
                             >
-                                Restablecer contraseña
+                                ' . $frase_link . '
                             </a>
                         </td>
                     </tr>
                     <tr>
                         <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                Gracias, <br>El equipo de Bibleqt
+                                ' . $frase_gracias . '
                             </div>
                         </td>
                     </tr>
@@ -128,21 +138,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         ';
         
-        //$from_email = "sergiokovalchuk@gmail.com";
-        //$reply_to_email = "sergiokovalchuk@gmail.com";
-
-        // Для отправки HTML-письма должен быть установлен заголовок Content-type
-        //$headers  = "MIME-Version: 1.0" . "\r\n";
-        //$headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-            //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
-            //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
-        //$headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
-        //$headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
 
         $headers  = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
         $headers .= "From: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
         $headers .= "Reply-To: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
+        
         
         // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
         if($host == 'bibleqt.local'){//localhost

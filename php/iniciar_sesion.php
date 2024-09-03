@@ -41,7 +41,7 @@ $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
 //echo"<p>$ hashedPassword; $hashedPassword</p>";
 
 //saco datos de user de la bd.
-$sql = "SELECT `id_user`, `username`, `email`, `password_text`, `password`, `salt` 
+$sql = "SELECT `id_user`, `username`, `email`, `is_email_verified`, `password_text`, `password`, `salt` 
         FROM users 
         WHERE BINARY email = '$email' 
 ";
@@ -57,6 +57,7 @@ if($result->num_rows > 0){
     $storedEmail = $row["email"];//sergiokovalchuk@gmail.com
     $storedHashedPassword = $row["password"];//123123
     $storedSalt = $row["salt"];//32303030
+    $storedIs_email_verified = $row["is_email_verified"];//1 or 0
 
     //var_dump($row);
 
@@ -69,31 +70,44 @@ if($result->num_rows > 0){
     
     //funcción password_verify(contraseña_input, contraseña_hasheada_de_bd)
     if(password_verify($storedSalt . $password, $storedHashedPassword)) { 
-        //echo "¡Contraseña correcta! Usuario autenticado.";
-        $_SESSION['id_user'] = $storedId_user;
-        $_SESSION['username'] = $storedUsername;
-        $_SESSION['email'] = $storedEmail;
+        //Contraseña correcta! Usuario autenticado
 
-        $fechaHoraActual = date('Y-m-d H:i:s');
+        //verifico si tiene email verificado
+        if($storedIs_email_verified){
+            $_SESSION['id_user'] = $storedId_user;
+            $_SESSION['username'] = $storedUsername;
+            $_SESSION['email'] = $storedEmail;
 
-        $sql_up = "UPDATE users SET 
-                    `last_login` = '$fechaHoraActual'
-                    WHERE id_user = '$storedId_user'
-        ";
-        $result_up = $conn->query($sql_up);
+            $fechaHoraActual = date('Y-m-d H:i:s');
+
+            $sql_up = "UPDATE users SET 
+                        `last_login` = '$fechaHoraActual'
+                        WHERE id_user = '$storedId_user'
+            ";
+            $result_up = $conn->query($sql_up);
+
+            echo json_encode([
+                'success' => true, 
+                'email_verificado' => true, 
+                'username' => $storedUsername
+            ]);
+        }else{
+            echo json_encode([
+                'success' => false,
+                'email_verificado' => false,
+                'error' => 'El correo electrónico del usuario no está verificado.',
+                'dic_code' => 'd243'
+            ]);
+        }
     
-        echo json_encode([
-            'success' => true, 
-            'username' => $storedUsername
-        ]);
-
-        //echo"<hr>$ _SESSION <pre>";
-        //echo print_r($_SESSION);
-        //echo"</pre>";
+        //echo json_encode([
+        //    'success' => true, 
+        //    'username' => $storedUsername
+        //]);
 
     }else{
         
-        //echo "Contraseña incorrecta. Usuario no autenticado.";
+        //Contraseña incorrecta. Usuario no autenticado.
         // Autenticación fallida
         echo json_encode([
             'success' => false,

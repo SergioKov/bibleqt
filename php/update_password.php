@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = isset($input['password']) ? $input['password'] : '';
     $new_password = isset($input['new_password']) ? $input['new_password'] : '';
     $new_password_rep = isset($input['new_password_rep']) ? $input['new_password_rep'] : '';
+    $lang = isset($input['lang']) ? $input['lang'] : '';
 
     if($email == '' && $password == '' && $new_password == '' && $new_password_rep == ''){
         echo json_encode([
@@ -111,10 +112,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //si se ha actualizdo el password en bd...
             if($result_up){
 
+
+                $filename_lang = '../modules/json/' . $lang . '.json';
+                if(file_exists($filename_lang)) {
+                    // Leer el contenido del archivo
+                    $obj_lang_content = file_get_contents($filename_lang);
+        
+                    // Convertir el contenido JSON en un array asociativo de PHP
+                    $obj_lang = json_decode($obj_lang_content, true);
+        
+                    //echo json_encode ([
+                    //    'filename_lang' => $filename_lang,
+                    //    'test' => "$ obj_lang['d287']: " . $obj_lang['d287'] 
+                    //]);
+                    //exit;
+                }else{
+                    //echo json_encode ([
+                    //    'filename_lang' => 'no existe'
+                    //]);
+                    //exit;    
+                }
+
+
                 // Enviar un correo electrónico al usuario con el enlace de restablecimiento
                 $subject = "Actualizar Contraseña";
                 $message = "Tu contraseña ha sido actualizada con éxito.";
                 $linkLogin = $host . "/?login";
+
+                $frase_hola = $obj_lang['d287'];//'Hola';
+                $frase2 = $obj_lang['d292'];//Tu contraseña ha sido actualizada con éxito. Pulsa "Entrar" para loguearte con la nueva contraseña.
+                $frase3 = $obj_lang['d289'];//'Por seguridad, nunca compartas este enlace con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.';
+                $frase_link = $obj_lang['d293'];//'Entrar';
+                $frase_gracias = $obj_lang['d291'];//'Gracias, <br>El equipo de Bibleqt';
+
 
                 $message_html = '
                     <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    
@@ -123,21 +153,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <tr>
                                 <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                                     <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                        Hola, <b>' . $storedUsername . '</b>.
+                                        ' . $frase_hola . ', <b>' . $storedUsername . '</b>.
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
                                     <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                        Tu contraseña ha sido actualizada con éxito. Pulsa "Entrar" para loguearte con la nueva contraseña. 
+                                        ' . $frase2 . '
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="left" style="font-size:0px;padding:0px 40px;padding-bottom:10px;word-break:break-word">
                                     <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                        <b>Por seguridad, nunca compartas tu contraseña con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.</b>
+                                        <b>' . $frase3 . '</b>
                                     </div>
                                 </td>
                             </tr>
@@ -148,14 +178,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     style="background:#2196f3;color:#ffffff;font-family:Raleway,Arial;font-size:16px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;border-radius:40px;padding:10px 25px" 
                                     target="_blank"
                                     >
-                                        Entrar
+                                        ' . $frase_link . '
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="left" style="font-size:0px;padding:32px 44px;word-break:break-word">
                                     <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#253238">
-                                        Gracias, <br>El equipo de Bibleqt
+                                        ' . $frase_gracias . '
                                     </div>
                                 </td>
                             </tr>
@@ -163,22 +193,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </table>
                     </div>
                 ';
-                
-                //$from_email = "sergiokovalchuk@gmail.com";
-                //$reply_to_email = "sergiokovalchuk@gmail.com";
 
-                // Для отправки HTML-письма должен быть установлен заголовок Content-type
-                //$headers  = "MIME-Version: 1.0" . "\r\n";
-                //$headers .= "Content-type: text/plain; charset=\"utf-8\"" . "\r\n";
-                    //$headers .= "From: bibleqt.es - admin <" . $from_email . ">" . "\r\n";//comento ya que no funciona 
-                    //$headers .= "Reply-To: admin <" . $reply_to_email . ">" . "\r\n";//comento ya que no funciona 
-                //$headers .= "From: bibleqt.es - admin <sergiokovalchuk@gmail.com>" . "\r\n"; 
-                //$headers .= "Reply-To: admin <sergiokovalchuk@gmail.com>" . "\r\n";
 
                 $headers  = "MIME-Version: 1.0" . "\r\n";
                 $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
                 $headers .= "From: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
                 $headers .= "Reply-To: Bibleqt <contact@bibleqt.es>" . "\r\n"; 
+
                 
                 // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
                 if($host == 'bibleqt.local'){//localhost
