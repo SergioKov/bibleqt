@@ -1,6 +1,7 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+include('functions.php');
 
 /*
 //HACER PRUEBAS...
@@ -76,17 +77,13 @@ if (true) {
             FROM $tabla 
             WHERE id_user = '$id_user_logged' 
     ";
-    // $result = mysqli_query($conn, $sql);
     $result = $conn->query($sql);
 	//echo json_encode(['sql' => $sql, 'num_rows' => mysqli_num_rows($result)]);
     //die();
 	
-    if(/*mysqli_num_rows($result) > 0*/$result->num_rows > 0){
-        
-        // $row = mysqli_fetch_assoc($result);
+    if($result->num_rows > 0){   
         $row = $result->fetch_assoc();
-		//echo json_encode(['$row' => $row]);
-		//die();
+		//echo_json_x($row, 'row']);
         
         $hay_id_user_en_tabla = true;
         $valorCampo = $row[$campo];
@@ -104,7 +101,6 @@ if (true) {
         ];
 
     }
-
 
     //Cierro conexion con bd
     $conn->close();

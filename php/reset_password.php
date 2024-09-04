@@ -2,15 +2,10 @@
 
 include('connect_db.php');
 include('base_url.php');
+include('functions.php');
 
-//echo "file: /php/reset_password.php";
-//die();
+//debug_x('file: /php/reset_password.php');
 
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     
@@ -35,18 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     AND reset_token = '$token' 
                     AND reset_token_expiry > NOW()
     ";
-    // $result = mysqli_query($conn, $checkQuery);
     $result = $conn->query($checkQuery);
 
-    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0){
-                
+    if($result->num_rows > 0){             
         $location = "Location: " . $protocol . "://" . $host . "/reset_password_form.php?email=$email&token=$token";
         //echo "<br>$ location: $location";
         //exit();
-        
-        //echo "<br>1. redirijo a ...";
-        //echo "<br>$location";
-        //die();
         
         // Permitir al usuario restablecer la contraseña
         // Puedes redirigir al usuario a un formulario para ingresar la nueva contraseña

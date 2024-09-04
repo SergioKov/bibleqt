@@ -2,12 +2,9 @@
 
 include('connect_db.php');
 include('base_url.php');
+include('functions.php');
 
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
+
 
 /*
 //HACER PRUEBAS...
@@ -22,8 +19,7 @@ exit;
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //echo json_encode(['info' => true]);
-    //exit;
+    //echo_json_x('es un POST');
 
     // Obtener datos del cuerpo de la solicitud (en formato JSON)
     $inputJSON = file_get_contents('php://input');
@@ -62,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $email = $conn->real_escape_string(strtolower($email));    
+    $lang = $conn->real_escape_string(strtolower($lang));    
 
     //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
     $salt = bin2hex(2000);
@@ -77,12 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     FROM users 
                     WHERE BINARY email = '$email' 
     ";
-    //$result = mysqli_query($conn, $checkQuery);//antes
     $result = $conn->query($checkQuery);
     //echo json_encode(['info' => $checkQuery]);
     //exit;
 
-    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0) {
+    if($result->num_rows > 0) {
         
         // Usuario encontrado, verificar la contraseña
         $row = $result->fetch_assoc();
@@ -117,7 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //si se ha actualizdo el password en bd...
             if($result_up){
 
-
                 $filename_lang = '../modules/json/' . $lang . '.json';
                 if(file_exists($filename_lang)) {
                     // Leer el contenido del archivo
@@ -149,7 +144,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $frase3 = $obj_lang['d289'];//'Por seguridad, nunca compartas este enlace con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.';
                 $frase_link = $obj_lang['d293'];//'Entrar';
                 $frase_gracias = $obj_lang['d291'];//'Gracias, <br>El equipo de Bibleqt';
-
 
                 $message_html = '
                     <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    

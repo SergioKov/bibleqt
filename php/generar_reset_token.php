@@ -2,12 +2,8 @@
 
 include('connect_db.php');
 include('base_url.php');
+include('functions.php');
 
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //echo json_encode(['info' => true]);
@@ -18,68 +14,115 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $input = json_decode($inputJSON, true);    
     
     $email = $conn->real_escape_string(strtolower($input['email']));    
-    $lang = $conn->real_escape_string(strtolower($input['lang']));    
+    $lang = $conn->real_escape_string(strtolower($input['lang']));  
+    
+    
+
+
+
+    $modo = 'simple';//modo1. simple
+    //$modo = 'seguro'; //modo 2. seguro con sentecias preparadas 
 
     //modo 1. simple
-    // Verificar si el correo electrónico existe en la base de datos
-    /*
-    $checkQuery = "SELECT * 
-                    FROM users 
-                    WHERE email = '$email' 
-    ";
-    // $result = mysqli_query($conn, $checkQuery);
-    $result = $conn->query($checkQuery);
-    */
+    if($modo == 'simple'){
+        // Verificar si el correo electrónico existe en la base de datos
+        $checkQuery = "SELECT `id_user`, `username` 
+                        FROM users 
+                        WHERE email = '$email' 
+        ";
+        $result = $conn->query($checkQuery);
+        $result_num_rows = $result->num_rows;
+    }
+    
+    //modo 2. seguro
+    if($modo == 'seguro'){
+        // Verificar si el correo electrónico existe en la base de datos
+        //modo 2. consulta preparada
+        $checkQuery = "SELECT `id_user`, `username` 
+                        FROM users 
+                        WHERE email = ? 
+        ";    
+        $stmt = $conn->prepare($checkQuery);
+        $stmt->bind_param("s", $email);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Almacenar los resultados en el objeto $stmt
+        $stmt->store_result();
+
+        // Vincular las columnas devueltas por la consulta a variables
+        $stmt->bind_result($id_user, $username);//si hay 2 campos => bind_result($id_user, $username)
+
+        $results = [];//para meter alli variables $id_user y $username
+        // Iterar sobre los resultados
+        while ($stmt->fetch()) {
+            $results[] = array(
+                'id_user' => $id_user,
+                'username' => $username
+            );
+        }
+
+        //ver los valores de results en pantalla. solo para debuguear!
+        for ($i=0; $i < count($results); $i++) { 
+            $row = $results[$i];
+            debug($row, 'row') . "<br>";
+        }
+        //debug_x($results, 'results');
+
+        // $result = $stmt->get_result();//'->get_result()' no funciona 
+        $result_num_rows = $stmt->num_rows;//no funciona 
+        $stmt->close();
+    }
 
 
-    //modo 2. consulta preparada
-    $checkQuery = "SELECT * 
-                    FROM users 
-                    WHERE email = ? 
-    ";    
-    $stmt = $conn->prepare($checkQuery);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-
-
-    if($result->num_rows > 0) {
+    if($result_num_rows > 0) {
         
         // Usuario encontrado, verificar la contraseña
-        $row = $result->fetch_assoc();
-
-        //$storedId_user = $row["id_user"];//1
-        $storedUsername = $row["username"];//Sergio
+        if($modo == 'simple'){
+            $row = $result->fetch_assoc();
+            //$storedId_user = $row['id_user'];//1
+            $storedUsername = $row['username'];//Sergio
+        }
+        
+        
+        if($modo == 'seguro'){
+            $row = $results[0];
+            //$storedId_user = $row['id_user'];//1
+            $storedUsername = $row['username'];//Sergio
+        }       
+        
 
         // Generar un token único y establecer la fecha de expiración
         $resetToken = bin2hex(random_bytes(32));
         $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
         
         //modo 1. simple
-        /*
-        // Almacenar el token y la fecha de expiración en la base de datos
-        $updateQuery = "UPDATE users SET 
-                        reset_token = '$resetToken', 
-                        reset_token_expiry = '$resetTokenExpiry' 
-                        WHERE email = '$email' 
-        ";
-        // $result_up = mysqli_query($conn, $updateQuery);
-        $result_up = $conn->query($updateQuery);
-        */
+        if($modo == 'simple'){
+            // Almacenar el token y la fecha de expiración en la base de datos
+            $updateQuery = "UPDATE users SET 
+                            reset_token = '$resetToken', 
+                            reset_token_expiry = '$resetTokenExpiry' 
+                            WHERE email = '$email' 
+            ";
+            $result_up = $conn->query($updateQuery);
+        }
+
 
         //modo 2. Consulta segura
-        // Almacenar el token y la fecha de expiración en la base de datos
-        $updateQuery = "UPDATE users SET 
-                        reset_token = ?, 
-                        reset_token_expiry = ? 
-                        WHERE email = ? 
-        ";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("sss", $resetToken, $resetTokenExpiry, $email);
-        $stmt->execute();
-        $result_up = $stmt->affected_rows;
-        $stmt->close();
+        if($modo == 'seguro'){
+            // Almacenar el token y la fecha de expiración en la base de datos
+            $updateQuery = "UPDATE users SET 
+                            reset_token = ?, 
+                            reset_token_expiry = ? 
+                            WHERE email = ? 
+            ";
+            $stmt = $conn->prepare($updateQuery);
+            $stmt->bind_param("sss", $resetToken, $resetTokenExpiry, $email);
+            $stmt->execute();
+            $result_up = $stmt->affected_rows;
+            $stmt->close();
+        }
 
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
@@ -92,9 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $frase3 = $obj_lang['d289'];//'Por seguridad, nunca compartas este enlace con otras personas. Desde Bibleqt en ningún caso te pediremos que lo hagas.';
         $frase_link = $obj_lang['d295'];//'Restablecer contraseña';
         $frase_gracias = $obj_lang['d291'];//'Gracias, <br>El equipo de Bibleqt';
-
-
-
 
         $message_html = '
             <div marginheight="0" marginwidth="0" style="width:100%!important;margin:0;padding:0;background: white;">    

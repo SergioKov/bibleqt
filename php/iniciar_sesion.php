@@ -5,14 +5,7 @@ session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 include('connect_db.php');
-
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
-
-
+include('functions.php');
 
 
 // Obtener datos del cuerpo de la solicitud (en formato JSON)
@@ -55,6 +48,7 @@ $sql = "SELECT `id_user`, `username`, `email`, `is_email_verified`, `password_te
         WHERE BINARY email = '$email' 
 ";
 $result = $conn->query($sql);
+
 //echo json_encode(['info' => $sql]);
 //die();
 
@@ -68,14 +62,9 @@ if($result->num_rows > 0){
     $storedSalt = $row["salt"];//32303030
     $storedIs_email_verified = $row["is_email_verified"];//1 or 0
 
-    //var_dump($row);
-
-    //echo"<hr>$ row<pre>";
-    //echo print_r($row);
-    //echo"</pre>";
-
-    //echo json_encode(['info' => password_verify($storedSalt . $password, $storedHashedPassword) ]);
-    //die();
+    //debug($row);
+    //debug_r($row);
+    //echo_json_x(password_verify($storedSalt . $password, $storedHashedPassword), 'password_verify()');
     
     //funcción password_verify(contraseña_input, contraseña_hasheada_de_bd)
     if(password_verify($storedSalt . $password, $storedHashedPassword)) { 
@@ -104,8 +93,8 @@ if($result->num_rows > 0){
             echo json_encode([
                 'success' => false,
                 'email_verificado' => false,
-                'error' => 'El correo electrónico del usuario no está verificado.',
-                'dic_code' => 'd243'
+                'error' => 'El correo electrónico del usuario no está verificado. Revisa tu email y pincha sobre el enlace enviado para verificarlo. Después de hacerlo podrás iniciar sesión.',
+                'dic_code' => 'd298'
             ]);
         }
     

@@ -4,12 +4,8 @@ session_start();
 
 include('connect_db.php');
 include('base_url.php');
+include('functions.php');
 
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
 
 
 /*
@@ -27,7 +23,7 @@ exit;
 
 
 
-if($_SERVER['REQUEST_METHOD'] == 'GET'){
+if($_SERVER['REQUEST_METHOD'] == 'GET'){//para debuguear!
     
     // Obtener usuario y contraseña del cuerpo de la solicitud
     $username = (isset($_GET['username'])) ? $conn->real_escape_string($_GET['username']) : '' ;
@@ -70,16 +66,17 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
 
 $modo = 'simple';//modo1. simple
-//$modo = 'seguro'; //modo 2. seguro no funciona en HOSTALIA 
+//$modo = 'seguro'; //modo 2. seguro con sentecias preparadas 
 
 if($modo == 'simple'){
-    //antes con consulta simple => $conn->query($checkQuery)
+    //consulta simple => $conn->query($checkQuery)
     //saco datos de user de la bd.
     $checkQuery  = "SELECT  `username`, `email` 
             FROM users 
             WHERE email = '$email'
     ";
     $result = $conn->query($checkQuery);
+    $result_num_rows = $result->num_rows;
 }
 
 
@@ -107,16 +104,25 @@ if($modo == 'seguro'){
     // Ejecutar la consulta
     $stmt->execute();
 
+    // Almacenar los resultados en el objeto $stmt
+    $stmt->store_result();
+
     // Obtener el resultado
-    $result = $stmt->get_result();//->get_result() se usa solo con 'SELECT' no funciona en Hostalia
+    //$result = $stmt->get_result();//->get_result() se usa solo con 'SELECT' NO FUNCIONA NI EN LOCALHOST NI EN HOSTALIA
+    
+    // Vincular las columnas devueltas por la consulta a variables
+    //bind_result() solo se usa con 'SELECT'
+    $stmt->bind_result($username, $email);//los nombres de los campos en bd `username`, `email`. 
+    
+    //$result = $stmt;//para hacer $result->num_rows ya que lo hace $stmt->num_rows
+    $result_num_rows = $stmt->num_rows;//lo mismo devuelve $stmt->affected_rows
     $stmt->close();//cerrar la declaración
 }
 
+//echo_json_x('aki 2');
 
-//echo json_encode(['info' => 'aki 2']);
-//die();
 
-if ($result->num_rows > 0) {
+if ($result_num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
     echo json_encode([
         'success' => false, 
@@ -142,8 +148,7 @@ if ($result->num_rows > 0) {
                     VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
         ";
         $result_in = $conn->query($insertQuery);
-        //echo "$insertQuery";
-        //exit;
+        //debug_x($insertQuery);
     }
     
 
@@ -155,7 +160,8 @@ if ($result->num_rows > 0) {
 
         //$params = array($username, $password, $hashedPassword, $salt, $email, $created_at);
         //echo interpolateQuery($insertQuery, $params);
-        //exit;
+        //debug($insertQuery);
+        //debug_x(interpolateQuery($insertQuery, $params));
 
         // Preparar la consulta SQL con parámetros
         $stmt = $conn->prepare($insertQuery);
@@ -170,30 +176,32 @@ if ($result->num_rows > 0) {
         $stmt->execute();
 
         // Obtener el resultado
-        $result_in = $stmt->affected_rows;//$stmt->get_result() se usa solo con 'SELECT';
+        $result_in = $stmt->affected_rows;//
         $stmt->close();//cerrar la declaración
     }
 
     //echo json_encode(['info' => 'aki 3']);
     //die();
 
-    if ($result_in) {
+    if($result_in){
         //Cuando se ha creado el usuario, mando un email para que él confirme su correo y así finalice el proceso de creación de su cuenta    
         
         //$username;//ya lo tengo mas arriba
         // Generar un token único y establecer la fecha de expiración
         $emailToken = bin2hex(random_bytes(32));
+        $emailTokenExpiry = date('Y-m-d H:i:s', strtotime('+24 hour'));
         
         //modo 2. Consulta segura
         // Almacenar el token y la fecha de expiración en la base de datos
         $updateQuery = "UPDATE users SET 
-                        email_token = ? 
+                        email_token = ? , 
+                        email_token_expiry = ?  
                         WHERE email = ? 
         ";
         $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("ss", $emailToken, $email);
+        $stmt->bind_param("sss", $emailToken, $emailTokenExpiry, $email);
         $stmt->execute();
-        $result_up = $stmt->affected_rows;
+        // $result_up = $stmt->affected_rows;//aki lo comento ya que no lo uso luego
         $stmt->close();        
         
 
@@ -220,7 +228,7 @@ if ($result->num_rows > 0) {
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
         $subject = $obj_lang['d296'];//"Confirmar el correo electrónico";
-        $verifyLink = $baseUrl . "verify_email.php?email=$email&token=$emailToken";
+        $verifyLink = $baseUrl . "verify_email.php?email=$email&token=$emailToken&lang=$lang";
         //$message = "Para finalizar el proceso de creación de tu cuenta haz clic en el siguiente enlace para confirmar tu correo elecctrónico: $verifyLink";
 
         $frase_hola = $obj_lang['d287'];//'Hola';
@@ -335,41 +343,5 @@ if ($result->num_rows > 0) {
 
 // Cerrar la conexión
 $conn->close();
-
-
-//=====================================================================================//
-// FUNCTIONS - START
-//=====================================================================================//
-function interpolateQuery($query, $params) {//$params es un array
-    // Dividir la consulta en partes utilizando '?' como delimitador
-    $parts = explode('?', $query);
-    $final_query = '';
-    
-    // Iterar sobre las partes y los parámetros
-    for ($i = 0; $i < count($parts); $i++) {
-        $final_query .= $parts[$i];
-        
-        // Añadir el valor del parámetro si existe
-        if (isset($params[$i])) {
-            $value = $params[$i];
-            
-            // Determinar el tipo de dato y formatear adecuadamente
-            if (is_int($value) || is_float($value)) {
-                $final_query .= $value;
-            } elseif (is_null($value)) {
-                $final_query .= 'NULL';
-            } else {
-                // Escapar caracteres especiales para cadenas
-                $escaped = addslashes($value);
-                $final_query .= "'" . $escaped . "'";
-            }
-        }
-    }
-    
-    return $final_query;
-}
-//=====================================================================================//
-// FUNCTIONS - END
-//=====================================================================================//
 
 ?>

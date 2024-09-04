@@ -1,5 +1,7 @@
 <?php
 include('connect_db.php');
+include('functions.php');
+
 //echo "<p>1. estoy aki";
 
 
@@ -67,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         reset_token_expiry = NULL 
                         WHERE email = '$email' AND reset_token = '$token'
         ";
-        // mysqli_query($conn, $updateQuery);
         $result_up = $conn->query($updateQuery);
 
         if($result_up){
@@ -94,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }else{
     
-    //echo "<p>else. REQUEST_METHOD";
     echo json_encode([
         'success' => false, 
         'error' => 'El método de pasar los parametros no es correcto.',
@@ -103,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 }
 
-// mysqli_close($conn);
 $conn->close();
 
 ?>

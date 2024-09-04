@@ -1,12 +1,7 @@
 
 <?php
 include('./php/base_url.php');
-
-function debug($variable){
-    echo"<pre>";
-    var_dump($variable);
-    echo"</pre>";
-}
+include('./php/functions.php');
 
 
 //mensaje

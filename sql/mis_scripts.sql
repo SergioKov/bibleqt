@@ -168,3 +168,9 @@ ALTER TABLE `users` ADD `is_email_varified` TINYINT(1) NULL DEFAULT '0' AFTER `e
 ALTER TABLE `users` CHANGE `reset_token` `reset_token` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
 ALTER TABLE `ajustes` CHANGE `id_obj_ajuste` `id_ajuste` INT(10) NOT NULL AUTO_INCREMENT;
+
+
+
+ALTER TABLE `users` ADD `email_token_expiry` DATETIME NULL AFTER `email_token`;
+
+

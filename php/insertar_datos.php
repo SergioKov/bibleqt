@@ -1,6 +1,7 @@
 <?php
 session_start();//importante para ver al usuario logueado
 
+include('functions.php');
 
 /*
 //HACER PRUEBAS...
@@ -89,14 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
             FROM $tabla 
             WHERE id_user = '$id_user_logged' 
     ";
-	// $result = mysqli_query($conn, $sql);
 	$result = $conn->query($sql);
 
-    if(/*mysqli_num_rows($result) > 0*/ $result->num_rows > 0){
-		//$row = mysqli_fetch_assoc($result);
+    if($result->num_rows > 0){
         $row = $result->fetch_assoc();
-		//echo json_encode(['$row' => $row]);
-		//die();
+		//echo_json_x($row,'row');
 		
         $storedId_user = $row["id_user"];//1
         $hay_id_user_en_tabla = true;
@@ -104,8 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         $hay_id_user_en_tabla = false;
     }
 
-	//echo json_encode(['$hay_id_user_en_tabla' => $hay_id_user_en_tabla]);
-	//die();
+	//echo_json_x($hay_id_user_en_tabla, 'hay_id_user_en_tabla');
 
     // Realizar la inserción o (update) en la base de datos 
     if($hay_id_user_en_tabla){
@@ -121,10 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                  VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
     }
-	// $result2 = mysqli_query($conn, $sql2);	
 	$result2 = $conn->query($sql2);	
-	//echo json_encode(['$result2' => $result2]);
-	//die();
+	//echo_json_x($result2, 'result2');
 
 
     //Update o insert datos en la tabla $tabla
@@ -176,14 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         'error' => 'Solicitud incorrecta.',
         'dic_code' => 'd250'
     ]);
-}
-
-
-function agregarBarrasUnicode($cadena) {
-    // Aplicar addslashes solo a los caracteres 'uXXXX'
-    $cadena = preg_replace('/(u[0-9A-Fa-f]{4})/i', '\\\\$1', $cadena);
-
-    return $cadena;
 }
 
 ?>
