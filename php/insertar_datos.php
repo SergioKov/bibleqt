@@ -15,7 +15,7 @@ exit;
 */
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        
     // Recuperar datos JSON
     $json = file_get_contents('php://input');

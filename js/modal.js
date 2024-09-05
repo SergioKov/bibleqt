@@ -2867,7 +2867,9 @@ function showMarkers(){
     eid_bl_modalFullInner.innerHTML = '';
     let totalMarkers = arr_markers.length;
     let m_markers_porcentaje = document.getElementById('m_markers_porcentaje');
-    m_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
+    if(m_markers_porcentaje != null){
+        m_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
+    }
 
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{

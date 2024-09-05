@@ -12508,7 +12508,7 @@ async function insertarDatos(tabla, campo, arr) {
 
     try {
 
-        if(tabla == '' || campo == '' || arr == ''){
+        if(tabla == '' || campo == '' || typeof arr === 'undefined'){
             alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
             return;
         }
