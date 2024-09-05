@@ -404,9 +404,9 @@ async function iniciarSesion(){//antes login() //username,password
                 //Autenticación fallida. Verifica tu usuario y contraseña.
                 let text_show = obj_lang[data.dic_code];//'Contrasena incorrecta' o 'Usuario no encontrado'
                 //console.log(text_show);
-    
+                    
                 eid_bl_login_form.querySelector('h1').innerHTML = `<span data-dic="d204">${obj_lang.d204}</span>`;//Autenticación fallida.
-                eid_bl_login_form.querySelector('.mensaje').innerHTML = `<span><span data-dic="d205">${obj_lang.d205}</span> ${email}. <br><span data-dic="d206">${obj_lang.d206}</span><br><span>${text_show}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. <br>Verifica tu usuario y contraseña.
+                eid_bl_login_form.querySelector('.mensaje').innerHTML = `<span><span data-dic="d205">${obj_lang.d205}</span> ${email}. <br><span>${text_show}</span></span>`;//Hubo problemas al iniciar sesión para el usuario ${username}. 
 
                 const login_h1 = eid_bl_login_form.querySelector('h1');
                 login_h1.classList.add('color_red');

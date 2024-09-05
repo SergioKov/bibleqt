@@ -57,8 +57,6 @@ $result = $conn->query($sql_preparada);
 //debug_x($sql_init);
 //debug_x($sql_preparada);
 
-//echo json_encode(['info' => $sql]);
-//die();
 
 if($result->num_rows > 0){
     // Usuario encontrado, verificar la contraseña
@@ -69,6 +67,18 @@ if($result->num_rows > 0){
     $storedHashedPassword = $row["password"];//123123
     $storedSalt = $row["salt"];//32303030
     $storedIs_email_verified = $row["is_email_verified"];//1 or 0
+
+
+    //verifico si tiene email verificado
+    if(!$storedIs_email_verified){
+        echo json_encode([
+            'success' => false,
+            'email_verificado' => false,
+            'error' => 'El correo electrónico del usuario no está verificado. Revisa tu email y pincha sobre el enlace enviado para verificarlo. Después de hacerlo podrás iniciar sesión.',
+            'dic_code' => 'd298'
+        ]);
+        exit;
+    }
 
     //debug($row);
     //debug_r($row);
@@ -97,13 +107,6 @@ if($result->num_rows > 0){
                 'success' => true, 
                 'email_verificado' => true, 
                 'username' => $storedUsername
-            ]);
-        }else{
-            echo json_encode([
-                'success' => false,
-                'email_verificado' => false,
-                'error' => 'El correo electrónico del usuario no está verificado. Revisa tu email y pincha sobre el enlace enviado para verificarlo. Después de hacerlo podrás iniciar sesión.',
-                'dic_code' => 'd298'
             ]);
         }
     

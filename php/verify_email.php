@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     ";
     $arr_params = [$email, $token];
     $checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
-    $result = $conn->query($checkQuery);
-    //debug_x($checkQuery_prep, 'checkQuery_prep');
+    $result = $conn->query($checkQuery_preparada);
+    //debug_x($checkQuery_preparada, 'checkQuery_preparada');
 
 
     if($result->num_rows > 0){
@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             header($location);
 
         }else{
+            
             //demasiado tarde. elimino el registro del usuario y le pido registrarse de nuevo
             // Eliminar el registro de usuario
             $deleteQuery = "DELETE FROM users 
