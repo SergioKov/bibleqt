@@ -125,13 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                     updated_at = '$fechaHoraActual'
                     WHERE id_user = '$id_user_logged'
         ";
-        $sql2_up_prep = "UPDATE $sign SET 
-                    $sign = $sign,
+        $sql2_up_prep = "UPDATE $tabla SET 
+                    $campo = $sign,
                     updated_at = '$fechaHoraActual' 
                     WHERE id_user = $sign 
         ";
         //$arr paso tal cual ya que los datos pueden tener dentro '?' y romper sql
-        $arr_params = [$tabla, $campo, $arr, $id_user_logged];
+        $arr_params = [$arr, $id_user_logged];
         $sql2_up_preparada = prepararQuery($conn, $sql2_up_prep, $arr_params, $sign);
         $result2 = $conn->query($sql2_up_preparada);
         //debug_x($sql2_up_preparada, 'sql2_up_preparada');
