@@ -174,3 +174,6 @@ ALTER TABLE `ajustes` CHANGE `id_obj_ajuste` `id_ajuste` INT(10) NOT NULL AUTO_I
 ALTER TABLE `users` ADD `email_token_expiry` DATETIME NULL AFTER `email_token`;
 
 
+-- -------------------------------
+ALTER TABLE `markers` CHANGE `arr_markers` `arr_markers` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+
