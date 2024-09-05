@@ -82,18 +82,20 @@ function interpolateQuery($query, $params) {//$params es un array
 }
 
 
-function prepararQuery($conn, $query, $arr_params) {
+function prepararQuery($conn, $query, $arr_params, $sign = '?') {
     //echo "<hr><p> START --- function: prepararQuery() </p><hr>";
     //$conn => es necesario para $conn->real_escape_string($value)
     //$query => es la consulta sql 
     //$arr_params => es un array de parámetros
+    //$sign => por defecto es '?' pero al introducir json pongo signo especial. Ej.: '__[(&)]__' //no usar '<' ni '>'
     //si en arr_params algun valor es null, meterlo directamente sin usar '?'
     //si la consulta $query no tiene '?' pasar $arr_params vacio => [] o no USAR ESTA FUNCION YA QUE NO HACE NADA
 
     // Dividir la consulta en partes utilizando '?' como delimitador
-    $arr_parts = explode('?', $query);
+    $arr_parts = explode($sign, $query);
     $final_query = '';
     
+    //debug($sign, 'sign');
     //debug($query, 'query');
     //debug($arr_params, 'arr_params');
     //debug($arr_parts, 'arr_parts');
@@ -272,7 +274,7 @@ function ejemploSQLpreparada(){//compleja y no funciona. dejo aki como ejemplo y
             // $result = $stmt->get_result();//'->get_result()' no funciona 
             $result_num_rows = $stmt->num_rows;//no funciona 
             $stmt->close();
-            
+
             $row = $results[0];
             //$storedId_user = $row['id_user'];//1
             $storedUsername = $row['username'];//Sergio
