@@ -125,13 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
                     updated_at = '$fechaHoraActual'
                     WHERE id_user = '$id_user_logged'
         ";
-        $sql2_up_prep = "UPDATE $sign SET 
-                    $sign = '$arr',
-                    updated_at = $sign 
+        $sql2_up_prep = "UPDATE $tabla SET 
+                    $campo = '$arr',
+                    updated_at = '$fechaHoraActual' 
                     WHERE id_user = $sign 
         ";
         //$arr paso tal cual ya que los datos pueden tener dentro '?' y romper sql
-        $arr_params = [$tabla, $campo, $fechaHoraActual, $id_user_logged];
+        $arr_params = [$id_user_logged];
         $sql2_up_preparada = prepararQuery($conn, $sql2_up_prep, $arr_params, $sign);
         $result2 = $conn->query($sql2_up_preparada);
         //debug_x($sql2_up_preparada, 'sql2_up_preparada');
@@ -141,11 +141,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         $sql2_in_init = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
                         VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
-        $sql2_in_prep = "INSERT INTO $sign (id_user, username, $sign, created_at) 
+        $sql2_in_prep = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
                         VALUES ($sign, $sign, '$arr', $sign)
         ";
         //$arr paso tal cual ya que los datos pueden tener dentro '?' y romper sql
-        $arr_params = [$tabla, $campo, $id_user_logged, $username_logged, $fechaHoraActual];
+        $arr_params = [$id_user_logged, $username_logged, $fechaHoraActual];
         $sql2_in_preparada = prepararQuery($conn, $sql2_in_prep, $arr_params, $sign);
         $result2 = $conn->query($sql2_in_preparada);
         //debug_x($sql2_in_preparada, 'sql2_in_preparada');
