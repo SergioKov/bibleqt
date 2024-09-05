@@ -43,11 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $token = $conn->real_escape_string($token);
 
     //saco datos de user de la bd.
-    $sql = "SELECT * 
-            FROM users 
-            WHERE email = '$email' 
+    $sql_init = "SELECT * 
+                FROM users 
+                WHERE email = '$email' 
     ";
-    $result = $conn->query($sql);
+    $sql_prep = "SELECT * 
+                FROM users 
+                WHERE email = ? 
+    ";
+    $arr_params = [$email];
+    $sql_preparada = prepararQuery($conn, $sql_prep, $arr_params);
+    $result = $conn->query($sql_preparada);
+    //debug_x($sql_preparada, 'sql_preparada');
 
     if($result->num_rows > 0){
         // Usuario encontrado, le permito guardar nueva contraseña
@@ -61,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $conn->real_escape_string($password);
 
         // Actualizar la contraseña y borrar el token
+        //aki no hago consulta preparada ya que los datos son de bd y son correctos
         $updateQuery = "UPDATE users SET 
                         password = '$hashedPassword', 
                         password_text = '$password', 

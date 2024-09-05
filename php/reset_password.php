@@ -9,8 +9,7 @@ include('functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     
-    //debug($_GET);
-    //exit();
+    //debug_x($_GET);
     
     // Escapar el valor de $_GET['email'] para evitar inyecciones SQL
     $email = (isset($_GET['email'])) ? $conn->real_escape_string(strtolower($_GET['email'])) : '' ;
@@ -24,13 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     
     // Verificar si el correo electrónico y el token son válidos
-    $checkQuery = "SELECT * 
-                    FROM users 
-                    WHERE email = '$email' 
-                    AND reset_token = '$token' 
-                    AND reset_token_expiry > NOW()
+    $checkQuery_init = "SELECT * 
+                        FROM users 
+                        WHERE email = '$email' 
+                        AND reset_token = '$token' 
+                        AND reset_token_expiry > NOW()
     ";
-    $result = $conn->query($checkQuery);
+    $checkQuery_prep = "SELECT * 
+                        FROM users 
+                        WHERE email = ? 
+                        AND reset_token = ? 
+                        AND reset_token_expiry > NOW()
+    ";
+    $arr_params = [$email, $token];
+    $checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
+    $result = $conn->query($checkQuery_preparada);
+    //debug_x($checkQuery_preparada, 'checkQuery_preparada');
 
     if($result->num_rows > 0){             
         $location = "Location: " . $protocol . "://" . $host . "/reset_password_form.php?email=$email&token=$token";

@@ -16,113 +16,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $conn->real_escape_string(strtolower($input['email']));    
     $lang = $conn->real_escape_string(strtolower($input['lang']));  
     
-    
-
-
-
-    $modo = 'simple';//modo1. simple
-    //$modo = 'seguro'; //modo 2. seguro con sentecias preparadas 
-
-    //modo 1. simple
-    if($modo == 'simple'){
-        // Verificar si el correo electrónico existe en la base de datos
-        $checkQuery = "SELECT `id_user`, `username` 
+    // Verificar si el correo electrónico existe en la base de datos
+    $checkQuery_init = "SELECT `id_user`, `username` 
                         FROM users 
                         WHERE email = '$email' 
-        ";
-        $result = $conn->query($checkQuery);
-        $result_num_rows = $result->num_rows;
-    }
-    
-    //modo 2. seguro
-    if($modo == 'seguro'){
-        // Verificar si el correo electrónico existe en la base de datos
-        //modo 2. consulta preparada
-        $checkQuery = "SELECT `id_user`, `username` 
+    ";
+    $checkQuery_prep = "SELECT `id_user`, `username` 
                         FROM users 
-                        WHERE email = ? 
-        ";    
-        $stmt = $conn->prepare($checkQuery);
-        $stmt->bind_param("s", $email);
-
-        // Ejecutar la consulta
-        $stmt->execute();
-
-        // Almacenar los resultados en el objeto $stmt
-        $stmt->store_result();
-
-        // Vincular las columnas devueltas por la consulta a variables
-        $stmt->bind_result($id_user, $username);//si hay 2 campos => bind_result($id_user, $username)
-
-        $results = [];//para meter alli variables $id_user y $username
-        // Iterar sobre los resultados
-        while ($stmt->fetch()) {
-            $results[] = array(
-                'id_user' => $id_user,
-                'username' => $username
-            );
-        }
-
-        //ver los valores de results en pantalla. solo para debuguear!
-        for ($i=0; $i < count($results); $i++) { 
-            $row = $results[$i];
-            debug($row, 'row') . "<br>";
-        }
-        //debug_x($results, 'results');
-
-        // $result = $stmt->get_result();//'->get_result()' no funciona 
-        $result_num_rows = $stmt->num_rows;//no funciona 
-        $stmt->close();
-    }
+                        WHERE email = ?  
+    ";
+    $arr_params = [$email];
+    $checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
+    $result = $conn->query($checkQuery_preparada);
+    $result_num_rows = $result->num_rows;
 
 
     if($result_num_rows > 0) {
         
         // Usuario encontrado, verificar la contraseña
-        if($modo == 'simple'){
-            $row = $result->fetch_assoc();
-            //$storedId_user = $row['id_user'];//1
-            $storedUsername = $row['username'];//Sergio
-        }
-        
-        
-        if($modo == 'seguro'){
-            $row = $results[0];
-            //$storedId_user = $row['id_user'];//1
-            $storedUsername = $row['username'];//Sergio
-        }       
-        
+        $row = $result->fetch_assoc();
+        //$storedId_user = $row['id_user'];//1
+        $storedUsername = $row['username'];//Sergio
 
         // Generar un token único y establecer la fecha de expiración
         $resetToken = bin2hex(random_bytes(32));
-        $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
-        
-        //modo 1. simple
-        if($modo == 'simple'){
-            // Almacenar el token y la fecha de expiración en la base de datos
-            $updateQuery = "UPDATE users SET 
+        $resetTokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour'));        
+
+        // Almacenar el token y la fecha de expiración en la base de datos
+        $updateQuery_init = "UPDATE users SET 
                             reset_token = '$resetToken', 
                             reset_token_expiry = '$resetTokenExpiry' 
                             WHERE email = '$email' 
-            ";
-            $result_up = $conn->query($updateQuery);
-        }
-
-
-        //modo 2. Consulta segura
-        if($modo == 'seguro'){
-            // Almacenar el token y la fecha de expiración en la base de datos
-            $updateQuery = "UPDATE users SET 
+        ";
+        $updateQuery_prep = "UPDATE users SET 
                             reset_token = ?, 
                             reset_token_expiry = ? 
                             WHERE email = ? 
-            ";
-            $stmt = $conn->prepare($updateQuery);
-            $stmt->bind_param("sss", $resetToken, $resetTokenExpiry, $email);
-            $stmt->execute();
-            $result_up = $stmt->affected_rows;
-            $stmt->close();
-        }
+        ";
+        $arr_params = [$resetToken, $resetTokenExpiry, $email];
+        $updateQuery_preparada = prepararQuery($conn, $updateQuery_prep, $arr_params);
+        $result_up = $conn->query($updateQuery);
 
 
         // Enviar un correo electrónico al usuario con el enlace de restablecimiento
@@ -232,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }else{
 
-    //echo "<p>else. REQUEST_METHOD";
+    //echo "<p>[else] de REQUEST_METHOD";
     
     // Establecer la redirección después de 5 segundos
     header("Refresh: 5; url=../aviso.php");
@@ -245,7 +178,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
 
-// mysqli_close($conn);
 $conn->close();
 
 ?>

@@ -70,13 +70,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Verificar si el correo electrónico existe en la base de datos
-    $checkQuery = "SELECT `id_user`, `username`, `email`, `password_text`, `password`, `salt` 
-                    FROM users 
-                    WHERE BINARY email = '$email' 
+    $checkQuery_init = "SELECT `id_user`, `username`, `email`, `password_text`, `password`, `salt` 
+                        FROM users 
+                        WHERE BINARY email = '$email' 
     ";
-    $result = $conn->query($checkQuery);
-    //echo json_encode(['info' => $checkQuery]);
-    //exit;
+    $checkQuery_prep = "SELECT `id_user`, `username`, `email`, `password_text`, `password`, `salt` 
+                        FROM users 
+                        WHERE BINARY email = ?  
+    ";
+    $arr_params = [$email];
+    $checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
+    $result = $conn->query($checkQuery_preparada);
+    //echo_json_x($checkQuery_preparada, 'checkQuery_preparada');
 
     if($result->num_rows > 0) {
         
@@ -88,18 +93,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $storedHashedPassword = $row["password"];//123123
         $storedSalt = $row["salt"];//32303030
 
-        //echo json_encode(['info' => "storedSalt: $storedSalt --- salt: $salt" ]);
-        //exit;
+        //echo_json_x("storedSalt: $storedSalt --- salt: $salt");
 
         //funcción password_verify(contraseña_input, contraseña_hasheada_de_bd)
         if(password_verify($storedSalt . $password, $storedHashedPassword)) { 
             //echo "¡Contraseña correcta! Usuario autenticado.";
-            //echo json_encode(['info' => 'dentro de password_verify']);
-            //exit;
+            //echo_json_x('dentro de password_verify');
 
             // Obtener la fecha y hora actual
             $updated_at = date("Y-m-d H:i:s");
 
+            //aki no hago consulta preparada ya que los datos son de bd y seguras
             $sql_up = "UPDATE users SET 
                         `password` = '$hashedNewPassword',
                         `password_text` = '$new_password',
@@ -107,8 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         WHERE id_user = '$storedId_user'
             ";
             $result_up = $conn->query($sql_up);
-            //echo json_encode(['info' => $sql_up]);
-            //exit;
+            //echo_json_x($sql_up, 'sql_up');
 
             //si se ha actualizdo el password en bd...
             if($result_up){

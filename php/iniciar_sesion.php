@@ -43,11 +43,19 @@ $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
 //echo"<p>$ hashedPassword; $hashedPassword</p>";
 
 //saco datos de user de la bd.
-$sql = "SELECT `id_user`, `username`, `email`, `is_email_verified`, `password_text`, `password`, `salt` 
-        FROM users 
-        WHERE BINARY email = '$email' 
+$sql_init = "SELECT `id_user`, `username`, `email`, `is_email_verified`, `password_text`, `password`, `salt` 
+            FROM users 
+            WHERE BINARY email = '$email' 
 ";
-$result = $conn->query($sql);
+$sql_prep = "SELECT `id_user`, `username`, `email`, `is_email_verified`, `password_text`, `password`, `salt` 
+            FROM users 
+            WHERE BINARY email = ? 
+";
+$arr_params = [$email];
+$sql_preparada = prepararQuery($conn, $sql_prep, $arr_params);
+$result = $conn->query($sql_preparada);
+//debug_x($sql_init);
+//debug_x($sql_preparada);
 
 //echo json_encode(['info' => $sql]);
 //die();
@@ -78,6 +86,7 @@ if($result->num_rows > 0){
 
             $fechaHoraActual = date('Y-m-d H:i:s');
 
+            //aki no preparo la consulta ya que los datos son seguros porque son sacados de la bd
             $sql_up = "UPDATE users SET 
                         `last_login` = '$fechaHoraActual'
                         WHERE id_user = '$storedId_user'

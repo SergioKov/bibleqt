@@ -57,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 	//echo json_encode(['$id_user_logged' => $id_user_logged]);
 	//die();
 
+    include('connect_db.php');
+
     /*
     foreach ($datos['arr'] as $arr_k => $arr_v) {
         foreach ($arr_v as $k => $v) {
@@ -82,15 +84,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
 
     // Obtener la fecha y hora actual
     $fechaHoraActual = date("Y-m-d H:i:s");
-
-    include('connect_db.php');
+    
 
     //busco si hay registro en la tabla a donde insertar array
-    $sql = "SELECT * 
-            FROM $tabla 
-            WHERE id_user = '$id_user_logged' 
+    $sql_init = "SELECT * 
+                FROM $tabla 
+                WHERE id_user = '$id_user_logged' 
     ";
-	$result = $conn->query($sql);
+    $sql_prep = "SELECT * 
+                FROM $tabla 
+                WHERE id_user = ? 
+    ";
+    $arr_params = [$id_user_logged];
+    $sql_preparada = prepararQuery($conn, $sql_prep, $arr_params);
+	$result = $conn->query($sql_preparada);
+    //debug_x($sql_preparada, 'sql_preparada');
 
     if($result->num_rows > 0){
         $row = $result->fetch_assoc();
@@ -107,18 +115,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
     // Realizar la inserción o (update) en la base de datos 
     if($hay_id_user_en_tabla){
         //hago update
-        $sql2 = "UPDATE $tabla SET 
-                $campo = '$arr',
-                updated_at = '$fechaHoraActual'
-                WHERE id_user = '$id_user_logged'
+        $sql2_up_init = "UPDATE $tabla SET 
+                    $campo = '$arr',
+                    updated_at = '$fechaHoraActual'
+                    WHERE id_user = '$id_user_logged'
         ";
+        $sql2_up_prep = "UPDATE ? SET 
+                    ? = ? ,
+                    updated_at = ? 
+                    WHERE id_user = ? 
+        ";
+        $arr_params = [$tabla, $campo, $arr, $fechaHoraActual, $id_user_logged];
+        $sql2_up_preparada = prepararQuery($conn, $sql2_up_prep, $arr_params);
+        $result2 = $conn->query($sql2_up_preparada);
+        //debug_x($sql2_up_preparada, 'sql2_up_preparada');	
     }else{
         //hago insert
-        $sql2 = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
-                 VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
+        $sql2_in_init = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
+                        VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
+        $sql2_in_prep = "INSERT INTO ? (id_user, username, ?, created_at) 
+                        VALUES (?, ?, ?, ?)
+        ";
+        $arr_params = [$tabla, $campo, $id_user_logged, $username_logged, $arr, $fechaHoraActual];
+        $sql2_in_preparada = prepararQuery($conn, $sql2_in_prep, $arr_params);
+        $result2 = $conn->query($sql2_in_preparada);
+        //debug_x($sql2_in_preparada, 'sql2_in_preparada');
     }
-	$result2 = $conn->query($sql2);	
 	//echo_json_x($result2, 'result2');
 
 

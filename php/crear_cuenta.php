@@ -63,64 +63,24 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){//para debuguear!
 //die();
 
 
-
-
-$modo = 'simple';//modo1. simple
-//$modo = 'seguro'; //modo 2. seguro con sentecias preparadas 
-
-if($modo == 'simple'){
-    //consulta simple => $conn->query($checkQuery)
-    //saco datos de user de la bd.
-    $checkQuery  = "SELECT  `username`, `email` 
-            FROM users 
-            WHERE email = '$email'
-    ";
-    $result = $conn->query($checkQuery);
-    $result_num_rows = $result->num_rows;
-}
-
-
-if($modo == 'seguro'){
-    //con la consulta segura, preparando los parémetros
-    $checkQuery = "SELECT `username`, `email` 
+//Consulta con prepararQuery($conn, $query, $arr_params)
+//saco datos de user de la bd.
+$checkQuery_init = "SELECT  `username`, `email` 
+                    FROM users 
+                    WHERE email = '$email'
+";
+$checkQuery_prep = "SELECT  `username`, `email` 
                     FROM users 
                     WHERE email = ?
-    ";
-
-    // Preparar la consulta SQL con parámetros
-    $stmt = $conn->prepare($checkQuery);
-    if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
-    }
-
-    // Vincular los parámetros con diferentes tipos de datos
-    //$stmt->bind_param("sis", $name, $age, $registration_date);//ejemplo si hay varios parametros...
-    $stmt->bind_param("s", $email);
-
-    // 's' => string
-    // 'i' => integer
-    // 's' => string (las fechas se manejan como strings en este caso)
-
-    // Ejecutar la consulta
-    $stmt->execute();
-
-    // Almacenar los resultados en el objeto $stmt
-    $stmt->store_result();
-
-    // Obtener el resultado
-    //$result = $stmt->get_result();//->get_result() se usa solo con 'SELECT' NO FUNCIONA NI EN LOCALHOST NI EN HOSTALIA
-    
-    // Vincular las columnas devueltas por la consulta a variables
-    //bind_result() solo se usa con 'SELECT'
-    $stmt->bind_result($username, $email);//los nombres de los campos en bd `username`, `email`. 
-    
-    //$result = $stmt;//para hacer $result->num_rows ya que lo hace $stmt->num_rows
-    $result_num_rows = $stmt->num_rows;//lo mismo devuelve $stmt->affected_rows
-    $stmt->close();//cerrar la declaración
-}
+";
+$arr_params = [$email];
+$checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
+$result = $conn->query($checkQuery_preparada);
+$result_num_rows = $result->num_rows;
+//debug_x($checkQuery_init);
+//debug_x($checkQuery_preparada);
 
 //echo_json_x('aki 2');
-
 
 if ($result_num_rows > 0) {
     //echo "El nombre de usuario o correo electrónico ya está en uso.";
@@ -141,44 +101,18 @@ if ($result_num_rows > 0) {
     // Obtener la fecha y hora actual
     $created_at = date("Y-m-d H:i:s");
 
-    
-    if($modo == 'simple'){
-        //modo 1. simple
-        $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
-                    VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
-        ";
-        $result_in = $conn->query($insertQuery);
-        //debug_x($insertQuery);
-    }
-    
-
-    if($modo == 'seguro'){
-        //modo 2. seguro
-        $insertQuery = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
+    //inserto en la bd los datos
+    $insertQuery_init = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
+                        VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
+    ";
+    $insertQuery_prep = "INSERT INTO users (`username`, `password_text`, `password`, `salt`, `email`, `created_at`) 
                         VALUES (?, ?, ?, ?, ?, ?)
-        ";//VALUES ('$username', '$password', '$hashedPassword', '$salt', '$email', '$created_at')
-
-        //$params = array($username, $password, $hashedPassword, $salt, $email, $created_at);
-        //echo interpolateQuery($insertQuery, $params);
-        //debug($insertQuery);
-        //debug_x(interpolateQuery($insertQuery, $params));
-
-        // Preparar la consulta SQL con parámetros
-        $stmt = $conn->prepare($insertQuery);
-        if ($stmt === false) {
-            die("Error en la preparación de la consulta: " . $conn->error);
-        }
-
-        // Vincular los parámetros con diferentes tipos de datos
-        $stmt->bind_param("ssssss", $username, $password, $hashedPassword, $salt, $email, $created_at);
-        
-        // Ejecutar la consulta
-        $stmt->execute();
-
-        // Obtener el resultado
-        $result_in = $stmt->affected_rows;//
-        $stmt->close();//cerrar la declaración
-    }
+    ";
+    $arr_params = [$username, $password, $hashedPassword, $salt, $email, $created_at];
+    $insertQuery_preparada = prepararQuery($conn, $insertQuery_prep, $arr_params);
+    $result_in = $conn->query($insertQuery_preparada);
+    //debug_x($insertQuery_init);
+    //debug_x($insertQuery_preparada);    
 
     //echo json_encode(['info' => 'aki 3']);
     //die();
@@ -191,18 +125,16 @@ if ($result_num_rows > 0) {
         $emailToken = bin2hex(random_bytes(32));
         $emailTokenExpiry = date('Y-m-d H:i:s', strtotime('+24 hour'));
         
-        //modo 2. Consulta segura
+        //Consulta segura preparada
         // Almacenar el token y la fecha de expiración en la base de datos
         $updateQuery = "UPDATE users SET 
                         email_token = ? , 
                         email_token_expiry = ?  
                         WHERE email = ? 
         ";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("sss", $emailToken, $emailTokenExpiry, $email);
-        $stmt->execute();
-        // $result_up = $stmt->affected_rows;//aki lo comento ya que no lo uso luego
-        $stmt->close();        
+        $arr_params = [$emailToken, $emailTokenExpiry, $email];
+        $updateQuery_preparada = prepararQuery($conn, $updateQuery, $arr_params);
+        $result_up = $conn->query($updateQuery_preparada);
         
 
         $filename_lang = '../modules/json/' . $lang . '.json';

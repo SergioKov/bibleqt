@@ -27,13 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     
     // Verificar si el correo electrónico y el token son válidos
-    $checkQuery = "SELECT * 
-                    FROM users 
-                    WHERE email = '$email' AND email_token = '$token'
+    $checkQuery_init = "SELECT * 
+                        FROM users 
+                        WHERE email = '$email' AND email_token = '$token'
     ";
+    $checkQuery_prep = "SELECT * 
+                        FROM users 
+                        WHERE email = ? AND email_token = ? 
+    ";
+    $arr_params = [$email, $token];
+    $checkQuery_preparada = prepararQuery($conn, $checkQuery_prep, $arr_params);
     $result = $conn->query($checkQuery);
+    //debug_x($checkQuery_prep, 'checkQuery_prep');
 
-    //debug_x($checkQuery);
 
     if($result->num_rows > 0){
          $row = $result->fetch_assoc();
@@ -46,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             //todo ok. todavia no han pasado los 24 horas desde inicio de creación de cuenta. le dejo continuar
 
             // Actualizar email_token y borrar el token
+            //aki no hago consulta preparada ya que datos son seguras
             $updateQuery = "UPDATE users SET 
                             is_email_verified = 1,
                             email_token = NULL, 
@@ -53,9 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             WHERE email = '$email' AND email_token = '$token'
             ";
             $result_up = $conn->query($updateQuery);
-
-            //debug($updateQuery);
-            //exit();
+            //debug_x($updateQuery);
 
             if($result_up){
                 $dic_code = 'd282';//Tu email ha sido verificado correctamente. Tu cuenta se ha creado con éxito.
@@ -72,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         }else{
             //demasiado tarde. elimino el registro del usuario y le pido registrarse de nuevo
-            // Actualizar email_token y borrar el token
+            // Eliminar el registro de usuario
             $deleteQuery = "DELETE FROM users 
                             WHERE email = '$email' AND email_token = '$token'
             ";

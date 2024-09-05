@@ -73,13 +73,18 @@ if (true) {
 
     //busco si hay registro
     // Preparar y ejecutar la consulta
-    $sql = "SELECT $campo 
-            FROM $tabla 
-            WHERE id_user = '$id_user_logged' 
+    $sql_init = "SELECT $campo 
+                FROM $tabla 
+                WHERE id_user = '$id_user_logged' 
     ";
-    $result = $conn->query($sql);
-	//echo json_encode(['sql' => $sql, 'num_rows' => mysqli_num_rows($result)]);
-    //die();
+    $sql_prep = "SELECT $campo 
+                FROM $tabla 
+                WHERE id_user = '$id_user_logged' 
+    ";
+    $arr_params = [$campo, $tabla, $id_user_logged];
+    $sql_preparada = prepararQuery($conn, $sql_prep, $arr_params);
+    $result = $conn->query($sql_preparada);
+	//echo_json_x($sql_preparada, 'sql');
 	
     if($result->num_rows > 0){   
         $row = $result->fetch_assoc();
