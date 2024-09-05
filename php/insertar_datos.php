@@ -141,11 +141,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || true) {
         $sql2_in_init = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
                         VALUES ('$id_user_logged', '$username_logged', '$arr', '$fechaHoraActual')
         ";
-        $sql2_in_prep = "INSERT INTO $sign (id_user, username, $sign, created_at) 
+        $sql2_in_prep = "INSERT INTO $tabla (id_user, username, $campo, created_at) 
                         VALUES ($sign, $sign, $sign, '$fechaHoraActual')
         ";
         //$arr paso tal cual ya que los datos pueden tener dentro '?' y romper sql
-        $arr_params = [$tabla, $campo, $id_user_logged, $username_logged, $arr];
+        $arr_params = [$id_user_logged, $username_logged, $arr];
         $sql2_in_preparada = prepararQuery($conn, $sql2_in_prep, $arr_params, $sign);
         $result2 = $conn->query($sql2_in_preparada);
         //debug_x($sql2_in_preparada, 'sql2_in_preparada');
