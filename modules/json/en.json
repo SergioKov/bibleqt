@@ -311,9 +311,11 @@
 
     "d296": "Confirm email",
     "d297": "Update Password",
-    "d298": "",
-    "d299": "",
-    "d300": "",
+
+    "d298": "The user's email is not verified. Check your email and click on the link sent to verify it. After doing so, you will be able to log in.",
+    "d299": "More than 24 hours have passed since the start of the account creation process. Your email was not confirmed in time, and your account was not created. Please create your account again.",
+    "d300": "An error occurred while creating your account. Please contact the Bibleqt administrator.",
+
     "d301": "",
     "d302": "",
     "d303": "",
