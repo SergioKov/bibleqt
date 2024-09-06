@@ -316,7 +316,7 @@
     "d299": "Ha pasado más de 24 horas desde el inicio del proceso de creación de tu cuenta. Tu email no ha sido confirmado a tiempo y tu cuenta no se ha creado. Vuelve a crear tu cuenta de nuevo por favor.",
     "d300": "Ha ocurrido un error al crear tu cuenta. Ponte en contacto con el administrador de Bibleqt.",
 
-    "d301": "",
+    "d301": "Error al procesar el JSON. El objeto no contiene las claves esperadas.",
     "d302": "",
     "d303": "",
     "d304": "",

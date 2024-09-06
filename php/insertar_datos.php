@@ -14,13 +14,69 @@ echo json_encode([
 exit;
 */
 
+$arr_metodos = ['POST'];//en PROD siempre!
+//$arr_metodos = ['POST', 'GET'];//para hacer test... 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-       
+//si los datos NO VIENEN desde desde el metodo permitido
+if (!in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
+	// Manejar solicitudes incorrectas
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Solicitud incorrecta.',
+        'dic_code' => 'd250'
+    ]);
+    exit;
+}
+
+//si los datos SÍ VIENEN desde desde el metodo permitido
+//es lo mismo que => if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET'){
+if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
+    
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $jsonString = file_get_contents('php://input');//saco datos del cuerpo de la solicitud. 
+        //debug($jsonString, 'jsonString');
+    } 
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){//para hacer test...
+        $jsonString = $_GET['datos'];//saco datos del url.
+        //debug($jsonString, 'jsonString');
+    } 
+    
+    
     // Recuperar datos JSON
-    $json = file_get_contents('php://input');
-    $datos = json_decode($json, true);
+    $datos = json_decode($jsonString, true);
+    //debug($datos, 'datos');
 	//echo_json_x($datos, 'datos');
+
+
+    // Validar si la decodificación fue exitosa
+    if (json_last_error() === JSON_ERROR_NONE) {
+        // Validar estructura y contenido del JSON
+        if (isset($datos['tabla']) && isset($datos['campo']) && isset($datos['arr'])) {
+            //echo "JSON es válido y contiene las claves esperadas.";
+            //sigo adelante...
+        } else {
+            //echo "JSON no contiene las claves esperadas.";
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Error al procesar el JSON. El objeto no contiene las claves esperadas.',
+                'dic_code' => 'd301'
+            ]);
+            exit;
+        }
+    } else {
+        //echo "Error al decodificar JSON: " . json_last_error_msg();
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Error al decodificar JSON.',
+            'json_last_error_msg' => json_last_error_msg(),
+            'dic_code' => 'd302'
+        ]);
+        exit;
+    }
 
     // Verificar que se decodificó correctamente
     if ($datos === null) {
@@ -33,6 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
+
+    //exit('<br>hasta aki');
+
 
     // Recuperar los valores
     if(isset($_SESSION['username']) && isset($_SESSION['id_user']) ) {
@@ -53,8 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         die();
     }
-	//echo json_encode(['$id_user_logged' => $id_user_logged]);
-	//die();
+	//echo_json_x($id_user_logged, 'id_user_logged');
 
     include('connect_db.php');
 
@@ -80,10 +138,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $tabla = $conn->real_escape_string($datos['tabla']);//vkladki
     $campo = $conn->real_escape_string($datos['campo']);//arrTabs
-    $arr = json_encode($datos['arr']);//arrTabs //no usar $conn->real_escape_string($datos['arr']) ya que retorna NULL
+    $arr = json_encode($datos['arr'], JSON_UNESCAPED_UNICODE);//arrTabs //no usar $conn->real_escape_string($datos['arr']) ya que retorna NULL
 
-    //$arr = json_encode(agregarBarrasUnicode($datos['arr']));
-    //exit;
+    //debug($tabla);
+    //debug($campo);
+    //debug($arr, 'arr');
+    //echo_json_x($arr, 'arr');
+
+    //exit('<br>hasta aki-2');
 
     // Obtener la fecha y hora actual
     $fechaHoraActual = date("Y-m-d H:i:s");
@@ -193,15 +255,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
     echo json_encode($respuesta);
 	
-} else {
-    
-	// Manejar solicitudes incorrectas
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Solicitud incorrecta.',
-        'dic_code' => 'd250'
-    ]);
 }
 
 ?>

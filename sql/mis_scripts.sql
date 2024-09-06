@@ -177,3 +177,11 @@ ALTER TABLE `users` ADD `email_token_expiry` DATETIME NULL AFTER `email_token`;
 -- -------------------------------
 ALTER TABLE `markers` CHANGE `arr_markers` `arr_markers` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 
+
+
+
+ALTER DATABASE db_bibleqt CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE markers CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE markers MODIFY arr_markers JSON CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

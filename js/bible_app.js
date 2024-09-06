@@ -896,7 +896,7 @@ function loadAllFavBibleFiles(){
 
     //si ya está creado el objeto...
     if(arrFavTrans.length == Object.keys(obj_bible_files).length){
-        let tamanioMB = (obtenerTamanioObjeto(obj_bible_files) / 1000 / 1000).toFixed(1) + ' MB';
+        let tamanioMB = obtenerTamanioObjetoMB(obj_bible_files);
         let aviso_load = obj_lang.d216;//`Todos los módulos de las traducciones favoritas ya están cargados.`;
         aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
         openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos
@@ -1012,9 +1012,7 @@ function loadAllFavBibleFiles(){
                                     //console.log('9. final  --- (i_book == data.Books.length )');
                                     //console.log(`i_trans: ${i_trans}) --- (i_trans == arrFavTrans.length - 1). abajo obj_bible_files: '`);
                                     //console.log(obj_bible_files); 
-                                    let tamanio = obtenerTamanioObjeto(obj_bible_files);
-                                    let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
-                                    let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) +' MB';
+                                    let tamanioMB = obtenerTamanioObjetoMB(obj_bible_files);
                                     let aviso_load = obj_lang.d220;//`Todos los módulos de las traducciones favoritas se han cargado con éxito.`;
                                     aviso_load += `<br><br>${obj_lang.d217}:  <span class="f_r">${tamanioMB}</span>`;//Tamaño
                                     openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos               
@@ -1055,7 +1053,7 @@ function loadAllFavTskFiles(){
     
     //si ya está creado el objeto...
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
-        let tamanioMB = (obtenerTamanioObjeto(obj_tsk_files) / 1000 / 1000).toFixed(1) + ' MB';
+        let tamanioMB = obtenerTamanioObjetoMB(obj_tsk_files);
         let aviso_load = obj_lang.d221;//`Todos los módulos TSK favoritos ya están cargados.`;
         aviso_load += `<br><br>${obj_lang.d221}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
         openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK
@@ -1165,9 +1163,7 @@ function loadAllFavTskFiles(){
                                 //console.log('9. final  --- (i_book == data.Books.length )');
                                 //console.log(`i_tsk: ${i_tsk}) --- (i_tsk == arrFavTsk.length - 1). abajo obj_tsk_files: '`);
                                 //console.log(obj_tsk_files);                
-                                let tamanio = obtenerTamanioObjeto(obj_tsk_files);
-                                let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
-                                let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
+                                let tamanioMB = obtenerTamanioObjetoMB(obj_tsk_files);
                                 let aviso_load = obj_lang.d223;//`Todos los modulos TSK favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.`;
                                 aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
                                 openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK               
@@ -1210,7 +1206,7 @@ function loadAllFavStrongFiles(){
 
     //si ya está creado el objeto...
     if(arrFavStrongLangs.length == Object.keys(obj_strong_files).length){
-        let tamanioMB = (obtenerTamanioObjeto(obj_strong_files) / 1000 / 1000).toFixed(1) + ' MB';
+        let tamanioMB = obtenerTamanioObjetoMB(obj_strong_files);
         let aviso_load = obj_lang.d224;//`Los ficheros de Strong ya están cargados.`;
         aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
         openModal('center', obj_lang.d225, aviso_load, 'showAviso');
@@ -1261,10 +1257,7 @@ function loadAllFavStrongFiles(){
                 //console.log('9. final  --- (i_strong == arrFavStrongLangs.length )');
                 //console.log(`i_strong: ${i_strong}) --- es ultimo elemento. abajo obj_strong_files: `);
                 //console.log('obj_strong_files: ',obj_strong_files);
-
-                let tamanio = obtenerTamanioObjeto(obj_strong_files);
-                let tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
-                let tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
+                let tamanioMB = obtenerTamanioObjetoMB(obj_strong_files);
                 let aviso_load = obj_lang.d226;//`Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.`;
                 aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
                 openModal('center', obj_lang.d225, aviso_load, 'showAviso');//Aviso Strong
@@ -1355,7 +1348,7 @@ async function loadDefaultFunctions(){
     doPageDownOnScroll();
     document.onkeydown = checkKey;
 
-    changeLang(obj_ajustes.lang);;//default
+    changeLang(obj_ajustes.lang);//default
 
     setTimeout(()=>{    
         pintRefOnScroll();
@@ -1387,6 +1380,14 @@ function obtenerTamanioObjeto(objeto) {
     const tamanioEnBytes = new TextEncoder().encode(objetoEnJSON).length;
     return tamanioEnBytes;
 }
+
+function obtenerTamanioObjetoMB(objeto) {
+    const tamanio = obtenerTamanioObjeto(objeto);
+    //const tamanioConSeparadores = agregarSeparadores(tamanio, ' ');
+    const tamanioMB = (tamanio / 1000 / 1000).toFixed(1) + ' MB';
+    return tamanioMB;
+}
+
 
 function mostrarTamanioObjeto(objeto){
     const tamanio = obtenerTamanioObjeto(objeto);
@@ -12639,10 +12640,21 @@ async function obtenerDatosDeBD(tabla, campo){
         //console.log(data);
         //console.log(data.success);
         //console.log(data.valorCampo);
+        
+        let valorCampo_vacio = false;
+        if( data.valorCampo == 'no_tiene_datos' || 
+            data.valorCampo == '[]' || 
+            data.valorCampo == '{}' ||
+            data.valorCampo == 'null' ||
+            data.valorCampo == 'NULL' ||
+            data.valorCampo == ''
+        ){
+            valorCampo_vacio = true;
+        }
 
         switch (tabla) {
             case 'vkladki':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //arrTabs por defecto
                     let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
@@ -12666,7 +12678,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
                 
             case 'hist_nav':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_nav);
                 }else{
@@ -12678,7 +12690,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'hist_find':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_find);
                 }else{
@@ -12690,7 +12702,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'hist_strong':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_strong);
                 }else{
@@ -12703,7 +12715,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'markers':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_markers);
                 }else{
@@ -12716,7 +12728,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
 
             case 'fav_trans':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arrFavTrans);
                     arrFavTrans = arrFavTransDef;
@@ -12739,7 +12751,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
     
             case 'ajustes':
-                if(data.valorCampo == 'no_tiene_datos' || data.valorCampo == '[]'){
+                if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     obj_ajustes = obj_ajustes_def;
                     //console.log(obj_ajustes);

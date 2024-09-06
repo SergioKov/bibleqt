@@ -16,6 +16,7 @@ function debug_x($variable, $name_var = null){//con exit;
     echo"<pre>";
     var_dump($variable);
     echo"</pre>";
+    echo"<p>--- hago exit ---</p>";
     exit;
 }
 
@@ -26,27 +27,38 @@ function debug_r($variable, $name_var = null){
     echo"</pre>";
 }
 
+function debug_r_x($variable, $name_var = null){
+    if($name_var != null) echo"<h3>$name_var: </h3>";
+    echo"<pre>";
+    print_r($variable);
+    echo"</pre>";
+    echo"<p>--- hago exit ---</p>";
+    exit;
+}
+
 function echo_json($variable, $name_var = null){
     if($name_var != null){
         echo json_encode([
             $name_var => $variable
-        ]);    
+        ], JSON_UNESCAPED_UNICODE);    
     }else{
         echo json_encode([
             'variable' => $variable
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
     }    
 }
 
 function echo_json_x($variable, $name_var = null){//con exit;
     if($name_var != null){
         echo json_encode([
-            $name_var => $variable
-        ]);    
+            $name_var => $variable,
+            'hago_exit' => true
+        ], JSON_UNESCAPED_UNICODE);    
     }else{
         echo json_encode([
-            'variable' => $variable
-        ]);
+            'variable' => $variable,
+            'hago_exit' => true
+        ], JSON_UNESCAPED_UNICODE);
     }    
     exit;
 }
