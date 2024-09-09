@@ -25,7 +25,6 @@
     "d24_t": "Marcadores",
     "d25_t": "Comentarios",
     "d26_t": "Diccionarios",
-
     "d27": "Libro",
     "d28": "Capítulo",
     "d29": "Versículo",
@@ -123,7 +122,6 @@
     "d121": "Judas",
     "d122_lab": "Apocalipsis",
     "d123": "Apocalipsis",
-
     "d124": "1. Lo buscado contiene al menos una palabra",
     "d125_ttip": "Ejemplo: buscar no solo versículos que contengan 'Jesús Dios', sino también aquellos que contengan 'Jesús' o 'Dios'.",
     "d126": "2. Las palabras están en el orden especificado",
@@ -145,12 +143,10 @@
     "d142": "Marcadores",
     "d143": "No hay entradas en Marcadores.",
     "d144": "¿Cómo añadir un versículo?",
-
     "d145": "Por favor, habilite JavaScript para ver correctamente este sitio.",
     "d146_t": "Módulos de la Biblia seleccionados",
     "d147_t": "Navegación. Selección de libro, capítulo, versículo",
     "d148": "Cargando la Biblia...",
-
     "d149": "Sesión iniciada correctamente. Tus ajustes personales se han cargado.",
     "d150": "Sesión no iniciada.",
     "d151": "Bienvenido",
@@ -179,7 +175,6 @@
     "d174": "Mostrar pestañas en modo móvil",
     "d175": "Obtener módulos como texto (más rápido)",
     "d176": "Obtener módulos como json",
-
     "d177": "Crear cuenta",
     "d178": "Al crear la cuenta tendrás acceso a tus ajustes personales.",
     "d179": "¿Ya estás registrado?",
@@ -195,7 +190,6 @@
     "d189": "¿No estás registrado?",
     "d190": "¿Has olvidado la contraseña?",
     "d191": "¿Quieres cambiar la contraseña?",
-
     "d192_ph": "Nombre",
     "d193_ph": "Contraseña",
     "d194_ph": "Email",
@@ -203,15 +197,12 @@
     "d196_ph": "Actual contraseña",
     "d197_ph": "Nueva contraseña",
     "d198_ph": "Repite nueva contraseña",
-
     "d199": "Idioma de la interfaz",
     "d200": "Idioma",
     "d201": "Escudriñad las Escrituras; porque a vosotros os parece que en ellas tenéis la vida eterna; y ellas son las que dan testimonio de mí;",
     "d202": "Jn. 5:39 (RV60)",
-
     "d203": "Ambos campos son obligatorios. Introduce tu email y contraseña.",
     "d204": "Autenticación fallida.",
-
     "d205": "Hubo problemas al iniciar sesión para ",
     "d206": "Verifica tu email y contraseña.",
     "d207": "¡Bienvenido",
@@ -234,7 +225,6 @@
     "d224": "Los ficheros de Strong ya están cargados.",
     "d225": "Aviso Strong",
     "d226": "Todos los ficheros Strong favoritos se han cargado en la memoria como texto para trabajar más rápido con ellos y ofline. <br>No recargues la web porque se perderán datos y tendrás que cargarlos de nuevo.",
-    
     "d227": "Forzar modo móvil (ancho hasta 1200px)",
     "d228": "módulos",
     "d229": "módulo",
@@ -243,7 +233,6 @@
     "d232": "La contraseña para el email __VAR__ ha sido actualizada con éxito.",
     "d233": "Error al actualizar la contraseña.",
     "d234": "La contrasena actual es incorrecta. Los datos no se han actualizado.",
-
     "d235": "Error al procesar el JSON.",
     "d236": "El correo electrónico ya está en uso.",
     "d237": "Usuario registrado con éxito.",
@@ -283,16 +272,13 @@
     "d271": "El campo nueva contraseña y su repetición no son iguales.",
     "d272": "Su contraseñaa no se ha actualizado. <br>Error en la consulta.",
     "d273": "Se te ha enviado un mensaje de este cambio a tu correo electrónico.",
-    
     "d274": "Los dos campos de contraseña son obligatorios.",
     "d275": "Las contraseñas introducidas no son iguales.",
     "d276": "El enlace está dañado. Haz click en el enlace enviado a tu email.",
     "d277": "Introduce tu contraseña nueva.",
     "d278": "El email no es válido.",
     "d279": "La contraseña no es válida. Debe tener al menos 6 carácteres.",
-
-    "d280": "No se puede obtener datos del usuario que no ha iniciado la sesión.",
-    
+    "d280": "No se puede obtener datos del usuario que no ha iniciado la sesión.",   
     "d281": "Email o token vacios. <br>Para confirmar tu correo electrónico son imprescindibles estos datos.",
     "d282": "Tu email ha sido verificado correctamente. <br>Tu cuenta se ha creado con éxito.",
     "d283": "Enlace no válido. <br>Intenta confirmar tu correo electrónico de nuevo por favor.",
@@ -308,16 +294,14 @@
     "d293": "Entrar",
     "d294": "Hemos recibido una solicitud para restablecer la contraseña. Pulsa \"Restablecer contraseña\" para crear una nueva contraseña. Si no has sido tú quien lo ha solicitado, puedes ignorar este mensaje.",
     "d295": "Restablecer contraseña",
-
     "d296": "Confirma el correo electrónico",
     "d297": "Actualiza contraseña",
-
     "d298": "El correo electrónico del usuario no está verificado. Revisa tu email y pincha sobre el enlace enviado para verificarlo. Después de hacerlo podrás iniciar sesión.",
     "d299": "Ha pasado más de 24 horas desde el inicio del proceso de creación de tu cuenta. Tu email no ha sido confirmado a tiempo y tu cuenta no se ha creado. Vuelve a crear tu cuenta de nuevo por favor.",
     "d300": "Ha ocurrido un error al crear tu cuenta. Ponte en contacto con el administrador de Bibleqt.",
-
     "d301": "Error al procesar el JSON. El objeto no contiene las claves esperadas.",
-    "d302": "",
+    "d302": "Error al decodificar JSON.",
+    
     "d303": "",
     "d304": "",
     "d305": "",

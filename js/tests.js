@@ -543,7 +543,7 @@ function getRefToCompare(ref){
                                 formData.append('book', n_book);
                                 formData.append('chapter', chapter);
         
-                                fetch('./app/read_file_get_VerseQty_to_json.php',{
+                                fetch('./php/read_file_get_VerseQty_to_json.php',{
                                     method: 'POST',
                                     body: formData
                                 })
@@ -884,7 +884,7 @@ async function parseTextToArrRef(textRef, trans = null){
                             formData.append('book', n_book);
                             formData.append('chapter', chapter);
 
-                            fetch('./app/read_file_get_VerseQty_to_json.php',{
+                            fetch('./php/read_file_get_VerseQty_to_json.php',{
                                 method: 'POST',
                                 body: formData
                             })
@@ -1484,7 +1484,7 @@ async function getVerseQty(url,book,chapter){
 
         
         // Realiza una solicitud GET a una API
-        const respuesta = await fetch('./app/read_file_get_VerseQty_to_json.php',{
+        const respuesta = await fetch('./php/read_file_get_VerseQty_to_json.php',{
             method: 'POST',
             body: formData
         });

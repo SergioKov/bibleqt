@@ -25,7 +25,6 @@
     "d24_t": "Bookmarks",
     "d25_t": "Comments",
     "d26_t": "Dictionaries",
-
     "d27": "Book",
     "d28": "Chapter",
     "d29": "Verse",
@@ -123,7 +122,6 @@
     "d121": "Jude",
     "d122_lab": "Revelation",
     "d123": "Revelation",
-
     "d124": "1. The search contains at least one word",
     "d125_ttip": "Example: search not only for verses containing 'Jesus God', but also those containing 'Jesus' or 'God'.",
     "d126": "2. The words are in the specified order",
@@ -145,12 +143,10 @@
     "d142": "Bookmarks",
     "d143": "No entries in Bookmarks.",
     "d144": "How to add a verse?",
-
     "d145": "Please enable JavaScript to view this site correctly.",
     "d146_t": "Selected Bible Modules",
     "d147_t": "Navigation. Book, chapter, verse selection",
     "d148": "Loading the Bible...",
-
     "d149": "Session started successfully. Your personal settings are being loaded.",
     "d150": "Session not started.",
     "d151": "Welcome",
@@ -179,7 +175,6 @@
     "d174": "Show tabs in mobile mode",
     "d175": "Get modules as text (faster)",
     "d176": "Get modules as json",
-
     "d177": "Create Account",
     "d178": "By creating an account, you will gain access to your personal settings.",
     "d179": "Already registered?",
@@ -195,7 +190,6 @@
     "d189": "Not registered?",
     "d190": "Forgot your password?",
     "d191": "Want to change your password?",
-
     "d192_ph": "Name",
     "d193_ph": "Password",
     "d194_ph": "Email",
@@ -203,15 +197,12 @@
     "d196_ph": "Current password",
     "d197_ph": "New password",
     "d198_ph": "Repeat new password",
-
     "d199": "Interface language",
     "d200": "Language",
     "d201": "You search the Scriptures, for in them you think you have eternal life; and these are they which testify of Me.",
     "d202": "John 5:39 (NKJV)",
-
     "d203": "Both fields are required. Please enter your email and password.",
     "d204": "Authentication failed.",
-
     "d205": "There were issues logging in for the ",
     "d206": "Please check your email and password.",
     "d207": "Welcome",
@@ -234,7 +225,6 @@
     "d224": "Strong's files are already loaded.",
     "d225": "Strong Notification",
     "d226": "All favorite Strong's files have been loaded into memory as text for faster work with them and offline. <br>Do not reload the webpage because data will be lost and you'll have to load them again.",
-
     "d227": "Force mobile mode (width up to 1200px)",
     "d228": "modules",
     "d229": "module",
@@ -243,7 +233,6 @@
     "d232": "The password for email __VAR__ has been successfully updated.",
     "d233": "Error updating the password.",
     "d234": "Current password is incorrect. Data has not been updated.",
-
     "d235": "Error processing JSON.",
     "d236": "The email is already in use.",
     "d237": "User registered successfully.",
@@ -283,16 +272,13 @@
     "d271": "The new password and its confirmation do not match.",
     "d272": "Your password has not been updated. <br>Error in the query.",
     "d273": "A message about this change has been sent to your email.",
-    
     "d274": "Both password fields are required.",
     "d275": "The entered passwords do not match.",
     "d276": "The link is broken. Click on the link sent to your email.",
     "d277": "Enter your new password.",
     "d278": "The email is invalid.",
     "d279": "The password is invalid. It must be at least 6 characters long.",
-
     "d280": "Cannot retrieve data from a user who is not logged in.",
-    
     "d281": "Email or token is empty. <br>These details are necessary to confirm your email address.",
     "d282": "Your email has been successfully verified. <br>Your account has been created successfully.",
     "d283": "Invalid link. <br>Please try to confirm your email address again.",
@@ -308,16 +294,14 @@
     "d293": "Login",
     "d294": "We have received a request to reset your password. Click \"Reset password\" to create a new password. If you did not make this request, you can ignore this message.",
     "d295": "Reset password",
-
     "d296": "Confirm email",
     "d297": "Update Password",
-
     "d298": "The user's email is not verified. Check your email and click on the link sent to verify it. After doing so, you will be able to log in.",
     "d299": "More than 24 hours have passed since the start of the account creation process. Your email was not confirmed in time, and your account was not created. Please create your account again.",
     "d300": "An error occurred while creating your account. Please contact the Bibleqt administrator.",
+    "d301": "Error processing JSON. The object does not contain the expected keys.",
+    "d302": "Error decoding JSON.",
 
-    "d301": "",
-    "d302": "",
     "d303": "",
     "d304": "",
     "d305": "",

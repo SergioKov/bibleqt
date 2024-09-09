@@ -60,7 +60,6 @@ HERE;
     </div>
 
 
-<!-- <script src="./js/aviso_script.js"></script> -->
 <script type="text/javascript">
 
 const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles

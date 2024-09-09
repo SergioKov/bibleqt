@@ -1660,7 +1660,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                 //console.log('formData: ',[...formData]);
         
-                fetch('./app/read_file_to_json.php',{
+                fetch('./php/read_file_to_json.php',{
                     method: 'POST',
                     body: formData
                 })
@@ -3124,7 +3124,7 @@ function verseGo(dir, obj_to_send_string){
             formData.append('book', prev_book);
             formData.append('chapter', prev_chapter);
 
-            fetch('./app/read_file_get_VerseQty_to_json.php',{
+            fetch('./php/read_file_get_VerseQty_to_json.php',{
                 method: 'POST',
                 body: formData
             })

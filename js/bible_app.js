@@ -4326,7 +4326,7 @@ function getTsk(e){
 
                                             //console.log('formData: ',[...formData]);
 
-                                            fetch('./app/read_file_to_json.php',{
+                                            fetch('./php/read_file_to_json.php',{
                                                 method: 'POST',
                                                 body: formData
                                             })
@@ -9087,7 +9087,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
             //console.log('formData: ',[...formData]);
             
-            fetch('./app/read_file_to_json.php',{
+            fetch('./php/read_file_to_json.php',{
                 method: 'POST',
                 body: formData
             })
@@ -14058,7 +14058,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             formData.append('book', id_book);
                                             formData.append('chapter', show_chapter);
             
-                                            fetch('./app/read_file_get_VerseQty_to_json.php',{
+                                            fetch('./php/read_file_get_VerseQty_to_json.php',{
                                                 method: 'POST',
                                                 body: formData
                                             })
@@ -14322,7 +14322,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     formData.append('book', id_book);
                                     formData.append('chapter', show_chapter);
     
-                                    fetch('./app/read_file_get_VerseQty_to_json.php',{
+                                    fetch('./php/read_file_get_VerseQty_to_json.php',{
                                         method: 'POST',
                                         body: formData
                                     })
@@ -14998,7 +14998,7 @@ function getRef(trans = null){
                                 formData.append('book', n_book);
                                 formData.append('chapter', chapter);
         
-                                fetch('./app/read_file_get_VerseQty_to_json.php',{
+                                fetch('./php/read_file_get_VerseQty_to_json.php',{
                                     method: 'POST',
                                     body: formData
                                 })
