@@ -1,4 +1,6 @@
 
 # Ignora las siguientes carpetas
 #make_modules/
-#logs/
+
+#no subo el fichero app_prod.log para no reescribirlo ya que se llena con datos en prod
+logs/app_prod.log
