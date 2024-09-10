@@ -1,8 +1,8 @@
 <?php
 
-include('connect_db.php');
-include('base_url.php');
 include('functions.php');
+include('includes/connect_db.php');
+include('includes/base_url.php');
 
 //debug_x('file: /php/reset_password.php');
 

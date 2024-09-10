@@ -1,8 +1,8 @@
 <?php
 
-include('connect_db.php');
-include('base_url.php');
 include('functions.php');
+include('includes/connect_db.php');
+include('includes/base_url.php');
 
 //debug_x("file: /php/verify_email.php");
 
@@ -64,8 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             if($result_up){
                 $dic_code = 'd282';//Tu email ha sido verificado correctamente. Tu cuenta se ha creado con éxito.
+                writeLog("Email verificado con éxito. email: [" . $email . "]");
+                
             }else{
                 $dic_code = 'd285';//Tu email no ha sido verificado. Intenta de nuevo.
+                writeLog("Email no verificado. email: [" . $email . "]");
             }
             
             $location = "Location: " . $protocol . "://" . $host . "/aviso.php?m=$dic_code";
@@ -86,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             if($result_del){
                 $dic_code = 'd299';//Ha pasado más de 24 horas desde el inicio del proceso de creación de tu cuenta. Tu email no ha sido confirmado a tiempo y tu cuenta no se ha creado. Vuelve a crear tu cuenta de nuevo por favor.
+                writeLog("El usuario eliminado de la bd por superar 24 horas para l averificación. email: [" . $email . "]");
+
 
                 // Establecer la redirección después de 5 segundos
                 header("Refresh: 0; url=../aviso.php?m=d299");                
@@ -93,13 +98,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             }else{
                 $dic_code = 'd300';//Ha ocurrido un error al crear tu cuenta. Ponte en contacto con el administrador de Bibleqt.
 
+                writeLog("Error d300 al crear la cuenta.");
+
                 // Establecer la redirección después de 5 segundos
                 header("Refresh: 0; url=../aviso.php?m=d300");
             }
         }
 
     } else {
-        
+
+        writeLog("Error d283 al crear la cuenta. Enlace no válido.");
+
         // Establecer la redirección después de 5 segundos
         header("Refresh: 0; url=../aviso.php?m=d283");
         //echo '<p>Enlace no válido. <br>Intenta confirmar tu correo electrónico de nuevo por favor.</p>'; 

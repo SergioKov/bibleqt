@@ -1836,7 +1836,13 @@ select  optgroup option {
     background: #424242;
 }
 
-
+.wr_markers_inner a {
+    color: #c27f01;
+    transition: color 0.3s ease;
+}
+.wr_markers_inner a:hover {
+    color: #ffa602;
+}
 
 .wr_fecha_hora {
     display: inline-block;

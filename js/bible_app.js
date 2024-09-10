@@ -4313,7 +4313,6 @@ function getTsk(e){
 
                                             //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                                             let formData = new FormData();
-                                            //formData.append('url', url );//antes
                                             formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
                                             formData.append('base_ep', base_ep);
                                             formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
@@ -9074,7 +9073,6 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
             //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
             let formData = new FormData();
-            // formData.append('url', url );//antes
             formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
             formData.append('base_ep', base_ep);
             formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
@@ -12770,7 +12768,8 @@ async function obtenerDatosDeBD(tabla, campo){
         }
 
         if(data.success == false && data.error && Object.keys(obj_lang).length > 0){
-            console.error(obj_lang[data.dic_code]);//'No hay todos los parametros necesarios.' o 'Solicitud incorrecta.'
+            //no muestro el sig. mensage en PROD
+            //console.log(obj_lang[data.dic_code]);//'No hay todos los parametros necesarios.' o 'Solicitud incorrecta.'
         }
 
     } catch (error) {
@@ -14053,8 +14052,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                         
                                             let formData = new FormData();
-                                            //formData.append('url', url);//antes
-                                            formData.append('url', '../'+url);//importante '../' delante de la url                                    
+                                            formData.append('url', '../'+url);//importante '../' delante de la url
                                             formData.append('book', id_book);
                                             formData.append('chapter', show_chapter);
             
@@ -14317,8 +14315,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                     let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
                                     let formData = new FormData();
-                                    //formData.append('url', url);//antes
-                                    formData.append('url', '../'+url);//importante '../' delante de la url                                    
+                                    formData.append('url', '../'+url);//importante '../' delante de la url
                                     formData.append('book', id_book);
                                     formData.append('chapter', show_chapter);
     
@@ -14993,7 +14990,6 @@ function getRef(trans = null){
                                 let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
                                 let formData = new FormData();
-                                // formData.append('url', url);//antes
                                 formData.append('url', '../'+url);//importante '../' delante de la url
                                 formData.append('book', n_book);
                                 formData.append('chapter', chapter);

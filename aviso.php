@@ -1,7 +1,7 @@
 
 <?php
-include('./php/base_url.php');
 include('./php/functions.php');
+include('./php/includes/base_url.php');
 
 
 //mensaje

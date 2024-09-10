@@ -2,6 +2,8 @@
 session_start();//importante para ver al usuario logueado
 
 include('functions.php');
+include('includes/config.php');
+
 
 /*
 //HACER PRUEBAS...
@@ -14,10 +16,9 @@ echo json_encode([
 exit;
 */
 
-$arr_metodos = ['POST'];//en PROD siempre!
-//$arr_metodos = ['POST', 'GET'];//para hacer test... 
 
-//si los datos NO VIENEN desde desde el metodo permitido
+
+//si los datos NO VIENEN desde el metodo permitido
 if (!in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
 	// Manejar solicitudes incorrectas
     http_response_code(400);
@@ -68,6 +69,8 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
         }
     } else {
         //echo "Error al decodificar JSON: " . json_last_error_msg();
+        writeLog("Error al decodificar JSON. Error: [" . json_last_error_msg() . "]", 'ERROR');
+
         http_response_code(400);
         echo json_encode([
             'success' => false,
@@ -103,8 +106,10 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
         $username_logged = 'user_test_no_borrar';
         //echo json_encode(['mensaje' => $username_logged]);
         
+        writeLog("No existe sessión. Para insertar datos hay que loguearse antes. Solicitud incorrecta.");
+        
         // Manejar solicitudes incorrectas
-        http_response_code(400);
+        //http_response_code(400);
         echo json_encode([
             'success' => false,
             'error' => 'No existe sessión. Para insertar datos hay que loguearse antes. Solicitud incorrecta.',
@@ -114,20 +119,7 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
     }
 	//echo_json_x($id_user_logged, 'id_user_logged');
 
-    include('connect_db.php');
-
-    /*
-    foreach ($datos['arr'] as $arr_k => $arr_v) {
-        foreach ($arr_v as $k => $v) {
-            if($k == 'ref'){
-                //echo "<p>$k: $v </p>";
-                // $datos['arr'][$arr_k][$k] = agregarBarrasUnicode($v);
-                $datos['arr'][$arr_k][$k] = addslashes($v);
-                //echo "<p>$ datos['arr'][$arr_k][$k]:" . $datos['arr'][$arr_k][$k];
-            }
-        }
-    }
-    */
+    include('includes/connect_db.php');
 
     //debug_x($datos['arr']);
 
@@ -232,6 +224,8 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
         }
     } else {
         if($hay_id_user_en_tabla){
+            writeLog("Error al actualizar datos. Error: [" . $conn->error . "]");
+
             $respuesta = [
                 'success' => false,
                 'error' => 'Error al actualizar datos: ',
@@ -239,6 +233,8 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
                 'dic_code' => 'd248'
             ];
         }else{
+            writeLog("Error al insertar datos. Error: [" . $conn->error . "]");
+
             $respuesta = [
                 'success' => false,
                 'mensaje' => 'Error al insertar datos: ',

@@ -553,7 +553,7 @@ session_start();
                     <div id="markers_body">    
                         <div id="wr_markers">
                             <div class="wr_markers_inner">
-                                <span class="prim_tsk"><span data-dic="d143">Нет записей в Маркерах.</span> <br><a href="#" data-dic="d144" data-info="1. Кликните на стих \n2. Кликните на кнопку с троеточием \n3. Кликните на вторую кнопку слева" onclick="event.preventDefault(); alert(this.dataset.info);">Как добавить стих?</a></span>
+                                <span class="prim_tsk"><span data-dic="d143">Нет записей в Маркерах.</span> <br><a href="#" data-dic="d144" data-info="1. Кликните на стих 2. Кликните на кнопку с троеточием 3. Кликните на вторую кнопку слева" onclick="event.preventDefault(); alert(this.dataset.info);">Как добавить стих?</a></span>
                             </div>
                         </div>
                     </div>

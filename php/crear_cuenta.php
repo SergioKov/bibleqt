@@ -2,9 +2,10 @@
 // Iniciar sesión
 session_start();
 
-include('connect_db.php');
-include('base_url.php');
 include('functions.php');
+include('includes/connect_db.php');
+include('includes/base_url.php');
+include('includes/config.php');
 
 
 
@@ -22,42 +23,60 @@ exit;
 */
 
 
+//si los datos NO VIENEN desde el metodo permitido
+if (!in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
+	// Manejar solicitudes incorrectas
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Solicitud incorrecta.',
+        'dic_code' => 'd250'
+    ]);
+    exit;
+}
 
-if($_SERVER['REQUEST_METHOD'] == 'GET'){//para debuguear!
-    
-    // Obtener usuario y contraseña del cuerpo de la solicitud
-    $username = (isset($_GET['username'])) ? $conn->real_escape_string($_GET['username']) : '' ;
-    $email = (isset($_GET['email'])) ? $conn->real_escape_string(strtolower($_GET['email'])) : '' ;
-    $password = (isset($_GET['password'])) ? $_GET['password'] : '' ;
-    $lang = (isset($_GET['lang'])) ? $_GET['lang'] : '' ;
 
-    debug($_GET);
-    //exit;
 
-}else{//input
+//si los datos SÍ VIENEN desde el metodo permitido
+//es lo mismo que => if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET'){
+if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
 
-    // Obtener datos del cuerpo de la solicitud (en formato JSON)
-    $inputJSON = file_get_contents('php://input');
-    $input = json_decode($inputJSON, true);
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        // Obtener datos del cuerpo de la solicitud (en formato JSON)
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, true);
+        //debug($inputJSON, 'inputJSON');
 
-    // Verificar si se recibió correctamente el JSON
-    if ($input === null) {
-        //echo "Error al procesar el JSON.";
-        echo json_encode([
-            'success' => false, 
-            'error' => 'Error al procesar el JSON.',
-            'dic_code' => 'd235'
-        ]);
-        exit;
+        // Verificar si se recibió correctamente el JSON
+        if ($input === null) {
+            //echo "Error al procesar el JSON.";
+            echo json_encode([
+                'success' => false, 
+                'error' => 'Error al procesar el JSON.',
+                'dic_code' => 'd235'
+            ]);
+            exit;
+        }
+
+        // Obtener usuario y contraseña del cuerpo de la solicitud
+        $username = (isset($input['username'])) ? $conn->real_escape_string($input['username']) : '' ;
+        $email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
+        $password = (isset($input['password'])) ? $input['password'] : '' ;
+        $lang = (isset($input['lang'])) ? $input['lang'] : '' ;
+    } 
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){//para hacer test...
+        // Obtener usuario y contraseña del cuerpo de la solicitud
+        $username = (isset($_GET['username'])) ? $conn->real_escape_string($_GET['username']) : '' ;
+        $email = (isset($_GET['email'])) ? $conn->real_escape_string(strtolower($_GET['email'])) : '' ;
+        $password = (isset($_GET['password'])) ? $_GET['password'] : '' ;
+        $lang = (isset($_GET['lang'])) ? $_GET['lang'] : '' ;
+        //debug($email, 'email');
+        //debug($password, 'password');
     }
 
-    // Obtener usuario y contraseña del cuerpo de la solicitud
-    $username = (isset($input['username'])) ? $conn->real_escape_string($input['username']) : '' ;
-    $email = (isset($input['email'])) ? $conn->real_escape_string(strtolower($input['email'])) : '' ;
-    $password = (isset($input['password'])) ? $input['password'] : '' ;
-    $lang = (isset($input['lang'])) ? $input['lang'] : '' ;
-
 }
+
 
 //echo json_encode(['info' => 'aki 1']);
 //die();
@@ -262,7 +281,7 @@ if ($result_num_rows > 0) {
         //]);
 
     } else {
-
+        writeLog("Error al registrar el usuario. Error: [" . $conn->error . "]");
         echo json_encode([
             'success' => false, 
             'mensaje' => 'Error al registrar el usuario: ',

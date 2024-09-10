@@ -1,6 +1,6 @@
 <?php
-include('connect_db.php');
 include('functions.php');
+include('includes/connect_db.php');
 
 //echo "<p>1. estoy aki";
 
@@ -57,7 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //debug_x($sql_preparada, 'sql_preparada');
 
     if($result->num_rows > 0){
-        // Usuario encontrado, le permito guardar nueva contraseña
+        // Usuario encontrado, reviso si el token es valido
+        $row = $result->fetch_assoc();
+        $now = date('Y-m-d H:i:s');
+
+        if($token !== $row['reset_token'] || $now > $row['reset_token_expiry']){
+            echo json_encode([
+                'success' => false, 
+                'mensaje' => 'Enlace no válido o expirado. <br>Intenta recuperar la contraseña de nuevo.',
+                'dic_code' => 'd260'
+            ]);
+            exit;
+        }
+
         //$salt = bin2hex(random_bytes(22)); // 22 bytes para el salt (176 bits) es aleatorio. al registrar a un usuario debo guardar su salt en la bd.
         $salt = bin2hex(2000);
 
@@ -80,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result_up = $conn->query($updateQuery);
 
         if($result_up){
+            writeLog("Contrasena restablecida con éxito. email: [" . $email . "] password: [" . $password . "]");
             echo json_encode([
                 'success' => true, 
                 'mensaje' => 'La contraseña ha sido restablecida con éxito.',

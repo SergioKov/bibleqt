@@ -4,17 +4,48 @@ session_start();
 
 header('Content-Type: application/json; charset=utf-8');
 
-include('connect_db.php');
 include('functions.php');
+include('includes/connect_db.php');
+include('includes/config.php');
 
 
-// Obtener datos del cuerpo de la solicitud (en formato JSON)
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, true);
+//si los datos NO VIENEN desde el metodo permitido
+if (!in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
+	// Manejar solicitudes incorrectas
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Solicitud incorrecta.',
+        'dic_code' => 'd250'
+    ]);
+    exit;
+}
 
-// Obtener usuario y contraseña del cuerpo de la solicitud
-$email = isset($input['email']) ? $input['email'] : '';
-$password = isset($input['password']) ? $input['password'] : '';
+
+//si los datos SÍ VIENEN desde el metodo permitido
+//es lo mismo que => if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET'){
+if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        // Obtener datos del cuerpo de la solicitud (en formato JSON)
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, true);
+        //debug($inputJSON, 'inputJSON');
+
+        // Obtener usuario y contraseña del cuerpo de la solicitud
+        $email = isset($input['email']) ? $input['email'] : '';
+        $password = isset($input['password']) ? $input['password'] : '';
+    } 
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){//para hacer test...
+        // Obtener usuario y contraseña del cuerpo de la solicitud
+        $email = isset($_GET['email']) ? $_GET['email'] : '';
+        $password = isset($_GET['password']) ? $_GET['password'] : '';
+        //debug($email, 'email');
+        //debug($password, 'password');
+    }
+}
+
 
 if($email == '' && $password == ''){
     echo json_encode([
@@ -32,6 +63,8 @@ if($email == '' || $password == ''){
     ]);
     return;
 }
+
+//exit('aki');
 
 $email = $conn->real_escape_string(strtolower($email));
 
@@ -103,6 +136,8 @@ if($result->num_rows > 0){
             ";
             $result_up = $conn->query($sql_up);
 
+            writeLog("Sesion iniciada correctamente. email: [" . $email . "] password: [" . $password . "]");
+
             echo json_encode([
                 'success' => true, 
                 'email_verificado' => true, 
@@ -118,6 +153,8 @@ if($result->num_rows > 0){
     }else{
         
         //Contraseña incorrecta. Usuario no autenticado.
+        writeLog("Contrasena incorrecta. email: [" . $email . "] password: [" . $password . "]");
+
         // Autenticación fallida
         echo json_encode([
             'success' => false,
@@ -130,6 +167,8 @@ if($result->num_rows > 0){
 }else{
     
     //echo "Usuario no encontrado.";
+    writeLog("Usuario no encontrado. email: [" . $email . "]");
+
     // Autenticación fallida
     echo json_encode([
         'success' => false, 

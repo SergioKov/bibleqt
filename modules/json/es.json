@@ -258,7 +258,7 @@
     "d257": "Hubo problemas al guardar la contraseña. Revisa todos los datos. <br>Error: ",
     "d258": "Email o token vacios. <br>Para restablecer la contraseña son imprescindibles estos datos.",
     "d259": "Código de mensaje no indicado.",
-    "d260": "Enlace no válido o expirado. <br>Intenta recuperar la contraseña de nuevo por favor.",
+    "d260": "Enlace no válido o expirado. <br>Intenta recuperar la contraseña de nuevo.",
     "d261": "Aviso",
     "d262": "Ir al inicio",
     "d263": "Email y contraseñas vacios.",
@@ -301,10 +301,10 @@
     "d300": "Ha ocurrido un error al crear tu cuenta. Ponte en contacto con el administrador de Bibleqt.",
     "d301": "Error al procesar el JSON. El objeto no contiene las claves esperadas.",
     "d302": "Error al decodificar JSON.",
-    
-    "d303": "",
-    "d304": "",
-    "d305": "",
+    "d303": "Email vacío",
+    "d304": "No existe el fichero pasado como url.",
+    "d305": "No está indicado el parametro de la url o chapter.",
+
     "d306": "",
     "d307": "",
     "d308": "",

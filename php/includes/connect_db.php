@@ -21,6 +21,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Verificar la conexión a la base de datos
 if ($conn->connect_error) {
     //echo "conn error";
+    writeLog("Conexión fallida. Error: [" . $conn->connect_error . "]");
+
 	die("Conexión fallida: " . $conn->connect_error);
 }else{
 	//echo "conn ok";
@@ -28,6 +30,7 @@ if ($conn->connect_error) {
 
 // Establecer el conjunto de caracteres a UTF-8
 if (!$conn->set_charset("utf8")) {
+    writeLog("Error al establecer el conjunto de caracteres UTF-8. Error: [" . $conn->error . "]");
     die("Error al establecer el conjunto de caracteres UTF-8: " . $conn->error);
 }
 

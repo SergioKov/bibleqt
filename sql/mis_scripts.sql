@@ -163,7 +163,7 @@ ON DELETE CASCADE;
 
 
 -- ----------------------------------------------------------
-ALTER TABLE `users` ADD `is_email_varified` TINYINT(1) NULL DEFAULT '0' AFTER `email`, ADD `email_token` VARCHAR(255) NULL DEFAULT NULL AFTER `is_email_varified`;
+ALTER TABLE `users` ADD `is_email_verified` TINYINT(1) NULL DEFAULT '0' AFTER `email`, ADD `email_token` VARCHAR(255) NULL DEFAULT NULL AFTER `is_email_verified`;
 
 ALTER TABLE `users` CHANGE `reset_token` `reset_token` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
@@ -185,3 +185,43 @@ ALTER DATABASE db_bibleqt CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE markers CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ALTER TABLE markers MODIFY arr_markers JSON CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+---------------------------
+
+-- ver todas claves foraneas
+SELECT 
+    table_name, 
+    constraint_name, 
+    column_name, 
+    referenced_table_name, 
+    referenced_column_name 
+FROM 
+    information_schema.key_column_usage 
+WHERE 
+    referenced_table_schema = 'db_bibleqt' 
+    AND referenced_table_name IS NOT NULL;
+
+-- paso 1. eliminar clave foranea
+ALTER TABLE ajustes DROP FOREIGN KEY FK_fav_ajustes_users;
+ALTER TABLE fav_trans DROP FOREIGN KEY FK_fav_trans_users;
+ALTER TABLE hist_find DROP FOREIGN KEY FK_hist_find_users;
+ALTER TABLE hist_nav DROP FOREIGN KEY FK_hist_nav_users;
+ALTER TABLE hist_strong DROP FOREIGN KEY FK_hist_strong_users;
+ALTER TABLE markers DROP FOREIGN KEY FK_markers_users;
+ALTER TABLE vkladki DROP FOREIGN KEY FK_vkladki_users;
+
+
+-- paso 2. crear indices para cada tabla en phpMyAdmin
+ALTER TABLE `ajustes` ADD INDEX(`id_user`);
+ALTER TABLE `fav_trans` ADD INDEX(`id_user`);
+ALTER TABLE `hist_find` ADD INDEX(`id_user`);
+ALTER TABLE `hist_nav` ADD INDEX(`id_user`);
+ALTER TABLE `hist_strong` ADD INDEX(`id_user`);
+ALTER TABLE `markers` ADD INDEX(`id_user`);
+ALTER TABLE `vkladki` ADD INDEX(`id_user`);
+
+-- paso 3. crear la relacion con el diseñador 
+    on delete: CASCADE
+    on update: CASCADE
+
+

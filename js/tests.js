@@ -1481,7 +1481,6 @@ async function getVerseQty(url,book,chapter){
         formData.append('url', '../'+url);//importante '../' delante de la url
         formData.append('book', book);
         formData.append('chapter', chapter);
-
         
         // Realiza una solicitud GET a una API
         const respuesta = await fetch('./php/read_file_get_VerseQty_to_json.php',{

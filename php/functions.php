@@ -295,7 +295,32 @@ function ejemploSQLpreparada(){//compleja y no funciona. dejo aki como ejemplo y
 }
 
 
+function writeLog($message, $level = 'INFO') {
+    
+    if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
+        $logFile = '../logs/app_prod.log';  // Define la ruta del archivo de log en Hostalia
+    }else{//LOCALHOST
+        $logFile = '../logs/app_local.log';  // Define la ruta del archivo de log en Localhost
+    }
 
+    // Obtiene el archivo desde donde se llamó a la función usando debug_backtrace()
+    $backtrace = debug_backtrace();
+    $callingFile = isset($backtrace[0]['file']) ? $backtrace[0]['file'] : 'desconocido';
+    $callingLine = isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 'desconocido';
+
+    if($callingFile !== 'desconocido'){
+        $arr_callingFile = explode("\\",$callingFile);
+        $callingfile_short = array_slice($arr_callingFile, -1)[0]; // Obtiene el último elemento
+    }else{
+        $callingfile_short = $callingFile;
+    }
+    
+
+    $logMessage = date('Y-m-d H:i:s') . " [$level] - $message - Archivo: [$callingfile_short] línea: [$callingLine]";
+    
+    // Escribe el mensaje en el archivo de log
+    error_log($logMessage . PHP_EOL, 3, $logFile);
+}
 
 
 

@@ -301,10 +301,10 @@
     "d300": "An error occurred while creating your account. Please contact the Bibleqt administrator.",
     "d301": "Error processing JSON. The object does not contain the expected keys.",
     "d302": "Error decoding JSON.",
-
-    "d303": "",
-    "d304": "",
-    "d305": "",
+    "d303": "Empty email",
+    "d304": "The file passed as URL does not exist.",
+    "d305": "The URL or chapter parameter is not specified.",
+    
     "d306": "",
     "d307": "",
     "d308": "",

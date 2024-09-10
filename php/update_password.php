@@ -1,8 +1,8 @@
 <?php
 
-include('connect_db.php');
-include('base_url.php');
 include('functions.php');
+include('includes/connect_db.php');
+include('includes/base_url.php');
 
 
 
@@ -136,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     //exit;    
                 }
 
+                writeLog("Contrasena actualizada con éxito. email: [" . $email . "] old_password: [" . $password . "] new_password: [" . $new_password . "]");
 
                 // Enviar un correo electrónico al usuario con el enlace de restablecimiento
                 $subject = $obj_lang['d297'];//"Actualizar Contraseña";

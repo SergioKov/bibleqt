@@ -1648,7 +1648,6 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
                 let formData = new FormData();
-                // formData.append('url', url );//antes
                 formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
                 formData.append('base_ep', base_ep);
                 formData.append('bq_EnglishPsalms', el_trans.EnglishPsalms);
@@ -3119,7 +3118,6 @@ function verseGo(dir, obj_to_send_string){
             let url = `../modules/text/${trans_ref}/${this_objTrans.Books[prev_book].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
             let formData = new FormData();
-            // formData.append('url', url);//antes
             formData.append('url', './'+url);//importante './' delante de la url
             formData.append('book', prev_book);
             formData.append('chapter', prev_chapter);

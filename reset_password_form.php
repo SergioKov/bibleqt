@@ -1,6 +1,6 @@
 
 <?php
-include('./php/base_url.php');
+include('./php/includes/base_url.php');
 
 $email = (isset($_GET['email']) && $_GET['email'] != '') ? $_GET['email'] : '';
 $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
