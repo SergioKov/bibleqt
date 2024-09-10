@@ -862,13 +862,19 @@ function pushStateToHistNav(trans,ref){
     window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
-const addRefToHistNav = async (trans, ref, book, chapter, verse = null, to_verse = null) => {
-    //console.log('=== const addRefToHistNav ===');
+async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null){
+    console.log('=== async function addRefToHistNav() ===');
 
     if(arr_hist_nav.length == 0){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');
         //console.log(arr_hist_nav);
     }
+
+    //construyo fetch para sacar el texto de versiculo
+    if(book && chapter){
+        //code... futura funcion...
+    }
+
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);

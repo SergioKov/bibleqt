@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = isset($input['password']) ? $input['password'] : '';
 
     if($email == '' || $token == '' || $password == ''){
+        writeLog("Al intentar restablecer la contraseña no hay todos los parametros necesarios: (email, token, password).");            
         echo json_encode([
             'success' => false, 
             'error' => 'No hay todos los parametros necesarios.',
@@ -63,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $now = date('Y-m-d H:i:s');
 
         if($token !== $row['reset_token'] || $now > $row['reset_token_expiry']){
+            writeLog("Enlace de restablecer email no válido o expirado. email: [" . $email . "]");            
             echo json_encode([
                 'success' => false, 
                 'mensaje' => 'Enlace no válido o expirado. <br>Intenta recuperar la contraseña de nuevo.',
