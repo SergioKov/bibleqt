@@ -225,3 +225,13 @@ ALTER TABLE `vkladki` ADD INDEX(`id_user`);
     on update: CASCADE
 
 
+-- en prod hago estos cambios 10/09/2024
+ALTER TABLE `ajustes` CHANGE `obj_ajustes` `obj_ajustes` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `fav_trans` CHANGE `arrFavTrans` `arrFavTrans` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE `hist_find` CHANGE `arr_hist_find` `arr_hist_find` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `hist_nav` CHANGE `arr_hist_nav` `arr_hist_nav` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `hist_strong` CHANGE `arr_hist_strong` `arr_hist_strong` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `markers` CHANGE `arr_markers` `arr_markers` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `vkladki` CHANGE `arrTabs` `arrTabs` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+

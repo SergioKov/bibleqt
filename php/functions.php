@@ -309,12 +309,15 @@ function writeLog($message, $level = 'INFO') {
     $callingLine = isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 'desconocido';
 
     if($callingFile !== 'desconocido'){
-        $arr_callingFile = explode("\\",$callingFile);
+        if(strpos($callingFile, '/') !== false){
+            $arr_callingFile = explode('/',$callingFile);
+        }else{
+            $arr_callingFile = explode('\\',$callingFile);
+        }
         $callingfile_short = array_slice($arr_callingFile, -1)[0]; // Obtiene el último elemento
     }else{
         $callingfile_short = $callingFile;
-    }
-    
+    }    
 
     $logMessage = date('Y-m-d H:i:s') . " [$level] - $message - Archivo: [$callingfile_short] línea: [$callingLine]";
     
