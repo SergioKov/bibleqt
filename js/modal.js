@@ -2788,6 +2788,9 @@ function showHistoryNav(){
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
             p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            if(typeof el.verseText !== 'undefined'){
+                p.innerHTML += `<span class="sp_ref_text">${el.verseText}...</span>`;
+            }
             eid_bl_modalFullInner.append(p);
         });
     }else{

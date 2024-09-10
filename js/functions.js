@@ -683,7 +683,9 @@ const handlerListenTsk = (ev, Translation ) => {
     if(ev.target.tagName === 'A'){
         //console.log(ev.target);
         //console.log(ev.target.innerHTML);
-        goToLink(Translation, ev.target.innerHTML);
+        let refLink = ev.target.innerHTML;
+        let refText = ev.target.parentElement.querySelector('.vt').innerText;
+        goToLink(Translation, refLink, refText);
     } 
 }
 
@@ -778,6 +780,32 @@ function buildDivShow(arrData, indexColToBuild = null){
                         sp_btn_vm.className = 'btn_verse_menu';
                         //sp_btn_vm.textContent = '...';
                         element.append(sp_btn_vm);
+
+                        if(i == 0){//col1 trans base
+                            //busco si hay esta ref en arr_hist_nav
+                            let p_id = arrData[0][index].id;
+                            //console.log('p_id: ', p_id);
+
+                            if(typeof arr_hist_nav !== 'undefined'){
+                                for (let y = 0; y < 2; y++) {
+                                    let elem2_hist_nav = arr_hist_nav[y];//0,1
+    
+                                    let hist_nav_trans = arr_hist_nav[y].trans; 
+                                    let hist_nav_book = arr_hist_nav[y].book; 
+                                    let hist_nav_chapter = (arr_hist_nav[y].chapter !== null) ? arr_hist_nav[y].chapter : 1 ; 
+                                    let hist_nav_verse = (arr_hist_nav[y].verse !== null) ? arr_hist_nav[y].verse : 1 ; 
+                                    
+                                    let id_hist_nav = `${hist_nav_trans}__${hist_nav_book}__${hist_nav_chapter}__${hist_nav_verse}`;
+                                    //console.log('id_hist_nav: ', id_hist_nav);
+        
+                                    if(id_hist_nav === p_id){
+                                        console.log('coinciden id_hist_nav y p_id: ', p_id);
+                                        arr_hist_nav[y].verseText = arrData[0][index].querySelector('.vt').innerText.split(' ').slice(0,7).join(' ');
+                                        console.log(arr_hist_nav);
+                                    }                                    
+                                }
+                            }                            
+                        }
                     }
                     el_colsInner.append(element);
                     element = htmlEntities(element);//test            
@@ -862,19 +890,13 @@ function pushStateToHistNav(trans,ref){
     window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
-async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null){
+async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
     console.log('=== async function addRefToHistNav() ===');
 
     if(arr_hist_nav.length == 0){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');
         //console.log(arr_hist_nav);
     }
-
-    //construyo fetch para sacar el texto de versiculo
-    if(book && chapter){
-        //code... futura funcion...
-    }
-
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -897,6 +919,8 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
 
     let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
 
+    verseText = (verseText !== null) ? verseText : '' ;
+
     let itemHist = { 
         'trans': trans, 
         'BibleShortName': esteTrans.BibleShortName, 
@@ -907,7 +931,8 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
         'verse': verse,
         'to_verse': to_verse,
         'fecha': fechaFormateada, 
-        'hora': horaActual 
+        'hora': horaActual, 
+        'verseText': verseText 
     };
 
     pushStateToHistNav(trans,ref);
@@ -949,6 +974,9 @@ function buildHistoryNavDesktop(){
             }
             p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
             p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
+            if(typeof el.verseText !== 'undefined'){
+                p.innerHTML += `<span class="sp_ref_text">${el.verseText}...</span>`;
+            }
             eid_wr_hist_nav_inner.append(p);
     
         });    

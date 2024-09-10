@@ -4063,3 +4063,8 @@ input:checked + .slider:before {
 .p_cerr_ses a{
     cursor: pointer;
 }
+.sp_ref_text {
+    color: orange;
+    margin-top: 2px;
+    display: block;
+}

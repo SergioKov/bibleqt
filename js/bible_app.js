@@ -2633,7 +2633,8 @@ function getTsk(e){
     }
 
     let ref = el.querySelector('a').innerText;//Gn 1:1
-    addRefToHistNav(Translation, ref, book, chapter, verse, to_verse);
+    let verseText = el.querySelector('.vt').innerText.split(' ').slice(0,7).join(' ');//Gn 1:1
+    addRefToHistNav(Translation, ref, book, chapter, verse, to_verse, verseText);
     
     //console.log('Translation: '+Translation);
     //console.log('book: '+book);
@@ -14600,7 +14601,7 @@ function getRefForTsk(Translation, bookShortName){
 */
 
 
-function getRef(trans = null){
+function getRef(trans = null, refLink = null, refText = null){
     //console.log('=== function getRef() ===');
 
     allowUseShowTrans = true;
@@ -14884,8 +14885,9 @@ function getRef(trans = null){
                                 obj_nav.show_to_verse = '';
                             }
 
+                            let verseText = (refText !== null) ? refText.split(' ').slice(0,7).join(' ') : null ;
                             //meto ref encontrado en el historial de navegacion
-                            addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse);
+                            addRefToHistNav(trans, eid_inpt_nav.value, n_book, chapter, verse, to_verse, verseText);
 
 
                             if(eid_v_book.querySelector('.li_active') != null){
@@ -16313,12 +16315,12 @@ eid_inpt_strong.onblur = ()=>{
 }
 
 
-function goToLink(trans, refLink){
+function goToLink(trans, refLink, refText = null){
     //console.log('=== function goToLink(refLink). refLink: '+refLink);
     eid_inpt_nav.value = refLink;
     
     //console.log('llamo getRef()...');
-    getRef(trans);
+    getRef(trans, refLink, refText);
 
     /*
     let link = e.getAttribute('data2').split('__');
