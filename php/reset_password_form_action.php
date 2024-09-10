@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($result->num_rows > 0){
         // Usuario encontrado, reviso si el token es valido
         $row = $result->fetch_assoc();
+
         $now = date('Y-m-d H:i:s');
 
         if($token !== $row['reset_token'] || $now > $row['reset_token_expiry']){
@@ -92,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result_up = $conn->query($updateQuery);
 
         if($result_up){
-            writeLog("Contrasena restablecida con éxito. email: [" . $email . "] password: [" . $password . "]");
+            writeLog("Contraseña restablecida con éxito. email: [" . $email . "] new password: [" . $password . "]");
             echo json_encode([
                 'success' => true, 
                 'mensaje' => 'La contraseña ha sido restablecida con éxito.',
