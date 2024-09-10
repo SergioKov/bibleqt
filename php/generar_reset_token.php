@@ -48,6 +48,7 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
 
 
 if($email == ''){
+    writeLog("El correo electrónico no está indicado. email: [" . $email . "]");    
     echo json_encode([
         'success' => false, 
         'error' => 'Email vacío',
@@ -100,6 +101,12 @@ if($result_num_rows > 0) {
     $arr_params = [$resetToken, $resetTokenExpiry, $email];
     $updateQuery_preparada = prepararQuery($conn, $updateQuery_prep, $arr_params);
     $result_up = $conn->query($updateQuery_preparada);
+
+    if($result_up){
+        writeLog("Se ha generado el token para el correo para resetear la contraseña. email: [" . $email . "] caducidad del token: [" . $resetTokenExpiry . "]");
+    }else{
+        writeLog("No se ha podido guardar datos en la bd del token generado para el correo para resetear la contraseña. email: [" . $email . "]");
+    }
 
 
     $filename_lang = '../modules/json/' . $lang . '.json';
@@ -192,6 +199,7 @@ if($result_num_rows > 0) {
 
     // Aquí deberías usar una biblioteca de envío de correo electrónico como PHPMailer o similar
     if($host == 'bibleqt.local'){//localhost
+        writeLog("Se ha generado el enlace para resetear la contraseña. email: [" . $email . "] resetLink: [" . $resetLink . "]");
 
         echo json_encode([
             'success' => true, 
@@ -205,6 +213,7 @@ if($result_num_rows > 0) {
         $result_mail = mail($email, $subject, $message_html, $headers);
 
         if ($result_mail) {
+            writeLog("Se ha enviado el enlace para resetear la contraseña. email: [" . $email . "] resetLink: [" . $resetLink . "]");            
             echo json_encode([
                 'success' => true, 
                 'mensaje' => 'Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico.',
