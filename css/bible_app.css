@@ -4068,3 +4068,9 @@ input:checked + .slider:before {
     margin-top: 2px;
     display: block;
 }
+.wr_regs {
+    background: #2196f3;
+    padding: 0px 8px 5px 6px;
+    color: white;
+    font-size: 14px;
+}

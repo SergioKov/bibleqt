@@ -2633,7 +2633,7 @@ function getTsk(e){
     }
 
     let ref = el.querySelector('a').innerText;//Gn 1:1
-    let verseText = el.querySelector('.vt').innerText.split(' ').slice(0,7).join(' ');//Gn 1:1
+    let verseText = (el.querySelector('.vt') !== null) ? el.querySelector('.vt').innerText.split(' ').slice(0,7).join(' ') : null ;//Gn 1:1
     addRefToHistNav(Translation, ref, book, chapter, verse, to_verse, verseText);
     
     //console.log('Translation: '+Translation);
@@ -2987,7 +2987,7 @@ function getTsk(e){
                                                         //Номера Стронга в стихах (RST+)
                                                         if(bq_StrongNumbers == "Y"){
                                                             let t = VerseText;
-                                                            let arr_t = t.split(' ');
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                 
                                                             arr_t.forEach((el,i) => {    
                                                                 
@@ -3039,33 +3039,6 @@ function getTsk(e){
                                                                     const span_before = document.createElement('span');
                                                                     const span_after = document.createElement('span');
                                                                     
-                                                                    /*
-                                                                    const span_t = document.createElement('span');
-                                                                    span_t.className = 'tooltip';
-                                                                    span_t.setAttribute('data-tooltip',text_Note);
-                                                                    span_t.innerHTML = bq.NoteSign;
-                
-                                                                    span_t.addEventListener('mouseenter', function(){
-                                                                        showTooltip(this);
-                                                                    });
-                                                                    span_t.addEventListener('mouseleave', function(){
-                                                                        hideTooltip(this);
-                                                                    });
-                                                                    
-                                                                    span_vt.append(before_Note);
-                                                                    
-                                                                    span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                    span_vt.append(span_t);
-
-                                                                    const span_vt_despues = document.createElement('span');
-                                                                    span_vt_despues.className = 'vt';
-                                                                    span_vt_despues.append(after_Note);
-                                                                    span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
-                
-                                                                    p.append(span_vt);
-                                                                    p.append(span_vt_despues);
-                                                                    */
-
                                                                     before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                                     if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -3295,7 +3268,7 @@ function getTsk(e){
                                                             //Номера Стронга в стихах (RST+)
                                                             if(bq_StrongNumbers == "Y"){
                                                                 let t = VerseText;
-                                                                let arr_t = t.split(' ');
+                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                     
                                                                 arr_t.forEach((el,i) => {    
                                                                     
@@ -3820,7 +3793,7 @@ function getTsk(e){
                                             //Номера Стронга в стихах (RST+)
                                             if(bq_StrongNumbers == "Y"){
                                                 let t = VerseText;
-                                                let arr_t = t.split(' ');
+                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
     
                                                 arr_t.forEach((el,i) => {    
                                                     
@@ -4131,7 +4104,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        let arr_t = t.split(' ');
+                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -4442,7 +4415,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        let arr_t = t.split(' ');
+                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -4963,7 +4936,7 @@ function getTsk(e){
                                                     //Номера Стронга в стихах (RST+)
                                                     if(bq_StrongNumbers == "Y"){
                                                         let t = VerseText;
-                                                        let arr_t = t.split(' ');
+                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
         
                                                         arr_t.forEach((el,i) => {    
                                                             
@@ -5452,9 +5425,9 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
 
                                                 //Номера Стронга в стихах (RST+)
-                                                if(bq.StrongNumbers == "Y"){
+                                                if(bq.StrongNumbers == "Y"){//EJEMPLO OK
                                                     let t = VerseText;
-                                                    let arr_t = t.split(' ');
+                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
             
                                                     arr_t.forEach((el,i) => {    
                                                         
@@ -5473,23 +5446,24 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                                 let el_number = el.substring(0,el.length-1);
                                                                 let el_string = last_char;
                                                                 span_strong.innerHTML = el_number;
-                                                                p.append(span_strong);
-                                                                p.append(el_string);
+                                                                span_vt.append(span_strong);
+                                                                span_vt.append(el_string);
                                                             }else{//es number
                                                                 span_strong.innerHTML = el;
-                                                                p.append(span_strong);
+                                                                span_vt.append(span_strong);
                                                             }
             
                                                         }else{//is word
-                                                            p.append(' ');
+                                                            span_vt.append(' ');
                                                             if(btnStrongIsActive){
                                                                 if(el.includes('<S>')){
                                                                     el = el.replace('<S>','<S class="show strongActive">');
                                                                 }
                                                             }
-                                                            p.append(el);
+                                                            span_vt.append(el);
                                                         }
                                                     });
+                                                    p.append(span_vt);
                                                     p.innerHTML.trim();
             
                                                     //console.log('antes: ' + p.innerHTML);
@@ -5522,7 +5496,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
             
                                                 //Примечания редактора в стихах (RSTi2)
-                                                if(bq.Notes == 'Y'){
+                                                if(bq.Notes == 'Y'){//EJEMPLO OK
                                                     let t = VerseText;
                                                                 
                                                     if(t.includes(bq.NoteSign)){// '*'
@@ -5555,14 +5529,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                                 span_vt.append(span_before);
                                                             }
                                                             
-                                                            // span_vt.append(span_t);
                                                             span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;
                                                             span_vt.append(span_after);
-                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                            p.append(span_vt);//antes
+                                                            p.append(span_vt);
                                                         }
                                                     }else{
                                                         span_vt.append(VerseText);
@@ -5580,7 +5552,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
             
                                                 //Оглавления в стихах (NRT)
-                                                if(bq.Titles == 'Y'){
+                                                if(bq.Titles == 'Y'){//EJEMPLO OK
                                                     let t = VerseText;
             
                                                     if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
@@ -5594,11 +5566,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                         span_title.className = 'verse_title';
                                                         span_title.innerHTML = text_Title;
             
-                                                        p.append(before_Title);
-                                                        p.append(span_title);
-                                                        p.append(after_Title);
+                                                        span_vt.append(before_Title);
+                                                        span_vt.append(span_title);
+                                                        span_vt.append(after_Title);
+
+                                                        p.append(span_vt);
                                                     }else{
-                                                        p.append(VerseText);
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
                                                     }
             
                                                     arr_data_body.push(p);
@@ -5610,9 +5585,8 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 }
 
             
-                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                                    //p.append(VerseText);//antes
+                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений (LBLA)
+                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//EJEMPLO OK
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
                         
@@ -6660,10 +6634,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Номера Стронга в стихах (RST+)
-                                    if(bq.StrongNumbers == "Y"){
+                                    if(bq.StrongNumbers == "Y"){//OK
                                         let t = VerseText;
-                                        let arr_t = t.split(' ');
-
+                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                    
                                         arr_t.forEach((el,i) => {    
                                             
                                             //element of string is Strong Number
@@ -6675,37 +6649,38 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     span_strong.className = 'strong'; 
                                                 }
                                                 let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
+                                    
                                                 //si ultimo carácter es string
                                                 if(last_char != '' && isNaN(last_char)){
                                                     let el_number = el.substring(0,el.length-1);
                                                     let el_string = last_char;
                                                     span_strong.innerHTML = el_number;
-                                                    p.append(span_strong);
-                                                    p.append(el_string);
+                                                    span_vt.append(span_strong);
+                                                    span_vt.append(el_string);
                                                 }else{//es number
                                                     span_strong.innerHTML = el;
-                                                    p.append(span_strong);
+                                                    span_vt.append(span_strong);
                                                 }
-
+                                    
                                             }else{//is word
-                                                p.append(' ');
+                                                span_vt.append(' ');
                                                 if(btnStrongIsActive){
                                                     if(el.includes('<S>')){
                                                         el = el.replace('<S>','<S class="show strongActive">');
                                                     }
                                                 }
-                                                p.append(el);
+                                                span_vt.append(el);
                                             }
                                         });
+                                        p.append(span_vt);
                                         p.innerHTML.trim();
-
+                                    
                                         //console.log('antes: ' + p.innerHTML);
                                         if(bq.HTMLFilter == 'Y'){
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
                                         //console.log('despues: '+p.innerHTML);
-
+                                    
                                         if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                             p.querySelectorAll('.strongActive').forEach((el)=>{
                                                 el.addEventListener('click', ()=>{
@@ -6713,7 +6688,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //console.log('1. book: '+book);
                                                     //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
                                                     let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
-
+                                    
                                                     if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                         getStrongNumber(el.innerHTML, null, paramfirstLetter);
                                                     }else{//rstStrong
@@ -6723,14 +6698,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 });
                                             }); 
                                         }
-
+                                    
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
 
 
                                     //Примечания редактора в стихах (RSTi2)
-                                    if(bq.Notes == 'Y'){
+                                    if(bq.Notes == 'Y'){//OK
                                         let t = VerseText;
 
                                         if(t.includes(bq.NoteSign)){// '*'
@@ -6746,7 +6721,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
                                                 const span_before = document.createElement('span');
                                                 const span_after = document.createElement('span');    
-                                               
+
                                                 before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
 
                                                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
@@ -6761,16 +6736,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 }else{
                                                     span_before.innerHTML = before_Note;
                                                     span_vt.append(span_before);
-                                                }                               
+                                                }
                                                 
-                                                //span_vt.append(span_t);
                                                 span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                 span_after.innerHTML = after_Note;
                                                 span_vt.append(span_after);
-                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                p.append(span_vt);//antes
+                                                p.append(span_vt);
                                             }
                                         }else{
                                             span_vt.append(VerseText);
@@ -6788,30 +6761,33 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Оглавления в стихах (NRT)
-                                    if(bq.Titles == 'Y'){
+                                    if(bq.Titles == 'Y'){//OK
                                         let t = VerseText;
-
+                                    
                                         if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                             let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                             let before_Title = arr_t1[0];
                                             let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                             let text_Title = arr_t2[0];
                                             let after_Title = arr_t2[1];
-
+                                    
                                             const span_title = document.createElement('span');
                                             span_title.className = 'verse_title';
                                             span_title.innerHTML = text_Title;
-
-                                            p.append(before_Title);
-                                            p.append(span_title);
-                                            p.append(after_Title);
+                                    
+                                            span_vt.append(before_Title);
+                                            span_vt.append(span_title);
+                                            span_vt.append(after_Title);
+                                    
+                                            p.append(span_vt);
                                         }else{
-                                            p.append(VerseText);
+                                            span_vt.append(VerseText);
+                                            p.append(span_vt);
                                         }
-
+                                    
                                         arr_data_body.push(p);
                                         //console.log(p);
-
+                                    
                                         if(bq.HTMLFilter == 'Y'){
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
@@ -6819,8 +6795,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                        //p.append(VerseText);//antes
+                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
 
@@ -7925,10 +7900,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Номера Стронга в стихах (RST+)
-                                    if(bq.StrongNumbers == "Y"){
+                                    if(bq.StrongNumbers == "Y"){//OK
                                         let t = VerseText;
-                                        let arr_t = t.split(' ');
-
+                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                    
                                         arr_t.forEach((el,i) => {    
                                             
                                             //element of string is Strong Number
@@ -7940,37 +7915,38 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     span_strong.className = 'strong'; 
                                                 }
                                                 let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
+                                    
                                                 //si ultimo carácter es string
                                                 if(last_char != '' && isNaN(last_char)){
                                                     let el_number = el.substring(0,el.length-1);
                                                     let el_string = last_char;
                                                     span_strong.innerHTML = el_number;
-                                                    p.append(span_strong);
-                                                    p.append(el_string);
+                                                    span_vt.append(span_strong);
+                                                    span_vt.append(el_string);
                                                 }else{//es number
                                                     span_strong.innerHTML = el;
-                                                    p.append(span_strong);
+                                                    span_vt.append(span_strong);
                                                 }
-
+                                    
                                             }else{//is word
-                                                p.append(' ');
+                                                span_vt.append(' ');
                                                 if(btnStrongIsActive){
                                                     if(el.includes('<S>')){
                                                         el = el.replace('<S>','<S class="show strongActive">');
                                                     }
                                                 }
-                                                p.append(el);
+                                                span_vt.append(el);
                                             }
                                         });
+                                        p.append(span_vt);
                                         p.innerHTML.trim();
-
+                                    
                                         //console.log('antes: ' + p.innerHTML);
                                         if(bq.HTMLFilter == 'Y'){
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
                                         //console.log('despues: '+p.innerHTML);
-
+                                    
                                         if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                             p.querySelectorAll('.strongActive').forEach((el)=>{
                                                 el.addEventListener('click', ()=>{
@@ -7978,7 +7954,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     //console.log('1. book: '+book);
                                                     //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
                                                     let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
-
+                                    
                                                     if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                         getStrongNumber(el.innerHTML, null, paramfirstLetter);
                                                     }else{//rstStrong
@@ -7988,14 +7964,14 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 });
                                             }); 
                                         }
-
+                                    
                                         arr_data_body.push(p);
                                         //console.log(p);
                                     }
 
 
                                     //Примечания редактора в стихах (RSTi2)
-                                    if(bq.Notes == 'Y'){
+                                    if(bq.Notes == 'Y'){//OK
                                         let t = VerseText;
 
                                         if(t.includes(bq.NoteSign)){// '*'
@@ -8012,7 +7988,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                 const span_before = document.createElement('span');
                                                 const span_after = document.createElement('span');    
                                                 
-                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;                                                
+                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
                                                 
                                                 if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
                                                     const h6_text = document.createElement('h6');
@@ -8028,14 +8004,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                                     span_vt.append(span_before);
                                                 }
                                 
-                                                //span_vt.append(span_t);
                                                 span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                                 
                                                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                 span_after.innerHTML = after_Note;
                                                 span_vt.append(span_after);
-                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                p.append(span_vt);//antes
+                                                p.append(span_vt);
                                             }
                                         }else{
                                             span_vt.append(VerseText);
@@ -8053,30 +8027,33 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Оглавления в стихах (NRT)
-                                    if(bq.Titles == 'Y'){
+                                    if(bq.Titles == 'Y'){//OK
                                         let t = VerseText;
-
+                                    
                                         if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                             let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                             let before_Title = arr_t1[0];
                                             let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                             let text_Title = arr_t2[0];
                                             let after_Title = arr_t2[1];
-
+                                    
                                             const span_title = document.createElement('span');
                                             span_title.className = 'verse_title';
                                             span_title.innerHTML = text_Title;
-
-                                            p.append(before_Title);
-                                            p.append(span_title);
-                                            p.append(after_Title);
+                                    
+                                            span_vt.append(before_Title);
+                                            span_vt.append(span_title);
+                                            span_vt.append(after_Title);
+                                    
+                                            p.append(span_vt);
                                         }else{
-                                            p.append(VerseText);
+                                            span_vt.append(VerseText);
+                                            p.append(span_vt);
                                         }
-
+                                    
                                         arr_data_body.push(p);
                                         //console.log(p);
-
+                                    
                                         if(bq.HTMLFilter == 'Y'){
                                             p.innerHTML = htmlEntities(p.innerHTML);
                                         }
@@ -8084,8 +8061,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                                     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                        //p.append(VerseText);//antes
+                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                         span_vt.append(VerseText);
                                         p.append(span_vt);
 
@@ -9201,10 +9177,10 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                             //Номера Стронга в стихах (RST+)
-                            if(bq.StrongNumbers == "Y"){
+                            if(bq.StrongNumbers == "Y"){//OK
                                 let t = VerseText;
-                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
-
+                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                            
                                 arr_t.forEach((el,i) => {    
                                     
                                     //element of string is Strong Number
@@ -9216,37 +9192,38 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             span_strong.className = 'strong'; 
                                         }
                                         let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-
+                            
                                         //si ultimo carácter es string
                                         if(last_char != '' && isNaN(last_char)){
                                             let el_number = el.substring(0,el.length-1);
                                             let el_string = last_char;
                                             span_strong.innerHTML = el_number;
-                                            p.append(span_strong);
-                                            p.append(el_string);
+                                            span_vt.append(span_strong);
+                                            span_vt.append(el_string);
                                         }else{//es number
                                             span_strong.innerHTML = el;
-                                            p.append(span_strong);
+                                            span_vt.append(span_strong);
                                         }
-
+                            
                                     }else{//is word
-                                        p.append(' ');
+                                        span_vt.append(' ');
                                         if(btnStrongIsActive){
                                             if(el.includes('<S>')){
                                                 el = el.replace('<S>','<S class="show strongActive">');
                                             }
                                         }
-                                        p.append(el);
+                                        span_vt.append(el);
                                     }
                                 });
+                                p.append(span_vt);
                                 p.innerHTML.trim();
-
+                            
                                 //console.log('antes: ' + p.innerHTML);
                                 if(bq.HTMLFilter == 'Y'){
                                     p.innerHTML = htmlEntities(p.innerHTML);
                                 }
                                 //console.log('despues: '+p.innerHTML);
-
+                            
                                 if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                     p.querySelectorAll('.strongActive').forEach((el)=>{
                                         el.addEventListener('click', ()=>{
@@ -9254,7 +9231,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             //console.log('1. book: '+book);
                                             //console.log('m --- 1. el.innerHTML: '+el.innerHTML);
                                             let paramfirstLetter = (bq.StrongFirstLetter == 'Y') ? 'Y' : 'N' ;
-
+                            
                                             if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
                                                 getStrongNumber(el.innerHTML, null, paramfirstLetter);
                                             }else{//rstStrong
@@ -9264,14 +9241,14 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                         });
                                     }); 
                                 }
-
+                            
                                 arr_data_body.push(p);
                                 //console.log(p);
                             }
 
 
                             //Примечания редактора в стихах (RSTi2)
-                            if(bq.Notes == 'Y'){
+                            if(bq.Notes == 'Y'){//OK
                                 let t = VerseText;
 
                                 if(t.includes(bq.NoteSign)){// '*'
@@ -9304,14 +9281,12 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             span_vt.append(span_before);
                                         }
                         
-                                        //span_vt.append(span_t);
                                         span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                         
                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                         span_after.innerHTML = after_Note;
                                         span_vt.append(span_after);
-                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                        p.append(span_vt);//antes
+                                        p.append(span_vt);
                                     }
                                 }else{
                                     span_vt.append(VerseText);
@@ -9329,30 +9304,33 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                             //Оглавления в стихах (NRT)
-                            if(bq.Titles == 'Y'){
+                            if(bq.Titles == 'Y'){//OK
                                 let t = VerseText;
-
+                            
                                 if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                     let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                     let before_Title = arr_t1[0];
                                     let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                     let text_Title = arr_t2[0];
                                     let after_Title = arr_t2[1];
-
+                            
                                     const span_title = document.createElement('span');
                                     span_title.className = 'verse_title';
                                     span_title.innerHTML = text_Title;
-
-                                    p.append(before_Title);
-                                    p.append(span_title);
-                                    p.append(after_Title);
+                            
+                                    span_vt.append(before_Title);
+                                    span_vt.append(span_title);
+                                    span_vt.append(after_Title);
+                            
+                                    p.append(span_vt);
                                 }else{
-                                    p.append(VerseText);
+                                    span_vt.append(VerseText);
+                                    p.append(span_vt);
                                 }
-
+                            
                                 arr_data_body.push(p);
                                 //console.log(p);
-
+                            
                                 if(bq.HTMLFilter == 'Y'){
                                     p.innerHTML = htmlEntities(p.innerHTML);
                                 }
@@ -9360,8 +9338,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
                             //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                //p.append(VerseText);//antes
+                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                 span_vt.append(VerseText);
                                 p.append(span_vt);
 
@@ -10496,9 +10473,9 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
 
 
     //Номера Стронга в стихах (RST+)
-    if(bq.StrongNumbers == "Y"){
+    if(bq.StrongNumbers == "Y"){//OK
         let t = VerseText;
-        let arr_t = t.split(' ');
+        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
 
         arr_t.forEach((el,i) => {    
             
@@ -10513,18 +10490,19 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
                     let el_number = el.substring(0,el.length-1);
                     let el_string = last_char;
                     span_strong.innerHTML = el_number;
-                    p.append(span_strong);
-                    p.append(el_string);
+                    span_vt.append(span_strong);
+                    span_vt.append(el_string);
                 }else{//es number
                     span_strong.innerHTML = el;
-                    p.append(span_strong);
+                    span_vt.append(span_strong);
                 }
 
             }else{//is word
-                p.append(' ');
-                p.append(el);
+                span_vt.append(' ');
+                span_vt.append(el);
             }
         });
+        p.append(span_vt);
         p.innerHTML.trim();
 
         //console.log('antes: ' + p.innerHTML);
@@ -10535,13 +10513,10 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
 
         arr_data_add.push(p);
         //console.log(p);
-        
-        //добавляю стих в див
-        //divShow.append(p);
     }
 
     //Примечания редактора в стихах (RSTi2)
-    if(bq.Notes == 'Y'){
+    if(bq.Notes == 'Y'){//OK
         let t = VerseText;
 
         if(t.includes(bq.NoteSign)){// '*'
@@ -10574,14 +10549,12 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
                     span_vt.append(span_before);
                 }
 
-                //span_vt.append(span_t);
                 span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                 span_after.innerHTML = after_Note;
                 span_vt.append(span_after);
-                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                p.append(span_vt);//antes
+                p.append(span_vt);
             }
         }else{
             span_vt.append(VerseText);
@@ -10598,38 +10571,40 @@ function parseVerse_json(Translation, bq, arr_p_verses, book, chapter, verseNumb
     }
 
     //Оглавления в стихах (NRT)
-    if(bq.Titles == 'Y'){
+    if(bq.Titles == 'Y'){//OK
         let t = VerseText;
-
+    
         if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
             let arr_t1 = t.split(bq.StartTitleSign);//'[('
             let before_Title = arr_t1[0];
             let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
             let text_Title = arr_t2[0];
             let after_Title = arr_t2[1];
-
+    
             const span_title = document.createElement('span');
             span_title.className = 'verse_title';
             span_title.innerHTML = text_Title;
-
-            p.append(before_Title);
-            p.append(span_title);
-            p.append(after_Title);
+    
+            span_vt.append(before_Title);
+            span_vt.append(span_title);
+            span_vt.append(after_Title);
+    
+            p.append(span_vt);
         }else{
-            p.append(VerseText);
+            span_vt.append(VerseText);
+            p.append(span_vt);
         }
-
+    
         arr_data_add.push(p);
         //console.log(p);
-
+    
         if(bq.HTMLFilter == 'Y'){
             p.innerHTML = htmlEntities(p.innerHTML);
         }
     }
 
     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-        //p.append(VerseText);//antes
+    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
         span_vt.append(VerseText);
         p.append(span_vt);
 
@@ -10719,14 +10694,14 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
 
 
     //Номера Стронга в стихах (RST+)
-    if(bq.StrongNumbers == "Y"){
+    if(bq.StrongNumbers == "Y"){//OK
         let t = VerseText;
-        let arr_t = t.split(' ');
+        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
 
         arr_t.forEach((el,i) => {    
             
             //element of string is Strong Number
-            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+            if(!isNaN(parseInt(el)) || el == '0'){//number
                 const span_strong = document.createElement('span');
                 span_strong.className = 'strong'; 
                 let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
@@ -10736,18 +10711,19 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
                     let el_number = el.substring(0,el.length-1);
                     let el_string = last_char;
                     span_strong.innerHTML = el_number;
-                    p.append(span_strong);
-                    p.append(el_string);
+                    span_vt.append(span_strong);
+                    span_vt.append(el_string);
                 }else{//es number
                     span_strong.innerHTML = el;
-                    p.append(span_strong);
+                    span_vt.append(span_strong);
                 }
 
             }else{//is word
-                p.append(' ');
-                p.append(el);
+                span_vt.append(' ');
+                span_vt.append(el);
             }
         });
+        p.append(span_vt);
         p.innerHTML.trim();
 
         //console.log('antes: ' + p.innerHTML);
@@ -10758,13 +10734,10 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
 
         arr_data_add.push(p);
         //console.log(p);
-        
-        //добавляю стих в див
-        //divShow.append(p);
     }
 
     //Примечания редактора в стихах (RSTi2)
-    if(bq.Notes == 'Y'){
+    if(bq.Notes == 'Y'){//OK
         let t = VerseText;
 
         if(t.includes(bq.NoteSign)){// '*'
@@ -10797,13 +10770,11 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
                     span_vt.append(span_before);
                 }
 
-                //span_vt.append(span_t);
                 span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                 after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                 span_after.innerHTML = after_Note;
                 span_vt.append(span_after);
-                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                 p.append(span_vt);//antes
             }
         }else{
@@ -10821,38 +10792,40 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
     }
 
     //Оглавления в стихах (NRT)
-    if(bq.Titles == 'Y'){
+    if(bq.Titles == 'Y'){//OK
         let t = VerseText;
-
+    
         if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
             let arr_t1 = t.split(bq.StartTitleSign);//'[('
             let before_Title = arr_t1[0];
             let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
             let text_Title = arr_t2[0];
             let after_Title = arr_t2[1];
-
+    
             const span_title = document.createElement('span');
             span_title.className = 'verse_title';
             span_title.innerHTML = text_Title;
-
-            p.append(before_Title);
-            p.append(span_title);
-            p.append(after_Title);
+    
+            span_vt.append(before_Title);
+            span_vt.append(span_title);
+            span_vt.append(after_Title);
+    
+            p.append(span_vt);
         }else{
-            p.append(VerseText);
+            span_vt.append(VerseText);
+            p.append(span_vt);
         }
-
+    
         arr_data_add.push(p);
         //console.log(p);
-
+    
         if(bq.HTMLFilter == 'Y'){
             p.innerHTML = htmlEntities(p.innerHTML);
         }
     }
 
     //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-        //p.append(VerseText);//antes
+    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
         span_vt.append(VerseText);
         p.append(span_vt);
 
@@ -13355,8 +13328,11 @@ function selVerse(e){
 
     scrollToVerse(e.srcElement.getAttribute('data-show_verse'));//me muevo al verse clickeado con scroll
     scrollToVkladkaActive();
+
+    let p_id = `${eid_inpt_nav.dataset.trans}__${eid_inpt_nav.dataset.id_book}__${eid_inpt_nav.dataset.show_chapter}__${eid_inpt_nav.dataset.show_verse}`;
+    let verseText = document.getElementById(p_id).querySelector('.vt').innerText.split(' ').slice(0,7).join(' ');
     
-    addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse);
+    addRefToHistNav(eid_inpt_nav.dataset.trans, eid_inpt_nav.value, eid_inpt_nav.dataset.id_book, eid_inpt_nav.dataset.show_chapter, eid_inpt_nav.dataset.show_verse, to_verse, verseText);
 
     //si es mobile, ciero menu
     if(window.innerWidth < pantallaTabletMinPx){
@@ -15664,7 +15640,9 @@ function hist(param){
             if(go_to_hist_item < arr_hist_nav.length){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
-                //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav
+                setTimeout(()=>{
+                    p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav
+                },100);
                 //console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
@@ -15680,7 +15658,9 @@ function hist(param){
             if(go_to_hist_item >= 0){
                 let el = arr_hist_nav[go_to_hist_item];
                 p_all[go_to_hist_item].classList.add('c_red');
-                //p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav 
+                setTimeout(()=>{
+                    p_all[go_to_hist_item].scrollIntoView();//temporalmente no hago scroll al p del arr_hist_nav 
+                },100);
                 //console.log('elemento del arr_hist_nav al cual voy. el: ',el);
                 onclick_p_nav(el);
             }else{
@@ -18003,9 +17983,9 @@ function findWords(words_input){
                                     
                                     
                                                             //Номера Стронга в стихах (RST+)
-                                                            if(bq.StrongNumbers == "Y"){
+                                                            if(bq.StrongNumbers == "Y"){//OK
                                                                 let t = VerseText;
-                                                                let arr_t = t.split(' ');
+                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                                     
                                                                 arr_t.forEach((el,i) => {    
                                                                     
@@ -18024,23 +18004,24 @@ function findWords(words_input){
                                                                             let el_number = el.substring(0,el.length-1);
                                                                             let el_string = last_char;
                                                                             span_strong.innerHTML = el_number;
-                                                                            p.append(span_strong);
-                                                                            p.append(el_string);
+                                                                            span_vt.append(span_strong);
+                                                                            span_vt.append(el_string);
                                                                         }else{//es number
                                                                             span_strong.innerHTML = el;
-                                                                            p.append(span_strong);
+                                                                            span_vt.append(span_strong);
                                                                         }
                                     
                                                                     }else{//is word
-                                                                        p.append(' ');
+                                                                        span_vt.append(' ');
                                                                         if(btnStrongIsActive){
                                                                             if(el.includes('<S>')){
                                                                                 el = el.replace('<S>','<S class="show strongActive">');
                                                                             }
                                                                         }
-                                                                        p.append(el);
+                                                                        span_vt.append(el);
                                                                     }
                                                                 });
+                                                                p.append(span_vt);
                                                                 p.innerHTML.trim();
                                     
                                                                 //console.log('antes: ' + p.innerHTML);
@@ -18069,7 +18050,7 @@ function findWords(words_input){
                                     
 
                                                             //Примечания редактора в стихах (RSTi2)
-                                                            if(bq.Notes == 'Y'){
+                                                            if(bq.Notes == 'Y'){//OK
                                                                 let t = VerseText;
                                     
                                                                 if(t.includes(bq.NoteSign)){// '*'
@@ -18102,14 +18083,12 @@ function findWords(words_input){
                                                                             span_vt.append(span_before);
                                                                         }
                                                         
-                                                                        //span_vt.append(span_t);
                                                                         span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                                         after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                                         span_after.innerHTML = after_Note;
                                                                         span_vt.append(span_after);
-                                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                        p.append(span_vt);//antes
+                                                                        p.append(span_vt);
 
                                                                         if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
                                                                             p.innerHTML = htmlEntities(p.innerHTML);
@@ -18128,27 +18107,30 @@ function findWords(words_input){
                                     
 
                                                             //Оглавления в стихах (NRT)
-                                                            if(bq.Titles == 'Y'){
+                                                            if(bq.Titles == 'Y'){//OK
                                                                 let t = VerseText;
-                                    
+                                                            
                                                                 if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                                                     let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                                                     let before_Title = arr_t1[0];
                                                                     let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                                                     let text_Title = arr_t2[0];
                                                                     let after_Title = arr_t2[1];
-                                    
+                                                            
                                                                     const span_title = document.createElement('span');
                                                                     span_title.className = 'verse_title';
                                                                     span_title.innerHTML = text_Title;
-                                    
-                                                                    p.append(before_Title);
-                                                                    p.append(span_title);
-                                                                    p.append(after_Title);
+                                                            
+                                                                    span_vt.append(before_Title);
+                                                                    span_vt.append(span_title);
+                                                                    span_vt.append(after_Title);
+                                                            
+                                                                    p.append(span_vt);
                                                                 }else{
-                                                                    p.append(VerseText);
+                                                                    span_vt.append(VerseText);
+                                                                    p.append(span_vt);
                                                                 }
-                                    
+                                                            
                                                                 if(bq.HTMLFilter == 'Y'){
                                                                     p.innerHTML = htmlEntities(p.innerHTML);
                                                                 }
@@ -18156,8 +18138,7 @@ function findWords(words_input){
                                     
 
                                                             //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                                                //p.append(VerseText);//antes
+                                                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                                                 span_vt.append(VerseText);
                                                                 p.append(span_vt);
                                     
@@ -18974,10 +18955,10 @@ function findWords(words_input){
                         
                         
                                                 //Номера Стронга в стихах (RST+)
-                                                if(bq.StrongNumbers == "Y"){
+                                                if(bq.StrongNumbers == "Y"){//OK
                                                     let t = VerseText;
-                                                    let arr_t = t.split(' ');
-                        
+                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                                
                                                     arr_t.forEach((el,i) => {    
                                                         
                                                         //element of string is Strong Number
@@ -18989,37 +18970,38 @@ function findWords(words_input){
                                                                 span_strong.className = 'strong'; 
                                                             }
                                                             let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                        
+                                                
                                                             //si ultimo carácter es string
                                                             if(last_char != '' && isNaN(last_char)){
                                                                 let el_number = el.substring(0,el.length-1);
                                                                 let el_string = last_char;
                                                                 span_strong.innerHTML = el_number;
-                                                                p.append(span_strong);
-                                                                p.append(el_string);
+                                                                span_vt.append(span_strong);
+                                                                span_vt.append(el_string);
                                                             }else{//es number
                                                                 span_strong.innerHTML = el;
-                                                                p.append(span_strong);
+                                                                span_vt.append(span_strong);
                                                             }
-                        
+                                                
                                                         }else{//is word
-                                                            p.append(' ');
+                                                            span_vt.append(' ');
                                                             if(btnStrongIsActive){
                                                                 if(el.includes('<S>')){
                                                                     el = el.replace('<S>','<S class="show strongActive">');
                                                                 }
                                                             }
-                                                            p.append(el);
+                                                            span_vt.append(el);
                                                         }
                                                     });
+                                                    p.append(span_vt);
                                                     p.innerHTML.trim();
-                        
+                                                
                                                     //console.log('antes: ' + p.innerHTML);
                                                     if(bq.HTMLFilter == 'Y'){
                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                     }
                                                     //console.log('despues: '+p.innerHTML);
-                        
+                                                
                                                     if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                                         p.querySelectorAll('.strongActive').forEach((el)=>{
                                                             el.addEventListener('click', ()=>{
@@ -19039,7 +19021,7 @@ function findWords(words_input){
                                                 }
                         
                                                 //Примечания редактора в стихах (RSTi2)
-                                                if(bq.Notes == 'Y'){
+                                                if(bq.Notes == 'Y'){//OK
                                                     let t = VerseText;
                         
                                                     if(t.includes(bq.NoteSign)){// '*'
@@ -19072,14 +19054,12 @@ function findWords(words_input){
                                                                 span_vt.append(span_before);
                                                             }
                                             
-                                                            //span_vt.append(span_t);
                                                             span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
 
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;
                                                             span_vt.append(span_after);
-                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                            p.append(span_vt);//antes
+                                                            p.append(span_vt);
 
                                                             if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
@@ -19097,35 +19077,37 @@ function findWords(words_input){
                                                 }
                         
                                                 //Оглавления в стихах (NRT)
-                                                if(bq.Titles == 'Y'){
+                                                if(bq.Titles == 'Y'){//OK
                                                     let t = VerseText;
-                        
+                                                
                                                     if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                                         let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                                         let before_Title = arr_t1[0];
                                                         let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                                         let text_Title = arr_t2[0];
                                                         let after_Title = arr_t2[1];
-                        
+                                                
                                                         const span_title = document.createElement('span');
                                                         span_title.className = 'verse_title';
                                                         span_title.innerHTML = text_Title;
-                        
-                                                        p.append(before_Title);
-                                                        p.append(span_title);
-                                                        p.append(after_Title);
+                                                
+                                                        span_vt.append(before_Title);
+                                                        span_vt.append(span_title);
+                                                        span_vt.append(after_Title);
+                                                
+                                                        p.append(span_vt);
                                                     }else{
-                                                        p.append(VerseText);
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
                                                     }
-                        
+                                                
                                                     if(bq.HTMLFilter == 'Y'){
                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                     }
                                                 }
                         
                                                 //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                                    //p.append(VerseText);//antes
+                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
                         
@@ -19952,10 +19934,10 @@ function findWords(words_input){
                         
                         
                                                 //Номера Стронга в стихах (RST+)
-                                                if(bq.StrongNumbers == "Y"){
+                                                if(bq.StrongNumbers == "Y"){//OK
                                                     let t = VerseText;
-                                                    let arr_t = t.split(' ');
-                        
+                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                                
                                                     arr_t.forEach((el,i) => {    
                                                         
                                                         //element of string is Strong Number
@@ -19967,37 +19949,38 @@ function findWords(words_input){
                                                                 span_strong.className = 'strong'; 
                                                             }
                                                             let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                        
+                                                
                                                             //si ultimo carácter es string
                                                             if(last_char != '' && isNaN(last_char)){
                                                                 let el_number = el.substring(0,el.length-1);
                                                                 let el_string = last_char;
                                                                 span_strong.innerHTML = el_number;
-                                                                p.append(span_strong);
-                                                                p.append(el_string);
+                                                                span_vt.append(span_strong);
+                                                                span_vt.append(el_string);
                                                             }else{//es number
                                                                 span_strong.innerHTML = el;
-                                                                p.append(span_strong);
+                                                                span_vt.append(span_strong);
                                                             }
-                        
+                                                
                                                         }else{//is word
-                                                            p.append(' ');
+                                                            span_vt.append(' ');
                                                             if(btnStrongIsActive){
                                                                 if(el.includes('<S>')){
                                                                     el = el.replace('<S>','<S class="show strongActive">');
                                                                 }
                                                             }
-                                                            p.append(el);
+                                                            span_vt.append(el);
                                                         }
                                                     });
+                                                    p.append(span_vt);
                                                     p.innerHTML.trim();
-                        
+                                                
                                                     //console.log('antes: ' + p.innerHTML);
                                                     if(bq.HTMLFilter == 'Y'){
                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                     }
                                                     //console.log('despues: '+p.innerHTML);
-                        
+                                                
                                                     if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
                                                         p.querySelectorAll('.strongActive').forEach((el)=>{
                                                             el.addEventListener('click', ()=>{
@@ -20017,7 +20000,7 @@ function findWords(words_input){
                                                 }
                         
                                                 //Примечания редактора в стихах (RSTi2)
-                                                if(bq.Notes == 'Y'){
+                                                if(bq.Notes == 'Y'){//OK
                                                     let t = VerseText;
                         
                                                     if(t.includes(bq.NoteSign)){// '*'
@@ -20050,13 +20033,11 @@ function findWords(words_input){
                                                                 span_vt.append(span_before);
                                                             }
                                             
-                                                            //span_vt.append(span_t);
                                                             span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
                                             
                                                             after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
                                                             span_after.innerHTML = after_Note;
                                                             span_vt.append(span_after);
-                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
                                                             p.append(span_vt);
 
                                                             if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
@@ -20064,7 +20045,6 @@ function findWords(words_input){
                                                             }
                                                         }
                                                     }else{
-                                                        //p.append(VerseText);//antes
                                                         span_vt.append(VerseText);
                                                         p.append(span_vt);
                         
@@ -20076,35 +20056,37 @@ function findWords(words_input){
                                                 }
                         
                                                 //Оглавления в стихах (NRT)
-                                                if(bq.Titles == 'Y'){
+                                                if(bq.Titles == 'Y'){//OK
                                                     let t = VerseText;
-                        
+                                                
                                                     if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
                                                         let arr_t1 = t.split(bq.StartTitleSign);//'[('
                                                         let before_Title = arr_t1[0];
                                                         let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
                                                         let text_Title = arr_t2[0];
                                                         let after_Title = arr_t2[1];
-                        
+                                                
                                                         const span_title = document.createElement('span');
                                                         span_title.className = 'verse_title';
                                                         span_title.innerHTML = text_Title;
-                        
-                                                        p.append(before_Title);
-                                                        p.append(span_title);
-                                                        p.append(after_Title);
+                                                
+                                                        span_vt.append(before_Title);
+                                                        span_vt.append(span_title);
+                                                        span_vt.append(after_Title);
+                                                
+                                                        p.append(span_vt);
                                                     }else{
-                                                        p.append(VerseText);
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
                                                     }
-                        
+                                                
                                                     if(bq.HTMLFilter == 'Y'){
                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                     }
                                                 }
                         
                                                 //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){
-                                                    //p.append(VerseText);//antes
+                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                                     span_vt.append(VerseText);
                                                     p.append(span_vt);
                         

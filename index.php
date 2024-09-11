@@ -214,6 +214,8 @@ session_start();
                                 <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--OK-->
                             </button>
                         </div>
+
+                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
                         
                         <div id="wr_hist_nav" style="display:none;">
                             <div class="wr_hist_inner"></div>
@@ -276,6 +278,8 @@ session_start();
                                 <!--<img class="btn_img" src="./images/stop4.png">--><!--Stop-->
                             </button>
                         </div>
+
+                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
 
                         <div id="find_head">
                             
@@ -526,6 +530,7 @@ session_start();
                                 <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--Strong-->
                             </button>
                         </div>
+                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
                         <div id="strong_head">
                             <div id="wr_hist_strong" style="display:none;">
                                 <div class="wr_hist_inner"></div>

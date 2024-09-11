@@ -147,7 +147,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
             
                 case 'showHistoryNav':
-                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
+                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_hist_nav_porcentaje" class="f_r">?/100</span>`;//'Избранныe модули Библии';
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryNav()');
@@ -155,7 +155,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
             
                 case 'showHistoryFind':
-                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
+                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_hist_find_porcentaje" class="f_r">?/100</span>`;//'Избранныe модули Библии';
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryFind()');
@@ -163,7 +163,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
             
                 case 'showHistoryStrong':
-                    eid_h4_text.innerHTML = headerTitle;//'Избранныe модули Библии';    
+                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_hist_strong_porcentaje" class="f_r">?/100</span>`;//'Избранныe модули Библии';
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll 
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showHistoryStrong()');
@@ -171,7 +171,7 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     break;
 
                 case 'showMarkers':
-                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_markers_porcentaje" class="f_r"></span>`;//'Избранныe модули Библии';    
+                    eid_h4_text.innerHTML = `${headerTitle} <span id="m_markers_porcentaje" class="f_r"></span>`;//'';    
                     eid_modcont_body.style.overflow = 'auto';//habilita scroll
                     eid_modcont_body.classList.add('theme_grey');   
                     //console.log('aki llamar showMarkers()');
@@ -1260,7 +1260,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         //Номера Стронга в стихах (RST+)
                                         if(bq.StrongNumbers == "Y"){
                                             let t = VerseText;
-                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                                             let arr_verse_words = [];                               
                                             arr_t.forEach((el,i) => {    
                                                 //element of string is Strong Number
@@ -1495,7 +1495,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             //Номера Стронга в стихах (RST+)
                             if(bq.StrongNumbers == "Y"){
                                 let t = VerseText;
-                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                                 let arr_verse_words = [];                               
                                 arr_t.forEach((el,i) => {    
                                     //element of string is Strong Number
@@ -1693,7 +1693,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                     //Номера Стронга в стихах (RST+)
                     if(bq.StrongNumbers == "Y"){
                         let t = VerseText;
-                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('err 1');
+                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
                         let arr_verse_words = [];                               
                         arr_t.forEach((el,i) => {    
                             //element of string is Strong Number
@@ -2776,6 +2776,12 @@ function esVisible(elemento) {
 
 function showHistoryNav(){
     eid_bl_modalFullInner.innerHTML = '';
+    
+    let totalHistNav = arr_hist_nav.length;
+    let m_hist_nav_porcentaje = document.getElementById('m_hist_nav_porcentaje');
+    if(m_hist_nav_porcentaje != null){
+        m_hist_nav_porcentaje.textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
+    }
 
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
@@ -2786,9 +2792,23 @@ function showHistoryNav(){
                 closeModal(null,true);
                 showTab(eid_btn_nav,'nav');
             }
-            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-            if(typeof el.verseText !== 'undefined'){
+            //p.innerHTML = `
+            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
+            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+            //`;
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistNav - i}</span>
+                            ${el.BibleShortName}
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                </span>
+            `;
+            if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
                 p.innerHTML += `<span class="sp_ref_text">${el.verseText}...</span>`;
             }
             eid_bl_modalFullInner.append(p);
@@ -2803,6 +2823,12 @@ function showHistoryNav(){
 
 function showHistoryFind(){
     eid_bl_modalFullInner.innerHTML = '';
+    let totalHistFind = arr_hist_find.length;
+    let m_hist_find_porcentaje = document.getElementById('m_hist_find_porcentaje');
+    if(m_hist_find_porcentaje != null){
+        m_hist_find_porcentaje.textContent = `${totalHistFind}/${arr_hist_find_limit}`;
+    }
+
 
     if(arr_hist_find.length > 0){
         arr_hist_find.forEach((el,i)=>{
@@ -2816,13 +2842,28 @@ function showHistoryFind(){
                 }
                 showTab(eid_btn_find,'find');
             }
-            p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-                            <span class="wr_fecha_hora">
-                                <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-                                <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
+            //                    <span class="wr_fecha_hora">
+            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+            //                    </span>
+            //                </span>
+            //                <span class="sp_words_hist">${el.words}</span>
+            //`;
+            p.innerHTML = ` <span class="sam_mk_head">
+                                <span class="sp_trans_hist">
+                                    <span class="sp_ref">
+                                        <span class="sp_f">${totalHistFind - i}</span>
+                                        ${el.BibleShortName}
+                                    </span>                                    
+                                    <span class="wr_fecha_hora">
+                                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+                                    </span>                                    
+                                </span>                        
+                                <span class="sp_words_hist">${el.words}</span>                        
                             </span>
-                        </span>`;
-            p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
+            `;
             eid_bl_modalFullInner.append(p);
         });
     }else{
@@ -2835,6 +2876,11 @@ function showHistoryFind(){
 
 function showHistoryStrong(){
     eid_bl_modalFullInner.innerHTML = '';
+    let totalHistStrong = arr_hist_strong.length;
+    let m_hist_strong_porcentaje = document.getElementById('m_hist_strong_porcentaje');
+    if(m_hist_strong_porcentaje != null){
+        m_hist_strong_porcentaje.textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
+    }
 
     if(arr_hist_strong.length > 0){
         arr_hist_strong.forEach((el,i)=>{
@@ -2845,9 +2891,21 @@ function showHistoryStrong(){
                 closeModal(null,true);
                 showTab(eid_btn_strong,'strong');           
             }
+            //p.innerHTML = `
+            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
+            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+            //`;
             p.innerHTML = `
-                <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-                <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistStrong - i}</span>
+                            ${el.strongLang}
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                </span>
             `;
             if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
                 p.innerHTML += `

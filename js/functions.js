@@ -684,7 +684,13 @@ const handlerListenTsk = (ev, Translation ) => {
         //console.log(ev.target);
         //console.log(ev.target.innerHTML);
         let refLink = ev.target.innerHTML;
-        let refText = ev.target.parentElement.querySelector('.vt').innerText;
+        let refText = null;//por defecto
+        if(ev.target.parentElement.querySelector('.vt') !== null){
+            refText = ev.target.parentElement.querySelector('.vt').innerText;
+        }
+        if(ev.target.parentElement.querySelector('.stij_text') !== null){
+            refText = ev.target.parentElement.querySelector('.stij_text').innerText;
+        }
         goToLink(Translation, refLink, refText);
     } 
 }
@@ -725,6 +731,43 @@ function buildDivShow(arrData, indexColToBuild = null){
                     sp_btn_vm.className = 'btn_verse_menu';
                     //sp_btn_vm.textContent = '...';
                     element.append(sp_btn_vm);
+
+                    //meto texto del versículo en arr_hist_nav[0] y arr_hist_nav[1]
+                    if(true){//aki siempre tiene que entrar 
+                        //busco si hay esta ref en arr_hist_nav
+                        let p_id = arrData[0][index].id;
+                        //console.log('p_id: ', p_id);
+
+                        if(typeof arr_hist_nav !== 'undefined'){
+                            for (let y = 0; y < 1; y++) {
+                                let elem2_hist_nav = arr_hist_nav[y];//0,1
+
+                                if(typeof arr_hist_nav[y].verseText !== 'undefined' && arr_hist_nav[y].verseText === null ){
+                                    let hist_nav_trans = arr_hist_nav[y].trans; 
+                                    let hist_nav_book = arr_hist_nav[y].book; 
+                                    let hist_nav_chapter = (arr_hist_nav[y].chapter !== null) ? arr_hist_nav[y].chapter : 1 ; 
+                                    let hist_nav_verse = (arr_hist_nav[y].verse !== null) ? arr_hist_nav[y].verse : 1 ; 
+                                    
+                                    let id_hist_nav = `${hist_nav_trans}__${hist_nav_book}__${hist_nav_chapter}__${hist_nav_verse}`;
+                                    //console.log('id_hist_nav: ', id_hist_nav);
+        
+                                    if(id_hist_nav === p_id){
+                                        //console.log('coinciden id_hist_nav y p_id: ', p_id);
+                                        
+                                        if(arrData[0][index].querySelector('.vt') !== null){
+                                            let refText_html = arrData[0][index].querySelector('.vt').innerHTML;
+                                            let refText_ss = quitarNumerosStrongDelVerso(refText_html);//'_ss' => sin Strong
+                                            arr_hist_nav[y].verseText = refText_ss.split(' ').slice(0,7).join(' ');
+                                            buildHistoryNavDesktop();
+                                        }else{
+                                            arr_hist_nav[y].verseText = null;
+                                        }
+                                        //console.log(arr_hist_nav);
+                                    }
+                                }   
+                            }
+                        }
+                    }
 
                     //cojo primer element versiculo p y su referencia la meto en colHead Ej.: => 'Mat.7:1'
                     if(index == 2){//tercer element. [h2,h4, p]
@@ -781,30 +824,41 @@ function buildDivShow(arrData, indexColToBuild = null){
                         //sp_btn_vm.textContent = '...';
                         element.append(sp_btn_vm);
 
+                        //meto texto del versículo en arr_hist_nav[0] y arr_hist_nav[1]
                         if(i == 0){//col1 trans base
                             //busco si hay esta ref en arr_hist_nav
                             let p_id = arrData[0][index].id;
                             //console.log('p_id: ', p_id);
 
                             if(typeof arr_hist_nav !== 'undefined'){
-                                for (let y = 0; y < 2; y++) {
+                                for (let y = 0; y < 1; y++) {
                                     let elem2_hist_nav = arr_hist_nav[y];//0,1
-    
-                                    let hist_nav_trans = arr_hist_nav[y].trans; 
-                                    let hist_nav_book = arr_hist_nav[y].book; 
-                                    let hist_nav_chapter = (arr_hist_nav[y].chapter !== null) ? arr_hist_nav[y].chapter : 1 ; 
-                                    let hist_nav_verse = (arr_hist_nav[y].verse !== null) ? arr_hist_nav[y].verse : 1 ; 
-                                    
-                                    let id_hist_nav = `${hist_nav_trans}__${hist_nav_book}__${hist_nav_chapter}__${hist_nav_verse}`;
-                                    //console.log('id_hist_nav: ', id_hist_nav);
-        
-                                    if(id_hist_nav === p_id){
-                                        console.log('coinciden id_hist_nav y p_id: ', p_id);
-                                        arr_hist_nav[y].verseText = arrData[0][index].querySelector('.vt').innerText.split(' ').slice(0,7).join(' ');
-                                        console.log(arr_hist_nav);
-                                    }                                    
+
+                                    if(typeof arr_hist_nav[y].verseText !== 'undefined' &&  arr_hist_nav[y].verseText === null ){
+                                        let hist_nav_trans = arr_hist_nav[y].trans; 
+                                        let hist_nav_book = arr_hist_nav[y].book; 
+                                        let hist_nav_chapter = (arr_hist_nav[y].chapter !== null) ? arr_hist_nav[y].chapter : 1 ; 
+                                        let hist_nav_verse = (arr_hist_nav[y].verse !== null) ? arr_hist_nav[y].verse : 1 ; 
+                                        
+                                        let id_hist_nav = `${hist_nav_trans}__${hist_nav_book}__${hist_nav_chapter}__${hist_nav_verse}`;
+                                        //console.log('id_hist_nav: ', id_hist_nav);
+            
+                                        if(id_hist_nav === p_id){
+                                            //console.log('coinciden id_hist_nav y p_id: ', p_id);
+                                            
+                                            if(arrData[0][index].querySelector('.vt') !== null){
+                                                let refText_html = arrData[0][index].querySelector('.vt').innerHTML;
+                                                let refText_ss = quitarNumerosStrongDelVerso(refText_html);//'_ss' => sin Strong
+                                                arr_hist_nav[y].verseText = refText_ss.split(' ').slice(0,7).join(' ');
+                                                buildHistoryNavDesktop();
+                                            }else{
+                                                arr_hist_nav[y].verseText = null;
+                                            }
+                                            //console.log(arr_hist_nav);
+                                        }
+                                    }   
                                 }
-                            }                            
+                            }
                         }
                     }
                     el_colsInner.append(element);
@@ -890,8 +944,8 @@ function pushStateToHistNav(trans,ref){
     window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
-async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
-    console.log('=== async function addRefToHistNav() ===');
+async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null, verseText = null){
+    //console.log('=== async function addRefToHistNav() ===');
 
     if(arr_hist_nav.length == 0){
         await obtenerDatosDeBD('hist_nav','arr_hist_nav');
@@ -918,8 +972,6 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
     //console.log("Hora actual: " + horaActual);
 
     let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
-
-    verseText = (verseText !== null) ? verseText : '' ;
 
     let itemHist = { 
         'trans': trans, 
@@ -962,19 +1014,44 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
 
 
 function buildHistoryNavDesktop(){
-    eid_wr_hist_nav_inner.innerHTML = '';
+    eid_wr_hist_nav_inner.innerHTML = '';    
+    
+    let totalHistNav = arr_hist_nav.length;
     
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
+
+            if(i == 0){//primer p será porcentaje
+                const p_porc = document.createElement('p');
+                p_porc.className = 'p_pointer';
+                p_porc.innerHTML = `
+                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistNav}/${arr_hist_nav_limit}</span></span>
+                `;
+                eid_wr_hist_nav_inner.append(p_porc);
+            }
                
             const p = document.createElement('p');
             p.className = 'p_pointer';       
             p.onclick = () => {
                 onclick_p_nav(el);
             }
-            p.innerHTML = `<span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            p.innerHTML += `<span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>`;
-            if(typeof el.verseText !== 'undefined'){
+            //p.innerHTML = `
+            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
+            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+            //`;
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistNav - i}</span>
+                            ${el.BibleShortName}
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                </span>
+            `;
+            if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
                 p.innerHTML += `<span class="sp_ref_text">${el.verseText}...</span>`;
             }
             eid_wr_hist_nav_inner.append(p);
@@ -1083,8 +1160,8 @@ function onclick_p_nav(el){
 
 
 
-const addRefToMarker = async (trans, ref, book, chapter, verse = null, to_verse = null, verseText) => {
-    //console.log('=== const addRefToMarker ===');
+async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
+    //console.log('=== async function addRefToMarker() ===');
 
     if(arr_markers.length == 0){
         await obtenerDatosDeBD('markers','arr_markers');
@@ -1428,8 +1505,8 @@ function onclick_p_marker(el){
 
 
 
-const addWordsToHistFind = async (trans, words, count_verses, count_matches) => {
-    //console.log('=== const addWordsToHistFind ===');
+async function addWordsToHistFind(trans, words, count_verses, count_matches){
+    //console.log('=== async function addWordsToHistFind() ===');
 
     if(arr_hist_find.length == 0){
         await obtenerDatosDeBD('hist_find','arr_hist_find');
@@ -1499,22 +1576,49 @@ const addWordsToHistFind = async (trans, words, count_verses, count_matches) => 
 function buildHistoryFindDesktop(){
     
     eid_wr_hist_find_inner.innerHTML = '';
+    
+    let totalHistFind = arr_hist_find.length;
 
     if(arr_hist_find.length > 0){
         arr_hist_find.forEach((el,i)=>{
+
+            if(i == 0){//primer p será porcentaje
+                const p_porc = document.createElement('p');
+                p_porc.className = 'p_pointer';
+                p_porc.innerHTML = `
+                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistFind}/${arr_hist_find_limit}</span></span>
+                `;
+                eid_wr_hist_find_inner.append(p_porc);
+            }
+
             
             const p = document.createElement('p');
             p.className = 'p_pointer';
             p.onclick = () => {
                 onclick_p_find(el);
             }
-            p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-                                <span class="wr_fecha_hora">
-                                    <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-                                    <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-                                </span>
-                            </span>`;
-            p.innerHTML += `<span class="sp_words_hist">${el.words}</span>`;
+            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
+            //                    <span class="wr_fecha_hora">
+            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+            //                    </span>
+            //                </span>
+            //`;
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistFind - i}</span>
+                            ${el.BibleShortName}
+                        </span> 
+                        <span class="wr_fecha_hora">
+                            <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                            <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+                        </span>
+                    </span>
+                </span>
+                <span class="sp_words_hist">${el.words}</span>
+            `;                            
             eid_wr_hist_find_inner.append(p);
 
         });        
@@ -1546,7 +1650,7 @@ function onclick_p_find(el){
     eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
 }
 
-const addStrongNumberToHistStrong = async (strongLang, strongIndex, strongTextWordsShow) => {
+async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
     //console.log('=== const addStrongNumberToHistStrong ===');
     
     if(arr_hist_strong.length == 0){
@@ -1617,21 +1721,42 @@ const addStrongNumberToHistStrong = async (strongLang, strongIndex, strongTextWo
 function buildHistoryStrongDesktop(){
     
     eid_wr_hist_strong_inner.innerHTML = '';
+    
+    let totalHistStrong = arr_hist_strong.length;
 
     if(arr_hist_strong.length > 0){
         arr_hist_strong.forEach((el,i)=>{
+            
+            if(i == 0){//primer p será porcentaje
+                const p_porc = document.createElement('p');
+                p_porc.className = 'p_pointer';
+                p_porc.innerHTML = `
+                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistStrong}/${arr_hist_strong_limit}</span></span>
+                `;
+                eid_wr_hist_strong_inner.append(p_porc);
+            }
             
             const p = document.createElement('p');
             p.className = 'p_pointer';
             p.onclick = () => {
                 onclick_p_strong(el);            
             }
-            //p.innerHTML = `<span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>`;
-            //p.innerHTML += `<span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>`;
 
+            //p.innerHTML = `
+            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
+            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+            //`;
             p.innerHTML = `
-                <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-                <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistStrong - i}</span>
+                            ${el.strongLang}
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                </span>
             `;
             if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
                 p.innerHTML += `

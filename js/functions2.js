@@ -43,7 +43,14 @@ function removeTagsOfElement(elemento, the_tagName) {
 }
 
 
-
+function quitarNumerosStrongDelVerso(str){
+    let arr_str = str.split(' ');
+    let forbidenTags = ['<s>', '</s>', '<S>', '</S>'];
+    let arr_new = arr_str.filter(word => {
+        return !forbidenTags.some(tag => word.includes(tag));//si no tiene '<s>H430</s>' meto en new_str
+    });
+    return arr_new.join(' ');
+}
 
 
 
