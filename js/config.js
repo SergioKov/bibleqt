@@ -386,15 +386,15 @@ let arrTabs = [];//array de objetos de tabs (Vkladki)
 
 //array de objetos de historia de navegacion
 let arr_hist_nav = [];//se añade en addRefToHistNav();
-let arr_hist_nav_limit = 100;//limit de tener items en el historial
+let arr_hist_nav_limit = 200;//limit de tener items en el historial
 
 //array de objetos de historia de navegacion
 let arr_hist_find = [];//se añade en addWordsToHistFind();
-let arr_hist_find_limit = 100;//limit de tener items en el historial
+let arr_hist_find_limit = 200;//limit de tener items en el historial
 
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
-let arr_hist_strong_limit = 100;//limit de tener items en el historial
+let arr_hist_strong_limit = 200;//limit de tener items en el historial
 
 //array de objetos de historia de navegacion
 let arr_markers = [];//se añade en addRefToHistNav();
