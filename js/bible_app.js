@@ -12446,7 +12446,7 @@ function updateArrTabs(){
     });
     //console.log(arrTabs);
 
-    if(hay_sesion){
+    if(hay_sesion && arrTabs_is_loaded){
         guardarEnBd('vkladki', 'arrTabs', arrTabs);
     }
 }
@@ -12465,7 +12465,7 @@ async function guardarEnBd(tabla, campo, arr){
             //console.log(' guardo datos en bd');
             //console.log(arrTabs);
 
-            insertarDatos(tabla, campo, arr);
+            await insertarDatos(tabla, campo, arr);
         }else{
             //console.log('js: false --- El usuario no está autenticado.');
         }
@@ -12625,77 +12625,16 @@ async function obtenerDatosDeBD(tabla, campo){
         }
 
         switch (tabla) {
-            case 'vkladki':
+            case 'ajustes':
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
-                    //arrTabs por defecto
-                    let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
-                    arrTabs = [
-                        {
-                            "id": "tab1",
-                            "className": "tabs tab_active",
-                            "str_trans": trans_def.Translation,
-                            "title": trans_def.BibleShortName,
-                            "btn_close": true,
-                            "ref_trans": trans_def.Translation,
-                            "ref": `${trans_def.Books[0].ShortNames[0]} 1:1`
-                        }
-                    ];
-                    makeTabsFromDatosDeVkladki();
+                    obj_ajustes = obj_ajustes_def;
+                    //console.log(obj_ajustes);
                 }else{
-                    //console.log('Si. tiene_vkladki');
-                    arrTabs = convertArrBdToArrOk('arrTabs',data.valorCampo);
-                    makeTabsFromDatosDeVkladki();
-                }
-                break;
-                
-            case 'hist_nav':
-                if(valorCampo_vacio){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_nav);
-                }else{
-                    //console.log('Si. hist_nav tiene_datos');
-                    arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data.valorCampo);
-                    //console.log('editado arr_hist_nav: ', arr_hist_nav);
-                    buildHistoryNavDesktop();
-                }
-                break;
-
-            case 'hist_find':
-                if(valorCampo_vacio){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_find);
-                }else{
-                    //console.log('Si. hist_find tiene_datos');
-                    arr_hist_find = convertArrBdToArrOk('arr_hist_find',data.valorCampo);
-                    //console.log('editado arr_hist_nav: ', arr_hist_find);
-                    buildHistoryFindDesktop();
-                }
-                break;
-
-            case 'hist_strong':
-                if(valorCampo_vacio){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_hist_strong);
-                }else{
-                    //console.log('Si. hist_strong tiene_datos');
-                    //arr_hist_strong = JSON.parse(data.valorCampo);//antes
-                    arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data.valorCampo);
-                    //console.log('editado arr_hist_strong: ', arr_hist_strong);
-                    buildHistoryStrongDesktop();
-                }
-                break;
-
-            case 'markers':
-                if(valorCampo_vacio){
-                    //console.log('no_tiene_datos');
-                    //console.log(arr_markers);
-                }else{
-                    //console.log('Si. markers tiene_datos');
-                    arr_markers = convertArrBdToArrOk('arr_markers',data.valorCampo);
-                    //console.log('editado arr_markers: ', arr_markers);
-                    // buildHistoryNavDesktop();
-                    buildMarkersDesktop();
+                    //console.log('Si. obj_ajustes tiene_datos');
+                    obj_ajustes = JSON.parse(data.valorCampo);
+                    obj_ajustes_is_loaded = true;
+                    //console.log('1. obj_ajustes: ', obj_ajustes);
                 }
                 break;
 
@@ -12721,19 +12660,86 @@ async function obtenerDatosDeBD(tabla, campo){
                     //alert(1);
                 };
                 break;
-    
-            case 'ajustes':
+                                
+            case 'hist_nav':
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
-                    obj_ajustes = obj_ajustes_def;
-                    //console.log(obj_ajustes);
+                    //console.log(arr_hist_nav);
                 }else{
-                    //console.log('Si. obj_ajustes tiene_datos');
-                    obj_ajustes = JSON.parse(data.valorCampo);
-                    //console.log('1. obj_ajustes: ', obj_ajustes);
+                    //console.log('Si. hist_nav tiene_datos');
+                    arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data.valorCampo);
+                    //console.log('editado arr_hist_nav: ', arr_hist_nav);
+                    arr_hist_nav_is_loaded = true;
+                    buildHistoryNavDesktop();
                 }
                 break;
-    
+
+            case 'hist_find':
+                if(valorCampo_vacio){
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_find);
+                }else{
+                    //console.log('Si. hist_find tiene_datos');
+                    arr_hist_find = convertArrBdToArrOk('arr_hist_find',data.valorCampo);
+                    //console.log('editado arr_hist_nav: ', arr_hist_find);
+                    arr_hist_find_is_loaded = true;
+                    buildHistoryFindDesktop();
+                }
+                break;
+
+            case 'hist_strong':
+                if(valorCampo_vacio){
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_hist_strong);
+                }else{
+                    //console.log('Si. hist_strong tiene_datos');
+                    //arr_hist_strong = JSON.parse(data.valorCampo);//antes
+                    arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data.valorCampo);
+                    //console.log('editado arr_hist_strong: ', arr_hist_strong);
+                    arr_hist_strong_is_loaded = true;
+                    buildHistoryStrongDesktop();
+                }
+                break;
+
+            case 'markers':
+                if(valorCampo_vacio){
+                    //console.log('no_tiene_datos');
+                    //console.log(arr_markers);
+                }else{
+                    //console.log('Si. markers tiene_datos');
+                    arr_markers = convertArrBdToArrOk('arr_markers',data.valorCampo);
+                    //console.log('editado arr_markers: ', arr_markers);
+                    arr_markers_is_loaded = true;
+                    buildMarkersDesktop();
+                }
+                break;
+
+            case 'vkladki':
+                if(valorCampo_vacio){
+                    //console.log('no_tiene_datos');
+                    //arrTabs por defecto
+                    let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
+                    arrTabs = [
+                        {
+                            "id": "tab1",
+                            "className": "tabs tab_active",
+                            "str_trans": trans_def.Translation,
+                            "title": trans_def.BibleShortName,
+                            "btn_close": true,
+                            "ref_trans": trans_def.Translation,
+                            "ref": `${trans_def.Books[0].ShortNames[0]} 1:1`
+                        }
+                    ];
+                    makeTabsFromDatosDeVkladki();
+                }else{
+                    //console.log('Si. tiene_vkladki');
+                    arrTabs = convertArrBdToArrOk('arrTabs',data.valorCampo);
+                    arrTabs_is_loaded = true;
+                    makeTabsFromDatosDeVkladki();
+                }
+                break;
+                
+        
             default:
                 if(data.valorCampo == 'no_tiene_datos'){
                     console.error(obj_lang.d252);//No tiene datos o solicitud incorrecta.

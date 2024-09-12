@@ -227,7 +227,8 @@ if(modoMobile){
 const countMaxTransInCols = 10;//por defecto cantidad maxima de trans en columnas al addTrans()
 
 let obj_ajustes_def = {};//todos los ajustes del usuario 
-let obj_ajustes = {};//todos los ajustes del usuario 
+let obj_ajustes = {};//todos los ajustes del usuario
+let obj_ajustes_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 obj_ajustes.verseCompare = {
     wr_filter: {
@@ -383,22 +384,27 @@ let obj_nav = {
 } 
 
 let arrTabs = [];//array de objetos de tabs (Vkladki)
+let arrTabs_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 //array de objetos de historia de navegacion
 let arr_hist_nav = [];//se añade en addRefToHistNav();
 let arr_hist_nav_limit = 200;//limit de tener items en el historial
+let arr_hist_nav_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 //array de objetos de historia de navegacion
 let arr_hist_find = [];//se añade en addWordsToHistFind();
 let arr_hist_find_limit = 200;//limit de tener items en el historial
+let arr_hist_find_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 //array de objetos de historia de StrongNumber's
 let arr_hist_strong = [];//se añade en addStrongNumberToHistStrong();
 let arr_hist_strong_limit = 200;//limit de tener items en el historial
+let arr_hist_strong_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 //array de objetos de historia de navegacion
 let arr_markers = [];//se añade en addRefToHistNav();
 let arr_markers_limit = 200;//limit de tener items en el historial
+let arr_markers_is_loaded = false;//por defecto false, se cambia a true al descargarse de bd
 
 //by_text es mas rápido y más optimizado
 // en funcion showChaptertext4() hay 2 vias

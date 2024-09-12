@@ -1001,7 +1001,7 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
             arr_hist_nav.splice(arr_hist_nav_limit); 
         }
         
-        if(hay_sesion){
+        if(hay_sesion && arr_hist_nav_is_loaded){
             guardarEnBd('hist_nav','arr_hist_nav',arr_hist_nav);
         }
     }else{
@@ -1206,7 +1206,7 @@ async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse 
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_markers.splice(arr_markers_limit); 
         }
-        if(hay_sesion){
+        if(hay_sesion && arr_markers_is_loaded){
             guardarEnBd('markers','arr_markers',arr_markers);
         }
     }else{
@@ -1311,7 +1311,7 @@ function buildMarkersDesktop(){
                 //console.log(e.currentTarget.dataset.indexMarker);
                 //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
-                if(hay_sesion){
+                if(hay_sesion && arr_markers_is_loaded){
                     guardarEnBd('markers','arr_markers',arr_markers);
                 }
                 buildMarkersDesktop();
@@ -1556,7 +1556,7 @@ async function addWordsToHistFind(trans, words, count_verses, count_matches){
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_find.splice(arr_hist_find_limit); 
         }
-        if(hay_sesion){
+        if(hay_sesion && arr_hist_find_is_loaded){
             guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
         }
     }else{
@@ -1692,7 +1692,7 @@ async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWo
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_strong.splice(arr_hist_strong_limit); 
         }
-        if(hay_sesion){
+        if(hay_sesion && arr_hist_strong_is_loaded){
             guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
         }
     }else{
@@ -1891,7 +1891,7 @@ async function changeLang(lang) {
     
     obj_ajustes.lang = lang;
     
-    if(hay_sesion){
+    if(hay_sesion && obj_ajustes_is_loaded){
         guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
     }
 }
