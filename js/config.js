@@ -59,6 +59,10 @@ const eid_wr_hist_find = document.getElementById('wr_hist_find');
 const eid_wr_hist_strong = document.getElementById('wr_hist_strong');
 const eid_wr_markers = document.getElementById('wr_markers');
 
+const eid_hist_nav_regs = document.getElementById('hist_nav_regs');
+const eid_hist_find_regs = document.getElementById('hist_find_regs');
+const eid_hist_strong_regs = document.getElementById('hist_strong_regs');
+
 const eid_wr_hist_nav_inner = eid_wr_hist_nav.querySelector('.wr_hist_inner');
 const eid_wr_hist_find_inner = eid_wr_hist_find.querySelector('.wr_hist_inner');
 const eid_wr_hist_strong_inner = eid_wr_hist_strong.querySelector('.wr_hist_inner');

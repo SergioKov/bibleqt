@@ -213,11 +213,12 @@ session_start();
                             <button id="btn_ok" class="btn f_r" onclick="getRef(document.querySelector('#inpt_nav').dataset.trans)">
                                 <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--OK-->
                             </button>
-                        </div>
-
-                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
+                        </div>                        
                         
                         <div id="wr_hist_nav" style="display:none;">
+                            <div id="hist_nav_regs" class="d_regs">
+                                <span class="t_regs" data-dic="d306">Registros</span>: <span class="f_r">.../100</span>
+                            </div>
                             <div class="wr_hist_inner"></div>
                         </div>
 
@@ -277,13 +278,14 @@ session_start();
                                 Stop
                                 <!--<img class="btn_img" src="./images/stop4.png">--><!--Stop-->
                             </button>
-                        </div>
-
-                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
+                        </div>                        
 
                         <div id="find_head">
                             
                             <div id="wr_hist_find" style="display:none;">
+                                <div id="hist_find_regs" class="d_regs">
+                                    <span class="t_regs" data-dic="d306">Registros</span>: <span class="f_r">.../100</span>
+                                </div>
                                 <div class="wr_hist_inner"></div>
                             </div>
 
@@ -530,9 +532,11 @@ session_start();
                                 <img class="btn_img" src="./images/search_zoom_icon_white.svg"><!--Strong-->
                             </button>
                         </div>
-                        <div class="wr_regs">Registros: <span class="f_r">5/100</span></div>
                         <div id="strong_head">
                             <div id="wr_hist_strong" style="display:none;">
+                                <div id="hist_strong_regs" class="d_regs">
+                                    <span class="t_regs" data-dic="d306">Registros</span>: <span class="f_r">.../100</span>
+                                </div>
                                 <div class="wr_hist_inner"></div>
                             </div>
 
@@ -558,7 +562,7 @@ session_start();
                     <div id="markers_body">    
                         <div id="wr_markers">
                             <div class="wr_markers_inner">
-                                <span class="prim_tsk"><span data-dic="d143">Нет записей в Маркерах.</span> <br><a href="#" data-dic="d144" data-info="1. Кликните на стих 2. Кликните на кнопку с троеточием 3. Кликните на вторую кнопку слева" onclick="event.preventDefault(); alert(this.dataset.info);">Как добавить стих?</a></span>
+                                <span class="prim_tsk"><span data-dic="d143">Нет записей в Маркерах.</span> <br><a href="#"  data-info="1. Кликните на стих. <br>2. Кликните на кнопку с троеточием. <br>3. Кликните на вторую кнопку слева." onclick="event.preventDefault(); showHelp(this.dataset.info);" data-dic="d144">Как добавить стих?</a></span>
                             </div>
                         </div>
                     </div>

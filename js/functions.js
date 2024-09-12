@@ -1017,18 +1017,11 @@ function buildHistoryNavDesktop(){
     eid_wr_hist_nav_inner.innerHTML = '';    
     
     let totalHistNav = arr_hist_nav.length;
+    eid_hist_nav_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_nav_regs.querySelector('.f_r').textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
     
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
-
-            if(i == 0){//primer p será porcentaje
-                const p_porc = document.createElement('p');
-                p_porc.className = 'p_pointer';
-                p_porc.innerHTML = `
-                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistNav}/${arr_hist_nav_limit}</span></span>
-                `;
-                eid_wr_hist_nav_inner.append(p_porc);
-            }
                
             const p = document.createElement('p');
             p.className = 'p_pointer';       
@@ -1574,23 +1567,14 @@ async function addWordsToHistFind(trans, words, count_verses, count_matches){
 }
 
 function buildHistoryFindDesktop(){
-    
     eid_wr_hist_find_inner.innerHTML = '';
     
     let totalHistFind = arr_hist_find.length;
+    eid_hist_find_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_find_regs.querySelector('.f_r').textContent = `${totalHistFind}/${arr_hist_find_limit}`;
 
     if(arr_hist_find.length > 0){
         arr_hist_find.forEach((el,i)=>{
-
-            if(i == 0){//primer p será porcentaje
-                const p_porc = document.createElement('p');
-                p_porc.className = 'p_pointer';
-                p_porc.innerHTML = `
-                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistFind}/${arr_hist_find_limit}</span></span>
-                `;
-                eid_wr_hist_find_inner.append(p_porc);
-            }
-
             
             const p = document.createElement('p');
             p.className = 'p_pointer';
@@ -1719,22 +1703,14 @@ async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWo
 }
 
 function buildHistoryStrongDesktop(){
-    
     eid_wr_hist_strong_inner.innerHTML = '';
     
     let totalHistStrong = arr_hist_strong.length;
+    eid_hist_strong_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_strong_regs.querySelector('.f_r').textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
 
     if(arr_hist_strong.length > 0){
         arr_hist_strong.forEach((el,i)=>{
-            
-            if(i == 0){//primer p será porcentaje
-                const p_porc = document.createElement('p');
-                p_porc.className = 'p_pointer';
-                p_porc.innerHTML = `
-                    <span class="sp_ref_hist">Registros: <span class="f_r">${totalHistStrong}/${arr_hist_strong_limit}</span></span>
-                `;
-                eid_wr_hist_strong_inner.append(p_porc);
-            }
             
             const p = document.createElement('p');
             p.className = 'p_pointer';
@@ -1938,3 +1914,6 @@ function reemplazarValores(frase, valores) {
     return frase;
 }
 
+function showHelp(text){
+    openModal('center','Help',text,'showAviso');
+}
