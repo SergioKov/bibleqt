@@ -738,7 +738,7 @@ function buildDivShow(arrData, indexColToBuild = null){
                         let p_id = arrData[0][index].id;
                         //console.log('p_id: ', p_id);
 
-                        if(typeof arr_hist_nav !== 'undefined'){
+                        if(typeof arr_hist_nav !== 'undefined' && arr_hist_nav.length > 0){
                             for (let y = 0; y < 1; y++) {
                                 let elem2_hist_nav = arr_hist_nav[y];//0,1
 
@@ -830,7 +830,7 @@ function buildDivShow(arrData, indexColToBuild = null){
                             let p_id = arrData[0][index].id;
                             //console.log('p_id: ', p_id);
 
-                            if(typeof arr_hist_nav !== 'undefined'){
+                            if(typeof arr_hist_nav !== 'undefined' && arr_hist_nav.length > 0){
                                 for (let y = 0; y < 1; y++) {
                                     let elem2_hist_nav = arr_hist_nav[y];//0,1
 
