@@ -1000,7 +1000,7 @@ function close_comment_x(elem, event){
 
 
 
-
+/*
 // Obtener el botón
 var myButton = document.getElementById('myButton');
 
@@ -1044,7 +1044,7 @@ function stopPressMob() {
 myButton.addEventListener('touchstart', startPressMob);
 // Agregar evento touchend para cancelar el temporizador si se levanta el dedo antes de la duración establecida
 myButton.addEventListener('touchend', stopPressMob);
-
+*/
 
 
 
