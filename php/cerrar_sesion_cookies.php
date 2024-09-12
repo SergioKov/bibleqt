@@ -3,9 +3,9 @@ session_start();
 
 include('functions.php');
 
-writeLog("Sesión cerrada. email: [" . $_SESSION['email'] . "]");
+writeLog("Sesión cerrada rechazando cookies.");
 
-/*
+
 // Si se desea destruir la sesión completamente, también eliminar la cookie de sesión
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
@@ -14,10 +14,10 @@ if (ini_get("session.use_cookies")) {
         $params["secure"], $params["httponly"]
     );
 }
-*/
+
 
 // Limpiar la cookie de sesión
-setcookie(session_name(), "", time() - 3600, "/");
+//setcookie(session_name(), "", time() - 3600, "/");
 
 session_unset(); // Elimina todas las variables de sesión
 session_destroy(); // Destruye la sesión

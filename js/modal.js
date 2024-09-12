@@ -123,7 +123,14 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
                     buildVerseMenu(htmlTrans, param);//es arr_p_id en este caso
                     break;
             
-            
+                case 'showAviso':
+                    eid_modcont_body.style.overflow = 'auto';//habilita scroll
+                    eid_modcont_body.classList.add('theme_grey');   
+                    //console.log('aki llamar showAviso()');
+                    //alert('aki showAviso()');
+                    showAviso(htmlTrans, param);//es arr_p_id en este caso
+                    break;
+                
                 default:
                     //console.log('indica action en openModal()');
                     break;

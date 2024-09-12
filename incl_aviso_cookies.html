@@ -1,0 +1,181 @@
+<style>
+/* Estilos del contenedor de aviso de cookies */
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+.cookie-consent-inner {
+    width: 100%;
+    /* background: #bbf7bb; */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1000px;
+    align-items: flex-start;
+}
+
+.cookie-consent p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.wr_btns_cookies {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.wr_btns_cookies button {
+    min-width: 120px;
+    max-height: 40px;
+}
+
+/* Estilos de los botones */
+.cookie-consent button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cookie-consent button.reject {
+    background-color: #dc3545;
+}
+
+.cookie-consent button:hover {
+    opacity: 0.9;
+}
+
+/* Esconder el aviso de cookies si no se muestra */
+.hidden {
+    display: none;
+}
+
+/* tablet y desktop a partir de 600 px */
+@media screen and (min-width: 600px){
+    .cookie-consent-inner {    
+        align-items: center;
+    }
+    .wr_btns_cookies {
+        flex-direction: row;
+    }
+}
+</style>
+    
+<!-- Contenedor de aviso de cookies -->
+<div id="cookie-consent" class="cookie-consent">
+    <div class="cookie-consent-inner">
+
+        <p>Este sitio web utiliza cookies para mejorar su experiencia. ¿Acepta el uso de cookies?</p>
+        
+        <div class="wr_btns_cookies">
+            <button id="reject-cookies" class="reject">Rechazar</button>
+            <button id="accept-cookies">Aceptar</button>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+// Obtener elementos del DOM
+const cookieConsent = document.getElementById('cookie-consent');
+const acceptButton = document.getElementById('accept-cookies');
+const rejectButton = document.getElementById('reject-cookies');
+
+// Verificar si ya existe consentimiento de cookies
+if (localStorage.getItem('cookieConsent') !== null) {
+    cookieConsent.classList.add('hidden');
+}
+
+// Función para ACEPTAR cookies
+acceptButton.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    cookieConsent.classList.add('hidden');
+    alert("Has aceptado el uso de cookies.");
+});
+
+// Función para RECHAZAR cookies
+rejectButton.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'rejected');
+    cookieConsent.classList.add('hidden');
+    deleteAllCookies();
+    cerrarSesionCookies();
+    // alert("Has rechazado el uso de cookies.");
+    console.log("Has rechazado el uso de cookies.");
+});
+
+
+// Función para eliminar todas las cookies
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+}
+
+async function cerrarSesionCookies(){
+    //console.log('=== function cerrarSesionCookies() ===');
+
+    try {
+        
+        const response = await fetch('./php/cerrar_sesion_cookies.php');
+        const data = await response.json();
+        //console.log(data);
+
+        if (data.cerrada) {
+                       
+            hay_sesion = false;
+            pintLoginImg(hay_sesion);
+
+            eid_partDeskTabs.innerHTML = '';
+            addTab(null,null,null,'tab_new');
+
+
+            arrFavTrans = arrFavTransDef;
+            //console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
+            pushStateHome();
+
+            let aviso_sesion = obj_lang.d307;//`Has rechazado el uso de cookies. No se guardarán los ajustes personales ni el historial de uso de la web app. Para poder disfrutar de la posibilidad de guardarlos tienes que aceptar las cookies y loguearte.`;
+            openModal('center','Cookies',aviso_sesion,'showAviso'); 
+
+            setTimeout(()=>{
+                //closeModal('Login');//no hace falta ya que al abrir openModal() se cierra automaticamente
+                location.reload();
+                //crear_arrFavTransObj();//no hace falta ya que al reload se carga
+            },2500);
+
+            mySizeWindow();
+
+        } else {
+            // Mostrar un mensaje de error si hay problemas al cerrar la sesión
+            console.error('Error al cerrar sesión');
+        }
+
+    } catch (error) {
+        // Código a realizar cuando se rechaza la promesa
+        console.error('cerrarSesionCookies. error: ',error);
+    }    
+}
+
+
+
+</script>

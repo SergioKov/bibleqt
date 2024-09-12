@@ -1364,6 +1364,10 @@ HERE;
 <script src="./js/tests.js"></script>
 <script src="./js/modal.js"></script>
 <script src="./js/listeners.js"></script>
+
+<?php 
+    include('incl_aviso_cookies.html');
+?>
 </body>
 </html>
 
