@@ -4079,7 +4079,12 @@ input:checked + .slider:before {
 .sp_ref_text font[color="darkred"]{
     color: red;
 }
-
+.pad0_15 {
+    padding: 0 15px;
+}
+.p_aviso a{
+    cursor: pointer;
+}
 
 
 

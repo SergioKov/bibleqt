@@ -3,7 +3,7 @@ session_start();
 
 include('functions.php');
 
-writeLog("Sesión cerrada rechazando cookies.");
+writeLog("Sesión cerrada al rechazar cookies.");
 
 
 // Si se desea destruir la sesión completamente, también eliminar la cookie de sesión

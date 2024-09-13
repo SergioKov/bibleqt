@@ -509,6 +509,11 @@ async function crearCuenta(){
     //console.log('=== function crearCuenta() ===');
 
     try {
+        
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            let aviso_text = `Si no aceptas cookies no puedes crear una cuenta. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            openModal('center','Cookies',aviso_text,'showAviso');
+        }
 
         let username = document.getElementById("reg_username").value.trim();
         let password = document.getElementById("reg_password").value.trim();
@@ -1329,18 +1334,6 @@ async function loadDefaultFunctions(){
         }
         //console.log('hay_get_data: ',hay_get_data);
     }
-
-
-    /*
-    //si user está logueado le muestro sus tabs (vkladki)
-    //si no - solo le muestro una tab (vkladka) con los trans que estan en get_trans
-    //if(!hay_get_data){
-        //addTab('Быт. 1:1', 'rstStrongRed');
-        addTab('Mat. 5:3', 'rstStrongRed');
-
-        addTab('Ex. 2:2', 'rstStrongRed,rv60');
-    //}
-    */
 
     addListenerModule();
     updateTransOnClickOnActiveCol();
@@ -12580,6 +12573,8 @@ async function obtenerDatosDeBD(tabla, campo){
 
     try {
         
+        if(get_cookieConsent && get_cookieConsent === 'rejected') return;
+
         if(tabla == '' || campo == ''){
             alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
             return;
@@ -22215,4 +22210,12 @@ function validarPassword(password) {
         //&& numero.test(password) 
         //&& caracterEspecial.test(password)
         ;//.test() returns true or false
+}
+
+
+function showBlobkCookies(){
+    const cookieConsent = document.getElementById('cookie-consent');
+    if(cookieConsent.classList.contains('hidden')){
+        cookieConsent.classList.remove('hidden');
+    }
 }

@@ -941,6 +941,13 @@ function pushStateToHistNav(trans,ref){
     let full_url_ref = `${full_url}?trans=${trans}&ref=${ref}`;
     //console.log("URL completa con ref. full_url_ref: ", full_url_ref);
 
+    if(get_lang){
+        full_url_ref += `&lang=${get_lang}`;
+    }
+    if(get_cookieConsent){
+        full_url_ref += `&cookieConsent=${get_cookieConsent}`;
+    }
+
     window.history.pushState(null, "Título de la página", full_url_ref);
 }
 
@@ -1823,7 +1830,24 @@ async function changeLang(lang) {
         obj_lang = await fetchDataToJson(`modules/json/${lang}.json`);
         //console.log('obj_lang:');
         //console.log(obj_lang);
-        localStorage.setItem('lang',lang);
+
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            let url_href = new URL(window.location.href);
+            url_href.searchParams.set('lang',lang);
+            let params_new = '?';
+            url_href.searchParams.forEach((value,key)=>{ 
+                console.log(`${key}: ${value}`);
+                params_new += `&${key}=${value}`;
+            });
+            //window.location.origin => 'https://bibleqt.es'
+            //window.location.pathname => '/'
+            let new_url_ref = window.location.origin + window.location.pathname + params_new;
+            console.log("URL nueva completa con ref. new_url_ref: ", new_url_ref);
+
+            window.history.pushState(null, "Título de la página", new_url_ref);
+        }else{
+            localStorage.setItem('lang',lang);
+        }
 
         // Selecciona todos los elementos con la clase 'lng'
         document.querySelectorAll('[data-dic]').forEach(element => {

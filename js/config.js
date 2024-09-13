@@ -447,7 +447,9 @@ let arr_verses_lang = [];
 
 let is_loading_def_functions = false;//por defecto . para no llamar 2 veces a loadDefaultFunctions()
 
-
+let rechazar_cookies;
+//rechazar_cookies = true;
+rechazar_cookies = false;
 
 
 

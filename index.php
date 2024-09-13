@@ -1,5 +1,5 @@
 <?php 
-session_start();
+//session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,14 +8,10 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BQ</title>
-    <link rel="icon" type="image/png" href="./images/bq.png">
-    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
-
-    <link id="estilos_base" rel="stylesheet" href="./css/bible_app.css">
-    <link id="estilos_resp" rel="stylesheet" href="./css/bible_app_resp.css">
-   
+    <link rel="icon" type="image/png" href="./images/bq.png">    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap" rel="stylesheet">
@@ -24,7 +20,8 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=PT+Sans+Narrow:wght@400;700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
-
+    <link id="estilos_base" rel="stylesheet" href="./css/bible_app.css">
+    <link id="estilos_resp" rel="stylesheet" href="./css/bible_app_resp.css">
 </head>
 <body>
 
@@ -1262,6 +1259,11 @@ HERE;
                                         </label>
                                     </div>
 
+                                    <div class="dbtn" data-dic="" title="Mostrar block de consentimiento de cookies" onclick="showBlobkCookies()" style="width:100%;">
+                                        <div class="dbtn_inner">
+                                            <span class="pad0_15" data-dic="">Mostrar el block de selección de consentimiento de Cookies.</span>
+                                        </div>
+                                    </div>
 
 
 
@@ -1331,31 +1333,65 @@ HERE;
         $ref = null; 
     }
     //die();
-
-    if(isset($_SESSION) && !empty($_SESSION) && !empty($_SESSION['email'])){
-        //echo "<p>isset $ _SESSION. $ _SESSION[email]: " . $_SESSION['email'];
-    }else{
-        //echo "<p>NO isset $ _SESSION";
-    }
-    //die();
 ?>
 
 <!-- Javascript para este html -->
 <script>
     
+    /*
     let get_trans = <?=json_encode($trans)?>;
     let get_ref = <?=json_encode($ref)?>;
     
     // Utilizar la variable en JavaScript
     //console.log("Valor de la variable en JavaScript - get_trans:", get_trans);
     //console.log("Valor de la variable en JavaScript - get_ref:", get_ref);
+
     
+    
+    let hay_get_data = false;//por defecto
+    if(get_ref != null){
+        hay_get_data = true;
+    }
+    */
+
+//----------------------------------------------------
+    
+    // Crear un objeto URL basado en la URL actual
+    let url_web = new URL(window.location.href);
+
+    let get_trans = url_web.searchParams.get('trans');//valor o null
+    let get_ref = url_web.searchParams.get('ref');//valor o null
+    let get_lang = url_web.searchParams.get('lang');//valor o null
+    let get_cookieConsent = url_web.searchParams.get('cookieConsent');//valor o null
+
+    // Obtener todos los parámetros GET usando searchParams
+    // Iterar sobre cada parámetro y mostrar su clave y valor
+    //url_web.searchParams.forEach((value, key) => {
+    //    console.log(`${key}: ${value}`);
+    //});
+
+
+    if(get_cookieConsent){
+        console.log('get_cookieConsent: ',get_cookieConsent);
+    }
+    if(get_lang){
+        console.log('get_lang: ',get_lang);
+    }
+    if(get_trans){
+        console.log('get_trans: ',get_trans);
+    }
+    if(get_ref){
+        console.log('get_ref: ',get_ref);
+    }
+
     let hay_get_data = false;//por defecto
     if(get_ref != null){
         hay_get_data = true;
     }
     
 </script>
+
+<?php include('incl_aviso_cookies.html'); ?>
 
 <script src="./js/config.js"></script>
 <script src="./js/bible_app.js"></script>
@@ -1365,9 +1401,6 @@ HERE;
 <script src="./js/modal.js"></script>
 <script src="./js/listeners.js"></script>
 
-<?php 
-    include('incl_aviso_cookies.html');
-?>
 </body>
 </html>
 

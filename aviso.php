@@ -23,17 +23,17 @@ HERE;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviso</title>
-    <link rel="stylesheet" href="./css/bible_app.css">
-    <link rel="stylesheet" href="./css/bible_app_resp.css">
     <link rel="icon" type="image/png" href="./images/bq.png">
-    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>    
-   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>   
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Open+Sans:wght@300&family=Raleway:wght@100&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./css/bible_app.css">
+    <link rel="stylesheet" href="./css/bible_app_resp.css">
 
 </head>
 <body id="body_aviso">
@@ -59,6 +59,7 @@ HERE;
 
     </div>
 
+<?php include('incl_aviso_cookies.html'); ?>
 
 <script type="text/javascript">
 
