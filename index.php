@@ -840,7 +840,6 @@ HERE;
                                 <div id="topLoginInner">
 
 <?php
-    
     if(isset($_GET) && isset($_GET['login'])){
 print<<<HERE
 <script>
