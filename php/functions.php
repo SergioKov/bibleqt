@@ -296,7 +296,7 @@ function ejemploSQLpreparada(){//compleja y no funciona. dejo aki como ejemplo y
 
 
 function writeLog($message, $level = 'INFO') {
-    return;//test
+    //return;//test
     
     if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
         $logFile = '../logs/app_prod.log';  // Define la ruta del archivo de log en Hostalia
