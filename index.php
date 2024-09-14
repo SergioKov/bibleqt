@@ -13,7 +13,7 @@ print<<<HERE
     <script>
         //console.log('NO hay auth_ok. NO pongo session_start()');
     </script>
-HERE;    
+HERE;
 }
 ?>
 <!DOCTYPE html>
@@ -840,35 +840,35 @@ HERE;
                                 <div id="topLoginInner">
 
 <?php
-    if(isset($_GET) && isset($_GET['login'])){
+
+    if(isset($_GET['login'])){
 print<<<HERE
-<script>
-    setTimeout(()=>{
-        openModal('top','Login',null,'showLogin');
-    },3000);
-</script>
+    <script>
+        setTimeout(()=>{
+            openModal('top','Login',null,'showLogin');
+        },3000);
+    </script>
+HERE;
+    }
+
+    if(isset($_GET['from_aviso'])){
+print<<<HERE
+    <script>
+        setTimeout(()=>{
+            openModal('top','Login',null,'showLogin');
+        },3000);
+    </script>
 HERE;
     }
 
 
-    if(isset($_GET) && isset($_GET['from_aviso'])){
+    if(isset($_GET['reset_pwd_ok'])){
 print<<<HERE
-<script>
-    setTimeout(()=>{
-        openModal('top','Login',null,'showLogin');
-    },3000);
-</script>
-HERE;
-    }
-
-
-    if(isset($_GET) && isset($_GET['reset_pwd_ok'])){
-print<<<HERE
-<script>
-    setTimeout(()=>{
-        openModal('top','Login',null,'showLogin');
-    },3000);
-</script>
+    <script>
+        setTimeout(()=>{
+            openModal('top','Login',null,'showLogin');
+        },3000);
+    </script>
 HERE;
     }
     
