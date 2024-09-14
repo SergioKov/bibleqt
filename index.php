@@ -841,7 +841,7 @@ HERE;
 
 <?php
     
-    if(isset($_GET['login'])){
+    if(isset($_GET) && isset($_GET['login'])){
 print<<<HERE
 <script>
     setTimeout(()=>{
@@ -852,7 +852,7 @@ HERE;
     }
 
 
-    if(isset($_GET['from_aviso'])){
+    if(isset($_GET) && isset($_GET['from_aviso'])){
 print<<<HERE
 <script>
     setTimeout(()=>{
@@ -863,7 +863,7 @@ HERE;
     }
 
 
-    if(isset($_GET['reset_pwd_ok'])){
+    if(isset($_GET) && isset($_GET['reset_pwd_ok'])){
 print<<<HERE
 <script>
     setTimeout(()=>{
