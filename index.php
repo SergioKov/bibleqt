@@ -847,7 +847,7 @@ print<<<HERE
     setTimeout(()=>{
         openModal('top','Login',null,'showLogin');
     },3000);
-</>
+</script>
 HERE;
     }
 
