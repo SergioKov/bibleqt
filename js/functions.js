@@ -1836,13 +1836,13 @@ async function changeLang(lang) {
             url_href.searchParams.set('lang',lang);
             let params_new = '?';
             url_href.searchParams.forEach((value,key)=>{ 
-                console.log(`${key}: ${value}`);
+                //console.log(`${key}: ${value}`);
                 params_new += `&${key}=${value}`;
             });
             //window.location.origin => 'https://bibleqt.es'
             //window.location.pathname => '/'
             let new_url_ref = window.location.origin + window.location.pathname + params_new;
-            console.log("URL nueva completa con ref. new_url_ref: ", new_url_ref);
+            //console.log("[changeLang()] - URL nueva completa con ref. new_url_ref: ", new_url_ref);
 
             window.history.pushState(null, "Título de la página", new_url_ref);
         }else{

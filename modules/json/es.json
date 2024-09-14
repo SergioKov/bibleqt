@@ -306,14 +306,17 @@
     "d305": "No está indicado el parametro de la url o chapter.",
 
     "d306": "Registros",
-    "d307": "Has rechazado el uso de cookies. No se guardarán los ajustes personales ni el historial de uso de la web app. <br><br>Para poder disfrutar de la posibilidad de guardarlos tienes que aceptar las cookies y loguearte. <br><br>Para cambiar el consentimiento pulsa tres puntos del menú (arriba a la derecha) y luego opción <b>Mostrar el block de selección de consentimiento de Cookies.</b> (abajo de todo).",
-    "d308": "",
-    "d309": "",
-    "d310": "",
-    "d311": "",
-    "d312": "",
-    "d313": "",
-    "d314": "",
+    "d307": "Has rechazado el uso de cookies. No se guardarán los ajustes personales ni el historial del uso de la web app. <br><br>Para poder disfrutar de la posibilidad de guardarlos tienes que aceptar las cookies y loguearte. <br><br>Para cambiar el consentimiento pulsa tres puntos del menú (arriba a la derecha) y luego la opción <b>Mostrar el block de selección de consentimiento de cookies</b> (abajo del todo).",
+    "d308": "Has aceptado el uso de cookies. <br><br>Para cambiar el consentimiento pulsa tres puntos del menú (arriba a la derecha) y luego la opción <b>Mostrar el block de selección de consentimiento de cookies</b> (abajo del todo).",
+
+    "d309": "Mostrar el block de selección de consentimiento de cookies",
+    "d310": "Aceptado",
+    "d311": "Rechazado",
+    
+    "d312": "Rechazar",
+    "d313": "Aceptar",
+    "d314": "Este sitio web utiliza cookies para mejorar su experiencia. ¿Acepta el uso de cookies?",
+
     "d315": "",
     "d316": "",
     "d317": "",

@@ -306,14 +306,17 @@
     "d305": "The URL or chapter parameter is not specified.",
     
     "d306": "Registers",
-    "d307": "",
-    "d308": "",
-    "d309": "",
-    "d310": "",
-    "d311": "",
-    "d312": "",
-    "d313": "",
-    "d314": "",
+    "d307": "You have rejected the use of cookies. Personal settings and web app usage history will not be saved. <br><br>To be able to save them, you need to accept cookies and log in. <br><br>To change your consent, click on the three dots in the menu (top right) and then select the option <b>Show the cookie consent selection block</b> (at the bottom).",
+    "d308": "You have accepted the use of cookies. <br><br>To change your consent, click on the three dots in the menu (top right) and then select the option <b>Show the cookie consent selection block</b> (at the bottom).",
+
+    "d309": "Show the cookie consent selection block",
+    "d310": "Accepted",
+    "d311": "Rejected",
+
+    "d312": "Reject",
+    "d313": "Accept",
+    "d314": "This website uses cookies to enhance your experience. Do you accept the use of cookies?",
+
     "d315": "",
     "d316": "",
     "d317": "",

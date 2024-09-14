@@ -120,6 +120,7 @@ const eid_m_btn_loadAllFavBibleFiles = document.getElementById('m_btn_loadAllFav
 const eid_m_btn_loadAllFavTskFiles = document.getElementById('m_btn_loadAllFavTskFiles');
 const eid_m_btn_loadAllFavStrongFiles = document.getElementById('m_btn_loadAllFavStrongFiles');
 
+const eid_m_bl_cookies = document.getElementById('m_bl_cookies');
 
 //const eid_sel_modules = document.getElementById('sel_modules');//?..
 

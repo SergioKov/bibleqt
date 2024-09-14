@@ -4060,6 +4060,9 @@ input:checked + .slider:before {
 .color_red{
     color: red !important;
 }
+.color_green{
+    color: green !important;
+}
 .p_cerr_ses a{
     cursor: pointer;
 }
@@ -4084,6 +4087,13 @@ input:checked + .slider:before {
 }
 .p_aviso a{
     cursor: pointer;
+}
+
+.wr_cook {
+    justify-content: space-between;
+    padding: 0 15px;
+    align-items: flex-start;
+    width: 100%;
 }
 
 

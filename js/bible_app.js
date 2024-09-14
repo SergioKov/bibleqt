@@ -314,6 +314,12 @@ async function iniciarSesion(){//antes login() //username,password
     //console.log('=== function iniciarSesion() ===');
 
     try {
+        
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            let aviso_text = `Si no aceptas cookies no puedes iniciar sesión. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            openModal('center','Cookies',aviso_text,'showAviso');
+            return;
+        }
 
         let email = document.getElementById("username_email").value.trim();
         let password = document.getElementById("password").value.trim();
@@ -396,7 +402,9 @@ async function iniciarSesion(){//antes login() //username,password
                     closeModal('Login');
                 },3000);
                 setTimeout(()=>{
-                    location.reload(); // Recargar la página
+                    //localStorage.setItem('is_reloaded_from_login', true);
+                    //window.location.reload(); // Recargar la página
+                    window.location.href = "?auth_ok";
                 },3500);                
 
             } else {
@@ -513,6 +521,7 @@ async function crearCuenta(){
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
             let aviso_text = `Si no aceptas cookies no puedes crear una cuenta. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
+            return;
         }
 
         let username = document.getElementById("reg_username").value.trim();
@@ -12473,6 +12482,12 @@ async function insertarDatos(tabla, campo, arr) {
     //console.log('=== function insertarDatos(tabla, campo, arr) ===');
 
     try {
+        
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            let aviso_text = `Si no aceptas cookies no puedes insertar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            openModal('center','Cookies',aviso_text,'showAviso');
+            return;
+        }
 
         if(tabla == '' || campo == '' || typeof arr === 'undefined'){
             alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
@@ -12573,7 +12588,12 @@ async function obtenerDatosDeBD(tabla, campo){
 
     try {
         
-        if(get_cookieConsent && get_cookieConsent === 'rejected') return;
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            //openModal('center','Cookies',aviso_text,'showAviso');
+            return;
+        }
+
 
         if(tabla == '' || campo == ''){
             alert(obj_lang.d251);//'No hay todos los parametros necesarios.'
@@ -12975,6 +12995,12 @@ async function verificarAutenticacion() {
     //console.log('=== function verificarAutenticacion() ===');
 
     try {
+        
+        if(get_cookieConsent && get_cookieConsent === 'rejected'){
+            let aviso_text = `Si no aceptas cookies no puedes verificar autenticación. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            openModal('center','Cookies',aviso_text,'showAviso');
+            return;
+        }
                
         const response = await fetch('./php/verificar_autenticacion.php', {
             method: 'GET',

@@ -1,5 +1,20 @@
 <?php 
-//session_start();
+if(isset($_GET) && isset($_GET['auth_ok'])){
+    session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
+    //echo 'hay auth_ok';
+print<<<HERE
+    <script>
+        //console.log('hay auth_ok. pongo session_start()');
+    </script>
+HERE;
+}else{
+    //echo 'NO hay auth_ok';
+print<<<HERE
+    <script>
+        //console.log('NO hay auth_ok. NO pongo session_start()');
+    </script>
+HERE;    
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -832,7 +847,7 @@ print<<<HERE
     setTimeout(()=>{
         openModal('top','Login',null,'showLogin');
     },3000);
-</script>
+</>
 HERE;
     }
 
@@ -1259,9 +1274,17 @@ HERE;
                                         </label>
                                     </div>
 
-                                    <div class="dbtn" data-dic="" title="Mostrar block de consentimiento de cookies" onclick="showBlobkCookies()" style="width:100%;">
-                                        <div class="dbtn_inner">
-                                            <span class="pad0_15" data-dic="">Mostrar el block de selección de consentimiento de Cookies.</span>
+                                    <div id="m_bl_cookies" class="dbtn" title="Mostrar block de consentimiento de cookies" onclick="showBlobkCookies()" style="width:100%;">
+                                        <div class="dbtn_inner wr_cook">
+                                            
+                                            <div class="wr_sw_text">
+                                                <span class="sp_com">
+                                                    Cookies
+                                                </span>
+                                                <span class="sp_expl" data-dic="d309">Mostrar el block de selección de consentimiento de cookies.</span>
+                                            </div>
+                                            <div class="cookie_consent">...</div>
+
                                         </div>
                                     </div>
 
@@ -1372,16 +1395,16 @@ HERE;
 
 
     if(get_cookieConsent){
-        console.log('get_cookieConsent: ',get_cookieConsent);
+        //console.log('get_cookieConsent: ',get_cookieConsent);
     }
     if(get_lang){
-        console.log('get_lang: ',get_lang);
+        //console.log('get_lang: ',get_lang);
     }
     if(get_trans){
-        console.log('get_trans: ',get_trans);
+        //console.log('get_trans: ',get_trans);
     }
     if(get_ref){
-        console.log('get_ref: ',get_ref);
+        //console.log('get_ref: ',get_ref);
     }
 
     let hay_get_data = false;//por defecto
@@ -1391,7 +1414,6 @@ HERE;
     
 </script>
 
-<?php include('incl_aviso_cookies.html'); ?>
 
 <script src="./js/config.js"></script>
 <script src="./js/bible_app.js"></script>
@@ -1401,6 +1423,9 @@ HERE;
 <script src="./js/modal.js"></script>
 <script src="./js/listeners.js"></script>
 
+<?php include('incl_aviso_cookies.html'); ?>
+
+<script src="./js/incl_aviso_cookies.js"></script>
 </body>
 </html>
 
