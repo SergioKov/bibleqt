@@ -1377,7 +1377,7 @@ HERE;
     */
 
 //----------------------------------------------------
-    
+    /*
     // Crear un objeto URL basado en la URL actual
     let url_web = new URL(window.location.href);
 
@@ -1410,10 +1410,12 @@ HERE;
     if(get_ref != null){
         hay_get_data = true;
     }
+    */
     
 </script>
 
 
+<script src="./js/get_cookieConsent.js"></script>
 <script src="./js/config.js"></script>
 <script src="./js/bible_app.js"></script>
 <script src="./js/functions.js"></script>
