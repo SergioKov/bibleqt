@@ -1414,8 +1414,9 @@ HERE;
     
 </script>
 
+<script src="./js/var_lang.js"></script>
+<script src="./js/get_globals.js"></script>
 
-<script src="./js/get_cookieConsent.js"></script>
 <script src="./js/config.js"></script>
 <script src="./js/bible_app.js"></script>
 <script src="./js/functions.js"></script>

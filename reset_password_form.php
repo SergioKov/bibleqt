@@ -60,10 +60,9 @@ $token = (isset($_GET['token']) && $_GET['token'] != '') ? $_GET['token'] : '';
 
 <?php include('incl_aviso_cookies.html'); ?>
 
-<script type="text/javascript">
+<script src="./js/var_lang.js"></script>
 
-const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles
-let lang = localStorage.getItem('lang') || navigator.languages[1] || 'ru';//idioma por defecto
+<script type="text/javascript">
 
 let obj_lang = {};
 crear_obj_lang(); // Llamamos a la función para que crea obj_lang

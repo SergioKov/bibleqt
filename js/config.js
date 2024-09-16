@@ -9,9 +9,6 @@
 //====================================================================//
 //  C O N S T A N T A S
 //====================================================================//
-const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles
-let lang = localStorage.getItem('lang') || navigator.languages[1] || 'ru';//idioma por defecto
-//lang = 'ddddru';//test ok
 
 const eid_sel_lang = document.getElementById('sel_lang');
 const eid_m_sel_lang = document.getElementById('m_sel_lang');

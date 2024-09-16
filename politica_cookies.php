@@ -87,17 +87,15 @@
 
 
 
-<script type="text/javascript">
-    
-const arr_langs = ['ru','ua','es','en'];//array de idiomas disponibles
-let lang = localStorage.getItem('lang') || navigator.languages[1] || 'ru';//idioma por defecto
-//lang = 'ddddru';//test ok
-
-
+<script type="text/javascript">   
+    //code...
 </script>
 
-<script src="./js/get_cookieConsent.js"></script>
+<script src="./js/var_lang.js"></script>
+<script src="./js/get_globals.js"></script>
+
 <?php include('incl_aviso_cookies.html'); ?>    
+
 <script src="./js/incl_aviso_cookies.js"></script>
 
 </body>

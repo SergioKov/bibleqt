@@ -73,7 +73,7 @@ acceptButton.addEventListener('click', () => {
     cookieConsent.classList.add('hidden');
     //alert("Has aceptado el uso de cookies.");
 
-        if(window.location.pathname === '/'){
+        if(['/','/index.php'].includes(window.location.pathname)){
             let aviso_cookies = obj_lang.d308;//`Has aceptado el uso de cookies. <br><br>Para cambiar el consentimiento pulsa tres puntos del menú (arriba a la derecha) y luego opción <b>Mostrar el block de selección de consentimiento de cookies.</b> (abajo del todo).`;
             openModal('center','Cookies',aviso_cookies,'showAviso'); 
         }else{
@@ -109,7 +109,7 @@ rejectButton.addEventListener('click', () => {
     window.history.pushState(null, "Título de la página", new_url_ref);
     //console.log("Has rechazado el uso de cookies.");
 
-    if(window.location.pathname === '/'){//si es index.php
+    if(['/','/index.php'].includes(window.location.pathname)){//si es index.php
         //de momento nada
     }else{
         alert("Has rechazado el uso de cookies.");
@@ -140,7 +140,7 @@ async function cerrarSesionCookies(){
 
         if (data.cerrada) {
 
-            if(window.location.pathname === '/'){//si es index.php 
+            if(['/','/index.php'].includes(window.location.pathname)){//si es index.php 
                 hay_sesion = false;
                 pintLoginImg(hay_sesion);
     

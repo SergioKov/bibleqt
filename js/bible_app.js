@@ -519,7 +519,8 @@ async function crearCuenta(){
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes crear una cuenta. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `<span>${obj_lang.d315}</span>`;//Si no aceptas cookies no puedes crear una cuenta.
+            aviso_text += ` <a onclick="showBlobkCookies(); closeModal(null,true);">${obj_lang.d316}</a>.`;//Seleccionar Coockies
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
