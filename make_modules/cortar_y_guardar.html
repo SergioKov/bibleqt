@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortar y Guardar JS</title>
+    <style>
+*{
+    font-size: 18px;
+    font-family: Tahoma;
+}
+h1{
+    text-align: center;
+    font-size: 30px;
+}
+.wr {
+    padding: 20px;
+    background: aqua;
+    border: 1px solid #bdbdbf;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    background: #a0caec;
+    transition: 0.3s;
+    border: 1px solid #a0a1a8;
+}
+input:hover:not(.inpt_str){
+    background: #c9e4fb;
+    cursor: pointer;
+}
+
+input, button {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+button {
+    border: 1px solid #020b53;
+    background: rgb(7, 7, 195);
+    color: white;
+    transition: 0.3s;
+}
+button:hover{
+    background: #0965b7;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Cortar y guardar</h1>
+    <div class="wr">
+        <input type="text" id="nombre" class="inpt_str" placeholder="Nombre para guardar" value=""><br>
+        <input type="text" id="extencion" class="inpt_str" placeholder="Extención (sin punto). Ej.: 'html', 'txt" value=""><br>
+        <input type="text" id="separador" class="inpt_str" placeholder="Separador. Ej.: <h2>,<h4> " value=""><br>
+        <input type="text" id="arr_names" class="inpt_str" placeholder="Array de nombres como CADENA de TEXTO separados por coma ','" value=""><br>
+        <input type="file" id="fileInput" accept=""><br>
+        <button onclick="cutAndSave()">Cortar y Guardar</button>
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <h1>Ejemplo como cortar abajo:</h1>
+        <img src="./cortar_y_guardar_img.png" width="100%">
+    </div>
+
+<script>
+
+function cutAndSave() {
+    
+    const eid_nombre = document.getElementById('nombre');//nombre de cada fichero para guardar
+    const eid_arr_names = document.getElementById('arr_names');//array de nombre de cada fichero para guardar como una STRING separado por ','
+    const eid_extencion = document.getElementById('extencion');
+    const eid_separador = document.getElementById('separador');
+    const fileInput = document.getElementById('fileInput');
+
+    // Verificar si se seleccionó un archivo
+    if(fileInput.files.length === 0) {
+        alert('Por favor, selecciona un archivo.');
+        return;
+    }
+    let nombre = (eid_nombre.value !== '') ? eid_nombre.value : 'archivo' ;
+    let arr_names = (eid_arr_names.value !== '') ? eid_arr_names.value.split(',') : [] ;
+    let extencion = (eid_extencion.value !== '') ? eid_extencion.value : 'txt' ;
+    let separador = (eid_separador.value !== '') ? eid_separador.value : '<h2>' ;
+
+    arr_names = arr_names.filter(el => el);
+    //console.log('arr_names: ',arr_names);
+
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+        const contents = event.target.result;
+        //const lines = contents.split('\n'); // Dividir el contenido del archivo por líneas
+        let lines = contents.split(separador); // Dividir el contenido del archivo por separador
+        //console.log('lines: ',lines);
+        
+        lines = lines.filter(element => element !== ''); // quito el primer elemento vacio
+        //console.log('filtered lines: ',lines);
+
+        // Iterar sobre las líneas del archivo y guardar cada una como un archivo nuevo
+        lines.forEach((line, index) => {
+            
+            let book_name = lines[0].split('</h2>')[0].replace('<h2>','');
+            
+                let nombre_a_proponer;
+            if(arr_names.length > 0  && typeof arr_names[index] != 'undefined'){
+                nombre_a_proponer = `${arr_names[index]}`;
+            }else{
+                nombre_a_proponer = `${nombre}${index}.${extencion}`;
+            }
+
+            // Preguntar al usuario el nombre para cada archivo
+            const fileName = prompt(`book_name: ${book_name} \nIngrese un nombre para el archivo ${index}:`, `${nombre_a_proponer}`);
+            if (fileName) {
+                const blob = new Blob([line], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', fileName);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    };
+
+    // Leer el archivo como texto
+    reader.readAsText(file);
+}
+
+
+
+//como usar:
+//1. copiar y pegar en la consola bibleqt.json de la traduccion deseada
+//2. lanzar esta funcion
+//3. copiar una string desde la consola y meterla en el campo 'Array de nombres...'
+function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65){
+    let arr_books = obj_bibleqt.Books;//copiar y pegar en la consola bibleqt.json y lanzar esta funcion
+    
+    end_index_book = (end_index_book > arr_books.length) ? (arr_books.length - 1) : end_index_book ;
+    let arr_new = [];
+    
+    for (let index = start_index_book; index <= end_index_book; index++) {
+        const el = arr_books[index];
+        //console.log('el: ',el);
+        arr_new.push(el.PathName);
+        
+    }
+    return arr_new.join(',');
+}
+
+</script>
+</body>
+
+</html>

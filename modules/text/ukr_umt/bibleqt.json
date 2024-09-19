@@ -22,6 +22,7 @@
     "StartTitleSign": "",
     "EndTitleSign": "",
     "Translation": "ukr_umt",
+    "Commentaries": "N",
     "Lang": "ua",
     "HTMLFilter": "Y",
     "Books":
@@ -404,8 +405,8 @@
                 "PathName": "15.htm",
                 "FullName": "Езри",
                 "ShortNames": [
-                    "Езр",
                     "Езр.",
+                    "Езр",
                     "Езд.",
                     "Езд",
                     "Ездр.",
@@ -425,7 +426,7 @@
                 "FullName": "Книга Неемії",
                 "ShortNames": [
                     "Неем.",
-                    "Неем.",
+                    "Неем",
                     "Неемія",
                     "Нм.",
                     "Нм",

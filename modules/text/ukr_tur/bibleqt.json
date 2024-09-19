@@ -1,6 +1,6 @@
 {
     "type": "settings",
-    "BibleName": "(UA) Біблія у перекладі з давньогрецької о. Р. Турконяка = UBT",
+    "BibleName": "(UA) Біблія у перекладі з давньогрецької о. Р. Турконяка = UBT (MyBible: TUB)",
     "BibleShortName": "Ukr_Tur",
     "Bible": "Y",
     "OldTestament": "Y",
@@ -22,6 +22,7 @@
     "StartTitleSign": "",
     "EndTitleSign": "",
     "Translation": "ukr_tur",
+    "Commentaries": "N",
     "Lang": "ua",
     "HTMLFilter": "Y",
     "Books":
@@ -900,7 +901,7 @@
             {
                 "BookNumber": 36,
                 "PathName": "44.htm",
-                "FullName": "Анґей",
+                "FullName": "Аґей",
                 "ShortNames": [
                     "Ог.",
                     "Ог",

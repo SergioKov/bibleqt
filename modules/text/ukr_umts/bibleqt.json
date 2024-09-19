@@ -1,6 +1,6 @@
 {
     "type": "settings",
-    "BibleName": "(UA) UMT Свята Біблія: Сучасною мовою (+ коментарі) СИНХРОНІЗОВАНА З АНГЛІЙСКО НУМЕРАЦІЄЮ ВІРШІВ",
+    "BibleName": "(UA) UMT Свята Біблія: Сучасною мовою (+ коментарі) СИНХРОНІЗОВАНА З АНГЛІЙСЬКОЮ НУМЕРАЦІЄЮ ВІРШІВ. Смисловий переклад, зроблений з англійського перекладу. Даллас (США). (MyBible: ERV-uk, УСП'19)",
     "BibleShortName": "Ukr_UMTs*",
     "Bible": "Y",
     "OldTestament": "Y",
@@ -22,6 +22,7 @@
     "StartTitleSign": "",
     "EndTitleSign": "",
     "Translation": "ukr_umts",
+    "Commentaries": "N",
     "Lang": "ua",
     "HTMLFilter": "Y",
     "Books":
@@ -404,8 +405,8 @@
                 "PathName": "15.htm",
                 "FullName": "Езри",
                 "ShortNames": [
-                    "Езр",
                     "Езр.",
+                    "Езр",
                     "Езд.",
                     "Езд",
                     "Ездр.",
@@ -425,7 +426,7 @@
                 "FullName": "Книга Неемії",
                 "ShortNames": [
                     "Неем.",
-                    "Неем.",
+                    "Неем",
                     "Неемія",
                     "Нм.",
                     "Нм",
