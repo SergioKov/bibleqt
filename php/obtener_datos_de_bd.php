@@ -85,7 +85,7 @@ if (in_array($_SERVER['REQUEST_METHOD'], $arr_metodos)){
         
         //para que los datos sean iguales como en POST
         $datos['tabla'] = $tabla;
-        $datos['$campo'] = $$campo;
+        $datos['campo'] = $campo;
     }
 }
 
