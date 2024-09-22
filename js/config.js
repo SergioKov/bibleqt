@@ -85,8 +85,12 @@ const eid_hist_strong = document.getElementById('hist_strong');
 
 const eid_wr_find_head = document.getElementById('wr_find_head');
 const eid_find_head = document.getElementById('find_head'); 
-const eid_find_result = document.getElementById('find_result'); 
+const eid_find_result = document.getElementById('find_result');
+
 const eid_find_body = document.getElementById('find_body');
+const eid_wr_find_tabs = document.getElementById('wr_find_tabs');
+const eid_partFindTabs = document.getElementById('partFindTabs');
+const eid_wr_find_res_blocks = document.getElementById('wr_find_res_blocks');
 
 const eid_gde = document.getElementById('gde');//select donde buscar
 const eid_limit = document.getElementById('limit');//cuantos resultados de búsqueda mostrar en una página

@@ -290,8 +290,7 @@ HERE;
                                 Stop
                                 <!--<img class="btn_img" src="./images/stop4.png">--><!--Stop-->
                             </button>
-                        </div>                        
-
+                        </div><!--/wr_nav-->
                         <div id="find_head">
                             
                             <div id="wr_hist_find" style="display:none;">
@@ -514,8 +513,27 @@ HERE;
                         <div id="find_result"></div>
                     </div><!--/wr_find_head-->
                     <div id="find_body">
-                        <span class="prim_tsk" data-dic="d138">Introduce el texto para buscar y si quieres aplica los parámetros del filtro.</span>
-                    </div>
+                        <div id="wr_find_tabs">                            
+                            <div id="partFindTabs">
+                                <div id="find_tab0" class="find_tabs find_tab_active" onclick="changeFindTab(this,this.id)">
+                                    <span class="find_tab_trans_name">1</span>
+                                    <span class="find_tab_frase">...</span> 
+                                    <span class="find_tab_estrella d-none">*</span> 
+                                    <button class="btn btn_sm" onclick="closeFindTab(this, event)">✕</button>
+                                </div>
+                            </div><!--/partFindTabs-->
+                            <div id="partFindPlus">
+                                <button id="btnPlus_frb" class="btn" onclick="addFindTab('act','tab_new')"> + </button>
+                            </div>                                
+                        </div><!--/wr_find_tabs-->                        
+                        <div id="wr_find_res_blocks">
+                            <div id="find_res_block0" class="find_res_blocks find_res_block_active">
+                                <span class="prim_tsk" data-dic="d138">
+                                    Introduce el texto para buscar y si quieres aplica los parámetros del filtro.
+                                </span>                                
+                            </div>                        
+                        </div><!--/wr_find_res_blocks-->
+                    </div><!--/find_body-->
                 </div><!--/vklad_find-->
 
                 <div id="vklad_tsk" class="vklads" style="display: none;">

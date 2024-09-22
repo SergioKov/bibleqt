@@ -575,6 +575,7 @@ p a:hover:not(.a_sn) {
 }
 
 
+/* VERTICAL START */
 /* width */
 #sidebarInner::-webkit-scrollbar {
     width: 5px;
@@ -603,7 +604,8 @@ p a:hover:not(.a_sn) {
 #tsk_head::-webkit-scrollbar, 
 #tsk_body::-webkit-scrollbar, 
 #find_head::-webkit-scrollbar, 
-#find_body::-webkit-scrollbar, 
+    /* #find_body::-webkit-scrollbar,  */
+    .find_res_block_active::-webkit-scrollbar, 
 #strong_head::-webkit-scrollbar, 
 #strong_body::-webkit-scrollbar, 
 .wr_bcv_uls::-webkit-scrollbar, 
@@ -623,7 +625,8 @@ p a:hover:not(.a_sn) {
 #tsk_head::-webkit-scrollbar-thumb,
 #tsk_body::-webkit-scrollbar-thumb,
 #find_head::-webkit-scrollbar-thumb,
-#find_body::-webkit-scrollbar-thumb,
+    /* #find_body::-webkit-scrollbar-thumb, */
+    .find_res_block_active::-webkit-scrollbar-thumb,
 #strong_head::-webkit-scrollbar-thumb,
 #strong_body::-webkit-scrollbar-thumb,
 .wr_bcv_uls::-webkit-scrollbar-thumb,
@@ -635,16 +638,20 @@ p a:hover:not(.a_sn) {
   
 /* Handle on hover */
 #tsk_body::-webkit-scrollbar-thumb:hover,
-#find_body::-webkit-scrollbar-thumb:hover,
+    /* #find_body::-webkit-scrollbar-thumb:hover, */
+    .find_res_block_active::-webkit-scrollbar-thumb:hover,
 #strong_body::-webkit-scrollbar-thumb:hover,
 .wr_bcv_uls::-webkit-scrollbar-thumb:hover,
 .colsInner::-webkit-scrollbar-thumb:hover 
 {
     background: #d80586; 
 }
+/* VERTICAL END */
 
 
+/* HORIZONTAL START */
 /* height */
+#partFindTabs::-webkit-scrollbar, 
 #partDeskTabs::-webkit-scrollbar, 
 #headerContainerInner::-webkit-scrollbar, 
 .wr_btns_scr::-webkit-scrollbar, 
@@ -664,6 +671,7 @@ p a:hover:not(.a_sn) {
 }
    
 /* Handle */
+#partFindTabs::-webkit-scrollbar-thumb, 
 #partDeskTabs::-webkit-scrollbar-thumb, 
 #headerContainerInner::-webkit-scrollbar-thumb, 
 .wr_btns_scr::-webkit-scrollbar-thumb, 
@@ -675,6 +683,7 @@ p a:hover:not(.a_sn) {
 }
   
 /* Handle on hover */
+#partFindTabs::-webkit-scrollbar-thumb:hover, 
 #partDeskTabs::-webkit-scrollbar-thumb:hover, 
 #headerContainerInner::-webkit-scrollbar-thumb:hover, 
 .wr_btns_scr::-webkit-scrollbar-thumb:hover, 
@@ -683,6 +692,9 @@ p a:hover:not(.a_sn) {
 {
     background: #0533d8; 
 }
+/* HORIZONTAL END */
+
+
 
 .active {
     background: yellow;
@@ -759,8 +771,11 @@ p a:hover:not(.a_sn) {
     color:grey;
     cursor: pointer;
 }
+.tooltiptext .text span.f_r {
+    margin-left: 5px;
+}
 /* .colsInner .tooltip */
-.tooltip:not(#find_head .tooltip) {
+.tooltip:not(#find_head .tooltip):not(.find_tab_estrella .tooltip) {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -1315,6 +1330,9 @@ span.h4_ch {
     padding: 5px;
     min-height: 200px;
     overflow-y: auto;
+}
+#find_body{
+    /* padding-right: 0; */
 }
 #markers_body{
     background: #373737;
@@ -4095,6 +4113,107 @@ input:checked + .slider:before {
     align-items: flex-start;
     width: 100%;
 }
+
+
+
+
+#wr_find_tabs {
+    display: flex;
+    gap: 1px;
+    width: auto;
+    justify-content: flex-start;
+    white-space: nowrap;
+}
+
+#partFindTabs {
+    /* background: pink; */
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    gap: 1px;
+}
+
+#partFindPlus {
+    /* background: green; */
+    display: flex;
+    margin-left: 3px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#btnPlus_frb {
+    background: transparent;
+    font-size: 20px;
+    opacity: 0.5;
+    height: 24px;
+    width: 24px;
+    min-width: 24px!important;
+    position: relative;
+    top: 0px;
+    border: none;
+}
+
+#btnPlus_frb:hover {
+    background: #5eb4f9;
+    color: white;
+    opacity: 1;
+}
+
+
+.find_tabs {
+    background: #adadad;
+    padding: 5px 7px;
+    border-radius: 10px 10px 0 0;
+    /* color: grey; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    cursor: pointer;
+}
+.find_tab_active {
+    background: white;
+    color: #f10707;
+}
+.find_tab_trans_name {
+    background: black;
+    padding: 3px 4px;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 12px;
+    display: inline-block;
+    color: white;
+}
+.find_tabs .btn{
+    color: #000000;
+}
+.find_tabs .btn_sm{
+    padding: 0;
+}
+
+.find_tabs button:hover {
+    background: red;
+    color: white;
+}
+
+
+
+#wr_find_res_blocks {
+    /* background: #009688; */
+    padding-top: 5px;
+}
+.find_res_blocks {
+    /* background: #FF9800; */
+}
+.find_res_block_active{
+    /* background: darkred; */
+    min-height: 200px;
+    overflow-y: auto;
+}
+
+
 
 
 

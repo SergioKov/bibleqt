@@ -1941,3 +1941,224 @@ function reemplazarValores(frase, valores) {
 function showHelp(text){
     openModal('center','Help',text,'showAviso');
 }
+
+
+
+
+
+
+
+function changeFindTab(ev,this_id){
+    //console.log(ev);
+        
+    const this_find_tab = document.getElementById(this_id);
+    let i_tab = this_id.slice(8);//'find_tab1' quito 6 posiciones => '1'    
+    let findTabsAll = document.querySelectorAll('.find_tabs');
+    
+    findTabsAll.forEach(el=>{
+        el.classList.remove('find_tab_active');
+    });
+    if(this_find_tab != null) this_find_tab.classList.add('find_tab_active');
+    
+    scrollToFindTabActive();
+    
+    let findResBlocksAll = document.querySelectorAll('.find_res_blocks');
+    findResBlocksAll.forEach(el=>{
+        let i_res_block = el.id.slice(14);//'find_res_block1' quito 14 posiciones => '1'
+        if(i_tab == i_res_block){
+            el.style.display = 'block';
+            el.classList.add('find_res_block_active');
+        }else{
+            el.style.display = 'none';
+            el.classList.remove('find_res_block_active');
+        }
+    });
+}
+
+function scrollToFindTabActive(){
+    //console.log('=== function scrollToVkladkaActive() ===');
+    //hago scroll a vkladka activa
+    if(document.querySelector('.find_tab_active') != null){
+        document.querySelector('.find_tab_active').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+        });
+    }    
+}
+
+function closeFindTab(button, event){       
+    //console.log('=== function closeFindTab(button, event) ===');
+    //console.log('Botón clicado:', button);
+
+    if(event != null) event.stopPropagation();//Evita que el evento se propague al 'div'
+
+    //permito eliminar una tab si hay mas que 1
+    //siempre tiene que estar al menos una tab
+    let find_tabsAll = document.querySelectorAll('.find_tabs');
+    let find_res_blocksAll = document.querySelectorAll('.find_res_blocks');
+
+    if(find_tabsAll.length > 1){
+        
+        //busco index de el tab active en arrTabs
+        let index_active = Array.from(find_tabsAll).indexOf(Array.from(find_tabsAll).find(v => v.className === 'find_tabs find_tab_active'));
+        let index_active_new = 0;//por defecto
+        //console.log('index_active: ',index_active);
+
+        if(index_active > 0){
+            index_active_new = index_active - 1;//prev
+        }else{//index_active = 0
+            index_active_new = index_active + 1;//next
+        }
+
+        if(button.parentElement.classList.contains('find_tab_active')){            
+            let id_new = find_tabsAll[index_active_new].id;
+            //console.log('id_new: ',id_new);
+            let eid_findTabActive_new = document.getElementById(id_new);
+            eid_findTabActive_new.classList.add('find_tab_active');
+            //console.log('eid_findTabActive_new: ',eid_findTabActive_new);
+
+            let id_block_new = find_res_blocksAll[index_active_new].id;
+            //console.log('id_block_new: ',id_block_new);
+            let eid_findResBlockActive_new = document.getElementById(id_block_new);
+            eid_findResBlockActive_new.classList.add('find_res_block_active');
+            eid_findResBlockActive_new.style.display = 'block';            
+            //console.log('eid_findResBlockActive_new: ',eid_findResBlockActive_new);
+        }
+
+        button.parentElement.remove();
+        let index_del = Number(button.parentElement.id.slice(8));
+        const find_res_block_del = document.getElementById(`find_res_block${index_del}`);
+        //console.log('find_res_block_del: ',find_res_block_del);
+        find_res_block_del.remove();
+        mySizeFind();        
+    }else{
+        let aviso_text = `No se puede eliminar la única pestaña.`;
+        openModal('center','Aviso Pestañas',aviso_text,'showAviso');
+    }
+}
+
+function addFindTab(act = null, tab_new = null){
+    //console.log('=== function addTab() ===');
+    
+    let find_tabsAll = document.querySelectorAll('.find_tabs');
+    let countTabs = find_tabsAll.length;
+    //console.log(countTabs);
+    let maxTabs = 10;
+
+    let arr_n = [];
+    find_tabsAll.forEach(el => {
+        let n = parseInt(el.id.slice(8));//find_tab10 => 10
+        arr_n.push(n); 
+    });
+    //console.log(arr_n);
+
+    let next_n = 0;//por defecto
+    for(let i = 0; i <= maxTabs; i++){
+        if(!arr_n.includes(i)){
+            next_n = i;
+            break;
+        }
+    }
+
+    if(countTabs < maxTabs){
+        const htmlFindTab = document.createElement("div");
+        htmlFindTab.id = 'find_tab' + next_n;//id="find_tab0"
+        htmlFindTab.className = 'find_tabs';
+        htmlFindTab.onclick = (event) =>{
+            //console.log('1. event: ', event);
+            changeFindTab(event, event.currentTarget.id);
+        };
+        if(act != null) htmlFindTab.classList.add('find_tab_active');
+        
+        if(tab_new == 'tab_new'){
+            let find_tabsAll = document.querySelectorAll('.find_tabs');
+            find_tabsAll.forEach(el=>{
+                el.classList.remove('find_tab_active');
+            });
+            htmlFindTab.classList.add('find_tab_active');
+        }
+
+        //a todos los find_tabs añado botón close x
+        btn_close = document.createElement('button');
+        btn_close.className = 'btn btn_sm';
+        btn_close.dataset.fn = 'closeFindTab(this,event)';
+        btn_close.onclick = (event) => {
+            //console.log(event);
+            closeFindTab(event.currentTarget,event);
+        }
+        btn_close.innerHTML = '&#10005;';//<!--X-->
+
+        //ejemplo htmlFindTab
+        //`<div id="find_tab0" class="find_tabs find_tab_active" onclick="changeFindTab(this,this.id)">
+        //    <span class="find_tab_trans_name">...</span>
+        //    <span class="find_tab_frase">0...</span> 
+        //    <span class="find_tab_estrella d-none">*</span> 
+        //    <button class="btn btn_sm" onclick="closeFindTab(this, event)">✕</button>
+        //</div>
+        //`;
+
+        const find_tab_trans_name = document.createElement('span');
+        find_tab_trans_name.className = 'find_tab_trans_name';
+        find_tab_trans_name.innerText = next_n + 1;
+
+        const find_tab_frase = document.createElement('span');
+        find_tab_frase.className = 'find_tab_frase';
+        find_tab_frase.innerText = '...';
+
+        const find_tab_estrella = document.createElement('span');
+        find_tab_estrella.className = 'find_tab_estrella d-none';
+        find_tab_estrella.innerText = '*';
+
+        htmlFindTab.appendChild(find_tab_trans_name);
+        htmlFindTab.appendChild(find_tab_frase);
+        htmlFindTab.appendChild(find_tab_estrella);
+        htmlFindTab.appendChild(btn_close);
+
+        eid_partFindTabs.appendChild(htmlFindTab);
+
+        //Ejemplo htmlFindResBlock
+        //<div id="find_res_block2" class="find_res_blocks" style="display:none;">
+        //    2...
+        //</div>
+
+        const htmlFindResBlock = document.createElement("div");
+        htmlFindResBlock.id = 'find_res_block' + next_n;//id="find_res_block10"
+        htmlFindResBlock.className = 'find_res_blocks';
+        htmlFindResBlock.style.display = 'block';
+        htmlFindResBlock.innerHTML = `
+            <span class="prim_tsk" data-dic="d138">
+            ${next_n + 1}) Aquí se mostrará el resultado de la búsqueda de la pestaña <b>${next_n + 1}</b>.
+            </span>
+        `;
+        
+        eid_wr_find_res_blocks.appendChild(htmlFindResBlock);
+
+        if(tab_new == 'tab_new'){
+            let find_res_blocksAll = document.querySelectorAll('.find_res_blocks');
+            find_res_blocksAll.forEach(el=>{
+                el.classList.remove('find_res_block_active');
+                el.style.display = 'none';
+            });
+            htmlFindResBlock.classList.add('find_res_block_active');
+            htmlFindResBlock.style.display = 'block';
+        }
+
+
+        let find_tabsAll = document.querySelectorAll('.find_tabs');
+        // Itera a través de los hijos y verifica si alguno tiene la clase 'active'
+        for(let i = 0; i < find_tabsAll.length; i++) {
+            if (find_tabsAll[i].classList.contains('find_tab_active')) {
+                scrollToFindTabActive();
+                break; // Si se encuentra un hijo con la clase 'active', puedes salir del bucle
+                //console.log('tiene active');
+            }
+        }
+
+        mySizeFind(); 
+
+    }else{
+        let aviso_text = `No se puede añadir más que <b>${maxTabs}</b> pestañas.`;
+        openModal('center','Aviso Pestañas',aviso_text,'showAviso');
+    }
+}

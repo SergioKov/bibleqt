@@ -11698,8 +11698,9 @@ function mySizeNav(){
 }
 
 function mySizeFind(){
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+    
     let padding_find_body = 10;//antes 10// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
@@ -11707,6 +11708,7 @@ function mySizeFind(){
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
     let menuTabs_h = eid_menuTabs.offsetHeight;
     let wr_find_head_h = eid_wr_find_head.offsetHeight;
+    let wr_find_tabs_h = eid_wr_find_tabs.offsetHeight;
 
     let find_body_h = 
       sidebar_h
@@ -11717,7 +11719,15 @@ function mySizeFind(){
     ;
     eid_sidebarInner.style.height = sidebarInner_h + 'px';
     eid_find_body.style.height = find_body_h + 'px';
-    //console.log('find_body_h: '+find_body_h);
+    //console.log('find_body_h: ',find_body_h);
+
+    let find_res_block_active_h = 
+      find_body_h
+    - wr_find_tabs_h
+    - 5
+    ;
+    ecl_find_res_block_active.style.height = find_res_block_active_h + 'px';
+    //console.log('find_res_block_active_h: ',find_res_block_active_h);
 }
 
 
@@ -13047,6 +13057,7 @@ function closeTab(el, ev = null){
         //busco index de el tab active en arrTabs
         let index_active = arrTabs.indexOf(arrTabs.find(v => v.className === 'tabs tab_active'));
         let index_active_new = 0;//por defecto
+        
         if(index_active > 0){
             index_active_new = index_active - 1;//prev
         }else{//index_active = 0
@@ -17029,6 +17040,8 @@ function getGuardWordsFind(){
 
 function findWords(words_input){
     //console.log('function findWords(). words_input: '+words_input);
+
+    const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
     eid_btn_ok_find.classList.remove('d-block');
     eid_btn_ok_find.classList.add('d-none');
 
@@ -17133,7 +17146,9 @@ function findWords(words_input){
 
 
     eid_find_result.innerHTML = '';//reset
-    eid_find_body.innerHTML = '';//reset
+    //eid_find_body.innerHTML = '';//reset
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+    ecl_find_res_block_active.innerHTML = '';//reset new
     window.res_show = '';//reset
      
     words_input = words_input.trim();
@@ -17204,7 +17219,30 @@ function findWords(words_input){
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
-        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
+        let tooltip_value = `
+            Количество стихов: <span class='f_r'>0</span> <br>
+            Количество совпадений: <span class='f_r'>0</span>
+        `;
+        let sp_tooltip = `
+            <span 
+                class="tooltip" 
+                data-tooltip="${tooltip_value}" 
+                onmouseenter="showTooltip(this)" 
+                mouseleave="hideTooltip(this)"
+            >*</span> 
+        `;
+        p_i.innerHTML = `
+            "<b class="f_r-ed">${words_input}</b>" <span>(.)</span>
+            ${sp_tooltip}
+            <span class="res_m f_r">[.]</span>
+        `;
+
+        ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = '...';
+        ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+        ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+        ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+        scrollToFindTabActive();
+
         eid_find_head.append(p_i);
     }
 
@@ -17239,7 +17277,8 @@ function findWords(words_input){
     d_loader.innerHTML = `<span class="loader__element"></span>
                           <span class="loader__element"></span>
                           <span class="loader__element"></span>`;
-    eid_find_body.append(d_loader);
+    //eid_find_body.append(d_loader);//antes
+    ecl_find_res_block_active.append(d_loader);
 
 
     let result_finded = [];
@@ -18203,8 +18242,31 @@ function findWords(words_input){
                                                 })
                                             }                    
                     
-                                            //inserto resultado de búsqueda                        
-                                            document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
+                                            //inserto resultado de búsqueda  
+                                            let tooltip_value = `
+                                                Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                                Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                            `;
+                                            let sp_tooltip = `
+                                                <span 
+                                                    class="tooltip" 
+                                                    data-tooltip="${tooltip_value}" 
+                                                    onmouseenter="showTooltip(this)" 
+                                                    mouseleave="hideTooltip(this)"
+                                                >*</span> 
+                                            `;
+                                            document.querySelector('.res_f').innerHTML = `
+                                                "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                                ${sp_tooltip}
+                                                <span class="res_m f_r">[${count_m_total}]</span>
+                                            `;
+                                            
+                                            ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                            ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                            scrollToFindTabActive();
+
                                             mySizeFind();//altura de eid_find_body
                     
                                             let arr_l = [];
@@ -19173,8 +19235,30 @@ function findWords(words_input){
                                 }                    
         
                                 //inserto resultado de búsqueda                        
-                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
+                                let tooltip_value = `
+                                    Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                    Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                `;
+                                let sp_tooltip = `
+                                    <span 
+                                        class="tooltip" 
+                                        data-tooltip="${tooltip_value}" 
+                                        onmouseenter="showTooltip(this)" 
+                                        mouseleave="hideTooltip(this)"
+                                    >*</span> 
+                                `;
+                                document.querySelector('.res_f').innerHTML = `
+                                    "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                    ${sp_tooltip}
+                                    <span class="res_m f_r">[${count_m_total}]</span>
+                                `;
+
+                                ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                scrollToFindTabActive();
+
                                 mySizeFind();//altura de eid_find_body
         
                                 let arr_l = [];
@@ -20152,8 +20236,30 @@ function findWords(words_input){
                                 }                    
         
                                 //inserto resultado de búsqueda                        
-                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
+                                let tooltip_value = `
+                                    Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                    Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                `;
+                                let sp_tooltip = `
+                                    <span 
+                                        class="tooltip" 
+                                        data-tooltip="${tooltip_value}" 
+                                        onmouseenter="showTooltip(this)" 
+                                        mouseleave="hideTooltip(this)"
+                                    >*</span> 
+                                `;
+                                document.querySelector('.res_f').innerHTML = `
+                                    "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                    ${sp_tooltip}
+                                    <span class="res_m f_r">[${count_m_total}]</span>
+                                `;
+
+                                ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                scrollToFindTabActive();
+
                                 mySizeFind();//altura de eid_find_body
         
                                 let arr_l = [];
@@ -20235,8 +20341,10 @@ function findWords(words_input){
 
 function mostrar_res_show(index){
     //console.log('=== function mostrar_res_show() ===');
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
 
-    eid_find_body.innerHTML = '';//reset
+    //eid_find_body.innerHTML = '';//reset antes
+    ecl_find_res_block_active.innerHTML = '';//reset new
     //console.log(' abajo window.res_show: ');
     //console.log(window.res_show);
 
@@ -20299,12 +20407,15 @@ function mostrar_res_show(index){
         }
 
         //добавляю стих в див 
-        eid_find_body.append(el);        
+        //eid_find_body.append(el);//antes        
+        ecl_find_res_block_active.append(el);        
     }
 
-    eid_find_body.append(p_footer); 
+    //eid_find_body.append(p_footer); //antes
+    ecl_find_res_block_active.append(p_footer); 
     document.querySelectorAll('.res_link')[index].classList.add('active');
-    eid_find_body.scrollTop = 0;
+    //eid_find_body.scrollTop = 0;//antes
+    ecl_find_res_block_active.scrollTop = 0;
 
     //cuando todo está añadido en eid_find_body, hago esto...
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
@@ -20357,29 +20468,55 @@ function show_sn_finded(){
 function mostrar_no_res(){
         //console.log('=== function mostrar_no_res() ===');
 
+        const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
+        const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+
         let count_words = eid_inpt_find.value.trim().split(' ').length;
         words_show = (count_words > 1) ? 'вводимую фразу' : 'вводимое слово' ;
 
         document.querySelector(".res_f b").innerHTML = `${eid_inpt_find.value.trim()}`;
         document.querySelector(".res_f span").innerHTML = '(0)';
-        document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0`);
+        document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: <span class='f_r'>0</span>`);
         document.querySelector(".res_f span.tooltip").setAttribute('onmouseenter',`showTooltip(this)`);
         document.querySelector(".res_f span.tooltip").setAttribute('onmouseleave',`hideTooltip(this)`);
         document.querySelector(".res_f span.tooltip").innerHTML = '*';
         document.querySelector(".res_m").innerHTML = '[0]';
 
-        eid_find_body.innerHTML = '';//reset
+        //eid_find_body.innerHTML = '';//reset
+        ecl_find_res_block_active.innerHTML = '';//reset new
+
         const p_footer = document.createElement('p');
         p_footer.className = 'wr_res_link';
 
         let trans_busqueda = document.querySelector('.trans_name').textContent;
     
         const p_f = document.createElement('p');
-        p_f.className = 'prim16 mr-5';
+        p_f.className = 'prim16';
         p_f.innerHTML = `<span class="trans_in_find">Поиск в переводе: <b>${trans_busqueda}</b> </span>`;
         p_f.innerHTML += `По запросу "<b class="f_red">${eid_inpt_find.value.trim()}</b>" ничего не найдено. Проверьте выбранный для поиска перевод Библии, ${words_show} или попробуйте изменить параметры.`;
+        
+        let tooltip_value = `
+            Количество стихов: <span class='f_r'>0</span> <br>
+            Количество совпадений: <span class='f_r'>0</span>
+        `;
+        let sp_tooltip = `
+            <span 
+                class="tooltip" 
+                data-tooltip="${tooltip_value}" 
+                onmouseenter="showTooltip(this)" 
+                mouseleave="hideTooltip(this)"
+            >*</span> 
+        `;
+
+        ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = trans_busqueda;
+        ecl_find_tab_active.querySelector('.find_tab_frase').textContent = eid_inpt_find.value.trim();
+        ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+        ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+        scrollToFindTabActive();        
+        
         //добавляю стих в див 
-        eid_find_body.append(p_f);    
+        //eid_find_body.append(p_f);//фтеуы   
+        ecl_find_res_block_active.append(p_f);    
 }
 
 
