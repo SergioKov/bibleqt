@@ -298,10 +298,28 @@ function ejemploSQLpreparada(){//compleja y no funciona. dejo aki como ejemplo y
 function writeLog($message, $level = 'INFO') {
     //return;//test
     
+    // Definir la ruta al archivo
+    $log_directory = '../logs';
+    
     if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
-        $logFile = '../logs/app_prod.log';  // Define la ruta del archivo de log en Hostalia
+        $logFile = $log_directory . '/app_prod.log';  // Define la ruta del archivo de log en Hostalia
     }else{//LOCALHOST
-        $logFile = '../logs/app_local.log';  // Define la ruta del archivo de log en Localhost
+        $logFile = $log_directory . '/app_local.log';  // Define la ruta del archivo de log en Localhost
+    }
+
+
+    // Verificar si el directorio 'logs' existe, si no, crearlo
+    if (!is_dir($log_directory)) {
+        mkdir($log_directory, 0777, true); // Crear el directorio con permisos 0777
+    }
+
+    // Verificar si el archivo existe
+    if (!file_exists($logFile)) {
+        // Crear el archivo si no existe
+        file_put_contents($logFile, "Archivo de log creado el " . date('Y-m-d H:i:s') . "\n");
+        //echo "Archivo creado: " . $logFile;
+    } else {
+        //echo "El archivo ya existe: " . $logFile;
     }
 
     // Obtiene el archivo desde donde se llamó a la función usando debug_backtrace()
