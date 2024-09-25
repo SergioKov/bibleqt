@@ -215,7 +215,7 @@ body{
 .tabs {
     display: inline-block;
     padding: 5px;
-    border-radius: 3px 3px 0 0;
+    border-radius: 10px 10px 0 0;
     background: #03a9f4;
     margin: 0 3px 0 0;
     cursor: pointer;
