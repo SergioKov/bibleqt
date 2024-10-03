@@ -3,11 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hola</title>
+    <title>BQ - Slideshow</title>
+    <link rel="icon" type="image/png" href="./images/slideshow3.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <!-- <link id="estilos_base" rel="stylesheet" href="./css/style.css"> -->
+<style>
+
+body {
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    background: linear-gradient(to bottom right, white 0%, #9dd3fd 10%, #1875bf 45%, #012643 100%);
+    color: white;
+    height: 100%;
+    font-family: 'Roboto Slab',Arial,Tahoma, 'sans serif';
+    /* width: 100%; */
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transition: background-image 1s ease-in-out;
+    height: 100vh;
+}
+
+.wr_block {
+    border: 1px solid #054476;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    display: block;
+    border-radius: 5px;
+    background: #0c528a;
+}
+
+.wr_links {
+    border: 1px solid #2196F3;
+    background: #03A9F4;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 5px;
+    gap: 20px;
+}
+h1{
+    text-align: center;
+}
+button {
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #054476;
+    background: #0c528a;
+    color: white;
+    font-size: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+button:hover {
+    border: 1px solid #256090;
+    background: #1e73b7;
+    transform: scale(1.1);
+    box-shadow: 0 0 6px 3px white;
+}
+button img {
+    width: 40px;
+    height: 40px;
+}
+
+@media screen and (max-width: 767px) {
+    .wr_links{
+        flex-direction: column;
+    }
+
+}
+
+</style>
 </head>
 <body>
-    <h1>Seleccion el link</h1>
-    <a href="slide_nav.php">Speeker</a>
-    <a href="slide_show.php">Pantalla</a>
+    
+    <div class="wr_block">
+
+        <h1>Selecciona el modo de ver diapositivas</h1>
+        
+        <div class="wr_links">
+            <button onclick="window.open('slide_nav.php','_new')">
+                <img src="/slideshow/images/microfono_1_white.png">
+                <span>Modo Speeker</span>
+            </button>
+            
+            <button onclick="window.open('slide_show.php','_new2')">
+                <img src="/slideshow/images/monitor_1_white.png">
+                <span>Modo Pantalla</span>
+            </button>
+        </div>
+            
+    </div>
 </body>
 </html>

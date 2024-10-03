@@ -2,7 +2,7 @@
 const arr_temas = [
     {
         "id_tema": 1,
-        "titulo": "Horarios Eurekar"
+        "titulo": "Default - Fondo Opera"
     },
     {
         "id_tema": 2,

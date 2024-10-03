@@ -48,7 +48,6 @@ HERE;
                 <div id="bl_headerBtns">
                     
                     <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1_t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
-                        <!--<div>Hide</div>-->
                         <img src="images/sidebar_show_white.svg">
                     </div>
                     <div id="btn_hideShowFooter" class="dbtn" data-dic="d2_t" title="Hide or Show footer" onclick="hideShowFooter()">
