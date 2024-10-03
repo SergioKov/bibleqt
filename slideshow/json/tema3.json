@@ -1,0 +1,34 @@
+{
+    "id_tema": "3",
+    "titulo": "Tema3",
+    "slides": [
+        {
+            "slide_number": "1",
+            "bg": "fondo_opera.jpg"
+        },
+        {
+            "slide_number": "2",
+            "bg": "Diapositiva2.jpg"
+        },
+        {
+            "slide_number": "3",
+            "bg": "Diapositiva3.jpg"
+        },
+        {
+            "slide_number": "4",
+            "bg": "Diapositiva4.jpg"
+        },
+        {
+            "slide_number": "5",
+            "bg": "Diapositiva5.jpg"
+        },
+        {
+            "slide_number": "6",
+            "bg": "Diapositiva6.jpg"
+        },
+        {
+            "slide_number": "7",
+            "bg": "Diapositiva7.jpg"
+        }
+    ]
+}
