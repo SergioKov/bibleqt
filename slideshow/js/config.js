@@ -2,7 +2,7 @@
 const arr_temas = [
     {
         "id_tema": 1,
-        "titulo": "Default - Fondo Opera"
+        "titulo": "Default - Fondo Opera - 1"
     },
     {
         "id_tema": 2,
