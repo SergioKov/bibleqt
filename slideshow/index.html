@@ -52,7 +52,7 @@ button {
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #054476;
-    background: #0c528a;
+    /* background: #0c528a; */
     color: white;
     font-size: 20px;
     transition: 0.3s;
@@ -61,12 +61,19 @@ button {
     justify-content: space-around;
     align-items: center;
     gap: 20px;
+    font-family: 'Roboto Slab',Arial,Tahoma, 'sans serif';
+    background: linear-gradient(to bottom, #5580a2 0%, #054476 30%, #054476 50%, #054476 70%, #5580a2 100%);
+    transition: transform 0.3s ease-in-out; /* Transición suave del efecto de pulsación */
 }
 button:hover {
     border: 1px solid #256090;
     background: #1e73b7;
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0 0 6px 3px white;
+    background: linear-gradient(to bottom, #6d9bc0 0%, #0e5b98 30%, #025597 50%, #0e5b98 70%, #6d9bc0 100%);
+}
+button:active {
+  transform: scale(0.9); /* Reduce ligeramente el tamaño del botón cuando se hace clic */
 }
 button img {
     width: 40px;
