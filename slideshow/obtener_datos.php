@@ -110,6 +110,8 @@ $sql_init = "SELECT slide_actual, id_tema, is_fon_shown
 //$sql_preparada = prepararQuery($conn, $sql_prep, $arr_params);
 $result = $conn->query($sql_init);
 //echo_json_x($sql_init, 'sql');
+//debug_x($sql_init, 'sql');
+
 
 if($result->num_rows > 0){   
     $row = $result->fetch_assoc();

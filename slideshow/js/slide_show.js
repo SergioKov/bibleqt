@@ -54,10 +54,20 @@ async function obtenerDatosDeBD(tabla, campo){
             throw new Error('Error al obtener datos');
         }
 
-        const data = await response.json();
-        //const data = await response.text();//test
+        let modo_response = 'json';//text,json
+        //console.log(modo_response);
+
+        let data;//luego le asigno valor
+        
+        //para test poner 'modo_response = 'text' en debuguer'
+        if(modo_response == 'text'){
+            data = await response.text();//test
+        }else{
+            data = await response.json();
+        }
+
         //console.log(`Datos de la tabla ${tabla} y campo ${campo}: `);
-        //console.log('data de bd: ',data); 
+        console.log('data de bd: ',data); 
                 
         if(data.success){
             //console.log('success is true');
