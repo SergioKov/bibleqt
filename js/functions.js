@@ -1973,6 +1973,8 @@ function changeFindTab(ev,this_id){
             el.classList.remove('find_res_block_active');
         }
     });
+
+    mySizeFind();//altura de eid_find_body
 }
 
 function scrollToFindTabActive(){

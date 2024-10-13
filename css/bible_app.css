@@ -1328,7 +1328,7 @@ span.h4_ch {
 {
     background: #373737;
     padding: 5px;
-    min-height: 200px;
+    min-height: 100px;
     overflow-y: auto;
 }
 #find_body{
@@ -4209,7 +4209,7 @@ input:checked + .slider:before {
 }
 .find_res_block_active{
     /* background: darkred; */
-    min-height: 200px;
+    min-height: 100px;
     overflow-y: auto;
 }
 
