@@ -400,12 +400,12 @@ async function iniciarSesion(){//antes login() //username,password
                 //loadDefaultFunctions();//no trae todos los datos, hay que reload!
                 setTimeout(()=>{
                     closeModal('Login');
-                },3000);
+                },10);
                 setTimeout(()=>{
                     //localStorage.setItem('is_reloaded_from_login', true);
                     //window.location.reload(); // Recargar la página
                     window.location.href = "?auth_ok";
-                },3500);                
+                },510);                
 
             } else {
                 
