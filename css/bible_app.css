@@ -226,8 +226,23 @@ body{
     background: #44c0f9;
 }
 .tab_active{
-    background: red;
+    /* background: red; */
+    background: white;
 }
+.tab_ref {
+    color: white;
+    /* min-width: 120px; */
+    /* background: #dddddd; */
+}
+.tab_active .tab_ref {
+    color: #ff1100;
+    font-weight: bold;
+}
+.tab_active .btn_sm {
+    background: white;
+    color: grey;
+}
+
 .tabs span {
     margin-top: 3px;
     display: inline-block;
@@ -261,6 +276,7 @@ body{
 }
 .tab_active button:hover{
     background: brown;
+    color: white;
 }
 
 #header,
