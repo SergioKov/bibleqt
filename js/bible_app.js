@@ -11557,7 +11557,7 @@ async function viaByText_showChapterText4(Translation, divId, book, chapter, ver
 
 
 
-function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
+async function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     //console.log('=== viaByJson_showChapterText4 === ');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -11610,52 +11610,53 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         //if(parseInt(book) < bq.BookQty){//0-65 < 66 //antes
         if(typeof bq.Books[book] != 'undefined'){//0-65 < 66    
             
-            //url del libro necesario
-            url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
-
-            if(url.includes('no_disponible.htm')){
-                //console.log('url includes no_disponible.htm');
-                //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
-                //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+            try {
                 
-                window.iter_i++;
-                if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
-                    //console.log('iter_i: '+iter_i);
-                    showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                }
+                //url del libro necesario
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
 
-                arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                //console.log('7588. arrDataDivShow: ',arrDataDivShow);
+                if(url.includes('no_disponible.htm')){
+                    //console.log('url includes no_disponible.htm');
+                    //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                    //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                    
+                    window.iter_i++;
+                    if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                        //console.log('iter_i: '+iter_i);
+                        showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    }
 
-                //si es ultimo elemento del array...
-                if(countElementsInArray(arrDataDivShow) == arr_trans.length){
-                    //console.log('--- llamo buildDivShow() ---');
-                    buildDivShow(arrDataDivShow, indexColToBuild);
+                    arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                    //console.log('7588. arrDataDivShow: ',arrDataDivShow);
+
+                    //si es ultimo elemento del array...
+                    if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                        //console.log('--- llamo buildDivShow() ---');
+                        buildDivShow(arrDataDivShow, indexColToBuild);
+                    } 
+
+                    return false;
                 } 
 
-                return false;
-            } 
+                //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+                let formData = new FormData();
+                formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
+                formData.append('base_ep', base_ep);
+                formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
+                if(book != null) formData.append('book', book);
+                formData.append('chapter', chapter);
+                //AKI NO HACE FALTA NI VERSENUMBER NI TO_VERSENUMBER YA QUE MUESTRO TODO EL CAPITULO Y ALLI VOY AL VERSE INDICADO!!!
+                //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+                //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
+                if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
 
-            //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
-            let formData = new FormData();
-            formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
-            formData.append('base_ep', base_ep);
-            formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
-            if(book != null) formData.append('book', book);
-            formData.append('chapter', chapter);
-            //AKI NO HACE FALTA NI VERSENUMBER NI TO_VERSENUMBER YA QUE MUESTRO TODO EL CAPITULO Y ALLI VOY AL VERSE INDICADO!!!
-            //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
-            //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
-            if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+                //console.log('formData: ',[...formData]);
 
-            //console.log('formData: ',[...formData]);
-            
-            fetch('./php/read_file_to_json.php',{
-                method: 'POST',
-                body: formData
-            })
-            .then((response) => response.json())
-            .then((dataRead) => {
+                const response = await fetch('./php/read_file_to_json.php',{
+                    method: 'POST',
+                    body: formData
+                });
+                const dataRead = await response.json();
 
                 //console.log('10197. abajo dataRead');
                 //console.log(dataRead);
@@ -12756,6 +12757,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     }
 
                 }else{
+                    
                     //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                     divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
 
@@ -12772,16 +12774,13 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     if(countElementsInArray(arrDataDivShow) == arr_trans.length){
                         //console.log('--- llamo buildDivShow() ---');
                         buildDivShow(arrDataDivShow, indexColToBuild);
-                    }                    
+                    } 
+
                 }
 
-            })
-            .then(() => {
                 mySizeWindow();
                 mySizeVerse();
-            })
-            .then(() => {
-                
+
                 if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                     //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -12844,8 +12843,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         }
                     }                
                 }
-            })
-            .then(() => {
+
                 //si hay versiculo marcado con amarillo...
                 if(verseNumber !== null &&  verseNumber != "" ){
                     //scroll to verse o verses activos
@@ -12863,19 +12861,17 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         scrollToVerseView(verseView);
                     }
                 }
-                
-            })
-            .then(() => {
+
                 mySizeWindow();
                 mySizeVerse();
                 addListenerToPA();//listen links p > a
-            })
-            .catch(error => {
-                // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                console.error('error promesa en fetch() modo old. error: '+error);
-            });
+
+            } catch (error) {
+                console.error('error try-catch modo old. error: ', error);
+            }
 
         }else{//si no está el id de book en el modulo...
+            
             document.querySelectorAll('.colsInner').forEach(el=>{
                 if(el.childElementCount == 0 || el.textContent == ''){
                     const p = document.createElement('p');
@@ -12888,6 +12884,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     el.innerHTML = `<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>`;
                 }
             });
+
         }
 
     }//end --- typeof Translation
