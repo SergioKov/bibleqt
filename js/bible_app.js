@@ -2581,18 +2581,19 @@ function htmlEntities(str) {
     return String(str).replace(/&lt;/gi, '<').replace(/&gt;/gi, '>');// cambia '<' por '<' y '>' por '>'
 }
 
-function setBaseEnglishPsalms(){//no se usa en la app
-    let Translation = eid_trans1.dataset.trans;
+async function setBaseEnglishPsalms(){//no se usa en la app
+    
+    try {
+        let Translation = eid_trans1.dataset.trans;
 
-    fetch(`./modules/text/${Translation}/bibleqt.json`)
-    .then((response) => response.json())
-    .then((bq) => {
+        const response = await fetch(`./modules/text/${Translation}/bibleqt.json`);
+        const bq = await response.json();
+
         eid_trans1.dataset.base_ep = bq.EnglishPsalms;
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa: '+error);
-    });
+        
+    } catch (error) {
+        console.error('Error try-catch. Error: ', error);
+    }
 }
 
 async function setBaseEnglishPsalms2(){//no se usa en la app
@@ -7815,7 +7816,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
 
 
-function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
+async function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     //console.log('=== viaByText_showChapterText4 ===');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -7868,7 +7869,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
                 
                 //url del libro necesario
-                url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
 
                 //aki no hace falsta 'if(url.includes('no_disponible.htm'))'
                 //ya que fetcha() traerá un ' '(espacio) como datos del fichero 'no_disponible.htm'
@@ -7893,26 +7894,17 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 obj_bible_files[Translation].Books[book].fileContent != '' 
                                 //&& obj_bible_files[Translation].Books[book].fileContent != ' '
                             ){
-                                //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                 
-                                // Registra el tiempo de inicio
-                                const tiempoInicio = new Date().getTime();
-                                //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
+                                try {
+                                
+                                    //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
 
-                                let myPromise = new Promise(function(resolve, reject){
-                                    resolve('ok');
-                                });
+                                    // Registra el tiempo de inicio
+                                    const tiempoInicio = new Date().getTime();
+                                    //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                myPromise
-                                .then((data) => {//data = ok
-                                    
                                     //console.log(' --- if: ');
-
-                                    let bookModule;
-                                    if(data == 'ok'){
-                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
-                                    }            
-                                    
+                                    let bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                     //console.log(bookModule);
             
                                     let nb = bookModule.split('<h4>');//делю файл на главы
@@ -8975,13 +8967,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             buildDivShow(arrDataDivShow, indexColToBuild);
                                         }                                        
                                     }
-                                })
-                                .then(() => {
+
                                     mySizeWindow();
                                     mySizeVerse();
-                                })
-                                .then(() => {
-                                    
+
                                     if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                                         //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
                                         //styles of other verses
@@ -9039,8 +9028,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }
                                         }                
                                     }
-                                })
-                                .then(() => {
+
                                     //si hay versiculo marcado con amarillo...
                                     if(verseNumber !== null &&  verseNumber != "" ){
                                         //scroll to verse o verses activos
@@ -9057,9 +9045,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             scrollToVerseView(verseView);
                                         }
                                     }
-                                    
-                                })
-                                .then(() => {
+
                                     mySizeWindow();
                                     mySizeVerse();
                                     addListenerToPA();//listen links p > a
@@ -9072,12 +9058,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     //console.log('obj_bible_files --- tiempoFin: '+tiempoFin);
                                     //console.log('obj_bible_files --- tiempoEjecucion: '+tiempoEjecucion+' sec.');
                                     //mostrarTamanioObjeto(obj_bible_files);
-
-                                })
-                                .catch(error => {
-                                    // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('1. error promesa en myPromise con obj_bible_files. error: '+error);
-                                });
+                                    
+                                } catch (error) {
+                                    console.error('1. error try-catch con obj_bible_files. error: ', error);
+                                }
 
                             }else{
                                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -9094,16 +9078,17 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
                     //console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
 
-                    //start de tiempo para calcular cuanto tarda
-                    const tiempoInicioFetch = new Date().getTime();
-                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+                    try {
+    
+                        //start de tiempo para calcular cuanto tarda
+                        const tiempoInicioFetch = new Date().getTime();
+                        //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
 
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
 
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
                         if(crear_objeto_obj_bible_files){
                             if(bookModule != '' && bookModule != ' '){
@@ -10168,6 +10153,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             }
 
                         }else{
+                            
                             //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                             divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
                             
@@ -10185,14 +10171,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //console.log('--- llamo buildDivShow() ---');
                                 buildDivShow(arrDataDivShow, indexColToBuild);
                             }
+
                         }
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
-                    })
-                    .then(() => {
-                        
+
                         if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                             //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -10255,8 +10239,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                             }                
                         }
-                    })
-                    .then(() => {
+
                         //si hay versiculo marcado con amarillo...
                         if(verseNumber !== null &&  verseNumber != "" ){
                             //scroll to verse o verses activos
@@ -10273,9 +10256,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 scrollToVerseView(verseView);
                             }
                         }
-                        
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
@@ -10288,12 +10269,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                         //console.log('fetch() --- tiempoFinFetch: '+tiempoFinFetch);
                         //console.log('fetch() --- tiempoEjecucionFetch: '+tiempoEjecucionFetch+' sec.');
 
-                    })
-                    .catch(error => { 
-                        //Código a realizar cuando se rechaza la promesa
-                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
-                    });                    
+                    } catch (error) {
+                        console.error('error try-catch en fetch() con obj_bible_files. error: ', error);
+                    }
+                                       
                 }
+
                 //console.log('despues de fetch --- abajo obj_bible_files:');
                 //console.log(obj_bible_files); 
 
@@ -10334,15 +10315,17 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             
             //console.log('MODO OLD. como en Text3(). hago fetch() para sacar texto del capítulo');
 
-            //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${Translation}/bibleqt.json`;
-            fetch(url_bq)
-            .then((response) => response.json())
-            .then((bq) => {
+            try {
+                
+                //saco ajustes de este modulo en json
+                let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+                
+                const response = await fetch(url_bq);
+                const bq = await response.json();
+
                 //console.log(' abajo bq:');
                 //console.log(bq);
 
-                //window.bq = bq;
                 if(divTrans != null){
                     // divTrans.innerHTML = bq.BibleShortName;
                     divTransDesk.innerHTML = bq.BibleShortName;
@@ -10353,38 +10336,38 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 //if(parseInt(book) < bq.BookQty){//0-65 < 66
                 if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
 
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
-
-                    if(url.includes('no_disponible.htm')){
-                        //console.log('url includes no_disponible.htm');
-                        //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
-                        //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
-                        
-                        window.iter_i++;
-                        if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
-                            //console.log('iter_i: '+iter_i);
-                            showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    try {
+                    
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
+    
+                        if(url.includes('no_disponible.htm')){
+                            //console.log('url includes no_disponible.htm');
+                            //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                            //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                            
+                            window.iter_i++;
+                            if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                                //console.log('iter_i: '+iter_i);
+                                showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                            }
+            
+                            arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                            //console.log('6343. arrDataDivShow: ',arrDataDivShow);
+            
+                            //si es ultimo elemento del array...
+                            if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                //console.log('--- llamo buildDivShow() ---');
+                                buildDivShow(arrDataDivShow, indexColToBuild);
+                            } 
+                            
+                            return false;
                         }
-        
-                        arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                        //console.log('6343. arrDataDivShow: ',arrDataDivShow);
-        
-                        //si es ultimo elemento del array...
-                        if(countElementsInArray(arrDataDivShow) == arr_trans.length){
-                            //console.log('--- llamo buildDivShow() ---');
-                            buildDivShow(arrDataDivShow, indexColToBuild);
-                        } 
-                        
-                        return false;
-                    }
+    
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
-
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
-                        
-                        //console.log(bookModule);
+                                                //console.log(bookModule);
                         //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
                         let nb = bookModule.split('<h4>');//делю файл на главы
@@ -11449,13 +11432,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 buildDivShow(arrDataDivShow, indexColToBuild);
                             }                        
                         }
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
-                    })
-                    .then(() => {
-                        
+
                         if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                             //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -11516,8 +11496,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                             }                
                         }
-                    })
-                    .then(() => {
+
                         //si hay versiculo marcado con amarillo...
                         if(verseNumber !== null &&  verseNumber != "" ){
                             //scroll to verse o verses activos
@@ -11533,19 +11512,18 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //scroll to verseView
                                 scrollToVerseView(verseView);
                             }
-                        }                        
-                    })
-                    .then(() => {
+                        }
+
                         mySizeWindow();
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
-                    })
-                    .catch(error => {
-                        // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                        console.error('error promesa en fetch() modo old. error: '+error);
-                    });
+                        
+                    } catch (error) {
+                        console.error('error try-catch en modo old. Error: ', error);
+                    }
 
                 }else{//si no está el id de book en el modulo...
+                    
                     document.querySelectorAll('.colsInner').forEach(el=>{
                         if(el.childElementCount == 0 || el.textContent == ''){
                             const p = document.createElement('p');
@@ -11557,11 +11535,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //alert(' no vacio');
                         }
                     });
-                }            
-            })
-            .catch(error => {
-                console.error('14212. Error: ', error);
-            });
+
+                }
+                
+            } catch (error) {
+                console.error('14212. try-catch Error: ', error);
+            }
 
         }//fin - modo old
 
