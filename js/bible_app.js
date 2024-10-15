@@ -15604,7 +15604,7 @@ function hist(param){
 }
 
 
-function bookGo(dir){
+async function bookGo(dir){
     //console.log('=== function bookGo(dir) ===');
 
     allowUseShowTrans = true;
@@ -15632,20 +15632,9 @@ function bookGo(dir){
         //console.log('bookGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log(objTrans);
 
-        let myPromise_b_go = new Promise(function(resolve, reject){
-            resolve('ok');
-        });
-
-        myPromise_b_go
-        .then((res) => {
+        try {
             
-            let bq;
-            if(res == 'ok'){//siempre ok
-                bq = objTrans;
-            }            
-            //console.log('abajo bq'); 
-            //console.log(bq); 
-
+            let bq = objTrans;
             //console.log('abajo bq'); 
             //console.log(bq); 
 
@@ -15713,25 +15702,24 @@ function bookGo(dir){
                 
                 allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
-            }            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            }
+
+        } catch (error) {
+            console.error('error try-catch. error: ', error); 
+        }
 
     }else{//MODO OLD. si hace falta!
 
         //alert('bookGo(dir) --- modo old. fetch()');
         //console.log('chapterGo(dir) --- modo old. fetch()');
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${Translation}/bibleqt.json`;
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-
-            //console.log('abajo bq'); 
+        try {
+            
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+            
+            const response = await fetch(url_bq);
+            const bq = await response.json();
             //console.log(bq); 
 
             if(dir == 'next'){
@@ -15798,12 +15786,11 @@ function bookGo(dir){
                 
                 allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
-            }            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            }
+
+        } catch (error) {
+            console.error('error try-catch. error: ', error);
+        }
 
     }
 
