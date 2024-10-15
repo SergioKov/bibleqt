@@ -13401,7 +13401,7 @@ function selVerse(e){
 
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
-function sel(e, par, param_show_chapter = null, trans = null){
+async function sel(e, par, param_show_chapter = null, trans = null){
     //console.log('=== function sel() ===');
     
     let trans_base = eid_trans1.dataset.trans;
@@ -13460,18 +13460,11 @@ function sel(e, par, param_show_chapter = null, trans = null){
                         // Registra el tiempo de inicio
                         //const tiempoInicio_b = new Date().getTime();
 
-                        let myPromise_b = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
+                        try {
 
-                        myPromise_b
-                        .then(res => {
-
-                            if(res == 'ok'){
-                                window.arr_books = this_trans_obj.Books;
-                                if(typeof this_trans_obj.Books == 'undefined') alert('this_trans_obj.Books undefined');
-                                //console.log(arr_books);
-                            }
+                            window.arr_books = this_trans_obj.Books;
+                            if(typeof this_trans_obj.Books == 'undefined') alert('this_trans_obj.Books undefined');
+                            //console.log(arr_books);
                 
                             eid_v_book.innerHTML = '';//reset botones de books
                 
@@ -13615,10 +13608,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 });
                                 eid_v_book.append(block_APO);
                             }
-                            //console.log(eid_v_book);                
+                            //console.log(eid_v_book);
 
-                        })
-                        .then(()=>{
                             //si hay un boton li activo me muevo alli
                             if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13638,23 +13629,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                             //const tiempoFin_b = new Date().getTime();
                             //const tiempoEjecucion_b = (tiempoFin_b - tiempoInicio_b) / 1000;//
                             //console.log('myPromise_b --- tiempoEjecucion_b: '+tiempoEjecucion_b+' sec.');
-
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa myPromise_b: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch sel(b). error: ',error);
+                        }                       
 
                     }else{//modo old. no existe arrFavTransObj
 
                         alert('modo old al iniciar... ES NECESARIO!');
                         //console.log('modo old al iniciar... ES NECESARIO!');
 
-                        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-                        fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                
+
+                        try {
+                            
+                            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+
+                            const response = await fetch(url);
+                            const data = await response.json();
+
                             window.arr_books = data.Books;
                             //console.log(arr_books);
                             if(typeof data.Books == 'undefined') alert('data.Books undefined');
@@ -13801,10 +13793,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 });
                                 eid_v_book.append(block_APO);
                             }
-                            //console.log(eid_v_book);                
-                
-                        })
-                        .then(()=>{
+                            //console.log(eid_v_book);
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13816,11 +13806,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch. sel(b) modo old. error: ',error);
+                        }                       
 
                     }
 
@@ -13838,21 +13827,12 @@ function sel(e, par, param_show_chapter = null, trans = null){
                     
                     //modo new
                     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
-                        
                         //alert('function sel() --- case: ch (chapter) --- modo new. existe arrFavTransObj');
-            
-                        let myPromise_ch = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
-            
-                        myPromise_ch
-                        .then(res => {
-                            
-                            if(res == 'ok'){//siempre ok
-                                //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
-                            }
-                            if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
+                        
+                        try {
 
+                            //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
+                            if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
 
                             let chapterNumber = show_chapter;//por defecto
                                             
@@ -13917,8 +13897,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 wr_grid_ch.append(li_ch);
                             }
                             eid_v_chapter.append(wr_grid_ch);
-                        })
-                        .then(()=>{
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_chapter.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13930,11 +13909,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa chapter. error: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch sel(ch) chapter. error: ',error);
+                        }
             
                     }else{//modo old. no existe arrFavTransObj
                         alert('chapter modo old. no salta nunca...');
@@ -13957,19 +13935,11 @@ function sel(e, par, param_show_chapter = null, trans = null){
             
                     //modo new
                     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
-                        
-                        //alert('function sel() --- case: v (verse) --- modo new. existe arrFavTransObj');
+                        //alert('function sel() --- case: v (verse) --- modo new. existe arrFavTransObj');                        
             
-                        let myPromise_v = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
-            
-                        myPromise_v
-                        .then(res => {
-            
-                            if(res == 'ok'){//siempre ok
-                                //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
-                            }
+                        try {
+
+                            //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
                             if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
 
                             //console.log('trans: '+trans)
@@ -14080,24 +14050,23 @@ function sel(e, par, param_show_chapter = null, trans = null){
 
 
                                         if(modo_get_VerseQty == 'por_json'){
-                                    
                                             //console.log('modo_get_VerseQty: por_json');
-                                            
-                                            let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+
+                                            try {
+
+                                                let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                         
-                                            let formData = new FormData();
-                                            formData.append('url', '../'+url);//importante '../' delante de la url
-                                            formData.append('book', id_book);
-                                            formData.append('chapter', show_chapter);
-            
-                                            fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                                method: 'POST',
-                                                body: formData
-                                            })
-                                            .then(response => response.json())
-                                            // .then(response => response.text())
-                                            .then(data => {
-                                                
+                                                let formData = new FormData();
+                                                formData.append('url', '../'+url);//importante '../' delante de la url
+                                                formData.append('book', id_book);
+                                                formData.append('chapter', show_chapter);
+
+                                                const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                                    method: 'POST',
+                                                    body: formData
+                                                });
+                                                const data = await response.json();
+
                                                 //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
                                                 //console.log(data);
         
@@ -14168,9 +14137,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     wr_grid_v.append(li_v);
                                                 }
                                                 eid_v_verse.append(wr_grid_v);
-                        
-                                            })
-                                            .then(()=>{
+
                                                 //si hay un boton li activo me muevo alli
                                                 if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                                     setTimeout(()=>{
@@ -14184,22 +14151,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     },100);
                                                 }
                                                 scrollToVkladkaActive();
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('error promesa: '+error);
-                                            });    
-        
-        
-                                        }else if(modo_get_VerseQty == 'por_text'){
-                                            
-                                            //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
-        
-                                            let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
-                                            fetch(url)
-                                            .then(response => response.text())
-                                            .then(data => {
                                                 
+                                            } catch (error) {
+                                                console.error('error try-catch. error: ',error);
+                                            }
+        
+                                        }
+                                        
+                                        
+                                        if(modo_get_VerseQty == 'por_text'){
+                                            //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
+
+                                            try {
+                                                
+                                                let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
+
+                                                const response = await fetch(url);
+                                                const data = await response.text();
+
                                                 //console.log('abajo data');
                                                 //console.log(data); 
 
@@ -14297,10 +14266,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                                     wr_grid_v.append(li_v);
                                                 }
-                                                eid_v_verse.append(wr_grid_v);
-                        
-                                            })
-                                            .then(()=>{
+                                                eid_v_verse.append(wr_grid_v); 
+                                                
                                                 //si hay un boton li activo me muevo alli
                                                 if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                                     setTimeout(()=>{
@@ -14312,22 +14279,18 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     },100);
                                                 }
                                                 scrollToVkladkaActive();
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('error promesa: '+error);
-                                            });    
+                                                
+                                            } catch (error) {
+                                                console.error('error try-catch. error: ', error);
+                                            }
         
                                         }
-        
-
-
-
 
 
                                     }
                                 }
                             }
+
             
                             //si no existe objeto con Translation. hago fetch(). es necesario!
                             if(typeof obj_bible_files[trans] == 'undefined'){
@@ -14341,26 +14304,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
 
 
-                                
                                 if(modo_get_VerseQty == 'por_json'){
-                                    
                                     //console.log('modo_get_VerseQty: por_json');
                                     
-                                    let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+                                    try {
+
+                                        let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
-                                    let formData = new FormData();
-                                    formData.append('url', '../'+url);//importante '../' delante de la url
-                                    formData.append('book', id_book);
-                                    formData.append('chapter', show_chapter);
-    
-                                    fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                        method: 'POST',
-                                        body: formData
-                                    })
-                                    .then(response => response.json())
-                                    // .then(response => response.text())
-                                    .then(data => {
-                                        
+                                        let formData = new FormData();
+                                        formData.append('url', '../'+url);//importante '../' delante de la url
+                                        formData.append('book', id_book);
+                                        formData.append('chapter', show_chapter);    
+        
+                                        const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                            method: 'POST',
+                                            body: formData
+                                        });
+                                        const data = await response.json();
+
                                         //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
                                         //console.log(data);
 
@@ -14430,10 +14391,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                             wr_grid_v.append(li_v);
                                         }
-                                        eid_v_verse.append(wr_grid_v);
-                
-                                    })
-                                    .then(()=>{
+                                        eid_v_verse.append(wr_grid_v);                                        
+
                                         //si hay un boton li activo me muevo alli
                                         if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
@@ -14447,22 +14406,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             },100);
                                         }
                                         scrollToVkladkaActive();
-                                    })
-                                    .catch(error => { 
-                                        // Código a realizar cuando se rechaza la promesa
-                                        console.error('error promesa: '+error);
-                                    });    
-
-
-                                }else if(modo_get_VerseQty == 'por_text'){
-                                    
-                                    //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
-
-                                    let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
-                                    fetch(url)
-                                    .then(response => response.text())
-                                    .then(data => {
                                         
+                                    } catch (error) {
+                                        console.error('error try-catch. error: ',error);
+                                    }
+
+                                }
+                                
+
+                                if(modo_get_VerseQty == 'por_text'){
+                                    //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
+                                    
+                                    try {
+                                        
+                                        let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
+                                        
+                                        const response = await fetch(url);
+                                        const data = await response.text();
+
                                         //console.log('abajo data');
                                         //console.log(data); 
                                         let chapterNumber,verseNumber;
@@ -14536,9 +14497,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             wr_grid_v.append(li_v);
                                         }
                                         eid_v_verse.append(wr_grid_v);
-                
-                                    })
-                                    .then(()=>{
+
                                         //si hay un boton li activo me muevo alli
                                         if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
@@ -14550,18 +14509,16 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             },100);
                                         }
                                         scrollToVkladkaActive();
-                                    })
-                                    .catch(error => { 
-                                        // Código a realizar cuando se rechaza la promesa
-                                        console.error('error promesa: '+error);
-                                    });    
+
+                                    } catch (error) {
+                                        console.error('error try-catch. error: ', error);
+                                    }                                       
 
                                 }
             
                             }
-            
-                        })
-                        .then(()=>{
+
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -14575,11 +14532,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('13536. error promesa: '+error);
-                        });//end myPromise_v
+                            
+                        } catch (error) {
+                            console.error('13536. error try-catch. error: ', error);
+                        }
             
                     }else{//modo old. no existe arrFavTransObj
                         alert('modo old verse. no salta nunca...');
@@ -14593,48 +14549,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
 
 }
 
-/*
-function getRefForTsk(Translation, bookShortName){
-    //console.log('Translation: '+Translation);
-    //console.log('bookShortName: '+bookShortName);
-    let bookNumber;
 
-    let url = `./modules/text/${Translation}/bibleqt.json`;//Ej.: rsti2
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data);
-
-        window.dataBooks2 = data.Books;
-
-        dataBooks2.forEach((el,i,arr) =>{
-            //console.log('arr['+i+']: '+arr[i].FullName + ' '+arr[i].ShortNames[0] );
-            arr[i].ShortNames.forEach( (e,j,arr_s) =>{
-                if(bookShortName.toLowerCase() == e.toLowerCase()){
-                    let n_book = arr[i].BookNumber;
-                    let short_name = arr_s[0];//siempre el primer nombre del array
-
-                    bookNumber = i;
-                    //console.log('bookNumber: '+bookNumber);
-
-                    //showTrans(n_book, chapter, verse, to_verse);
-                    //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
-
-                    //return bookNumber;
-                }
-            });
-        });
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa: '+error);
-    });
-    return bookNumber;
-}
-*/
-
-
-function getRef(trans = null, refLink = null, refText = null){
+async function getRef(trans = null, refLink = null, refText = null){
     //console.log('=== function getRef() ===');
 
     allowUseShowTrans = true;
@@ -14886,7 +14802,6 @@ function getRef(trans = null, refLink = null, refText = null){
                         //modo old. getting all file '01genesis.htmn' and showing only needed verses (with .split())
                         if(modo_fetch_verses_for_cols == 'by_text'){
                             //console.log('modo_fetch_verses_for_cols == by_text');
-
                                                         
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
@@ -14904,8 +14819,6 @@ function getRef(trans = null, refLink = null, refText = null){
                                     allowUseShowTrans = true;
                                     selChapter(e_virtual, chapter);
                                 }, 50);
-
-
                             }
 
                             //hay to_verse
@@ -15022,20 +14935,21 @@ function getRef(trans = null, refLink = null, refText = null){
                             //hay capitulo y hay verse //funciona
                             if(chapter && verse != null && parseInt(verse) > 0){
                                                                
-                                let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
-                                
-                                let formData = new FormData();
-                                formData.append('url', '../'+url);//importante '../' delante de la url
-                                formData.append('book', n_book);
-                                formData.append('chapter', chapter);
-        
-                                fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                    method: 'POST',
-                                    body: formData
-                                })
-                                .then(response => response.json())
-                                .then(data => {
+                                try {
+
+                                    let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                     
+                                    let formData = new FormData();
+                                    formData.append('url', '../'+url);//importante '../' delante de la url
+                                    formData.append('book', n_book);
+                                    formData.append('chapter', chapter);
+                                    
+                                    const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                        method: 'POST',
+                                        body: formData
+                                    });
+                                    const data = await response.json();
+
                                     //console.log('data: ',data);
                                     //console.log('15047. VerseQty of chapter: ',data);
                                     
@@ -15098,13 +15012,12 @@ function getRef(trans = null, refLink = null, refText = null){
                                     //hay chapter, hay verse
                                     if(parseInt(chapter) > 0 && parseInt(verse) > 0){
                                         eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
-                                    }
-            
-                                })
-                                .catch(error => { 
-                                    // Código a realizar cuando se rechaza la promesa
-                                    console.error('VerseQty. error promesa: '+error);
-                                });
+                                    } 
+
+                                } catch (error) {
+                                    console.error('VerseQty. error try-catch. error: ', error);
+                                }
+
                             }
 
                         }//end modo_fetch_verses_for_cols == 'by_json'
