@@ -2613,7 +2613,7 @@ async function setBaseEnglishPsalms2(){//no se usa en la app
 }
 
 
-function getTsk(e){
+function old_getTsk(e){
     //console.log('=== function getTsk(e) ===');
     
     //console.log(e);
@@ -5172,6 +5172,2612 @@ function getTsk(e){
             // Código a realizar cuando se rechaza la promesa
             console.error('1. error promesa: '+error);
         });
+
+    }//end else de modo old
+
+}
+
+
+async function getTsk(e){
+    //console.log('=== function getTsk(e) ===');
+    
+    //console.log(e);
+    let el = e.srcElement.parentElement;
+
+    let arr_v = el.id.split('__');//rstStrong__0__1__1 => ['rstStrong',0,1,1] => [rstStrong, Gen, 1, 1]
+    arr_v = arr_v.filter(elm => elm);
+    //si el array es vacio no hago nada. no busko tsk
+    if(arr_v.length == 0){
+        return;
+    } 
+    let Translation = arr_v[0];//rstStrong
+    let book = arr_v[1];//id_book
+    let chapter = arr_v[2];//chapter
+    let verse = arr_v[3];//verse
+    let to_verse = null;//to_verse por defecto
+    if(arr_v[3].includes('-')){
+        verse = arr_v.split('-')[0];
+        to_verse = arr_v.split('-')[1];
+    }
+
+    let ref = el.querySelector('a').innerText;//Gn 1:1
+    let verseText = (el.querySelector('.vt') !== null) ? el.querySelector('.vt').innerText.split(' ').slice(0,7).join(' ') : null ;//Gn 1:1
+    addRefToHistNav(Translation, ref, book, chapter, verse, to_verse, verseText);
+    
+    //console.log('Translation: '+Translation);
+    //console.log('book: '+book);
+    //console.log('chapter: '+chapter);
+    //console.log('verse: '+verse);
+
+    let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+
+    let verseEnglishPsalms = objTrans.EnglishPsalms;//devuelve 'Y' o 'N'
+
+    //si clico Psa 118:63 ruso tiene que convertirse en Sal. 119:63 español
+    //ya que tsk está en español(ingles);
+    if(verseEnglishPsalms == 'N'){
+        //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+        let res = convertLinkFromRusToEsp(book, chapter, verse);
+        
+        //console.log('link el: '+el);
+        //console.log('res: '+res);
+        
+        //asigno nuevo valor
+        book = res[0];
+        chapter = res[1];
+        verse = res[2];
+
+        //console.log('res --- book: '+book);//empezando de 0
+        //console.log('res --- chapter: '+chapter);//empezando de 1
+        //console.log('res --- verse: '+verse);//empezando de 1
+    }
+
+    let arr_tsk_p = [];
+    let tskName = 'tsk';
+    let objTsk = arrFavTskObj.find(v => v.Translation === tskName);
+    //console.log('abajo objTsk: ');
+    //console.log(objTsk);
+
+    const tsk = objTsk;//para modo old - COMENTAR!
+    //console.log('abajo tsk: ');
+    //console.log(tsk);
+
+
+    //modo new
+    if(typeof tsk != 'undefined'){//en este caso: true
+        
+        //console.log('tsk modo new. contador_llamada_tsk: '+contador_llamada_tsk);
+
+        //si no existe objeto obj_tsk_files lo creo
+        if(typeof obj_tsk_files[tskName] == 'undefined'){
+            obj_tsk_files[tskName] = {};
+            obj_tsk_files[tskName].Books = [];
+        }
+
+
+        //si existe objeto con tskName. Saco datos del objeto
+        if(typeof obj_tsk_files[tskName] != 'undefined'){
+            if(typeof obj_tsk_files[tskName].Books != 'undefined'){
+                if(typeof obj_tsk_files[tskName].Books[book] != 'undefined'){
+
+                    if( obj_tsk_files[tskName].Books[book].fileName == tsk.Books[book].PathName && 
+                        obj_tsk_files[tskName].Books[book].fileContent != '' && 
+                        obj_tsk_files[tskName].Books[book].fileContent != ' '
+                    ){
+                        
+                        try {
+                            
+                            //console.log(`--- --- starting from myPromise --- : tskName: ${tskName} `);
+                            let tskModule = obj_tsk_files[tskName].Books[book].fileContent;
+                            //console.log('abajo tskModule: ');
+                            //console.log(tskModule);
+                            
+                            tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
+    
+                            let tb = tskModule.split('[');//divido en chapters
+                            let tb_chapter = tb[chapter].split(']\n');//new //arr de un chapter indicado en el link divido en 2
+                            let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                            let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                            let tb_lines = tb_chapter_vlinks.split('\n');
+                            let tb_verseNumber = tb_chapter_vlinks[0];
+                            
+                            let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                            if(tb_arr_links == null) alert('error tb_arr_links');
+                            
+                            //console.log('tb_chapterNumber: '+tb_chapterNumber);
+                            //console.log('tb_verseNumber: '+tb_verseNumber);
+                            //console.log('tb_arr_links: ');
+                            //console.log(tb_arr_links);
+                
+                            eid_tsk_head.innerHTML = '';//reset datos
+                            eid_tsk_body.innerHTML = '';//reset datos
+                
+                            //Siempre muestro el verse clickeado en tsk
+                            const span_sm_trans = document.createElement('span');
+                            span_sm_trans.id = 'sm_trans';
+                            //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                
+                            const span_trans_tsk = document.createElement('span');
+                            span_trans_tsk.className = 'trans_tsk';
+                            span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                            span_sm_trans.append(span_trans_tsk);                            
+                
+                            const p = document.createElement('p');
+                            p.id = el.id;
+                            p.className = 'tsk tsk_verse';
+                            p.setAttribute('data-verse',el.getAttribute('data-verse'));
+                            p.dataset.trans = Translation;
+                            p.innerHTML = el.innerHTML;
+                            p.querySelector('a').addEventListener('click',() => {
+                                //console.log('click on tsk a');
+                                goToLink(Translation, p.querySelector('a').innerHTML);
+                            });
+                            //quito btn_verse_menu porque alli no hace falta
+                            if(p.innerHTML.includes('<span class="btn_verse_menu"></span>')){
+                                p.querySelector('.btn_verse_menu').remove();
+                            }
+                            
+
+                            if(p.innerHTML.includes('wr_tooltip')){
+                                p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
+                                    hideShowComment(event);
+                                });
+                                p.querySelector('.close').addEventListener('click',(event) => {
+                                    close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+                                });
+                            }
+                
+                            eid_tsk_head.append(span_sm_trans);
+                            eid_tsk_head.append(p);
+                            eid_tsk_head.scrollTop = 0;
+                            
+                            mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
+                            
+                            //Muestro loader tres puntos (...)
+                            const d_loader = document.createElement('div');
+                            d_loader.className = 'loader';
+                            d_loader.innerHTML = `<span class="loader__element"></span>
+                                                  <span class="loader__element"></span>
+                                                  <span class="loader__element"></span>`;
+                            eid_tsk_body.append(d_loader);
+                
+                            arr_tsk_p = [];//por si acaso
+                
+                            //Si hay links para el verse
+                            if(tb_arr_links != ''){
+                                //console.log('antes de forEach. tb_arr_links: ');
+                                //console.log(tb_arr_links);                  
+                
+                                tb_arr_links.forEach((el,i)=>{
+                                    
+                                    //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                                    
+                                    let tb_iter = i;
+                
+                                    let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                                    let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                                    let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                                    let verseNumber = null;
+                                    let to_verseNumber = null;
+                
+                                    if(verseNumbers.includes('-')){
+                                        verseNumber = verseNumbers.split('-')[0];
+                                        to_verseNumber = verseNumbers.split('-')[1];
+                                    }else{
+                                        verseNumber = verseNumbers;
+                                    }
+                
+                                    //console.log('bookShortName: '+bookShortName);//Mat. Gen.
+                                    //console.log('chapterNumber: '+chapterNumber);//empezando de 1
+                                    //console.log('verseNumber: '+verseNumber);//empezando de 1
+                                    //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                    //console.log('---');
+                                
+                                    let bq = objTrans;    
+                                    //console.log(' abajo bq:');
+                                    //console.log(bq);
+            
+                                    //Asigno global vars para que sean vistos en fetch interior
+                                    window.dataBooksTsk = bq.Books;
+            
+                                    window.bq_StrongNumbers = bq.StrongNumbers;
+                                    window.bq_EnglishPsalms = bq.EnglishPsalms;//PARA SABER SI MODIFICO chapterNumber y verseNumber
+            
+                                    window.bq_Notes = bq.Notes;
+                                    window.bq_NoteSign = bq.NoteSign;
+                                    window.bq_StartNoteSign = bq.StartNoteSign;
+                                    window.bq_EndNoteSign = bq.EndNoteSign;
+            
+                                    window.bq_Titles = bq.Titles;
+                                    window.bq_StartTitleSign = bq.StartTitleSign;
+                                    window.bq_EndTitleSign = bq.EndTitleSign;
+            
+                                    window.bq_HTMLFilter = bq.HTMLFilter;
+                                    
+                                    //Достаю индех книги, зная его короткое значение.Напр.: 'Mt 13:24-26'
+                                    for(let i = 0, bookNumber = null; i < dataBooksTsk.length; i++) {
+                                        const element = dataBooksTsk[i];
+            
+                                        for(let y = 0; y < element.ShortNames.length; y++) {
+                                            const elem = element.ShortNames[y];
+            
+                                            if(bookShortName.toLowerCase() == elem.toLowerCase()){
+                                                let n_book = element.BookNumber;
+                                                let short_name = elem;//siempre el primer nombre del array
+                            
+                                                bookNumber = i;//numero de book empezando de 0. 0 => Génesis
+                                                //console.log('bookNumber: '+bookNumber);                        
+                                                //console.log('--- encontrado n_book: ' +n_book + ' --- short_name: ' +short_name);
+            
+                                                //Al encontrar el identificador del libro, miro los links. 
+                                                //14=Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+                                                //vers 14 tiene los links: Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+            
+                                                if(bq_EnglishPsalms == 'N'){
+                                                    //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+                                                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                                                                
+                                                    //asigno nuevo valor
+                                                    bookNumber = new_result[0];
+                                                    chapterNumber = new_result[1];
+                                                    verseNumber = new_result[2];
+                                                    to_verseNumber = new_result[3];
+            
+                                                    //console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                                    //console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                    //console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                                    //console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                                }
+
+
+                                                if( typeof obj_bible_files[Translation] != 'undefined' && 
+                                                    typeof obj_bible_files[Translation].Books[bookNumber] != 'undefined' &&
+                                                    obj_bible_files[Translation].Books[bookNumber].fileName == bq.Books[bookNumber].PathName && 
+                                                    obj_bible_files[Translation].Books[bookNumber].fileContent != '' && 
+                                                    obj_bible_files[Translation].Books[bookNumber].fileContent != ' '
+                                                ){
+                                                    
+                                                    //console.log(`--- hay fichero para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
+                                                    //console.log('obj_bible_files');
+                                                    //console.log(obj_bible_files);
+
+                                                    let bookModule = obj_bible_files[Translation].Books[bookNumber].fileContent;
+                                                    //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                    //console.log(bookModule);
+            
+                                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                                    //console.log(nb);
+                                                    
+                                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                    //console.log(nb);
+
+                                                    let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                        ? nb[chapterNumber].split('<p>').length - 1 
+                                                        : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                    //console.log(` `);
+                                                    //console.log(` tb_iter: ${tb_iter}`);        
+                                                    //console.log(`3. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+
+                                                    //si el capitulo indicado existe en el modulo -> todo bien
+                                                    if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                        //console.log(`3. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
+                                                        //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
+
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`3. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
+                                
+                                                        //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                        if(to_verseNumber != null){                                                    
+                                                            to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+
+                                                            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                let stijNumber = stij[0];
+                                                                stij.shift();//elimino 1 index
+                                                                let stijText = stij.join(' ');//junto
+                                                                let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+                
+                                                                //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                    VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                }
+                                                                VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                VerseTextFull += '</span>';
+                
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                VerseText = VerseTextFull;
+                                                                //console.log(VerseText);
+                                                            }//end for
+                
+                                                        }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
+                                                            VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                            //console.log(VerseTextFull);
+                                                            
+                                                            let stijText = VerseTextFull.split(' ');
+                                                            stijText.shift();//elimino numero de versiculo
+                
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            //console.log(VerseText);
+
+                                                        }                
+                
+                                                        const p = document.createElement('p');
+                                                        let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                        if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                        p.id = idLink;
+                                                        p.className = 'tsk tsk_link';
+                                                        p.setAttribute('data-verse',verseNumber);
+                
+                                                        const span_num_tsk = document.createElement('span');
+                                                        span_num_tsk.className = 'sp_f';
+                                                        span_num_tsk.innerText = tb_iter + 1;
+                
+                                                        p.append(span_num_tsk);
+                                        
+                                                        const a = document.createElement('a');
+                                                        a.href = '#';
+                                                        //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                        let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                        if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                        //console.log('===> refLink: '+refLink);
+                
+                                                        //-----------------------------------------------------------------//
+                                                        //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                        //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                        //-----------------------------------------------------------------//
+                                                        
+                                                        a.innerHTML = refLink;
+                                                        p.append(a);
+                                                        p.append(' ');                
+                
+                                                        const span_vt = document.createElement('span');
+                                                        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                
+                                                        
+                                                        //Номера Стронга в стихах (RST+)
+                                                        if(bq_StrongNumbers == "Y"){
+                                                            let t = VerseText;
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                
+                                                            arr_t.forEach((el,i) => {    
+                                                                
+                                                                //element of string is Strong Number
+                                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                    const span_strong = document.createElement('span');
+                                                                    span_strong.className = 'strong'; 
+                                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                
+                                                                    //si ultimo carácter es string
+                                                                    if(last_char != '' && isNaN(last_char)){
+                                                                        let el_number = el.substring(0,el.length-1);
+                                                                        let el_string = last_char;
+                                                                        span_strong.innerHTML = el_number;
+                                                                        p.append(span_strong);
+                                                                        p.append(el_string);
+                                                                    }else{//es number
+                                                                        span_strong.innerHTML = el;
+                                                                        p.append(span_strong);
+                                                                    }
+                                                                }else{//is word
+                                                                    p.append(' ');
+                                                                    p.append(el);
+                                                                }
+                                                            });
+                                                            p.innerHTML.trim();
+                
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                
+                                                        }                                            
+                                                        
+
+                                                        //Примечания редактора в стихах (RSTi2)
+                                                        if(bq_Notes == 'Y'){
+                                                            let t = VerseText;
+                
+                                                            if(t.includes(bq_NoteSign)){// '*'
+                                                                let arr_t0 = t.split(bq_NoteSign);
+                                                                let before_Note = arr_t0[0];
+                
+                                                                if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                    let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                    let text_Note = arr_t2[0];
+                                                                    let after_Note = arr_t2[1];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');
+                                                                    
+                                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                    if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                        const h6_text = document.createElement('h6');
+                                                                        h6_text.className = 'prim_h6';
+                                                                        let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                        let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                        arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                        h6_text.innerHTML = arr_text_bn[0];
+                                                                        span_before.append(h6_text);
+                                                                        span_vt.append(span_before);
+                                                                    }else{
+                                                                        span_before.innerHTML = before_Note;
+                                                                        span_vt.append(span_before);
+                                                                    }
+
+                                                                    span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                    
+                                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                    span_after.innerHTML = after_Note;
+                                                                    span_vt.append(span_after);
+                                                                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    p.append(span_vt);
+                                                                                    
+                                                                }
+                                                            }else{
+                                                                //span_vt.append(VerseText);//se ven '<'
+                                                                span_vt.innerHTML = VerseText;// se ve OK
+                                                                p.append(span_vt);
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }
+                                                        
+
+                                                        //Оглавления в стихах (NRT)
+                                                        if(bq_Titles == 'Y'){
+                                                            let t = VerseText;
+                
+                                                            if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                let before_Title = arr_t1[0];
+                                                                let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                let text_Title = arr_t2[0];
+                                                                let after_Title = arr_t2[1];
+                
+                                                                const span_title = document.createElement('span');
+                                                                span_title.className = 'verse_title';
+                                                                span_title.innerHTML = text_Title;
+                
+                                                                p.append(before_Title);
+                                                                p.append(span_title);
+                                                                p.append(after_Title);
+                                                            }else{
+                                                                p.append(VerseText);
+                                                            }
+                
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }
+                                                        
+                                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                        if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                            span_vt.innerHTML = VerseText;
+                                                            p.append(span_vt);
+                
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }    
+                
+                                                        arr_tsk_p[tb_iter] = p;
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
+                                                        
+                                                    }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                        //console.log(`3 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`3. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
+                                                    }                                                    
+            
+                                                    //si es ultimo elemento del array...
+                                                    if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                        //console.log('--- llamo buildVersesTsk() ---');
+                                                        buildVersesTsk(arr_tsk_p, Translation);
+                                                    }                
+                                               
+                                                }else{                                                    
+                                                    
+                                                    try {
+                                                        
+                                                        //console.log(`1 --- (${el}) no hay fichero... hago fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+
+                                                        //url del libro necesario
+                                                        let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+                                                        
+                                                        fetchInner4(url);
+                                                        async function fetchInner4(url){
+                                                            
+                                                            const response = await fetch(url);
+                                                            const bookModule = await response.text();
+                                                        
+                                                            //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                            //console.log(bookModule);
+
+                                                            if(crear_objeto_obj_bible_files){
+                                                                //si no existe objeto de ficheros de la Biblia, lo creo
+                                                                if(typeof obj_bible_files[Translation] == 'undefined'){
+                                                                    obj_bible_files[Translation] = {};
+                                                                    obj_bible_files[Translation].Books = [];
+                                                                }
+                                                                //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                                if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
+                                                                    if(bookModule != '' && bookModule != ' '){
+                                                                        obj_bible_files[Translation].Books[bookNumber] = {
+                                                                            'fileName': bq.Books[bookNumber].PathName, 
+                                                                            'fileContent': bookModule
+                                                                        };
+                                                                        //console.log('1. obj_bible_files');
+                                                                        //console.log(obj_bible_files);
+                                                                    }                                                                
+                                                                }
+                                                            }
+                    
+                                                            let nb = bookModule.split('<h4>');//делю файл на главы
+                                                            //console.log(nb);
+                                                            
+                                                            nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                            //console.log(nb);
+
+                                                            let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                                ? nb[chapterNumber].split('<p>').length - 1 
+                                                                : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                            //console.log(` `);
+                                                            //console.log(` tb_iter: ${tb_iter}`);            
+                                                            //console.log(`4. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+                                                            
+                                                            //si el capitulo indicado existe en el modulo -> todo bien
+                                                            if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                                //console.log(`4. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                                //console.log(`4. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
+                                                                //console.log(`4. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                        
+                                                                let VerseTextFull = '';
+                                                                let VerseText = '';
+
+                                                                // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                                if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                                    let new_verseNumber = to_verseNumber;
+                                                                    let new_to_verseNumber = verseNumber;
+                                                                    verseNumber = new_verseNumber;
+                                                                    to_verseNumber = new_to_verseNumber;
+                                                                    //console.log(`4. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                                }
+                                        
+                                                                //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                                if(to_verseNumber != null){                                                    
+                                                                    to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+
+                                                                    for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                        let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                        let stijNumber = stij[0];
+                                                                        stij.shift();//elimino 1 index
+                                                                        let stijText = stij.join(' ');//junto
+                                                                        let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+                        
+                                                                        //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                        VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                        if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                            VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                        }
+                                                                        VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                        VerseTextFull += '</span>';
+                        
+                                                                        //console.log(VerseTextFull);
+                                                                        
+                                                                        VerseText = VerseTextFull;
+                                                                        //console.log(VerseText);
+                                                                    }//end for
+                        
+                                                                }else{//если только 1 стих (1Кор.11:7), то...
+                                                                    VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                                    //console.log(VerseTextFull);
+                                                                    
+                                                                    let stijText = VerseTextFull.split(' ');
+                                                                    stijText.shift();//elimino numero de versiculo
+                        
+                                                                    VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                                    //console.log(VerseText);
+                                                                }
+                        
+                        
+                                                                const p = document.createElement('p');
+                                                                let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                                if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                                p.id = idLink;
+                                                                p.className = 'tsk tsk_link';
+                                                                p.setAttribute('data-verse',verseNumber);
+                        
+                                                                const span_num_tsk = document.createElement('span');
+                                                                span_num_tsk.className = 'sp_f';
+                                                                span_num_tsk.innerText = tb_iter + 1;
+                        
+                                                                p.append(span_num_tsk);
+                                                
+                                                                const a = document.createElement('a');
+                                                                a.href = '#';
+                                                                //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                                let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                                if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                                //console.log('===> refLink: '+refLink);
+                        
+                                                                //-----------------------------------------------------------------//
+                                                                //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                                //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                                //-----------------------------------------------------------------//
+                                                                
+                                                                a.innerHTML = refLink;
+                                                                p.append(a);
+                                                                p.append(' ');
+                        
+                        
+                                                                const span_vt = document.createElement('span');
+                                                                span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                        
+                                                                
+                                                                //Номера Стронга в стихах (RST+)
+                                                                if(bq_StrongNumbers == "Y"){
+                                                                    let t = VerseText;
+                                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                        
+                                                                    arr_t.forEach((el,i) => {    
+                                                                        
+                                                                        //element of string is Strong Number
+                                                                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                            const span_strong = document.createElement('span');
+                                                                            span_strong.className = 'strong'; 
+                                                                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                        
+                                                                            //si ultimo carácter es string
+                                                                            if(last_char != '' && isNaN(last_char)){
+                                                                                let el_number = el.substring(0,el.length-1);
+                                                                                let el_string = last_char;
+                                                                                span_strong.innerHTML = el_number;
+                                                                                p.append(span_strong);
+                                                                                p.append(el_string);
+                                                                            }else{//es number
+                                                                                span_strong.innerHTML = el;
+                                                                                p.append(span_strong);
+                                                                            }
+                                                                        }else{//is word
+                                                                            p.append(' ');
+                                                                            p.append(el);
+                                                                        }
+                                                                    });
+                                                                    p.innerHTML.trim();
+                        
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                        
+                                                                }                                            
+                                                                
+
+                                                                //Примечания редактора в стихах (RSTi2)
+                                                                if(bq_Notes == 'Y'){
+                                                                    let t = VerseText;
+                        
+                                                                    if(t.includes(bq_NoteSign)){// '*'
+                                                                        let arr_t0 = t.split(bq_NoteSign);
+                                                                        let before_Note = arr_t0[0];
+                        
+                                                                        if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                            let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                            let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                            let text_Note = arr_t2[0];
+                                                                            let after_Note = arr_t2[1];
+
+                                                                            const span_before = document.createElement('span');
+                                                                            const span_after = document.createElement('span');
+                                        
+                                                                            /*
+                                                                            const span_t = document.createElement('span');
+                                                                            span_t.className = 'tooltip';
+                                                                            span_t.setAttribute('data-tooltip',text_Note);
+                                                                            span_t.innerHTML = bq.NoteSign;
+                        
+                                                                            span_t.addEventListener('mouseenter', function(){
+                                                                                showTooltip(this);
+                                                                            });
+                                                                            span_t.addEventListener('mouseleave', function(){
+                                                                                hideTooltip(this);
+                                                                            });
+                                                                            
+                                                                            span_vt.append(before_Note);
+                                                                            span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                            span_vt.append(span_t);
+                                                                            const span_vt_despues = document.createElement('span');
+                                                                            span_vt_despues.className = 'vt';
+                                                                            span_vt_despues.append(after_Note);
+                                                                            span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+                        
+                                                                            p.append(span_vt);
+                                                                            p.append(span_vt_despues);
+                                                                            */
+
+                                                                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                                const h6_text = document.createElement('h6');
+                                                                                h6_text.className = 'prim_h6';
+                                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                                span_before.append(h6_text);
+                                                                                span_vt.append(span_before);
+                                                                            }else{
+                                                                                span_before.innerHTML = before_Note;
+                                                                                span_vt.append(span_before);
+                                                                            }
+        
+                                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                            
+                                                                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                            span_after.innerHTML = after_Note;
+                                                                            span_vt.append(span_after);
+                                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                            p.append(span_vt);
+        
+                                                                        }
+                                                                    }else{
+                                                                        //span_vt.append(VerseText);//se ven '<'
+                                                                        span_vt.innerHTML = VerseText;// se ve OK
+                                                                        p.append(span_vt);
+                        
+                                                                        if(bq_HTMLFilter == 'Y'){
+                                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                //Оглавления в стихах (NRT)
+                                                                if(bq_Titles == 'Y'){
+                                                                    let t = VerseText;
+                        
+                                                                    if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                        let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                        let before_Title = arr_t1[0];
+                                                                        let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                        let text_Title = arr_t2[0];
+                                                                        let after_Title = arr_t2[1];
+                        
+                                                                        const span_title = document.createElement('span');
+                                                                        span_title.className = 'verse_title';
+                                                                        span_title.innerHTML = text_Title;
+                        
+                                                                        p.append(before_Title);
+                                                                        p.append(span_title);
+                                                                        p.append(after_Title);
+                                                                    }else{
+                                                                        p.append(VerseText);
+                                                                    }
+                        
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                                                                }
+                                                                
+                                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                                if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                                    span_vt.innerHTML = VerseText;
+                                                                    p.append(span_vt);
+                        
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                                                                }
+                        
+                                                                arr_tsk_p[tb_iter] = p;
+                                                                //console.log(`--- tb_iter: ${tb_iter}`);
+                                                                
+                                                            }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                                //console.log(`4 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                                                //console.log(`4. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                                arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                                //console.log(`--- tb_iter: ${tb_iter}`);
+                                                            }                                                        
+                    
+                                                            //si es ultimo elemento del array...
+                                                            if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                                //console.log('--- llamo buildVersesTsk() ---');
+                                                                buildVersesTsk(arr_tsk_p, Translation);
+                                                            }
+
+                                                        }//end fetchInner4()
+
+                                                    } catch (error) {
+                                                        console.error('4. Error try-catch en fetchInner4(). Error: ', error);
+                                                    }
+
+                                                }//end else
+                                                
+                                                break;//IMPORTANTE!!!
+                                            }
+                                        }
+
+                                        if(bookNumber != null){
+                                            break;
+                                        } 
+
+                                    }//end for inner
+                
+                                });//fin forEach de tb_arr_links
+
+                                if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                                    //alert('es menor');
+                                    //console.log('es menor1');
+                                    buildVersesTsk(arr_tsk_p, Translation);
+                                    
+                                    if(countElementsInArray(arr_tsk_p) == 0){
+                                        eid_tsk_body.innerHTML = '';//reset
+                                        const p = document.createElement('p');
+                                        p.className = 'tsk tsk_nolink';
+                                        p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                                        //console.log(p);
+                                        eid_tsk_body.append(p);
+                                    }
+                                }
+                
+                            }else{//no hay links
+                                
+                                eid_tsk_body.innerHTML = '';//reset
+                                const p = document.createElement('p');
+                                p.className = 'tsk tsk_nolink';
+                                p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
+                                //console.log(p);
+                                eid_tsk_body.append(p);
+
+                            }
+                
+                            //Abro Sidebar pata mostrar TSK
+                            showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
+                            if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+                                openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+                            }else{//si es desktop o tablet
+                                //comprebo si está oculto eid_sidebar
+                                if(eid_sidebar.style.display == 'none'){
+                                    eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
+                                }
+                            }
+
+                        } catch (error) {
+                            console.error('2. Error en try-catch tsk. Error: ', error);
+                        }
+
+                    }else{
+                        //console.log('No coincide el nombre del fichero o fileContent está vacío');
+                    }
+                }
+            }
+        }//end - //si existe objeto con Translation. Saco datos del objeto
+
+
+        //si no existe objeto con tskName. hago fetch()
+        if(typeof obj_tsk_files[tskName].Books[book] == 'undefined'){
+            
+            try {
+                
+                //console.log(`(${tsk.Books[book].PathName}) --- no hay todavia el fichero '${tsk.Books[book].PathName}' en obj_tsk_files[tskName] . saco datos por fetch()`);
+
+                let url = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference "01_genesis.ini"
+                
+                const response = await fetch(url);
+                const tskModule = await response.text();
+
+                if(crear_objeto_obj_tsk_files){
+                    //meto tskModule en obj_tsk_files
+                    obj_tsk_files[tskName].Books[book] = {
+                        'fileName': tsk.Books[book].PathName, 
+                        'fileContent': tskModule
+                    };
+                    //console.log('abajo obj_tsk_files:');
+                    //console.log(obj_tsk_files);
+                }
+
+                tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
+                
+                let tb = tskModule.split('[');//divido en chapters
+                let tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
+                let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                let tb_lines = tb_chapter_vlinks.split('\n');
+                let tb_verseNumber = tb_chapter_vlinks[0];
+                
+                let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                if(tb_arr_links == null) alert('error tb_arr_links');
+                
+                //console.log('tb_chapterNumber: '+tb_chapterNumber);
+                //console.log('tb_verseNumber: '+tb_verseNumber);
+                //console.log('tb_arr_links: ');
+                //console.log(tb_arr_links);
+    
+                eid_tsk_head.innerHTML = '';//reset datos
+                eid_tsk_body.innerHTML = '';//reset datos
+    
+                //Siempre muestro el verse clickeado en tsk
+                const span_sm_trans = document.createElement('span');
+                span_sm_trans.id = 'sm_trans';
+                //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+    
+                const span_trans_tsk = document.createElement('span');
+                span_trans_tsk.className = 'trans_tsk';
+                span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                span_sm_trans.append(span_trans_tsk);                
+    
+                const p = document.createElement('p');
+                p.id = el.id;
+                p.className = 'tsk tsk_verse';
+                p.setAttribute('data-verse',el.getAttribute('data-verse'));
+                p.dataset.trans = Translation;
+                p.innerHTML = el.innerHTML;
+                p.querySelector('a').addEventListener('click',()=>{
+                    //console.log('click on tsk a');
+                    goToLink(Translation, p.querySelector('a').innerHTML);
+                });
+
+                if(p.innerHTML.includes('wr_tooltip')){
+                    p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
+                        hideShowComment(event);
+                    });
+                    p.querySelector('.close').addEventListener('click',(event) => {
+                        close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+                    });
+                }
+    
+                eid_tsk_head.append(span_sm_trans);
+                eid_tsk_head.append(p);
+                eid_tsk_head.scrollTop = 0;
+                
+                mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
+                
+                //Muestro loader tres puntos (...)
+                const d_loader = document.createElement('div');
+                d_loader.className = 'loader';
+                d_loader.innerHTML = `<span class="loader__element"></span>
+                                      <span class="loader__element"></span>
+                                      <span class="loader__element"></span>`;
+                eid_tsk_body.append(d_loader);
+    
+                arr_tsk_p = [];//por si acaso
+    
+                //Si hay links para el verse
+                if(tb_arr_links != ''){
+                    //console.log('antes de forEach. tb_arr_links: ');
+                    //console.log(tb_arr_links);                  
+    
+                    tb_arr_links.forEach((el,i)=>{
+                        //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                        let tb_iter = i;
+    
+                        let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                        let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                        let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                        let verseNumber = null;
+                        let to_verseNumber = null;
+    
+                        if(verseNumbers.includes('-')){
+                            verseNumber = verseNumbers.split('-')[0];
+                            to_verseNumber = verseNumbers.split('-')[1];
+                        }else{
+                            verseNumber = verseNumbers;
+                        }
+    
+                        //console.log('bookShortName: '+bookShortName);//Mat. Gen.
+                        //console.log('chapterNumber: '+chapterNumber);//empezando de 1
+                        //console.log('verseNumber: '+verseNumber);//empezando de 1
+                        //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                        //console.log('---');                        
+
+                        //saco ajustes de este modulo en json               
+                        let bq = objTrans;
+                        //console.log(' abajo bq:');
+                        //console.log(bq);
+
+                        //Asigno global vars para que sean vistos en fetch interior
+                        window.dataBooksTsk = bq.Books;
+
+                        window.bq_StrongNumbers = bq.StrongNumbers;
+                        window.bq_EnglishPsalms = bq.EnglishPsalms;//PARA SABER SI MODIFICO chapterNumber y verseNumber
+
+                        window.bq_Notes = bq.Notes;
+                        window.bq_NoteSign = bq.NoteSign;
+                        window.bq_StartNoteSign = bq.StartNoteSign;
+                        window.bq_EndNoteSign = bq.EndNoteSign;
+
+                        window.bq_Titles = bq.Titles;
+                        window.bq_StartTitleSign = bq.StartTitleSign;
+                        window.bq_EndTitleSign = bq.EndTitleSign;
+
+                        window.bq_HTMLFilter = bq.HTMLFilter;
+                        
+                        //Достаю индех книги, зная его короткое значение.Напр.: 'Mt 13:24-26'
+                        for(let i = 0, bookNumber = null; i < dataBooksTsk.length; i++) {
+                            const element = dataBooksTsk[i];
+
+                            for(let y = 0; y < element.ShortNames.length; y++) {
+                                const elem = element.ShortNames[y];
+
+                                if(bookShortName.toLowerCase() == elem.toLowerCase()){
+                                    let n_book = element.BookNumber;
+                                    let short_name = elem;//siempre el primer nombre del array
+                
+                                    bookNumber = i;//numero de book empezando de 0. 0 => Génesis
+                                    //console.log('bookNumber: '+bookNumber);                        
+                                    //console.log('--- encontrado n_book: ' +n_book + ' --- short_name: ' +short_name);
+
+                                    //Al encontrar el identificador del libro, miro los links. 
+                                    //14=Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+                                    //vers 14 tiene los links: Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+
+                                    if(bq_EnglishPsalms == 'N'){
+                                        //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+                                        let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                                                    
+                                        //asigno nuevo valor
+                                        bookNumber = new_result[0];
+                                        chapterNumber = new_result[1];
+                                        verseNumber = new_result[2];
+                                        to_verseNumber = new_result[3];
+
+                                        //console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                        //console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                        //console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                        //console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                    }
+
+
+
+                                    //si existe el fichero del libro del módulo...
+                                    if( typeof obj_bible_files[Translation] != 'undefined' && 
+                                        typeof obj_bible_files[Translation].Books[bookNumber] != 'undefined' &&
+                                        obj_bible_files[Translation].Books[bookNumber].fileName == bq.Books[bookNumber].PathName && 
+                                        obj_bible_files[Translation].Books[bookNumber].fileContent != '' && 
+                                        obj_bible_files[Translation].Books[bookNumber].fileContent != ' '
+                                    ){
+                                        //console.log(`--- hay fichero en el objeto 'obj_bible_files'`);
+                                        //console.log(`--- hay fichero en el objeto 'obj_bible_files' para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
+
+                                        let bookModule = obj_bible_files[Translation].Books[bookNumber].fileContent;
+                                        let nb = bookModule.split('<h4>');//делю файл на главы
+                                        //console.log(nb);
+                                        
+                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                        //console.log(nb);
+
+                                        let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                            ? nb[chapterNumber].split('<p>').length - 1 
+                                            : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                        //console.log(` `);
+                                        //console.log(` tb_iter: ${tb_iter}`);
+                                        //console.log(`1. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+
+                                        //si el capitulo indicado existe en el modulo -> todo bien
+                                        if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                            //console.log(`1. el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                            //console.log(`1. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
+                                            //console.log(`1. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+    
+                                            let VerseTextFull = '';
+                                            let VerseText = '';
+
+                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                let new_verseNumber = to_verseNumber;
+                                                let new_to_verseNumber = verseNumber;
+                                                verseNumber = new_verseNumber;
+                                                to_verseNumber = new_to_verseNumber;
+                                                //console.log(`1. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                            }
+    
+                                            //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                            if(to_verseNumber != null){  
+                                                to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ;                                                  
+                                                
+                                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                    let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                    let stijNumber = stij[0];
+                                                    stij.shift();//elimino 1 index
+                                                    let stijText = stij.join(' ');//junto
+                                                    let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+    
+                                                    //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                    VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                    if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                        VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                    }
+                                                    VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                    VerseTextFull += '</span>';
+    
+                                                    //console.log(VerseTextFull);
+                                                    
+                                                    VerseText = VerseTextFull;
+                                                    //console.log(VerseText);
+                                                }//end for
+    
+                                            }else{//если только 1 стих (1Кор.11:7), то...
+                                                
+                                                VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                //console.log(VerseTextFull);
+                                                
+                                                let stijText = VerseTextFull.split(' ');
+                                                stijText.shift();//elimino numero de versiculo
+    
+                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                //console.log(VerseText);
+
+                                            }
+    
+    
+                                            const p = document.createElement('p');
+                                            let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                            if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                            p.id = idLink;
+                                            p.className = 'tsk tsk_link';
+                                            p.setAttribute('data-verse',verseNumber);
+    
+                                            const span_num_tsk = document.createElement('span');
+                                            span_num_tsk.className = 'sp_f';
+                                            span_num_tsk.innerText = tb_iter + 1;
+    
+                                            p.append(span_num_tsk);
+    
+                                            const a = document.createElement('a');
+                                            a.href = '#';
+                                            //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                            let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                            if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                            //console.log('===> refLink: '+refLink);
+    
+                                            //-----------------------------------------------------------------//
+                                            //Evento on click. NO BORRAR !!! añado listener después de for!
+                                            //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                            //-----------------------------------------------------------------//
+                                            
+                                            a.innerHTML = refLink;
+                                            p.append(a);
+                                            p.append(' ');
+    
+    
+                                            const span_vt = document.createElement('span');
+                                            span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+    
+                                            
+                                            //Номера Стронга в стихах (RST+)
+                                            if(bq_StrongNumbers == "Y"){
+                                                let t = VerseText;
+                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+    
+                                                arr_t.forEach((el,i) => {    
+                                                    
+                                                    //element of string is Strong Number
+                                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                        const span_strong = document.createElement('span');
+                                                        span_strong.className = 'strong'; 
+                                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+    
+                                                        //si ultimo carácter es string
+                                                        if(last_char != '' && isNaN(last_char)){
+                                                            let el_number = el.substring(0,el.length-1);
+                                                            let el_string = last_char;
+                                                            span_strong.innerHTML = el_number;
+                                                            p.append(span_strong);
+                                                            p.append(el_string);
+                                                        }else{//es number
+                                                            span_strong.innerHTML = el;
+                                                            p.append(span_strong);
+                                                        }
+                                                    }else{//is word
+                                                        p.append(' ');
+                                                        p.append(el);
+                                                    }
+                                                });
+                                                p.innerHTML.trim();
+    
+                                                if(bq_HTMLFilter == 'Y'){
+                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                }
+    
+                                            }                                            
+                                            
+                                            //Примечания редактора в стихах (RSTi2)
+                                            if(bq_Notes == 'Y'){
+                                                let t = VerseText;
+    
+                                                if(t.includes(bq_NoteSign)){// '*'
+                                                    let arr_t0 = t.split(bq_NoteSign);
+                                                    let before_Note = arr_t0[0];
+    
+                                                    if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                        let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                        let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                        let text_Note = arr_t2[0];
+                                                        let after_Note = arr_t2[1];
+
+                                                        const span_before = document.createElement('span');
+                                                        const span_after = document.createElement('span');
+    
+                                                        /*
+                                                        const span_t = document.createElement('span');
+                                                        span_t.className = 'tooltip';
+                                                        span_t.setAttribute('data-tooltip',text_Note);
+                                                        span_t.innerHTML = bq.NoteSign;
+    
+                                                        span_t.addEventListener('mouseenter', function(){
+                                                            showTooltip(this);
+                                                        });
+                                                        span_t.addEventListener('mouseleave', function(){
+                                                            hideTooltip(this);
+                                                        });
+                                                        
+                                                        span_vt.append(before_Note);
+                                                        span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                        span_vt.append(span_t);
+                                                        const span_vt_despues = document.createElement('span');
+                                                        span_vt_despues.className = 'vt';
+                                                        span_vt_despues.append(after_Note);
+                                                        span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+    
+                                                        p.append(span_vt);
+                                                        p.append(span_vt_despues);
+                                                        */
+
+                                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                            const h6_text = document.createElement('h6');
+                                                            h6_text.className = 'prim_h6';
+                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                            h6_text.innerHTML = arr_text_bn[0];
+                                                            span_before.append(h6_text);
+                                                            span_vt.append(span_before);
+                                                        }else{
+                                                            span_before.innerHTML = before_Note;
+                                                            span_vt.append(span_before);
+                                                        }
+
+                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                        
+                                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                        span_after.innerHTML = after_Note;
+                                                        span_vt.append(span_after);
+                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                        p.append(span_vt);
+
+                                                    }
+                                                }else{
+                                                    //span_vt.append(VerseText);//se ven '<'
+                                                    span_vt.innerHTML = VerseText;// se ve OK
+                                                    p.append(span_vt);
+    
+                                                    if(bq_HTMLFilter == 'Y'){
+                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                    }
+                                                }
+                                            }
+                                            
+                                            //Оглавления в стихах (NRT)
+                                            if(bq_Titles == 'Y'){
+                                                let t = VerseText;
+    
+                                                if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                    let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                    let before_Title = arr_t1[0];
+                                                    let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                    let text_Title = arr_t2[0];
+                                                    let after_Title = arr_t2[1];
+    
+                                                    const span_title = document.createElement('span');
+                                                    span_title.className = 'verse_title';
+                                                    span_title.innerHTML = text_Title;
+    
+                                                    p.append(before_Title);
+                                                    p.append(span_title);
+                                                    p.append(after_Title);
+                                                }else{
+                                                    p.append(VerseText);
+                                                }
+    
+                                                if(bq_HTMLFilter == 'Y'){
+                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                }
+                                            }
+                                            
+                                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                            if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                span_vt.innerHTML = VerseText;
+                                                p.append(span_vt);
+    
+                                                if(bq_HTMLFilter == 'Y'){
+                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                }
+                                            }
+
+                                            arr_tsk_p[tb_iter] = p;
+                                            //console.log(`--- tb_iter: ${tb_iter}`);
+
+                                        }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                            //console.log(`1. --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                            //console.log(`1. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                            arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                            //console.log(`--- tb_iter: ${tb_iter}`);
+                                        }
+
+                                        //si es ultimo elemento del array...
+                                        if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                            //console.log('--- llamo buildVersesTsk() ---');
+                                            buildVersesTsk(arr_tsk_p, Translation);
+                                        }
+
+                                    }else{
+                                        
+                                        //console.log(`(${el}) --- no hay fichero en obj_bible_files`);
+                                        //console.log(`(${el}) no hay fichero '${Translation}/${bq.Books[bookNumber].PathName}'... \n voy a hacer fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+
+                                       
+                                        //todo el libro
+                                        if(modo_fetch_verses_for_tsk_block == 'by_text'){
+                                            
+                                            try {
+                                                
+                                                //console.log('modo_fetch_verses_for_tsk_block == by_text');
+
+                                                //url del libro necesario
+                                                let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';
+                                                
+                                                fetchInner22(url);
+                                                async function fetchInner22(url){
+
+                                                    const response = await fetch(url);
+                                                    const bookModule = await response.text();
+
+                                                    //console.log(`--- fetch() --- (${el}) he hecho fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+                                                    //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                    //console.log(bookModule);
+
+                                                    if(crear_objeto_obj_bible_files){
+                                                        //si no existe objeto de ficheros de la Biblia, lo creo
+                                                        if(typeof obj_bible_files[Translation] == 'undefined'){
+                                                            obj_bible_files[Translation] = {};
+                                                            obj_bible_files[Translation].Books = [];
+                                                        }
+                                                        //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                        if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
+                                                            if(bookModule != '' && bookModule != ' '){
+                                                                obj_bible_files[Translation].Books[bookNumber] = {
+                                                                    'fileName': bq.Books[bookNumber].PathName, 
+                                                                    'fileContent': bookModule
+                                                                };
+                                                                //console.log('2. obj_bible_files');
+                                                                //console.log(obj_bible_files);
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                                    //console.log(nb);
+                                                    
+                                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                    //console.log(nb);
+
+                                                    let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                        ? nb[chapterNumber].split('<p>').length - 1 
+                                                        : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                    //console.log(` `);
+                                                    //console.log(` tb_iter: ${tb_iter}`);
+                                                    //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+
+                                                    //si el capitulo indicado existe en el modulo -> todo bien
+                                                    if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                        //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
+                                                        //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+            
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
+
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
+            
+                                                        //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                        if(to_verseNumber != null){                                                    
+                                                            to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+
+                                                            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                let stijNumber = stij[0];
+                                                                stij.shift();//elimino 1 index
+                                                                let stijText = stij.join(' ');//junto
+                                                                let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+            
+                                                                //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                    VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                }
+                                                                VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                VerseTextFull += '</span>';
+            
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                VerseText = VerseTextFull;
+                                                                //console.log(VerseText);
+                                                            }//end for
+            
+                                                        }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
+                                                            VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                            //console.log(VerseTextFull);
+                                                            
+                                                            let stijText = VerseTextFull.split(' ');
+                                                            stijText.shift();//elimino numero de versiculo
+            
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            //console.log(VerseText);
+
+                                                        }
+            
+            
+                                                        const p = document.createElement('p');
+                                                        let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                        if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                        p.id = idLink;
+                                                        p.className = 'tsk tsk_link';
+                                                        p.setAttribute('data-verse',verseNumber);
+            
+                                                        const span_num_tsk = document.createElement('span');
+                                                        span_num_tsk.className = 'sp_f';
+                                                        span_num_tsk.innerText = tb_iter + 1;
+            
+                                                        p.append(span_num_tsk);
+            
+                                                        const a = document.createElement('a');
+                                                        a.href = '#';
+                                                        //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                        let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                        if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                        //console.log('===> refLink: '+refLink);
+            
+                                                        //-----------------------------------------------------------------//
+                                                        //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                        //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                        //-----------------------------------------------------------------//
+                                                        
+                                                        a.innerHTML = refLink;
+                                                        p.append(a);
+                                                        p.append(' ');
+            
+            
+                                                        const span_vt = document.createElement('span');
+                                                        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+            
+                                                        
+                                                        //Номера Стронга в стихах (RST+)
+                                                        if(bq_StrongNumbers == "Y"){
+                                                            let t = VerseText;
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+            
+                                                            arr_t.forEach((el,i) => {    
+                                                                
+                                                                //element of string is Strong Number
+                                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                    const span_strong = document.createElement('span');
+                                                                    span_strong.className = 'strong'; 
+                                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+            
+                                                                    //si ultimo carácter es string
+                                                                    if(last_char != '' && isNaN(last_char)){
+                                                                        let el_number = el.substring(0,el.length-1);
+                                                                        let el_string = last_char;
+                                                                        span_strong.innerHTML = el_number;
+                                                                        p.append(span_strong);
+                                                                        p.append(el_string);
+                                                                    }else{//es number
+                                                                        span_strong.innerHTML = el;
+                                                                        p.append(span_strong);
+                                                                    }
+                                                                }else{//is word
+                                                                    p.append(' ');
+                                                                    p.append(el);
+                                                                }
+                                                            });
+                                                            p.innerHTML.trim();
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+            
+                                                        }                                            
+                                                        
+                                                        //Примечания редактора в стихах (RSTi2)
+                                                        if(bq_Notes == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_NoteSign)){// '*'
+                                                                let arr_t0 = t.split(bq_NoteSign);
+                                                                let before_Note = arr_t0[0];
+            
+                                                                if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                    let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                    let text_Note = arr_t2[0];
+                                                                    let after_Note = arr_t2[1];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');
+            
+                                                                    /*
+                                                                    const span_t = document.createElement('span');
+                                                                    span_t.className = 'tooltip';
+                                                                    span_t.setAttribute('data-tooltip',text_Note);
+                                                                    span_t.innerHTML = bq.NoteSign;
+            
+                                                                    span_t.addEventListener('mouseenter', function(){
+                                                                        showTooltip(this);
+                                                                    });
+                                                                    span_t.addEventListener('mouseleave', function(){
+                                                                        hideTooltip(this);
+                                                                    });
+                                                                    
+                                                                    span_vt.append(before_Note);
+                                                                    span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    span_vt.append(span_t);
+                                                                    const span_vt_despues = document.createElement('span');
+                                                                    span_vt_despues.className = 'vt';
+                                                                    span_vt_despues.append(after_Note);
+                                                                    span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+            
+                                                                    p.append(span_vt);
+                                                                    p.append(span_vt_despues);
+                                                                    */
+
+                                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                    if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                        const h6_text = document.createElement('h6');
+                                                                        h6_text.className = 'prim_h6';
+                                                                        let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                        let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                        arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                        h6_text.innerHTML = arr_text_bn[0];
+                                                                        span_before.append(h6_text);
+                                                                        span_vt.append(span_before);
+                                                                    }else{
+                                                                        span_before.innerHTML = before_Note;
+                                                                        span_vt.append(span_before);
+                                                                    }
+
+                                                                    span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                    
+                                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                    span_after.innerHTML = after_Note;
+                                                                    span_vt.append(span_after);
+                                                                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    p.append(span_vt);
+
+                                                                }
+                                                            }else{
+                                                                //span_vt.append(VerseText);//se ven '<'
+                                                                span_vt.innerHTML = VerseText;// se ve OK
+                                                                p.append(span_vt);
+            
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }
+                                                        
+                                                        //Оглавления в стихах (NRT)
+                                                        if(bq_Titles == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                let before_Title = arr_t1[0];
+                                                                let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                let text_Title = arr_t2[0];
+                                                                let after_Title = arr_t2[1];
+            
+                                                                const span_title = document.createElement('span');
+                                                                span_title.className = 'verse_title';
+                                                                span_title.innerHTML = text_Title;
+            
+                                                                p.append(before_Title);
+                                                                p.append(span_title);
+                                                                p.append(after_Title);
+                                                            }else{
+                                                                p.append(VerseText);
+                                                            }
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }
+                                                        
+                                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                        if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                            span_vt.innerHTML = VerseText;
+                                                            p.append(span_vt);
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }    
+            
+                                                        arr_tsk_p[tb_iter] = p;
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);                                           
+                                                    
+                                                    }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                        //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
+                                                        //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
+                                                    }
+
+                                                    //si es ultimo elemento del array...
+                                                    if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                        //console.log('--- llamo buildVersesTsk() ---');
+                                                        buildVersesTsk(arr_tsk_p, Translation);
+                                                    }                                                    
+                                                    
+                                                }//end fetchInner22()
+
+                                            } catch (error) {
+                                                console.error('2.2210 Error en try-catch by_text. Error: ', error);
+                                            }                                            
+
+                                        }// end modo_fetch_verses_for_tsk_block old
+
+
+                                        //por php solo el capitulo
+                                        if(modo_fetch_verses_for_tsk_block == 'by_json'){
+                                            
+                                            try {
+
+                                                //console.log('modo_fetch_verses_for_tsk_block == by_json');
+
+                                                //url del libro necesario
+                                                let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+
+                                                //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+                                                let formData = new FormData();
+                                                formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
+                                                formData.append('base_ep', base_ep);
+                                                formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
+                                                if(book != null) formData.append('book', bookNumber);
+                                                formData.append('chapter', chapterNumber);
+                                                //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
+                                                if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+                                                if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
+                                                if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+
+                                                //console.log('formData: ',[...formData]);
+                                                
+                                                fetchInner26(formData);
+                                                async function fetchInner26(formData){
+
+                                                    const response = await fetch('./php/read_file_to_json.php',{
+                                                        method: 'POST',
+                                                        body: formData
+                                                    });
+                                                    const dataRead = await response.json();
+
+                                                    //console.log(`--- fetch() por php to_json --- (${el}) he hecho fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+
+                                                    let bookModule = dataRead.chapterData.arr_p_verses;
+                                                    //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                    //console.log(bookModule);
+                                                                                                
+                                                    let nb = bookModule;//делю файл на главы
+                                                    //console.log(nb);
+                                                    
+                                                    let vsego_stijov = dataRead.chapterData.VerseQty;
+                                                    //console.log(` vsego_stijov: ${vsego_stijov}`);
+
+                                                    //console.log(` `);
+                                                    //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+
+                                                    //si el capitulo indicado existe en el modulo -> todo bien
+                                                    if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                        //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
+                                                        //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+
+            
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
+
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
+            
+                                                        //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                        if(to_verseNumber != null){                                                    
+                                                            to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+
+                                                            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                let stij = nb[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                let stijNumber = stij[0];
+                                                                stij.shift();//elimino 1 index
+                                                                let stijText = stij.join(' ');//junto
+                                                                let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+            
+                                                                //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                    VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                }
+                                                                VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                VerseTextFull += '</span>';
+            
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                VerseText = VerseTextFull;
+                                                                //console.log(VerseText);
+                                                            }//end for
+            
+                                                        }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
+                                                            VerseTextFull = nb[verseNumber];
+                                                            //console.log(VerseTextFull);
+                                                            
+                                                            let stijText = VerseTextFull.split(' ');
+                                                            stijText.shift();//elimino numero de versiculo
+            
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            //console.log(VerseText);
+
+                                                        }
+            
+            
+                                                        const p = document.createElement('p');
+                                                        let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                        if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                        p.id = idLink;
+                                                        p.className = 'tsk tsk_link';
+                                                        p.setAttribute('data-verse',verseNumber);
+            
+                                                        const span_num_tsk = document.createElement('span');
+                                                        span_num_tsk.className = 'sp_f';
+                                                        span_num_tsk.innerText = tb_iter + 1;
+            
+                                                        p.append(span_num_tsk);
+            
+                                                        const a = document.createElement('a');
+                                                        a.href = '#';
+                                                        //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                        let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                        if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                        //console.log('===> refLink: '+refLink);
+            
+                                                        //-----------------------------------------------------------------//
+                                                        //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                        //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                        //-----------------------------------------------------------------//
+                                                        
+                                                        a.innerHTML = refLink;
+                                                        p.append(a);
+                                                        p.append(' ');
+            
+            
+                                                        const span_vt = document.createElement('span');
+                                                        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+            
+                                                        
+                                                        //Номера Стронга в стихах (RST+)
+                                                        if(bq_StrongNumbers == "Y"){
+                                                            let t = VerseText;
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+            
+                                                            arr_t.forEach((el,i) => {    
+                                                                
+                                                                //element of string is Strong Number
+                                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                    const span_strong = document.createElement('span');
+                                                                    span_strong.className = 'strong'; 
+                                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+            
+                                                                    //si ultimo carácter es string
+                                                                    if(last_char != '' && isNaN(last_char)){
+                                                                        let el_number = el.substring(0,el.length-1);
+                                                                        let el_string = last_char;
+                                                                        span_strong.innerHTML = el_number;
+                                                                        p.append(span_strong);
+                                                                        p.append(el_string);
+                                                                    }else{//es number
+                                                                        span_strong.innerHTML = el;
+                                                                        p.append(span_strong);
+                                                                    }
+                                                                }else{//is word
+                                                                    p.append(' ');
+                                                                    p.append(el);
+                                                                }
+                                                            });
+                                                            p.innerHTML.trim();
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+            
+                                                        }                                            
+                                                        
+                                                        //Примечания редактора в стихах (RSTi2)
+                                                        if(bq_Notes == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_NoteSign)){// '*'
+                                                                let arr_t0 = t.split(bq_NoteSign);
+                                                                let before_Note = arr_t0[0];
+            
+                                                                if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                    let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                    let text_Note = arr_t2[0];
+                                                                    let after_Note = arr_t2[1];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');                                                                        
+            
+                                                                    /*
+                                                                    const span_t = document.createElement('span');
+                                                                    span_t.className = 'tooltip';
+                                                                    span_t.setAttribute('data-tooltip',text_Note);
+                                                                    span_t.innerHTML = bq.NoteSign;
+            
+                                                                    span_t.addEventListener('mouseenter', function(){
+                                                                        showTooltip(this);
+                                                                    });
+                                                                    span_t.addEventListener('mouseleave', function(){
+                                                                        hideTooltip(this);
+                                                                    });
+                                                                    
+                                                                    span_vt.append(before_Note);
+                                                                    span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    span_vt.append(span_t);
+                                                                    const span_vt_despues = document.createElement('span');
+                                                                    span_vt_despues.className = 'vt';
+                                                                    span_vt_despues.append(after_Note);
+                                                                    span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+            
+                                                                    p.append(span_vt);
+                                                                    p.append(span_vt_despues);
+                                                                    */
+
+                                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                    if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                        const h6_text = document.createElement('h6');
+                                                                        h6_text.className = 'prim_h6';
+                                                                        let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                        let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                        arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                        h6_text.innerHTML = arr_text_bn[0];
+                                                                        span_before.append(h6_text);
+                                                                        span_vt.append(span_before);
+                                                                    }else{
+                                                                        span_before.innerHTML = before_Note;
+                                                                        span_vt.append(span_before);
+                                                                    }
+
+                                                                    span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                    
+                                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                    span_after.innerHTML = after_Note;
+                                                                    span_vt.append(span_after);
+                                                                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    p.append(span_vt);
+
+                                                                }
+                                                            }else{
+                                                                //span_vt.append(VerseText);//se ven '<'
+                                                                span_vt.innerHTML = VerseText;// se ve OK
+                                                                p.append(span_vt);
+            
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }
+                                                        
+                                                        //Оглавления в стихах (NRT)
+                                                        if(bq_Titles == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                let before_Title = arr_t1[0];
+                                                                let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                let text_Title = arr_t2[0];
+                                                                let after_Title = arr_t2[1];
+            
+                                                                const span_title = document.createElement('span');
+                                                                span_title.className = 'verse_title';
+                                                                span_title.innerHTML = text_Title;
+            
+                                                                p.append(before_Title);
+                                                                p.append(span_title);
+                                                                p.append(after_Title);
+                                                            }else{
+                                                                p.append(VerseText);
+                                                            }
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }
+                                                        
+                                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                        if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                            span_vt.innerHTML = VerseText;
+                                                            p.append(span_vt);
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }    
+            
+                                                        arr_tsk_p[tb_iter] = p;
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);                                           
+                                                    
+                                                    }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                        //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
+                                                        //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
+                                                    }
+
+                                                    //si es ultimo elemento del array...
+                                                    if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                        //console.log('--- llamo buildVersesTsk() ---');
+                                                        buildVersesTsk(arr_tsk_p, Translation);
+                                                    }
+
+                                                }//end fetchInner26()
+                                                
+                                            } catch (error) {
+                                                console.error('2.new 2662 Error en try-catch. Error: ', error);
+                                            }
+
+                                        }// end modo_fetch_verses_for_tsk_block by_json
+
+
+                                    }
+
+                                    break;
+                                }
+                            }
+                            if(bookNumber != null){
+                                break;
+                            }                                    
+                        }//end for inner 
+    
+                    });//fin forEach de tb_arr_links
+
+                    if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                        //alert('es menor');
+                        //console.log('es menor2');
+                        buildVersesTsk(arr_tsk_p, Translation);
+                        
+                        if(countElementsInArray(arr_tsk_p) == 0){
+                            eid_tsk_body.innerHTML = '';//reset
+                            const p = document.createElement('p');
+                            p.className = 'tsk tsk_nolink';
+                            p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                            //console.log(p);
+                            eid_tsk_body.append(p);
+                        }
+                    }
+
+    
+                }else{//no hay links
+                    
+                    eid_tsk_body.innerHTML = '';//reset
+                    const p = document.createElement('p');
+                    p.className = 'tsk tsk_nolink';
+                    p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
+                    //console.log(p);
+                    eid_tsk_body.append(p);
+
+                }
+    
+                //Abro Sidebar pata mostrar TSK
+                showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
+
+                if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+                    openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+                }else{//si es desktop o tablet
+                    //comprebo si está oculto eid_sidebar
+                    if(eid_sidebar.style.display == 'none'){
+                        eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
+                    }
+                }
+
+            } catch (error) {
+                console.error('2. Error try-catch tsk: ', error);
+            }
+
+        }//end - //si no existe objeto con Translation. hago fetch()
+
+
+    }else{//modo old
+
+        try {
+            
+            //alert('tsk modo old');
+            //console.log('tsk modo old');
+
+            let url = `./modules/text/tsk/bibleqt.json`;//tsk'; 
+            const response = await fetch(url);
+            const tsk = await response.json();            
+            
+            //console.log('abajo tsk: ');
+            //console.log(tsk);
+            //console.log('tsk.Books[book].PathName: '+tsk.Books[book].PathName);
+            
+            let url2 = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference
+
+            fetchInner(url2);
+            async function fetchInner(url2){
+                
+                try {
+
+                    const response = await fetch(url2);
+                    const tskModule = await response.text();
+
+                    tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
+
+                    let tb = tskModule.split('[');//divido en chapters
+                    let tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
+                    let tb_chapterNumber = tb_chapter[0];//numero de chapter
+                    let tb_chapter_vlinks = tb_chapter[1];//links del chapter
+                    let tb_lines = tb_chapter_vlinks.split('\n');
+                    let tb_verseNumber = tb_chapter_vlinks[0];
+                    
+                    let tb_arr_links = tb_lines[verse - 1].split('=')[1].split('; ');
+                    if(tb_arr_links == null) alert('error tb_arr_links');
+                    
+                    //console.log('tb_chapterNumber: '+tb_chapterNumber);
+                    //console.log('tb_verseNumber: '+tb_verseNumber);
+                    //console.log('tb_arr_links: ');
+                    //console.log(tb_arr_links);
+    
+                    eid_tsk_head.innerHTML = '';//reset datos
+                    eid_tsk_body.innerHTML = '';//reset datos
+    
+                    //Siempre muestro el verse clickeado en tsk
+                    const span_sm_trans = document.createElement('span');
+                    span_sm_trans.id = 'sm_trans';
+                    //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+    
+                    const span_trans_tsk = document.createElement('span');
+                    span_trans_tsk.className = 'trans_tsk';
+                    span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
+                    span_sm_trans.append(span_trans_tsk);
+                    
+    
+                    const p = document.createElement('p');
+                    p.id = el.id;
+                    p.className = 'tsk tsk_verse';
+                    p.setAttribute('data-verse',el.getAttribute('data-verse'));
+                    p.dataset.trans = Translation;
+                    p.innerHTML = el.innerHTML;
+                    p.querySelector('a').addEventListener('click',()=>{
+                        //console.log('click on tsk a');
+                        goToLink(Translation, p.querySelector('a').innerHTML);
+                    });
+    
+                    if(p.innerHTML.includes('wr_tooltip')){
+                        p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
+                            hideShowComment(event);
+                        });
+                        p.querySelector('.close').addEventListener('click',(event) => {
+                            close_comment_x(event.target.parentElement.parentElement.parentElement, event);
+                        });
+                    }
+    
+                    eid_tsk_head.append(span_sm_trans);
+                    eid_tsk_head.append(p);
+                    eid_tsk_head.scrollTop = 0;
+                    
+                    mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
+                    
+                    //Muestro loader tres puntos (...)
+                    const d_loader = document.createElement('div');
+                    d_loader.className = 'loader';
+                    d_loader.innerHTML = `<span class="loader__element"></span>
+                                        <span class="loader__element"></span>
+                                        <span class="loader__element"></span>`;
+                    eid_tsk_body.append(d_loader);
+    
+                    arr_tsk_p = [];//por si acaso
+    
+                    //Si hay links para el verse
+                    if(tb_arr_links != ''){
+                        //console.log('antes de forEach. tb_arr_links: ');
+                        //console.log(tb_arr_links);                  
+    
+                        tb_arr_links.forEach((el,i)=>{
+                            //console.log(`tb_arr_links[${i}]: ${tb_arr_links[i]}`);
+                            let tb_iter = i;
+    
+                            let bookShortName = el.split(' ')[0];//Mt de 'Mt 13:24-26'
+                            let chapterNumber = el.split(' ')[1].split(':')[0];//13 de 'Mt 13:24-26'
+                            let verseNumbers = el.split(' ')[1].split(':')[1];//13 de 'Mt 13:24-26'
+                            let verseNumber = null;
+                            let to_verseNumber = null;
+        
+                            if(verseNumbers.includes('-')){
+                                verseNumber = verseNumbers.split('-')[0];
+                                to_verseNumber = verseNumbers.split('-')[1];
+                            }else{
+                                verseNumber = verseNumbers;
+                            }
+        
+                            //console.log('bookShortName: '+bookShortName);//Mat. Gen.
+                            //console.log('chapterNumber: '+chapterNumber);//empezando de 1
+                            //console.log('verseNumber: '+verseNumber);//empezando de 1
+                            //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                            //console.log('---');
+
+                            //Saco ajustes del modulo de la traducción en json
+                            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+                            
+                            fetchInner2(url_bq);
+                            async function fetchInner2(url_bq){
+
+                                try {
+                                    
+                                    const response = await fetch(url_bq);
+                                    const bq = await response.json();
+
+                                    //console.log(' abajo bq:');
+                                    //console.log(bq);
+        
+                                    //Asigno global vars para que sean vistos en fetch interior
+                                    window.dataBooksTsk = bq.Books;
+        
+                                    window.bq_StrongNumbers = bq.StrongNumbers;
+                                    window.bq_EnglishPsalms = bq.EnglishPsalms;//PARA SABER SI MODIFICO chapterNumber y verseNumber
+        
+                                    window.bq_Notes = bq.Notes;
+                                    window.bq_NoteSign = bq.NoteSign;
+                                    window.bq_StartNoteSign = bq.StartNoteSign;
+                                    window.bq_EndNoteSign = bq.EndNoteSign;
+        
+                                    window.bq_Titles = bq.Titles;
+                                    window.bq_StartTitleSign = bq.StartTitleSign;
+                                    window.bq_EndTitleSign = bq.EndTitleSign;
+        
+                                    window.bq_HTMLFilter = bq.HTMLFilter;
+                                    
+                                    //Достаю индех книги, зная его короткое значение.Напр.: 'Mt 13:24-26'
+                                    for(let i = 0, bookNumber = null; i < dataBooksTsk.length; i++) {
+                                        const element = dataBooksTsk[i];
+        
+                                        for(let y = 0; y < element.ShortNames.length; y++) {
+                                            const elem = element.ShortNames[y];
+        
+                                            if(bookShortName.toLowerCase() == elem.toLowerCase()){
+                                                let n_book = element.BookNumber;
+                                                let short_name = elem;//siempre el primer nombre del array
+                            
+                                                bookNumber = i;//numero de book empezando de 0. 0 => Génesis
+                                                //console.log('bookNumber: '+bookNumber);                        
+                                                //console.log('--- encontrado n_book: ' +n_book + ' --- short_name: ' +short_name);
+        
+                                                //Al encontrar el identificador del libro, miro los links. 
+                                                //14=Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+                                                //vers 14 tiene los links: Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+        
+                                                if(bq_EnglishPsalms == 'N'){
+                                                    //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+                                                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                                                                
+                                                    //asigno nuevo valor
+                                                    bookNumber = new_result[0];
+                                                    chapterNumber = new_result[1];
+                                                    verseNumber = new_result[2];
+                                                    to_verseNumber = new_result[3];
+        
+                                                    //console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                                    //console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                    //console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                                    //console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                                                }
+
+                                                //url del libro necesario
+                                                let url3 = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
+                                                
+                                                fetchInner3(url3);
+                                                async function fetchInner3(url3){
+
+                                                    try {
+
+                                                        const response = await fetch(url3);
+                                                        const bookModule = await response.text();
+
+                                                        //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                        //console.log(bookModule);
+            
+                                                        let nb = bookModule.split('<h4>');//делю файл на главы
+                                                        //console.log(nb);
+                                                        
+                                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                        //console.log(nb);
+            
+                                                        let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                            ? nb[chapterNumber].split('<p>').length - 1 
+                                                            : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                        //console.log(` `);
+                                                        //console.log(` tb_iter: ${tb_iter}`);        
+                                                        //console.log(`3. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+                                                        
+                                                        
+                                                        //si el capitulo indicado existe en el modulo -> todo bien
+                                                        if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                            //console.log(`3. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                            //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
+                                                            //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+            
+                                                            let VerseTextFull = '';
+                                                            let VerseText = '';
+            
+                                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                                let new_verseNumber = to_verseNumber;
+                                                                let new_to_verseNumber = verseNumber;
+                                                                verseNumber = new_verseNumber;
+                                                                to_verseNumber = new_to_verseNumber;
+                                                                //console.log(`3. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                            }
+                                    
+                                                            //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                            if(to_verseNumber != null){                                                    
+                                                                to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+            
+                                                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                    let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                    let stijNumber = stij[0];
+                                                                    stij.shift();//elimino 1 index
+                                                                    let stijText = stij.join(' ');//junto
+                                                                    let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+                
+                                                                    //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                    VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                    if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                        VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                    }
+                                                                    VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                    VerseTextFull += '</span>';
+                
+                                                                    //console.log(VerseTextFull);
+                                                                    
+                                                                    VerseText = VerseTextFull;
+                                                                    //console.log(VerseText);
+                                                                }//end for
+                
+                                                            }else{//если только 1 стих (1Кор.11:7), то...
+                                                                
+                                                                VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                let stijText = VerseTextFull.split(' ');
+                                                                stijText.shift();//elimino numero de versiculo
+                
+                                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                                //console.log(VerseText);
+
+                                                            }
+                
+                
+                                                            const p = document.createElement('p');
+                                                            let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                            if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                            p.id = idLink;
+                                                            p.className = 'tsk tsk_link';
+                                                            p.setAttribute('data-verse',verseNumber);
+                
+                                                            const span_num_tsk = document.createElement('span');
+                                                            span_num_tsk.className = 'sp_f';
+                                                            span_num_tsk.innerText = tb_iter + 1;
+                
+                                                            p.append(span_num_tsk);
+                                            
+                                                            const a = document.createElement('a');
+                                                            a.href = '#';
+                                                            //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                            let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                            if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                            //console.log('===> refLink: '+refLink);
+                
+                                                            //-----------------------------------------------------------------//
+                                                            //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                            //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                            //-----------------------------------------------------------------//
+                                                            
+                                                            a.innerHTML = refLink;
+                                                            p.append(a);
+                                                            p.append(' ');
+                
+                
+                                                            const span_vt = document.createElement('span');
+                                                            span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                
+                                                            
+                                                            //Номера Стронга в стихах (RST+)
+                                                            if(bq_StrongNumbers == "Y"){
+                                                                let t = VerseText;
+                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                
+                                                                arr_t.forEach((el,i) => {    
+                                                                    
+                                                                    //element of string is Strong Number
+                                                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                        const span_strong = document.createElement('span');
+                                                                        span_strong.className = 'strong'; 
+                                                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                
+                                                                        //si ultimo carácter es string
+                                                                        if(last_char != '' && isNaN(last_char)){
+                                                                            let el_number = el.substring(0,el.length-1);
+                                                                            let el_string = last_char;
+                                                                            span_strong.innerHTML = el_number;
+                                                                            p.append(span_strong);
+                                                                            p.append(el_string);
+                                                                        }else{//es number
+                                                                            span_strong.innerHTML = el;
+                                                                            p.append(span_strong);
+                                                                        }
+                                                                    }else{//is word
+                                                                        p.append(' ');
+                                                                        p.append(el);
+                                                                    }
+                                                                });
+                                                                p.innerHTML.trim();
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                
+                                                            }                                            
+                                                            
+                                                            //Примечания редактора в стихах (RSTi2)
+                                                            if(bq_Notes == 'Y'){
+                                                                let t = VerseText;
+                
+                                                                if(t.includes(bq_NoteSign)){// '*'
+                                                                    let arr_t0 = t.split(bq_NoteSign);
+                                                                    let before_Note = arr_t0[0];
+                
+                                                                    if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                        let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                        let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                        let text_Note = arr_t2[0];
+                                                                        let after_Note = arr_t2[1];
+            
+                                                                        const span_before = document.createElement('span');
+                                                                        const span_after = document.createElement('span');        
+                
+                                                                        /*const span_t = document.createElement('span');
+                                                                        span_t.className = 'tooltip';
+                                                                        span_t.setAttribute('data-tooltip',text_Note);
+                                                                        span_t.innerHTML = bq.NoteSign;
+                
+                                                                        span_t.addEventListener('mouseenter', function(){
+                                                                            showTooltip(this);
+                                                                        });
+                                                                        span_t.addEventListener('mouseleave', function(){
+                                                                            hideTooltip(this);
+                                                                        });
+                                                                        
+                                                                        span_vt.append(before_Note);
+                                                                        span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                        span_vt.append(span_t);
+                                                                        const span_vt_despues = document.createElement('span');
+                                                                        span_vt_despues.className = 'vt';
+                                                                        span_vt_despues.append(after_Note);
+                                                                        span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+                
+                                                                        p.append(span_vt);
+                                                                        p.append(span_vt_despues);
+                                                                        */
+            
+                                                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+            
+                                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                            const h6_text = document.createElement('h6');
+                                                                            h6_text.className = 'prim_h6';
+                                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                            h6_text.innerHTML = arr_text_bn[0];
+                                                                            span_before.append(h6_text);
+                                                                            span_vt.append(span_before);
+                                                                        }else{
+                                                                            span_before.innerHTML = before_Note;
+                                                                            span_vt.append(span_before);
+                                                                        }
+            
+                                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                        
+                                                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                        span_after.innerHTML = after_Note;
+                                                                        span_vt.append(span_after);
+                                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                        p.append(span_vt);
+            
+                                                                    }
+                                                                }else{
+                                                                    //span_vt.append(VerseText);//se ven '<'
+                                                                    span_vt.innerHTML = VerseText;// se ve OK
+                                                                    p.append(span_vt);
+                
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                            //Оглавления в стихах (NRT)
+                                                            if(bq_Titles == 'Y'){
+                                                                let t = VerseText;
+                
+                                                                if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                    let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                    let before_Title = arr_t1[0];
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                    let text_Title = arr_t2[0];
+                                                                    let after_Title = arr_t2[1];
+                
+                                                                    const span_title = document.createElement('span');
+                                                                    span_title.className = 'verse_title';
+                                                                    span_title.innerHTML = text_Title;
+                
+                                                                    p.append(before_Title);
+                                                                    p.append(span_title);
+                                                                    p.append(after_Title);
+                                                                }else{
+                                                                    p.append(VerseText);
+                                                                }
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                            
+                                                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                            if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                                span_vt.innerHTML = VerseText;
+                                                                p.append(span_vt);
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                
+                                                            arr_tsk_p[tb_iter] = p;
+                                                            //console.log(`--- tb_iter: ${tb_iter}`);
+            
+            
+                                                        }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                            //console.log(`3 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                                            //console.log(`3. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                            arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                            //console.log(`--- tb_iter: ${tb_iter}`);
+                                                        }
+            
+                                                        //si es ultimo elemento del array...
+                                                        if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                            //console.log('--- llamo buildVersesTsk() ---');
+                                                            buildVersesTsk(arr_tsk_p, Translation);
+                                                        }
+                                                        
+                                                    } catch (error) {
+                                                        console.error('4. Error en try-catch fetchInner3(). Error: ', error);
+                                                    }
+                                                    
+                                                }//end fetchInner3()
+                                                
+                                                break;//IMPORTANTE!!!
+                                            }
+                                        }
+                                        
+                                        if(bookNumber != null){
+                                            break;
+                                        }
+
+                                    }//end for inner
+
+                                } catch (error) {
+                                    console.error('3. Error en try-catch fetchInner2(). Error: ', error);
+                                }
+
+                            }//end fetchInner2()                           
+        
+                        });//fin forEach de tb_arr_links
+    
+                        if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
+                            //alert('es menor');
+                            //console.log('es menor3');
+                            buildVersesTsk(arr_tsk_p, Translation);
+                            
+                            if(countElementsInArray(arr_tsk_p) == 0){
+                                eid_tsk_body.innerHTML = '';//reset
+                                const p = document.createElement('p');
+                                p.className = 'tsk tsk_nolink';
+                                p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos en este módulo</span>';
+                                //console.log(p);
+                                eid_tsk_body.append(p);
+                            }
+                        }
+    
+    
+                    }else{//no hay links
+                        
+                        eid_tsk_body.innerHTML = '';//reset
+                        const p = document.createElement('p');
+                        p.className = 'tsk tsk_nolink';
+                        p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
+                        //console.log(p);
+                        eid_tsk_body.append(p);
+
+                    }
+    
+                    //Abro Sidebar pata mostrar TSK
+                    showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
+    
+                    if(window.innerWidth < pantallaTabletMinPx){//si es mobile
+                        openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
+                    }else{//si es desktop o tablet
+                        //comprebo si está oculto eid_sidebar
+                        if(eid_sidebar.style.display == 'none'){
+                            eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('2. Error en try-catch fetchInner(). Error: ', error);
+                }
+
+            }//end fetchInner()           
+            
+        } catch (error) {
+            console.error('1. Error try-catch en modo old getTsk(). Error: ', error);
+        }
 
     }//end else de modo old
 
