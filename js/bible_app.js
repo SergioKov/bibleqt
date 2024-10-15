@@ -17038,7 +17038,7 @@ function getGuardWordsFind(){
 }
 
 
-function findWords(words_input){
+function old_findWords(words_input){
     //console.log('function findWords(). words_input: '+words_input);
 
     const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
@@ -20329,6 +20329,3279 @@ function findWords(words_input){
                 // Código a realizar cuando se rechaza la promesa
                 console.error('error promesa find: '+error);
             });
+
+        }
+
+    }else{
+        //console.log('Translation no está seleccionada');
+    }
+    
+}//end - findWords()
+
+
+async function findWords(words_input){
+    //console.log('function findWords(). words_input: '+words_input);
+
+    const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
+    eid_btn_ok_find.classList.remove('d-block');
+    eid_btn_ok_find.classList.add('d-none');
+
+    eid_btn_ok_stop.classList.remove('d-none');
+    eid_btn_ok_stop.classList.add('d-block');
+    window.doFind = true;
+
+    //console.log('eid_cbox1.checked: '+eid_cbox1.checked);
+    //console.log('eid_cbox2.checked: '+eid_cbox2.checked);
+    //console.log('eid_cbox3.checked: '+eid_cbox3.checked);
+    //console.log('eid_cbox4.checked: '+eid_cbox4.checked);
+    //console.log('eid_cbox5.checked: '+eid_cbox5.checked);
+    //console.log('eid_cbox6.checked: '+eid_cbox6.checked);
+    //console.log('eid_cbox7.checked: '+eid_cbox7.checked);
+
+    let limit_val = (eid_limit.value != '*') ? parseInt(eid_limit.value) : '*' ;
+    let book_start = null;
+    let book_end = null;
+    let book_one = null;
+
+    switch (eid_gde.value) {
+        case 'TB'://ВСЯ БИБЛИЯ
+            book_start = 0;
+            book_end = (eid_v_book.querySelectorAll('.v_li').length == 77) ? 76 : 65;
+            break;
+    
+        case 'AT'://ВЕТХИЙ ЗАВЕТ
+            book_start = 0;
+            book_end = 38;
+            break;
+    
+        case 'NT'://НОВЫЙ ЗАВЕТ
+            book_start = 39;
+            book_end = 65;
+            break;
+    
+        case 'M'://Пятикнижье
+            book_start = 0;
+            book_end = 4;
+            break;
+    
+        case 'Hist'://Исторические книги
+            book_start = 5;
+            book_end = 16;
+            break;
+
+        case 'Poet'://Поэтические книги
+            book_start = 17;
+            book_end = 21;
+            break;
+
+        case 'Prof'://Пророки (Большие + Малые)
+            book_start = 22;
+            book_end = 38;
+            break;
+
+        case 'ProfB'://Большие Пророки
+            book_start = 22;
+            book_end = 26;
+            break;
+
+        case 'ProfM'://Малые Пророки
+            book_start = 27;
+            book_end = 38;
+            break;
+
+        case 'EvActs'://Евангелия и Деяния
+            book_start = 39;
+            book_end = 43;
+            break;
+    
+        case 'EpPablo'://Послания Павла
+            book_start = 44;
+            book_end = 57;
+            break;
+
+        case 'EpSoborn'://Соборные Послания
+            book_start = 58;
+            book_end = 65;
+            break;
+
+        case 'EpApoc'://Послания и Откровение
+            book_start = 44;
+            book_end = 65;
+            break;
+    
+        case 'Apocrif'://Неканонические книги
+            book_start = 66;
+            book_end = 76;
+            break;
+    
+        default: book_one = parseInt(eid_gde.value);
+            break;
+    }
+    //console.log('book_start: '+book_start);
+    //console.log('book_end: '+book_end);
+    //console.log('book_one: '+book_one);
+    if(book_one != null){
+        book_start = book_one;
+        book_end = book_one;
+    }
+
+
+    eid_find_result.innerHTML = '';//reset
+    //eid_find_body.innerHTML = '';//reset
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+    ecl_find_res_block_active.innerHTML = '';//reset new
+    window.res_show = '';//reset
+     
+    words_input = words_input.trim();
+    if(words_input == ''){
+        const p = document.createElement('p');
+        p.className = 'prim';
+        p.innerHTML = 'Введите слово или словосочетание для поиска, пожалуйста.'
+        eid_find_body.append(p);
+        return false;
+    }
+    //meto words en el history
+    //guardWordsFind(words_input);
+    close_hist_find();
+
+    let words = words_input;
+    let arr_words = words.split(' ');
+    //console.log('abajo arr_words: ');
+    //console.log(arr_words);
+    arr_words = arr_words.filter(elem => elem);
+    //console.log(arr_words);
+
+
+    //TIPOS DE BÚSQUEDA   
+    //0. - por defecto. nada marcado //ok
+    //1. искомое содержит хотя бы одно слово //ok
+    //Пример: найти не только стихи, содержащие 'Иисус Христос', но и те, которые содержат 'Иисус' или 'Христос'.
+    //Слова: 'Иисус Христос' или 'Иисус' или 'Христос' //ok
+    //2. cлова идут в заданном порядке //ok
+    //Пример: найти стихи, где встречается 'Иисус Христос', но не 'Христос Иисус'.
+    //3. искать точную фразу. //ok
+    //Пример: найти стихи, где есть 'Благословен Бог', но не 'Благословен ГОСПОДЬ Бог'.
+    //Слова: 'Иисус Христос' но не 'Иисус МЕССИЯ Христос') //ok
+    //4. выражения не могут быть частями слов
+    //Пример: найти стихи, где есть 'благословен', но не 'благословенИЕ'.
+    let no_part_word = (eid_cbox4.checked) ? 'Y' : 'N' ;  
+    //5. различать прописные и ЗАГЛАВНЫЕ буквы //ok
+    //Пример: различать при поиске слова 'БОГ' и 'бог'.
+    let case_sens = (eid_cbox5.checked) ? '' : 'i' ;// '' = case sensitive. Различаются маленькие и БОЛЬШИЕ буквы; 'i' = case insensitive. Все равно какие буквы.
+    //6. различать буквы с ударениями (если есть)
+    //Пример: различать при поиске слова 'creó' (сотворил) и 'creo' (верю).
+    let accent_match = (eid_cbox6.checked) ? 'Y' : 'N' ;// 'Y' = en la búsqueda tener en cuenta tildes si hay; 'N' = da igual tildes;
+    //7. Номер Стронга StrongNumber
+    let search_only_in_text_without_StrongTags;
+    if(eid_cbox7.checked){
+        search_only_in_text_without_StrongTags = false;//buscar también en los numeros de Strong
+    }else{//por defecto se busca solo en el texto sin buscar en los tags
+        //buscar solo en text o tambien en los tags de strong
+        search_only_in_text_without_StrongTags = true;//quitar los StrongTags con el número inclusive para buscar solo en texto
+    }
+
+    let tipo = 'gm' + case_sens ;//i => Case insensitive (da igual miníscula o mayúscula); g => global (se buscan todas coincidencias exactas); '' => solo primera coincidencia; m => en diferentes líneas
+
+
+    let Translation = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans : eid_trans1.dataset.trans;
+
+    let btnStrongIsActive = false;
+    if(eid_btnStrong.classList.contains('btn_active')){
+        btnStrongIsActive = true;
+    }
+
+
+    //Antes de buscar, muestro esto...
+    if(document.querySelector('.res_f') == null){
+        const f_book = document.createElement('p');
+        f_book.className = 'f_book';
+        f_book.innerHTML = `<span class="book_name"></span>`;
+        eid_find_head.append(f_book);
+
+        const p_i = document.createElement('p');
+        p_i.className = 'res_f';
+        let tooltip_value = `
+            Количество стихов: <span class='f_r'>0</span> <br>
+            Количество совпадений: <span class='f_r'>0</span>
+        `;
+        let sp_tooltip = `
+            <span 
+                class="tooltip" 
+                data-tooltip="${tooltip_value}" 
+                onmouseenter="showTooltip(this)" 
+                mouseleave="hideTooltip(this)"
+            >*</span> 
+        `;
+        p_i.innerHTML = `
+            "<b class="f_r-ed">${words_input}</b>" <span>(.)</span>
+            ${sp_tooltip}
+            <span class="res_m f_r">[.]</span>
+        `;
+
+        ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = '...';
+        ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+        ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+        ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+        scrollToFindTabActive();
+
+        eid_find_head.append(p_i);
+    }
+
+    let trans_find_obj = arrFavTransObj.find(v => v.Translation === Translation);
+    if(eid_cbox7.checked && 
+        eid_btnStrong.classList.contains('btn_active') && 
+        typeof trans_find_obj.StrongNumbers !== 'undefined' && 
+        trans_find_obj.StrongNumbers == 'Y' &&
+        trans_find_obj.StrongNumberTagStart == '<S>' &&
+        trans_find_obj.StrongNumberTagEnd == '</S>' 
+        ){
+        const wr_strong_btns = document.createElement('div');
+        wr_strong_btns.className = 'wr_strong_btns';
+        wr_strong_btns.style.display = 'none';//no lo muestro porque todavía no hay resultado
+        wr_strong_btns.innerHTML = `<span class="wr_strong_btns_inner">
+                                        <button id="btn_finded_s" class="btn s_active" onclick="showOnlyStrongNumberFinded_2Actions()">Finded S#</button>
+                                        <button id="btn_all_s" class="btn" onclick="showAllStrongNumber_2Actions()">All S#</button>
+                                    </span>
+                                    `;
+        eid_find_head.append(wr_strong_btns);
+    }else{
+        //si están botones finded_s y all_s en la trans sin strong lo quito
+        if(document.querySelector('.wr_strong_btns') != null){
+            document.querySelector('.wr_strong_btns').remove();
+        }
+    }
+    mySizeFind();//altura de eid_find_body
+
+    //Muestro loader tres puntos (...)
+    const d_loader = document.createElement('div');
+    d_loader.className = 'loader';
+    d_loader.innerHTML = `<span class="loader__element"></span>
+                          <span class="loader__element"></span>
+                          <span class="loader__element"></span>`;
+    //eid_find_body.append(d_loader);//antes
+    ecl_find_res_block_active.append(d_loader);
+
+
+    let result_finded = [];
+    let result_show = [];
+    let count_f = 0;//cantidad de versiculos con frases encontradas
+    let arr_result_m_total = [];//tottal array de ocurrencias (matches) en el versículo encontradas
+    let arr_result_m = [];//array de ocurrencias (matches) en el versículo encontradas
+    let count_m_total = 0;//total cantidad de ocurrencias (matches) en el versículo encontradas
+    let count_m = 0;//cantidad de ocurrencias (matches) en el versículo encontradas
+
+    //Si existe traducción...
+    if(Translation != null){
+        
+        let objTrans = arrFavTransObj.find(v => v.Translation === Translation);
+
+        //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
+        if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
+            
+            //console.log('findWords() --- objTrans está creado. abajo objTrans: ');
+            //console.log(objTrans);            
+            
+            //saco ajustes de este modulo en json               
+            let bq = objTrans;
+            //console.log(' abajo bq:');
+            //console.log(bq);
+
+            //muestro trans en result de busqueda
+            document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;
+        
+            if(book_start != null && book_end != null){
+    
+                for(let index = book_start; index <= book_end; index++){                
+                    
+                    //console.log('--- for --- index: '+index);
+                    let book = index;//genesis
+
+                    //si no existe objeto lo creo
+                    if(typeof obj_bible_files[Translation] == 'undefined'){
+                        obj_bible_files[Translation] = {};
+                        obj_bible_files[Translation].Books = [];
+                    }
+
+
+                    //si existe objeto con Translation. Saco datos del objeto
+                    if(typeof obj_bible_files[Translation] != 'undefined'){
+                        if(typeof obj_bible_files[Translation].Books != 'undefined'){
+                            if(typeof obj_bible_files[Translation].Books[book] != 'undefined'){
+
+                                if( obj_bible_files[Translation].Books[book].fileName == bq.Books[book].PathName && 
+                                    obj_bible_files[Translation].Books[book].fileContent != '' && 
+                                    obj_bible_files[Translation].Books[book].fileContent != ' '
+                                ){
+
+                                    try {
+
+                                        //console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
+                                        //console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
+                                        
+                                        // Registra el tiempo de inicio
+                                        const tiempoInicio = new Date().getTime();
+                                        //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
+
+                                        let bookModule = obj_bible_files[Translation].Books[book].fileContent;                                        
+
+                                        if(window.doFind){
+                                            //console.log(index+') hago doFind. window.doFind: '+window.doFind);
+                                            //console.log('Bible book: '+bq.Books[book].FullName);
+                        
+                                            //console.log(bookModule);
+                                            //показываю в каких книгах ищу
+                                            document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
+                    
+                                            let nb = bookModule.split('<h4>');//делю файл на главы
+                                            //console.log(nb);
+                                            
+                                            nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                            //console.log(nb);
+                    
+                                            let arr_chapters = nb;
+                                            //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
+                    
+                                            arr_chapters.forEach( (el_ch, i_ch) => {
+                                                //console.log(el_ch);
+                                                let chapter = i_ch;
+                                                let ChapterId = i_ch;
+                                                
+                                                if(el_ch.includes('<p>')){
+                                                    let arr_verses = el_ch.split('<p>');
+                                                    //console.log(arr_verses);
+                                                    
+                                                    //Recorrer todos los verses
+                                                    arr_verses.forEach((el,i) => {
+                                                        let p_Text = '';
+
+                                                        if(el.includes('</p>')){
+                                                            let arr_p_text = el.split('</p>');
+                                                            p_Text = arr_p_text[0];
+                                                        }else{
+                                                            p_Text = el;
+                                                        }
+                                                        //console.log('p_Text: '+p_Text); 
+                    
+                                                        let arr_p = p_Text.split(' ');
+                                                        let VerseId = arr_p[0];
+                                                        //console.log('VerseId: '+VerseId);
+                    
+                                                        let VerseText = '';
+                                                        for(let index = 1; index < arr_p.length; index++){
+                                                            VerseText += arr_p[index] + ' ';
+                                                            //console.log('arr_p['+index+']: '+arr_p[index]);
+                                                        }
+                                                        //console.log('VerseText: '+VerseText);
+                                                        
+                                                        if(VerseText != ''){
+                                                            //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
+                                                            //console.log('sin tags --- VerseText: '+VerseText);
+            
+                                                            if(search_only_in_text_without_StrongTags){
+                                                                if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                                    VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                                }
+                                                            }
+                                                        }
+                                
+                                                        //tipos de busqueda
+                                                        let is_match = false;
+
+                                                        //Si hay palabras para buscar...
+                                                        if(arr_words.length > 0){
+                    
+                                                            //=======================================================================//  
+                                                            //0. por defecto - nada marcado //ok
+                                                            //=======================================================================//  
+                                                            if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
+                                                                let arr_matches = [];  
+                                                                //1. проверяю есть ли каждое слово из фразы в стихе                                      
+                                                                arr_words.forEach(w => {
+                                                                    if(accent_match == 'Y'){//cbox6
+                                                                        if(no_part_word == 'Y'){//cbox4
+                                                                            let arr_no_part_word = [];
+                                                                            w = "^" +w +"$";//entera palabra del array, no parte
+                                                                            let regex_w = RegExp(w, tipo);
+                                                                            VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                                if(removeSymbols(el).match(regex_w)){
+                                                                                    //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                                    arr_no_part_word.push(1);
+                                                                                }else{
+                                                                                    //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                                    arr_no_part_word.push(0);
+                                                                                } 
+                                                                            });
+                                                                            if(arr_no_part_word.includes(1)){
+                                                                                arr_matches.push(1);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(no_part_word == 'N'){
+                                                                            let regex_w = RegExp(w, tipo);
+                                                                            arr_result_m = VerseText.match(regex_w);
+                                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                            if(count_m > 0){
+                                                                                arr_matches.push(1);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }
+                                                                    }else if(accent_match == 'N'){
+                                                                        if(no_part_word == 'Y'){
+                                                                            let arr_no_part_word = [];
+                                                                            w = "^" +w +"$";//entera palabra del array, no parte
+                                                                            let regex_w = RegExp(removeAccents(w), tipo);
+                                                                            removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
+                                                                                if(removeSymbols(el).match(regex_w)){
+                                                                                    //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                                    arr_no_part_word.push(1);
+                                                                                }else{
+                                                                                    //console.log('--- removeSymbols(el) ('+removeSymbols(el)+') NO match regex_w: '+false);
+                                                                                    arr_no_part_word.push(0);
+                                                                                } 
+                                                                            });
+                                                                            if(arr_no_part_word.includes(1)){
+                                                                                arr_matches.push(1);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(no_part_word == 'N'){
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                            if(count_m > 0){
+                                                                                arr_matches.push(1);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                });
+                                                                //console.log('Word. w: ', w);
+                                                                //console.log('VerseText: ', VerseText);
+                                                                if(!arr_matches.includes(0)){//когда все слова из фразы есть в стихе
+                                                                    //2. в цикле отмечаю красным все совпадения, но уже не нужно arr_matches.push()
+                                                                    arr_words.forEach(w => {
+                                                                        if(accent_match == 'Y'){//cbox6
+                                                                            if(no_part_word == 'Y'){//cbox4
+                                                                                let arr_VerseText_red = [];
+                                                                                let regex_w = RegExp(w, tipo);
+                                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                                    if(removeSymbols(el).match(regex_w)){
+                                                                                        //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                                        el = el.replace(regex_w, function (x) {
+                                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                                        });
+                                                                                        arr_VerseText_red.push(el);
+                                                                                    }else{
+                                                                                        //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                                        arr_VerseText_red.push(el);
+                                                                                    } 
+                                                                                });
+                                                                                VerseText = arr_VerseText_red.join(' ');
+                                                                                //console.log('VerseText: ', VerseText);
+                                                                            }else if(no_part_word == 'N'){
+                                                                                let regex_w = RegExp(w, tipo);
+                                                                                arr_result_m = VerseText.match(regex_w);
+                                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                                if(count_m > 0){
+                                                                                    VerseText = VerseText.replace(regex_w, function (x) {
+                                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        }else if(accent_match == 'N'){
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                            if(count_m > 0){
+                                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                                    return '{' + x + '}';
+                                                                                });
+                                                                                let text_original = VerseText;
+                                                                                text_marcas = prepararTextMarcas(text_marcas);
+                                                                                VerseText = markRed(text_original, text_marcas);
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                    //console.log('count_m_total: ', count_m_total);
+                                                                    //console.log('arr_result_m_total: ', arr_result_m_total);
+                                                                    //console.log('VerseText: ', VerseText);
+                    
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end //0. por defecto - nada marcado //ok                                 
+                                                            //=======================================================================//         
+                                                            
+                    
+                                                            //=======================================================================//         
+                                                            //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                            //=======================================================================//
+                                                            if(eid_cbox1.checked){
+                                                                let arr_matches = [];
+                                                                if(no_part_word == 'Y'){
+                                                                    arr_words.forEach(w => {
+                                                                        if(no_part_word == 'Y'){
+                                                                            // w = "\\b" +w +"\\b";//palabras enteras// exacta coincidencia
+                                                                            w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
+                                                                        }
+                                                                        if(accent_match == 'Y'){
+                                                                            let regex_w = RegExp(w, tipo); 
+                                                                            arr_result_m = VerseText.match(regex_w);
+                                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                            if(count_m > 0){
+                                                                                arr_matches.push(1);
+                                                                                VerseText = VerseText.replace(regex_w, function (x) {
+                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                });
+                                                                                count_m_total += count_m;
+                                                                                arr_result_m_total.push(arr_result_m);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(accent_match == 'N'){
+                                                                            let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                            arr_result_m = removeAccents(VerseText).match(regex_w);;
+                                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                            if(count_m > 0){
+                                                                                arr_matches.push(1);
+                                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                                    return '{' + x + '}';
+                                                                                });
+                                                                                let text_original = VerseText;
+                                                                                text_marcas = prepararTextMarcas(text_marcas);
+                                                                                VerseText = markRed(text_original, text_marcas);
+                                                                                count_m_total += count_m;
+                                                                                arr_result_m_total.push(arr_result_m);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                        is_match = true;
+                                                                    }else{
+                                                                        is_match = false;
+                                                                    }
+                                                                }else if(no_part_word == 'N'){
+                                                                    if(accent_match == 'Y'){
+                                                                        words = arr_words.join('|');
+                                                                        let regex1 = RegExp(words, tipo);//buscar todo
+                                                                        arr_result_m = VerseText.match(regex1);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            is_match = true;
+                                                                            count_m_total += count_m;
+                                                                            arr_result_m_total.push(arr_result_m);
+                                                                            VerseText = VerseText.replace(regex1, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            });
+                                                                        }else{
+                                                                            is_match = false;
+                                                                        } 
+                                                                    }else if(accent_match == 'N'){
+                                                                        words = arr_words.join('|');
+                                                                        let regex_w = RegExp(removeAccents(words), tipo); 
+                                                                        arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            arr_matches.push(1);
+                                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                                return '{' + x + '}';
+                                                                            });
+                                                                            let text_original = VerseText;
+                                                                            text_marcas = prepararTextMarcas(text_marcas);
+                                                                            VerseText = markRed(text_original, text_marcas);
+                                                                            //console.log('VerseText: '+VerseText);
+                                                                        }else{
+                                                                            arr_matches.push(0);
+                                                                        }
+                                                                        if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                            is_match = true;
+                                                                            count_m_total += count_m;
+                                                                            arr_result_m_total.push(arr_result_m);
+                                                                        }else{
+                                                                            is_match = false;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                            //=======================================================================//
+                    
+                    
+                                                            //=======================================================================//
+                                                            //2. - //cлова идут в заданном порядке //ok
+                                                            //=======================================================================//
+                                                            if(eid_cbox2.checked){
+                                                                //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
+                                                                let arr_matches = [];
+                                                                let arr_matches_w = [];//matches en words
+                                                                let arr_regex_w = [];
+                                                                let arr_regex_w_l = [];//для сравнения
+                                                                arr_words.forEach( (w,i,arr_w) => {
+                                                                    if(accent_match == 'Y'){
+                                                                        let regex_w = RegExp(w, tipo);
+                                                                        arr_regex_w.push(regex_w);
+                                                                        let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                                        arr_regex_w_l.push(regex_w_l);
+                                                                        arr_result_m = VerseText.match(regex_w);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                            if(typeof arr_w[i+1] != 'undefined'){
+                                                                                if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                                    let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                                    if(index_first_w < index_next_w){
+                                                                                        //console.log('VerseText: '+VerseText);
+                                                                                        //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                        //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                        let arr_VerseText_a = VerseText.split(' ');
+                                                                                        let arr_VerseText_a_ed = [];
+                                                                                        for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                            let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
+                                                                                            if(no_part_word == 'Y'){
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                            }else{//no_part_word == 'N'
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                            }
+                                                                                            //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                            if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                                el_a = el_a.replace(regex_aw, function (x) {
+                                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                                });
+                                                                                                sovpad++;
+                                                                                                arr_matches_w.push(1);
+                                                                                                count_m_total += 1;
+                                                                                                arr_result_m_total.push(arr_result_m);
+                                                                                            }
+                                                                                            if(sovpad == arr_words.length){
+                                                                                                sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                            }
+                                                                                            arr_VerseText_a_ed.push(el_a); 
+                                                                                        }
+                                                                                        VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                        //console.log(VerseText);
+                                                                                    }else{
+                                                                                        arr_matches.push(0);
+                                                                                    }
+                                                                                }else if(case_sens == 'i'){//все равно какие буквы
+                                                                                    //превращаю в мал. буквы только для сравнения.
+                                                                                    let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                                    if(index_first_w < index_next_w){
+                                                                                        //console.log('VerseText: '+VerseText);
+                                                                                        //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
+                                                                                        //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                        //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                        let arr_VerseText_a = VerseText.split(' ');
+                                                                                        let arr_VerseText_a_ed = [];
+                                                                                        for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                            let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
+                                                                                            if(no_part_word == 'Y'){
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                                sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                            }else{//no_part_word == 'N'
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                                sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                            }
+                                                                                            //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                            if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                                el_a = el_a.replace(regex_aw, function (x) {
+                                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                                });
+                                                                                                sovpad++;
+                                                                                                arr_matches_w.push(1);
+                                                                                                count_m_total += 1;
+                                                                                                arr_result_m_total.push(arr_result_m);
+                                                                                            }
+                                                                                            if(sovpad == arr_words.length){
+                                                                                                sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                            }
+                                                                                            arr_VerseText_a_ed.push(el_a); 
+                                                                                        }
+                                                                                        VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                        //console.log(VerseText);
+                                                                                    }else{
+                                                                                        arr_matches.push(0);
+                                                                                    }
+                                                                                }                                                    
+                                                                            }
+                                                                        }    
+                                                                    }else if(accent_match == 'N'){
+                                                                        let regex_w = RegExp(removeAccents(w), tipo);
+                                                                        arr_regex_w.push(regex_w);
+                                                                        let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                                        arr_regex_w_l.push(regex_w_l);
+                                                                        arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                            if(typeof arr_w[i+1] != 'undefined'){
+                                                                                if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                                    let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                                    if(index_first_w < index_next_w){
+                                                                                        //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
+                                                                                        //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                        //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                        let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                        let arr_VerseText_a_ed = [];
+                                                                                        for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                            let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
+                                                                                            if(no_part_word == 'Y'){
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                            }else{//no_part_word == 'N'
+                                                                                                regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                                sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                            }
+                                                                                            //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                            if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                                el_a = removeAccents(el_a).replace(regex_aw, function (x) {
+                                                                                                    return '{' + x + '}';
+                                                                                                });
+                                                                                                sovpad++;
+                                                                                                arr_matches_w.push(1);
+                                                                                                count_m_total += 1;
+                                                                                                arr_result_m_total.push(arr_result_m);
+                                                                                            }
+                                                                                            if(sovpad == arr_words.length){
+                                                                                                sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                            }
+                                                                                            arr_VerseText_a_ed.push(el_a); 
+                                                                                        }
+                                                                                        let text_original = VerseText;
+                                                                                        let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                        VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                        //console.log('VerseText: '+VerseText); 
+                                                                                    }else{
+                                                                                        arr_matches.push(0);
+                                                                                    }
+                                                                                }else if(case_sens == 'i'){//все равно какие буквы
+                                                                                    //превращаю в мал. буквы только для сравнения.
+                                                                                    let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                                    let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                                    if(index_first_w < index_next_w){
+                                                                                        //console.log('VerseText: '+removeAccents(VerseText));
+                                                                                        //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
+                                                                                        //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                        //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                        let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                        let arr_VerseText_a_ed = [];
+                                                                                        for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                            let el_a = arr_VerseText_a[a];
+                                                                                            let sovpad_word,regex_aw;
+                                                                                            if(no_part_word == 'Y'){
+                                                                                                regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                                if(arr_w[i+sovpad] < arr_w.length){
+                                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                                }else{
+                                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                                }
+                                                                                            }else{//no_part_word == 'N'
+                                                                                                regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                                sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                            }
+                                                                                            //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                            if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                                el_a = el_a.replace(regex_aw, function (x) {
+                                                                                                    return '{' + x + '}';
+                                                                                                });
+                                                                                                sovpad++;
+                                                                                                arr_matches_w.push(1);
+                                                                                                count_m_total += 1;
+                                                                                                arr_result_m_total.push(arr_result_m);
+                                                                                            }
+                                                                                            if(sovpad == arr_words.length){
+                                                                                                sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                            }
+                                                                                            arr_VerseText_a_ed.push(el_a); 
+                                                                                        }
+                                                                                        let text_original = VerseText;
+                                                                                        let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                        VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                        //console.log('VerseText: '+VerseText); 
+                                                                                    }else{
+                                                                                        arr_matches.push(0);
+                                                                                    }
+                                                                                }                                                    
+                                                                            }
+                                                                        }
+                                                                    }//end //else if(accent_match == 'N')
+                                                                });
+                                                                if(!arr_matches.includes(0)){//si todos ocurrencias hay
+                                                                    for (let i = 0; i < arr_regex_w.length; i++) {
+                                                                        if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                            let index_first_w,index_next_w;                                                                            
+                                                                            if(accent_match == 'Y'){
+                                                                                if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                                    index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                                    index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                                }if(case_sens == 'i'){//все равно какие буквы
+                                                                                    index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                                    index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                                }
+                                                                            }else if(accent_match == 'N'){
+                                                                                if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                                    index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                                    index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                                }if(case_sens == 'i'){//все равно какие буквы
+                                                                                    index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                                    index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                                }
+                                                                            }
+                                                                            if(index_first_w < index_next_w && arr_matches_w.includes(1)){
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                });
+                                                                                //console.log(' con red --- VerseText: '+VerseText);
+                                                                                //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
+                                                                                //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
+                                                                                is_match = true;
+                                                                            }else{
+                                                                                is_match = false;
+                                                                            }
+                                                                        }
+                                                                    }//end for
+                                                                    //quito tag's sobrantes de las coincidencias con for
+                                                                    if(is_match){
+                                                                        let tag_f_red_start = '';
+                                                                        let tag_f_red_end = '';
+                                                                        //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                                        //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                                        for (let index = 0; index < arr_words.length; index++) {
+                                                                            tag_f_red_start += '<b class="f_red">';
+                                                                            tag_f_red_end += '</b>';
+                                                                            //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                            //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                            if(index > 0){
+                                                                                VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                                VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                                //console.log(' en for --- VerseText: '+VerseText);
+                                                                            }                                                                        
+                                                                        }
+                                                                        //console.log(' despues de for --- VerseText: '+VerseText);
+                                                                    }                                           
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end //2. - //cлова идут в заданном порядке //ok
+                                                            //=======================================================================//
+                                                            
+                    
+                                                            //=======================================================================//
+                                                            //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                            //=======================================================================//
+                                                            if(eid_cbox3.checked){
+                                                                let words = arr_words.join(' ');
+                                                                VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                                let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                                VerseText = arr_VerseText_or.join(' ');
+                                                                if(accent_match == 'Y'){
+                                                                    let regex_w = RegExp(words, tipo);
+                                                                    arr_result_m = VerseText.match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        VerseText = VerseText.replace(regex_w, function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                        is_match = true;
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        is_match = false;
+                                                                    } 
+                                                                }else if(accent_match == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(words), tipo);
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            return '{' + x + '}';
+                                                                        });
+                                                                        let text_original = VerseText;
+                                                                        let arr_frases = prepararFrases(text_original,text_marcas);
+                                                                        let frase_original = arr_frases[0];
+                                                                        let frase_exacta = arr_frases[1];
+                                                                        //console.log('frase_original: '+frase_original);
+                                                                        //console.log('frase_exacta: '+frase_exacta);
+                                                                        text_marcas = prepararTextMarcas(frase_exacta);                                                                        
+                                                                        VerseText = markRed(frase_original, text_marcas);//FUNCIONA
+                                                                        //console.log('VerseText: '+VerseText);
+                                                                        VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
+                                                                        is_match = true;
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        is_match = false;
+                                                                    }
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                            //=======================================================================//
+
+
+                                                            //=======================================================================//
+                                                            //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //=======================================================================//
+                                                            if(eid_cbox7.checked){
+                                                                let words = arr_words.join(' ');
+                                                                VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                                let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                                VerseText = arr_VerseText_or.join(' ');
+                                                                let regex_w = RegExp(words, tipo);
+                                                                let arr_VerseText_con_sn = [];
+                                                                let arr_sn = [];//arr de strong numbers finded
+                                                                arr_VerseText_or.forEach(el=>{  
+                                                                    if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                                        //console.log('el: '+el);
+                                                                        let sNumber_sin_tags = removeTags(el); 
+                                                                        //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                                        if(sNumber_sin_tags == words){
+                                                                            //console.log('sNumber_sin_tags == words');
+                                                                            arr_sn.push(sNumber_sin_tags);
+                                                                            let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            }); 
+                                                                            el = sNumber_con_tags;
+                                                                            //console.log('nuevo el: '+el);
+                                                                            arr_VerseText_con_sn.push(el);//con sn red
+                                                                        }else{
+                                                                            arr_VerseText_con_sn.push(el);
+                                                                        }
+                                                                    }else{
+                                                                        arr_VerseText_con_sn.push(el);
+                                                                    }
+                                                                });
+                                                                //console.log('arr_sn: '+arr_sn);
+                                                                VerseText = arr_VerseText_con_sn.join(' ');
+                                                                //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                                arr_result_m = arr_sn;
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                            //=======================================================================//
+                                                            //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                            //=======================================================================//
+
+                    
+                                                        }//end //if(arr_words.length > 0)
+                    
+                    
+                    
+                                                        //Matches
+                                                        if(is_match){
+                                                            //console.log('VerseText regex1: '+VerseText.match(regex1));
+                                                            //console.log('VerseText: '+VerseText);
+                    
+                                                            const span_num_find = document.createElement('span');
+                                                            span_num_find.className = 'sp_f';
+                                                            count_f++;
+                                                            span_num_find.innerText = count_f;
+                    
+                                                            const p = document.createElement('p');
+                                                            p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+                                            
+                                                            const a = document.createElement('a');
+                                                            a.href = '#';
+                                                            //let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
+                                                            let aLink = `${bq.Books[book].ShortNames[0]} ${ChapterId}:${VerseId}`;
+                                                            a.innerHTML = aLink;
+                                                            a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
+                                                            
+                                                            p.append(span_num_find);
+                                                            p.append(a);
+                                                            p.append(' '); 
+                                    
+                                                            const span_vt = document.createElement('span');
+                                                            span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                                    
+                                    
+                                                            //Номера Стронга в стихах (RST+)
+                                                            if(bq.StrongNumbers == "Y"){//OK
+                                                                let t = VerseText;
+                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                    
+                                                                arr_t.forEach((el,i) => {    
+                                                                    
+                                                                    //element of string is Strong Number
+                                                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                        const span_strong = document.createElement('span');
+                                                                        if(btnStrongIsActive){
+                                                                            span_strong.className = 'strong show strongActive'; 
+                                                                        }else{
+                                                                            span_strong.className = 'strong'; 
+                                                                        }
+                                                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                    
+                                                                        //si ultimo carácter es string
+                                                                        if(last_char != '' && isNaN(last_char)){
+                                                                            let el_number = el.substring(0,el.length-1);
+                                                                            let el_string = last_char;
+                                                                            span_strong.innerHTML = el_number;
+                                                                            span_vt.append(span_strong);
+                                                                            span_vt.append(el_string);
+                                                                        }else{//es number
+                                                                            span_strong.innerHTML = el;
+                                                                            span_vt.append(span_strong);
+                                                                        }
+                                    
+                                                                    }else{//is word
+                                                                        span_vt.append(' ');
+                                                                        if(btnStrongIsActive){
+                                                                            if(el.includes('<S>')){
+                                                                                el = el.replace('<S>','<S class="show strongActive">');
+                                                                            }
+                                                                        }
+                                                                        span_vt.append(el);
+                                                                    }
+                                                                });
+                                                                p.append(span_vt);
+                                                                p.innerHTML.trim();
+                                    
+                                                                //console.log('antes: ' + p.innerHTML);
+                                                                if(bq.HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                                //console.log('despues: '+p.innerHTML);
+                                    
+                                                                if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
+                                                                    p.querySelectorAll('.strongActive').forEach((el)=>{
+                                                                        el.addEventListener('click', ()=>{
+                                                                            //console.log('2. book: '+book);
+                                                                            //console.log('2. el.innerHTML: '+el.innerHTML);
+                                                                            if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
+                                                                                //getStrongNumber(el.innerHTML);//antes
+                                                                                getStrongNumber(el.innerText);
+                                                                            }else{//rstStrong
+                                                                                lang = (book >= 39) ? 'Grk' : 'Heb' ;
+                                                                                //getStrongNumber(el.innerHTML, lang);//antes
+                                                                                getStrongNumber(el.innerText, lang);
+                                                                            }
+                                                                        });
+                                                                    }); 
+                                                                }
+                                                            }
+                                    
+
+                                                            //Примечания редактора в стихах (RSTi2)
+                                                            if(bq.Notes == 'Y'){//OK
+                                                                let t = VerseText;
+                                    
+                                                                if(t.includes(bq.NoteSign)){// '*'
+                                                                    let arr_t0 = t.split(bq.NoteSign);
+                                                                    let before_Note = arr_t0[0];
+                                    
+                                                                    if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                                        p.className = 'with_notes';
+                                                                        let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                                                        let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                                                        let text_Note = arr_t2[0];
+                                                                        let after_Note = arr_t2[1];
+
+                                                                        const span_before = document.createElement('span');
+                                                                        const span_after = document.createElement('span');                            
+                                    
+                                                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                            const h6_text = document.createElement('h6');
+                                                                            h6_text.className = 'prim_h6';
+                                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                            h6_text.innerHTML = arr_text_bn[0];
+                                                                            span_before.append(h6_text);
+                                                                            span_vt.append(span_before);
+                                                                        }else{
+                                                                            span_before.innerHTML = before_Note;
+                                                                            span_vt.append(span_before);
+                                                                        }
+                                                        
+                                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+
+                                                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                        span_after.innerHTML = after_Note;
+                                                                        span_vt.append(span_after);
+                                                                        p.append(span_vt);
+
+                                                                        if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
+                                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                                        }
+                                                                    }
+                                                                }else{
+                                                                    span_vt.append(VerseText);
+                                                                    p.append(span_vt);
+                                    
+                                                                    if(bq.HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                                                                }
+                                                                //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                                            }
+                                    
+
+                                                            //Оглавления в стихах (NRT)
+                                                            if(bq.Titles == 'Y'){//OK
+                                                                let t = VerseText;
+                                                            
+                                                                if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                                                    let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                                                    let before_Title = arr_t1[0];
+                                                                    let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                                                    let text_Title = arr_t2[0];
+                                                                    let after_Title = arr_t2[1];
+                                                            
+                                                                    const span_title = document.createElement('span');
+                                                                    span_title.className = 'verse_title';
+                                                                    span_title.innerHTML = text_Title;
+                                                            
+                                                                    span_vt.append(before_Title);
+                                                                    span_vt.append(span_title);
+                                                                    span_vt.append(after_Title);
+                                                            
+                                                                    p.append(span_vt);
+                                                                }else{
+                                                                    span_vt.append(VerseText);
+                                                                    p.append(span_vt);
+                                                                }
+                                                            
+                                                                if(bq.HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                    
+
+                                                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                            if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
+                                                                span_vt.append(VerseText);
+                                                                p.append(span_vt);
+                                    
+                                                                if(bq.HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                    
+                                                            result_finded.push(p);
+                                                            
+                                                        }      
+                                                    });
+                                                }
+                                            });
+                                        
+                                        }else{
+                                            //console.log(index+') stop doFind. window.doFind: '+window.doFind);
+                                        }//end else (window.doFind)                    
+                    
+                    
+                                        //Formar links para resultados de búsqueda
+                                        if(result_finded.length > 0){
+                                            
+                                            //console.log('2. abajo result_finded:');
+                                            //console.log(result_finded);
+                    
+                                            //console.log('2. abajo arr_result_m_total:');
+                                            //console.log(arr_result_m_total);
+                                        
+                                            if(document.querySelectorAll('.res_f').length > 0){
+                                                document.querySelectorAll('.res_f').forEach(el=>{
+                                                    // el.remove();//elimino resultado anterior si lo hay
+                                                })
+                                            }                    
+                    
+                                            //inserto resultado de búsqueda  
+                                            let tooltip_value = `
+                                                Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                                Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                            `;
+                                            let sp_tooltip = `
+                                                <span 
+                                                    class="tooltip" 
+                                                    data-tooltip="${tooltip_value}" 
+                                                    onmouseenter="showTooltip(this)" 
+                                                    mouseleave="hideTooltip(this)"
+                                                >*</span> 
+                                            `;
+                                            document.querySelector('.res_f').innerHTML = `
+                                                "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                                ${sp_tooltip}
+                                                <span class="res_m f_r">[${count_m_total}]</span>
+                                            `;
+                                            
+                                            ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                            ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                            scrollToFindTabActive();
+
+                                            mySizeFind();//altura de eid_find_body
+                    
+                                            let arr_l = [];
+                                            let limit_n = limit_val;
+                                            for (let i = 0; i < result_finded.length; i++) {
+                                                const el = result_finded[i];
+                                                //console.log(el);
+                    
+                                                if(i > limit_n - 2 || i == result_finded.length - 1){
+                                                    arr_l.push(el);
+                                                    result_show.push(arr_l); 
+                                                    limit_n += limit_val;
+                                                    arr_l = [];
+                                                }else{
+                                                    arr_l.push(el);
+                                                }                            
+                                            }
+                                            //console.log('result_show');
+                                            //console.log(result_show);
+                    
+                                            window.res_show = result_show;
+                                            //console.log('res_show');
+                                            //console.log(res_show);
+                    
+                                            if(result_show != null){
+                                                if(index == book_end){
+                                                    //añado el texto de búsqueda en el historial
+                                                    addWordsToHistFind(Translation, words_input, count_f, count_m_total);
+                                                    //console.log('1. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                                    mostrar_res_show(0);//por defecto los primeros 50
+                                                }
+                                            }
+                                            result_show = [];
+                    
+                                            if(index == book_end){
+                                                stopFindWords();//показываю кнопку 'Find'
+                                            }
+                                            
+                                        }else{
+                                            if(index == book_end && result_finded.length == 0){
+                                                mostrar_no_res();
+                                                stopFindWords();//показываю кнопку 'Find'
+                                            }
+                                        }
+                                        
+                                    } catch (error) {
+                                        console.error('2. Error try-catch find: ', error);
+                                    }
+
+                                }else{
+                                    //console.log('No coincide el nombre del fichero o fileContent está vacío');
+                                }
+
+                            }
+                        }
+                    }
+
+
+                    //si no existe objeto obj_bible_files con Translation. hago fetch()
+                    if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
+
+                        try {
+
+                            //console.log(' --- NO EXISTE objeto obj_bible_files con Translation. hago fetch() --- ');
+                            //console.log('abajo bq: ');
+                            //console.log(bq);
+
+                            //url del libro necesario
+                            url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
+                            //console.log('--- url: '+url); 
+                            
+                            const response = await fetch(url);
+                            const bookModule = await response.text();
+
+                            if(window.doFind){
+                                //console.log(index+') hago doFind. window.doFind: '+window.doFind);
+                                //console.log('Bible book: '+bq.Books[book].FullName);
+            
+                                //console.log(bookModule);
+                                //показываю в каких книгах ищу
+                                document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
+        
+                                let nb = bookModule.split('<h4>');//делю файл на главы
+                                //console.log(nb);
+                                
+                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                //console.log(nb);
+        
+                                let arr_chapters = nb;
+                                //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
+        
+                                arr_chapters.forEach( (el_ch, i_ch) => {
+                                    //console.log(el_ch);
+                                    let chapter = i_ch;
+                                    let ChapterId = i_ch;
+                                    
+                                    if(el_ch.includes('<p>')){
+                                        let arr_verses = el_ch.split('<p>');
+                                        //console.log(arr_verses);
+                                        
+                                        //Recorrer todos los verses
+                                        arr_verses.forEach((el,i) => {
+                                            let p_Text = '';
+
+                                            if(el.includes('</p>')){
+                                                let arr_p_text = el.split('</p>');
+                                                p_Text = arr_p_text[0];
+                                            }else{
+                                                p_Text = el;
+                                            }
+                                            //console.log('p_Text: '+p_Text); 
+        
+                                            let arr_p = p_Text.split(' ');
+                                            let VerseId = arr_p[0];
+                                            //console.log('VerseId: '+VerseId);
+        
+                                            let VerseText = '';
+                                            for(let index = 1; index < arr_p.length; index++){
+                                                VerseText += arr_p[index] + ' ';
+                                                //console.log('arr_p['+index+']: '+arr_p[index]);
+                                            }
+                                            //console.log('VerseText: '+VerseText);
+                                            
+
+                                            if(VerseText != ''){
+                                                //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
+                                                //console.log('sin tags --- VerseText: '+VerseText);
+
+                                                if(search_only_in_text_without_StrongTags){
+                                                    if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                        VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                    }
+                                                }
+                                            }
+
+        
+                                            //tipos de busqueda
+                                            let is_match = false;
+        
+                                            //Si hay palabras para buscar...
+                                            if(arr_words.length > 0){
+                                                       
+        
+                                                //=======================================================================//
+                                                //0. por defecto - nada marcado //ok
+                                                //=======================================================================//
+                                                if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
+                                                    let arr_matches = [];  
+                                                    //1. проверяю есть ли каждое слово из фразы в стихе                                      
+                                                    arr_words.forEach(w => {
+                                                        if(accent_match == 'Y'){//cbox6
+                                                            if(no_part_word == 'Y'){//cbox4
+                                                                let arr_no_part_word = [];
+                                                                w = "^" +w +"$";//entera palabra del array, no parte
+                                                                let regex_w = RegExp(w, tipo);
+                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                    if(removeSymbols(el).match(regex_w)){
+                                                                        //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                        arr_no_part_word.push(1);
+                                                                    }else{
+                                                                        //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                        arr_no_part_word.push(0);
+                                                                    } 
+                                                                });
+                                                                if(arr_no_part_word.includes(1)){
+                                                                    arr_matches.push(1);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }else if(no_part_word == 'N'){
+                                                                let regex_w = RegExp(w, tipo);
+                                                                arr_result_m = VerseText.match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }
+                                                        }else if(accent_match == 'N'){
+                                                            if(no_part_word == 'Y'){
+                                                                let arr_no_part_word = [];
+                                                                w = "^" +w +"$";//entera palabra del array, no parte
+                                                                let regex_w = RegExp(removeAccents(w), tipo);
+                                                                removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
+                                                                    if(removeSymbols(el).match(regex_w)){
+                                                                        //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                        arr_no_part_word.push(1);
+                                                                    }else{
+                                                                        //console.log('--- removeSymbols(el) ('+removeSymbols(el)+') NO match regex_w: '+false);
+                                                                        arr_no_part_word.push(0);
+                                                                    } 
+                                                                });
+                                                                if(arr_no_part_word.includes(1)){
+                                                                    arr_matches.push(1);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }else if(no_part_word == 'N'){
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                    //console.log('Word. w: ', w);
+                                                    //console.log('VerseText: ', VerseText);
+                                                    if(!arr_matches.includes(0)){//когда все слова из фразы есть в стихе
+                                                        //2. в цикле отмечаю красным все совпадения, но уже не нужно arr_matches.push()
+                                                        arr_words.forEach(w => {
+                                                            if(accent_match == 'Y'){//cbox6
+                                                                if(no_part_word == 'Y'){//cbox4
+                                                                    let arr_VerseText_red = [];
+                                                                    let regex_w = RegExp(w, tipo);                                                       
+                                                                    VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                        if(removeSymbols(el).match(regex_w)){
+                                                                            //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                            el = el.replace(regex_w, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            });
+                                                                            arr_VerseText_red.push(el);
+                                                                        }else{
+                                                                            //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                            arr_VerseText_red.push(el);
+                                                                        } 
+                                                                    });
+                                                                    VerseText = arr_VerseText_red.join(' ');
+                                                                    //console.log('VerseText: ', VerseText);
+                                                                }else if(no_part_word == 'N'){
+                                                                    let regex_w = RegExp(w, tipo);
+                                                                    arr_result_m = VerseText.match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        VerseText = VerseText.replace(regex_w, function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }else if(accent_match == 'N'){
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                        return '{' + x + '}';
+                                                                    });
+                                                                    let text_original = VerseText;
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
+                                                                    VerseText = markRed(text_original, text_marcas);
+                                                                }
+                                                            }
+                                                        });
+                                                        is_match = true;
+                                                        count_m_total += count_m;
+                                                        arr_result_m_total.push(arr_result_m);
+                                                        //console.log('count_m_total: ', count_m_total);
+                                                        //console.log('arr_result_m_total: ', arr_result_m_total);
+                                                        //console.log('VerseText: ', VerseText);
+        
+                                                    }else{
+                                                        is_match = false;
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end //0. por defecto - nada marcado //ok                                 
+                                                //=======================================================================//
+                                                
+        
+                                                //=======================================================================//
+                                                //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                //=======================================================================//
+                                                if(eid_cbox1.checked){
+                                                    let arr_matches = [];
+                                                    if(no_part_word == 'Y'){
+                                                        arr_words.forEach(w => {
+                                                            if(no_part_word == 'Y'){
+                                                                // w = "\\b" +w +"\\b";//palabras enteras// exacta coincidencia
+                                                                w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
+                                                            }
+                                                            if(accent_match == 'Y'){
+                                                                let regex_w = RegExp(w, tipo); 
+                                                                arr_result_m = VerseText.match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                    VerseText = VerseText.replace(regex_w, function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    });
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }else if(accent_match == 'N'){
+                                                                let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);;
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                        return '{' + x + '}';
+                                                                    });
+                                                                    let text_original = VerseText;
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
+                                                                    VerseText = markRed(text_original, text_marcas);
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                            }
+                                                        });
+                                                        if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                            is_match = true;
+                                                        }else{
+                                                            is_match = false;
+                                                        }
+                                                    }else if(no_part_word == 'N'){
+                                                        if(accent_match == 'Y'){
+                                                            words = arr_words.join('|');
+                                                            let regex1 = RegExp(words, tipo);//buscar todo
+                                                            arr_result_m = VerseText.match(regex1);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                                VerseText = VerseText.replace(regex1, function (x) {
+                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                });
+                                                            }else{
+                                                                is_match = false;
+                                                            } 
+                                                        }else if(accent_match == 'N'){
+                                                            words = arr_words.join('|');
+                                                            let regex_w = RegExp(removeAccents(words), tipo); 
+                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                arr_matches.push(1);
+                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    return '{' + x + '}';
+                                                                });
+                                                                let text_original = VerseText;
+                                                                text_marcas = prepararTextMarcas(text_marcas);
+                                                                VerseText = markRed(text_original, text_marcas);
+                                                                //console.log('VerseText: '+VerseText);
+                                                            }else{
+                                                                arr_matches.push(0);
+                                                            }
+                                                            if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                            }else{
+                                                                is_match = false;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                //=======================================================================//
+        
+        
+                                                //=======================================================================//
+                                                //2. - //cлова идут в заданном порядке //ok
+                                                //=======================================================================//
+                                                if(eid_cbox2.checked){
+                                                    //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
+                                                    let arr_matches = [];
+                                                    let arr_matches_w = [];//matches en words
+                                                    let arr_regex_w = [];
+                                                    let arr_regex_w_l = [];//для сравнения
+                                                    arr_words.forEach( (w,i,arr_w) => {
+                                                        if(accent_match == 'Y'){
+                                                            let regex_w = RegExp(w, tipo);
+                                                            arr_regex_w.push(regex_w);
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                            arr_regex_w_l.push(regex_w_l);
+                                                            arr_result_m = VerseText.match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                if(typeof arr_w[i+1] != 'undefined'){
+                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                        let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                        if(index_first_w < index_next_w){
+                                                                            //console.log('VerseText: '+VerseText);
+                                                                            //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                            //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                            let arr_VerseText_a = VerseText.split(' ');
+                                                                            let arr_VerseText_a_ed = [];
+                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
+                                                                                if(no_part_word == 'Y'){
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                }else{//no_part_word == 'N'
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                }
+                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                    el_a = el_a.replace(regex_aw, function (x) {
+                                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                                    });
+                                                                                    sovpad++;
+                                                                                    arr_matches_w.push(1);
+                                                                                    count_m_total += 1;
+                                                                                    arr_result_m_total.push(arr_result_m);
+                                                                                }
+                                                                                if(sovpad == arr_words.length){
+                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                }
+                                                                                arr_VerseText_a_ed.push(el_a); 
+                                                                            }
+                                                                            VerseText = arr_VerseText_a_ed.join(' ');
+                                                                            //console.log(VerseText);
+                                                                        }else{
+                                                                            arr_matches.push(0);
+                                                                        }
+                                                                    }else if(case_sens == 'i'){//все равно какие буквы
+                                                                        //превращаю в мал. буквы только для сравнения.
+                                                                        let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        if(index_first_w < index_next_w){
+                                                                            //console.log('VerseText: '+VerseText);
+                                                                            //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
+                                                                            //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                            //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                            let arr_VerseText_a = VerseText.split(' ');
+                                                                            let arr_VerseText_a_ed = [];
+                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
+                                                                                if(no_part_word == 'Y'){
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                }else{//no_part_word == 'N'
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                }
+                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                    el_a = el_a.replace(regex_aw, function (x) {
+                                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                                    });
+                                                                                    sovpad++;
+                                                                                    arr_matches_w.push(1);
+                                                                                    count_m_total += 1;
+                                                                                    arr_result_m_total.push(arr_result_m);
+                                                                                }
+                                                                                if(sovpad == arr_words.length){
+                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                }
+                                                                                arr_VerseText_a_ed.push(el_a); 
+                                                                            }
+                                                                            VerseText = arr_VerseText_a_ed.join(' ');
+                                                                            //console.log(VerseText);
+                                                                        }else{
+                                                                            arr_matches.push(0);
+                                                                        }
+                                                                    }                                                    
+                                                                }
+                                                            }    
+                                                        }else if(accent_match == 'N'){
+                                                            let regex_w = RegExp(removeAccents(w), tipo);
+                                                            arr_regex_w.push(regex_w);
+                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                            arr_regex_w_l.push(regex_w_l);
+                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                if(typeof arr_w[i+1] != 'undefined'){
+                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                        let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                        if(index_first_w < index_next_w){
+                                                                            //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
+                                                                            //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                            //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                            let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                            let arr_VerseText_a_ed = [];
+                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
+                                                                                if(no_part_word == 'Y'){
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                }else{//no_part_word == 'N'
+                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                }
+                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                    el_a = removeAccents(el_a).replace(regex_aw, function (x) {
+                                                                                        return '{' + x + '}';
+                                                                                    });
+                                                                                    sovpad++;
+                                                                                    arr_matches_w.push(1);
+                                                                                    count_m_total += 1;
+                                                                                    arr_result_m_total.push(arr_result_m);
+                                                                                }
+                                                                                if(sovpad == arr_words.length){
+                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                }
+                                                                                arr_VerseText_a_ed.push(el_a); 
+                                                                            }
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                            //console.log('VerseText: '+VerseText); 
+                                                                        }else{
+                                                                            arr_matches.push(0);
+                                                                        }
+                                                                    }else if(case_sens == 'i'){//все равно какие буквы
+                                                                        //превращаю в мал. буквы только для сравнения.
+                                                                        let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                        let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                        if(index_first_w < index_next_w){
+                                                                            //console.log('VerseText: '+removeAccents(VerseText));
+                                                                            //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
+                                                                            //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                            //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                            let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                            let arr_VerseText_a_ed = [];
+                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                let el_a = arr_VerseText_a[a];
+                                                                                let regex_aw,sovpad_word;
+                                                                                if(no_part_word == 'Y'){
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    if(arr_w[i+sovpad] < arr_w.length){
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                    }else{
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                    }
+                                                                                }else{//no_part_word == 'N'
+                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                }
+                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                    el_a = el_a.replace(regex_aw, function (x) {
+                                                                                        return '{' + x + '}';
+                                                                                    });
+                                                                                    sovpad++;
+                                                                                    arr_matches_w.push(1);
+                                                                                    count_m_total += 1;
+                                                                                    arr_result_m_total.push(arr_result_m);
+                                                                                }
+                                                                                if(sovpad == arr_words.length){
+                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                }
+                                                                                arr_VerseText_a_ed.push(el_a); 
+                                                                            }
+                                                                            let text_original = VerseText;
+                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                            VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                            //console.log('text_original: '+text_original); 
+                                                                            //console.log('text_marcas: '+text_marcas); 
+                                                                            //console.log('con markRed --- VerseText: '+VerseText); 
+                                                                        }else{
+                                                                            arr_matches.push(0);
+                                                                        }
+                                                                    }                                                    
+                                                                }
+                                                            }
+                                                        }//end //else if(accent_match == 'N')
+                                                    });
+                                                    if(!arr_matches.includes(0)){//si todos ocurrencias hay
+                                                        for (let i = 0; i < arr_regex_w.length; i++) {
+                                                            if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                let index_first_w,index_next_w;
+                                                                if(accent_match == 'Y'){
+                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                        index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                        index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                    }if(case_sens == 'i'){//все равно какие буквы
+                                                                        index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                    }
+                                                                }else if(accent_match == 'N'){
+                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                        index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                        index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                    }if(case_sens == 'i'){//все равно какие буквы
+                                                                        index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                        index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                    }
+                                                                }
+                                                                if(index_first_w < index_next_w && arr_matches_w.includes(1)){
+                                                                    //console.log('VerseText: '+VerseText);
+                                                                    VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    });
+                                                                    //console.log(' con red --- VerseText: '+VerseText);
+                                                                    //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
+                                                                    //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
+                                                                    is_match = true;
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                        }//end for
+                                                        //quito tag's sobrantes de las coincidencias con for
+                                                        if(is_match){
+                                                            let tag_f_red_start = '';
+                                                            let tag_f_red_end = '';
+                                                            //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                            //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                            for (let index = 0; index < arr_words.length; index++) {
+                                                                tag_f_red_start += '<b class="f_red">';
+                                                                tag_f_red_end += '</b>';
+                                                                //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                if(index > 0){
+                                                                    VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                    VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                    //console.log(' en for --- VerseText: '+VerseText);
+                                                                }                                                                        
+                                                            }
+                                                            //console.log(' despues de for --- VerseText: '+VerseText);
+                                                        }                                           
+                                                    }else{
+                                                        is_match = false;
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end //2. - //cлова идут в заданном порядке //ok
+                                                //=======================================================================//
+                                                
+        
+                                                //=======================================================================//
+                                                //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                //=======================================================================//
+                                                if(eid_cbox3.checked){
+                                                    let words = arr_words.join(' ');
+                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    VerseText = arr_VerseText_or.join(' ');
+                                                    //console.log('------------- 2347 --- VerseText: '+VerseText);
+                                                    if(accent_match == 'Y'){
+                                                        let regex_w = RegExp(words, tipo);
+                                                        arr_result_m = VerseText.match(regex_w);
+                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                        if(count_m > 0){
+                                                            VerseText = VerseText.replace(regex_w, function (x) {
+                                                                return '<b class="f_red">' + x + '</b>';
+                                                            });
+                                                            is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
+                                                        }else{
+                                                            is_match = false;
+                                                        } 
+                                                    }else if(accent_match == 'N'){
+                                                        let regex_w = RegExp(removeAccents(words), tipo);
+                                                        arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                        if(count_m > 0){
+                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                return '{' + x + '}';
+                                                            });
+                                                            let text_original = VerseText;
+                                                            let arr_frases = prepararFrases(text_original,text_marcas);
+                                                            let frase_original = arr_frases[0];
+                                                            let frase_exacta = arr_frases[1];
+                                                            //console.log('frase_original: '+frase_original);
+                                                            //console.log('frase_exacta: '+frase_exacta);
+                                                            text_marcas = prepararTextMarcas(frase_exacta);                                                            
+                                                            VerseText = markRed(frase_original, text_marcas);//FUNCIONA
+                                                            //console.log('VerseText: '+VerseText);
+                                                            VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
+                                                            is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
+                                                        }else{
+                                                            is_match = false;
+                                                        }
+                                                    }                                                    
+                                                }
+                                                //=======================================================================//
+                                                //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                //=======================================================================//
+
+
+                                                //=======================================================================//
+                                                //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
+                                                if(eid_cbox7.checked){
+                                                    let words = arr_words.join(' ');
+                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                    VerseText = arr_VerseText_or.join(' ');
+                                                    let regex_w = RegExp(words, tipo);
+                                                    let arr_VerseText_con_sn = [];
+                                                    let arr_sn = [];//arr de strong numbers finded
+                                                    arr_VerseText_or.forEach(el=>{  
+                                                        if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                            //console.log('el: '+el);
+                                                            let sNumber_sin_tags = removeTags(el); 
+                                                            //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                            if(sNumber_sin_tags == words){
+                                                                //console.log('sNumber_sin_tags == words');
+                                                                arr_sn.push(sNumber_sin_tags);
+                                                                let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                }); 
+                                                                el = sNumber_con_tags;
+                                                                //console.log('nuevo el: '+el);
+                                                                arr_VerseText_con_sn.push(el);//con sn red
+                                                            }else{
+                                                                arr_VerseText_con_sn.push(el);
+                                                            }
+                                                        }else{
+                                                            arr_VerseText_con_sn.push(el);
+                                                        }
+                                                    });
+                                                    //console.log('arr_sn: '+arr_sn);
+                                                    VerseText = arr_VerseText_con_sn.join(' ');
+                                                    //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                    arr_result_m = arr_sn;
+                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                    if(count_m > 0){
+                                                        is_match = true;
+                                                        count_m_total += count_m;
+                                                        arr_result_m_total.push(arr_result_m);
+                                                    }else{
+                                                        is_match = false;
+                                                    }
+                                                }
+                                                //=======================================================================//
+                                                //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                //=======================================================================//
+        
+                                            }//end //if(arr_words.length > 0)
+        
+        
+        
+                                            //Matches
+                                            if(is_match){
+                                                //console.log('VerseText regex1: '+VerseText.match(regex1));
+                                                //console.log('VerseText: '+VerseText);
+        
+                                                const span_num_find = document.createElement('span');
+                                                span_num_find.className = 'sp_f';
+                                                count_f++;
+                                                span_num_find.innerText = count_f;
+        
+                                                const p = document.createElement('p');
+                                                p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+                                
+                                                const a = document.createElement('a');
+                                                a.href = '#';
+                                                //let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
+                                                let aLink = `${bq.Books[book].ShortNames[0]} ${ChapterId}:${VerseId}`;
+                                                a.innerHTML = aLink;
+                                                a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
+                                                
+                                                p.append(span_num_find);
+                                                p.append(a);
+                                                p.append(' '); 
+                        
+                                                const span_vt = document.createElement('span');
+                                                span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                        
+                        
+                                                //Номера Стронга в стихах (RST+)
+                                                if(bq.StrongNumbers == "Y"){//OK
+                                                    let t = VerseText;
+                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                                
+                                                    arr_t.forEach((el,i) => {    
+                                                        
+                                                        //element of string is Strong Number
+                                                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                            const span_strong = document.createElement('span');
+                                                            if(btnStrongIsActive){
+                                                                span_strong.className = 'strong show strongActive'; 
+                                                            }else{
+                                                                span_strong.className = 'strong'; 
+                                                            }
+                                                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                                
+                                                            //si ultimo carácter es string
+                                                            if(last_char != '' && isNaN(last_char)){
+                                                                let el_number = el.substring(0,el.length-1);
+                                                                let el_string = last_char;
+                                                                span_strong.innerHTML = el_number;
+                                                                span_vt.append(span_strong);
+                                                                span_vt.append(el_string);
+                                                            }else{//es number
+                                                                span_strong.innerHTML = el;
+                                                                span_vt.append(span_strong);
+                                                            }
+                                                
+                                                        }else{//is word
+                                                            span_vt.append(' ');
+                                                            if(btnStrongIsActive){
+                                                                if(el.includes('<S>')){
+                                                                    el = el.replace('<S>','<S class="show strongActive">');
+                                                                }
+                                                            }
+                                                            span_vt.append(el);
+                                                        }
+                                                    });
+                                                    p.append(span_vt);
+                                                    p.innerHTML.trim();
+                                                
+                                                    //console.log('antes: ' + p.innerHTML);
+                                                    if(bq.HTMLFilter == 'Y'){
+                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                    }
+                                                    //console.log('despues: '+p.innerHTML);
+                                                
+                                                    if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
+                                                        p.querySelectorAll('.strongActive').forEach((el)=>{
+                                                            el.addEventListener('click', ()=>{
+                                                                //console.log('2. book: '+book);
+                                                                //console.log('2. el.innerHTML: '+el.innerHTML);
+                                                                if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
+                                                                    //getStrongNumber(el.innerHTML);
+                                                                    getStrongNumber(el.innerText);
+                                                                }else{//rstStrong
+                                                                    lang = (book >= 39) ? 'Grk' : 'Heb' ;
+                                                                    //getStrongNumber(el.innerHTML, lang);
+                                                                    getStrongNumber(el.innerText, lang);
+                                                                }
+                                                            });
+                                                        }); 
+                                                    }
+                                                }
+                        
+                                                //Примечания редактора в стихах (RSTi2)
+                                                if(bq.Notes == 'Y'){//OK
+                                                    let t = VerseText;
+                        
+                                                    if(t.includes(bq.NoteSign)){// '*'
+                                                        let arr_t0 = t.split(bq.NoteSign);
+                                                        let before_Note = arr_t0[0];
+                                                                                
+                                                        if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                            p.className = 'with_notes';
+                                                            let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                                            let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                                            let text_Note = arr_t2[0];
+                                                            let after_Note = arr_t2[1];
+
+                                                            const span_before = document.createElement('span');
+                                                            const span_after = document.createElement('span');                
+                        
+                                                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                                                        
+                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                const h6_text = document.createElement('h6');
+                                                                h6_text.className = 'prim_h6';
+                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                span_before.append(h6_text);
+                                                                span_vt.append(span_before);
+                                                            }else{
+                                                                span_before.innerHTML = before_Note;
+                                                                span_vt.append(span_before);
+                                                            }
+                                            
+                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+
+                                                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                            span_after.innerHTML = after_Note;
+                                                            span_vt.append(span_after);
+                                                            p.append(span_vt);
+
+                                                            if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }
+                                                    }else{
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
+                        
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                        }
+                                                    }
+                                                    //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                                }
+                        
+                                                //Оглавления в стихах (NRT)
+                                                if(bq.Titles == 'Y'){//OK
+                                                    let t = VerseText;
+                                                
+                                                    if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                                        let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                                        let before_Title = arr_t1[0];
+                                                        let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                                        let text_Title = arr_t2[0];
+                                                        let after_Title = arr_t2[1];
+                                                
+                                                        const span_title = document.createElement('span');
+                                                        span_title.className = 'verse_title';
+                                                        span_title.innerHTML = text_Title;
+                                                
+                                                        span_vt.append(before_Title);
+                                                        span_vt.append(span_title);
+                                                        span_vt.append(after_Title);
+                                                
+                                                        p.append(span_vt);
+                                                    }else{
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
+                                                    }
+                                                
+                                                    if(bq.HTMLFilter == 'Y'){
+                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                    }
+                                                }
+                        
+                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
+                                                    span_vt.append(VerseText);
+                                                    p.append(span_vt);
+                        
+                                                    if(bq.HTMLFilter == 'Y'){
+                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                    }
+                                                }
+        
+                                                result_finded.push(p);
+                                                
+                                            }      
+                                        });
+                                    }
+                                });
+                            
+                            }else{
+                                //console.log(index+') stop doFind. window.doFind: '+window.doFind);
+                            }//end else (window.doFind)        
+        
+        
+                            //Formar links para resultados de búsqueda
+                            if(result_finded.length > 0){
+                                
+                                //console.log('2. abajo result_finded:');
+                                //console.log(result_finded);
+        
+                                //console.log('2. abajo arr_result_m_total:');
+                                //console.log(arr_result_m_total);
+                            
+                                if(document.querySelectorAll('.res_f').length > 0){
+                                    document.querySelectorAll('.res_f').forEach(el=>{
+                                        // el.remove();//elimino resultado anterior si lo hay
+                                    })
+                                }                    
+        
+                                //inserto resultado de búsqueda                        
+                                let tooltip_value = `
+                                    Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                    Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                `;
+                                let sp_tooltip = `
+                                    <span 
+                                        class="tooltip" 
+                                        data-tooltip="${tooltip_value}" 
+                                        onmouseenter="showTooltip(this)" 
+                                        mouseleave="hideTooltip(this)"
+                                    >*</span> 
+                                `;
+                                document.querySelector('.res_f').innerHTML = `
+                                    "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                    ${sp_tooltip}
+                                    <span class="res_m f_r">[${count_m_total}]</span>
+                                `;
+
+                                ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                scrollToFindTabActive();
+
+                                mySizeFind();//altura de eid_find_body
+        
+                                let arr_l = [];
+                                let limit_n = limit_val;
+                                for (let i = 0; i < result_finded.length; i++) {
+                                    const el = result_finded[i];
+                                    //console.log(el);
+        
+                                    if(i > limit_n - 2 || i == result_finded.length - 1){
+                                        arr_l.push(el);
+                                        result_show.push(arr_l); 
+                                        limit_n += limit_val;
+                                        arr_l = [];
+                                    }else{
+                                        arr_l.push(el);
+                                    }                            
+                                }
+                                //console.log('result_show');
+                                //console.log(result_show);
+        
+                                window.res_show = result_show;
+                                //console.log('res_show');
+                                //console.log(res_show);
+        
+                                if(result_show != null){
+                                    if(index == book_end){
+                                        //añado el texto de búsqueda en el historial
+                                        addWordsToHistFind(Translation, words_input, count_f, count_m_total);
+                                        //console.log('2. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                        mostrar_res_show(0);//por defecto los primeros 50
+                                    }
+                                }
+                                result_show = [];
+        
+                                if(index == book_end){
+                                    stopFindWords();//показываю кнопку 'Find'
+                                }
+                                
+                            }else{
+                                if(index == book_end && result_finded.length == 0){
+                                    mostrar_no_res();
+                                    stopFindWords();//показываю кнопку 'Find'
+                                }
+                            }
+
+                        } catch (error) {
+                            console.error('2. Error try-catch find: ', error);
+                        }
+                        
+                    }
+                    
+    
+                }//end for
+            }
+
+        }else{//MODO OLD. como en Text3()
+            
+            try {
+                
+                //console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);                
+                const response = await fetch(`./modules/text/${Translation}/bibleqt.json`);
+                const bq = await response.json();
+                //console.log(bq);
+
+                //muestro trans en result de busqueda
+                document.querySelector(".title_par .trans_name").innerHTML = bq.BibleShortName;               
+        
+                if(book_start != null && book_end != null){
+        
+                    for (let index = book_start; index <= book_end; index++) {                
+                        
+                        //console.log('--- for --- index: '+index);
+                        let book = index;//genesis
+        
+                        //url del libro necesario
+                        url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
+                        //console.log('--- url: '+url);
+                        
+                        fetchInner(url);
+                        async function fetchInner(url){
+
+                            try {
+                                const response = await fetch(url);
+                                const bookModule = await response.text();
+
+                                if(window.doFind){
+                                    //console.log(index+') hago doFind. window.doFind: '+window.doFind);
+                                    //console.log('Bible book: '+bq.Books[book].FullName);
+                
+                                    //console.log(bookModule);
+                                    //показываю в каких книгах ищу
+                                    document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
+            
+                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                    //console.log(nb);
+                                    
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                    //console.log(nb);
+            
+                                    let arr_chapters = nb;
+                                    //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
+            
+                                    arr_chapters.forEach( (el_ch, i_ch) => {
+                                        //console.log(el_ch);
+                                        let chapter = i_ch;
+                                        let ChapterId = i_ch;
+                                        
+                                        if(el_ch.includes('<p>')){
+                                            let arr_verses = el_ch.split('<p>');
+                                            //console.log(arr_verses);
+                                            
+                                            //Recorrer todos los verses
+                                            arr_verses.forEach((el,i) => {
+                                                let p_Text = '';
+            
+                                                if(el.includes('</p>')){
+                                                    let arr_p_text = el.split('</p>');
+                                                    p_Text = arr_p_text[0];
+                                                }else{
+                                                    p_Text = el;
+                                                }
+                                                //console.log('p_Text: '+p_Text); 
+            
+                                                let arr_p = p_Text.split(' ');
+                                                let VerseId = arr_p[0];
+                                                //console.log('VerseId: '+VerseId);
+            
+                                                let VerseText = '';
+                                                for(let index = 1; index < arr_p.length; index++){
+                                                    VerseText += arr_p[index] + ' ';
+                                                    //console.log('arr_p['+index+']: '+arr_p[index]);
+                                                }
+                                                //console.log('VerseText: '+VerseText);
+                                                
+                                                if(VerseText != ''){
+                                                    //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
+                                                    //console.log('sin tags --- VerseText: '+VerseText);
+    
+                                                    if(search_only_in_text_without_StrongTags){
+                                                        if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                            VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                        }
+                                                    }
+                                                }
+            
+                                                //tipos de busqueda
+                                                let is_match = false;
+            
+                                                //Si hay palabras para buscar...
+                                                if(arr_words.length > 0){
+            
+                                                    //=======================================================================//  
+                                                    //0. por defecto - nada marcado //ok
+                                                    //=======================================================================//  
+                                                    if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
+                                                        let arr_matches = [];  
+                                                        //1. проверяю есть ли каждое слово из фразы в стихе                                      
+                                                        arr_words.forEach(w => {
+                                                            if(accent_match == 'Y'){//cbox6
+                                                                if(no_part_word == 'Y'){//cbox4
+                                                                    let arr_no_part_word = [];
+                                                                    w = "^" +w +"$";//entera palabra del array, no parte
+                                                                    let regex_w = RegExp(w, tipo);
+                                                                    VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                        if(removeSymbols(el).match(regex_w)){
+                                                                            //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                            arr_no_part_word.push(1);
+                                                                        }else{
+                                                                            //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                            arr_no_part_word.push(0);
+                                                                        } 
+                                                                    });
+                                                                    if(arr_no_part_word.includes(1)){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }else if(no_part_word == 'N'){
+                                                                    let regex_w = RegExp(w, tipo);
+                                                                    arr_result_m = VerseText.match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }
+                                                            }else if(accent_match == 'N'){
+                                                                if(no_part_word == 'Y'){
+                                                                    let arr_no_part_word = [];
+                                                                    w = "^" +w +"$";//entera palabra del array, no parte
+                                                                    let regex_w = RegExp(removeAccents(w), tipo);
+                                                                    removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
+                                                                        if(removeSymbols(el).match(regex_w)){
+                                                                            //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                            arr_no_part_word.push(1);
+                                                                        }else{
+                                                                            //console.log('--- removeSymbols(el) ('+removeSymbols(el)+') NO match regex_w: '+false);
+                                                                            arr_no_part_word.push(0);
+                                                                        } 
+                                                                    });
+                                                                    if(arr_no_part_word.includes(1)){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }else if(no_part_word == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                        //console.log('Word. w: ', w);
+                                                        //console.log('VerseText: ', VerseText);
+                                                        if(!arr_matches.includes(0)){//когда все слова из фразы есть в стихе
+                                                            //2. в цикле отмечаю красным все совпадения, но уже не нужно arr_matches.push()
+                                                            arr_words.forEach(w => {
+                                                                if(accent_match == 'Y'){//cbox6
+                                                                    if(no_part_word == 'Y'){//cbox4
+                                                                        let arr_VerseText_red = [];
+                                                                        let regex_w = RegExp(w, tipo);                                                       
+                                                                        VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                            if(removeSymbols(el).match(regex_w)){
+                                                                                //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                                el = el.replace(regex_w, function (x) {
+                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                });
+                                                                                arr_VerseText_red.push(el);
+                                                                            }else{
+                                                                                //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                                arr_VerseText_red.push(el);
+                                                                            } 
+                                                                        });
+                                                                        VerseText = arr_VerseText_red.join(' ');
+                                                                        //console.log('VerseText: ', VerseText);
+                                                                    }else if(no_part_word == 'N'){
+                                                                        let regex_w = RegExp(w, tipo);
+                                                                        arr_result_m = VerseText.match(regex_w);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            VerseText = VerseText.replace(regex_w, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                }else if(accent_match == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            return '{' + x + '}';
+                                                                        });
+                                                                        let text_original = VerseText;
+                                                                        text_marcas = prepararTextMarcas(text_marcas);
+                                                                        VerseText = markRed(text_original, text_marcas);
+                                                                    }
+                                                                }
+                                                            });
+                                                            is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
+                                                            //console.log('count_m_total: ', count_m_total);
+                                                            //console.log('arr_result_m_total: ', arr_result_m_total);
+                                                            //console.log('VerseText: ', VerseText);
+            
+                                                        }else{
+                                                            is_match = false;
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end //0. por defecto - nada marcado //ok                                 
+                                                    //=======================================================================//
+                                                    
+            
+                                                    //=======================================================================//
+                                                    //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox1.checked){
+                                                        let arr_matches = [];
+                                                        if(no_part_word == 'Y'){
+                                                            arr_words.forEach(w => {
+                                                                if(no_part_word == 'Y'){
+                                                                    // w = "\\b" +w +"\\b";//palabras enteras// exacta coincidencia
+                                                                    w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
+                                                                }
+                                                                if(accent_match == 'Y'){
+                                                                    let regex_w = RegExp(w, tipo); 
+                                                                    arr_result_m = VerseText.match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                        VerseText = VerseText.replace(regex_w, function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }else if(accent_match == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);;
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            return '{' + x + '}';
+                                                                        });
+                                                                        let text_original = VerseText;
+                                                                        text_marcas = prepararTextMarcas(text_marcas);
+                                                                        VerseText = markRed(text_original, text_marcas);
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }
+                                                            });
+                                                            if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                is_match = true;
+                                                            }else{
+                                                                is_match = false;
+                                                            }
+                                                        }else if(no_part_word == 'N'){
+                                                            if(accent_match == 'Y'){
+                                                                words = arr_words.join('|');
+                                                                let regex1 = RegExp(words, tipo);//buscar todo
+                                                                arr_result_m = VerseText.match(regex1);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                    VerseText = VerseText.replace(regex1, function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    });
+                                                                }else{
+                                                                    is_match = false;
+                                                                } 
+                                                            }else if(accent_match == 'N'){
+                                                                words = arr_words.join('|');
+                                                                let regex_w = RegExp(removeAccents(words), tipo); 
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                        return '{' + x + '}';
+                                                                    });
+                                                                    let text_original = VerseText;
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
+                                                                    VerseText = markRed(text_original, text_marcas);
+                                                                    //console.log('VerseText: '+VerseText);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                                if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                }else{
+                                                                    is_match = false;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                    //=======================================================================//
+            
+            
+                                                    //=======================================================================//
+                                                    //2. - //cлова идут в заданном порядке //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox2.checked){
+                                                        //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
+                                                        let arr_matches = [];
+                                                        let arr_matches_w = [];//matches en words
+                                                        let arr_regex_w = [];
+                                                        let arr_regex_w_l = [];//для сравнения
+                                                        arr_words.forEach( (w,i,arr_w) => {
+                                                            if(accent_match == 'Y'){
+                                                                let regex_w = RegExp(w, tipo);
+                                                                arr_regex_w.push(regex_w);
+                                                                let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                                arr_regex_w_l.push(regex_w_l);
+                                                                arr_result_m = VerseText.match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                    if(typeof arr_w[i+1] != 'undefined'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                            let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = VerseText.split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                //console.log(VerseText);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(case_sens == 'i'){//все равно какие буквы
+                                                                            //превращаю в мал. буквы только для сравнения.
+                                                                            let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                            let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
+                                                                                //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = VerseText.split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                        sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                //console.log(VerseText);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }                                                    
+                                                                    }
+                                                                }    
+                                                            }else if(accent_match == 'N'){
+                                                                let regex_w = RegExp(removeAccents(w), tipo);
+                                                                arr_regex_w.push(regex_w);
+                                                                let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                                arr_regex_w_l.push(regex_w_l);
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                    if(typeof arr_w[i+1] != 'undefined'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                            let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
+                                                                                //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = removeAccents(el_a).replace(regex_aw, function (x) {
+                                                                                            return '{' + x + '}';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                //console.log('VerseText: '+VerseText); 
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(case_sens == 'i'){//все равно какие буквы
+                                                                            //превращаю в мал. буквы только для сравнения.
+                                                                            let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                            let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+removeAccents(VerseText));
+                                                                                //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
+                                                                                //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                        if(arr_w[i+sovpad] < arr_w.length){
+                                                                                            sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                        }else{
+                                                                                            sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                        }
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                        sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '{' + x + '}';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                //console.log('VerseText: '+VerseText); 
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }                                                    
+                                                                    }
+                                                                }
+                                                            }//end //else if(accent_match == 'N')
+                                                        });
+                                                        if(!arr_matches.includes(0)){//si todos ocurrencias hay
+                                                            for (let i = 0; i < arr_regex_w.length; i++) {
+                                                                if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                    let index_first_w,index_next_w;
+                                                                    if(accent_match == 'Y'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                            index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                        }if(case_sens == 'i'){//все равно какие буквы
+                                                                            index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                            index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        }
+                                                                    }else if(accent_match == 'N'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                            index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                        }if(case_sens == 'i'){//все равно какие буквы
+                                                                            index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                            index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        }
+                                                                    }
+                                                                    if(index_first_w < index_next_w && arr_matches_w.includes(1)){
+                                                                        //console.log('VerseText: '+VerseText);
+                                                                        //console.log('VerseText: '+VerseText);
+                                                                        VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                        //console.log(' con red --- VerseText: '+VerseText);
+                                                                        //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
+                                                                        //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
+                                                                        is_match = true;
+                                                                    }else{
+                                                                        is_match = false;
+                                                                    }
+                                                                }
+                                                            }//end for
+                                                            //quito tag's sobrantes de las coincidencias con for
+                                                            if(is_match){
+                                                                let tag_f_red_start = '';
+                                                                let tag_f_red_end = '';
+                                                                //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                                //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                                for (let index = 0; index < arr_words.length; index++) {
+                                                                    tag_f_red_start += '<b class="f_red">';
+                                                                    tag_f_red_end += '</b>';
+                                                                    //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                    //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                    if(index > 0){
+                                                                        VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                        VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                        //console.log(' en for --- VerseText: '+VerseText);
+                                                                    }                                                                        
+                                                                }
+                                                                //console.log(' despues de for --- VerseText: '+VerseText);
+                                                            }                                           
+                                                        }else{
+                                                            is_match = false;
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end //2. - //cлова идут в заданном порядке //ok
+                                                    //=======================================================================//
+                                                    
+            
+                                                    //=======================================================================//
+                                                    //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox3.checked){
+                                                        let words = arr_words.join(' ');
+                                                        VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                        let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                        VerseText = arr_VerseText_or.join(' ');
+                                                        if(accent_match == 'Y'){
+                                                            let regex_w = RegExp(words, tipo);
+                                                            arr_result_m = VerseText.match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                VerseText = VerseText.replace(regex_w, function (x) {
+                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                });
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                            }else{
+                                                                is_match = false;
+                                                            } 
+                                                        }else if(accent_match == 'N'){
+                                                            let regex_w = RegExp(removeAccents(words), tipo);
+                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    return '{' + x + '}';
+                                                                });
+                                                                let text_original = VerseText;
+                                                                let arr_frases = prepararFrases(text_original,text_marcas);
+                                                                let frase_original = arr_frases[0];
+                                                                let frase_exacta = arr_frases[1];
+                                                                //console.log('frase_original: '+frase_original);
+                                                                //console.log('frase_exacta: '+frase_exacta);
+                                                                text_marcas = prepararTextMarcas(frase_exacta);                                                            
+                                                                VerseText = markRed(frase_original, text_marcas);//FUNCIONA
+                                                                //console.log('VerseText: '+VerseText);
+                                                                VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                            }else{
+                                                                is_match = false;
+                                                            }
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                    //=======================================================================//
+                                                    
+                                                    
+                                                    //=======================================================================//
+                                                    //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                    //=======================================================================//
+                                                    if(eid_cbox7.checked){
+                                                        let words = arr_words.join(' ');
+                                                        VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                        let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                        VerseText = arr_VerseText_or.join(' ');
+                                                        let regex_w = RegExp(words, tipo);
+                                                        let arr_VerseText_con_sn = [];
+                                                        let arr_sn = [];//arr de strong numbers finded
+                                                        arr_VerseText_or.forEach(el=>{  
+                                                            if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                                //console.log('el: '+el);
+                                                                let sNumber_sin_tags = removeTags(el); 
+                                                                //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                                if(sNumber_sin_tags == words){
+                                                                    //console.log('sNumber_sin_tags == words');
+                                                                    arr_sn.push(sNumber_sin_tags);
+                                                                    let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    }); 
+                                                                    el = sNumber_con_tags;
+                                                                    //console.log('nuevo el: '+el);
+                                                                    arr_VerseText_con_sn.push(el);//con sn red
+                                                                }else{
+                                                                    arr_VerseText_con_sn.push(el);
+                                                                }
+                                                            }else{
+                                                                arr_VerseText_con_sn.push(el);
+                                                            }
+                                                        });
+                                                        //console.log('arr_sn: '+arr_sn);
+                                                        VerseText = arr_VerseText_con_sn.join(' ');
+                                                        //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                        arr_result_m = arr_sn;
+                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                        if(count_m > 0){
+                                                            is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
+                                                        }else{
+                                                            is_match = false;
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                    //=======================================================================//
+            
+                                                }//end //if(arr_words.length > 0)
+            
+            
+            
+                                                //Matches
+                                                if(is_match){
+                                                    //console.log('VerseText regex1: '+VerseText.match(regex1));
+                                                    //console.log('VerseText: '+VerseText);
+            
+                                                    const span_num_find = document.createElement('span');
+                                                    span_num_find.className = 'sp_f';
+                                                    count_f++;
+                                                    span_num_find.innerText = count_f;
+            
+                                                    const p = document.createElement('p');
+                                                    p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+                                    
+                                                    const a = document.createElement('a');
+                                                    a.href = '#';
+                                                    //let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
+                                                    let aLink = `${bq.Books[book].ShortNames[0]} ${ChapterId}:${VerseId}`;
+                                                    a.innerHTML = aLink;
+                                                    a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
+                                                    
+                                                    p.append(span_num_find);
+                                                    p.append(a);
+                                                    p.append(' '); 
+                            
+                                                    const span_vt = document.createElement('span');
+                                                    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                            
+                            
+                                                    //Номера Стронга в стихах (RST+)
+                                                    if(bq.StrongNumbers == "Y"){//OK
+                                                        let t = VerseText;
+                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                                    
+                                                        arr_t.forEach((el,i) => {    
+                                                            
+                                                            //element of string is Strong Number
+                                                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                const span_strong = document.createElement('span');
+                                                                if(btnStrongIsActive){
+                                                                    span_strong.className = 'strong show strongActive'; 
+                                                                }else{
+                                                                    span_strong.className = 'strong'; 
+                                                                }
+                                                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                                    
+                                                                //si ultimo carácter es string
+                                                                if(last_char != '' && isNaN(last_char)){
+                                                                    let el_number = el.substring(0,el.length-1);
+                                                                    let el_string = last_char;
+                                                                    span_strong.innerHTML = el_number;
+                                                                    span_vt.append(span_strong);
+                                                                    span_vt.append(el_string);
+                                                                }else{//es number
+                                                                    span_strong.innerHTML = el;
+                                                                    span_vt.append(span_strong);
+                                                                }
+                                                    
+                                                            }else{//is word
+                                                                span_vt.append(' ');
+                                                                if(btnStrongIsActive){
+                                                                    if(el.includes('<S>')){
+                                                                        el = el.replace('<S>','<S class="show strongActive">');
+                                                                    }
+                                                                }
+                                                                span_vt.append(el);
+                                                            }
+                                                        });
+                                                        p.append(span_vt);
+                                                        p.innerHTML.trim();
+                                                    
+                                                        //console.log('antes: ' + p.innerHTML);
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                        }
+                                                        //console.log('despues: '+p.innerHTML);
+                                                    
+                                                        if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
+                                                            p.querySelectorAll('.strongActive').forEach((el)=>{
+                                                                el.addEventListener('click', ()=>{
+                                                                    //console.log('2. book: '+book);
+                                                                    //console.log('2. el.innerHTML: '+el.innerHTML);
+                                                                    if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
+                                                                        //getStrongNumber(el.innerHTML);
+                                                                        getStrongNumber(el.innerText);
+                                                                    }else{//rstStrong
+                                                                        lang = (book >= 39) ? 'Grk' : 'Heb' ;
+                                                                        //getStrongNumber(el.innerHTML, lang);
+                                                                        getStrongNumber(el.innerText, lang);
+                                                                    }
+                                                                });
+                                                            }); 
+                                                        }
+                                                    }
+                            
+                                                    //Примечания редактора в стихах (RSTi2)
+                                                    if(bq.Notes == 'Y'){//OK
+                                                        let t = VerseText;
+                            
+                                                        if(t.includes(bq.NoteSign)){// '*'
+                                                            let arr_t0 = t.split(bq.NoteSign);
+                                                            let before_Note = arr_t0[0];
+                                                                                    
+                                                            if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                                p.className = 'with_notes';
+                                                                let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                                                let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                                                let text_Note = arr_t2[0];
+                                                                let after_Note = arr_t2[1];
+    
+                                                                const span_before = document.createElement('span');
+                                                                const span_after = document.createElement('span');                
+                                                                                        
+                                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                                                            
+                                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                    const h6_text = document.createElement('h6');
+                                                                    h6_text.className = 'prim_h6';
+                                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                    let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                    h6_text.innerHTML = arr_text_bn[0];
+                                                                    span_before.append(h6_text);
+                                                                    span_vt.append(span_before);
+                                                                }else{
+                                                                    span_before.innerHTML = before_Note;
+                                                                    span_vt.append(span_before);
+                                                                }
+                                                
+                                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                
+                                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                span_after.innerHTML = after_Note;
+                                                                span_vt.append(span_after);
+                                                                p.append(span_vt);
+    
+                                                                if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }else{
+                                                            span_vt.append(VerseText);
+                                                            p.append(span_vt);
+                            
+                                                            if(bq.HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }
+                                                        //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                                    }
+                            
+                                                    //Оглавления в стихах (NRT)
+                                                    if(bq.Titles == 'Y'){//OK
+                                                        let t = VerseText;
+                                                    
+                                                        if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                                            let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                                            let before_Title = arr_t1[0];
+                                                            let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                                            let text_Title = arr_t2[0];
+                                                            let after_Title = arr_t2[1];
+                                                    
+                                                            const span_title = document.createElement('span');
+                                                            span_title.className = 'verse_title';
+                                                            span_title.innerHTML = text_Title;
+                                                    
+                                                            span_vt.append(before_Title);
+                                                            span_vt.append(span_title);
+                                                            span_vt.append(after_Title);
+                                                    
+                                                            p.append(span_vt);
+                                                        }else{
+                                                            span_vt.append(VerseText);
+                                                            p.append(span_vt);
+                                                        }
+                                                    
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                        }
+                                                    }
+                            
+                                                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
+                                                        span_vt.append(VerseText);
+                                                        p.append(span_vt);
+                            
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                        }
+                                                    }
+            
+                                                    result_finded.push(p);
+                                                    
+                                                }      
+                                            });
+                                        }
+                                    });
+                                
+                                }else{
+                                    //console.log(index+') stop doFind. window.doFind: '+window.doFind);
+                                }//end else (window.doFind)        
+            
+            
+                                //Formar links para resultados de búsqueda
+                                if(result_finded.length > 0){
+                                    
+                                    //console.log('2. abajo result_finded:');
+                                    //console.log(result_finded);
+            
+                                    //console.log('2. abajo arr_result_m_total:');
+                                    //console.log(arr_result_m_total);
+                                
+                                    if(document.querySelectorAll('.res_f').length > 0){
+                                        document.querySelectorAll('.res_f').forEach(el=>{
+                                           // el.remove();//elimino resultado anterior si lo hay
+                                        })
+                                    }                    
+            
+                                    //inserto resultado de búsqueda                        
+                                    let tooltip_value = `
+                                        Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                        Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                    `;
+                                    let sp_tooltip = `
+                                        <span 
+                                            class="tooltip" 
+                                            data-tooltip="${tooltip_value}" 
+                                            onmouseenter="showTooltip(this)" 
+                                            mouseleave="hideTooltip(this)"
+                                        >*</span> 
+                                    `;
+                                    document.querySelector('.res_f').innerHTML = `
+                                        "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                        ${sp_tooltip}
+                                        <span class="res_m f_r">[${count_m_total}]</span>
+                                    `;
+    
+                                    ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                    ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                    ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                    ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                    scrollToFindTabActive();
+    
+                                    mySizeFind();//altura de eid_find_body
+            
+                                    let arr_l = [];
+                                    let limit_n = limit_val;
+                                    for (let i = 0; i < result_finded.length; i++) {
+                                        const el = result_finded[i];
+                                        //console.log(el);
+            
+                                        if(i > limit_n - 2 || i == result_finded.length - 1){
+                                            arr_l.push(el);
+                                            result_show.push(arr_l); 
+                                            limit_n += limit_val;
+                                            arr_l = [];
+                                        }else{
+                                            arr_l.push(el);
+                                        }                            
+                                    }
+                                    //console.log('result_show');
+                                    //console.log(result_show);
+            
+                                    window.res_show = result_show;
+                                    //console.log('res_show');
+                                    //console.log(res_show);
+            
+                                    if(result_show != null){
+                                        if(index == book_end){
+                                            //añado el texto de búsqueda en el historial
+                                            addWordsToHistFind(Translation, words_input, count_f, count_m_total);
+                                            //console.log('3. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                            mostrar_res_show(0);//por defecto los primeros 50
+                                        } 
+                                    }
+                                    result_show = [];
+            
+                                    if(index == book_end){
+                                        stopFindWords();//показываю кнопку 'Find'
+                                    }
+                                    
+                                }else{
+                                    if(index == book_end && result_finded.length == 0){
+                                        mostrar_no_res();
+                                        stopFindWords();//показываю кнопку 'Find'
+                                    }
+                                }
+
+                            } catch (error) {
+                                console.error('2. Error en fetchInner() find. Error: ', error);
+                            }
+
+                        }//end fetchInner()                         
+        
+                    }//end for
+                }
+                
+            } catch (error) {
+                console.error('Error try-catch MODO OLD. como en Text3(). Error: ', error);
+            }
 
         }
 
