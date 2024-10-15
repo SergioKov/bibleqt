@@ -15137,7 +15137,7 @@ function getRefByCodeWithoutTrans(book, chapter, verse){
 
 async function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
-    
+
     let act_trans = eid_trans1.dataset.trans;
 
     // let arr_code = code.split('__');//antes ok
@@ -15239,7 +15239,7 @@ async function getRefByCode(code, separador = '__', first_book_index = 0){//ej.:
 }
 
 
-function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+async function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
     let act_trans = eid_trans1.dataset.trans;
 
@@ -15281,12 +15281,13 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
 
 
     if(book != null){
-        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-        fetch(url)
-        .then(response => {
-          return response.json(); // Devuelve una promesa
-        })
-        .then(data => {
+
+        try {
+
+            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+
+            const response = await fetch(url);
+            const data = response.json();
             //console.log(data);
     
             let short_name = data.Books[book].ShortNames[0];
@@ -15323,12 +15324,12 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
             
             allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
-            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);
+    
+        } catch (error) {
+            console.error('error try-catch. error: ', error);
+        }
+
     }else{
         //console.log('no existe book');
     }
