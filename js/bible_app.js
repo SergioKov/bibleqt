@@ -316,7 +316,7 @@ async function iniciarSesion(){//antes login() //username,password
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes iniciar sesión. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes iniciar sesión. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -520,7 +520,7 @@ async function crearCuenta(){
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
             let aviso_text = `<span>${obj_lang.d315}</span>`;//Si no aceptas cookies no puedes crear una cuenta.
-            aviso_text += ` <a onclick="showBlobkCookies(); closeModal(null,true);">${obj_lang.d316}</a>.`;//Seleccionar Coockies
+            aviso_text += ` <a onclick="showBlockCookies(); closeModal(null,true);">${obj_lang.d316}</a>.`;//Seleccionar Coockies
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -12495,7 +12495,7 @@ async function insertarDatos(tabla, campo, arr) {
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes insertar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes insertar datos. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -12600,7 +12600,7 @@ async function obtenerDatosDeBD(tabla, campo){
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             //openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -13008,7 +13008,7 @@ async function verificarAutenticacion() {
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes verificar autenticación. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes verificar autenticación. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -22599,7 +22599,7 @@ async function findWords(words_input){
                         }
                         
                     }
-                    
+
     
                 }//end for
             }
@@ -25650,7 +25650,7 @@ function validarPassword(password) {
 }
 
 
-function showBlobkCookies(){
+function showBlockCookies(){
     const cookieConsent = document.getElementById('cookie-consent');
     if(cookieConsent.classList.contains('hidden')){
         cookieConsent.classList.remove('hidden');

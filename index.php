@@ -1290,7 +1290,7 @@ HERE;
                                         </label>
                                     </div>
 
-                                    <div id="m_bl_cookies" class="dbtn" title="Mostrar block de consentimiento de cookies" onclick="showBlobkCookies()" style="width:100%;">
+                                    <div id="m_bl_cookies" class="dbtn" title="Mostrar block de consentimiento de cookies" onclick="showBlockCookies()" style="width:100%;">
                                         <div class="dbtn_inner wr_cook">
                                             
                                             <div class="wr_sw_text">
