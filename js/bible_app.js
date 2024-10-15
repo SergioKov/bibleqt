@@ -12568,50 +12568,6 @@ async function insertarDatos(tabla, campo, arr) {
 }
 
 
-function insertarDatos_old(tabla, campo, arr) {
-    //const nombre = document.getElementById('nombre').value;
-    //const correo = document.getElementById('correo').value;
-
-    const datos = {
-        tabla: tabla,
-        campo: campo,
-        arr: arr
-    };
-    //console.log(datos);
-
-    fetch('./php/insertar_datos.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datos)
-    })
-    .then(response => response.json())
-    // .then(response => response.text())//test
-    .then(data => {
-
-        //console.log(data);
-        // Puedes realizar acciones adicionales después de la inserción, si es necesario
-        if(data.success){
-            let text_show = obj_lang[data.dic_code];
-            console.log(text_show);
-        }else{
-            let text_show = obj_lang[data.dic_code];
-            console.error(text_show);
-            if(data.conn_error){
-                let text_show2 = `${obj_lang[data.dic_code]} ${data.conn_error}`;
-                console.error(text_show2);
-            }
-        }
-
-    })
-    .catch(error => { 
-        console.error('Error: ', error)
-    });
-}
-
-
-
 async function obtenerDatosDeBD(tabla, campo){
     //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
@@ -15179,8 +15135,9 @@ function getRefByCodeWithoutTrans(book, chapter, verse){
 }
 
 
-function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+async function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
+    
     let act_trans = eid_trans1.dataset.trans;
 
     // let arr_code = code.split('__');//antes ok
@@ -15223,14 +15180,15 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
 
 
     if(book != null){
-        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-        fetch(url)
-        .then(response => {
-          return response.json(); // Devuelve una promesa
-        })
-        .then(data => {
+        
+        try {
+            
+            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+            
+            const response = await fetch(url);
+            const data = await response.json();
             //console.log(data);
-    
+
             let short_name = data.Books[book].ShortNames[0];                    
             eid_inpt_nav.setAttribute('data-book_short_name',short_name);
             eid_inpt_nav.setAttribute('data-id_book',book);
@@ -15269,12 +15227,12 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
             
             allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
-            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);
+
+        } catch (error) {
+            console.error('error try-catch. error: ',error);
+        }
+
     }else{
         //console.log('no existe book');
     }
