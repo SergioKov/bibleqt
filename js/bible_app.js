@@ -15803,7 +15803,7 @@ function scrollTopCero(){
 }
 
 
-function chapterGo(dir){
+async function chapterGo(dir){
     //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
@@ -15915,136 +15915,25 @@ function chapterGo(dir){
             allowUseShowTrans = true;
             showTrans(prev_id_book, prev_show_chapter);
         }
-        
-        
-        /*
-        //modo old. al dar al botón pageUp() desde Otktovenie 1:1 al tener 2 trans la trans adicional se carga erroneamente (se carga trans1)
-        let myPromise_ch_go = new Promise(function(resolve, reject){
-            resolve('ok');
-        });
-
-        myPromise_ch_go
-        .then((res) => {
-
-            let bq;
-            if(res == 'ok'){//siempre ok
-                bq = objTrans;
-            }            
-            //console.log('abajo bq'); 
-            //console.log(bq); 
-
-            //if(act_id_book >= bq.BookQty){//REVISAR!!!
-            //    alert('No es posible pasar a siguiente capítulo ya que todos los módulos no tienen la misma cantidad de libros.Esto sucede cuando se quiere leer los librós apócrifos.');
-            //    return false;
-            //}
-
-
-            if(dir == 'next'){
-                let next_id_book = act_id_book;
-                let next_show_chapter = act_show_chapter; 
-
-                if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
-                    if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
-                        next_id_book = 0;//Génesis
-                    }else{
-                        next_id_book = parseInt(act_id_book) + 1;
-                    }
-                    next_show_chapter = 1;
-                }else{
-                    next_show_chapter = parseInt(act_show_chapter) + 1;
-                }
-
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
-                
-                //meto Gen.1:1 en los head de cada trans
-                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
-                });
-
-                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-                obj_nav.id_book = next_id_book;
-                obj_nav.show_chapter = next_show_chapter;
-
-                setTimeout(()=>{
-                    sel(eid_s_verse,'v',Translation);//verse
-                },50);
-
-                let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
-                addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
-                
-                allowUseShowTrans = true;
-                showTrans(next_id_book, next_show_chapter);
-            }
-
-            if(dir == 'prev'){
-                let prev_id_book = act_id_book;
-                let prev_show_chapter = act_show_chapter;
-
-                if(act_show_chapter == 1){
-                    if(act_id_book == 0){//Génesis
-                        prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
-                    }else{
-                        prev_id_book = parseInt(act_id_book) - 1;
-                    }
-                    prev_show_chapter = parseInt(bq.Books[prev_id_book].ChapterQty);
-                }else{
-                    prev_show_chapter = parseInt(act_show_chapter) - 1;
-                }
-
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
-                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
-
-                //meto Gen.1:1 en los head de cada trans
-                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
-                });
-
-                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-                obj_nav.id_book = prev_id_book;
-                obj_nav.show_chapter = prev_show_chapter;
-
-                setTimeout(()=>{
-                    sel(eid_s_verse,'v',Translation);//verse
-                },50);
-
-                let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
-                addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
-                
-                allowUseShowTrans = true;
-                showTrans(prev_id_book, prev_show_chapter);
-            }
-
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
-        */
 
     }else{//MODO OLD. si hace falta!
         
         //alert('chapterGo(dir) --- modo old. fetch()');
         //console.log('chapterGo(dir) --- modo old. fetch()');
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${Translation}/bibleqt.json`;
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-
-            //console.log('abajo bq'); 
+        try {
+            
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+            
+            const response = await fetch(url_bq);
+            const bq = await response.json();
             //console.log(bq); 
 
             //if(act_id_book >= bq.BookQty){//REVISAR!!!
             //    alert('No es posible pasar a siguiente capítulo ya que todos los módulos no tienen la misma cantidad de libros.Esto sucede cuando se quiere leer los librós apócrifos.');
             //    return false;
             //}
-
 
             if(dir == 'next'){
                 let next_id_book = act_id_book;
@@ -16123,12 +16012,9 @@ function chapterGo(dir){
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
-            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+        } catch (error) {
+            console.error('error try-cach. error: ', error);
+        }
 
     }
 }
