@@ -16502,7 +16502,7 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 }
 
 
-function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
+async function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
     
     let numberInt, numberStrShow, strongFile;
 
@@ -16535,12 +16535,14 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
     }
     //console.log('numberInt: '+numberInt);
     //console.log('numberStrShow: '+numberStrShow);
-    //console.log('strongFile: '+strongFile);  
-
-
-    fetch(`./modules/text/strongs/${strongFile}`)
-    .then((response) => response.text())
-    .then((strong) => {
+    //console.log('strongFile: '+strongFile);
+    
+    try {
+        
+        let url = `./modules/text/strongs/${strongFile}`;
+        
+        const response = await fetch(url);
+        const strong = await response.text();
         //console.log(strong);
 
         let arr_strong = strong.split('<h4>')[numberInt + 1].split('</h4>');//una linea 
@@ -16672,11 +16674,11 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
             });
         }
         mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa strong: '+error);
-    });
+
+    } catch (error) {
+        console.error('error try-catch strong. error: ',error);
+    }
+
 }
 
 //general
