@@ -1356,11 +1356,12 @@ var arrText = [];
 let url = 'https://bolls.life/static/translations/UMT.json';
 //makeBibleTextFromJson(url);
 
-function makeBibleTextFromJson(url){
+async function makeBibleTextFromJson(url){
 
-    fetchDataToJson(url)
-    .then((data) => {
+    try {
 
+        const response = await fetch(url);
+        const data = await response.json();
         //console.log(' abajo data:');
         //console.log(data);
 
@@ -1412,12 +1413,12 @@ function makeBibleTextFromJson(url){
         //console.log(arrBooks);
 
         //console.log('abajo arrText: ');
-        //console.log(arrText);   
-       
-    })
-    .catch(error => { 
-        console.error('data. error promesa: '+error);
-    });
+        //console.log(arrText); 
+        
+    } catch (error) {
+        console.error('data. error try-catch. error: ', error);
+    }
+
 }
 
 

@@ -161,7 +161,7 @@ function make_arrFavTransObj_old(arrFavTrans){
         //console.log(el);
 
         //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;
+        let url_bq = `./modules/text/${el}/bibleqt.json`;
         //console.log(url_bq);
 
         fetchDataToJson(url_bq)
@@ -198,7 +198,7 @@ async function make_arrFavTransObj(arrFavTrans){
             //console.log(i);
 
             //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${el}/bibleqt.json`;
+            let url_bq = `./modules/text/${el}/bibleqt.json`;
             //console.log(url_bq);
 
             const bq = await fetchDataToJson(url_bq);
@@ -236,7 +236,7 @@ async function make_arrFavTskObj(){
             //console.log(i);
     
             //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${el}/bibleqt.json`;
+            let url_bq = `./modules/text/${el}/bibleqt.json`;
             //console.log(url_bq);
     
             const bq = await fetchDataToJson(url_bq);
@@ -888,7 +888,7 @@ function loadAllFavBibleFiles(){
     let i_trans = 0;
     for_eachTrans(i_trans, arrFavTrans);
 
-    function for_eachTrans(i_trans, arrFavTrans){
+    async function for_eachTrans(i_trans, arrFavTrans){
         
         const el = arrFavTrans[i_trans];
         //console.log(`${i_trans} --- ${el}`);
@@ -897,14 +897,15 @@ function loadAllFavBibleFiles(){
 
         //si no existe objeto lo creo
         if(i_trans < arrFavTrans.length && (typeof obj_bible_files[el] == 'undefined' || countElementsInArray(obj_bible_files[el].Books) < this_trans.BookQty) ){
+            
+            try {
+                
+                //saco ajustes de este modulo en json
+                let url_bq = `./modules/text/${el}/bibleqt.json`;
+                //console.log(url_bq);
 
-            //saco ajustes de este modulo en json
-            let url_bq = `./modules/text/${el}/bibleqt.json`;
-            //console.log(url_bq);
-
-            fetchDataToJson(url_bq)
-            .then((data) => {            
-                                
+                const response = await fetch(url_bq);
+                const data = await response.json();
                 //console.log('data: ',data);
                 //console.log('data.Translation: ',data.Translation);
                 
@@ -917,7 +918,7 @@ function loadAllFavBibleFiles(){
                 let i_book = 0;
                 for_addFilesToModule(i_book, data);
 
-                function for_addFilesToModule(i_book, data){
+                async function for_addFilesToModule(i_book, data){
                     const el_book = data.Books[i_book];
 
                     if(typeof el_book == 'undefined'){
@@ -938,31 +939,32 @@ function loadAllFavBibleFiles(){
                     //si no hay el fichero '01_genesis.htm' en el objeto 'obj_bible_files', lo añado
                     if(typeof obj_bible_files[data.Translation].Books[i_book] == 'undefined'){
                         
-                        if(url_PathName.includes('no_disponible.htm')){
-                            //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
-                            i_book++;
-                            //console.log(`aumentado i_book: ${i_book}`);
-                            if(i_book == data.Books.length){
-                                //console.log('1. final  --- ');
-                                //console.log(`--- i_trans: ${i_trans} --- `);
-                                //console.log(`--- i_book: ${i_book} --- `);
-                                //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
-                                //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
-                                i_trans++;
-                                for_eachTrans(i_trans, arrFavTrans);
-                                return false;//importante para que no ejecute for_addFilesToModule(i_book, data);
-                            }else{
-                                //console.log(`else --- i_trans: ${i_trans} --- `);
-                                //console.log(`else --- i_book: ${i_book} --- `); 
-                                //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
-                            }
-                            for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
-                            return false;//importante
-                        }
-                        
-                        fetchDataToText(url_PathName)
-                        .then(dataBook => {
+                        try {
 
+                            if(url_PathName.includes('no_disponible.htm')){
+                                //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
+                                i_book++;
+                                //console.log(`aumentado i_book: ${i_book}`);
+                                if(i_book == data.Books.length){
+                                    //console.log('1. final  --- ');
+                                    //console.log(`--- i_trans: ${i_trans} --- `);
+                                    //console.log(`--- i_book: ${i_book} --- `);
+                                    //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
+                                    //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
+                                    i_trans++;
+                                    for_eachTrans(i_trans, arrFavTrans);
+                                    return false;//importante para que no ejecute for_addFilesToModule(i_book, data);
+                                }else{
+                                    //console.log(`else --- i_trans: ${i_trans} --- `);
+                                    //console.log(`else --- i_book: ${i_book} --- `); 
+                                    //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                                }
+                                for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
+                                return false;//importante
+                            }                        
+
+                            const response = await fetch(url_PathName);
+                            const dataBook = await response.text();
                             //console.log('dataBook: ',dataBook);
 
                             obj_bible_files[data.Translation].Books[i_book] = {
@@ -1000,11 +1002,10 @@ function loadAllFavBibleFiles(){
                                     openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos               
                                 }
                             }
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('loadAllFavBibleFiles(). error promesa: '+error);
-                        });                    
+                            
+                        } catch (error) {
+                            console.error('loadAllFavBibleFiles(). error try-catch. error: ',error);
+                        }
                         
                     }else{
                         i_book++;
@@ -1012,12 +1013,11 @@ function loadAllFavBibleFiles(){
                         for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
                     }
 
-                }//end
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('loadAllFavBibleFiles(). error promesa: '+error);
-            });            
+                }//end for_addFilesToModule()
+                
+            } catch (error) {
+                console.error('loadAllFavBibleFiles(). error try-catch. error: ', error);
+            }
 
         }else{
             if(i_trans < arrFavTrans.length){
@@ -1037,7 +1037,7 @@ function loadAllFavTskFiles(){
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
         let tamanioMB = obtenerTamanioObjetoMB(obj_tsk_files);
         let aviso_load = obj_lang.d221;//`Todos los módulos TSK favoritos ya están cargados.`;
-        aviso_load += `<br><br>${obj_lang.d221}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+        aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
         openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK
         return;
     }
@@ -1045,18 +1045,19 @@ function loadAllFavTskFiles(){
     let i_tsk = 0;
     for_eachTsk(i_tsk, arrFavTsk);
 
-    function for_eachTsk(i_tsk, arrFavTsk){
+    async function for_eachTsk(i_tsk, arrFavTsk){
         
         const el = arrFavTsk[i_tsk];
         //console.log(`${i_tsk} --- ${el}`);
+        
+        try {
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;//modules/text/tsk/bibleqt.json
-        //console.log(url_bq);
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${el}/bibleqt.json`;//modules/text/tsk/bibleqt.json
+            //console.log(url_bq);
 
-        fetchDataToJson(url_bq)
-        .then((data) => {            
-                            
+            const response = await fetch(url_bq);
+            const data = await response.json();
             //console.log('data: ',data);
             //console.log('data.Translation: ',data.Translation);//TSK
             
@@ -1069,7 +1070,7 @@ function loadAllFavTskFiles(){
             let i_book = 0;
             for_addFilesToTsk(i_book, data);
 
-            function for_addFilesToTsk(i_book, data){
+            async function for_addFilesToTsk(i_book, data){
                 const el_book = data.Books[i_book];
 
                 if(typeof el_book == 'undefined'){
@@ -1090,31 +1091,32 @@ function loadAllFavTskFiles(){
                 //si no hay el fichero '01_genesis.htm' en el objeto 'obj_tsk_files', lo añado
                 if(typeof obj_tsk_files[data.Translation].Books[i_book] == 'undefined'){
                      
-                    if(url_PathName.includes('no_disponible.htm')){
-                        //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
-                        i_book++;
-                        //console.log(`aumentado i_book: ${i_book}`);
-                        if(i_book == data.Books.length){
-                            //console.log('1. final  --- ');
-                            //console.log(`--- i_tsk: ${i_tsk} --- `);
-                            //console.log(`--- i_book: ${i_book} --- `);
-                            //console.log(`--- arrFavTsk.length: ${arrFavTsk.length} --- `);
-                            //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
-                            i_tsk++;
-                            for_eachTsk(i_tsk, arrFavTsk);
-                            return false;//importante para que no ejecute for_addFilesToTsk(i_book, data);
-                        }else{
-                            //console.log(`else --- i_tsk: ${i_tsk} --- `);
-                            //console.log(`else --- i_book: ${i_book} --- `); 
-                            //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                    try {
+                        
+                        if(url_PathName.includes('no_disponible.htm')){
+                            //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
+                            i_book++;
+                            //console.log(`aumentado i_book: ${i_book}`);
+                            if(i_book == data.Books.length){
+                                //console.log('1. final  --- ');
+                                //console.log(`--- i_tsk: ${i_tsk} --- `);
+                                //console.log(`--- i_book: ${i_book} --- `);
+                                //console.log(`--- arrFavTsk.length: ${arrFavTsk.length} --- `);
+                                //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
+                                i_tsk++;
+                                for_eachTsk(i_tsk, arrFavTsk);
+                                return false;//importante para que no ejecute for_addFilesToTsk(i_book, data);
+                            }else{
+                                //console.log(`else --- i_tsk: ${i_tsk} --- `);
+                                //console.log(`else --- i_book: ${i_book} --- `); 
+                                //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                            }
+                            for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
+                            return false;//importante
                         }
-                        for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
-                        return false;//importante
-                    }
-                    
-                    fetchDataToText(url_PathName)
-                    .then(dataBook => {
 
+                        const response = await fetch(url_PathName);
+                        const dataBook = await response.text();
                         //console.log('dataBook: ',dataBook);
 
                         obj_tsk_files[data.Translation].Books[i_book] = {
@@ -1151,11 +1153,10 @@ function loadAllFavTskFiles(){
                                 openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK               
                             }
                         }
-                    })
-                    .catch(error => { 
-                        // Código a realizar cuando se rechaza la promesa
-                        console.error('loadAllFavTskFiles(). error promesa: '+error);
-                    });                    
+                        
+                    } catch (error) {
+                        console.error('loadAllFavTskFiles(). error try-catch. error: ', error);
+                    }
                     
                 }else{
                     i_book++;
@@ -1163,12 +1164,12 @@ function loadAllFavTskFiles(){
                     for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
                 }
 
-            }//end
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('loadAllFavTskFiles(). error promesa: '+error);
-        });
+            }//end for_addFilesToTsk()
+            
+        } catch (error) {
+            console.error('loadAllFavTskFiles(). error try-catch. error: ', error);
+        }
+
     }
 }
 
@@ -1204,11 +1205,11 @@ function loadAllFavStrongFiles(){
         const strongFile = arr_strongFiles[i_strong];//'hebrew_short.json', 'greek_short.json'
         //console.log(`${i_strong} --- ${strongLang} --- ${strongFile}`);
 
-        //saco ajustes de este modulo en json
-        let url = `./modules/text/strongs/${strongFile}`;//modules/text/strongs/hebrew_short.json | greek_short.json
-        //console.log(url);
-
         try {
+        
+            //saco ajustes de este modulo en json
+            let url = `./modules/text/strongs/${strongFile}`;//modules/text/strongs/hebrew_short.json | greek_short.json
+            //console.log(url);
 
             const response = await fetch(url);
             const data = await response.json();
