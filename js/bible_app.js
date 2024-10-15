@@ -6081,7 +6081,7 @@ async function getTsk(e){
                 let url = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference "01_genesis.ini"
                 
                 const response = await fetch(url);
-                const tskModule = await response.text();
+                let tskModule = await response.text();
 
                 if(crear_objeto_obj_tsk_files){
                     //meto tskModule en obj_tsk_files
