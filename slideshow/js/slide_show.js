@@ -57,7 +57,7 @@ async function obtenerDatosDeBD(tabla, campo){
         let modo_response = 'json';//text,json
         //console.log(modo_response);
 
-        let data;//luego le asigno valor
+        let data;//PONGO let YA QUE LUEGO LE ASIGNO VALOR!!!
         
         //para test poner 'modo_response = 'text' en debuguer'
         if(modo_response == 'text'){
@@ -76,7 +76,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 //console.log('[if] --- SE HA CAMBIADO id_tema ---');
                 
                 id_tema = data.valorIdTema;
-                url = `./json/tema${id_tema}.json`;
+                let url = `./json/tema${id_tema}.json`;
                 
                 aaa();
                 async function aaa(){
@@ -95,6 +95,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 }
 
             }else{
+                
                 //console.log('[else] --- NO SE HA CAMBIADO id_tema ---');
 
                 if(data.valorCampo !== slide_number){//si es distinto, lo pinto
