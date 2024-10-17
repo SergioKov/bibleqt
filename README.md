@@ -62,3 +62,7 @@ ___
 - Asegúrate de que las manzanas estén bien maduras para obtener el mejor sabor.
 - Si quieres darle un toque extra de sabor, espolvorea un poco de azúcar y canela en la parte superior antes de hornear.
 ¡*Bon appétit*!
+
+
+# UglifyJS 3: Online JavaScript minifier
+https://skalman.github.io/UglifyJS-online/
