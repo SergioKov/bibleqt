@@ -565,7 +565,7 @@ async function crearCuenta(){
             let error_text;
             if(data.conn_error){
                 let text_conn_error = reemplazarValores(obj_lang.d238, [data.conn_error]);
-                console.log(text_conn_error);
+                console.error(text_conn_error);
                 error_text = reemplazarValores(obj_lang.d212, [username, text_conn_error ]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__" + (php) $conn->error
             }else{
                 error_text = reemplazarValores(obj_lang.d212, [username, obj_lang[data.dic_code]]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__"
@@ -22077,10 +22077,10 @@ function toggleSwitcher(id_switcher){
     const switcher = wr_switcher.querySelector('input');
 
     if(switcher.checked) {
-        console.log('switcher is ON lo pongo a OFF');
+        //console.log('switcher is ON lo pongo a OFF');
         disableSwitcher(switcher)//lo desmarco
     }else{
-        console.log('--- switcher is OFF lo pongo a ON');
+        //console.log('--- switcher is OFF lo pongo a ON');
         enableSwitcher(switcher)//lo marco
     }
 }
