@@ -66,3 +66,9 @@ ___
 
 # UglifyJS 3: Online JavaScript minifier
 https://skalman.github.io/UglifyJS-online/
+
+//como usar uglify
+https://www.npmjs.com/package/uglify-js
+
+//desminificar el código minificado:
+https://unminify.com/
