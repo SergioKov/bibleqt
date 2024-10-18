@@ -1698,3 +1698,56 @@ function generarLangJson(n_start,n_end){
 
 
 
+// Función de filtrado
+function filtrarLista(id_searchInput, selector_items) {
+    // Obtén el valor del input y conviértelo a minúsculas.
+    let filter = document.getElementById(id_searchInput).value.toLowerCase();
+
+    // Obtén todos los elementos 'li' o 'cl_trans' de la lista, donde buscar
+    let items = document.querySelectorAll(selector_items);
+
+    // Recorre todos los elementos 'li' de la lista.
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        let spans = item.querySelectorAll("span");
+
+        let matchFound = false;
+
+        // Recorre los spans dentro del 'li'
+        for (let j = 0; j < spans.length; j++) {
+            let spanText = spans[j].textContent.toLowerCase();
+
+            // Si alguno de los span contiene el valor del filtro, muestra el 'li'.
+            if (spanText.includes(filter)) {
+                matchFound = true;
+                break; // Si se encuentra una coincidencia, no es necesario revisar más spans.
+            }
+        }
+
+        // Si se encontró una coincidencia, muestra el 'li', de lo contrario, ocúltalo.
+        if (matchFound) {
+            item.classList.remove("hidden");
+        } else {
+            item.classList.add("hidden");
+        }
+    }
+}
+
+crearInputFiltrar();
+
+function crearInputFiltrar(){
+    const el_input = document.createElement('input');
+    el_input.id = 'zzz';
+    el_input.className = 'inpt_filter';
+    el_input.onkeyup = ()=>{
+        console.log('keyup. el_input.value: ', el_input.value);
+        
+        let id_searchInput = el_input.id;
+        let selector_items = '.cl_trans';
+
+        filtrarLista(id_searchInput, selector_items);
+    };
+
+    modcont_header.querySelector('.inner').append(el_input);
+
+}

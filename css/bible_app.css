@@ -4231,9 +4231,15 @@ input:checked + .slider:before {
 
 
 
-
-
-
+.inpt_filter {
+    padding: 5px 15px 5px;
+    font-size: 20px;
+    font-family: 'Roboto Condensed';
+    /* padding-left: 22px; */
+    margin-top: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
 
 
 
