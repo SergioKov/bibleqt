@@ -12036,13 +12036,13 @@ function mySizeGridSidebar(){
     
         if(sidebar_w <= 400){
             
-            console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
+            //console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
     
             if(ecl_wr_grid_ch){
                 ecl_wr_grid_ch.classList.remove('grid_max_10_columns');
     
                 if(!ecl_wr_grid_ch.classList.contains('grid_max_5_columns')){
-                    console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
+                    //console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
                     ecl_wr_grid_ch.classList.add('grid_max_5_columns');
                 }
             }
@@ -12051,20 +12051,20 @@ function mySizeGridSidebar(){
                 ecl_wr_grid_v.classList.remove('grid_max_10_columns');
     
                 if(!ecl_wr_grid_v.classList.contains('grid_max_5_columns')){
-                    console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
+                    //console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
                     ecl_wr_grid_v.classList.add('grid_max_5_columns');
                 }
             }        
     
         }else if(sidebar_w > 400){
             
-            console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
+            //console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
     
             if(ecl_wr_grid_ch){
                 ecl_wr_grid_ch.classList.remove('grid_max_5_columns');
     
                 if(!ecl_wr_grid_ch.classList.contains('grid_max_10_columns')){
-                    console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
+                    //console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
                     ecl_wr_grid_ch.classList.add('grid_max_10_columns');
                 }
             }
@@ -12073,7 +12073,7 @@ function mySizeGridSidebar(){
                 ecl_wr_grid_v.classList.remove('grid_max_5_columns');
     
                 if(!ecl_wr_grid_v.classList.contains('grid_max_10_columns')){
-                    console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
+                    //console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
                     ecl_wr_grid_v.classList.add('grid_max_10_columns');
                 }
             }        
@@ -12200,8 +12200,7 @@ function addTrans(addMode = null){
 
         const htmlBody = document.createElement("div");//Text of Bible
         htmlBody.className = 'colsInner';						
-        htmlBody.innerHTML =  `	<p class="prim">Выберите модуль Библии кликнув на '+' вверху.</p>
-                                `;
+        htmlBody.innerHTML =  `<p class="prim">Выберите модуль Библии кликнув на '+' вверху.</p>`;
                         
         htmlCol.appendChild(htmlTrans);
         htmlCol.appendChild(htmlBody);
@@ -15549,6 +15548,8 @@ function selectModule2(htmlTrans){
     
     if(thisDiv.tagName === 'DIV'){
         eid_bl_modalFullInner.innerHTML = '';//reset
+
+        crearInputFiltrar(eid_bl_modalFullInner);
         
         let transSelected;
         transSelected = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} //trans selected con el click on menu

@@ -1733,14 +1733,19 @@ function filtrarLista(id_searchInput, selector_items) {
     }
 }
 
-crearInputFiltrar();
+//crearInputFiltrar();
 
-function crearInputFiltrar(){
+function crearInputFiltrar(div_donde){
+    
+    const p = document.createElement('p');
+    p.className = 'wr_input_filter';
+    
     const el_input = document.createElement('input');
     el_input.id = 'zzz';
     el_input.className = 'inpt_filter';
+    el_input.placeholder = 'Filtrar';
     el_input.onkeyup = ()=>{
-        console.log('keyup. el_input.value: ', el_input.value);
+        //console.log('keyup. el_input.value: ', el_input.value);
         
         let id_searchInput = el_input.id;
         let selector_items = '.cl_trans';
@@ -1748,6 +1753,6 @@ function crearInputFiltrar(){
         filtrarLista(id_searchInput, selector_items);
     };
 
-    modcont_header.querySelector('.inner').append(el_input);
-
+    p.append(el_input);
+    div_donde.append(p);
 }
