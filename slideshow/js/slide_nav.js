@@ -530,6 +530,7 @@ async function changeTema(id_tema_param) {
         async function aaa(){
 
             let url = `./json/tema${id_tema}.json`;
+
             obj_temaData = await fetchDataToJson(url);
     
             let url_href = new URL(window.location.href);
@@ -557,7 +558,6 @@ async function changeTema(id_tema_param) {
             },100);
 
         }
-
         
     }else{
         console.error(`No existe este id_tema '${id_tema}'`);

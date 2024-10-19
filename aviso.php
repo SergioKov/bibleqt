@@ -99,8 +99,8 @@ async function make_obj_lang(){
     }    
 }
 
-async function fetchDataToJson(url_bq) {
-    const response = await fetch(url_bq);
+async function fetchDataToJson(url) {
+    const response = await fetch(url);
     const data = await response.json();
     return data;
 }

@@ -1073,7 +1073,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
     makeArrVersesToCompare(iter_a, arr_p_id);
 
-    function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
+    async function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
         
         let base_ep = eid_trans1.dataset.base_ep;
 
@@ -1118,6 +1118,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 }
 
             }else{
+                
                 //console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
 
                 iter_a++;
@@ -1175,7 +1176,6 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             verse = verseNumber;
 
 
-
             if(modo_fetch_verses_compare == 'by_text'){
                 //console.log(`modo_fetch_verses_compare == 'by_text'`);
 
@@ -1203,24 +1203,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 obj_bible_files[Translation].Books[book].fileContent != ' '
                             ){
                                 //console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
-                                
-                                // Registra el tiempo de inicio
-                                const tiempoInicio = new Date().getTime();
-                                //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                let myPromise_vc = new Promise(function(resolve, reject){
-                                    resolve('ok');
-                                });
+                                try {
 
-                                myPromise_vc
-                                .then((data) => {//data = ok
-                                    
+                                    // Registra el tiempo de inicio
+                                    const tiempoInicio = new Date().getTime();
+                                    //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
                                     //console.log(data);
 
-                                    let bookModule;
-                                    if(data == 'ok'){//siempre ok
-                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
-                                    }            
+                                    let bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                                 
                                     let nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
@@ -1392,6 +1383,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         }                                         
             
                                     }else{
+                                        
                                         //console.log(`1. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                                         let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                                         //alert(aviso_text);
@@ -1415,11 +1407,10 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                             buildVersesFromArr(arr_p_id, arr_verses_compare);
                                         }
                                     }
-                                })
-                                .catch(error => {
-                                    // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('2. error promesa en myPromise con obj_bible_files. error: '+error);
-                                });
+                                    
+                                } catch (error) {
+                                    console.error('2. error try-catch en makeArrVersesToCompare con obj_bible_files. error: ', error);
+                                }
 
                             }else{
                                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -1432,20 +1423,21 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 }//end - if(typeof obj_bible_files[Translation] != 'undefined')
                 
 
-                //si no existe objeto con Translation. hago fetch()
+                //si no existe objeto con Translation. hago await fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
-                    //console.log('--- vc --- no existe objeto con Translation. hago fetch()');
+                    //console.log('--- vc --- no existe objeto con Translation. hago await fetch()');
 
-                    //start de tiempo para calcular cuanto tarda
-                    const tiempoInicioFetch = new Date().getTime();
-                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
-
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
-
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
+                    try {
+                     
+                        //start de tiempo para calcular cuanto tarda
+                        const tiempoInicioFetch = new Date().getTime();
+                        //console.log('await fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+    
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
+                        
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
                         if(crear_objeto_obj_bible_files){
                             obj_bible_files[Translation].Books[book] = {
@@ -1603,6 +1595,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             }
 
                         }else{
+                            
                             //console.log(`2. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                             let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                             //alert(aviso_text);
@@ -1626,18 +1619,26 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 buildVersesFromArr(arr_p_id, arr_verses_compare);
                             }                            
                         }
-                    })
-                    .catch(error => { 
-                        //Código a realizar cuando se rechaza la promesa
-                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
-                    });                    
+
+
+
+
+
+
+
+
+
+
+                    } catch (error) {
+                        console.error('2. error try-catch en makeArrVersesToCompare con obj_bible_files. error: ', error);
+                    }
+
                 }//end - if(typeof obj_bible_files[Translation].Books[book] == 'undefined')
 
                 //console.log('despues de fetch --- abajo obj_bible_files:');
                 //console.log(obj_bible_files); 
 
             }//end - modo_fetch_verses_compare == 'by_text'
-
 
 
             if(modo_fetch_verses_compare == 'by_json'){
@@ -1650,7 +1651,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 let Translation = el_trans.Translation;//solo aqui
 
                 //url del libro necesario
-                url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
                 //console.log('1649. url: ', url);
 
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
@@ -1665,15 +1666,14 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
 
                 //console.log('formData: ',[...formData]);
-        
-                fetch('./php/read_file_to_json.php',{
-                    method: 'POST',
-                    body: formData
-                })
-                .then((response) => response.json())
-                //.then((response) => response.text())//test
-                .then((dataRead) => {
-        
+
+                try {
+
+                    const response = await fetch('./php/read_file_to_json.php',{
+                        method: 'POST',
+                        body: formData
+                    });
+                    const dataRead = await response.json();
                     //console.log(dataRead);
 
                     arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
@@ -1799,14 +1799,12 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                         buildVersesFromArr(arr_p_id, arr_verses_compare);
                     }
-        
-                })
-                .catch(error => {
-                    console.error('Error fetch versesCompare. error: ', error);
-                });
+                    
+                } catch (error) {
+                    console.error('Error try-catch versesCompare. error: ', error);
+                }
 
             }//end - modo_fetch_verses_compare == 'by_json'
-
 
 
         }
@@ -3100,7 +3098,7 @@ window.onclick = function(event) {
 
 
 
-function verseGo(dir, obj_to_send_string){
+async function verseGo(dir, obj_to_send_string){
     
     let this_json = JSON.parse(obj_to_send_string);
 
@@ -3190,25 +3188,24 @@ function verseGo(dir, obj_to_send_string){
             formData.append('book', prev_book);
             formData.append('chapter', prev_chapter);
 
-            fetch('./php/read_file_get_VerseQty_to_json.php',{
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                
+            try {
+
+                const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
                 prev_verse = data.VerseQty;
                 //console.log('15047. verse: ',verse);
 
                 if(prev_verse > 0){
                     openModal('full', 'Сравнение переводов', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
                 }
-
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('VerseQty. error promesa: '+error);
-            });
+                
+            } catch (error) {
+                console.error('VerseQty. error try-catch. error: ', error);
+            }
 
         }else{
             prev_verse = verse - 1;
@@ -3218,6 +3215,7 @@ function verseGo(dir, obj_to_send_string){
         }
 
     }
+
 }
 
 

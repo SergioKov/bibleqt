@@ -7,7 +7,7 @@
 
 
 
-function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
+async function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
     //console.log('=== function getStrongNumberVersion2() ===');
     
     let numberInt, numberStrShow, strongFile;
@@ -57,25 +57,16 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     //si existe objeto con Translation. Saco datos del objeto
     if(typeof obj_strong_files[strongLang] != 'undefined'){
         if(obj_strong_files[strongLang].fileName != 'undefined'){
+            
             if( obj_strong_files[strongLang].fileName == strongFile && 
                 obj_strong_files[strongLang].fileContent != '' && 
                 obj_strong_files[strongLang].fileContent != ' '
             ){
                 //console.log(' --- typeof obj_strong_files[strongLang] EXISTE --- saco datos del objeto guardado ');
        
-                let myPromise_strong = new Promise(function(resolve, reject){
-                    resolve('ok');
-                });
-
-                myPromise_strong
-                .then((data) => {
-
-                    //console.log(data);
-
-                    let strong;
-                    if(data == 'ok'){//siempre es ok
-                        strong = obj_strong_files[strongLang].fileContent;
-                    }
+                try {
+                   
+                    let strong = obj_strong_files[strongLang].fileContent;
             
                     let obj_strong = strong.find(v => v.t === numberStr); 
                     //console.log('abajo obj_strong: ');
@@ -332,12 +323,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             });    
                         });
                     }
-                    mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-                })
-                .catch(error => { 
-                    // Código a realizar cuando se rechaza la promesa
-                    console.error('error promesa strong2: '+error);
-                });        
+
+                    mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head                    
+
+                } catch (error) {
+                    console.error('error try-catch strong2: ', error);
+                }        
         
             }else{
                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -346,14 +337,17 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     }
 
     if(typeof obj_strong_files[strongLang] == 'undefined'){
-        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
+        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago await fetch() ');
         
-        fetch(`./modules/text/strongs/${strongFile}`)
-        .then((response) => response.json())
-        .then((strong) => {
+        try {
+
+            let url = `./modules/text/strongs/${strongFile}`;
+
+            const response = await fetch(url);
+            const strong = await response.json();
             //console.log(strong);
 
-            //añado info al objeto con los datos obtenidos por fetch()
+            //añado info al objeto con los datos obtenidos por await fetch()
             obj_strong_files[strongLang] = {'fileName': strongFile, 'fileContent': strong};
             //console.log('abajo obj_strong_files:');
             //console.log(obj_strong_files);
@@ -615,12 +609,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     });    
                 });
             }
+
             mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa strong2: '+error);
-        });
+            
+        } catch (error) {
+            console.error('error try-catch strong2: ', error);
+        }
 
     }
 

@@ -230,13 +230,13 @@ body{
     background: white;
 }
 .tab_ref {
-    color: white;
-    /* min-width: 120px; */
     /* background: #dddddd; */
+    /* min-width: 120px; */
+    color: white;
+    font-weight: bold;
 }
 .tab_active .tab_ref {
     color: #ff1100;
-    font-weight: bold;
 }
 .tab_active .btn_sm {
     background: white;
@@ -274,8 +274,8 @@ body{
 .tabs button:hover{
     background: red;
 }
-.tab_active button:hover{
-    background: brown;
+.tab_active button:hover {
+    background: red;
     color: white;
 }
 
@@ -4240,9 +4240,15 @@ input:checked + .slider:before {
 
 
 
-
-
-
+.inpt_filter {
+    padding: 5px 15px 5px;
+    font-size: 20px;
+    font-family: 'Roboto Condensed';
+    /* padding-left: 22px; */
+    margin-top: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
 
 
 
