@@ -1440,12 +1440,18 @@ HERE;
 <script src="./js/config.js"></script>
 
 <?php
+    //LUEGO LO CONECTO
+    /*
     if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
-        echo"<script src='./js/bible_app.min.js'></script>";
+        //echo"<script src='./js/bible_app.min.js'></script>";
     }else{//LOCALHOST
         //echo"<script src='./js/bible_app.min.js'></script>";
-        echo"<script src='./js/bible_app.js'></script>";
+        //echo"<script src='./js/bible_app.js'></script>";
     }
+    */
+    
+    //POR AHORA SIEMPRE ASI
+    echo"<script src='./js/bible_app.js'></script>";
 ?>
 
 <script src="./js/functions.js"></script>
