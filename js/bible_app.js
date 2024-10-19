@@ -11565,62 +11565,6 @@ function checkNextPositionShow(){//solo mueve la imagen
     }
 }
 
-function mySizeGridSidebar(){
-    let sidebar_w = eid_sidebar.offsetWidth;
-
-    if(sidebar_w > 0){
-        
-        const ecl_wr_grid_ch = document.querySelector('.wr_grid_ch');
-        const ecl_wr_grid_v = document.querySelector('.wr_grid_v');
-    
-        if(sidebar_w <= 400){
-            
-            console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
-    
-            if(ecl_wr_grid_ch){
-                ecl_wr_grid_ch.classList.remove('grid_max_10_columns');
-    
-                if(!ecl_wr_grid_ch.classList.contains('grid_max_5_columns')){
-                    console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
-                    ecl_wr_grid_ch.classList.add('grid_max_5_columns');
-                }
-            }
-            
-            if(ecl_wr_grid_v){
-                ecl_wr_grid_v.classList.remove('grid_max_10_columns');
-    
-                if(!ecl_wr_grid_v.classList.contains('grid_max_5_columns')){
-                    console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
-                    ecl_wr_grid_v.classList.add('grid_max_5_columns');
-                }
-            }        
-    
-        }else if(sidebar_w > 400){
-            
-            console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
-    
-            if(ecl_wr_grid_ch){
-                ecl_wr_grid_ch.classList.remove('grid_max_5_columns');
-    
-                if(!ecl_wr_grid_ch.classList.contains('grid_max_10_columns')){
-                    console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
-                    ecl_wr_grid_ch.classList.add('grid_max_10_columns');
-                }
-            }
-            
-            if(ecl_wr_grid_v){
-                ecl_wr_grid_v.classList.remove('grid_max_5_columns');
-    
-                if(!ecl_wr_grid_v.classList.contains('grid_max_10_columns')){
-                    console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
-                    ecl_wr_grid_v.classList.add('grid_max_10_columns');
-                }
-            }        
-    
-        }
-    
-    }
-}
 
 function mySizeWindow() {
     //console.log('mySizeWindow');
@@ -11890,7 +11834,6 @@ function mySizeFind(){
     //console.log('find_res_block_active_h: ',find_res_block_active_h);
 }
 
-
 function mySizeTsk(){
     let padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
     
@@ -12083,6 +12026,62 @@ function mySizeVerse(){
 
 }//end mySizeVerse()
 
+function mySizeGridSidebar(){
+    let sidebar_w = eid_sidebar.offsetWidth;
+
+    if(sidebar_w > 0){
+        
+        const ecl_wr_grid_ch = document.querySelector('.wr_grid_ch');
+        const ecl_wr_grid_v = document.querySelector('.wr_grid_v');
+    
+        if(sidebar_w <= 400){
+            
+            console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_5_columns')){
+                    console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_5_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_5_columns')){
+                    console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_5_columns');
+                }
+            }        
+    
+        }else if(sidebar_w > 400){
+            
+            console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_10_columns')){
+                    console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_10_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_10_columns')){
+                    console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_10_columns');
+                }
+            }        
+    
+        }
+    
+    }
+}
 
 function addMarginTolastP(){
     let colsInnerAll = document.querySelectorAll('.colsInner');

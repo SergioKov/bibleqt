@@ -177,7 +177,24 @@ button{
     /* border: 1px solid #879787; */
     align-items: center;
 }
-
+#a_menu {
+    /* background: red; */
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 0 15px;
+    color: white;
+    text-decoration: none;
+    font-family: arial;
+    font-weight: bold;
+    transition: 0.3s;
+}
+#a_menu:hover {
+    background: #262626;
+}
 #wr_btns_slides {
     display: flex;
     background: #99c7ec;

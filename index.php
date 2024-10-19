@@ -48,7 +48,7 @@ HERE;
                 <div id="bl_headerBtns">
                     
                     <div id="wr_bq" class="dbtn" data-dic="" onclick="window.open('/slideshow','_self')">
-                        <h3>SlideShow</h3>
+                        <h3>BQ. SlideShow</h3>
                     </div>
                     
                     <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1_t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
@@ -1443,8 +1443,8 @@ HERE;
     if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
         echo"<script src='./js/bible_app.min.js'></script>";
     }else{//LOCALHOST
-        echo"<script src='./js/bible_app.min.js'></script>";
-        //echo"<script src='./js/bible_app.js'></script>";
+        //echo"<script src='./js/bible_app.min.js'></script>";
+        echo"<script src='./js/bible_app.js'></script>";
     }
 ?>
 

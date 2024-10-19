@@ -1,3 +1,25 @@
+<?php
+    
+    //=========================================================================//
+    //test start ...
+    //=========================================================================//
+    // Verificar si el usuario está autenticado PARA VER DEMO!!! EN PROD CUANDO ESTÉ LISTO -> QUITAR!!!
+    //if(!isset($demo)){        
+        if (!isset($_COOKIE["authenticated"]) || $_COOKIE["authenticated"] !== "true") {
+            // Si no está autenticado, redirigir al formulario de login
+            //echo'<p>redirijo a demo para introducir password';
+            header("Location: /slideshow/speaker_auth.php");
+            exit();
+        }
+    //}
+    //=========================================================================//
+    //test end ...
+    //=========================================================================//
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -35,6 +57,9 @@ $conn->close();
 <header id="header">
     <div class="header_inner">
         <div id="wr_nav">
+            
+            <a id="a_menu" href="/slideshow">MENÚ</a>
+        
             <button id="goPrev" class="btn" onclick="goToSlide('prev')">Prev</button>
 
             <div class="centralPart">                
