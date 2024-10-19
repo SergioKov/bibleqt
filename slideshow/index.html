@@ -8,10 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
     <!-- <link id="estilos_base" rel="stylesheet" href="./css/style.css"> -->
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    display: flex;
-    margin: 0 auto;
+    background: linear-gradient(to bottom right, white 0%, #9dd3fd 10%, #1875bf 45%, #012643 100%);
+    font-family: 'Roboto Slab',Arial,Tahoma, 'sans serif';
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transition: background-image 1s ease-in-out;
+    /* height: 100vh; */
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 50px;
+}
+
+.container {
+    margin: 50px auto 0;
     padding: 0;
     background: linear-gradient(to bottom right, white 0%, #9dd3fd 10%, #1875bf 45%, #012643 100%);
     color: white;
@@ -24,6 +46,50 @@ body {
     transition: background-image 1s ease-in-out;
     height: 100vh;
 }
+
+footer {
+    background: #151517;
+    color: #838383;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+
+nav {
+    display: flex;
+    flex-direction: column;
+    background-color: #151517;
+    overflow: hidden;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    float: left;
+}
+nav ul li a {
+    display: block;
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+nav ul li a:hover {
+    background-color: #3b3b3b;
+}
+
+.h1_title {
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+}
+
+
 
 .wr_block {
     border: 1px solid #054476;
@@ -45,9 +111,15 @@ body {
     border-radius: 5px;
     gap: 20px;
 }
-h1{
+
+.wr_block h1 {
     text-align: center;
+    margin-top: 0;
+    color: white;
+    padding: 0 0 20px;
+    font-size: 1.5rem;
 }
+
 button {
     padding: 20px;
     border-radius: 5px;
@@ -90,23 +162,43 @@ button img {
 </style>
 </head>
 <body>
-    
-    <div class="wr_block">
 
-        <h1>Selecciona el modo de ver diapositivas</h1>
-        
-        <div class="wr_links">
-            <button onclick="window.open('slide_nav.php','_new1')">
-                <img src="/slideshow/images/microfono_1_white.png">
-                <span>Modo Speeker</span>
-            </button>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/" data-link="">Biblia</a></li>
+                <!-- <li><a href="/slideshow" data-link="">Slideshow</a></li> -->
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+
+        <h1 class="h1_title">Slide Show</h1>
+    
+        <div class="wr_block">
+
+            <h1>Selecciona el modo de ver diapositivas</h1>
             
-            <button onclick="window.open('slide_show.php','_new2')">
-                <img src="/slideshow/images/monitor_1_white.png">
-                <span>Modo Pantalla</span>
-            </button>
+            <div class="wr_links">
+                <button onclick="window.open('slide_nav.php','_new1')">
+                    <img src="/slideshow/images/microfono_1_white.png">
+                    <span>Modo Speeker</span>
+                </button>
+                
+                <button onclick="window.open('slide_show.php','_new2')">
+                    <img src="/slideshow/images/monitor_1_white.png">
+                    <span>Modo Pantalla</span>
+                </button>
+            </div>
+                
         </div>
-            
-    </div>
+
+    </div><!--/container-->
+
+    <footer>
+        <p>&copy; 2024 Bibleqt.es. Todos los derechos reservados.</p>
+    </footer>
+
 </body>
 </html>

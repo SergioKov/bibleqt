@@ -24,6 +24,7 @@ const def_w = eid_wrapper.offsetWidth * 0.3;//30%
 eid_sidebar.style.width = def_w +'px';
 
 const eid_sidebarInner = document.getElementById('sidebarInner');
+
 const eid_vert_line = document.getElementById('vert_line');
 const eid_container = document.getElementById('container');
 const eid_containerInner = document.getElementById('containerInner');

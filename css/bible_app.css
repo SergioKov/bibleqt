@@ -573,9 +573,9 @@ button{
 }
 
 
-#headerMainInner h3 {
-    display: inline;
-    margin-left: 5px;
+
+#wr_bq{
+    background: transparent !important;
 }
 p a {
     color: #008dff;
@@ -2994,7 +2994,16 @@ pr {
     /* background-color: #2196F3; */
     padding: 0 0 5px;
     gap: 1px;
+    /* grid-template-columns: repeat(10, 1fr); */
 }
+
+.grid_max_5_columns{
+    grid-template-columns: repeat(5, 1fr);
+}
+.grid_max_10_columns{
+    grid-template-columns: repeat(10, 1fr);
+}
+
 .ch_count_v {
     position: absolute;
     bottom: 0px;

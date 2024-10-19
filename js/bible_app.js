@@ -2345,15 +2345,17 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 let isMouseDown = false;
 
 //start - Desktop (mouse)
-eid_vert_line.onmousedown = function() { isMouseDown = true  };
-eid_wrapper.onmousemove = function(e) { 
+eid_vert_line.onmousedown = () => {
+     isMouseDown = true;
+};
+eid_wrapper.onmousemove = (e) => { 
     if(isMouseDown) { 
         /* do drag things */ 
         eid_sidebar.removeAttribute('class');
         eid_sidebar.style.width = e.pageX - 3 + 'px';
     }
 };
-eid_vert_line.onmouseup = function() { 
+eid_vert_line.onmouseup = () => { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -2362,8 +2364,10 @@ eid_vert_line.onmouseup = function() {
 
 
 //start - Mobile (touch)
-eid_vert_line.ontouchstart = function() { isMouseDown = true  };
-eid_wrapper.ontouchmove = function(e) { 
+eid_vert_line.ontouchstart = () => {
+    isMouseDown = true; 
+};
+eid_wrapper.ontouchmove = (e) => { 
     if(isMouseDown) { 
         /* do drag things */ 
         eid_sidebar.removeAttribute('class');
@@ -2371,7 +2375,7 @@ eid_wrapper.ontouchmove = function(e) {
         //console.log('eid_wrapper.ontouchmove');
     }
 };
-eid_vert_line.ontouchend = function() { 
+eid_vert_line.ontouchend = () => { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -10845,22 +10849,7 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
 }
 
 
-window.addEventListener('load',function(d){
-    //console.log('load - window.innerWidth: '+window.innerWidth);
-    mySizeWindow();
-    mySizeVerse();
-    mySizeVersesCompare();//si no hay verses , no hace nada
-    enableDisableResp1200();
-});
 
-window.addEventListener('resize',function(d){
-    //console.log('resize - window.innerWidth: '+window.innerWidth);
-    checkPositionShowForMob();
-    mySizeWindow();
-    mySizeVerse();
-    mySizeVersesCompare();//si no hay verses , no hace nada
-    enableDisableResp1200();
-});
 
 
 function resizeSidebar(par){
@@ -11465,6 +11454,63 @@ function checkNextPositionShow(){//solo mueve la imagen
     }
 }
 
+function mySizeGridSidebar(){
+    let sidebar_w = eid_sidebar.offsetWidth;
+
+    if(sidebar_w > 0){
+        
+        const ecl_wr_grid_ch = document.querySelector('.wr_grid_ch');
+        const ecl_wr_grid_v = document.querySelector('.wr_grid_v');
+    
+        if(sidebar_w <= 400){
+            
+            console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_5_columns')){
+                    console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_5_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_5_columns')){
+                    console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_5_columns');
+                }
+            }        
+    
+        }else if(sidebar_w > 400){
+            
+            console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_10_columns')){
+                    console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_10_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_10_columns')){
+                    console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_10_columns');
+                }
+            }        
+    
+        }
+    
+    }
+}
+
 function mySizeWindow() {
     //console.log('mySizeWindow');
     
@@ -11472,6 +11518,7 @@ function mySizeWindow() {
     let window_h = window.innerHeight;
     let header_h = eid_header.offsetHeight;
     let footer_h = eid_footer.offsetHeight;
+    
     let headerContainer_h = eid_headerContainer.offsetHeight;
     
     let pantalla, marginSidebar;
@@ -11518,6 +11565,8 @@ function mySizeWindow() {
     eid_sidebar.style.height = sidebar_h + 'px';
     eid_container.style.height = container_h + 'px';
     eid_vert_line.style.height = vert_line_h + 'px';
+
+    mySizeGridSidebar();
 
     let colsAll = document.querySelectorAll('.cols');
     let colsHeadAll = document.querySelectorAll('.colsHead');
@@ -14572,6 +14621,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                     eid_v_book.classList.add('ul_active');
             break;
     }
+
+    mySizeGridSidebar();
 
 }
 

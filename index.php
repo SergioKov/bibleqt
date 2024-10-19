@@ -47,6 +47,10 @@ HERE;
                 
                 <div id="bl_headerBtns">
                     
+                    <div id="wr_bq" class="dbtn" data-dic="" onclick="window.open('/slideshow','_self')">
+                        <h3>SlideShow</h3>
+                    </div>
+                    
                     <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1_t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
                         <img src="images/sidebar_show_white.svg">
                     </div>
@@ -127,7 +131,6 @@ HERE;
 
 
                 <div class="wr_menu_r">
-                    <h3>BQ</h3>
                     <select id="sel_lang" class="select_lang" onchange="changeLang(this.value)">
                         <option value="ru">RU</option>
                         <option value="ua">UA</option>
