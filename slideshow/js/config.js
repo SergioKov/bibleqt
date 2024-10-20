@@ -31,5 +31,9 @@ const arr_temas = [
     {
         "id_tema": 8,
         "titulo": "Tema8 - 90 slides"
+    },
+    {
+        "id_tema": 9,
+        "titulo": "Tema9 - Хто для тебе Ісус?"
     }
 ];
