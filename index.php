@@ -1,5 +1,5 @@
 <?php 
-if(isset($_GET) && isset($_GET['auth_ok'])){
+if(isset($_GET) && isset($_GET['auth_ok']) || isset($_COOKIE)){
     session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
     //echo 'hay auth_ok';
 print<<<HERE
