@@ -63,6 +63,16 @@ function echo_json_x($variable, $name_var = null){//con exit;
     exit;
 }
 
+function print_json($data) {
+    // Convertir el array o el objeto a JSON y mostrarlo con formato legible
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+
+function print_json_x($data) {
+    // Convertir el array o el objeto a JSON y mostrarlo con formato legible
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+
 
 function interpolateQuery($query, $params) {//$params es un array
     // Dividir la consulta en partes utilizando '?' como delimitador
