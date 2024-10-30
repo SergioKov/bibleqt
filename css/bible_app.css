@@ -1427,10 +1427,12 @@ p.tsk_nolink {
     font-weight: bold;
 }
 /* p a::after, */
-.stij_numb::after
-{
-    content: '.';
+.stij_numb::after {
+    content: ' ';
     color: black;
+}
+.stij_text {
+    padding-left: 5px;
 }
 .ch_dir {
     position: relative;
