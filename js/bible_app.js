@@ -11653,7 +11653,8 @@ function mySizeWindow() {
         });
 
         colsHeadAll.forEach(el=>{
-            el.style.height =  trans_min_h +'px';
+            // el.style.height =  trans_min_h + 'px';//antes
+            el.style.height =  trans_max_h + 'px';//test en mobile
         });
         
         colsInnerAll.forEach((el,i)=>{
