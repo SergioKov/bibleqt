@@ -2331,6 +2331,7 @@ select  optgroup option {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* The Close Button */
@@ -2412,9 +2413,12 @@ span.prim_tsk {
     display: block;
     /* margin-right: -3px; */
 }
+
+
 .modalContentTop {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: auto;
     justify-content: flex-start;
     padding: 0;
     max-width: 425px;
@@ -2435,11 +2439,61 @@ span.prim_tsk {
 }
 .modalContentFull {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: auto;
     justify-content: flex-start;
     padding: 0;
     max-width: 768px;
 }
+
+
+
+
+.wr_modcont {
+    background: #00BCD4;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 100%;
+    transition: 2.3s;
+    overflow: hidden;
+    padding: 2px;
+}
+
+
+.modalContentTop .wr_modcont {
+    top: 100%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    min-width: 320px;
+    max-width: 425px;
+}
+
+.modalContentCenter .wr_modcont {
+    top: 150%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 320px;
+    max-width: 425px;
+}
+
+.modalContentFull .wr_modcont {
+    top: 100%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    min-width: 320px;
+    max-width: 768px;
+}
+
+
+
+
+
+
 
 .theme_black {
     background-color: black;

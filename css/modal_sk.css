@@ -14,7 +14,8 @@
 }
 
 .modal_sk.fadeIn {
-    background: #00000087;
+    /* background: #00000087; */
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal_sk_inner {
@@ -48,7 +49,6 @@
 .modal_head {
     border-radius: 4px 4px 0 0;
     background: #137ed4;
-    width: 100%;
     text-align: right;
     padding: 5px;
     color: white;
@@ -60,7 +60,7 @@
     border-radius: 0 0 4px 4px;
     background: #ededed;
     color: black;
-    width: 100%;
+    /* width: 100%; */
     padding: 0 0 25px;
 }
 
@@ -95,6 +95,7 @@
     opacity: 0.5;
     align-items: center;
     padding-top: 2px;
+    color: white;
 }
 
 .btn_close:hover {

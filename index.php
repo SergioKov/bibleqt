@@ -37,6 +37,7 @@ HERE;
     <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=PT+Sans+Narrow:wght@400;700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
     <link id="estilos_base" rel="stylesheet" href="./css/bible_app.css">
     <link id="estilos_resp" rel="stylesheet" href="./css/bible_app_resp.css">
+    <link id="estilos_sk" rel="stylesheet" href="./css/modal_sk.css">
 </head>
 <body>
 
@@ -838,6 +839,8 @@ HERE;
         <!-- Modal Content -->
         <div id="myModalContent" class="modal-content">
 
+            <div class="wr_modcont">
+
             <header id="modcont_header">
                 <div class="inner">
                     <h4>
@@ -1357,6 +1360,8 @@ HERE;
                 </div>
             </footer>
 
+            </div><!--/wr_modcont-->
+
         </div><!--/myModalContent-->
     </div><!--/myModal-->
 
@@ -1458,6 +1463,7 @@ HERE;
 <script src="./js/functions2.js"></script>
 <script src="./js/tests.js"></script>
 <script src="./js/modal.js"></script>
+<script src="./js/modal_sk.js"></script>
 <script src="./js/listeners.js"></script>
 
 <?php include('incl_aviso_cookies.html'); ?>

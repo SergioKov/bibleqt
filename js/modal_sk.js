@@ -2,7 +2,7 @@
 //preparados como html desde un fichero 'ca.ini' 
 //el cual hay que conectar antes
 //este fichero 'modal_sk.js' DEBE ESTAR ACOMPAÑADO CON LOS ESTILOS DE 'css/modal_sk.css'
-function demo_openModal() {
+function demo_openModalSK() {
     let html_show;
     html_show = `
         <h1>POLÍTICA DE PRIVACIDAD</h1>
@@ -17,10 +17,10 @@ function demo_openModal() {
     
     html_show = div_tmp.innerHTML;
 
-    openModal(html_show);
+    openModalSK(html_show);
 }
 
-function openModal(html_show) {
+function openModalSK(html_show) {
     
     const modal_sk = document.createElement('div');
     modal_sk.className = 'modal_sk';
@@ -52,12 +52,12 @@ function openModal(html_show) {
     document.querySelector('.modal_sk').onclick = (e) => {
         //console.log(e.target);
         if (['modal_sk', 'modal_sk_inner', 'btn_close'].includes(e.target.className)) {
-            closeModal();
+            closeModalSK();
         }
     }
 }
 
-function closeModal() {
+function closeModalSK() {
     const modal_sk = document.querySelector('.modal_sk');
     modal_sk.classList.remove('fadeIn');
     modal_sk.querySelector('.modal_content').classList.remove('mooved');
