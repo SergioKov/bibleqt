@@ -11575,6 +11575,7 @@ function mySizeWindow() {
     let footer_h = eid_footer.offsetHeight;
     
     let headerContainer_h = eid_headerContainer.offsetHeight;
+    let modcont_header_h = eid_modcont_header.offsetHeight;
     
     let pantalla, marginSidebar;
     if(window_w < pantallaTabletMinPx){
@@ -11595,6 +11596,13 @@ function mySizeWindow() {
     //console.log('window_w: '+window_w);
     //console.log('pantalla: '+pantalla);
     //console.log('marginSidebar: '+marginSidebar);
+
+    let modcont_body_max_h = 
+      window_h 
+    - modcont_header_h 
+    - (10 * 2);//10 es margin top y bottom de class '.inner'
+
+    eid_modcont_body.style.maxHeight = modcont_body_max_h + 'px';
 
 
     let wrCols_h = 

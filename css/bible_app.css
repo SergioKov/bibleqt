@@ -519,6 +519,7 @@ button{
     min-width: 40px;
     transition: 0.3s all;
     text-wrap: nowrap;
+    min-height: 30px;
 }
 .btn:hover {
     background: #5eb4f9;
@@ -1970,7 +1971,7 @@ select  optgroup option {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 27px;
+    height: 28px;
     width: 24px;
 }
 #hist_find:hover{
@@ -2331,7 +2332,7 @@ select  optgroup option {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+    /* box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4); */
 }
 
 /* The Close Button */
@@ -2380,6 +2381,7 @@ select  optgroup option {
 #modcont_body {
     /* background: #373737; */
     /* overflow: auto; */
+    height: auto;
 }
 #modcont_footer {
     background: #4d4d4d;
@@ -2450,45 +2452,48 @@ span.prim_tsk {
 
 
 .wr_modcont {
-    background: #00BCD4;
+    background: #1875bf;
     position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0%);
     width: 100%;
-    transition: 2.3s;
+    transition: 0.3s;
     overflow: hidden;
-    padding: 2px;
+    padding: 0px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
 }
 
 
 .modalContentTop .wr_modcont {
     top: 100%;
-    top: 0;
     left: 50%;
     transform: translate(-50%, 0%);
     min-width: 320px;
     max-width: 425px;
 }
+.modalContentTop .wr_modcont.mooved {
+    top: 0;
+}
 
 .modalContentCenter .wr_modcont {
-    top: 150%;
-    top: 50%;
+    top: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 320px;
     max-width: 425px;
 }
+.modalContentCenter .wr_modcont.mooved {
+    top: 50%;
+}
 
 .modalContentFull .wr_modcont {
     top: 100%;
-    top: 0;
     left: 50%;
     transform: translate(-50%, 0%);
     min-width: 320px;
     max-width: 768px;
 }
-
+.modalContentFull .wr_modcont.mooved {
+    top: 0%;
+}
 
 
 

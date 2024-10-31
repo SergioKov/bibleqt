@@ -26,6 +26,13 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
     });
 
 
+    let modcont_body_max_h = 
+      window.innerHeight 
+    - eid_modcont_header.offsetHeight 
+    - (10 * 2);//10 es margin top y bottom de class '.inner'
+
+    eid_modcont_body.style.maxHeight = modcont_body_max_h + 'px';
+
     //Tipos de ModalContent
     switch (param) {
 
@@ -38,6 +45,10 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '0px';
             eid_myModalContent.classList.add('modalContentTop');
             eid_bl_modalTop.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentTop .wr_modcont').classList.add('mooved');
+            },10);
 
             let eid_topLogin = document.getElementById('topLogin');
             let eid_topMenu = document.getElementById('topMenu');
@@ -83,6 +94,12 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '25vh';
             eid_myModalContent.classList.add('modalContentCenter');
             eid_bl_modalCenter.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentCenter .wr_modcont').classList.add('mooved');
+            },10);
+            
+
             switch (action) {
             
                 case 'buildVerseMenu':
@@ -114,6 +131,11 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '50vh';
             eid_myModalContent.classList.add('modalContentBottom');
             eid_bl_modalBottom.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentBottom .wr_modcont').classList.add('mooved');
+            },10);
+
             switch (action) {
             
                 case 'buildVerseMenu':
@@ -143,6 +165,10 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '0vh';
             eid_myModalContent.classList.add('modalContentFull');
             eid_bl_modalFull.style.display = 'block';
+            
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentFull .wr_modcont').classList.add('mooved');
+            },10);
             
             switch (action) {
                 
@@ -3072,6 +3098,9 @@ function showMarkers(){
 function closeModal(modal_head_text = null, click_fuera_o_x = false) {
     let actual_h4_text = eid_myModal.querySelector('#h4_text').textContent;
     //console.log('actual_h4_text: ',actual_h4_text);
+
+    let classList_new = Array.from(document.querySelector('.mooved').classList).filter(el=> el != 'mooved');
+    document.querySelector('.mooved').className = classList_new.join(' ');
 
     if(modal_head_text == actual_h4_text || click_fuera_o_x){
         //console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
