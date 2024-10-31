@@ -2464,9 +2464,6 @@ span.prim_tsk {
 
 .modalContentTop .wr_modcont {
     top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    min-width: 320px;
     max-width: 425px;
 }
 .modalContentTop .wr_modcont.mooved {
@@ -2474,9 +2471,7 @@ span.prim_tsk {
 }
 
 .modalContentCenter .wr_modcont {
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 120%;
     min-width: 320px;
     max-width: 425px;
 }
@@ -2486,13 +2481,10 @@ span.prim_tsk {
 
 .modalContentFull .wr_modcont {
     top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    min-width: 320px;
     max-width: 768px;
 }
 .modalContentFull .wr_modcont.mooved {
-    top: 0%;
+    top: 0;
 }
 
 
