@@ -2814,29 +2814,39 @@ function showHistoryNav(){
         m_hist_nav_porcentaje.textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shn';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sp_ref_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shn';       
             p.onclick = () => {
                 onclick_p_nav(el);
                 closeModal(null,true);
                 showTab(eid_btn_nav,'nav');
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistNav - i}</span>
-                            ${el.BibleShortName}
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_ref_hist_el_ref">${el.ref}</span>
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
@@ -2854,17 +2864,26 @@ function showHistoryNav(){
 
 function showHistoryFind(){
     eid_bl_modalFullInner.innerHTML = '';
+
     let totalHistFind = arr_hist_find.length;
     let m_hist_find_porcentaje = document.getElementById('m_hist_find_porcentaje');
     if(m_hist_find_porcentaje != null){
         m_hist_find_porcentaje.textContent = `${totalHistFind}/${arr_hist_find_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shf';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_words_hist'          //(el texto de busqueda)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
+
 
     if(arr_hist_find.length > 0){
         arr_hist_find.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shf';       
             p.onclick = () => {
                 onclick_p_find(el);
                 closeModal(null,true);
@@ -2873,19 +2892,11 @@ function showHistoryFind(){
                 }
                 showTab(eid_btn_find,'find');
             }
-            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-            //                    <span class="wr_fecha_hora">
-            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-            //                    </span>
-            //                </span>
-            //                <span class="sp_words_hist">${el.words}</span>
-            //`;
             p.innerHTML = ` <span class="sam_mk_head">
                                 <span class="sp_trans_hist">
                                     <span class="sp_ref">
                                         <span class="sp_f">${totalHistFind - i}</span>
-                                        ${el.BibleShortName}
+                                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                                     </span>                                    
                                     <span class="wr_fecha_hora">
                                         <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
@@ -2907,35 +2918,44 @@ function showHistoryFind(){
 
 function showHistoryStrong(){
     eid_bl_modalFullInner.innerHTML = '';
+
     let totalHistStrong = arr_hist_strong.length;
     let m_hist_strong_porcentaje = document.getElementById('m_hist_strong_porcentaje');
     if(m_hist_strong_porcentaje != null){
         m_hist_strong_porcentaje.textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shs';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_f_strong_lang',     //idioma de Strong (hebreo o griego)
+        '.sp_strong_index',      //index de Strong (código)
+        '.sp_w_t'                //(el texto de traducción de la palabra Strong)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     if(arr_hist_strong.length > 0){
         arr_hist_strong.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shs';       
             p.onclick = () => {
                 onclick_p_strong(el);
                 closeModal(null,true);
                 showTab(eid_btn_strong,'strong');           
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistStrong - i}</span>
-                            ${el.strongLang}
+                            <span class="sp_f_strong_lang">${el.strongLang}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_strong_index">${el.strongIndex}</span>
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
@@ -2962,11 +2982,23 @@ function showMarkers(){
         m_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.smks';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sam_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
+
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
             
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer smks';       
 
             const sam_mk_head = document.createElement('span');
             sam_mk_head.className = 'sam_mk_head';
@@ -2974,11 +3006,14 @@ function showMarkers(){
                 <span class="sp_trans_hist">
                     <span class="sp_ref">
                         <span class="sp_f">${totalMarkers - i}</span>
-                        ${el.BibleShortName}
+                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                     </span> 
                     <span class="sp_fecha_hist">${el.fecha}</span>
                 </span>
-                <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sp_ref_hist">
+                    <span class="sp_ref_hist_el_ref">${el.ref}</span>
+                    <span class="sp_hora_hist">${el.hora}</span>
+                </span>
             `;
             sam_mk_head.onclick = () => {
                 onclick_p_marker(el);

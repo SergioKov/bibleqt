@@ -1699,60 +1699,112 @@ function generarLangJson(n_start,n_end){
 
 
 // Función de filtrado
-function filtrarLista(id_searchInput, selector_items) {
+function filtrarLista(el_input, selector_items, arr_spans) {
     // Obtén el valor del input y conviértelo a minúsculas.
-    let filter = document.getElementById(id_searchInput).value.toLowerCase();
+    let filter = el_input.value.toLowerCase();
+    console.log('filter: ', filter);
 
     // Obtén todos los elementos 'li' o 'cl_trans' de la lista, donde buscar
-    let items = document.querySelectorAll(selector_items);
+    let items = document.querySelectorAll(selector_items);//son los 'p' donde está el texto
+    console.log('items: ', items);
+    console.log('arr_spans: ', arr_spans);
+
+    let count_f_result = 0;
 
     // Recorre todos los elementos 'li' de la lista.
     for (let i = 0; i < items.length; i++) {
         let item = items[i];
-        let spans = item.querySelectorAll("span");
+        // let arr_spans = item.querySelectorAll("span");
+        console.log('an item: ', item);
 
         let matchFound = false;
 
         // Recorre los spans dentro del 'li'
-        for (let j = 0; j < spans.length; j++) {
-            let spanText = spans[j].textContent.toLowerCase();
+        for (let j = 0; j < arr_spans.length; j++) {
+            // let spanText = spans[j].textContent.toLowerCase();//antes
+            let span_buscado = item.querySelector(arr_spans[j]);
+            if(span_buscado == null){
+                continue;
+            }
+            console.log(span_buscado);
+            let spanText = span_buscado.textContent.toLowerCase();
+            console.log('spanText: ', spanText);
 
             // Si alguno de los span contiene el valor del filtro, muestra el 'li'.
             if (spanText.includes(filter)) {
                 matchFound = true;
+                console.log(`[IF] - OK - el texto '${filter}' se ha encontrado en el span_buscado: `, span_buscado);
                 break; // Si se encuentra una coincidencia, no es necesario revisar más spans.
+            }else{
+                console.log(`[ELSE] --- el texto '${filter}' NO se ha encontrado en el span_buscado: `, span_buscado);
             }
         }
 
         // Si se encontró una coincidencia, muestra el 'li', de lo contrario, ocúltalo.
         if (matchFound) {
+            count_f_result++;
             item.classList.remove("hidden");
         } else {
             item.classList.add("hidden");
         }
-    }
+    }//end for
+
+    const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+    ecl_filter_result.style.display = 'block';    
+    const ecl_f_num = ecl_filter_result.querySelector('.f_num');
+    ecl_f_num.textContent = count_f_result;
+
 }
 
 //crearInputFiltrar();
 
-function crearInputFiltrar(div_donde){
-    
+function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
+   
     const p = document.createElement('p');
     p.className = 'wr_input_filter';
-    
+
+    const wr_filter = document.createElement('span');
+    wr_filter.className = 'wr_filter';
+
     const el_input = document.createElement('input');
-    el_input.id = 'zzz';
+    el_input.id = 'filter_modules';
     el_input.className = 'inpt_filter';
     el_input.placeholder = 'Filtrar';
     el_input.onkeyup = ()=>{
-        //console.log('keyup. el_input.value: ', el_input.value);
-        
-        let id_searchInput = el_input.id;
-        let selector_items = '.cl_trans';
-
-        filtrarLista(id_searchInput, selector_items);
+        //console.log('keyup. el_input.value: ', el_input.value);     
+        filtrarLista(el_input, selector_items, arr_spans);
     };
 
-    p.append(el_input);
-    div_donde.append(p);
+    const sp_x = document.createElement('span');
+    sp_x.className = 'sp_x';
+    sp_x.innerHTML = '&#10005;';//es cruz 'X'
+    sp_x.onclick = (e)=>{
+        //console.log(e.target);
+
+        const el_input = e.target.parentElement.querySelector('input');
+        el_input.value = '';//reset campo de input
+
+        const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+        ecl_filter_result.style.display = 'none';    
+        const ecl_f_num = ecl_filter_result.querySelector('.f_num');
+        ecl_f_num.textContent = '...';//reset
+
+        document.querySelectorAll(selector_items).forEach(item=>{
+            if(item.classList.contains('hidden')){
+                item.classList.remove('hidden');
+            }
+        });
+    }
+    
+    const filter_result = document.createElement('span');
+    filter_result.className = 'filter_result';
+    filter_result.innerHTML = `Filtrado: <span class="f_num f_r">...</span>`;
+    filter_result.style.display = 'none';//por defecto , luego al buscar se muestra
+
+    p.append(wr_filter);
+    wr_filter.append(el_input);
+    wr_filter.append(sp_x);
+    wr_filter.append(filter_result);
+
+    div_donde_filtrar.append(p);
 }

@@ -15557,8 +15557,14 @@ function selectModule2(htmlTrans){
     
     if(thisDiv.tagName === 'DIV'){
         eid_bl_modalFullInner.innerHTML = '';//reset
-
-        crearInputFiltrar(eid_bl_modalFullInner);
+        
+        const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+        const selector_items = '.cl_trans';//los elementos que se ocultarán si no cumplen con el filtro
+        const arr_spans = [
+            '.sh_n', //RST+r (nombre corto de traducción)
+            '.la_n'  //La Santa Biblia... (descripción larga)
+        ];//se buscará texto en cada elemento de estos span's
+        crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
         
         let transSelected;
         transSelected = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} //trans selected con el click on menu
@@ -15566,8 +15572,10 @@ function selectModule2(htmlTrans){
         arrFavTransObj.forEach((el,i)=>{
             const p_cl_trans = document.createElement('p');
             p_cl_trans.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
-            p_cl_trans.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
-            p_cl_trans.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+            p_cl_trans.innerHTML = `
+                <span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>
+                <span class="la_n">${arrFavTransObj[i].BibleName}</span>
+            `;
             p_cl_trans.onclick = (e) => {
                 
                 //thisDiv = (thisDiv.tagName === 'DIV') ? thisDiv : thisDiv.currentTarget ;  //no funciona...     

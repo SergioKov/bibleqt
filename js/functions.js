@@ -906,8 +906,6 @@ const countElementsInArray = arr => {
 }
 
 
-
-
 function pushStateHome(){
 
     // Obtener la base URL
@@ -1020,29 +1018,39 @@ function buildHistoryNavDesktop(){
     let totalHistNav = arr_hist_nav.length;
     eid_hist_nav_regs.querySelector('.t_regs').textContent = 'Registros';
     eid_hist_nav_regs.querySelector('.f_r').textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_nav_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhnd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sp_ref_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
     
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
                
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer bhnd';       
             p.onclick = () => {
                 onclick_p_nav(el);
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistNav - i}</span>
-                            ${el.BibleShortName}
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_ref_hist_el_ref">${el.ref}</span> 
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
@@ -1147,12 +1155,276 @@ function onclick_p_nav(el){
 
 
 
+async function addWordsToHistFind(trans, words, count_verses, count_matches){
+    //console.log('=== async function addWordsToHistFind() ===');
+
+    if(arr_hist_find.length == 0){
+        await obtenerDatosDeBD('hist_find','arr_hist_find');
+        //console.log(arr_hist_find);
+    }
+
+    //console.log('trans: ', trans);
+    //console.log('words: ', words);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    //console.log("Fecha actual: " + fechaFormateada);
+    
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    //console.log("Hora actual: " + horaActual);
+
+    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
+
+    let itemHist = {
+        'trans': trans, 
+        'BibleShortName': esteTrans.BibleShortName, 
+        'words': words,
+        'count_verses': count_verses,
+        'count_matches': count_matches,
+        'params': {
+            'gde_val'  : eid_gde.value, 
+            'limit_val': eid_limit.value,
+            'cbox1_checked': eid_cbox1.checked,
+            'cbox2_checked': eid_cbox2.checked,
+            'cbox3_checked': eid_cbox3.checked,
+            'cbox4_checked': eid_cbox4.checked,
+            'cbox5_checked': eid_cbox5.checked,
+            'cbox6_checked': eid_cbox6.checked,
+            'cbox7_checked': eid_cbox7.checked             
+        },
+        'fecha': fechaFormateada, 
+        'hora': horaActual
+    };
+
+    //meto item si es primer index o si no se repite trans y words
+    if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
+        arr_hist_find.unshift(itemHist);
+        //console.log('meto item. arr_hist_find: ', arr_hist_find);
+        if(arr_hist_find.length > arr_hist_find_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_find.splice(arr_hist_find_limit); 
+        }
+        if(hay_sesion && arr_hist_find_is_loaded){
+            guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
+        }
+    }else{
+        //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
+    }
+
+    buildHistoryFindDesktop();
+}
+
+function buildHistoryFindDesktop(){
+    eid_wr_hist_find_inner.innerHTML = '';
+    
+    let totalHistFind = arr_hist_find.length;
+    eid_hist_find_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_find_regs.querySelector('.f_r').textContent = `${totalHistFind}/${arr_hist_find_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_find_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhfd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_words_hist'          //(el texto de busqueda)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
+
+    if(arr_hist_find.length > 0){
+        arr_hist_find.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.className = 'p_pointer bhfd';
+            p.onclick = () => {
+                onclick_p_find(el);
+            }
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistFind - i}</span>
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
+                        </span> 
+                        <span class="wr_fecha_hora">
+                            <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                            <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+                        </span>
+                    </span>
+                </span>
+                <span class="sp_words_hist">${el.words}</span>
+            `;                            
+            eid_wr_hist_find_inner.append(p);
+
+        });        
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории поиска.</span>';
+        eid_wr_hist_find_inner.append(p);
+    }
+
+}
+
+function onclick_p_find(el){
+    eid_inpt_nav.dataset.trans = el.trans;
+    eid_inpt_find.value = el.words;
+
+    eid_gde.value = el.params.gde_val;
+    eid_limit.value = el.params.limit_val;
+    eid_cbox1.checked = el.params.cbox1_checked;
+    eid_cbox2.checked = el.params.cbox2_checked;
+    eid_cbox3.checked = el.params.cbox3_checked;
+    eid_cbox4.checked = el.params.cbox4_checked;
+    eid_cbox5.checked = el.params.cbox5_checked;
+    eid_cbox6.checked = el.params.cbox6_checked;
+    eid_cbox7.checked = el.params.cbox7_checked;
+    
+    //console.log('llamo findWords()');
+    //findWords(el.words);
+    eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
+}
+
+async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
+    //console.log('=== const addStrongNumberToHistStrong ===');
+    
+    if(arr_hist_strong.length == 0){
+        await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+        //console.log(arr_hist_strong);
+    }
+
+    //console.log('trans: ', trans);
+    //console.log('ref: ', ref);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    //console.log("Fecha actual: " + fechaFormateada);
+
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    //console.log("Hora actual: " + horaActual);
+
+    let strongWord = '';
+    let strongTranslation = '';
+    if(strongTextWordsShow != ''){
+        if(strongLang == 'greek'){
+            let arr = strongTextWordsShow.split('</el> <br/>')
+            strongWord = arr[0] + '</el>';
+            strongTranslation = arr[1];    
+        }else{//hebrew
+            let arr = strongTextWordsShow.split('</he> <br/>')
+            strongWord = arr[0] + '</he>';
+            strongTranslation = arr[1];    
+        }
+    }
 
 
+    let itemHist = { 
+        'strongLang': toTitleCase(strongLang), 
+        'strongIndex': strongIndex, 
+        'strongWord': strongWord, 
+        'strongTranslation': strongTranslation, 
+        'fecha': fechaFormateada, 
+        'hora': horaActual 
+    };
+
+    if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
+        arr_hist_strong.unshift(itemHist);
+        //console.log('arr_hist_strong: ', arr_hist_strong);
+        if(arr_hist_strong.length > arr_hist_strong_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_strong.splice(arr_hist_strong_limit); 
+        }
+        if(hay_sesion && arr_hist_strong_is_loaded){
+            guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
+        }
+    }else{
+        //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
+    }
+    
+    buildHistoryStrongDesktop();
+}
+
+function buildHistoryStrongDesktop(){
+    eid_wr_hist_strong_inner.innerHTML = '';
+    
+    let totalHistStrong = arr_hist_strong.length;
+    eid_hist_strong_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_strong_regs.querySelector('.f_r').textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_strong_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhsd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_f_strong_lang',     //idioma de Strong (hebreo o griego)
+        '.sp_strong_index',      //index de Strong (código)
+        '.sp_w_t'                //(el texto de traducción de la palabra Strong)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
 
 
+    if(arr_hist_strong.length > 0){
+        arr_hist_strong.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.className = 'p_pointer bhsd';
+            p.onclick = () => {
+                onclick_p_strong(el);            
+            }
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistStrong - i}</span>
+                            <span class="sp_f_strong_lang">${el.strongLang}</span>
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_strong_index">${el.strongIndex}</span> 
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
+                </span>
+            `;
+            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
+                p.innerHTML += `
+                    <span class="sp_ref_hist">${el.strongWord}</span>
+                    <span class="sp_w_t">${el.strongTranslation}</span>
+                `;
+            }
 
+            eid_wr_hist_strong_inner.append(p);
 
+        });    
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории номеров Стронга.</span>';
+        eid_wr_hist_strong_inner.append(p);
+    }
+}
+
+function onclick_p_strong(el){
+
+    eid_inpt_strong.value = el.strongIndex;
+    //console.log('llamo getStrongNumber()...');
+    getStrongNumber(el.strongIndex);
+
+    eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
+    //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
+}
 
 async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
     //console.log('=== async function addRefToMarker() ===');
@@ -1220,14 +1492,27 @@ async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse 
 
 function buildMarkersDesktop(){
     eid_wr_markers_inner.innerHTML = '';
+    
     let totalMarkers = arr_markers.length;
     eid_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
+
+    const div_donde_filtrar = eid_wr_markers_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bmks';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sam_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
                
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer bmks';       
 
             const sam_mk_head = document.createElement('span');
             sam_mk_head.className = 'sam_mk_head';
@@ -1235,11 +1520,14 @@ function buildMarkersDesktop(){
                 <span class="sp_trans_hist">
                     <span class="sp_ref">
                         <span class="sp_f">${totalMarkers - i}</span>
-                        ${el.BibleShortName}
+                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                     </span> 
                     <span class="sp_fecha_hist">${el.fecha}</span>
                 </span>
-                <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sp_ref_hist">
+                    <span class="sp_ref_hist_el_ref">${el.ref}</span> 
+                    <span class="sp_hora_hist">${el.hora}</span>
+                </span>
             `;
             sam_mk_head.onclick = () => {
                 onclick_p_marker(el);
@@ -1487,282 +1775,6 @@ function onclick_p_marker(el){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-async function addWordsToHistFind(trans, words, count_verses, count_matches){
-    //console.log('=== async function addWordsToHistFind() ===');
-
-    if(arr_hist_find.length == 0){
-        await obtenerDatosDeBD('hist_find','arr_hist_find');
-        //console.log(arr_hist_find);
-    }
-
-    //console.log('trans: ', trans);
-    //console.log('words: ', words);
-    
-    const fechaActual = new Date();
-    //const horas = fechaActual.getHours();
-    //const minutos = fechaActual.getMinutes();
-    //const segundos = fechaActual.getSeconds();
-    //const horas_minutos = horas + ':'+minutos;
-
-    const fechaFormateada = fechaActual.toLocaleDateString();
-    //console.log("Fecha actual: " + fechaFormateada);
-    
-    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
-    //console.log("Hora actual: " + horaActual);
-
-    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
-
-    let itemHist = {
-        'trans': trans, 
-        'BibleShortName': esteTrans.BibleShortName, 
-        'words': words,
-        'count_verses': count_verses,
-        'count_matches': count_matches,
-        'params': {
-            'gde_val'  : eid_gde.value, 
-            'limit_val': eid_limit.value,
-            'cbox1_checked': eid_cbox1.checked,
-            'cbox2_checked': eid_cbox2.checked,
-            'cbox3_checked': eid_cbox3.checked,
-            'cbox4_checked': eid_cbox4.checked,
-            'cbox5_checked': eid_cbox5.checked,
-            'cbox6_checked': eid_cbox6.checked,
-            'cbox7_checked': eid_cbox7.checked             
-        },
-        'fecha': fechaFormateada, 
-        'hora': horaActual
-    };
-
-    //meto item si es primer index o si no se repite trans y words
-    if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
-        arr_hist_find.unshift(itemHist);
-        //console.log('meto item. arr_hist_find: ', arr_hist_find);
-        if(arr_hist_find.length > arr_hist_find_limit) {//100
-            // Elimina elementos a partir del índice 100 hasta el final del array
-            arr_hist_find.splice(arr_hist_find_limit); 
-        }
-        if(hay_sesion && arr_hist_find_is_loaded){
-            guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
-        }
-    }else{
-        //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
-    }
-
-    buildHistoryFindDesktop();
-}
-
-function buildHistoryFindDesktop(){
-    eid_wr_hist_find_inner.innerHTML = '';
-    
-    let totalHistFind = arr_hist_find.length;
-    eid_hist_find_regs.querySelector('.t_regs').textContent = 'Registros';
-    eid_hist_find_regs.querySelector('.f_r').textContent = `${totalHistFind}/${arr_hist_find_limit}`;
-
-    if(arr_hist_find.length > 0){
-        arr_hist_find.forEach((el,i)=>{
-            
-            const p = document.createElement('p');
-            p.className = 'p_pointer';
-            p.onclick = () => {
-                onclick_p_find(el);
-            }
-            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-            //                    <span class="wr_fecha_hora">
-            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-            //                    </span>
-            //                </span>
-            //`;
-            p.innerHTML = `
-                <span class="sam_mk_head">
-                    <span class="sp_trans_hist">
-                        <span class="sp_ref">
-                            <span class="sp_f">${totalHistFind - i}</span>
-                            ${el.BibleShortName}
-                        </span> 
-                        <span class="wr_fecha_hora">
-                            <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-                            <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-                        </span>
-                    </span>
-                </span>
-                <span class="sp_words_hist">${el.words}</span>
-            `;                            
-            eid_wr_hist_find_inner.append(p);
-
-        });        
-    }else{
-        const p = document.createElement('p');
-        p.innerHTML = '<span class="prim">Нет записей в истории поиска.</span>';
-        eid_wr_hist_find_inner.append(p);
-    }
-
-}
-
-
-function onclick_p_find(el){
-    eid_inpt_nav.dataset.trans = el.trans;
-    eid_inpt_find.value = el.words;
-
-    eid_gde.value = el.params.gde_val;
-    eid_limit.value = el.params.limit_val;
-    eid_cbox1.checked = el.params.cbox1_checked;
-    eid_cbox2.checked = el.params.cbox2_checked;
-    eid_cbox3.checked = el.params.cbox3_checked;
-    eid_cbox4.checked = el.params.cbox4_checked;
-    eid_cbox5.checked = el.params.cbox5_checked;
-    eid_cbox6.checked = el.params.cbox6_checked;
-    eid_cbox7.checked = el.params.cbox7_checked;
-    
-    //console.log('llamo findWords()');
-    //findWords(el.words);
-    eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
-}
-
-async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
-    //console.log('=== const addStrongNumberToHistStrong ===');
-    
-    if(arr_hist_strong.length == 0){
-        await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-        //console.log(arr_hist_strong);
-    }
-
-    //console.log('trans: ', trans);
-    //console.log('ref: ', ref);
-    
-    const fechaActual = new Date();
-    //const horas = fechaActual.getHours();
-    //const minutos = fechaActual.getMinutes();
-    //const segundos = fechaActual.getSeconds();
-    //const horas_minutos = horas + ':'+minutos;
-
-    const fechaFormateada = fechaActual.toLocaleDateString();
-    //console.log("Fecha actual: " + fechaFormateada);
-
-    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
-    //console.log("Hora actual: " + horaActual);
-
-    let strongWord = '';
-    let strongTranslation = '';
-    if(strongTextWordsShow != ''){
-        if(strongLang == 'greek'){
-            let arr = strongTextWordsShow.split('</el> <br/>')
-            strongWord = arr[0] + '</el>';
-            strongTranslation = arr[1];    
-        }else{//hebrew
-            let arr = strongTextWordsShow.split('</he> <br/>')
-            strongWord = arr[0] + '</he>';
-            strongTranslation = arr[1];    
-        }
-    }
-
-
-    let itemHist = { 
-        'strongLang': toTitleCase(strongLang), 
-        'strongIndex': strongIndex, 
-        'strongWord': strongWord, 
-        'strongTranslation': strongTranslation, 
-        'fecha': fechaFormateada, 
-        'hora': horaActual 
-    };
-
-    if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
-        arr_hist_strong.unshift(itemHist);
-        //console.log('arr_hist_strong: ', arr_hist_strong);
-        if(arr_hist_strong.length > arr_hist_strong_limit) {//100
-            // Elimina elementos a partir del índice 100 hasta el final del array
-            arr_hist_strong.splice(arr_hist_strong_limit); 
-        }
-        if(hay_sesion && arr_hist_strong_is_loaded){
-            guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
-        }
-    }else{
-        //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
-    }
-    
-    buildHistoryStrongDesktop();
-}
-
-function buildHistoryStrongDesktop(){
-    eid_wr_hist_strong_inner.innerHTML = '';
-    
-    let totalHistStrong = arr_hist_strong.length;
-    eid_hist_strong_regs.querySelector('.t_regs').textContent = 'Registros';
-    eid_hist_strong_regs.querySelector('.f_r').textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
-
-    if(arr_hist_strong.length > 0){
-        arr_hist_strong.forEach((el,i)=>{
-            
-            const p = document.createElement('p');
-            p.className = 'p_pointer';
-            p.onclick = () => {
-                onclick_p_strong(el);            
-            }
-
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
-            p.innerHTML = `
-                <span class="sam_mk_head">
-                    <span class="sp_trans_hist">
-                        <span class="sp_ref">
-                            <span class="sp_f">${totalHistStrong - i}</span>
-                            ${el.strongLang}
-                        </span> 
-                        <span class="sp_fecha_hist">${el.fecha}</span>
-                    </span>
-                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-                </span>
-            `;
-            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
-                p.innerHTML += `
-                    <span class="sp_ref_hist">${el.strongWord}</span>
-                    <span class="sp_w_t">${el.strongTranslation}</span>
-                `;
-            }
-
-            eid_wr_hist_strong_inner.append(p);
-
-        });    
-    }else{
-        const p = document.createElement('p');
-        p.innerHTML = '<span class="prim">Нет записей в истории номеров Стронга.</span>';
-        eid_wr_hist_strong_inner.append(p);
-    }
-}
-
-
-function onclick_p_strong(el){
-
-    eid_inpt_strong.value = el.strongIndex;
-    //console.log('llamo getStrongNumber()...');
-    getStrongNumber(el.strongIndex);
-
-    eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
-    //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
-}
-
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -1795,15 +1807,6 @@ function scrollToVkladkaActive(){
         document.querySelector('.tab_active').scrollIntoView();
     }    
 }
-
-
-
-
-
-
-
-
-
 
 
 
