@@ -335,6 +335,7 @@ HERE;
                                                 <option value="ProfM" data-dic="d42">#Малые Пророки</option>
                                                 <option disabled></option>
                                                 <option disabled data-dic="d43">--- Новый Завет ---</option>
+                                                <option value="EvOnly" data-dic="d44a">#Евангелия</option>
                                                 <option value="EvActs" data-dic="d44">#Евангелия и Деяния</option>
                                                 <option value="EpPablo" data-dic="d45">#Послания Павла</option>
                                                 <option value="EpSoborn" data-dic="d46">#Соборные Послания</option>

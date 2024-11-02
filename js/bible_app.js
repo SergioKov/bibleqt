@@ -17041,6 +17041,11 @@ async function findWords(words_input){
             book_end = 38;
             break;
 
+        case 'EvOnly'://Евангелия
+            book_start = 39;
+            book_end = 42;
+            break;
+    
         case 'EvActs'://Евангелия и Деяния
             book_start = 39;
             book_end = 43;

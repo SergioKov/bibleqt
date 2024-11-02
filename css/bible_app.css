@@ -237,6 +237,7 @@ body{
 }
 .tab_active .tab_ref {
     color: #ff1100;
+    min-width: 110px;
 }
 .tab_active .btn_sm {
     background: white;
@@ -2340,15 +2341,15 @@ select  optgroup option {
 
 /* The Close Button */
 .close {
+    /* background: red; */
+    /* outline: 1px solid white; */
     color: white;
     float: right;
     font-size: 23px;
     font-weight: bold;
     top: -5px;
     right: -5px;
-    /* background: red; */
     padding: 0px 0px 2px;
-    /* outline: 1px solid white; */
     transition: 0.3s;
     height: 28px;
     display: flex;
@@ -2361,12 +2362,14 @@ select  optgroup option {
     position: absolute;
     cursor: pointer;
     text-decoration: none;
+    opacity: 0.5;
 }
 
 .close:hover,
 .close:focus {
-  /* color: #000; */
-  /* background: red; */
+    opacity: 1;
+    /* color: #000; */
+    /* background: red; */
 }
 
 #modcont_header {
@@ -2478,6 +2481,7 @@ span.prim_tsk {
 }
 .modalContentCenter .wr_modcont.mooved {
     top: 50%;
+    transform: translateY(-50%);
 }
 
 .modalContentFull .wr_modcont {
@@ -3804,8 +3808,8 @@ p .sp_svit a:hover{
 #btn_tsk img {
     position: relative;
     top: 0px;
-    height: 21px;
-    width: 21px;
+    height: 20px;
+    width: 20px;
 }
 #btn_strong span{
     font-size: 21px;
