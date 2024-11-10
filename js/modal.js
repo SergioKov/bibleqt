@@ -3133,9 +3133,13 @@ function showMarkers(){
 function closeModal(modal_head_text = null, click_fuera_o_x = false) {
     let actual_h4_text = eid_myModal.querySelector('#h4_text').textContent;
     //console.log('actual_h4_text: ',actual_h4_text);
+    
+    const ecl_mooved = document.querySelector('.mooved');
 
-    let classList_new = Array.from(document.querySelector('.mooved').classList).filter(el=> el != 'mooved');
-    document.querySelector('.mooved').className = classList_new.join(' ');
+    if(ecl_mooved){
+        let classList_new = Array.from(ecl_mooved.classList).filter(el => el != 'mooved');
+        ecl_mooved.className = classList_new.join(' ');
+    }
 
     if(modal_head_text == actual_h4_text || click_fuera_o_x){
         //console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
