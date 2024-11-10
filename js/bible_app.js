@@ -3020,6 +3020,7 @@ async function getTsk(e){
                                                                 let stijNumber = stij[0];
                                                                 stij.shift();//elimino 1 index
                                                                 let stijText = stij.join(' ');//junto
+                                                                stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                                 let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
                 
                                                                 //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -3043,8 +3044,11 @@ async function getTsk(e){
                                                             
                                                             let stijText = VerseTextFull.split(' ');
                                                             stijText.shift();//elimino numero de versiculo
+                                                            
+                                                            let stijText_string = stijText.join(' ');
+                                                            stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                 
-                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                             //console.log(VerseText);
 
                                                         }                
@@ -3305,6 +3309,7 @@ async function getTsk(e){
                                                                         let stijNumber = stij[0];
                                                                         stij.shift();//elimino 1 index
                                                                         let stijText = stij.join(' ');//junto
+                                                                        stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                                         let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
                         
                                                                         //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -3327,8 +3332,11 @@ async function getTsk(e){
                                                                     
                                                                     let stijText = VerseTextFull.split(' ');
                                                                     stijText.shift();//elimino numero de versiculo
-                        
-                                                                    VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+
+                                                                    let stijText_string = stijText.join(' ');
+                                                                    stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
+        
+                                                                    VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                                     //console.log(VerseText);
                                                                 }
                         
@@ -3832,6 +3840,7 @@ async function getTsk(e){
                                                     let stijNumber = stij[0];
                                                     stij.shift();//elimino 1 index
                                                     let stijText = stij.join(' ');//junto
+                                                    stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                     let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
     
                                                     //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -3855,8 +3864,11 @@ async function getTsk(e){
                                                 
                                                 let stijText = VerseTextFull.split(' ');
                                                 stijText.shift();//elimino numero de versiculo
+
+                                                let stijText_string = stijText.join(' ');
+                                                stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
     
-                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                 //console.log(VerseText);
 
                                             }
@@ -4150,6 +4162,7 @@ async function getTsk(e){
                                                                 let stijNumber = stij[0];
                                                                 stij.shift();//elimino 1 index
                                                                 let stijText = stij.join(' ');//junto
+                                                                stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                                 let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
             
                                                                 //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -4173,8 +4186,11 @@ async function getTsk(e){
                                                             
                                                             let stijText = VerseTextFull.split(' ');
                                                             stijText.shift();//elimino numero de versiculo
+
+                                                            let stijText_string = stijText.join(' ');
+                                                            stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
             
-                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                             //console.log(VerseText);
 
                                                         }
@@ -4468,6 +4484,7 @@ async function getTsk(e){
                                                                 let stijNumber = stij[0];
                                                                 stij.shift();//elimino 1 index
                                                                 let stijText = stij.join(' ');//junto
+                                                                stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                                 let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
             
                                                                 //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -4491,8 +4508,11 @@ async function getTsk(e){
                                                             
                                                             let stijText = VerseTextFull.split(' ');
                                                             stijText.shift();//elimino numero de versiculo
+
+                                                            let stijText_string = stijText.join(' ');
+                                                            stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
             
-                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                            VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                             //console.log(VerseText);
 
                                                         }
@@ -5007,6 +5027,7 @@ async function getTsk(e){
                                                                     let stijNumber = stij[0];
                                                                     stij.shift();//elimino 1 index
                                                                     let stijText = stij.join(' ');//junto
+                                                                    stijText = stijText.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay
                                                                     let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
                 
                                                                     //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
@@ -5030,8 +5051,11 @@ async function getTsk(e){
                                                                 
                                                                 let stijText = VerseTextFull.split(' ');
                                                                 stijText.shift();//elimino numero de versiculo
+
+                                                                let stijText_string = stijText.join(' ');
+                                                                stijText_string = stijText_string.replaceAll('</p>','').replaceAll('\r\n','');//quito '</p>' y '\r\n' si hay    
                 
-                                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                                VerseText = ' <span class="stij_text">' + stijText_string +'</span>';
                                                                 //console.log(VerseText);
 
                                                             }
