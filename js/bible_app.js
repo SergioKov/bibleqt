@@ -12131,7 +12131,7 @@ function addTrans(addMode = null){
 
     let arr_n = [];
     document.querySelectorAll('.cols').forEach(el => {
-        let n = parseInt(el.getAttribute('id').slice(-1));
+        let n = parseInt(el.id.split('col')[1]);//de 'col1' sale '1'; de 'col10' sale '10'
         arr_n.push(n); 
     });
     //console.log(arr_n);
@@ -12260,10 +12260,7 @@ function removeTrans(){
     let colsAll = document.querySelectorAll('.cols');
     let countCols = colsAll.length;
     //console.log(countCols);
-    if(countCols != 1){
-        let colId = eid_wrCols.lastElementChild.id;
-        let n = colId.slice(3);//elimino 3 primeras letras. de 'col4' sale '4'; de 'col12' sale '12'
-        
+    if(countCols != 1){        
         let trans = eid_wrCols.lastElementChild.querySelector('.colsHead').dataset.trans;
         let tabActive = document.querySelector('.tab_active');
 
@@ -12301,22 +12298,25 @@ function closeTrans(el,event, param = null){
     
     event.stopPropagation();
 
-    let n = el.parentElement.parentElement.parentElement.parentElement.id.slice(5);//numero de col para remove (de trans2 quiro 5 carácteres => 2; trans13 => 13)
+    const col_to_remove = el.parentElement.parentElement.parentElement.parentElement.parentElement;//el col para remove
     let trans = el.parentElement.parentElement.parentElement.parentElement.dataset.trans;
     let tabActive = document.querySelector('.tab_active');    
     
     //busco index de la columna que se va a eliminar
+    const colsAll = document.querySelectorAll('.cols');
     let col_index;
-    document.querySelectorAll('.cols').forEach((el,i)=>{
-        //console.log('el: ',el);
-        if(el == document.getElementById('col'+n)){
-            //console.log('encontrado el: ',el);
+    for (let i = 0; i < colsAll.length; i++) {
+        const el_col = colsAll[i];
+        //console.log('el_col: ',el_col);
+        if(el_col == col_to_remove){
+            //console.log('encontrado el_col: ',el_col);
             //console.log('encontrado i: ',i);
             col_index = i;
+            break;
         }
-    });
+    }    
     
-    document.getElementById('col'+n).remove();//elimino col
+    col_to_remove.remove();//elimino el col
 
     if(typeof col_index != 'undefined'){
         removeTransFromTab(trans,tabActive,col_index);

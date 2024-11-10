@@ -1949,7 +1949,7 @@ function changeFindTab(ev,this_id){
     //console.log(ev);
         
     const this_find_tab = document.getElementById(this_id);
-    let i_tab = this_id.slice(8);//'find_tab1' quito 6 posiciones => '1'    
+    let i_tab = this_id.split('find_tab')[1];//de 'find_tab1' sale '1'    
     let findTabsAll = document.querySelectorAll('.find_tabs');
     
     findTabsAll.forEach(el=>{
@@ -1961,7 +1961,7 @@ function changeFindTab(ev,this_id){
     
     let findResBlocksAll = document.querySelectorAll('.find_res_blocks');
     findResBlocksAll.forEach(el=>{
-        let i_res_block = el.id.slice(14);//'find_res_block1' quito 14 posiciones => '1'
+        let i_res_block = el.id.split('find_res_block')[1];// de 'find_res_block1' sale '1'
         if(i_tab == i_res_block){
             el.style.display = 'block';
             el.classList.add('find_res_block_active');
@@ -2026,7 +2026,7 @@ function closeFindTab(button, event){
         }
 
         button.parentElement.remove();
-        let index_del = Number(button.parentElement.id.slice(8));
+        let index_del = Number(button.parentElement.id.split('find_tab')[1]);//de 'find_tab1' sale '1'
         const find_res_block_del = document.getElementById(`find_res_block${index_del}`);
         //console.log('find_res_block_del: ',find_res_block_del);
         find_res_block_del.remove();
@@ -2038,7 +2038,7 @@ function closeFindTab(button, event){
 }
 
 function addFindTab(act = null, tab_new = null){
-    //console.log('=== function addTab() ===');
+    //console.log('=== function addFindTab() ===');
     
     let find_tabsAll = document.querySelectorAll('.find_tabs');
     let countTabs = find_tabsAll.length;
@@ -2047,7 +2047,7 @@ function addFindTab(act = null, tab_new = null){
 
     let arr_n = [];
     find_tabsAll.forEach(el => {
-        let n = parseInt(el.id.slice(8));//find_tab10 => 10
+        let n = parseInt(el.id.split('find_tab')[1]);//de 'find_tab10' sale '10'
         arr_n.push(n); 
     });
     //console.log(arr_n);
