@@ -1,5 +1,5 @@
 <?php 
-if(isset($_GET) && isset($_GET['auth_ok'])){
+if(isset($_GET) && isset($_GET['auth_ok']) || isset($_COOKIE)){
     session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
     //echo 'hay auth_ok';
 print<<<HERE
@@ -37,6 +37,7 @@ HERE;
     <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=PT+Sans+Narrow:wght@400;700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
     <link id="estilos_base" rel="stylesheet" href="./css/bible_app.css">
     <link id="estilos_resp" rel="stylesheet" href="./css/bible_app_resp.css">
+    <link id="estilos_sk" rel="stylesheet" href="./css/modal_sk.css">
 </head>
 <body>
 
@@ -47,8 +48,11 @@ HERE;
                 
                 <div id="bl_headerBtns">
                     
+                    <div id="wr_bq" class="dbtn" data-dic="" onclick="window.open('/slideshow','_self')">
+                        <h3>BQ. SlideShow</h3>
+                    </div>
+                    
                     <div id="btn_hideShowSidebar" class="dbtn" data-dic="d1_t" title="Hide or Show sidebar" onclick="hideShowSidebar()">
-                        <!--<div>Hide</div>-->
                         <img src="images/sidebar_show_white.svg">
                     </div>
                     <div id="btn_hideShowFooter" class="dbtn" data-dic="d2_t" title="Hide or Show footer" onclick="hideShowFooter()">
@@ -128,7 +132,6 @@ HERE;
 
 
                 <div class="wr_menu_r">
-                    <h3>BQ</h3>
                     <select id="sel_lang" class="select_lang" onchange="changeLang(this.value)">
                         <option value="ru">RU</option>
                         <option value="ua">UA</option>
@@ -290,8 +293,7 @@ HERE;
                                 Stop
                                 <!--<img class="btn_img" src="./images/stop4.png">--><!--Stop-->
                             </button>
-                        </div>                        
-
+                        </div><!--/wr_nav-->
                         <div id="find_head">
                             
                             <div id="wr_hist_find" style="display:none;">
@@ -333,6 +335,7 @@ HERE;
                                                 <option value="ProfM" data-dic="d42">#Малые Пророки</option>
                                                 <option disabled></option>
                                                 <option disabled data-dic="d43">--- Новый Завет ---</option>
+                                                <option value="EvOnly" data-dic="d44a">#Евангелия</option>
                                                 <option value="EvActs" data-dic="d44">#Евангелия и Деяния</option>
                                                 <option value="EpPablo" data-dic="d45">#Послания Павла</option>
                                                 <option value="EpSoborn" data-dic="d46">#Соборные Послания</option>
@@ -514,8 +517,27 @@ HERE;
                         <div id="find_result"></div>
                     </div><!--/wr_find_head-->
                     <div id="find_body">
-                        <span class="prim_tsk" data-dic="d138">Introduce el texto para buscar y si quieres aplica los parámetros del filtro.</span>
-                    </div>
+                        <div id="wr_find_tabs">                            
+                            <div id="partFindTabs">
+                                <div id="find_tab0" class="find_tabs find_tab_active" onclick="changeFindTab(this,this.id)">
+                                    <span class="find_tab_trans_name">1</span>
+                                    <span class="find_tab_frase">...</span> 
+                                    <span class="find_tab_estrella d-none">*</span> 
+                                    <button class="btn btn_sm" onclick="closeFindTab(this, event)">✕</button>
+                                </div>
+                            </div><!--/partFindTabs-->
+                            <div id="partFindPlus">
+                                <button id="btnPlus_frb" class="btn" onclick="addFindTab('act','tab_new')"> + </button>
+                            </div>                                
+                        </div><!--/wr_find_tabs-->                        
+                        <div id="wr_find_res_blocks">
+                            <div id="find_res_block0" class="find_res_blocks find_res_block_active">
+                                <span class="prim_tsk" data-dic="d138">
+                                    Introduce el texto para buscar y si quieres aplica los parámetros del filtro.
+                                </span>                                
+                            </div>                        
+                        </div><!--/wr_find_res_blocks-->
+                    </div><!--/find_body-->
                 </div><!--/vklad_find-->
 
                 <div id="vklad_tsk" class="vklads" style="display: none;">
@@ -817,6 +839,8 @@ HERE;
 
         <!-- Modal Content -->
         <div id="myModalContent" class="modal-content">
+
+            <div class="wr_modcont">
 
             <header id="modcont_header">
                 <div class="inner">
@@ -1273,7 +1297,7 @@ HERE;
                                         </label>
                                     </div>
 
-                                    <div id="m_bl_cookies" class="dbtn" title="Mostrar block de consentimiento de cookies" onclick="showBlobkCookies()" style="width:100%;">
+                                    <div id="m_bl_cookies" class="dbtn" title="Mostrar block de consentimiento de cookies" onclick="showBlockCookies()" style="width:100%;">
                                         <div class="dbtn_inner wr_cook">
                                             
                                             <div class="wr_sw_text">
@@ -1336,6 +1360,8 @@ HERE;
                     </p>
                 </div>
             </footer>
+
+            </div><!--/wr_modcont-->
 
         </div><!--/myModalContent-->
     </div><!--/myModal-->
@@ -1418,11 +1444,27 @@ HERE;
 <script src="./js/get_globals.js"></script>
 
 <script src="./js/config.js"></script>
-<script src="./js/bible_app.js"></script>
+
+<?php
+    //LUEGO LO CONECTO
+    /*
+    if($_SERVER['HTTP_HOST'] == 'bibleqt.es'){//HOSTALIA
+        //echo"<script src='./js/bible_app.min.js'></script>";
+    }else{//LOCALHOST
+        //echo"<script src='./js/bible_app.min.js'></script>";
+        //echo"<script src='./js/bible_app.js'></script>";
+    }
+    */
+    
+    //POR AHORA SIEMPRE ASI
+    echo"<script src='./js/bible_app.js'></script>";
+?>
+
 <script src="./js/functions.js"></script>
 <script src="./js/functions2.js"></script>
 <script src="./js/tests.js"></script>
 <script src="./js/modal.js"></script>
+<script src="./js/modal_sk.js"></script>
 <script src="./js/listeners.js"></script>
 
 <?php include('incl_aviso_cookies.html'); ?>

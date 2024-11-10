@@ -1,0 +1,18 @@
+{
+    "id_tema": "5",
+    "titulo": "tema5",
+    "slides": [
+        {
+            "slide_number": "1",
+            "bg": "Diapositiva13.jpg"
+        },
+        {
+            "slide_number": "2",
+            "bg": "Diapositiva2.jpg"
+        },
+        {
+            "slide_number": "3",
+            "bg": "Diapositiva3.jpg"
+        }
+    ]
+}

@@ -26,6 +26,13 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
     });
 
 
+    let modcont_body_max_h = 
+      window.innerHeight 
+    - eid_modcont_header.offsetHeight 
+    - (10 * 2);//10 es margin top y bottom de class '.inner'
+
+    eid_modcont_body.style.maxHeight = modcont_body_max_h + 'px';
+
     //Tipos de ModalContent
     switch (param) {
 
@@ -38,6 +45,10 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '0px';
             eid_myModalContent.classList.add('modalContentTop');
             eid_bl_modalTop.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentTop .wr_modcont').classList.add('mooved');
+            },10);
 
             let eid_topLogin = document.getElementById('topLogin');
             let eid_topMenu = document.getElementById('topMenu');
@@ -83,6 +94,12 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '25vh';
             eid_myModalContent.classList.add('modalContentCenter');
             eid_bl_modalCenter.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentCenter .wr_modcont').classList.add('mooved');
+            },10);
+            
+
             switch (action) {
             
                 case 'buildVerseMenu':
@@ -114,6 +131,11 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '50vh';
             eid_myModalContent.classList.add('modalContentBottom');
             eid_bl_modalBottom.style.display = 'block';
+
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentBottom .wr_modcont').classList.add('mooved');
+            },10);
+
             switch (action) {
             
                 case 'buildVerseMenu':
@@ -143,6 +165,10 @@ function openModal(param = null, headerTitle = null, htmlTrans = null, action = 
             eid_myModal.style.paddingTop = '0vh';
             eid_myModalContent.classList.add('modalContentFull');
             eid_bl_modalFull.style.display = 'block';
+            
+            setTimeout(()=>{
+                eid_myModalContent.querySelector('.modalContentFull .wr_modcont').classList.add('mooved');
+            },10);
             
             switch (action) {
                 
@@ -1073,7 +1099,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
     makeArrVersesToCompare(iter_a, arr_p_id);
 
-    function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
+    async function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
         
         let base_ep = eid_trans1.dataset.base_ep;
 
@@ -1118,6 +1144,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 }
 
             }else{
+                
                 //console.log(`bookNumber '${bookNumber}' no existe en este trans '${el_trans.Translation}'.`);
 
                 iter_a++;
@@ -1175,7 +1202,6 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
             verse = verseNumber;
 
 
-
             if(modo_fetch_verses_compare == 'by_text'){
                 //console.log(`modo_fetch_verses_compare == 'by_text'`);
 
@@ -1203,24 +1229,15 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 obj_bible_files[Translation].Books[book].fileContent != ' '
                             ){
                                 //console.log(`--- --- starting from myPromise --- iter_a: ${iter_a}  --- Translation: ${Translation} `);
-                                
-                                // Registra el tiempo de inicio
-                                const tiempoInicio = new Date().getTime();
-                                //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                let myPromise_vc = new Promise(function(resolve, reject){
-                                    resolve('ok');
-                                });
+                                try {
 
-                                myPromise_vc
-                                .then((data) => {//data = ok
-                                    
+                                    // Registra el tiempo de inicio
+                                    const tiempoInicio = new Date().getTime();
+                                    //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
                                     //console.log(data);
 
-                                    let bookModule;
-                                    if(data == 'ok'){//siempre ok
-                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
-                                    }            
+                                    let bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                                 
                                     let nb = bookModule.split('<h4>');//делю файл на главы
                                     //console.log(nb);
@@ -1392,6 +1409,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                         }                                         
             
                                     }else{
+                                        
                                         //console.log(`1. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                                         let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                                         //alert(aviso_text);
@@ -1415,11 +1433,10 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                             buildVersesFromArr(arr_p_id, arr_verses_compare);
                                         }
                                     }
-                                })
-                                .catch(error => {
-                                    // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('2. error promesa en myPromise con obj_bible_files. error: '+error);
-                                });
+                                    
+                                } catch (error) {
+                                    console.error('2. error try-catch en makeArrVersesToCompare con obj_bible_files. error: ', error);
+                                }
 
                             }else{
                                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -1432,20 +1449,21 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 }//end - if(typeof obj_bible_files[Translation] != 'undefined')
                 
 
-                //si no existe objeto con Translation. hago fetch()
+                //si no existe objeto con Translation. hago await fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
-                    //console.log('--- vc --- no existe objeto con Translation. hago fetch()');
+                    //console.log('--- vc --- no existe objeto con Translation. hago await fetch()');
 
-                    //start de tiempo para calcular cuanto tarda
-                    const tiempoInicioFetch = new Date().getTime();
-                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
-
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
-
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
+                    try {
+                     
+                        //start de tiempo para calcular cuanto tarda
+                        const tiempoInicioFetch = new Date().getTime();
+                        //console.log('await fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+    
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; 
+                        
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
                         if(crear_objeto_obj_bible_files){
                             obj_bible_files[Translation].Books[book] = {
@@ -1603,6 +1621,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                             }
 
                         }else{
+                            
                             //console.log(`2. no existe chapter ${chapter} del book ${book} --- el_trans.Translation: ${el_trans.Translation} --- nb[chapter]: ${nb[chapter]} `);
                             let aviso_text = 'Текущий модуль Библии не содержит стихов для выбранной книги';
                             //alert(aviso_text);
@@ -1626,18 +1645,26 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                                 buildVersesFromArr(arr_p_id, arr_verses_compare);
                             }                            
                         }
-                    })
-                    .catch(error => { 
-                        //Código a realizar cuando se rechaza la promesa
-                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
-                    });                    
+
+
+
+
+
+
+
+
+
+
+                    } catch (error) {
+                        console.error('2. error try-catch en makeArrVersesToCompare con obj_bible_files. error: ', error);
+                    }
+
                 }//end - if(typeof obj_bible_files[Translation].Books[book] == 'undefined')
 
                 //console.log('despues de fetch --- abajo obj_bible_files:');
                 //console.log(obj_bible_files); 
 
             }//end - modo_fetch_verses_compare == 'by_text'
-
 
 
             if(modo_fetch_verses_compare == 'by_json'){
@@ -1650,7 +1677,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 let Translation = el_trans.Translation;//solo aqui
 
                 //url del libro necesario
-                url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
                 //console.log('1649. url: ', url);
 
                 //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
@@ -1665,15 +1692,14 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
                 if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
 
                 //console.log('formData: ',[...formData]);
-        
-                fetch('./php/read_file_to_json.php',{
-                    method: 'POST',
-                    body: formData
-                })
-                .then((response) => response.json())
-                //.then((response) => response.text())//test
-                .then((dataRead) => {
-        
+
+                try {
+
+                    const response = await fetch('./php/read_file_to_json.php',{
+                        method: 'POST',
+                        body: formData
+                    });
+                    const dataRead = await response.json();
                     //console.log(dataRead);
 
                     arr_verses_compare[iter_a].ChapterQty = dataRead.chapterData.ChapterQty;
@@ -1799,14 +1825,12 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
                         buildVersesFromArr(arr_p_id, arr_verses_compare);
                     }
-        
-                })
-                .catch(error => {
-                    console.error('Error fetch versesCompare. error: ', error);
-                });
+                    
+                } catch (error) {
+                    console.error('Error try-catch versesCompare. error: ', error);
+                }
 
             }//end - modo_fetch_verses_compare == 'by_json'
-
 
 
         }
@@ -2790,29 +2814,39 @@ function showHistoryNav(){
         m_hist_nav_porcentaje.textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shn';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sp_ref_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shn';       
             p.onclick = () => {
                 onclick_p_nav(el);
                 closeModal(null,true);
                 showTab(eid_btn_nav,'nav');
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistNav - i}</span>
-                            ${el.BibleShortName}
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_ref_hist_el_ref">${el.ref}</span>
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
@@ -2830,17 +2864,26 @@ function showHistoryNav(){
 
 function showHistoryFind(){
     eid_bl_modalFullInner.innerHTML = '';
+
     let totalHistFind = arr_hist_find.length;
     let m_hist_find_porcentaje = document.getElementById('m_hist_find_porcentaje');
     if(m_hist_find_porcentaje != null){
         m_hist_find_porcentaje.textContent = `${totalHistFind}/${arr_hist_find_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shf';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_words_hist'          //(el texto de busqueda)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
+
 
     if(arr_hist_find.length > 0){
         arr_hist_find.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shf';       
             p.onclick = () => {
                 onclick_p_find(el);
                 closeModal(null,true);
@@ -2849,19 +2892,11 @@ function showHistoryFind(){
                 }
                 showTab(eid_btn_find,'find');
             }
-            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-            //                    <span class="wr_fecha_hora">
-            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-            //                    </span>
-            //                </span>
-            //                <span class="sp_words_hist">${el.words}</span>
-            //`;
             p.innerHTML = ` <span class="sam_mk_head">
                                 <span class="sp_trans_hist">
                                     <span class="sp_ref">
                                         <span class="sp_f">${totalHistFind - i}</span>
-                                        ${el.BibleShortName}
+                                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                                     </span>                                    
                                     <span class="wr_fecha_hora">
                                         <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
@@ -2883,35 +2918,44 @@ function showHistoryFind(){
 
 function showHistoryStrong(){
     eid_bl_modalFullInner.innerHTML = '';
+
     let totalHistStrong = arr_hist_strong.length;
     let m_hist_strong_porcentaje = document.getElementById('m_hist_strong_porcentaje');
     if(m_hist_strong_porcentaje != null){
         m_hist_strong_porcentaje.textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.shs';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_f_strong_lang',     //idioma de Strong (hebreo o griego)
+        '.sp_strong_index',      //index de Strong (código)
+        '.sp_w_t'                //(el texto de traducción de la palabra Strong)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     if(arr_hist_strong.length > 0){
         arr_hist_strong.forEach((el,i)=>{
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer shs';       
             p.onclick = () => {
                 onclick_p_strong(el);
                 closeModal(null,true);
                 showTab(eid_btn_strong,'strong');           
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistStrong - i}</span>
-                            ${el.strongLang}
+                            <span class="sp_f_strong_lang">${el.strongLang}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_strong_index">${el.strongIndex}</span>
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
@@ -2938,11 +2982,23 @@ function showMarkers(){
         m_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
     }
 
+    const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.smks';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sam_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
+
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
             
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer smks';       
 
             const sam_mk_head = document.createElement('span');
             sam_mk_head.className = 'sam_mk_head';
@@ -2950,11 +3006,14 @@ function showMarkers(){
                 <span class="sp_trans_hist">
                     <span class="sp_ref">
                         <span class="sp_f">${totalMarkers - i}</span>
-                        ${el.BibleShortName}
+                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                     </span> 
                     <span class="sp_fecha_hist">${el.fecha}</span>
                 </span>
-                <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sp_ref_hist">
+                    <span class="sp_ref_hist_el_ref">${el.ref}</span>
+                    <span class="sp_hora_hist">${el.hora}</span>
+                </span>
             `;
             sam_mk_head.onclick = () => {
                 onclick_p_marker(el);
@@ -3074,6 +3133,13 @@ function showMarkers(){
 function closeModal(modal_head_text = null, click_fuera_o_x = false) {
     let actual_h4_text = eid_myModal.querySelector('#h4_text').textContent;
     //console.log('actual_h4_text: ',actual_h4_text);
+    
+    const ecl_mooved = document.querySelector('.mooved');
+
+    if(ecl_mooved){
+        let classList_new = Array.from(ecl_mooved.classList).filter(el => el != 'mooved');
+        ecl_mooved.className = classList_new.join(' ');
+    }
 
     if(modal_head_text == actual_h4_text || click_fuera_o_x){
         //console.log(`[if]. el titulo es igual. ${modal_head_text} == ${actual_h4_text}. o click_fuera_o_x -> Cierro modal.`);
@@ -3100,7 +3166,7 @@ window.onclick = function(event) {
 
 
 
-function verseGo(dir, obj_to_send_string){
+async function verseGo(dir, obj_to_send_string){
     
     let this_json = JSON.parse(obj_to_send_string);
 
@@ -3190,25 +3256,24 @@ function verseGo(dir, obj_to_send_string){
             formData.append('book', prev_book);
             formData.append('chapter', prev_chapter);
 
-            fetch('./php/read_file_get_VerseQty_to_json.php',{
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                
+            try {
+
+                const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
                 prev_verse = data.VerseQty;
                 //console.log('15047. verse: ',verse);
 
                 if(prev_verse > 0){
                     openModal('full', 'Сравнение переводов', [trans_ref, prev_book, prev_chapter, prev_verse], 'compareVerse', false);// modalFadeIn = false
                 }
-
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('VerseQty. error promesa: '+error);
-            });
+                
+            } catch (error) {
+                console.error('VerseQty. error try-catch. error: ', error);
+            }
 
         }else{
             prev_verse = verse - 1;
@@ -3218,6 +3283,7 @@ function verseGo(dir, obj_to_send_string){
         }
 
     }
+
 }
 
 

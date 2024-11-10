@@ -306,6 +306,7 @@ function readAllFile(url){
 //getGuard();//al cargar la web para mostrar
 
 function getGuard(){
+    
     fetch('guard_file.json')
     .then(response => response.json())
     .then(data=>{
@@ -364,6 +365,7 @@ function guardVkl(id_div, trans, ref, status){
 
 getVkl();
 function getVkl(){
+    
     fetch('guard_vkl.json')
     .then(response => response.json())
     .then(data=>{

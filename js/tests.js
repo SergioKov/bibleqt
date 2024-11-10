@@ -141,6 +141,7 @@ function ejecutarFetch(url, tipo_respuesta) {//tipo_respuesta: json(), text()
             console.error('Error de .then() de promesa fetchData(): ', error);
         });
 }
+
 async function fetchData(url, tipo_respuesta = null) { //tipo_respuesta: json(), text()
     try {
         const respuesta = await fetch(url);
@@ -195,7 +196,7 @@ async function ejecutarDatos8(){
 
 
 
-function getRefToCompare(ref){
+function getRefToCompare(ref){//NO SE USA !!!
     //console.log('=== function getRefToCompare(ref) ===');
     //console.log('ref: ',ref);
 
@@ -645,7 +646,7 @@ function getRefToCompare(ref){
 
 
 
-async function parseTextToArrRef(textRef, trans = null){
+async function parseTextToArrRef(textRef, trans = null){//NO SE USA !!!
     //console.log('=== function parseTextToArrRef(text) ===');
 
     let act_trans = eid_trans1.dataset.trans;
@@ -1054,46 +1055,6 @@ myButton.addEventListener('touchend', stopPressMob);
 
 
 
-//iniciarSession('Sergio',123);
-
-function old_iniciarSession(user, pass){//test
-    //console.log('=== function iniciarSession(user, pass) ===');
-
-    let formData = new FormData();
-    formData.append('user',user);
-    formData.append('pass',pass);
-
-    fetch('./php/test_session_start.php',{
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        
-        //console.log(data);
-
-    })
-    .catch(error => {
-        console.error('error fetch ', error);
-    });
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1314,128 +1275,12 @@ function llamar_alert1(ev, f_number){
 }
 
 
-function makeCommentsLinks(idCol){
-    //console.log('idCol: ', idCol);
-
-    const los_f_all = document.getElementById(idCol).querySelectorAll('f');
-    //console.log('los_f_all: ', los_f_all);
-
-    Array.from(los_f_all).forEach(el=>{    
-        //console.log(el);
-        let marker = el.innerText;
-        //console.log('marker: ', marker);
-
-        let f_number = el.innerText.replace('[','').replace(']','');
-        //console.log('f_number: ', f_number);
-
-        let p_id = el.parentNode.parentNode.id;
-        let a_ref = el.parentNode.parentNode.querySelector('a').innerText;
-        let arr_p_id = p_id.split('__');
-        let trans = arr_p_id[0];
-        let book = arr_p_id[1]; 
-        let chapter = arr_p_id[2];
-        let verse = arr_p_id[3];
-        //console.log('arr_p_id: ', arr_p_id);
- 
-        //el.removeEventListener('click', llamar_alert1); 
-        //el.addEventListener('click', llamar_alert1);
-
-        //nuevo elemento
-        let wr_tooltip = buildWrTooltipComm(marker,' ',p_id,a_ref); 
-        //console.log(wr_tooltip.outerHTML);        
-
-        // Reemplazar el elemento existente con el nuevo elemento
-        el.replaceWith(wr_tooltip);
-    });
-}
-
-async function getCommentFromMB(url_comments,book,chapter,verse,marker){
-    //console.log('=== function getCommentFromMB() ===');
-
-    //console.log('url_comments: ', url_comments);
-    //console.log('book: ', book);
-    //console.log('chapter: ', chapter);
-    //console.log('verse: ', verse);
-    //console.log('marker: ', marker);
-
-    try {
-        
-        // Realiza una solicitud GET a una API
-        const respuesta = await fetch(url_comments);
-
-        // Verifica si la solicitud fue exitosa
-        if (!respuesta.ok) {
-            throw new Error('Error al obtener datos de la API');
-        }
-
-        // Convierte la respuesta a formato JSON
-        const datos = await respuesta.json();
-
-        // Haz algo con los datos, por ejemplo, imprímelos en la consola
-        //console.log(datos);
-
-        let this_comm = datos.find(v => {
-            return (
-                v.book_number === book &&
-                (v.chapter_number_from === chapter || v.chapter_number_to === chapter) &&
-                (v.verse_number_from === verse || v.verse_number_to === verse) &&
-                v.marker === marker
-            );
-        });
-        //console.log('this_comm: ');
-        //console.log(this_comm);
-
-        // Puedes realizar más acciones aquí con los datos obtenidos
-        return this_comm;
-
-    } catch (error) {
-        console.error('Error: ', error);
-    }
-}
 
 
-async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','mb_to_bq'
-    try {
-        book_index = Number(book_index);
-        //console.log('book_index: ', book_index);
-        //console.log('direction: ', direction);
-        
-        let url_BibleIndex = `./modules/json/BibleIndex.json`;        
-        
-        // Realiza una solicitud GET a una API
-        const respuesta = await fetch(url_BibleIndex);
 
-        // Verifica si la solicitud fue exitosa
-        if (!respuesta.ok) {
-            throw new Error('Error al obtener datos de la API');
-        }
 
-        // Convierte la respuesta a formato JSON
-        const datos = await respuesta.json();
 
-        // Haz algo con los datos, por ejemplo, imprímelos en la consola
-        //console.log(url_BibleIndex);
-        //console.log(datos);
-        
-        let this_book,book_number_converted;
-        if(direction == 'bq_to_mb'){
-            this_book = datos.find(v => v.book_number_bq === book_index);
-            book_number_converted = this_book.book_number_mb;
-        }else if(direction == 'mb_to_bq'){
-            this_book = datos.find(v => v.book_number_mb === book_index);
-            book_number_converted = this_book.book_number_bq;
-        }
-        //console.log('this_book: ');
-        //console.log(this_book);
-        //console.log('book_number_converted: ',book_number_converted);
 
-        // Puedes realizar más acciones aquí con los datos obtenidos
-        return book_number_converted;
-
-    } catch (error) {
-        console.error('Error: ', error);
-    }
-}
 
 //setTimeout(()=>{
 //    alert('pasados 5 seg. hago redirect desde test.js a index.php');
@@ -1511,11 +1356,12 @@ var arrText = [];
 let url = 'https://bolls.life/static/translations/UMT.json';
 //makeBibleTextFromJson(url);
 
-function makeBibleTextFromJson(url){
+async function makeBibleTextFromJson(url){
 
-    fetchDataToJson(url)
-    .then((data) => {
+    try {
 
+        const response = await fetch(url);
+        const data = await response.json();
         //console.log(' abajo data:');
         //console.log(data);
 
@@ -1567,12 +1413,12 @@ function makeBibleTextFromJson(url){
         //console.log(arrBooks);
 
         //console.log('abajo arrText: ');
-        //console.log(arrText);   
-       
-    })
-    .catch(error => { 
-        console.error('data. error promesa: '+error);
-    });
+        //console.log(arrText); 
+        
+    } catch (error) {
+        console.error('data. error try-catch. error: ', error);
+    }
+
 }
 
 
@@ -1725,10 +1571,12 @@ function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65)
 
 
 
-function generarImgSrc(nombreCarpeta, n_start, n_end){
+async function generarImgSrc(nombreCarpeta, n_start, n_end){//NO SE USA!!! ES PARA GENERAR HTML DE IMAGENES PARA MODULE 'EG_IMG' 
+    
     let ruta = 'modules/text/eg_img';
     let text_head = `<h2></h2>\n<h4>1</h4><p>1 \n`;
     let text = '';
+    
     if(n_end < n_start){
         let n_min = n_end;
         let n_max = n_start;
@@ -1748,22 +1596,26 @@ function generarImgSrc(nombreCarpeta, n_start, n_end){
         }
         let ruta_file = `${ruta}/${nombreCarpeta}/${i_text}.jpg`;
         text += `<img src="${ruta_file}"/>\n`;
+        
+        try {
 
-        const url = ruta_file;
+            let url = ruta_file;
 
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    //console.log('El fichero existe.');
-                } else if (response.status === 404) {
-                    //console.error(`El fichero "${url}" no existe.`);//lo comento ya que la consola devuelve (Not found) y se vem sin este aviso
-                } else {
-                    console.error('Error al comprobar el fichero: ' + response.statusText);
-                }
-            })
-            .catch(error => {
-                console.error('Error al intentar acceder al fichero:', error);
-            });
+            const response = await fetch(url);
+            
+            if (response.ok) {
+                //console.log('El fichero existe.');
+            } else if (response.status === 404) {
+                //console.error(`El fichero "${url}" no existe.`);//lo comento ya que la consola devuelve (Not found) y se ve sin este aviso
+            } else {
+                console.error('Error al comprobar el fichero: ' + response.statusText);
+            }
+            
+            //const data =>  //NO HACE FALTA YA QUE NO QUIERO VER LAS IMAGENES, QUIERO SABER SI EXISTE Y YA ESTÁ!!!
+            
+        } catch (error) {
+            console.error(`Error al intentar acceder al fichero con la ruta '${url}'. error: `, error);
+        }
     }
     console.log(text_head + text);
 }
