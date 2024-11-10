@@ -32,7 +32,7 @@ window.addEventListener('resize',function(d){
 function addListenerToPA(){
     setTimeout(()=>{
         //console.log('=== function addListenerToPA()');       
-       document.querySelectorAll('.colsInner').forEach(event =>{ 
+       document.querySelectorAll('.tab_block_active .colsInner').forEach(event =>{ 
             event.removeEventListener("click", handlerListenColsInnerAClick);
             event.addEventListener('click', handlerListenColsInnerAClick);    
         });
@@ -72,7 +72,7 @@ function addListenerToPATsk(){//no se llama en ninguna parte
 function addListenerToScrollLeft(){//para controlar el scroll a la izda o derecha de la IMGx2
     //console.log('=== function addListenerToScrollLeft()');
     //console.log(`inicial scrollLeftVal: ${scrollLeftVal}`);
-    let colsInnerAll = document.querySelectorAll('.colsInner'); 
+    let colsInnerAll = document.querySelectorAll('.tab_block_active .colsInner'); 
     colsInnerAll.forEach((el,i)=>{
         el.removeEventListener('scroll', myListenerScrollLeft);
         el.addEventListener('scroll', myListenerScrollLeft.bind(null,el,i));
@@ -104,7 +104,7 @@ function myListenerScrollLeft(el,i,event){
 
 function doScrollAllImg(scrollLeftVal){
     //console.log('=== function doScrollAllImg() ===');
-    let colsInnerAll = document.querySelectorAll('.colsInner');
+    let colsInnerAll = document.querySelectorAll('.tab_block_active .colsInner');
     //console.log(`doScrollAllImg() --- scrollLeftVal: ${scrollLeftVal}`);    
     colsInnerAll.forEach(el=>{
         //console.log(el);

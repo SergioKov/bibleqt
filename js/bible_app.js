@@ -2070,7 +2070,7 @@ function reset_scroll_in_other_cols(i){
     //console.log(`=== function reset_scroll_in_other_cols(${i}) ===`);        
     
     //desabilito scroll en otros colsInner - test
-    Array.from(document.querySelectorAll('.colsInner')).forEach((el_col, i_col, arr_col) => {
+    Array.from(document.querySelectorAll('.tab_block_active .colsInner')).forEach((el_col, i_col, arr_col) => {
         //console.log(`-------en scroll_in_colsInner(el,${i}) -------------------- arr_col[${i_col}]`);        
         if(i_col != i){
             arr_col[i_col].onscroll = false;
@@ -2093,7 +2093,7 @@ function scroll_in_colsInner(el,i){
     let h = el.scrollTop;
     //console.log('el.scrollTop (h): ',h);
 
-    let colsInnerAll = document.querySelectorAll('.colsInner');
+    let colsInnerAll = document.querySelectorAll('.tab_block_active .colsInner');
     let prev_scrollTop;
 
     reset_scroll_in_other_cols(i);//IMPORTANTE!!!
@@ -6527,7 +6527,7 @@ async function viaByText_showChapterText4(Translation, divId, book, chapter, ver
                                             //console.log('no hay to_verseNumber. reviso verseNumber');
                                             //only one verse of each translation
                                             if(verseNumber !== null && verseNumber != ""){
-                                                document.querySelectorAll('[data-verse="'+verseNumber+'"]').forEach(el=>{
+                                                document.querySelectorAll('.tab_block_active [data-verse="'+verseNumber+'"]').forEach(el=>{
                                                     el.classList.add('active_one');
                                                 });
                                             }
@@ -6556,7 +6556,7 @@ async function viaByText_showChapterText4(Translation, divId, book, chapter, ver
                                             //console.log('no hay to_verseNumber. reviso verseNumber');
                                             //only one verse of each translation
                                             if(verseNumber !== null && verseNumber != ""){
-                                                document.querySelectorAll('.colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
+                                                document.querySelectorAll('.tab_block_active .colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
                                                     el.classList.add('active_one');
                                                 });
                                             }
@@ -7767,7 +7767,7 @@ async function viaByText_showChapterText4(Translation, divId, book, chapter, ver
                                 //console.log('no hay to_verseNumber. reviso verseNumber');
                                 //only one verse of each translation
                                 if(verseNumber !== null && verseNumber != ""){
-                                    document.querySelectorAll('.colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
+                                    document.querySelectorAll('.tab_block_active .colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
                                         el.classList.add('active_one');
                                     });
                                 }
@@ -9024,7 +9024,7 @@ async function viaByText_showChapterText4(Translation, divId, book, chapter, ver
                                 //console.log('no hay to_verseNumber. reviso verseNumber');
                                 //only one verse of each translation
                                 if(verseNumber !== null && verseNumber != ""){
-                                    document.querySelectorAll('.colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
+                                    document.querySelectorAll('.tab_block_active .colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
                                         el.classList.add('active_one');
                                     });
                                 }
@@ -10371,7 +10371,7 @@ async function viaByJson_showChapterText4(Translation, divId, book, chapter, ver
                         //console.log('no hay to_verseNumber. reviso verseNumber');
                         //only one verse of each translation
                         if(verseNumber !== null && verseNumber != ""){
-                            document.querySelectorAll('.colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
+                            document.querySelectorAll('.tab_block_active .colsInner [data-verse="'+verseNumber+'"]').forEach(el=>{
                                 el.classList.add('active_one');
                             });
                         }
@@ -11363,7 +11363,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
     if(typeof thisDiv.dataset.trans == 'undefined'){//es trans que se añade
         
         let arr_trans_real = [];
-        document.querySelectorAll('.cols .colsHead').forEach(el=>{
+        document.querySelectorAll('.tab_block_active .cols .colsHead').forEach(el=>{
             if(typeof el.dataset.trans !== 'undefined'){
                 //console.log(el.dataset.trans);
                 arr_trans_real.push(el.dataset.trans);
@@ -11385,7 +11385,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         let new_trans_obj = arrFavTransObj.find(v => v.Translation === trans);
 
         let arr_trans_real = [];
-        document.querySelectorAll('.cols .colsHead').forEach(el=>{
+        document.querySelectorAll('.tab_block_active .cols .colsHead').forEach(el=>{
             if(typeof el.dataset.trans !== 'undefined'){
                 //console.log(el.dataset.trans);
                 arr_trans_real.push(el.dataset.trans);
@@ -11395,7 +11395,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         //console.log('str_trans_real: ',str_trans_real);        
         
         let new_index;
-        document.querySelectorAll('.cols .colsHead').forEach((el,i,arr)=>{
+        document.querySelectorAll('.tab_block_active .cols .colsHead').forEach((el,i,arr)=>{
             if(arr[i] == thisDiv){
                 new_index = i;
             }
@@ -11411,7 +11411,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
         tabActive.dataset.str_trans = arr_str_trans.join(', ');
         tabActive.title = arr_title.join(', ');
         //si es col base (el primero a la izda) actualizo nombre de la Biblia en tab (vkladki) 
-        if(thisDiv.id == 'trans1'){
+        if(thisDiv.id.endsWith('_trans1')){
             tabActive.querySelector('.tab_trans_name').textContent = new_trans_obj.BibleShortName;
         }
 
@@ -11492,7 +11492,7 @@ function changeModule2(thisDiv, trans, BibleShortName, EnglishPsalms) {
 
     let arr_error_compare = [];
     let arr_cols_empty = [];
-    document.querySelectorAll('.colsInner').forEach(el => {
+    document.querySelectorAll('.tab_block_active .colsInner').forEach(el => {
         if (el.innerHTML.includes('prim_error_compare')) {
             arr_error_compare.push(1);
         }
@@ -13515,7 +13515,7 @@ function selChapter(e, show_chapter = null){
 }
 
 
-function updateRefInTabActive(trans,ref){
+function updateRefInTabActive(trans, ref){
     document.querySelector('.tab_active').dataset.ref_trans = trans;
     document.querySelector('.tab_active .tab_ref').textContent = ref;
 }
@@ -21629,7 +21629,7 @@ function putRefVisibleToHead(id_ref, startingFromIndexCol = 0){//id_ref: rv60__0
 
 
 function pageUp() {    
-    let colsAll = document.querySelectorAll('.colsInner');
+    let colsAll = document.querySelectorAll('.tab_block_active .colsInner');
 
     let modo = 'new';//1 vez y solo 1 vez y solo del colsAll[0]
     //let modo = 'old';//con forEach y solo 1 vez con colsAll[0]
@@ -21908,7 +21908,7 @@ function pageUp() {
 
 
 function pageDown() {
-    let colsAll = document.querySelectorAll('.colsInner'); 
+    let colsAll = document.querySelectorAll('.tab_block_active .colsInner'); 
 
     colsAll.forEach(el => {
         
@@ -21998,7 +21998,7 @@ function pageDown() {
 
 function getFirstPVisibleAndPutInVkladka(){
     
-    let colsInnerAll = document.querySelectorAll('.colsInner');
+    let colsInnerAll = document.querySelectorAll('.tab_block_active .colsInner');
     colsInnerAll.forEach((el_colsInner, i_colsInner) => {
         
         let el_colsInner_rect = el_colsInner.getBoundingClientRect();
