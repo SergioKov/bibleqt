@@ -1,0 +1,14 @@
+{
+    "id_tema": "1",
+    "titulo": "Default - Fondo Opera - Inicio3",
+    "slides": [
+        {
+            "slide_number": "1",
+            "bg": "fondo_opera.jpg"
+        },
+        {
+            "slide_number": "2",
+            "bg": "fondo_opera_fin.jpg"
+        }
+    ]
+}

@@ -7,7 +7,7 @@
 
 
 
-function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
+async function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null){
     //console.log('=== function getStrongNumberVersion2() ===');
     
     let numberInt, numberStrShow, strongFile;
@@ -57,25 +57,16 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     //si existe objeto con Translation. Saco datos del objeto
     if(typeof obj_strong_files[strongLang] != 'undefined'){
         if(obj_strong_files[strongLang].fileName != 'undefined'){
+            
             if( obj_strong_files[strongLang].fileName == strongFile && 
                 obj_strong_files[strongLang].fileContent != '' && 
                 obj_strong_files[strongLang].fileContent != ' '
             ){
                 //console.log(' --- typeof obj_strong_files[strongLang] EXISTE --- saco datos del objeto guardado ');
        
-                let myPromise_strong = new Promise(function(resolve, reject){
-                    resolve('ok');
-                });
-
-                myPromise_strong
-                .then((data) => {
-
-                    //console.log(data);
-
-                    let strong;
-                    if(data == 'ok'){//siempre es ok
-                        strong = obj_strong_files[strongLang].fileContent;
-                    }
+                try {
+                   
+                    let strong = obj_strong_files[strongLang].fileContent;
             
                     let obj_strong = strong.find(v => v.t === numberStr); 
                     //console.log('abajo obj_strong: ');
@@ -332,12 +323,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                             });    
                         });
                     }
-                    mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-                })
-                .catch(error => { 
-                    // Código a realizar cuando se rechaza la promesa
-                    console.error('error promesa strong2: '+error);
-                });        
+
+                    mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head                    
+
+                } catch (error) {
+                    console.error('error try-catch strong2: ', error);
+                }        
         
             }else{
                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -346,14 +337,17 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
     }
 
     if(typeof obj_strong_files[strongLang] == 'undefined'){
-        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago fetch() ');
+        //console.log(' --- typeof obj_strong_files[strongLang] == undefined --- hago await fetch() ');
         
-        fetch(`./modules/text/strongs/${strongFile}`)
-        .then((response) => response.json())
-        .then((strong) => {
+        try {
+
+            let url = `./modules/text/strongs/${strongFile}`;
+
+            const response = await fetch(url);
+            const strong = await response.json();
             //console.log(strong);
 
-            //añado info al objeto con los datos obtenidos por fetch()
+            //añado info al objeto con los datos obtenidos por await fetch()
             obj_strong_files[strongLang] = {'fileName': strongFile, 'fileContent': strong};
             //console.log('abajo obj_strong_files:');
             //console.log(obj_strong_files);
@@ -615,12 +609,12 @@ function getStrongNumberVersion2(numberStr, lang = null, paramfirstLetter = null
                     });    
                 });
             }
+
             mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa strong2: '+error);
-        });
+            
+        } catch (error) {
+            console.error('error try-catch strong2: ', error);
+        }
 
     }
 
@@ -912,8 +906,6 @@ const countElementsInArray = arr => {
 }
 
 
-
-
 function pushStateHome(){
 
     // Obtener la base URL
@@ -1026,29 +1018,39 @@ function buildHistoryNavDesktop(){
     let totalHistNav = arr_hist_nav.length;
     eid_hist_nav_regs.querySelector('.t_regs').textContent = 'Registros';
     eid_hist_nav_regs.querySelector('.f_r').textContent = `${totalHistNav}/${arr_hist_nav_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_nav_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhnd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sp_ref_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
     
     if(arr_hist_nav.length > 0){
         arr_hist_nav.forEach((el,i)=>{
                
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer bhnd';       
             p.onclick = () => {
                 onclick_p_nav(el);
             }
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.BibleShortName} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
             p.innerHTML = `
                 <span class="sam_mk_head">
                     <span class="sp_trans_hist">
                         <span class="sp_ref">
                             <span class="sp_f">${totalHistNav - i}</span>
-                            ${el.BibleShortName}
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                         </span> 
                         <span class="sp_fecha_hist">${el.fecha}</span>
                     </span>
-                    <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_ref_hist_el_ref">${el.ref}</span> 
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
                 </span>
             `;
             if(typeof el.verseText !== 'undefined' && el.verseText !== null && el.verseText !== ''){
@@ -1153,12 +1155,276 @@ function onclick_p_nav(el){
 
 
 
+async function addWordsToHistFind(trans, words, count_verses, count_matches){
+    //console.log('=== async function addWordsToHistFind() ===');
+
+    if(arr_hist_find.length == 0){
+        await obtenerDatosDeBD('hist_find','arr_hist_find');
+        //console.log(arr_hist_find);
+    }
+
+    //console.log('trans: ', trans);
+    //console.log('words: ', words);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    //console.log("Fecha actual: " + fechaFormateada);
+    
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    //console.log("Hora actual: " + horaActual);
+
+    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
+
+    let itemHist = {
+        'trans': trans, 
+        'BibleShortName': esteTrans.BibleShortName, 
+        'words': words,
+        'count_verses': count_verses,
+        'count_matches': count_matches,
+        'params': {
+            'gde_val'  : eid_gde.value, 
+            'limit_val': eid_limit.value,
+            'cbox1_checked': eid_cbox1.checked,
+            'cbox2_checked': eid_cbox2.checked,
+            'cbox3_checked': eid_cbox3.checked,
+            'cbox4_checked': eid_cbox4.checked,
+            'cbox5_checked': eid_cbox5.checked,
+            'cbox6_checked': eid_cbox6.checked,
+            'cbox7_checked': eid_cbox7.checked             
+        },
+        'fecha': fechaFormateada, 
+        'hora': horaActual
+    };
+
+    //meto item si es primer index o si no se repite trans y words
+    if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
+        arr_hist_find.unshift(itemHist);
+        //console.log('meto item. arr_hist_find: ', arr_hist_find);
+        if(arr_hist_find.length > arr_hist_find_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_find.splice(arr_hist_find_limit); 
+        }
+        if(hay_sesion && arr_hist_find_is_loaded){
+            guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
+        }
+    }else{
+        //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
+    }
+
+    buildHistoryFindDesktop();
+}
+
+function buildHistoryFindDesktop(){
+    eid_wr_hist_find_inner.innerHTML = '';
+    
+    let totalHistFind = arr_hist_find.length;
+    eid_hist_find_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_find_regs.querySelector('.f_r').textContent = `${totalHistFind}/${arr_hist_find_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_find_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhfd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_words_hist'          //(el texto de busqueda)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
+
+    if(arr_hist_find.length > 0){
+        arr_hist_find.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.className = 'p_pointer bhfd';
+            p.onclick = () => {
+                onclick_p_find(el);
+            }
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistFind - i}</span>
+                            <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
+                        </span> 
+                        <span class="wr_fecha_hora">
+                            <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
+                            <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
+                        </span>
+                    </span>
+                </span>
+                <span class="sp_words_hist">${el.words}</span>
+            `;                            
+            eid_wr_hist_find_inner.append(p);
+
+        });        
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории поиска.</span>';
+        eid_wr_hist_find_inner.append(p);
+    }
+
+}
+
+function onclick_p_find(el){
+    eid_inpt_nav.dataset.trans = el.trans;
+    eid_inpt_find.value = el.words;
+
+    eid_gde.value = el.params.gde_val;
+    eid_limit.value = el.params.limit_val;
+    eid_cbox1.checked = el.params.cbox1_checked;
+    eid_cbox2.checked = el.params.cbox2_checked;
+    eid_cbox3.checked = el.params.cbox3_checked;
+    eid_cbox4.checked = el.params.cbox4_checked;
+    eid_cbox5.checked = el.params.cbox5_checked;
+    eid_cbox6.checked = el.params.cbox6_checked;
+    eid_cbox7.checked = el.params.cbox7_checked;
+    
+    //console.log('llamo findWords()');
+    //findWords(el.words);
+    eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
+}
+
+async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
+    //console.log('=== const addStrongNumberToHistStrong ===');
+    
+    if(arr_hist_strong.length == 0){
+        await obtenerDatosDeBD('hist_strong','arr_hist_strong');
+        //console.log(arr_hist_strong);
+    }
+
+    //console.log('trans: ', trans);
+    //console.log('ref: ', ref);
+    
+    const fechaActual = new Date();
+    //const horas = fechaActual.getHours();
+    //const minutos = fechaActual.getMinutes();
+    //const segundos = fechaActual.getSeconds();
+    //const horas_minutos = horas + ':'+minutos;
+
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    //console.log("Fecha actual: " + fechaFormateada);
+
+    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    //console.log("Hora actual: " + horaActual);
+
+    let strongWord = '';
+    let strongTranslation = '';
+    if(strongTextWordsShow != ''){
+        if(strongLang == 'greek'){
+            let arr = strongTextWordsShow.split('</el> <br/>')
+            strongWord = arr[0] + '</el>';
+            strongTranslation = arr[1];    
+        }else{//hebrew
+            let arr = strongTextWordsShow.split('</he> <br/>')
+            strongWord = arr[0] + '</he>';
+            strongTranslation = arr[1];    
+        }
+    }
 
 
+    let itemHist = { 
+        'strongLang': toTitleCase(strongLang), 
+        'strongIndex': strongIndex, 
+        'strongWord': strongWord, 
+        'strongTranslation': strongTranslation, 
+        'fecha': fechaFormateada, 
+        'hora': horaActual 
+    };
+
+    if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
+        arr_hist_strong.unshift(itemHist);
+        //console.log('arr_hist_strong: ', arr_hist_strong);
+        if(arr_hist_strong.length > arr_hist_strong_limit) {//100
+            // Elimina elementos a partir del índice 100 hasta el final del array
+            arr_hist_strong.splice(arr_hist_strong_limit); 
+        }
+        if(hay_sesion && arr_hist_strong_is_loaded){
+            guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
+        }
+    }else{
+        //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
+    }
+    
+    buildHistoryStrongDesktop();
+}
+
+function buildHistoryStrongDesktop(){
+    eid_wr_hist_strong_inner.innerHTML = '';
+    
+    let totalHistStrong = arr_hist_strong.length;
+    eid_hist_strong_regs.querySelector('.t_regs').textContent = 'Registros';
+    eid_hist_strong_regs.querySelector('.f_r').textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
+
+    const div_donde_filtrar = eid_wr_hist_strong_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bhsd';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_f_strong_lang',     //idioma de Strong (hebreo o griego)
+        '.sp_strong_index',      //index de Strong (código)
+        '.sp_w_t'                //(el texto de traducción de la palabra Strong)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);    
 
 
+    if(arr_hist_strong.length > 0){
+        arr_hist_strong.forEach((el,i)=>{
+            
+            const p = document.createElement('p');
+            p.className = 'p_pointer bhsd';
+            p.onclick = () => {
+                onclick_p_strong(el);            
+            }
+            p.innerHTML = `
+                <span class="sam_mk_head">
+                    <span class="sp_trans_hist">
+                        <span class="sp_ref">
+                            <span class="sp_f">${totalHistStrong - i}</span>
+                            <span class="sp_f_strong_lang">${el.strongLang}</span>
+                        </span> 
+                        <span class="sp_fecha_hist">${el.fecha}</span>
+                    </span>
+                    <span class="sp_ref_hist">
+                        <span class="sp_strong_index">${el.strongIndex}</span> 
+                        <span class="sp_hora_hist">${el.hora}</span>
+                    </span>
+                </span>
+            `;
+            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
+                p.innerHTML += `
+                    <span class="sp_ref_hist">${el.strongWord}</span>
+                    <span class="sp_w_t">${el.strongTranslation}</span>
+                `;
+            }
 
+            eid_wr_hist_strong_inner.append(p);
 
+        });    
+    }else{
+        const p = document.createElement('p');
+        p.innerHTML = '<span class="prim">Нет записей в истории номеров Стронга.</span>';
+        eid_wr_hist_strong_inner.append(p);
+    }
+}
+
+function onclick_p_strong(el){
+
+    eid_inpt_strong.value = el.strongIndex;
+    //console.log('llamo getStrongNumber()...');
+    getStrongNumber(el.strongIndex);
+
+    eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
+    //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
+}
 
 async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
     //console.log('=== async function addRefToMarker() ===');
@@ -1226,14 +1492,27 @@ async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse 
 
 function buildMarkersDesktop(){
     eid_wr_markers_inner.innerHTML = '';
+    
     let totalMarkers = arr_markers.length;
     eid_markers_porcentaje.textContent = `${totalMarkers}/${arr_markers_limit}`;
+
+    const div_donde_filtrar = eid_wr_markers_inner;//el elemento donde colocar el input del filtro
+    const selector_items = '.p_pointer.bmks';//CLASES JUNTOS!. los elementos que se ocultarán si no cumplen con el filtro
+    const arr_spans = [
+        '.sp_ref_bib_short_name', //RST+r (nombre de traducción)
+        '.sp_fecha_hist',         //31/10/2024 (fecha)
+        '.sp_ref_hist_el_ref',    //Pr.22:4 (referencia)
+        //'.sp_ref_hist',         //12:19:51 (hora de añadir)
+        '.sam_text'               //(el texto de versículo)
+    ];//se buscará texto en cada elemento de estos span's
+    crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+
     
     if(arr_markers.length > 0){
         arr_markers.forEach((el,i)=>{
                
             const p = document.createElement('p');
-            p.className = 'p_pointer';       
+            p.className = 'p_pointer bmks';       
 
             const sam_mk_head = document.createElement('span');
             sam_mk_head.className = 'sam_mk_head';
@@ -1241,11 +1520,14 @@ function buildMarkersDesktop(){
                 <span class="sp_trans_hist">
                     <span class="sp_ref">
                         <span class="sp_f">${totalMarkers - i}</span>
-                        ${el.BibleShortName}
+                        <span class="sp_ref_bib_short_name">${el.BibleShortName}</span>
                     </span> 
                     <span class="sp_fecha_hist">${el.fecha}</span>
                 </span>
-                <span class="sp_ref_hist">${el.ref} <span class="sp_hora_hist">${el.hora}</span></span>
+                <span class="sp_ref_hist">
+                    <span class="sp_ref_hist_el_ref">${el.ref}</span> 
+                    <span class="sp_hora_hist">${el.hora}</span>
+                </span>
             `;
             sam_mk_head.onclick = () => {
                 onclick_p_marker(el);
@@ -1493,282 +1775,6 @@ function onclick_p_marker(el){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-async function addWordsToHistFind(trans, words, count_verses, count_matches){
-    //console.log('=== async function addWordsToHistFind() ===');
-
-    if(arr_hist_find.length == 0){
-        await obtenerDatosDeBD('hist_find','arr_hist_find');
-        //console.log(arr_hist_find);
-    }
-
-    //console.log('trans: ', trans);
-    //console.log('words: ', words);
-    
-    const fechaActual = new Date();
-    //const horas = fechaActual.getHours();
-    //const minutos = fechaActual.getMinutes();
-    //const segundos = fechaActual.getSeconds();
-    //const horas_minutos = horas + ':'+minutos;
-
-    const fechaFormateada = fechaActual.toLocaleDateString();
-    //console.log("Fecha actual: " + fechaFormateada);
-    
-    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
-    //console.log("Hora actual: " + horaActual);
-
-    let esteTrans = arrFavTransObj.find(v => v.Translation === trans);
-
-    let itemHist = {
-        'trans': trans, 
-        'BibleShortName': esteTrans.BibleShortName, 
-        'words': words,
-        'count_verses': count_verses,
-        'count_matches': count_matches,
-        'params': {
-            'gde_val'  : eid_gde.value, 
-            'limit_val': eid_limit.value,
-            'cbox1_checked': eid_cbox1.checked,
-            'cbox2_checked': eid_cbox2.checked,
-            'cbox3_checked': eid_cbox3.checked,
-            'cbox4_checked': eid_cbox4.checked,
-            'cbox5_checked': eid_cbox5.checked,
-            'cbox6_checked': eid_cbox6.checked,
-            'cbox7_checked': eid_cbox7.checked             
-        },
-        'fecha': fechaFormateada, 
-        'hora': horaActual
-    };
-
-    //meto item si es primer index o si no se repite trans y words
-    if(arr_hist_find.length == 0 || (arr_hist_find.length > 0 && (trans != arr_hist_find[0].trans || words != arr_hist_find[0].words )) ){
-        arr_hist_find.unshift(itemHist);
-        //console.log('meto item. arr_hist_find: ', arr_hist_find);
-        if(arr_hist_find.length > arr_hist_find_limit) {//100
-            // Elimina elementos a partir del índice 100 hasta el final del array
-            arr_hist_find.splice(arr_hist_find_limit); 
-        }
-        if(hay_sesion && arr_hist_find_is_loaded){
-            guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
-        }
-    }else{
-        //console.log('este trans y words se repitan. no meto item en el arr_hist_find...');
-    }
-
-    buildHistoryFindDesktop();
-}
-
-function buildHistoryFindDesktop(){
-    eid_wr_hist_find_inner.innerHTML = '';
-    
-    let totalHistFind = arr_hist_find.length;
-    eid_hist_find_regs.querySelector('.t_regs').textContent = 'Registros';
-    eid_hist_find_regs.querySelector('.f_r').textContent = `${totalHistFind}/${arr_hist_find_limit}`;
-
-    if(arr_hist_find.length > 0){
-        arr_hist_find.forEach((el,i)=>{
-            
-            const p = document.createElement('p');
-            p.className = 'p_pointer';
-            p.onclick = () => {
-                onclick_p_find(el);
-            }
-            //p.innerHTML = ` <span class="sp_trans_hist">${el.BibleShortName} 
-            //                    <span class="wr_fecha_hora">
-            //                        <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-            //                        <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-            //                    </span>
-            //                </span>
-            //`;
-            p.innerHTML = `
-                <span class="sam_mk_head">
-                    <span class="sp_trans_hist">
-                        <span class="sp_ref">
-                            <span class="sp_f">${totalHistFind - i}</span>
-                            ${el.BibleShortName}
-                        </span> 
-                        <span class="wr_fecha_hora">
-                            <span class="sp_fecha_hist">Совпадений: ${el.count_matches}</span>
-                            <span class="sp_hora_hist">Стихов: ${el.count_verses}</span>
-                        </span>
-                    </span>
-                </span>
-                <span class="sp_words_hist">${el.words}</span>
-            `;                            
-            eid_wr_hist_find_inner.append(p);
-
-        });        
-    }else{
-        const p = document.createElement('p');
-        p.innerHTML = '<span class="prim">Нет записей в истории поиска.</span>';
-        eid_wr_hist_find_inner.append(p);
-    }
-
-}
-
-
-function onclick_p_find(el){
-    eid_inpt_nav.dataset.trans = el.trans;
-    eid_inpt_find.value = el.words;
-
-    eid_gde.value = el.params.gde_val;
-    eid_limit.value = el.params.limit_val;
-    eid_cbox1.checked = el.params.cbox1_checked;
-    eid_cbox2.checked = el.params.cbox2_checked;
-    eid_cbox3.checked = el.params.cbox3_checked;
-    eid_cbox4.checked = el.params.cbox4_checked;
-    eid_cbox5.checked = el.params.cbox5_checked;
-    eid_cbox6.checked = el.params.cbox6_checked;
-    eid_cbox7.checked = el.params.cbox7_checked;
-    
-    //console.log('llamo findWords()');
-    //findWords(el.words);
-    eid_wr_hist_find_inner.scrollTop = 0;//scroll al inicio de div
-}
-
-async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
-    //console.log('=== const addStrongNumberToHistStrong ===');
-    
-    if(arr_hist_strong.length == 0){
-        await obtenerDatosDeBD('hist_strong','arr_hist_strong');
-        //console.log(arr_hist_strong);
-    }
-
-    //console.log('trans: ', trans);
-    //console.log('ref: ', ref);
-    
-    const fechaActual = new Date();
-    //const horas = fechaActual.getHours();
-    //const minutos = fechaActual.getMinutes();
-    //const segundos = fechaActual.getSeconds();
-    //const horas_minutos = horas + ':'+minutos;
-
-    const fechaFormateada = fechaActual.toLocaleDateString();
-    //console.log("Fecha actual: " + fechaFormateada);
-
-    const horaActual = fechaActual.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
-    //console.log("Hora actual: " + horaActual);
-
-    let strongWord = '';
-    let strongTranslation = '';
-    if(strongTextWordsShow != ''){
-        if(strongLang == 'greek'){
-            let arr = strongTextWordsShow.split('</el> <br/>')
-            strongWord = arr[0] + '</el>';
-            strongTranslation = arr[1];    
-        }else{//hebrew
-            let arr = strongTextWordsShow.split('</he> <br/>')
-            strongWord = arr[0] + '</he>';
-            strongTranslation = arr[1];    
-        }
-    }
-
-
-    let itemHist = { 
-        'strongLang': toTitleCase(strongLang), 
-        'strongIndex': strongIndex, 
-        'strongWord': strongWord, 
-        'strongTranslation': strongTranslation, 
-        'fecha': fechaFormateada, 
-        'hora': horaActual 
-    };
-
-    if(arr_hist_strong.length == 0 || (arr_hist_strong.length > 0 && strongIndex != arr_hist_strong[0].strongIndex) ){
-        arr_hist_strong.unshift(itemHist);
-        //console.log('arr_hist_strong: ', arr_hist_strong);
-        if(arr_hist_strong.length > arr_hist_strong_limit) {//100
-            // Elimina elementos a partir del índice 100 hasta el final del array
-            arr_hist_strong.splice(arr_hist_strong_limit); 
-        }
-        if(hay_sesion && arr_hist_strong_is_loaded){
-            guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
-        }
-    }else{
-        //console.log('este strongIndex es el primer index en el array. no meto item en el arr_hist_strong...');
-    }
-    
-    buildHistoryStrongDesktop();
-}
-
-function buildHistoryStrongDesktop(){
-    eid_wr_hist_strong_inner.innerHTML = '';
-    
-    let totalHistStrong = arr_hist_strong.length;
-    eid_hist_strong_regs.querySelector('.t_regs').textContent = 'Registros';
-    eid_hist_strong_regs.querySelector('.f_r').textContent = `${totalHistStrong}/${arr_hist_strong_limit}`;
-
-    if(arr_hist_strong.length > 0){
-        arr_hist_strong.forEach((el,i)=>{
-            
-            const p = document.createElement('p');
-            p.className = 'p_pointer';
-            p.onclick = () => {
-                onclick_p_strong(el);            
-            }
-
-            //p.innerHTML = `
-            //    <span class="sp_trans_hist">${el.strongLang} <span class="sp_fecha_hist">${el.fecha}</span></span>
-            //    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-            //`;
-            p.innerHTML = `
-                <span class="sam_mk_head">
-                    <span class="sp_trans_hist">
-                        <span class="sp_ref">
-                            <span class="sp_f">${totalHistStrong - i}</span>
-                            ${el.strongLang}
-                        </span> 
-                        <span class="sp_fecha_hist">${el.fecha}</span>
-                    </span>
-                    <span class="sp_ref_hist">${el.strongIndex} <span class="sp_hora_hist">${el.hora}</span></span>
-                </span>
-            `;
-            if(typeof el.strongWord !== 'undefined' && typeof el.strongTranslation !== 'undefined'){
-                p.innerHTML += `
-                    <span class="sp_ref_hist">${el.strongWord}</span>
-                    <span class="sp_w_t">${el.strongTranslation}</span>
-                `;
-            }
-
-            eid_wr_hist_strong_inner.append(p);
-
-        });    
-    }else{
-        const p = document.createElement('p');
-        p.innerHTML = '<span class="prim">Нет записей в истории номеров Стронга.</span>';
-        eid_wr_hist_strong_inner.append(p);
-    }
-}
-
-
-function onclick_p_strong(el){
-
-    eid_inpt_strong.value = el.strongIndex;
-    //console.log('llamo getStrongNumber()...');
-    getStrongNumber(el.strongIndex);
-
-    eid_wr_hist_strong_inner.scrollTop = 0;//scroll al inicio de div
-    //si es mobile, no ciero el menu ya que no hay que mostrar verse automatico
-}
-
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -1801,15 +1807,6 @@ function scrollToVkladkaActive(){
         document.querySelector('.tab_active').scrollIntoView();
     }    
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1940,4 +1937,337 @@ function reemplazarValores(frase, valores) {
 
 function showHelp(text){
     openModal('center','Help',text,'showAviso');
+}
+
+
+
+
+
+
+
+function changeFindTab(ev,this_id){
+    //console.log(ev);
+        
+    const this_find_tab = document.getElementById(this_id);
+    let i_tab = this_id.slice(8);//'find_tab1' quito 6 posiciones => '1'    
+    let findTabsAll = document.querySelectorAll('.find_tabs');
+    
+    findTabsAll.forEach(el=>{
+        el.classList.remove('find_tab_active');
+    });
+    if(this_find_tab != null) this_find_tab.classList.add('find_tab_active');
+    
+    scrollToFindTabActive();
+    
+    let findResBlocksAll = document.querySelectorAll('.find_res_blocks');
+    findResBlocksAll.forEach(el=>{
+        let i_res_block = el.id.slice(14);//'find_res_block1' quito 14 posiciones => '1'
+        if(i_tab == i_res_block){
+            el.style.display = 'block';
+            el.classList.add('find_res_block_active');
+        }else{
+            el.style.display = 'none';
+            el.classList.remove('find_res_block_active');
+        }
+    });
+
+    mySizeFind();//altura de eid_find_body
+}
+
+function scrollToFindTabActive(){
+    //console.log('=== function scrollToVkladkaActive() ===');
+    //hago scroll a vkladka activa
+    if(document.querySelector('.find_tab_active') != null){
+        document.querySelector('.find_tab_active').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+        });
+    }    
+}
+
+function closeFindTab(button, event){       
+    //console.log('=== function closeFindTab(button, event) ===');
+    //console.log('Botón clicado:', button);
+
+    if(event != null) event.stopPropagation();//Evita que el evento se propague al 'div'
+
+    //permito eliminar una tab si hay mas que 1
+    //siempre tiene que estar al menos una tab
+    let find_tabsAll = document.querySelectorAll('.find_tabs');
+    let find_res_blocksAll = document.querySelectorAll('.find_res_blocks');
+
+    if(find_tabsAll.length > 1){
+        
+        //busco index de el tab active en arrTabs
+        let index_active = Array.from(find_tabsAll).indexOf(Array.from(find_tabsAll).find(v => v.className === 'find_tabs find_tab_active'));
+        let index_active_new = 0;//por defecto
+        //console.log('index_active: ',index_active);
+
+        if(index_active > 0){
+            index_active_new = index_active - 1;//prev
+        }else{//index_active = 0
+            index_active_new = index_active + 1;//next
+        }
+
+        if(button.parentElement.classList.contains('find_tab_active')){            
+            let id_new = find_tabsAll[index_active_new].id;
+            //console.log('id_new: ',id_new);
+            let eid_findTabActive_new = document.getElementById(id_new);
+            eid_findTabActive_new.classList.add('find_tab_active');
+            //console.log('eid_findTabActive_new: ',eid_findTabActive_new);
+
+            let id_block_new = find_res_blocksAll[index_active_new].id;
+            //console.log('id_block_new: ',id_block_new);
+            let eid_findResBlockActive_new = document.getElementById(id_block_new);
+            eid_findResBlockActive_new.classList.add('find_res_block_active');
+            eid_findResBlockActive_new.style.display = 'block';            
+            //console.log('eid_findResBlockActive_new: ',eid_findResBlockActive_new);
+        }
+
+        button.parentElement.remove();
+        let index_del = Number(button.parentElement.id.slice(8));
+        const find_res_block_del = document.getElementById(`find_res_block${index_del}`);
+        //console.log('find_res_block_del: ',find_res_block_del);
+        find_res_block_del.remove();
+        mySizeFind();        
+    }else{
+        let aviso_text = `No se puede eliminar la única pestaña.`;
+        openModal('center','Aviso Pestañas',aviso_text,'showAviso');
+    }
+}
+
+function addFindTab(act = null, tab_new = null){
+    //console.log('=== function addTab() ===');
+    
+    let find_tabsAll = document.querySelectorAll('.find_tabs');
+    let countTabs = find_tabsAll.length;
+    //console.log(countTabs);
+    let maxTabs = 10;
+
+    let arr_n = [];
+    find_tabsAll.forEach(el => {
+        let n = parseInt(el.id.slice(8));//find_tab10 => 10
+        arr_n.push(n); 
+    });
+    //console.log(arr_n);
+
+    let next_n = 0;//por defecto
+    for(let i = 0; i <= maxTabs; i++){
+        if(!arr_n.includes(i)){
+            next_n = i;
+            break;
+        }
+    }
+
+    if(countTabs < maxTabs){
+        const htmlFindTab = document.createElement("div");
+        htmlFindTab.id = 'find_tab' + next_n;//id="find_tab0"
+        htmlFindTab.className = 'find_tabs';
+        htmlFindTab.onclick = (event) =>{
+            //console.log('1. event: ', event);
+            changeFindTab(event, event.currentTarget.id);
+        };
+        if(act != null) htmlFindTab.classList.add('find_tab_active');
+        
+        if(tab_new == 'tab_new'){
+            let find_tabsAll = document.querySelectorAll('.find_tabs');
+            find_tabsAll.forEach(el=>{
+                el.classList.remove('find_tab_active');
+            });
+            htmlFindTab.classList.add('find_tab_active');
+        }
+
+        //a todos los find_tabs añado botón close x
+        btn_close = document.createElement('button');
+        btn_close.className = 'btn btn_sm';
+        btn_close.dataset.fn = 'closeFindTab(this,event)';
+        btn_close.onclick = (event) => {
+            //console.log(event);
+            closeFindTab(event.currentTarget,event);
+        }
+        btn_close.innerHTML = '&#10005;';//<!--X-->
+
+        //ejemplo htmlFindTab
+        //`<div id="find_tab0" class="find_tabs find_tab_active" onclick="changeFindTab(this,this.id)">
+        //    <span class="find_tab_trans_name">...</span>
+        //    <span class="find_tab_frase">0...</span> 
+        //    <span class="find_tab_estrella d-none">*</span> 
+        //    <button class="btn btn_sm" onclick="closeFindTab(this, event)">✕</button>
+        //</div>
+        //`;
+
+        const find_tab_trans_name = document.createElement('span');
+        find_tab_trans_name.className = 'find_tab_trans_name';
+        find_tab_trans_name.innerText = next_n + 1;
+
+        const find_tab_frase = document.createElement('span');
+        find_tab_frase.className = 'find_tab_frase';
+        find_tab_frase.innerText = '...';
+
+        const find_tab_estrella = document.createElement('span');
+        find_tab_estrella.className = 'find_tab_estrella d-none';
+        find_tab_estrella.innerText = '*';
+
+        htmlFindTab.appendChild(find_tab_trans_name);
+        htmlFindTab.appendChild(find_tab_frase);
+        htmlFindTab.appendChild(find_tab_estrella);
+        htmlFindTab.appendChild(btn_close);
+
+        eid_partFindTabs.appendChild(htmlFindTab);
+
+        //Ejemplo htmlFindResBlock
+        //<div id="find_res_block2" class="find_res_blocks" style="display:none;">
+        //    2...
+        //</div>
+
+        const htmlFindResBlock = document.createElement("div");
+        htmlFindResBlock.id = 'find_res_block' + next_n;//id="find_res_block10"
+        htmlFindResBlock.className = 'find_res_blocks';
+        htmlFindResBlock.style.display = 'block';
+        htmlFindResBlock.innerHTML = `
+            <span class="prim_tsk" data-dic="d138">
+            ${next_n + 1}) Aquí se mostrará el resultado de la búsqueda de la pestaña <b>${next_n + 1}</b>.
+            </span>
+        `;
+        
+        eid_wr_find_res_blocks.appendChild(htmlFindResBlock);
+
+        if(tab_new == 'tab_new'){
+            let find_res_blocksAll = document.querySelectorAll('.find_res_blocks');
+            find_res_blocksAll.forEach(el=>{
+                el.classList.remove('find_res_block_active');
+                el.style.display = 'none';
+            });
+            htmlFindResBlock.classList.add('find_res_block_active');
+            htmlFindResBlock.style.display = 'block';
+        }
+
+
+        let find_tabsAll = document.querySelectorAll('.find_tabs');
+        // Itera a través de los hijos y verifica si alguno tiene la clase 'active'
+        for(let i = 0; i < find_tabsAll.length; i++) {
+            if (find_tabsAll[i].classList.contains('find_tab_active')) {
+                scrollToFindTabActive();
+                break; // Si se encuentra un hijo con la clase 'active', puedes salir del bucle
+                //console.log('tiene active');
+            }
+        }
+
+        mySizeFind(); 
+
+    }else{
+        let aviso_text = `No se puede añadir más que <b>${maxTabs}</b> pestañas.`;
+        openModal('center','Aviso Pestañas',aviso_text,'showAviso');
+    }
+}
+
+// filtrar datos en listas de párrafos
+function filtrarLista(el_input, selector_items, arr_spans) {
+    // Obtén el valor del input y conviértelo a minúsculas.
+    let filter = el_input.value.toLowerCase();
+    //console.log('filter: ', filter);
+
+    // Obtén todos los elementos 'li' o 'cl_trans' de la lista, donde buscar
+    let items = document.querySelectorAll(selector_items);//son los 'p' donde está el texto
+    //console.log('items: ', items);
+    //console.log('arr_spans: ', arr_spans);
+
+    let count_f_result = 0;
+
+    // Recorre todos los elementos 'li' de la lista.
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        //console.log('an item: ', item);
+
+        let matchFound = false;
+
+        // Recorre los spans dentro del 'li'
+        for (let j = 0; j < arr_spans.length; j++) {
+            // let spanText = spans[j].textContent.toLowerCase();//antes
+            let span_buscado = item.querySelector(arr_spans[j]);
+            if(span_buscado == null){
+                continue;
+            }
+            //console.log(span_buscado);
+            
+            let spanText = span_buscado.textContent.toLowerCase();
+            //console.log('spanText: ', spanText);
+
+            // Si alguno de los span contiene el valor del filtro, muestra el 'li'.
+            if (spanText.includes(filter)) {
+                matchFound = true;
+                //console.log(`[IF] - OK - el texto '${filter}' se ha encontrado en el span_buscado: `, span_buscado);
+                break; // Si se encuentra una coincidencia, no es necesario revisar más spans.
+            }else{
+                //console.log(`[ELSE] --- el texto '${filter}' NO se ha encontrado en el span_buscado: `, span_buscado);
+            }
+        }
+
+        // Si se encontró una coincidencia, muestra el 'li', de lo contrario, ocúltalo.
+        if (matchFound) {
+            count_f_result++;
+            item.classList.remove("hidden");
+        } else {
+            item.classList.add("hidden");
+        }
+    }//end for
+
+    const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+    ecl_filter_result.style.display = 'block';    
+    const ecl_f_num = ecl_filter_result.querySelector('.f_num');
+    ecl_f_num.textContent = count_f_result;
+
+}
+
+
+function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
+   
+    const p = document.createElement('p');
+    p.className = 'wr_input_filter';
+
+    const wr_filter = document.createElement('span');
+    wr_filter.className = 'wr_filter';
+
+    const el_input = document.createElement('input');
+    el_input.id = 'filter_modules';
+    el_input.className = 'inpt_filter';
+    el_input.placeholder = 'Filtrar';
+    el_input.onkeyup = ()=>{
+        //console.log('keyup. el_input.value: ', el_input.value);     
+        filtrarLista(el_input, selector_items, arr_spans);
+    };
+
+    const sp_x = document.createElement('span');
+    sp_x.className = 'sp_x';
+    sp_x.innerHTML = '&#10005;';//es cruz 'X'
+    sp_x.onclick = (e)=>{
+        //console.log(e.target);
+
+        const el_input = e.target.parentElement.querySelector('input');
+        el_input.value = '';//reset campo de input
+
+        const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+        ecl_filter_result.style.display = 'none';    
+        const ecl_f_num = ecl_filter_result.querySelector('.f_num');
+        ecl_f_num.textContent = '...';//reset
+
+        document.querySelectorAll(selector_items).forEach(item=>{
+            if(item.classList.contains('hidden')){
+                item.classList.remove('hidden');
+            }
+        });
+    }
+    
+    const filter_result = document.createElement('span');
+    filter_result.className = 'filter_result';
+    filter_result.innerHTML = `Filtrado: <span class="f_num f_r">...</span>`;
+    filter_result.style.display = 'none';//por defecto , luego al buscar se muestra
+
+    p.append(wr_filter);
+    wr_filter.append(el_input);
+    wr_filter.append(sp_x);
+    wr_filter.append(filter_result);
+
+    div_donde_filtrar.append(p);
 }

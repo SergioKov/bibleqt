@@ -137,14 +137,14 @@ function pintLoginImg(hay_sesion){
     eid_m_login_menu.querySelector('img').src = ruta_img_login;
 }
 
-async function fetchDataToText(url_bq) {
-    const response = await fetch(url_bq);
+async function fetchDataToText(url) {
+    const response = await fetch(url);
     const data = await response.text();
     return data;
 }
 
-async function fetchDataToJson(url_bq) {
-    const response = await fetch(url_bq);
+async function fetchDataToJson(url) {
+    const response = await fetch(url);
     const data = await response.json();
     return data;
 }
@@ -161,7 +161,7 @@ function make_arrFavTransObj_old(arrFavTrans){
         //console.log(el);
 
         //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;
+        let url_bq = `./modules/text/${el}/bibleqt.json`;
         //console.log(url_bq);
 
         fetchDataToJson(url_bq)
@@ -198,7 +198,7 @@ async function make_arrFavTransObj(arrFavTrans){
             //console.log(i);
 
             //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${el}/bibleqt.json`;
+            let url_bq = `./modules/text/${el}/bibleqt.json`;
             //console.log(url_bq);
 
             const bq = await fetchDataToJson(url_bq);
@@ -215,39 +215,6 @@ async function make_arrFavTransObj(arrFavTrans){
         // Código a realizar cuando se rechaza la promesa
         console.error('make_arrFavTransObj. error: ',error);
     }
-}
-
-function make_arrFavTskObj_old(){
-    let arrTsk = [
-        "tsk"
-        //"tsk_gromov",
-        //"tsk_otro",
-    ];
-
-    let arrTskObj = [];
-
-    for (let i = 0; i < arrTsk.length; i++) {
-        const el = arrTsk[i];
-        //console.log(i);
-        //console.log(el);
-
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;
-        //console.log(url_bq);
-
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-            arrTskObj[i] = bq;
-            //console.log(arrTskObj);
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('make_arrFavTskObj_old. error promesa: '+error);
-        });        
-    }
-
-    return arrTskObj;
 }
 
 async function make_arrFavTskObj(){
@@ -269,7 +236,7 @@ async function make_arrFavTskObj(){
             //console.log(i);
     
             //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${el}/bibleqt.json`;
+            let url_bq = `./modules/text/${el}/bibleqt.json`;
             //console.log(url_bq);
     
             const bq = await fetchDataToJson(url_bq);
@@ -316,7 +283,7 @@ async function iniciarSesion(){//antes login() //username,password
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes iniciar sesión. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes iniciar sesión. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -400,12 +367,12 @@ async function iniciarSesion(){//antes login() //username,password
                 //loadDefaultFunctions();//no trae todos los datos, hay que reload!
                 setTimeout(()=>{
                     closeModal('Login');
-                },3000);
+                },10);
                 setTimeout(()=>{
                     //localStorage.setItem('is_reloaded_from_login', true);
                     //window.location.reload(); // Recargar la página
                     window.location.href = "?auth_ok";
-                },3500);                
+                },510);                
 
             } else {
                 
@@ -520,7 +487,7 @@ async function crearCuenta(){
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
             let aviso_text = `<span>${obj_lang.d315}</span>`;//Si no aceptas cookies no puedes crear una cuenta.
-            aviso_text += ` <a onclick="showBlobkCookies(); closeModal(null,true);">${obj_lang.d316}</a>.`;//Seleccionar Coockies
+            aviso_text += ` <a onclick="showBlockCookies(); closeModal(null,true);">${obj_lang.d316}</a>.`;//Seleccionar Coockies
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -598,7 +565,7 @@ async function crearCuenta(){
             let error_text;
             if(data.conn_error){
                 let text_conn_error = reemplazarValores(obj_lang.d238, [data.conn_error]);
-                console.log(text_conn_error);
+                console.error(text_conn_error);
                 error_text = reemplazarValores(obj_lang.d212, [username, text_conn_error ]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__" + (php) $conn->error
             }else{
                 error_text = reemplazarValores(obj_lang.d212, [username, obj_lang[data.dic_code]]);//"Hubo problemas al crear el usuario __VAR__. <br>__VAR__"
@@ -921,7 +888,7 @@ function loadAllFavBibleFiles(){
     let i_trans = 0;
     for_eachTrans(i_trans, arrFavTrans);
 
-    function for_eachTrans(i_trans, arrFavTrans){
+    async function for_eachTrans(i_trans, arrFavTrans){
         
         const el = arrFavTrans[i_trans];
         //console.log(`${i_trans} --- ${el}`);
@@ -930,14 +897,15 @@ function loadAllFavBibleFiles(){
 
         //si no existe objeto lo creo
         if(i_trans < arrFavTrans.length && (typeof obj_bible_files[el] == 'undefined' || countElementsInArray(obj_bible_files[el].Books) < this_trans.BookQty) ){
+            
+            try {
+                
+                //saco ajustes de este modulo en json
+                let url_bq = `./modules/text/${el}/bibleqt.json`;
+                //console.log(url_bq);
 
-            //saco ajustes de este modulo en json
-            let url_bq = `./modules/text/${el}/bibleqt.json`;
-            //console.log(url_bq);
-
-            fetchDataToJson(url_bq)
-            .then((data) => {            
-                                
+                const response = await fetch(url_bq);
+                const data = await response.json();
                 //console.log('data: ',data);
                 //console.log('data.Translation: ',data.Translation);
                 
@@ -950,7 +918,7 @@ function loadAllFavBibleFiles(){
                 let i_book = 0;
                 for_addFilesToModule(i_book, data);
 
-                function for_addFilesToModule(i_book, data){
+                async function for_addFilesToModule(i_book, data){
                     const el_book = data.Books[i_book];
 
                     if(typeof el_book == 'undefined'){
@@ -971,31 +939,32 @@ function loadAllFavBibleFiles(){
                     //si no hay el fichero '01_genesis.htm' en el objeto 'obj_bible_files', lo añado
                     if(typeof obj_bible_files[data.Translation].Books[i_book] == 'undefined'){
                         
-                        if(url_PathName.includes('no_disponible.htm')){
-                            //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
-                            i_book++;
-                            //console.log(`aumentado i_book: ${i_book}`);
-                            if(i_book == data.Books.length){
-                                //console.log('1. final  --- ');
-                                //console.log(`--- i_trans: ${i_trans} --- `);
-                                //console.log(`--- i_book: ${i_book} --- `);
-                                //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
-                                //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
-                                i_trans++;
-                                for_eachTrans(i_trans, arrFavTrans);
-                                return false;//importante para que no ejecute for_addFilesToModule(i_book, data);
-                            }else{
-                                //console.log(`else --- i_trans: ${i_trans} --- `);
-                                //console.log(`else --- i_book: ${i_book} --- `); 
-                                //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
-                            }
-                            for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
-                            return false;//importante
-                        }
-                        
-                        fetchDataToText(url_PathName)
-                        .then(dataBook => {
+                        try {
 
+                            if(url_PathName.includes('no_disponible.htm')){
+                                //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
+                                i_book++;
+                                //console.log(`aumentado i_book: ${i_book}`);
+                                if(i_book == data.Books.length){
+                                    //console.log('1. final  --- ');
+                                    //console.log(`--- i_trans: ${i_trans} --- `);
+                                    //console.log(`--- i_book: ${i_book} --- `);
+                                    //console.log(`--- arrFavTrans.length: ${arrFavTrans.length} --- `);
+                                    //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
+                                    i_trans++;
+                                    for_eachTrans(i_trans, arrFavTrans);
+                                    return false;//importante para que no ejecute for_addFilesToModule(i_book, data);
+                                }else{
+                                    //console.log(`else --- i_trans: ${i_trans} --- `);
+                                    //console.log(`else --- i_book: ${i_book} --- `); 
+                                    //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                                }
+                                for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
+                                return false;//importante
+                            }                        
+
+                            const response = await fetch(url_PathName);
+                            const dataBook = await response.text();
                             //console.log('dataBook: ',dataBook);
 
                             obj_bible_files[data.Translation].Books[i_book] = {
@@ -1033,11 +1002,10 @@ function loadAllFavBibleFiles(){
                                     openModal('center', obj_lang.d218, aviso_load, 'showAviso');//Aviso Módulos               
                                 }
                             }
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('loadAllFavBibleFiles(). error promesa: '+error);
-                        });                    
+                            
+                        } catch (error) {
+                            console.error('loadAllFavBibleFiles(). error try-catch. error: ',error);
+                        }
                         
                     }else{
                         i_book++;
@@ -1045,12 +1013,11 @@ function loadAllFavBibleFiles(){
                         for_addFilesToModule(i_book, data);//si i_book es ultimo elemento de arrFavTrans, no entrará aquí 
                     }
 
-                }//end
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('loadAllFavBibleFiles(). error promesa: '+error);
-            });            
+                }//end for_addFilesToModule()
+                
+            } catch (error) {
+                console.error('loadAllFavBibleFiles(). error try-catch. error: ', error);
+            }
 
         }else{
             if(i_trans < arrFavTrans.length){
@@ -1070,7 +1037,7 @@ function loadAllFavTskFiles(){
     if(arrFavTsk.length == Object.keys(obj_tsk_files).length){
         let tamanioMB = obtenerTamanioObjetoMB(obj_tsk_files);
         let aviso_load = obj_lang.d221;//`Todos los módulos TSK favoritos ya están cargados.`;
-        aviso_load += `<br><br>${obj_lang.d221}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
+        aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
         openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK
         return;
     }
@@ -1078,18 +1045,19 @@ function loadAllFavTskFiles(){
     let i_tsk = 0;
     for_eachTsk(i_tsk, arrFavTsk);
 
-    function for_eachTsk(i_tsk, arrFavTsk){
+    async function for_eachTsk(i_tsk, arrFavTsk){
         
         const el = arrFavTsk[i_tsk];
         //console.log(`${i_tsk} --- ${el}`);
+        
+        try {
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${el}/bibleqt.json`;//modules/text/tsk/bibleqt.json
-        //console.log(url_bq);
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${el}/bibleqt.json`;//modules/text/tsk/bibleqt.json
+            //console.log(url_bq);
 
-        fetchDataToJson(url_bq)
-        .then((data) => {            
-                            
+            const response = await fetch(url_bq);
+            const data = await response.json();
             //console.log('data: ',data);
             //console.log('data.Translation: ',data.Translation);//TSK
             
@@ -1102,7 +1070,7 @@ function loadAllFavTskFiles(){
             let i_book = 0;
             for_addFilesToTsk(i_book, data);
 
-            function for_addFilesToTsk(i_book, data){
+            async function for_addFilesToTsk(i_book, data){
                 const el_book = data.Books[i_book];
 
                 if(typeof el_book == 'undefined'){
@@ -1123,31 +1091,32 @@ function loadAllFavTskFiles(){
                 //si no hay el fichero '01_genesis.htm' en el objeto 'obj_tsk_files', lo añado
                 if(typeof obj_tsk_files[data.Translation].Books[i_book] == 'undefined'){
                      
-                    if(url_PathName.includes('no_disponible.htm')){
-                        //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
-                        i_book++;
-                        //console.log(`aumentado i_book: ${i_book}`);
-                        if(i_book == data.Books.length){
-                            //console.log('1. final  --- ');
-                            //console.log(`--- i_tsk: ${i_tsk} --- `);
-                            //console.log(`--- i_book: ${i_book} --- `);
-                            //console.log(`--- arrFavTsk.length: ${arrFavTsk.length} --- `);
-                            //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
-                            i_tsk++;
-                            for_eachTsk(i_tsk, arrFavTsk);
-                            return false;//importante para que no ejecute for_addFilesToTsk(i_book, data);
-                        }else{
-                            //console.log(`else --- i_tsk: ${i_tsk} --- `);
-                            //console.log(`else --- i_book: ${i_book} --- `); 
-                            //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                    try {
+                        
+                        if(url_PathName.includes('no_disponible.htm')){
+                            //console.log(`--- ${data.Translation} --- url_PathName '${url_PathName}' includes 'no_disponible.htm' `);        
+                            i_book++;
+                            //console.log(`aumentado i_book: ${i_book}`);
+                            if(i_book == data.Books.length){
+                                //console.log('1. final  --- ');
+                                //console.log(`--- i_tsk: ${i_tsk} --- `);
+                                //console.log(`--- i_book: ${i_book} --- `);
+                                //console.log(`--- arrFavTsk.length: ${arrFavTsk.length} --- `);
+                                //console.log(`--- data.Books.length: ${data.Books.length} --- `);                
+                                i_tsk++;
+                                for_eachTsk(i_tsk, arrFavTsk);
+                                return false;//importante para que no ejecute for_addFilesToTsk(i_book, data);
+                            }else{
+                                //console.log(`else --- i_tsk: ${i_tsk} --- `);
+                                //console.log(`else --- i_book: ${i_book} --- `); 
+                                //console.log(`else --- data.Books.length: ${data.Books.length} --- `);
+                            }
+                            for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
+                            return false;//importante
                         }
-                        for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
-                        return false;//importante
-                    }
-                    
-                    fetchDataToText(url_PathName)
-                    .then(dataBook => {
 
+                        const response = await fetch(url_PathName);
+                        const dataBook = await response.text();
                         //console.log('dataBook: ',dataBook);
 
                         obj_tsk_files[data.Translation].Books[i_book] = {
@@ -1184,11 +1153,10 @@ function loadAllFavTskFiles(){
                                 openModal('center', obj_lang.d222, aviso_load, 'showAviso');//Aviso TSK               
                             }
                         }
-                    })
-                    .catch(error => { 
-                        // Código a realizar cuando se rechaza la promesa
-                        console.error('loadAllFavTskFiles(). error promesa: '+error);
-                    });                    
+                        
+                    } catch (error) {
+                        console.error('loadAllFavTskFiles(). error try-catch. error: ', error);
+                    }
                     
                 }else{
                     i_book++;
@@ -1196,12 +1164,12 @@ function loadAllFavTskFiles(){
                     for_addFilesToTsk(i_book, data);//si i_book es ultimo elemento de arrFavTsk, no entrará aquí 
                 }
 
-            }//end
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('loadAllFavTskFiles(). error promesa: '+error);
-        });
+            }//end for_addFilesToTsk()
+            
+        } catch (error) {
+            console.error('loadAllFavTskFiles(). error try-catch. error: ', error);
+        }
+
     }
 }
 
@@ -1228,22 +1196,23 @@ function loadAllFavStrongFiles(){
         return;
     }
 
-    let i_strong = 0;
+    let i_strong = 0;    
     for_eachStrong(i_strong, arrFavStrongLangs);
 
-    function for_eachStrong(i_strong, arrFavStrongLangs){
+    async function for_eachStrong(i_strong, arrFavStrongLangs){
         
         const strongLang = arrFavStrongLangs[i_strong];//hebrew, greek
         const strongFile = arr_strongFiles[i_strong];//'hebrew_short.json', 'greek_short.json'
         //console.log(`${i_strong} --- ${strongLang} --- ${strongFile}`);
 
-        //saco ajustes de este modulo en json
-        let url_strong = `./modules/text/strongs/${strongFile}`;//modules/text/strongs/hebrew_short.json | greek_short.json
-        //console.log(url_strong);
+        try {
+        
+            //saco ajustes de este modulo en json
+            let url = `./modules/text/strongs/${strongFile}`;//modules/text/strongs/hebrew_short.json | greek_short.json
+            //console.log(url);
 
-        fetchDataToJson(url_strong)
-        .then((data) => {            
-                            
+            const response = await fetch(url);
+            const data = await response.json();
             //console.log('data: ',data);
             
             //si no existe objeto lo creo
@@ -1251,18 +1220,20 @@ function loadAllFavStrongFiles(){
                 obj_strong_files[strongLang] = {};
             }
 
-            //añado info al objeto con los datos obtenidos por fetch()
+            //añado info al objeto con los datos obtenidos por await fetch()
             obj_strong_files[strongLang] = {
                 fileName: strongFile, 
                 fileContent: data
             };
             //console.log('abajo obj_strong_files:');
             //console.log(obj_strong_files);
+
             let countStrongInObj = Object.keys(obj_strong_files).length;
             let eid_m_btn_loadAllFavStrongFiles = document.getElementById('m_btn_loadAllFavStrongFiles');
             eid_m_btn_loadAllFavStrongFiles.innerHTML = `${obj_lang.d163} (${countStrongInObj})`;//Strong
 
             i_strong++;
+
             if(i_strong < arrFavStrongLangs.length){
                 //console.log(`--- i_strong: ${i_strong}) --- `);
                 for_eachStrong(i_strong, arrFavStrongLangs);
@@ -1277,11 +1248,11 @@ function loadAllFavStrongFiles(){
                 aviso_load += `<br><br>${obj_lang.d217}: <span class="f_r">${tamanioMB}</span>`;//Tamaño
                 openModal('center', obj_lang.d225, aviso_load, 'showAviso');//Aviso Strong
             }
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('loadAllFavStrongFiles(). error promesa: '+error);
-        });
+
+        } catch (error) {
+            console.error('error en try-catch. loadAllFavStrongFiles(). error: ', error);
+        }
+
     }
 }
 
@@ -1805,6 +1776,128 @@ function buildWrTooltipComm(marker,text_Note,p_id,a_ref){
     return span_wr_tooltip;
 }
 
+
+async function getCommentFromMB(url_comments,book,chapter,verse,marker){
+    //console.log('=== function getCommentFromMB() ===');
+
+    //console.log('url_comments: ', url_comments);
+    //console.log('book: ', book);
+    //console.log('chapter: ', chapter);
+    //console.log('verse: ', verse);
+    //console.log('marker: ', marker);
+
+    try {
+        
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch(url_comments);
+
+        // Verifica si la solicitud fue exitosa
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener datos de la API');
+        }
+
+        // Convierte la respuesta a formato JSON
+        const datos = await respuesta.json();
+
+        // Haz algo con los datos, por ejemplo, imprímelos en la consola
+        //console.log(datos);
+
+        let this_comm = datos.find(v => {
+            return (
+                v.book_number === book &&
+                (v.chapter_number_from === chapter || v.chapter_number_to === chapter) &&
+                (v.verse_number_from === verse || v.verse_number_to === verse) &&
+                v.marker === marker
+            );
+        });
+        //console.log('this_comm: ');
+        //console.log(this_comm);
+
+        // Puedes realizar más acciones aquí con los datos obtenidos
+        return this_comm;
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
+async function convertBookIndex(book_index,direction){//direction: 'bq_to_mb','mb_to_bq'
+    try {
+        book_index = Number(book_index);
+        //console.log('book_index: ', book_index);
+        //console.log('direction: ', direction);
+        
+        let url_BibleIndex = `./modules/json/BibleIndex.json`;        
+        
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch(url_BibleIndex);
+
+        // Verifica si la solicitud fue exitosa
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener datos de la API');
+        }
+
+        // Convierte la respuesta a formato JSON
+        const datos = await respuesta.json();
+
+        // Haz algo con los datos, por ejemplo, imprímelos en la consola
+        //console.log(url_BibleIndex);
+        //console.log(datos);
+        
+        let this_book,book_number_converted;
+        if(direction == 'bq_to_mb'){
+            this_book = datos.find(v => v.book_number_bq === book_index);
+            book_number_converted = this_book.book_number_mb;
+        }else if(direction == 'mb_to_bq'){
+            this_book = datos.find(v => v.book_number_mb === book_index);
+            book_number_converted = this_book.book_number_bq;
+        }
+        //console.log('this_book: ');
+        //console.log(this_book);
+        //console.log('book_number_converted: ',book_number_converted);
+
+        // Puedes realizar más acciones aquí con los datos obtenidos
+        return book_number_converted;
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
+function makeCommentsLinks(idCol){
+    //console.log('idCol: ', idCol);
+
+    const los_f_all = document.getElementById(idCol).querySelectorAll('f');
+    //console.log('los_f_all: ', los_f_all);
+
+    Array.from(los_f_all).forEach(el=>{    
+        //console.log(el);
+        let marker = el.innerText;
+        //console.log('marker: ', marker);
+
+        let f_number = el.innerText.replace('[','').replace(']','');
+        //console.log('f_number: ', f_number);
+
+        let p_id = el.parentNode.parentNode.id;
+        let a_ref = el.parentNode.parentNode.querySelector('a').innerText;
+        let arr_p_id = p_id.split('__');
+        let trans = arr_p_id[0];
+        let book = arr_p_id[1]; 
+        let chapter = arr_p_id[2];
+        let verse = arr_p_id[3];
+        //console.log('arr_p_id: ', arr_p_id);
+ 
+        //el.removeEventListener('click', llamar_alert1); 
+        //el.addEventListener('click', llamar_alert1);
+
+        //nuevo elemento
+        let wr_tooltip = buildWrTooltipComm(marker,' ',p_id,a_ref); 
+        //console.log(wr_tooltip.outerHTML);        
+
+        // Reemplazar el elemento existente con el nuevo elemento
+        el.replaceWith(wr_tooltip);
+    });
+}
 
 function getArrSumLineH(){
     //console.log('getArrSumLineH()');
@@ -2345,15 +2438,17 @@ function scrollToVerseView(verseView, userBlock = 'start'){
 let isMouseDown = false;
 
 //start - Desktop (mouse)
-eid_vert_line.onmousedown = function() { isMouseDown = true  };
-eid_wrapper.onmousemove = function(e) { 
+eid_vert_line.onmousedown = () => {
+     isMouseDown = true;
+};
+eid_wrapper.onmousemove = (e) => { 
     if(isMouseDown) { 
         /* do drag things */ 
         eid_sidebar.removeAttribute('class');
         eid_sidebar.style.width = e.pageX - 3 + 'px';
     }
 };
-eid_vert_line.onmouseup = function() { 
+eid_vert_line.onmouseup = () => { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -2362,8 +2457,10 @@ eid_vert_line.onmouseup = function() {
 
 
 //start - Mobile (touch)
-eid_vert_line.ontouchstart = function() { isMouseDown = true  };
-eid_wrapper.ontouchmove = function(e) { 
+eid_vert_line.ontouchstart = () => {
+    isMouseDown = true; 
+};
+eid_wrapper.ontouchmove = (e) => { 
     if(isMouseDown) { 
         /* do drag things */ 
         eid_sidebar.removeAttribute('class');
@@ -2371,7 +2468,7 @@ eid_wrapper.ontouchmove = function(e) {
         //console.log('eid_wrapper.ontouchmove');
     }
 };
-eid_vert_line.ontouchend = function() { 
+eid_vert_line.ontouchend = () => { 
     isMouseDown = false;
     mySizeWindow();
     mySizeVerse();
@@ -2581,28 +2678,30 @@ function htmlEntities(str) {
     return String(str).replace(/&lt;/gi, '<').replace(/&gt;/gi, '>');// cambia '<' por '<' y '>' por '>'
 }
 
-function setBaseEnglishPsalms(){//no se usa en la app
-    let Translation = eid_trans1.dataset.trans;
+async function setBaseEnglishPsalms(){//NO SE USA EN LA APP!!!
+    
+    try {
+        let Translation = eid_trans1.dataset.trans;
+        let url = `./modules/text/${Translation}/bibleqt.json`;
 
-    fetch(`./modules/text/${Translation}/bibleqt.json`)
-    .then((response) => response.json())
-    .then((bq) => {
+        const response = await fetch(url);
+        const bq = await response.json();
+
         eid_trans1.dataset.base_ep = bq.EnglishPsalms;
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa: '+error);
-    });
+        
+    } catch (error) {
+        console.error('Error try-catch. Error: ', error);
+    }
 }
 
-async function setBaseEnglishPsalms2(){//no se usa en la app
+async function setBaseEnglishPsalms2(){//NO SE USA EN LA APP!!!
     try{
         let Translation = eid_trans1.dataset.trans;
+        let url = `./modules/text/${Translation}/bibleqt.json`;
 
-        const response = await fetch(`./modules/text/${Translation}/bibleqt.json`);// = fetch(...)
-        //console.log(response);
-        
+        const response = await fetch(url);// = fetch(...)
         const bq = await response.json();// = .then((response) => response.json())
+        //console.log(response);
         //console.log(bq);
 
         eid_trans1.dataset.base_ep = bq.EnglishPsalms;
@@ -2613,7 +2712,7 @@ async function setBaseEnglishPsalms2(){//no se usa en la app
 }
 
 
-function getTsk(e){
+async function getTsk(e){
     //console.log('=== function getTsk(e) ===');
     
     //console.log(e);
@@ -2680,6 +2779,7 @@ function getTsk(e){
 
     //modo new
     if(typeof tsk != 'undefined'){//en este caso: true
+        
         //console.log('tsk modo new. contador_llamada_tsk: '+contador_llamada_tsk);
 
         //si no existe objeto obj_tsk_files lo creo
@@ -2687,6 +2787,7 @@ function getTsk(e){
             obj_tsk_files[tskName] = {};
             obj_tsk_files[tskName].Books = [];
         }
+
 
         //si existe objeto con tskName. Saco datos del objeto
         if(typeof obj_tsk_files[tskName] != 'undefined'){
@@ -2697,19 +2798,11 @@ function getTsk(e){
                         obj_tsk_files[tskName].Books[book].fileContent != '' && 
                         obj_tsk_files[tskName].Books[book].fileContent != ' '
                     ){
-                        //console.log(`--- --- starting from myPromise --- : tskName: ${tskName} `);
-
-                        let myPromise_tsk = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
-
-                        myPromise_tsk
-                        .then((data) => {//data = ok
+                        
+                        try {
                             
-                            let tskModule;
-                            if(data == 'ok'){
-                                tskModule = obj_tsk_files[tskName].Books[book].fileContent;
-                            }
+                            //console.log(`--- --- starting from myPromise --- : tskName: ${tskName} `);
+                            let tskModule = obj_tsk_files[tskName].Books[book].fileContent;
                             //console.log('abajo tskModule: ');
                             //console.log(tskModule);
                             
@@ -2877,6 +2970,7 @@ function getTsk(e){
                                                     obj_bible_files[Translation].Books[bookNumber].fileContent != '' && 
                                                     obj_bible_files[Translation].Books[bookNumber].fileContent != ' '
                                                 ){
+                                                    
                                                     //console.log(`--- hay fichero para sacar texto de la Biblia: ${bq.Books[bookNumber].PathName}  --- Translation: ${Translation} `);
                                                     //console.log('obj_bible_files');
                                                     //console.log(obj_bible_files);
@@ -2904,7 +2998,6 @@ function getTsk(e){
                                                         //console.log(`3. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
                                                         //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
                                                         //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-
                 
                                                         let VerseTextFull = '';
                                                         let VerseText = '';
@@ -2944,6 +3037,7 @@ function getTsk(e){
                                                             }//end for
                 
                                                         }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
                                                             VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
                                                             //console.log(VerseTextFull);
                                                             
@@ -2952,6 +3046,7 @@ function getTsk(e){
                 
                                                             VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                             //console.log(VerseText);
+
                                                         }                
                 
                                                         const p = document.createElement('p');
@@ -3132,325 +3227,331 @@ function getTsk(e){
                                                         buildVersesTsk(arr_tsk_p, Translation);
                                                     }                
                                                
-                                                }else{
-                                                    //console.log(`1 --- (${el}) no hay fichero... hago fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
-
-                                                    //url del libro necesario
-                                                    url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
-                                                    fetch(url)
-                                                    .then((response) => response.text())
-                                                    .then((bookModule) => {
-
-                                                        //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
-                                                        //console.log(bookModule);
-
-
-                                                        if(crear_objeto_obj_bible_files){
-                                                            //si no existe objeto de ficheros de la Biblia, lo creo
-                                                            if(typeof obj_bible_files[Translation] == 'undefined'){
-                                                                obj_bible_files[Translation] = {};
-                                                                obj_bible_files[Translation].Books = [];
-                                                            }
-                                                            //si no existe este libro en el objeto con esta Translation. lo meto dentro
-                                                            if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
-                                                                if(bookModule != '' && bookModule != ' '){
-                                                                    obj_bible_files[Translation].Books[bookNumber] = {
-                                                                        'fileName': bq.Books[bookNumber].PathName, 
-                                                                        'fileContent': bookModule
-                                                                    };
-                                                                    //console.log('1. obj_bible_files');
-                                                                    //console.log(obj_bible_files);
-                                                                }                                                                
-                                                            }
-                                                        }
-                
-                                                        let nb = bookModule.split('<h4>');//делю файл на главы
-                                                        //console.log(nb);
+                                                }else{                                                    
+                                                    
+                                                    try {
                                                         
-                                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
-                                                        //console.log(nb);
+                                                        //console.log(`1 --- (${el}) no hay fichero... hago await fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
 
-                                                        let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
-                                                            ? nb[chapterNumber].split('<p>').length - 1 
-                                                            : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
-                                                        //console.log(` `);
-                                                        //console.log(` tb_iter: ${tb_iter}`);            
-                                                        //console.log(`4. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
-
+                                                        //url del libro necesario
+                                                        let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
                                                         
-                                                        //si el capitulo indicado existe en el modulo -> todo bien
-                                                        if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
-                                                            //console.log(`4. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
-                                                            //console.log(`4. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
-                                                            //console.log(`4. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        fetchInner4(url);
+                                                        async function fetchInner4(url){
+                                                            
+                                                            const response = await fetch(url);
+                                                            const bookModule = await response.text();
+                                                        
+                                                            //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                            //console.log(bookModule);
 
-                    
-                                                            let VerseTextFull = '';
-                                                            let VerseText = '';
-
-                                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
-                                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
-                                                                let new_verseNumber = to_verseNumber;
-                                                                let new_to_verseNumber = verseNumber;
-                                                                verseNumber = new_verseNumber;
-                                                                to_verseNumber = new_to_verseNumber;
-                                                                //console.log(`4. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                            if(crear_objeto_obj_bible_files){
+                                                                //si no existe objeto de ficheros de la Biblia, lo creo
+                                                                if(typeof obj_bible_files[Translation] == 'undefined'){
+                                                                    obj_bible_files[Translation] = {};
+                                                                    obj_bible_files[Translation].Books = [];
+                                                                }
+                                                                //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                                if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
+                                                                    if(bookModule != '' && bookModule != ' '){
+                                                                        obj_bible_files[Translation].Books[bookNumber] = {
+                                                                            'fileName': bq.Books[bookNumber].PathName, 
+                                                                            'fileContent': bookModule
+                                                                        };
+                                                                        //console.log('1. obj_bible_files');
+                                                                        //console.log(obj_bible_files);
+                                                                    }                                                                
+                                                                }
                                                             }
-                                    
-                                                            //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
-                                                            if(to_verseNumber != null){                                                    
-                                                                to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+                    
+                                                            let nb = bookModule.split('<h4>');//делю файл на главы
+                                                            //console.log(nb);
+                                                            
+                                                            nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                            //console.log(nb);
 
-                                                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                                                    let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
-                                                                    let stijNumber = stij[0];
-                                                                    stij.shift();//elimino 1 index
-                                                                    let stijText = stij.join(' ');//junto
-                                                                    let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
-                    
-                                                                    //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
-                                                                    VerseTextFull += '<span class="stij_one'+ fch+ '">';
-                                                                    if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
-                                                                        VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
-                                                                    }
-                                                                    VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
-                                                                    VerseTextFull += '</span>';
-                    
+                                                            let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                                ? nb[chapterNumber].split('<p>').length - 1 
+                                                                : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                            //console.log(` `);
+                                                            //console.log(` tb_iter: ${tb_iter}`);            
+                                                            //console.log(`4. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+
+                                                            
+                                                            //si el capitulo indicado existe en el modulo -> todo bien
+                                                            if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                                //console.log(`4. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                                //console.log(`4. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
+                                                                //console.log(`4. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                        
+                                                                let VerseTextFull = '';
+                                                                let VerseText = '';
+
+                                                                // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                                if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                                    let new_verseNumber = to_verseNumber;
+                                                                    let new_to_verseNumber = verseNumber;
+                                                                    verseNumber = new_verseNumber;
+                                                                    to_verseNumber = new_to_verseNumber;
+                                                                    //console.log(`4. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                                }
+                                        
+                                                                //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                                if(to_verseNumber != null){                                                    
+                                                                    to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+
+                                                                    for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                        let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                        let stijNumber = stij[0];
+                                                                        stij.shift();//elimino 1 index
+                                                                        let stijText = stij.join(' ');//junto
+                                                                        let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+                        
+                                                                        //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                        VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                        if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                            VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                        }
+                                                                        VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                        VerseTextFull += '</span>';
+                        
+                                                                        //console.log(VerseTextFull);
+                                                                        
+                                                                        VerseText = VerseTextFull;
+                                                                        //console.log(VerseText);
+                                                                    }//end for
+                        
+                                                                }else{//если только 1 стих (1Кор.11:7), то...
+                                                                    VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
                                                                     //console.log(VerseTextFull);
                                                                     
-                                                                    VerseText = VerseTextFull;
+                                                                    let stijText = VerseTextFull.split(' ');
+                                                                    stijText.shift();//elimino numero de versiculo
+                        
+                                                                    VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                                     //console.log(VerseText);
-                                                                }//end for
-                    
-                                                            }else{//если только 1 стих (1Кор.11:7), то...
-                                                                VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
-                                                                //console.log(VerseTextFull);
-                                                                
-                                                                let stijText = VerseTextFull.split(' ');
-                                                                stijText.shift();//elimino numero de versiculo
-                    
-                                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
-                                                                //console.log(VerseText);
-                                                            }
-                    
-                    
-                                                            const p = document.createElement('p');
-                                                            let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
-                                                            if(to_verseNumber != null) idLink += '-' + to_verseNumber;
-                                                            p.id = idLink;
-                                                            p.className = 'tsk tsk_link';
-                                                            p.setAttribute('data-verse',verseNumber);
-                    
-                                                            const span_num_tsk = document.createElement('span');
-                                                            span_num_tsk.className = 'sp_f';
-                                                            span_num_tsk.innerText = tb_iter + 1;
-                    
-                                                            p.append(span_num_tsk);
-                                            
-                                                            const a = document.createElement('a');
-                                                            a.href = '#';
-                                                            //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
-                                                            let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
-                                                            if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
-                                                            //console.log('===> refLink: '+refLink);
-                    
-                                                            //-----------------------------------------------------------------//
-                                                            //Evento on click. NO BORRAR !!! añado listener después de for!
-                                                            //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
-                                                            //-----------------------------------------------------------------//
-                                                            
-                                                            a.innerHTML = refLink;
-                                                            p.append(a);
-                                                            p.append(' ');
-                    
-                    
-                                                            const span_vt = document.createElement('span');
-                                                            span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-                    
-                                                            
-                                                            //Номера Стронга в стихах (RST+)
-                                                            if(bq_StrongNumbers == "Y"){
-                                                                let t = VerseText;
-                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
-                    
-                                                                arr_t.forEach((el,i) => {    
-                                                                    
-                                                                    //element of string is Strong Number
-                                                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                                                        const span_strong = document.createElement('span');
-                                                                        span_strong.className = 'strong'; 
-                                                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                    
-                                                                        //si ultimo carácter es string
-                                                                        if(last_char != '' && isNaN(last_char)){
-                                                                            let el_number = el.substring(0,el.length-1);
-                                                                            let el_string = last_char;
-                                                                            span_strong.innerHTML = el_number;
-                                                                            p.append(span_strong);
-                                                                            p.append(el_string);
-                                                                        }else{//es number
-                                                                            span_strong.innerHTML = el;
-                                                                            p.append(span_strong);
-                                                                        }
-                                                                    }else{//is word
-                                                                        p.append(' ');
-                                                                        p.append(el);
-                                                                    }
-                                                                });
-                                                                p.innerHTML.trim();
-                    
-                                                                if(bq_HTMLFilter == 'Y'){
-                                                                    p.innerHTML = htmlEntities(p.innerHTML);
                                                                 }
-                    
-                                                            }                                            
-                                                            
-
-                                                            //Примечания редактора в стихах (RSTi2)
-                                                            if(bq_Notes == 'Y'){
-                                                                let t = VerseText;
-                    
-                                                                if(t.includes(bq_NoteSign)){// '*'
-                                                                    let arr_t0 = t.split(bq_NoteSign);
-                                                                    let before_Note = arr_t0[0];
-                    
-                                                                    if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
-                                                                        let arr_t1 = t.split(bq_StartNoteSign);//'[('
-                                                                        let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
-                                                                        let text_Note = arr_t2[0];
-                                                                        let after_Note = arr_t2[1];
-
-                                                                        const span_before = document.createElement('span');
-                                                                        const span_after = document.createElement('span');
-                                    
-                                                                        /*
-                                                                        const span_t = document.createElement('span');
-                                                                        span_t.className = 'tooltip';
-                                                                        span_t.setAttribute('data-tooltip',text_Note);
-                                                                        span_t.innerHTML = bq.NoteSign;
-                    
-                                                                        span_t.addEventListener('mouseenter', function(){
-                                                                            showTooltip(this);
-                                                                        });
-                                                                        span_t.addEventListener('mouseleave', function(){
-                                                                            hideTooltip(this);
-                                                                        });
+                        
+                        
+                                                                const p = document.createElement('p');
+                                                                let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                                if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                                p.id = idLink;
+                                                                p.className = 'tsk tsk_link';
+                                                                p.setAttribute('data-verse',verseNumber);
+                        
+                                                                const span_num_tsk = document.createElement('span');
+                                                                span_num_tsk.className = 'sp_f';
+                                                                span_num_tsk.innerText = tb_iter + 1;
+                        
+                                                                p.append(span_num_tsk);
+                                                
+                                                                const a = document.createElement('a');
+                                                                a.href = '#';
+                                                                //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                                let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                                if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                                //console.log('===> refLink: '+refLink);
+                        
+                                                                //-----------------------------------------------------------------//
+                                                                //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                                //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                                //-----------------------------------------------------------------//
+                                                                
+                                                                a.innerHTML = refLink;
+                                                                p.append(a);
+                                                                p.append(' ');
+                        
+                        
+                                                                const span_vt = document.createElement('span');
+                                                                span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                        
+                                                                
+                                                                //Номера Стронга в стихах (RST+)
+                                                                if(bq_StrongNumbers == "Y"){
+                                                                    let t = VerseText;
+                                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                        
+                                                                    arr_t.forEach((el,i) => {    
                                                                         
-                                                                        span_vt.append(before_Note);
-                                                                        span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                        span_vt.append(span_t);
-                                                                        const span_vt_despues = document.createElement('span');
-                                                                        span_vt_despues.className = 'vt';
-                                                                        span_vt_despues.append(after_Note);
-                                                                        span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
-                    
-                                                                        p.append(span_vt);
-                                                                        p.append(span_vt_despues);
-                                                                        */
-
-                                                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-
-                                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
-                                                                            const h6_text = document.createElement('h6');
-                                                                            h6_text.className = 'prim_h6';
-                                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
-                                                                            let arr_text_bn = arr_bn[1].split('</h6>');
-                                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
-                                                                            h6_text.innerHTML = arr_text_bn[0];
-                                                                            span_before.append(h6_text);
-                                                                            span_vt.append(span_before);
-                                                                        }else{
-                                                                            span_before.innerHTML = before_Note;
-                                                                            span_vt.append(span_before);
+                                                                        //element of string is Strong Number
+                                                                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                            const span_strong = document.createElement('span');
+                                                                            span_strong.className = 'strong'; 
+                                                                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                        
+                                                                            //si ultimo carácter es string
+                                                                            if(last_char != '' && isNaN(last_char)){
+                                                                                let el_number = el.substring(0,el.length-1);
+                                                                                let el_string = last_char;
+                                                                                span_strong.innerHTML = el_number;
+                                                                                p.append(span_strong);
+                                                                                p.append(el_string);
+                                                                            }else{//es number
+                                                                                span_strong.innerHTML = el;
+                                                                                p.append(span_strong);
+                                                                            }
+                                                                        }else{//is word
+                                                                            p.append(' ');
+                                                                            p.append(el);
                                                                         }
-    
-                                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
-                                                                        
-                                                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                                        span_after.innerHTML = after_Note;
-                                                                        span_vt.append(span_after);
-                                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                        p.append(span_vt);
-    
+                                                                    });
+                                                                    p.innerHTML.trim();
+                        
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
                                                                     }
-                                                                }else{
-                                                                    //span_vt.append(VerseText);//se ven '<'
-                                                                    span_vt.innerHTML = VerseText;// se ve OK
-                                                                    p.append(span_vt);
-                    
+                        
+                                                                }                                            
+                                                                
+
+                                                                //Примечания редактора в стихах (RSTi2)
+                                                                if(bq_Notes == 'Y'){
+                                                                    let t = VerseText;
+                        
+                                                                    if(t.includes(bq_NoteSign)){// '*'
+                                                                        let arr_t0 = t.split(bq_NoteSign);
+                                                                        let before_Note = arr_t0[0];
+                        
+                                                                        if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                            let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                            let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                            let text_Note = arr_t2[0];
+                                                                            let after_Note = arr_t2[1];
+
+                                                                            const span_before = document.createElement('span');
+                                                                            const span_after = document.createElement('span');
+                                        
+                                                                            /*
+                                                                            const span_t = document.createElement('span');
+                                                                            span_t.className = 'tooltip';
+                                                                            span_t.setAttribute('data-tooltip',text_Note);
+                                                                            span_t.innerHTML = bq.NoteSign;
+                        
+                                                                            span_t.addEventListener('mouseenter', function(){
+                                                                                showTooltip(this);
+                                                                            });
+                                                                            span_t.addEventListener('mouseleave', function(){
+                                                                                hideTooltip(this);
+                                                                            });
+                                                                            
+                                                                            span_vt.append(before_Note);
+                                                                            span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                            span_vt.append(span_t);
+                                                                            const span_vt_despues = document.createElement('span');
+                                                                            span_vt_despues.className = 'vt';
+                                                                            span_vt_despues.append(after_Note);
+                                                                            span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+                        
+                                                                            p.append(span_vt);
+                                                                            p.append(span_vt_despues);
+                                                                            */
+
+                                                                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                                const h6_text = document.createElement('h6');
+                                                                                h6_text.className = 'prim_h6';
+                                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                                let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                                h6_text.innerHTML = arr_text_bn[0];
+                                                                                span_before.append(h6_text);
+                                                                                span_vt.append(span_before);
+                                                                            }else{
+                                                                                span_before.innerHTML = before_Note;
+                                                                                span_vt.append(span_before);
+                                                                            }
+        
+                                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                            
+                                                                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                            span_after.innerHTML = after_Note;
+                                                                            span_vt.append(span_after);
+                                                                            //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                            p.append(span_vt);
+        
+                                                                        }
+                                                                    }else{
+                                                                        //span_vt.append(VerseText);//se ven '<'
+                                                                        span_vt.innerHTML = VerseText;// se ve OK
+                                                                        p.append(span_vt);
+                        
+                                                                        if(bq_HTMLFilter == 'Y'){
+                                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                //Оглавления в стихах (NRT)
+                                                                if(bq_Titles == 'Y'){
+                                                                    let t = VerseText;
+                        
+                                                                    if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                        let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                        let before_Title = arr_t1[0];
+                                                                        let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                        let text_Title = arr_t2[0];
+                                                                        let after_Title = arr_t2[1];
+                        
+                                                                        const span_title = document.createElement('span');
+                                                                        span_title.className = 'verse_title';
+                                                                        span_title.innerHTML = text_Title;
+                        
+                                                                        p.append(before_Title);
+                                                                        p.append(span_title);
+                                                                        p.append(after_Title);
+                                                                    }else{
+                                                                        p.append(VerseText);
+                                                                    }
+                        
                                                                     if(bq_HTMLFilter == 'Y'){
                                                                         p.innerHTML = htmlEntities(p.innerHTML);
                                                                     }
                                                                 }
-                                                            }
-                                                            
-                                                            //Оглавления в стихах (NRT)
-                                                            if(bq_Titles == 'Y'){
-                                                                let t = VerseText;
-                    
-                                                                if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
-                                                                    let arr_t1 = t.split(bq_StartTitleSign);//'[('
-                                                                    let before_Title = arr_t1[0];
-                                                                    let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
-                                                                    let text_Title = arr_t2[0];
-                                                                    let after_Title = arr_t2[1];
-                    
-                                                                    const span_title = document.createElement('span');
-                                                                    span_title.className = 'verse_title';
-                                                                    span_title.innerHTML = text_Title;
-                    
-                                                                    p.append(before_Title);
-                                                                    p.append(span_title);
-                                                                    p.append(after_Title);
-                                                                }else{
-                                                                    p.append(VerseText);
+                                                                
+                                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                                if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                                    span_vt.innerHTML = VerseText;
+                                                                    p.append(span_vt);
+                        
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
                                                                 }
+                        
+                                                                arr_tsk_p[tb_iter] = p;
+                                                                //console.log(`--- tb_iter: ${tb_iter}`);
+                                                                
+                                                            }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                                //console.log(`4 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                                                //console.log(`4. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                                arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                                //console.log(`--- tb_iter: ${tb_iter}`);
+                                                            }                                                        
                     
-                                                                if(bq_HTMLFilter == 'Y'){
-                                                                    p.innerHTML = htmlEntities(p.innerHTML);
-                                                                }
+                                                            //si es ultimo elemento del array...
+                                                            if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                                //console.log('--- llamo buildVersesTsk() ---');
+                                                                buildVersesTsk(arr_tsk_p, Translation);
                                                             }
-                                                            
-                                                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                            if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
-                                                                span_vt.innerHTML = VerseText;
-                                                                p.append(span_vt);
-                    
-                                                                if(bq_HTMLFilter == 'Y'){
-                                                                    p.innerHTML = htmlEntities(p.innerHTML);
-                                                                }
-                                                            }
-                    
-                                                            arr_tsk_p[tb_iter] = p;
-                                                            //console.log(`--- tb_iter: ${tb_iter}`);
-                                                            
-                                                        }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
-                                                            //console.log(`4 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
-                                                            //console.log(`4. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-                                                            arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
-                                                            //console.log(`--- tb_iter: ${tb_iter}`);
-                                                        }                                                        
-                
-                                                        //si es ultimo elemento del array...
-                                                        if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
-                                                            //console.log('--- llamo buildVersesTsk() ---');
-                                                            buildVersesTsk(arr_tsk_p, Translation);
-                                                        }
 
-                                                    })
-                                                    .catch(error => { 
-                                                        // Código a realizar cuando se rechaza la promesa
-                                                        console.error('4. error promesa: '+error);
-                                                    });
+                                                        }//end fetchInner4()
+
+                                                    } catch (error) {
+                                                        console.error('4. Error try-catch en fetchInner4(). Error: ', error);
+                                                    }
 
                                                 }//end else
                                                 
-                                                break;
+                                                break;//IMPORTANTE!!!
                                             }
                                         }
+
                                         if(bookNumber != null){
                                             break;
-                                        }                                    
+                                        } 
+
                                     }//end for inner
                 
                                 });//fin forEach de tb_arr_links
@@ -3471,12 +3572,14 @@ function getTsk(e){
                                 }
                 
                             }else{//no hay links
+                                
                                 eid_tsk_body.innerHTML = '';//reset
                                 const p = document.createElement('p');
                                 p.className = 'tsk tsk_nolink';
                                 p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                                 //console.log(p);
                                 eid_tsk_body.append(p);
+
                             }
                 
                             //Abro Sidebar pata mostrar TSK
@@ -3489,12 +3592,10 @@ function getTsk(e){
                                     eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                                 }
                             }
-                
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('2. error promesa tsk: '+error);
-                        });
+
+                        } catch (error) {
+                            console.error('2. Error en try-catch tsk. Error: ', error);
+                        }
 
                     }else{
                         //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -3504,15 +3605,18 @@ function getTsk(e){
         }//end - //si existe objeto con Translation. Saco datos del objeto
 
 
-        //si no existe objeto con tskName. hago fetch()
+        //si no existe objeto con tskName. hago await fetch()
         if(typeof obj_tsk_files[tskName].Books[book] == 'undefined'){
-            //console.log(`(${tsk.Books[book].PathName}) --- no hay todavia el fichero '${tsk.Books[book].PathName}' en obj_tsk_files[tskName] . saco datos por fetch()`);
-
-            url = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference "01_genesis.ini"
-            fetch(url)
-            .then((response) => response.text())
-            .then((tskModule) => { 
+            
+            try {
                 
+                //console.log(`(${tsk.Books[book].PathName}) --- no hay todavia el fichero '${tsk.Books[book].PathName}' en obj_tsk_files[tskName] . saco datos por await fetch()`);
+
+                let url = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference "01_genesis.ini"
+                
+                const response = await fetch(url);
+                let tskModule = await response.text();
+
                 if(crear_objeto_obj_tsk_files){
                     //meto tskModule en obj_tsk_files
                     obj_tsk_files[tskName].Books[book] = {
@@ -3615,9 +3719,7 @@ function getTsk(e){
                         //console.log('chapterNumber: '+chapterNumber);//empezando de 1
                         //console.log('verseNumber: '+verseNumber);//empezando de 1
                         //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                        //console.log('---');  
-                        
-                        
+                        //console.log('---');                        
 
                         //saco ajustes de este modulo en json               
                         let bq = objTrans;
@@ -3708,7 +3810,6 @@ function getTsk(e){
                                             //console.log(`1. el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
                                             //console.log(`1. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
                                             //console.log(`1. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-
     
                                             let VerseTextFull = '';
                                             let VerseText = '';
@@ -3748,6 +3849,7 @@ function getTsk(e){
                                                 }//end for
     
                                             }else{//если только 1 стих (1Кор.11:7), то...
+                                                
                                                 VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
                                                 //console.log(VerseTextFull);
                                                 
@@ -3756,6 +3858,7 @@ function getTsk(e){
     
                                                 VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                 //console.log(VerseText);
+
                                             }
     
     
@@ -3964,632 +4067,647 @@ function getTsk(e){
                                     }else{
                                         
                                         //console.log(`(${el}) --- no hay fichero en obj_bible_files`);
-                                        //console.log(`(${el}) no hay fichero '${Translation}/${bq.Books[bookNumber].PathName}'... \n voy a hacer fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+                                        //console.log(`(${el}) no hay fichero '${Translation}/${bq.Books[bookNumber].PathName}'... \n voy a hacer await fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
 
                                        
                                         //todo el libro
                                         if(modo_fetch_verses_for_tsk_block == 'by_text'){
-                                            //console.log('modo_fetch_verses_for_tsk_block == by_text');
+                                            
+                                            try {
+                                                
+                                                //console.log('modo_fetch_verses_for_tsk_block == by_text');
 
-                                            //url del libro necesario
-                                            url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
-                                            fetch(url)
-                                            .then((response) => response.text())
-                                            .then((bookModule) => {
+                                                //url del libro necesario
+                                                let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';
+                                                
+                                                fetchInner22(url);
+                                                async function fetchInner22(url){
 
-                                                //console.log(`--- fetch() --- (${el}) he hecho fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
-                                                //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
-                                                //console.log(bookModule);
+                                                    const response = await fetch(url);
+                                                    const bookModule = await response.text();
 
-                                                if(crear_objeto_obj_bible_files){
-                                                    //si no existe objeto de ficheros de la Biblia, lo creo
-                                                    if(typeof obj_bible_files[Translation] == 'undefined'){
-                                                        obj_bible_files[Translation] = {};
-                                                        obj_bible_files[Translation].Books = [];
-                                                    }
-                                                    //si no existe este libro en el objeto con esta Translation. lo meto dentro
-                                                    if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
-                                                        if(bookModule != '' && bookModule != ' '){
-                                                            obj_bible_files[Translation].Books[bookNumber] = {
-                                                                'fileName': bq.Books[bookNumber].PathName, 
-                                                                'fileContent': bookModule
-                                                            };
-                                                            //console.log('2. obj_bible_files');
-                                                            //console.log(obj_bible_files);
+                                                    //console.log(`--- await fetch() --- (${el}) he hecho await fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+                                                    //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                    //console.log(bookModule);
+
+                                                    if(crear_objeto_obj_bible_files){
+                                                        //si no existe objeto de ficheros de la Biblia, lo creo
+                                                        if(typeof obj_bible_files[Translation] == 'undefined'){
+                                                            obj_bible_files[Translation] = {};
+                                                            obj_bible_files[Translation].Books = [];
+                                                        }
+                                                        //si no existe este libro en el objeto con esta Translation. lo meto dentro
+                                                        if(typeof obj_bible_files[Translation].Books[bookNumber] == 'undefined'){
+                                                            if(bookModule != '' && bookModule != ' '){
+                                                                obj_bible_files[Translation].Books[bookNumber] = {
+                                                                    'fileName': bq.Books[bookNumber].PathName, 
+                                                                    'fileContent': bookModule
+                                                                };
+                                                                //console.log('2. obj_bible_files');
+                                                                //console.log(obj_bible_files);
+                                                            }
                                                         }
                                                     }
-                                                }
-                                                
-                                                let nb = bookModule.split('<h4>');//делю файл на главы
-                                                //console.log(nb);
-                                                
-                                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
-                                                //console.log(nb);
+                                                    
+                                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                                    //console.log(nb);
+                                                    
+                                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                    //console.log(nb);
 
-                                                let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
-                                                    ? nb[chapterNumber].split('<p>').length - 1 
-                                                    : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
-                                                //console.log(` `);
-                                                //console.log(` tb_iter: ${tb_iter}`);
-                                                //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+                                                    let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                        ? nb[chapterNumber].split('<p>').length - 1 
+                                                        : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                    //console.log(` `);
+                                                    //console.log(` tb_iter: ${tb_iter}`);
+                                                    //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
 
 
-                                                //si el capitulo indicado existe en el modulo -> todo bien
-                                                if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
-                                                    //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
-                                                    //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
-                                                    //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                    //si el capitulo indicado existe en el modulo -> todo bien
+                                                    if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                        //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
+                                                        //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+            
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
 
-        
-                                                    let VerseTextFull = '';
-                                                    let VerseText = '';
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
+            
+                                                        //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                        if(to_verseNumber != null){                                                    
+                                                            to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
 
-                                                    // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
-                                                    if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
-                                                        let new_verseNumber = to_verseNumber;
-                                                        let new_to_verseNumber = verseNumber;
-                                                        verseNumber = new_verseNumber;
-                                                        to_verseNumber = new_to_verseNumber;
-                                                        //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
-                                                    }
-        
-                                                    //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
-                                                    if(to_verseNumber != null){                                                    
-                                                        to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
-
-                                                        for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                                            let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
-                                                            let stijNumber = stij[0];
-                                                            stij.shift();//elimino 1 index
-                                                            let stijText = stij.join(' ');//junto
-                                                            let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
-        
-                                                            //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
-                                                            VerseTextFull += '<span class="stij_one'+ fch+ '">';
-                                                            if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
-                                                                VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
-                                                            }
-                                                            VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
-                                                            VerseTextFull += '</span>';
-        
+                                                            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                let stijNumber = stij[0];
+                                                                stij.shift();//elimino 1 index
+                                                                let stijText = stij.join(' ');//junto
+                                                                let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+            
+                                                                //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                    VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                }
+                                                                VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                VerseTextFull += '</span>';
+            
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                VerseText = VerseTextFull;
+                                                                //console.log(VerseText);
+                                                            }//end for
+            
+                                                        }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
+                                                            VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
                                                             //console.log(VerseTextFull);
                                                             
-                                                            VerseText = VerseTextFull;
+                                                            let stijText = VerseTextFull.split(' ');
+                                                            stijText.shift();//elimino numero de versiculo
+            
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                             //console.log(VerseText);
-                                                        }//end for
-        
-                                                    }else{//если только 1 стих (1Кор.11:7), то...
-                                                        VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
-                                                        //console.log(VerseTextFull);
-                                                        
-                                                        let stijText = VerseTextFull.split(' ');
-                                                        stijText.shift();//elimino numero de versiculo
-        
-                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
-                                                        //console.log(VerseText);
-                                                    }
-        
-        
-                                                    const p = document.createElement('p');
-                                                    let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
-                                                    if(to_verseNumber != null) idLink += '-' + to_verseNumber;
-                                                    p.id = idLink;
-                                                    p.className = 'tsk tsk_link';
-                                                    p.setAttribute('data-verse',verseNumber);
-        
-                                                    const span_num_tsk = document.createElement('span');
-                                                    span_num_tsk.className = 'sp_f';
-                                                    span_num_tsk.innerText = tb_iter + 1;
-        
-                                                    p.append(span_num_tsk);
-        
-                                                    const a = document.createElement('a');
-                                                    a.href = '#';
-                                                    //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
-                                                    let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
-                                                    if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
-                                                    //console.log('===> refLink: '+refLink);
-        
-                                                    //-----------------------------------------------------------------//
-                                                    //Evento on click. NO BORRAR !!! añado listener después de for!
-                                                    //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
-                                                    //-----------------------------------------------------------------//
-                                                    
-                                                    a.innerHTML = refLink;
-                                                    p.append(a);
-                                                    p.append(' ');
-        
-        
-                                                    const span_vt = document.createElement('span');
-                                                    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-        
-                                                    
-                                                    //Номера Стронга в стихах (RST+)
-                                                    if(bq_StrongNumbers == "Y"){
-                                                        let t = VerseText;
-                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
-        
-                                                        arr_t.forEach((el,i) => {    
-                                                            
-                                                            //element of string is Strong Number
-                                                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                                                const span_strong = document.createElement('span');
-                                                                span_strong.className = 'strong'; 
-                                                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-        
-                                                                //si ultimo carácter es string
-                                                                if(last_char != '' && isNaN(last_char)){
-                                                                    let el_number = el.substring(0,el.length-1);
-                                                                    let el_string = last_char;
-                                                                    span_strong.innerHTML = el_number;
-                                                                    p.append(span_strong);
-                                                                    p.append(el_string);
-                                                                }else{//es number
-                                                                    span_strong.innerHTML = el;
-                                                                    p.append(span_strong);
-                                                                }
-                                                            }else{//is word
-                                                                p.append(' ');
-                                                                p.append(el);
-                                                            }
-                                                        });
-                                                        p.innerHTML.trim();
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
+
                                                         }
-        
-                                                    }                                            
-                                                    
-                                                    //Примечания редактора в стихах (RSTi2)
-                                                    if(bq_Notes == 'Y'){
-                                                        let t = VerseText;
-        
-                                                        if(t.includes(bq_NoteSign)){// '*'
-                                                            let arr_t0 = t.split(bq_NoteSign);
-                                                            let before_Note = arr_t0[0];
-        
-                                                            if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
-                                                                let arr_t1 = t.split(bq_StartNoteSign);//'[('
-                                                                let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
-                                                                let text_Note = arr_t2[0];
-                                                                let after_Note = arr_t2[1];
-
-                                                                const span_before = document.createElement('span');
-                                                                const span_after = document.createElement('span');
-        
-                                                                /*
-                                                                const span_t = document.createElement('span');
-                                                                span_t.className = 'tooltip';
-                                                                span_t.setAttribute('data-tooltip',text_Note);
-                                                                span_t.innerHTML = bq.NoteSign;
-        
-                                                                span_t.addEventListener('mouseenter', function(){
-                                                                    showTooltip(this);
-                                                                });
-                                                                span_t.addEventListener('mouseleave', function(){
-                                                                    hideTooltip(this);
-                                                                });
+            
+            
+                                                        const p = document.createElement('p');
+                                                        let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                        if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                        p.id = idLink;
+                                                        p.className = 'tsk tsk_link';
+                                                        p.setAttribute('data-verse',verseNumber);
+            
+                                                        const span_num_tsk = document.createElement('span');
+                                                        span_num_tsk.className = 'sp_f';
+                                                        span_num_tsk.innerText = tb_iter + 1;
+            
+                                                        p.append(span_num_tsk);
+            
+                                                        const a = document.createElement('a');
+                                                        a.href = '#';
+                                                        //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                        let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                        if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                        //console.log('===> refLink: '+refLink);
+            
+                                                        //-----------------------------------------------------------------//
+                                                        //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                        //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                        //-----------------------------------------------------------------//
+                                                        
+                                                        a.innerHTML = refLink;
+                                                        p.append(a);
+                                                        p.append(' ');
+            
+            
+                                                        const span_vt = document.createElement('span');
+                                                        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+            
+                                                        
+                                                        //Номера Стронга в стихах (RST+)
+                                                        if(bq_StrongNumbers == "Y"){
+                                                            let t = VerseText;
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+            
+                                                            arr_t.forEach((el,i) => {    
                                                                 
-                                                                span_vt.append(before_Note);
-                                                                span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                span_vt.append(span_t);
-                                                                const span_vt_despues = document.createElement('span');
-                                                                span_vt_despues.className = 'vt';
-                                                                span_vt_despues.append(after_Note);
-                                                                span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
-        
-                                                                p.append(span_vt);
-                                                                p.append(span_vt_despues);
-                                                                */
-
-                                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-
-                                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
-                                                                    const h6_text = document.createElement('h6');
-                                                                    h6_text.className = 'prim_h6';
-                                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
-                                                                    let arr_text_bn = arr_bn[1].split('</h6>');
-                                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
-                                                                    h6_text.innerHTML = arr_text_bn[0];
-                                                                    span_before.append(h6_text);
-                                                                    span_vt.append(span_before);
-                                                                }else{
-                                                                    span_before.innerHTML = before_Note;
-                                                                    span_vt.append(span_before);
+                                                                //element of string is Strong Number
+                                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                    const span_strong = document.createElement('span');
+                                                                    span_strong.className = 'strong'; 
+                                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+            
+                                                                    //si ultimo carácter es string
+                                                                    if(last_char != '' && isNaN(last_char)){
+                                                                        let el_number = el.substring(0,el.length-1);
+                                                                        let el_string = last_char;
+                                                                        span_strong.innerHTML = el_number;
+                                                                        p.append(span_strong);
+                                                                        p.append(el_string);
+                                                                    }else{//es number
+                                                                        span_strong.innerHTML = el;
+                                                                        p.append(span_strong);
+                                                                    }
+                                                                }else{//is word
+                                                                    p.append(' ');
+                                                                    p.append(el);
                                                                 }
-
-                                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
-                                                                
-                                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                                span_after.innerHTML = after_Note;
-                                                                span_vt.append(span_after);
-                                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                p.append(span_vt);
-
+                                                            });
+                                                            p.innerHTML.trim();
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
-                                                        }else{
-                                                            //span_vt.append(VerseText);//se ven '<'
-                                                            span_vt.innerHTML = VerseText;// se ve OK
-                                                            p.append(span_vt);
-        
+            
+                                                        }                                            
+                                                        
+                                                        //Примечания редактора в стихах (RSTi2)
+                                                        if(bq_Notes == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_NoteSign)){// '*'
+                                                                let arr_t0 = t.split(bq_NoteSign);
+                                                                let before_Note = arr_t0[0];
+            
+                                                                if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                    let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                    let text_Note = arr_t2[0];
+                                                                    let after_Note = arr_t2[1];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');
+            
+                                                                    /*
+                                                                    const span_t = document.createElement('span');
+                                                                    span_t.className = 'tooltip';
+                                                                    span_t.setAttribute('data-tooltip',text_Note);
+                                                                    span_t.innerHTML = bq.NoteSign;
+            
+                                                                    span_t.addEventListener('mouseenter', function(){
+                                                                        showTooltip(this);
+                                                                    });
+                                                                    span_t.addEventListener('mouseleave', function(){
+                                                                        hideTooltip(this);
+                                                                    });
+                                                                    
+                                                                    span_vt.append(before_Note);
+                                                                    span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    span_vt.append(span_t);
+                                                                    const span_vt_despues = document.createElement('span');
+                                                                    span_vt_despues.className = 'vt';
+                                                                    span_vt_despues.append(after_Note);
+                                                                    span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+            
+                                                                    p.append(span_vt);
+                                                                    p.append(span_vt_despues);
+                                                                    */
+
+                                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                    if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                        const h6_text = document.createElement('h6');
+                                                                        h6_text.className = 'prim_h6';
+                                                                        let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                        let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                        arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                        h6_text.innerHTML = arr_text_bn[0];
+                                                                        span_before.append(h6_text);
+                                                                        span_vt.append(span_before);
+                                                                    }else{
+                                                                        span_before.innerHTML = before_Note;
+                                                                        span_vt.append(span_before);
+                                                                    }
+
+                                                                    span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                    
+                                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                    span_after.innerHTML = after_Note;
+                                                                    span_vt.append(span_after);
+                                                                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    p.append(span_vt);
+
+                                                                }
+                                                            }else{
+                                                                //span_vt.append(VerseText);//se ven '<'
+                                                                span_vt.innerHTML = VerseText;// se ve OK
+                                                                p.append(span_vt);
+            
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }
+                                                        
+                                                        //Оглавления в стихах (NRT)
+                                                        if(bq_Titles == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                let before_Title = arr_t1[0];
+                                                                let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                let text_Title = arr_t2[0];
+                                                                let after_Title = arr_t2[1];
+            
+                                                                const span_title = document.createElement('span');
+                                                                span_title.className = 'verse_title';
+                                                                span_title.innerHTML = text_Title;
+            
+                                                                p.append(before_Title);
+                                                                p.append(span_title);
+                                                                p.append(after_Title);
+                                                            }else{
+                                                                p.append(VerseText);
+                                                            }
+            
                                                             if(bq_HTMLFilter == 'Y'){
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
                                                         }
-                                                    }
+                                                        
+                                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                        if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                            span_vt.innerHTML = VerseText;
+                                                            p.append(span_vt);
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }    
+            
+                                                        arr_tsk_p[tb_iter] = p;
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);                                           
                                                     
-                                                    //Оглавления в стихах (NRT)
-                                                    if(bq_Titles == 'Y'){
-                                                        let t = VerseText;
-        
-                                                        if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
-                                                            let arr_t1 = t.split(bq_StartTitleSign);//'[('
-                                                            let before_Title = arr_t1[0];
-                                                            let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
-                                                            let text_Title = arr_t2[0];
-                                                            let after_Title = arr_t2[1];
-        
-                                                            const span_title = document.createElement('span');
-                                                            span_title.className = 'verse_title';
-                                                            span_title.innerHTML = text_Title;
-        
-                                                            p.append(before_Title);
-                                                            p.append(span_title);
-                                                            p.append(after_Title);
-                                                        }else{
-                                                            p.append(VerseText);
-                                                        }
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
+                                                    }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                        //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
+                                                        //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
                                                     }
+
+                                                    //si es ultimo elemento del array...
+                                                    if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                        //console.log('--- llamo buildVersesTsk() ---');
+                                                        buildVersesTsk(arr_tsk_p, Translation);
+                                                    }                                                    
                                                     
-                                                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                    if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
-                                                        span_vt.innerHTML = VerseText;
-                                                        p.append(span_vt);
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
-                                                    }    
-        
-                                                    arr_tsk_p[tb_iter] = p;
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);                                           
-                                                
-                                                }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
-                                                    //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
-                                                    //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-                                                    arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);
-                                                }
+                                                }//end fetchInner22()
 
-                                                //si es ultimo elemento del array...
-                                                if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
-                                                    //console.log('--- llamo buildVersesTsk() ---');
-                                                    buildVersesTsk(arr_tsk_p, Translation);
-                                                }
-
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('2.2210 error promesa: '+error);
-                                            });
+                                            } catch (error) {
+                                                console.error('2.2210 Error en try-catch by_text. Error: ', error);
+                                            }                                            
 
                                         }// end modo_fetch_verses_for_tsk_block old
 
 
                                         //por php solo el capitulo
                                         if(modo_fetch_verses_for_tsk_block == 'by_json'){
-                                            //console.log('modo_fetch_verses_for_tsk_block == by_json');
+                                            
+                                            try {
 
-                                            //url del libro necesario
-                                            url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
+                                                //console.log('modo_fetch_verses_for_tsk_block == by_json');
 
-                                            //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
-                                            let formData = new FormData();
-                                            formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
-                                            formData.append('base_ep', base_ep);
-                                            formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
-                                            if(book != null) formData.append('book', bookNumber);
-                                            formData.append('chapter', chapterNumber);
-                                            //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
-                                            if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
-                                            if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
-                                            if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+                                                //url del libro necesario
+                                                let url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm'; 
 
-                                            //console.log('formData: ',[...formData]);
+                                                //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+                                                let formData = new FormData();
+                                                formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
+                                                formData.append('base_ep', base_ep);
+                                                formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
+                                                if(book != null) formData.append('book', bookNumber);
+                                                formData.append('chapter', chapterNumber);
+                                                //AKI si HACE FALTA VERSENUMBER y TO_VERSENUMBER!!!
+                                                if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+                                                if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
+                                                if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
 
-                                            fetch('./php/read_file_to_json.php',{
-                                                method: 'POST',
-                                                body: formData
-                                            })
-                                            .then((response) => response.json())
-                                            .then((dataRead) => {
-
-                                                //console.log(`--- fetch() por php to_json --- (${el}) he hecho fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
-
-                                                let bookModule = dataRead.chapterData.arr_p_verses;
-                                                //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
-                                                //console.log(bookModule);
-                                                                                               
-                                                let nb = bookModule;//делю файл на главы
-                                                //console.log(nb);
+                                                //console.log('formData: ',[...formData]);
                                                 
-                                                let vsego_stijov = dataRead.chapterData.VerseQty;
-                                                //console.log(` vsego_stijov: ${vsego_stijov}`);
+                                                fetchInner26(formData);
+                                                async function fetchInner26(formData){
 
-                                                //console.log(` `);
-                                                //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+                                                    const response = await fetch('./php/read_file_to_json.php',{
+                                                        method: 'POST',
+                                                        body: formData
+                                                    });
+                                                    const dataRead = await response.json();
+
+                                                    //console.log(`--- await fetch() por php to_json --- (${el}) he hecho await fetch() de fichero: ${Translation}/${bq.Books[bookNumber].PathName}`);
+
+                                                    let bookModule = dataRead.chapterData.arr_p_verses;
+                                                    //console.log(' 1988 abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                    //console.log(bookModule);
+                                                                                                
+                                                    let nb = bookModule;//делю файл на главы
+                                                    //console.log(nb);
+                                                    
+                                                    let vsego_stijov = dataRead.chapterData.VerseQty;
+                                                    //console.log(` vsego_stijov: ${vsego_stijov}`);
+
+                                                    //console.log(` `);
+                                                    //console.log(`2. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
 
 
-                                                //si el capitulo indicado existe en el modulo -> todo bien
-                                                if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
-                                                    //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
-                                                    //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
-                                                    //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                    //si el capitulo indicado existe en el modulo -> todo bien
+                                                    if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                        //console.log(`2. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                        //console.log(`2. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `);
+                                                        //console.log(`2. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
 
-        
-                                                    let VerseTextFull = '';
-                                                    let VerseText = '';
+            
+                                                        let VerseTextFull = '';
+                                                        let VerseText = '';
 
-                                                    // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
-                                                    if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
-                                                        let new_verseNumber = to_verseNumber;
-                                                        let new_to_verseNumber = verseNumber;
-                                                        verseNumber = new_verseNumber;
-                                                        to_verseNumber = new_to_verseNumber;
-                                                        //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
-                                                    }
-        
-                                                    //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
-                                                    if(to_verseNumber != null){                                                    
-                                                        to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+                                                        // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                        if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                            let new_verseNumber = to_verseNumber;
+                                                            let new_to_verseNumber = verseNumber;
+                                                            verseNumber = new_verseNumber;
+                                                            to_verseNumber = new_to_verseNumber;
+                                                            //console.log(`2. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                        }
+            
+                                                        //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                        if(to_verseNumber != null){                                                    
+                                                            to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
 
-                                                        for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                                            let stij = nb[i].split(' ');//делю на стихи и делю на слова по пробелам
-                                                            let stijNumber = stij[0];
-                                                            stij.shift();//elimino 1 index
-                                                            let stijText = stij.join(' ');//junto
-                                                            let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
-        
-                                                            //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
-                                                            VerseTextFull += '<span class="stij_one'+ fch+ '">';
-                                                            if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
-                                                                VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
-                                                            }
-                                                            VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
-                                                            VerseTextFull += '</span>';
-        
+                                                            for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                let stij = nb[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                let stijNumber = stij[0];
+                                                                stij.shift();//elimino 1 index
+                                                                let stijText = stij.join(' ');//junto
+                                                                let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+            
+                                                                //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                    VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                }
+                                                                VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                VerseTextFull += '</span>';
+            
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                VerseText = VerseTextFull;
+                                                                //console.log(VerseText);
+                                                            }//end for
+            
+                                                        }else{//если только 1 стих (1Кор.11:7), то...
+                                                            
+                                                            VerseTextFull = nb[verseNumber];
                                                             //console.log(VerseTextFull);
                                                             
-                                                            VerseText = VerseTextFull;
+                                                            let stijText = VerseTextFull.split(' ');
+                                                            stijText.shift();//elimino numero de versiculo
+            
+                                                            VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
                                                             //console.log(VerseText);
-                                                        }//end for
-        
-                                                    }else{//если только 1 стих (1Кор.11:7), то...
-                                                        VerseTextFull = nb[verseNumber];
-                                                        //console.log(VerseTextFull);
-                                                        
-                                                        let stijText = VerseTextFull.split(' ');
-                                                        stijText.shift();//elimino numero de versiculo
-        
-                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
-                                                        //console.log(VerseText);
-                                                    }
-        
-        
-                                                    const p = document.createElement('p');
-                                                    let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
-                                                    if(to_verseNumber != null) idLink += '-' + to_verseNumber;
-                                                    p.id = idLink;
-                                                    p.className = 'tsk tsk_link';
-                                                    p.setAttribute('data-verse',verseNumber);
-        
-                                                    const span_num_tsk = document.createElement('span');
-                                                    span_num_tsk.className = 'sp_f';
-                                                    span_num_tsk.innerText = tb_iter + 1;
-        
-                                                    p.append(span_num_tsk);
-        
-                                                    const a = document.createElement('a');
-                                                    a.href = '#';
-                                                    //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
-                                                    let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
-                                                    if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
-                                                    //console.log('===> refLink: '+refLink);
-        
-                                                    //-----------------------------------------------------------------//
-                                                    //Evento on click. NO BORRAR !!! añado listener después de for!
-                                                    //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
-                                                    //-----------------------------------------------------------------//
-                                                    
-                                                    a.innerHTML = refLink;
-                                                    p.append(a);
-                                                    p.append(' ');
-        
-        
-                                                    const span_vt = document.createElement('span');
-                                                    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-        
-                                                    
-                                                    //Номера Стронга в стихах (RST+)
-                                                    if(bq_StrongNumbers == "Y"){
-                                                        let t = VerseText;
-                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
-        
-                                                        arr_t.forEach((el,i) => {    
-                                                            
-                                                            //element of string is Strong Number
-                                                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                                                const span_strong = document.createElement('span');
-                                                                span_strong.className = 'strong'; 
-                                                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-        
-                                                                //si ultimo carácter es string
-                                                                if(last_char != '' && isNaN(last_char)){
-                                                                    let el_number = el.substring(0,el.length-1);
-                                                                    let el_string = last_char;
-                                                                    span_strong.innerHTML = el_number;
-                                                                    p.append(span_strong);
-                                                                    p.append(el_string);
-                                                                }else{//es number
-                                                                    span_strong.innerHTML = el;
-                                                                    p.append(span_strong);
-                                                                }
-                                                            }else{//is word
-                                                                p.append(' ');
-                                                                p.append(el);
-                                                            }
-                                                        });
-                                                        p.innerHTML.trim();
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
+
                                                         }
-        
-                                                    }                                            
-                                                    
-                                                    //Примечания редактора в стихах (RSTi2)
-                                                    if(bq_Notes == 'Y'){
-                                                        let t = VerseText;
-        
-                                                        if(t.includes(bq_NoteSign)){// '*'
-                                                            let arr_t0 = t.split(bq_NoteSign);
-                                                            let before_Note = arr_t0[0];
-        
-                                                            if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
-                                                                let arr_t1 = t.split(bq_StartNoteSign);//'[('
-                                                                let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
-                                                                let text_Note = arr_t2[0];
-                                                                let after_Note = arr_t2[1];
-
-                                                                const span_before = document.createElement('span');
-                                                                const span_after = document.createElement('span');                                                                        
-        
-                                                                /*
-                                                                const span_t = document.createElement('span');
-                                                                span_t.className = 'tooltip';
-                                                                span_t.setAttribute('data-tooltip',text_Note);
-                                                                span_t.innerHTML = bq.NoteSign;
-        
-                                                                span_t.addEventListener('mouseenter', function(){
-                                                                    showTooltip(this);
-                                                                });
-                                                                span_t.addEventListener('mouseleave', function(){
-                                                                    hideTooltip(this);
-                                                                });
+            
+            
+                                                        const p = document.createElement('p');
+                                                        let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                        if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                        p.id = idLink;
+                                                        p.className = 'tsk tsk_link';
+                                                        p.setAttribute('data-verse',verseNumber);
+            
+                                                        const span_num_tsk = document.createElement('span');
+                                                        span_num_tsk.className = 'sp_f';
+                                                        span_num_tsk.innerText = tb_iter + 1;
+            
+                                                        p.append(span_num_tsk);
+            
+                                                        const a = document.createElement('a');
+                                                        a.href = '#';
+                                                        //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                        let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                        if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                        //console.log('===> refLink: '+refLink);
+            
+                                                        //-----------------------------------------------------------------//
+                                                        //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                        //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                        //-----------------------------------------------------------------//
+                                                        
+                                                        a.innerHTML = refLink;
+                                                        p.append(a);
+                                                        p.append(' ');
+            
+            
+                                                        const span_vt = document.createElement('span');
+                                                        span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+            
+                                                        
+                                                        //Номера Стронга в стихах (RST+)
+                                                        if(bq_StrongNumbers == "Y"){
+                                                            let t = VerseText;
+                                                            let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+            
+                                                            arr_t.forEach((el,i) => {    
                                                                 
-                                                                span_vt.append(before_Note);
-                                                                span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                span_vt.append(span_t);
-                                                                const span_vt_despues = document.createElement('span');
-                                                                span_vt_despues.className = 'vt';
-                                                                span_vt_despues.append(after_Note);
-                                                                span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
-        
-                                                                p.append(span_vt);
-                                                                p.append(span_vt_despues);
-                                                                */
-
-                                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-
-                                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
-                                                                    const h6_text = document.createElement('h6');
-                                                                    h6_text.className = 'prim_h6';
-                                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
-                                                                    let arr_text_bn = arr_bn[1].split('</h6>');
-                                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
-                                                                    h6_text.innerHTML = arr_text_bn[0];
-                                                                    span_before.append(h6_text);
-                                                                    span_vt.append(span_before);
-                                                                }else{
-                                                                    span_before.innerHTML = before_Note;
-                                                                    span_vt.append(span_before);
+                                                                //element of string is Strong Number
+                                                                if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                    const span_strong = document.createElement('span');
+                                                                    span_strong.className = 'strong'; 
+                                                                    let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+            
+                                                                    //si ultimo carácter es string
+                                                                    if(last_char != '' && isNaN(last_char)){
+                                                                        let el_number = el.substring(0,el.length-1);
+                                                                        let el_string = last_char;
+                                                                        span_strong.innerHTML = el_number;
+                                                                        p.append(span_strong);
+                                                                        p.append(el_string);
+                                                                    }else{//es number
+                                                                        span_strong.innerHTML = el;
+                                                                        p.append(span_strong);
+                                                                    }
+                                                                }else{//is word
+                                                                    p.append(' ');
+                                                                    p.append(el);
                                                                 }
-
-                                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
-                                                                
-                                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                                span_after.innerHTML = after_Note;
-                                                                span_vt.append(span_after);
-                                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                p.append(span_vt);
-
+                                                            });
+                                                            p.innerHTML.trim();
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
-                                                        }else{
-                                                            //span_vt.append(VerseText);//se ven '<'
-                                                            span_vt.innerHTML = VerseText;// se ve OK
-                                                            p.append(span_vt);
-        
+            
+                                                        }                                            
+                                                        
+                                                        //Примечания редактора в стихах (RSTi2)
+                                                        if(bq_Notes == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_NoteSign)){// '*'
+                                                                let arr_t0 = t.split(bq_NoteSign);
+                                                                let before_Note = arr_t0[0];
+            
+                                                                if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                    let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                    let text_Note = arr_t2[0];
+                                                                    let after_Note = arr_t2[1];
+
+                                                                    const span_before = document.createElement('span');
+                                                                    const span_after = document.createElement('span');                                                                        
+            
+                                                                    /*
+                                                                    const span_t = document.createElement('span');
+                                                                    span_t.className = 'tooltip';
+                                                                    span_t.setAttribute('data-tooltip',text_Note);
+                                                                    span_t.innerHTML = bq.NoteSign;
+            
+                                                                    span_t.addEventListener('mouseenter', function(){
+                                                                        showTooltip(this);
+                                                                    });
+                                                                    span_t.addEventListener('mouseleave', function(){
+                                                                        hideTooltip(this);
+                                                                    });
+                                                                    
+                                                                    span_vt.append(before_Note);
+                                                                    span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    span_vt.append(span_t);
+                                                                    const span_vt_despues = document.createElement('span');
+                                                                    span_vt_despues.className = 'vt';
+                                                                    span_vt_despues.append(after_Note);
+                                                                    span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+            
+                                                                    p.append(span_vt);
+                                                                    p.append(span_vt_despues);
+                                                                    */
+
+                                                                    before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+
+                                                                    if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                        const h6_text = document.createElement('h6');
+                                                                        h6_text.className = 'prim_h6';
+                                                                        let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                        let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                        arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                        h6_text.innerHTML = arr_text_bn[0];
+                                                                        span_before.append(h6_text);
+                                                                        span_vt.append(span_before);
+                                                                    }else{
+                                                                        span_before.innerHTML = before_Note;
+                                                                        span_vt.append(span_before);
+                                                                    }
+
+                                                                    span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                    
+                                                                    after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                    span_after.innerHTML = after_Note;
+                                                                    span_vt.append(span_after);
+                                                                    //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                    p.append(span_vt);
+
+                                                                }
+                                                            }else{
+                                                                //span_vt.append(VerseText);//se ven '<'
+                                                                span_vt.innerHTML = VerseText;// se ve OK
+                                                                p.append(span_vt);
+            
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                        }
+                                                        
+                                                        //Оглавления в стихах (NRT)
+                                                        if(bq_Titles == 'Y'){
+                                                            let t = VerseText;
+            
+                                                            if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                let before_Title = arr_t1[0];
+                                                                let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                let text_Title = arr_t2[0];
+                                                                let after_Title = arr_t2[1];
+            
+                                                                const span_title = document.createElement('span');
+                                                                span_title.className = 'verse_title';
+                                                                span_title.innerHTML = text_Title;
+            
+                                                                p.append(before_Title);
+                                                                p.append(span_title);
+                                                                p.append(after_Title);
+                                                            }else{
+                                                                p.append(VerseText);
+                                                            }
+            
                                                             if(bq_HTMLFilter == 'Y'){
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
                                                         }
-                                                    }
+                                                        
+                                                        //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                        if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                            span_vt.innerHTML = VerseText;
+                                                            p.append(span_vt);
+            
+                                                            if(bq_HTMLFilter == 'Y'){
+                                                                p.innerHTML = htmlEntities(p.innerHTML);
+                                                            }
+                                                        }    
+            
+                                                        arr_tsk_p[tb_iter] = p;
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);                                           
                                                     
-                                                    //Оглавления в стихах (NRT)
-                                                    if(bq_Titles == 'Y'){
-                                                        let t = VerseText;
-        
-                                                        if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
-                                                            let arr_t1 = t.split(bq_StartTitleSign);//'[('
-                                                            let before_Title = arr_t1[0];
-                                                            let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
-                                                            let text_Title = arr_t2[0];
-                                                            let after_Title = arr_t2[1];
-        
-                                                            const span_title = document.createElement('span');
-                                                            span_title.className = 'verse_title';
-                                                            span_title.innerHTML = text_Title;
-        
-                                                            p.append(before_Title);
-                                                            p.append(span_title);
-                                                            p.append(after_Title);
-                                                        }else{
-                                                            p.append(VerseText);
-                                                        }
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
+                                                    }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                        //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
+                                                        //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                        arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                        //console.log(`--- tb_iter: ${tb_iter}`);
                                                     }
-                                                    
-                                                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                    if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
-                                                        span_vt.innerHTML = VerseText;
-                                                        p.append(span_vt);
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
-                                                    }    
-        
-                                                    arr_tsk_p[tb_iter] = p;
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);                                           
+
+                                                    //si es ultimo elemento del array...
+                                                    if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                        //console.log('--- llamo buildVersesTsk() ---');
+                                                        buildVersesTsk(arr_tsk_p, Translation);
+                                                    }
+
+                                                }//end fetchInner26()
                                                 
-                                                }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
-                                                    //console.log(`2. (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]} `);
-                                                    //console.log(`2. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-                                                    arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);
-                                                }
-
-                                                //si es ultimo elemento del array...
-                                                if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
-                                                    //console.log('--- llamo buildVersesTsk() ---');
-                                                    buildVersesTsk(arr_tsk_p, Translation);
-                                                }
-
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('2.new 2662 error promesa: '+error);
-                                            });
+                                            } catch (error) {
+                                                console.error('2.new 2662 Error en try-catch. Error: ', error);
+                                            }
 
                                         }// end modo_fetch_verses_for_tsk_block by_json
+
 
                                     }
 
@@ -4620,16 +4738,19 @@ function getTsk(e){
 
     
                 }else{//no hay links
+                    
                     eid_tsk_body.innerHTML = '';//reset
                     const p = document.createElement('p');
                     p.className = 'tsk tsk_nolink';
                     p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                     //console.log(p);
                     eid_tsk_body.append(p);
+
                 }
     
                 //Abro Sidebar pata mostrar TSK
                 showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
+
                 if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                     openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                 }else{//si es desktop o tablet
@@ -4638,36 +4759,42 @@ function getTsk(e){
                         eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                     }
                 }
-    
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('2. error promesa tsk: '+error);
-            });
 
-        }//end - //si no existe objeto con Translation. hago fetch()
+            } catch (error) {
+                console.error('2. Error try-catch tsk: ', error);
+            }
+
+        }//end - //si no existe objeto con Translation. hago await fetch()
+
 
     }else{//modo old
 
-        //alert('tsk modo old');
-        //console.log('tsk modo old');
+        try {
+            
+            //alert('tsk modo old');
+            //console.log('tsk modo old');
 
-        url = `./modules/text/tsk/bibleqt.json`;//tsk'; 
-        fetch(url)
-        .then((response) => response.json())
-        .then((tsk) => {
+            let url = `./modules/text/tsk/bibleqt.json`;//tsk'; 
+
+            const response = await fetch(url);
+            const tsk = await response.json();            
             
             //console.log('abajo tsk: ');
             //console.log(tsk);
             //console.log('tsk.Books[book].PathName: '+tsk.Books[book].PathName);
-    
-                url = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference
-                fetch(url)
-                .then((response) => response.text())
-                .then((tskModule) => {  
-                    
+            
+            let url2 = `./modules/text/tsk/${tsk.Books[book].PathName}`;//datos de cross reference
+
+            fetchInner(url2);
+            async function fetchInner(url2){
+                
+                try {
+
+                    const response = await fetch(url2);
+                    const tskModule = await response.text();
+
                     tskModule = tskModule.replaceAll('\r','');//elimino '\r' que da error en 16_nehemiah.ini
-    
+
                     let tb = tskModule.split('[');//divido en chapters
                     let tb_chapter = tb[chapter].split(']\n');//arr de un chapter indicado en el link divido en 2
                     let tb_chapterNumber = tb_chapter[0];//numero de chapter
@@ -4707,7 +4834,7 @@ function getTsk(e){
                         //console.log('click on tsk a');
                         goToLink(Translation, p.querySelector('a').innerHTML);
                     });
-
+    
                     if(p.innerHTML.includes('wr_tooltip')){
                         p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
                             hideShowComment(event);
@@ -4759,372 +4886,383 @@ function getTsk(e){
                             //console.log('chapterNumber: '+chapterNumber);//empezando de 1
                             //console.log('verseNumber: '+verseNumber);//empezando de 1
                             //console.log('to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                            //console.log('---');                        
-    
-                            
+                            //console.log('---');
+
                             //Saco ajustes del modulo de la traducción en json
-                            url_bq = `./modules/text/${Translation}/bibleqt.json`;
-                            fetch(url_bq)
-                            .then((response) => response.json())
-                            .then((bq) => {
-                                    
-                                //console.log(' abajo bq:');
-                                //console.log(bq);
-    
-                                //Asigno global vars para que sean vistos en fetch interior
-                                window.dataBooksTsk = bq.Books;
-    
-                                window.bq_StrongNumbers = bq.StrongNumbers;
-                                window.bq_EnglishPsalms = bq.EnglishPsalms;//PARA SABER SI MODIFICO chapterNumber y verseNumber
-    
-                                window.bq_Notes = bq.Notes;
-                                window.bq_NoteSign = bq.NoteSign;
-                                window.bq_StartNoteSign = bq.StartNoteSign;
-                                window.bq_EndNoteSign = bq.EndNoteSign;
-    
-                                window.bq_Titles = bq.Titles;
-                                window.bq_StartTitleSign = bq.StartTitleSign;
-                                window.bq_EndTitleSign = bq.EndTitleSign;
-    
-                                window.bq_HTMLFilter = bq.HTMLFilter;
-                                
-                                //Достаю индех книги, зная его короткое значение.Напр.: 'Mt 13:24-26'
-                                for(let i = 0, bookNumber = null; i < dataBooksTsk.length; i++) {
-                                    const element = dataBooksTsk[i];
-    
-                                    for(let y = 0; y < element.ShortNames.length; y++) {
-                                        const elem = element.ShortNames[y];
-    
-                                        if(bookShortName.toLowerCase() == elem.toLowerCase()){
-                                            let n_book = element.BookNumber;
-                                            let short_name = elem;//siempre el primer nombre del array
-                        
-                                            bookNumber = i;//numero de book empezando de 0. 0 => Génesis
-                                            //console.log('bookNumber: '+bookNumber);                        
-                                            //console.log('--- encontrado n_book: ' +n_book + ' --- short_name: ' +short_name);
-    
-                                            //Al encontrar el identificador del libro, miro los links. 
-                                            //14=Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
-                                            //vers 14 tiene los links: Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
-    
-                                            if(bq_EnglishPsalms == 'N'){
-                                                //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
-                                                let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
-                                                                                            
-                                                //asigno nuevo valor
-                                                bookNumber = new_result[0];
-                                                chapterNumber = new_result[1];
-                                                verseNumber = new_result[2];
-                                                to_verseNumber = new_result[3];
-    
-                                                //console.log('ahora bookNumber: '+bookNumber);//empezando de 1
-                                                //console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
-                                                //console.log('ahora verseNumber: '+verseNumber);//empezando de 1
-                                                //console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                                            }
-                                                
-                                            //url del libro necesario
-                                            url = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
-                                            fetch(url)
-                                            .then((response) => response.text())
-                                            .then((bookModule) => {
-                                                
-                                                //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
-                                                //console.log(bookModule);
-    
-                                                let nb = bookModule.split('<h4>');//делю файл на главы
-                                                //console.log(nb);
-                                                
-                                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
-                                                //console.log(nb);
-
-                                                let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
-                                                    ? nb[chapterNumber].split('<p>').length - 1 
-                                                    : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
-                                                //console.log(` `);
-                                                //console.log(` tb_iter: ${tb_iter}`);        
-                                                //console.log(`3. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
-    
-                                                
-                                                
-                                                //si el capitulo indicado existe en el modulo -> todo bien
-                                                if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
-                                                    //console.log(`3. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
-                                                    //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
-                                                    //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-
-                                                    let VerseTextFull = '';
-                                                    let VerseText = '';
-
-                                                    // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
-                                                    if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
-                                                        let new_verseNumber = to_verseNumber;
-                                                        let new_to_verseNumber = verseNumber;
-                                                        verseNumber = new_verseNumber;
-                                                        to_verseNumber = new_to_verseNumber;
-                                                        //console.log(`3. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
-                                                    }
+                            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
                             
-                                                    //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
-                                                    if(to_verseNumber != null){                                                    
-                                                        to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
-    
-                                                        for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
-                                                            let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
-                                                            let stijNumber = stij[0];
-                                                            stij.shift();//elimino 1 index
-                                                            let stijText = stij.join(' ');//junto
-                                                            let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
-        
-                                                            //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
-                                                            VerseTextFull += '<span class="stij_one'+ fch+ '">';
-                                                            if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
-                                                                VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
-                                                            }
-                                                            VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
-                                                            VerseTextFull += '</span>';
-        
-                                                            //console.log(VerseTextFull);
-                                                            
-                                                            VerseText = VerseTextFull;
-                                                            //console.log(VerseText);
-                                                        }//end for
-        
-                                                    }else{//если только 1 стих (1Кор.11:7), то...
-                                                        VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
-                                                        //console.log(VerseTextFull);
-                                                        
-                                                        let stijText = VerseTextFull.split(' ');
-                                                        stijText.shift();//elimino numero de versiculo
-        
-                                                        VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
-                                                        //console.log(VerseText);
-                                                    }
-        
-        
-                                                    const p = document.createElement('p');
-                                                    let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
-                                                    if(to_verseNumber != null) idLink += '-' + to_verseNumber;
-                                                    p.id = idLink;
-                                                    p.className = 'tsk tsk_link';
-                                                    p.setAttribute('data-verse',verseNumber);
-        
-                                                    const span_num_tsk = document.createElement('span');
-                                                    span_num_tsk.className = 'sp_f';
-                                                    span_num_tsk.innerText = tb_iter + 1;
-        
-                                                    p.append(span_num_tsk);
+                            fetchInner2(url_bq);
+                            async function fetchInner2(url_bq){
+
+                                try {
                                     
-                                                    const a = document.createElement('a');
-                                                    a.href = '#';
-                                                    //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
-                                                    let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
-                                                    if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
-                                                    //console.log('===> refLink: '+refLink);
+                                    const response = await fetch(url_bq);
+                                    const bq = await response.json();
+                                    //console.log(bq);
         
-                                                    //-----------------------------------------------------------------//
-                                                    //Evento on click. NO BORRAR !!! añado listener después de for!
-                                                    //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
-                                                    //-----------------------------------------------------------------//
-                                                    
-                                                    a.innerHTML = refLink;
-                                                    p.append(a);
-                                                    p.append(' ');
+                                    //Asigno global vars para que sean vistos en fetch interior
+                                    window.dataBooksTsk = bq.Books;
         
+                                    window.bq_StrongNumbers = bq.StrongNumbers;
+                                    window.bq_EnglishPsalms = bq.EnglishPsalms;//PARA SABER SI MODIFICO chapterNumber y verseNumber
         
-                                                    const span_vt = document.createElement('span');
-                                                    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                                    window.bq_Notes = bq.Notes;
+                                    window.bq_NoteSign = bq.NoteSign;
+                                    window.bq_StartNoteSign = bq.StartNoteSign;
+                                    window.bq_EndNoteSign = bq.EndNoteSign;
         
-                                                    
-                                                    //Номера Стронга в стихах (RST+)
-                                                    if(bq_StrongNumbers == "Y"){
-                                                        let t = VerseText;
-                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                    window.bq_Titles = bq.Titles;
+                                    window.bq_StartTitleSign = bq.StartTitleSign;
+                                    window.bq_EndTitleSign = bq.EndTitleSign;
         
-                                                        arr_t.forEach((el,i) => {    
-                                                            
-                                                            //element of string is Strong Number
-                                                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                                                const span_strong = document.createElement('span');
-                                                                span_strong.className = 'strong'; 
-                                                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                    window.bq_HTMLFilter = bq.HTMLFilter;
+                                    
+                                    //Достаю индех книги, зная его короткое значение.Напр.: 'Mt 13:24-26'
+                                    for(let i = 0, bookNumber = null; i < dataBooksTsk.length; i++) {
+                                        const element = dataBooksTsk[i];
         
-                                                                //si ultimo carácter es string
-                                                                if(last_char != '' && isNaN(last_char)){
-                                                                    let el_number = el.substring(0,el.length-1);
-                                                                    let el_string = last_char;
-                                                                    span_strong.innerHTML = el_number;
-                                                                    p.append(span_strong);
-                                                                    p.append(el_string);
-                                                                }else{//es number
-                                                                    span_strong.innerHTML = el;
-                                                                    p.append(span_strong);
-                                                                }
-                                                            }else{//is word
-                                                                p.append(' ');
-                                                                p.append(el);
-                                                            }
-                                                        });
-                                                        p.innerHTML.trim();
+                                        for(let y = 0; y < element.ShortNames.length; y++) {
+                                            const elem = element.ShortNames[y];
         
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
+                                            if(bookShortName.toLowerCase() == elem.toLowerCase()){
+                                                let n_book = element.BookNumber;
+                                                let short_name = elem;//siempre el primer nombre del array
+                            
+                                                bookNumber = i;//numero de book empezando de 0. 0 => Génesis
+                                                //console.log('bookNumber: '+bookNumber);                        
+                                                //console.log('--- encontrado n_book: ' +n_book + ' --- short_name: ' +short_name);
         
-                                                    }                                            
-                                                    
-                                                    //Примечания редактора в стихах (RSTi2)
-                                                    if(bq_Notes == 'Y'){
-                                                        let t = VerseText;
+                                                //Al encontrar el identificador del libro, miro los links. 
+                                                //14=Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
+                                                //vers 14 tiene los links: Ge 49:8; Nu 1:7; Nu 2:3-9; Nu 26:19-27; Nu 7:12
         
-                                                        if(t.includes(bq_NoteSign)){// '*'
-                                                            let arr_t0 = t.split(bq_NoteSign);
-                                                            let before_Note = arr_t0[0];
+                                                if(bq_EnglishPsalms == 'N'){
+                                                    //Modifico sólo los links si es para traducción rusa, ya que TSK viene con EnglishPlsalms = Y
+                                                    let new_result = convertLinkFromEspToRus(bookNumber, chapterNumber, verseNumber, to_verseNumber);
+                                                                                                
+                                                    //asigno nuevo valor
+                                                    bookNumber = new_result[0];
+                                                    chapterNumber = new_result[1];
+                                                    verseNumber = new_result[2];
+                                                    to_verseNumber = new_result[3];
         
-                                                            if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
-                                                                let arr_t1 = t.split(bq_StartNoteSign);//'[('
-                                                                let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
-                                                                let text_Note = arr_t2[0];
-                                                                let after_Note = arr_t2[1];
-
-                                                                const span_before = document.createElement('span');
-                                                                const span_after = document.createElement('span');        
-        
-                                                                /*const span_t = document.createElement('span');
-                                                                span_t.className = 'tooltip';
-                                                                span_t.setAttribute('data-tooltip',text_Note);
-                                                                span_t.innerHTML = bq.NoteSign;
-        
-                                                                span_t.addEventListener('mouseenter', function(){
-                                                                    showTooltip(this);
-                                                                });
-                                                                span_t.addEventListener('mouseleave', function(){
-                                                                    hideTooltip(this);
-                                                                });
-                                                                
-                                                                span_vt.append(before_Note);
-                                                                span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                span_vt.append(span_t);
-                                                                const span_vt_despues = document.createElement('span');
-                                                                span_vt_despues.className = 'vt';
-                                                                span_vt_despues.append(after_Note);
-                                                                span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
-        
-                                                                p.append(span_vt);
-                                                                p.append(span_vt_despues);
-                                                                */
-
-                                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-
-                                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
-                                                                    const h6_text = document.createElement('h6');
-                                                                    h6_text.className = 'prim_h6';
-                                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
-                                                                    let arr_text_bn = arr_bn[1].split('</h6>');
-                                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
-                                                                    h6_text.innerHTML = arr_text_bn[0];
-                                                                    span_before.append(h6_text);
-                                                                    span_vt.append(span_before);
-                                                                }else{
-                                                                    span_before.innerHTML = before_Note;
-                                                                    span_vt.append(span_before);
-                                                                }
-
-                                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
-                                                                
-                                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                                span_after.innerHTML = after_Note;
-                                                                span_vt.append(span_after);
-                                                                //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
-                                                                p.append(span_vt);
-
-                                                            }
-                                                        }else{
-                                                            //span_vt.append(VerseText);//se ven '<'
-                                                            span_vt.innerHTML = VerseText;// se ve OK
-                                                            p.append(span_vt);
-        
-                                                            if(bq_HTMLFilter == 'Y'){
-                                                                p.innerHTML = htmlEntities(p.innerHTML);
-                                                            }
-                                                        }
-                                                    }
-                                                    
-                                                    //Оглавления в стихах (NRT)
-                                                    if(bq_Titles == 'Y'){
-                                                        let t = VerseText;
-        
-                                                        if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
-                                                            let arr_t1 = t.split(bq_StartTitleSign);//'[('
-                                                            let before_Title = arr_t1[0];
-                                                            let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
-                                                            let text_Title = arr_t2[0];
-                                                            let after_Title = arr_t2[1];
-        
-                                                            const span_title = document.createElement('span');
-                                                            span_title.className = 'verse_title';
-                                                            span_title.innerHTML = text_Title;
-        
-                                                            p.append(before_Title);
-                                                            p.append(span_title);
-                                                            p.append(after_Title);
-                                                        }else{
-                                                            p.append(VerseText);
-                                                        }
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
-                                                    }
-                                                    
-                                                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                    if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
-                                                        span_vt.innerHTML = VerseText;
-                                                        p.append(span_vt);
-        
-                                                        if(bq_HTMLFilter == 'Y'){
-                                                            p.innerHTML = htmlEntities(p.innerHTML);
-                                                        }
-                                                    }
-        
-                                                    arr_tsk_p[tb_iter] = p;
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);
-
-
-                                                }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
-                                                    //console.log(`3 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
-                                                    //console.log(`3. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
-                                                    arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
-                                                    //console.log(`--- tb_iter: ${tb_iter}`);
-                                                }                                               
-
-    
-                                                //si es ultimo elemento del array...
-                                                if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
-                                                    //console.log('--- llamo buildVersesTsk() ---');
-                                                    buildVersesTsk(arr_tsk_p, Translation);
+                                                    //console.log('ahora bookNumber: '+bookNumber);//empezando de 1
+                                                    //console.log('ahora chapterNumber: '+chapterNumber);//empezando de 1
+                                                    //console.log('ahora verseNumber: '+verseNumber);//empezando de 1
+                                                    //console.log('ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
                                                 }
-    
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('4. error promesa: '+error);
-                                            });
+
+                                                //url del libro necesario
+                                                let url3 = `./modules/text/${Translation}/${bq.Books[bookNumber].PathName}`;//ej.: nrt_01.htm';     
+                                                
+                                                fetchInner3(url3);
+                                                async function fetchInner3(url3){
+
+                                                    try {
+
+                                                        const response = await fetch(url3);
+                                                        const bookModule = await response.text();
+
+                                                        //console.log(' abajo bookModule:');//libro del modulo de la traducción de la Biblia// 01_Genesis.htm
+                                                        //console.log(bookModule);
+            
+                                                        let nb = bookModule.split('<h4>');//делю файл на главы
+                                                        //console.log(nb);
+                                                        
+                                                        nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                                        //console.log(nb);
+            
+                                                        let vsego_stijov = (chapterNumber <= bq.Books[bookNumber].ChapterQty) 
+                                                            ? nb[chapterNumber].split('<p>').length - 1 
+                                                            : nb[bq.Books[bookNumber].ChapterQty].split('<p>').length - 1 ;
+                                                        //console.log(` `);
+                                                        //console.log(` tb_iter: ${tb_iter}`);        
+                                                        //console.log(`3. В главе ${element.ShortNames[0]}${chapterNumber}: vsego_stijov: ${vsego_stijov}`);
+                                                        
+                                                        
+                                                        //si el capitulo indicado existe en el modulo -> todo bien
+                                                        if(chapterNumber <= bq.Books[bookNumber].ChapterQty && verseNumber <= vsego_stijov){
+                                                            //console.log(`3. (IF) el capitulo indicado '${chapterNumber}' SI esta en el libro ${element.ShortNames[0]}`);
+                                                            //console.log(`3. element.ShortNames[0]: ${element.ShortNames[0]} --- elem: ${elem} --- chapterNumber <= bq.Books[bookNumber].ChapterQty `); 
+                                                            //console.log(`3. si. existe '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+            
+                                                            let VerseTextFull = '';
+                                                            let VerseText = '';
+            
+                                                            // si el link es 'Gn.3:8-5' lo convierto en 'Gn.3:5-8'
+                                                            if(to_verseNumber != null && parseInt(to_verseNumber) <= parseInt(verseNumber)){
+                                                                let new_verseNumber = to_verseNumber;
+                                                                let new_to_verseNumber = verseNumber;
+                                                                verseNumber = new_verseNumber;
+                                                                to_verseNumber = new_to_verseNumber;
+                                                                //console.log(`3. Ahora verseNumber: ${verseNumber} --- to_verseNumber: ${to_verseNumber}`);
+                                                            }
+                                    
+                                                            //Если больше одного стиха нужно показать для Tsk. (1Кор.11:7-12), то...
+                                                            if(to_verseNumber != null){                                                    
+                                                                to_verseNumber = (parseInt(to_verseNumber) <= vsego_stijov) ? parseInt(to_verseNumber) : vsego_stijov ; 
+            
+                                                                for (let i = parseInt(verseNumber); i <= parseInt(to_verseNumber); i++) {
+                                                                    let stij = nb[chapterNumber].split('<p>')[i].split(' ');//делю на стихи и делю на слова по пробелам
+                                                                    let stijNumber = stij[0];
+                                                                    stij.shift();//elimino 1 index
+                                                                    let stijText = stij.join(' ');//junto
+                                                                    let fch = (i == verseNumber) ? ' fch' : '' ;//first-child
+                
+                                                                    //siempre hay que aplicar htmlEntities() para que en tsk no se vean '<' y '>'
+                                                                    VerseTextFull += '<span class="stij_one'+ fch+ '">';
+                                                                    if(i != verseNumber){//si no es 1-er numero de versiculo, lo meto
+                                                                        VerseTextFull += '<span class="stij_numb">'+ stijNumber +'</span> ';
+                                                                    }
+                                                                    VerseTextFull += '<span class="stij_text">'+ stijText +'</span>';
+                                                                    VerseTextFull += '</span>';
+                
+                                                                    //console.log(VerseTextFull);
+                                                                    
+                                                                    VerseText = VerseTextFull;
+                                                                    //console.log(VerseText);
+                                                                }//end for
+                
+                                                            }else{//если только 1 стих (1Кор.11:7), то...
+                                                                
+                                                                VerseTextFull = nb[chapterNumber].split('<p>')[verseNumber];//делю только на стихи выбранную главу
+                                                                //console.log(VerseTextFull);
+                                                                
+                                                                let stijText = VerseTextFull.split(' ');
+                                                                stijText.shift();//elimino numero de versiculo
+                
+                                                                VerseText = ' <span class="stij_text">' + stijText.join(' ') +'</span>';
+                                                                //console.log(VerseText);
+
+                                                            }
+                
+                
+                                                            const p = document.createElement('p');
+                                                            let idLink = Translation +'__'+bookNumber + '__' + chapterNumber + '__' + verseNumber;
+                                                            if(to_verseNumber != null) idLink += '-' + to_verseNumber;
+                                                            p.id = idLink;
+                                                            p.className = 'tsk tsk_link';
+                                                            p.setAttribute('data-verse',verseNumber);
+                
+                                                            const span_num_tsk = document.createElement('span');
+                                                            span_num_tsk.className = 'sp_f';
+                                                            span_num_tsk.innerText = tb_iter + 1;
+                
+                                                            p.append(span_num_tsk);
+                                            
+                                                            const a = document.createElement('a');
+                                                            a.href = '#';
+                                                            //let refLink = dataBooksTsk[bookNumber].ShortNames[0] + '' + chapterNumber + ':' + verseNumber;//ej.: 1Кор.11:7
+                                                            let refLink = `${dataBooksTsk[bookNumber].ShortNames[0]} ${chapterNumber}:${verseNumber}`;//ej.: '1Кор. 11:7'
+                                                            if(to_verseNumber != null) refLink += '-' + to_verseNumber;//ej.: 1Кор.11:7-12
+                                                            //console.log('===> refLink: '+refLink);
+                
+                                                            //-----------------------------------------------------------------//
+                                                            //Evento on click. NO BORRAR !!! añado listener después de for!
+                                                            //a.setAttribute('onclick',`goToLink('${Translation}', '${refLink}')`);//solo así funciona
+                                                            //-----------------------------------------------------------------//
+                                                            
+                                                            a.innerHTML = refLink;
+                                                            p.append(a);
+                                                            p.append(' ');
+                
+                
+                                                            const span_vt = document.createElement('span');
+                                                            span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                
+                                                            
+                                                            //Номера Стронга в стихах (RST+)
+                                                            if(bq_StrongNumbers == "Y"){
+                                                                let t = VerseText;
+                                                                let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                
+                                                                arr_t.forEach((el,i) => {    
+                                                                    
+                                                                    //element of string is Strong Number
+                                                                    if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                        const span_strong = document.createElement('span');
+                                                                        span_strong.className = 'strong'; 
+                                                                        let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                
+                                                                        //si ultimo carácter es string
+                                                                        if(last_char != '' && isNaN(last_char)){
+                                                                            let el_number = el.substring(0,el.length-1);
+                                                                            let el_string = last_char;
+                                                                            span_strong.innerHTML = el_number;
+                                                                            p.append(span_strong);
+                                                                            p.append(el_string);
+                                                                        }else{//es number
+                                                                            span_strong.innerHTML = el;
+                                                                            p.append(span_strong);
+                                                                        }
+                                                                    }else{//is word
+                                                                        p.append(' ');
+                                                                        p.append(el);
+                                                                    }
+                                                                });
+                                                                p.innerHTML.trim();
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                
+                                                            }                                            
+                                                            
+                                                            //Примечания редактора в стихах (RSTi2)
+                                                            if(bq_Notes == 'Y'){
+                                                                let t = VerseText;
+                
+                                                                if(t.includes(bq_NoteSign)){// '*'
+                                                                    let arr_t0 = t.split(bq_NoteSign);
+                                                                    let before_Note = arr_t0[0];
+                
+                                                                    if(t.includes(bq_StartNoteSign) && t.includes(bq_EndNoteSign)){
+                                                                        let arr_t1 = t.split(bq_StartNoteSign);//'[('
+                                                                        let arr_t2 = arr_t1[1].split(bq_EndNoteSign);//')]'
+                                                                        let text_Note = arr_t2[0];
+                                                                        let after_Note = arr_t2[1];
+            
+                                                                        const span_before = document.createElement('span');
+                                                                        const span_after = document.createElement('span');        
+                
+                                                                        /*const span_t = document.createElement('span');
+                                                                        span_t.className = 'tooltip';
+                                                                        span_t.setAttribute('data-tooltip',text_Note);
+                                                                        span_t.innerHTML = bq.NoteSign;
+                
+                                                                        span_t.addEventListener('mouseenter', function(){
+                                                                            showTooltip(this);
+                                                                        });
+                                                                        span_t.addEventListener('mouseleave', function(){
+                                                                            hideTooltip(this);
+                                                                        });
+                                                                        
+                                                                        span_vt.append(before_Note);
+                                                                        span_vt.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                        span_vt.append(span_t);
+                                                                        const span_vt_despues = document.createElement('span');
+                                                                        span_vt_despues.className = 'vt';
+                                                                        span_vt_despues.append(after_Note);
+                                                                        span_vt_despues.innerHTML = (bq_HTMLFilter == 'Y') ? htmlEntities(span_vt_despues.innerHTML) : span_vt_despues.innerHTML ;
+                
+                                                                        p.append(span_vt);
+                                                                        p.append(span_vt_despues);
+                                                                        */
+            
+                                                                        before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+            
+                                                                        if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                            const h6_text = document.createElement('h6');
+                                                                            h6_text.className = 'prim_h6';
+                                                                            let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                            let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                            arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                            h6_text.innerHTML = arr_text_bn[0];
+                                                                            span_before.append(h6_text);
+                                                                            span_vt.append(span_before);
+                                                                        }else{
+                                                                            span_before.innerHTML = before_Note;
+                                                                            span_vt.append(span_before);
+                                                                        }
+            
+                                                                        span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                                        
+                                                                        after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                        span_after.innerHTML = after_Note;
+                                                                        span_vt.append(span_after);
+                                                                        //span_vt.innerHTML = (bq.HTMLFilter == 'Y') ? htmlEntities(span_vt.innerHTML) : span_vt.innerHTML ;
+                                                                        p.append(span_vt);
+            
+                                                                    }
+                                                                }else{
+                                                                    //span_vt.append(VerseText);//se ven '<'
+                                                                    span_vt.innerHTML = VerseText;// se ve OK
+                                                                    p.append(span_vt);
+                
+                                                                    if(bq_HTMLFilter == 'Y'){
+                                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                            //Оглавления в стихах (NRT)
+                                                            if(bq_Titles == 'Y'){
+                                                                let t = VerseText;
+                
+                                                                if(t.includes(bq_StartTitleSign) && t.includes(bq_EndTitleSign)){
+                                                                    let arr_t1 = t.split(bq_StartTitleSign);//'[('
+                                                                    let before_Title = arr_t1[0];
+                                                                    let arr_t2 = arr_t1[1].split(bq_EndTitleSign);//')]'
+                                                                    let text_Title = arr_t2[0];
+                                                                    let after_Title = arr_t2[1];
+                
+                                                                    const span_title = document.createElement('span');
+                                                                    span_title.className = 'verse_title';
+                                                                    span_title.innerHTML = text_Title;
+                
+                                                                    p.append(before_Title);
+                                                                    p.append(span_title);
+                                                                    p.append(after_Title);
+                                                                }else{
+                                                                    p.append(VerseText);
+                                                                }
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                                                            
+                                                            //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                            if(bq_StrongNumbers == "N" && bq_Notes == 'N' && bq_Titles == 'N'){
+                                                                span_vt.innerHTML = VerseText;
+                                                                p.append(span_vt);
+                
+                                                                if(bq_HTMLFilter == 'Y'){
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
+                                                            }
+                
+                                                            arr_tsk_p[tb_iter] = p;
+                                                            //console.log(`--- tb_iter: ${tb_iter}`);
+            
+            
+                                                        }else{//no esta. hay error en el link. Ej.: Juda 4:16 (en Juda hay solo 1 capitulo)
+                                                            //console.log(`3 (ELSE) --- el capitulo indicado '${chapterNumber}' NO esta en el libro ${element.ShortNames[0]}`);
+                                                            //console.log(`3. --- NO EXISTE '${element.ShortNames[0]} ${chapterNumber}:${verseNumber}'`);
+                                                            arr_tsk_p[tb_iter] = '';//como el link es erroneo , añado '' luego lo quito
+                                                            //console.log(`--- tb_iter: ${tb_iter}`);
+                                                        }
+            
+                                                        //si es ultimo elemento del array...
+                                                        if(countElementsInArray(arr_tsk_p) == tb_arr_links.length){
+                                                            //console.log('--- llamo buildVersesTsk() ---');
+                                                            buildVersesTsk(arr_tsk_p, Translation);
+                                                        }
+                                                        
+                                                    } catch (error) {
+                                                        console.error('4. Error en try-catch fetchInner3(). Error: ', error);
+                                                    }
+                                                    
+                                                }//end fetchInner3()
+                                                
+                                                break;//IMPORTANTE!!!
+                                            }
+                                        }
+                                        
+                                        if(bookNumber != null){
                                             break;
                                         }
-                                    }
-                                    if(bookNumber != null){
-                                        break;
-                                    }                                    
-                                }//end for inner
-                            })
-                            .catch(error => { 
-                                // Código a realizar cuando se rechaza la promesa
-                                console.error('3. error promesa: '+error);
-                            });
+
+                                    }//end for inner
+
+                                } catch (error) {
+                                    console.error('3. Error en try-catch fetchInner2(). Error: ', error);
+                                }
+
+                            }//end fetchInner2()                           
         
                         });//fin forEach de tb_arr_links
-
+    
                         if(countElementsInArray(arr_tsk_p) < tb_arr_links.length){
                             //alert('es menor');
                             //console.log('es menor3');
@@ -5139,20 +5277,22 @@ function getTsk(e){
                                 eid_tsk_body.append(p);
                             }
                         }
-
-
+    
+    
                     }else{//no hay links
+                        
                         eid_tsk_body.innerHTML = '';//reset
                         const p = document.createElement('p');
                         p.className = 'tsk tsk_nolink';
                         p.innerHTML = '<span class="prim_tsk"> Para el versiculo indicado no existen pasajes paralelos</span>';
                         //console.log(p);
                         eid_tsk_body.append(p);
+
                     }
     
                     //Abro Sidebar pata mostrar TSK
                     showTab(eid_btn_tsk,'tsk');//Se abre tab TSK
-
+    
                     if(window.innerWidth < pantallaTabletMinPx){//si es mobile
                         openSidebar(document.querySelector('.btnMenu'));//simulo click sobre el boton hamburguesa        
                     }else{//si es desktop o tablet
@@ -5161,17 +5301,16 @@ function getTsk(e){
                             eid_btn_hideShowSidebar.click();//mostrar eid_sidebar con tsk
                         }
                     }
-    
-                })
-                .catch(error => { 
-                    // Código a realizar cuando se rechaza la promesa
-                    console.error('2. error promesa: '+error);
-                });
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('1. error promesa: '+error);
-        });
+
+                } catch (error) {
+                    console.error('2. Error en try-catch fetchInner(). Error: ', error);
+                }
+
+            }//end fetchInner()           
+            
+        } catch (error) {
+            console.error('1. Error try-catch en modo old getTsk(). Error: ', error);
+        }
 
     }//end else de modo old
 
@@ -5209,7 +5348,7 @@ function showChapterText4(Translation, divId, book, chapter, verseNumber = null,
 
 
 
-function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
+async function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     //console.log('=== viaByText_showChapterText4 ===');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -5262,7 +5401,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
             if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
                 
                 //url del libro necesario
-                url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
 
                 //aki no hace falsta 'if(url.includes('no_disponible.htm'))'
                 //ya que fetcha() traerá un ' '(espacio) como datos del fichero 'no_disponible.htm'
@@ -5287,26 +5426,17 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 obj_bible_files[Translation].Books[book].fileContent != '' 
                                 //&& obj_bible_files[Translation].Books[book].fileContent != ' '
                             ){
-                                //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
                                 
-                                // Registra el tiempo de inicio
-                                const tiempoInicio = new Date().getTime();
-                                //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
+                                try {
+                                
+                                    //console.log(`--- --- starting from myPromise --- divId: ${divId}  --- Translation: ${Translation} `);
 
-                                let myPromise = new Promise(function(resolve, reject){
-                                    resolve('ok');
-                                });
+                                    // Registra el tiempo de inicio
+                                    const tiempoInicio = new Date().getTime();
+                                    //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                myPromise
-                                .then((data) => {//data = ok
-                                    
                                     //console.log(' --- if: ');
-
-                                    let bookModule;
-                                    if(data == 'ok'){
-                                        bookModule = obj_bible_files[Translation].Books[book].fileContent;
-                                    }            
-                                    
+                                    let bookModule = obj_bible_files[Translation].Books[book].fileContent;
                                     //console.log(bookModule);
             
                                     let nb = bookModule.split('<h4>');//делю файл на главы
@@ -6369,13 +6499,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             buildDivShow(arrDataDivShow, indexColToBuild);
                                         }                                        
                                     }
-                                })
-                                .then(() => {
+
                                     mySizeWindow();
                                     mySizeVerse();
-                                })
-                                .then(() => {
-                                    
+
                                     if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                                         //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
                                         //styles of other verses
@@ -6433,8 +6560,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             }
                                         }                
                                     }
-                                })
-                                .then(() => {
+
                                     //si hay versiculo marcado con amarillo...
                                     if(verseNumber !== null &&  verseNumber != "" ){
                                         //scroll to verse o verses activos
@@ -6451,9 +6577,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                             scrollToVerseView(verseView);
                                         }
                                     }
-                                    
-                                })
-                                .then(() => {
+
                                     mySizeWindow();
                                     mySizeVerse();
                                     addListenerToPA();//listen links p > a
@@ -6466,12 +6590,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                     //console.log('obj_bible_files --- tiempoFin: '+tiempoFin);
                                     //console.log('obj_bible_files --- tiempoEjecucion: '+tiempoEjecucion+' sec.');
                                     //mostrarTamanioObjeto(obj_bible_files);
-
-                                })
-                                .catch(error => {
-                                    // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                                    console.error('1. error promesa en myPromise con obj_bible_files. error: '+error);
-                                });
+                                    
+                                } catch (error) {
+                                    console.error('1. error try-catch con obj_bible_files. error: ', error);
+                                }
 
                             }else{
                                 //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -6484,20 +6606,21 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 }
 
                 
-                //si no existe objeto con Translation. hago fetch()
+                //si no existe objeto con Translation. hago await fetch()
                 if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
                     //console.log(`obj_bible_files[Translation].Books[book] == 'undefined'`);
 
-                    //start de tiempo para calcular cuanto tarda
-                    const tiempoInicioFetch = new Date().getTime();
-                    //console.log('fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
+                    try {
+    
+                        //start de tiempo para calcular cuanto tarda
+                        const tiempoInicioFetch = new Date().getTime();
+                        //console.log('await fetch() --- tiempoInicioFetch: '+tiempoInicioFetch);
 
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';
 
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
                         if(crear_objeto_obj_bible_files){
                             if(bookModule != '' && bookModule != ' '){
@@ -7562,6 +7685,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             }
 
                         }else{
+                            
                             //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                             divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
                             
@@ -7579,14 +7703,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //console.log('--- llamo buildDivShow() ---');
                                 buildDivShow(arrDataDivShow, indexColToBuild);
                             }
+
                         }
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
-                    })
-                    .then(() => {
-                        
+
                         if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                             //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -7649,8 +7771,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                             }                
                         }
-                    })
-                    .then(() => {
+
                         //si hay versiculo marcado con amarillo...
                         if(verseNumber !== null &&  verseNumber != "" ){
                             //scroll to verse o verses activos
@@ -7667,27 +7788,25 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 scrollToVerseView(verseView);
                             }
                         }
-                        
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
                         
-                        //console.log('2. ending fetch()');
+                        //console.log('2. ending await fetch()');
                         // Registra el tiempo de finalización
                         //const tiempoFinFetch = new Date().getTime();
                         // Calcula el tiempo de ejecución en milisegundos
                         //const tiempoEjecucionFetch = (tiempoFinFetch - tiempoInicioFetch) / 1000;//
-                        //console.log('fetch() --- tiempoFinFetch: '+tiempoFinFetch);
-                        //console.log('fetch() --- tiempoEjecucionFetch: '+tiempoEjecucionFetch+' sec.');
+                        //console.log('await fetch() --- tiempoFinFetch: '+tiempoFinFetch);
+                        //console.log('await fetch() --- tiempoEjecucionFetch: '+tiempoEjecucionFetch+' sec.');
 
-                    })
-                    .catch(error => { 
-                        //Código a realizar cuando se rechaza la promesa
-                        console.error('error promesa en fetch() con obj_bible_files. error: '+error);
-                    });                    
+                    } catch (error) {
+                        console.error('error try-catch en await fetch() con obj_bible_files. error: ', error);
+                    }
+                                       
                 }
+
                 //console.log('despues de fetch --- abajo obj_bible_files:');
                 //console.log(obj_bible_files); 
 
@@ -7726,17 +7845,19 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
     
         }else{//MODO OLD. como en Text3()
             
-            //console.log('MODO OLD. como en Text3(). hago fetch() para sacar texto del capítulo');
+            //console.log('MODO OLD. como en Text3(). hago await fetch() para sacar texto del capítulo');
 
-            //saco ajustes de este modulo en json
-            url_bq = `./modules/text/${Translation}/bibleqt.json`;
-            fetch(url_bq)
-            .then((response) => response.json())
-            .then((bq) => {
+            try {
+                
+                //saco ajustes de este modulo en json
+                let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+                
+                const response = await fetch(url_bq);
+                const bq = await response.json();
+
                 //console.log(' abajo bq:');
                 //console.log(bq);
 
-                //window.bq = bq;
                 if(divTrans != null){
                     // divTrans.innerHTML = bq.BibleShortName;
                     divTransDesk.innerHTML = bq.BibleShortName;
@@ -7747,38 +7868,38 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                 //if(parseInt(book) < bq.BookQty){//0-65 < 66
                 if(typeof bq.Books[book] != 'undefined'){//0-65 < 66
 
-                    //url del libro necesario
-                    url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
-
-                    if(url.includes('no_disponible.htm')){
-                        //console.log('url includes no_disponible.htm');
-                        //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
-                        //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
-                        
-                        window.iter_i++;
-                        if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
-                            //console.log('iter_i: '+iter_i);
-                            showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    try {
+                    
+                        //url del libro necesario
+                        let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm';  
+    
+                        if(url.includes('no_disponible.htm')){
+                            //console.log('url includes no_disponible.htm');
+                            //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                            //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                            
+                            window.iter_i++;
+                            if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                                //console.log('iter_i: '+iter_i);
+                                showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                            }
+            
+                            arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                            //console.log('6343. arrDataDivShow: ',arrDataDivShow);
+            
+                            //si es ultimo elemento del array...
+                            if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                                //console.log('--- llamo buildDivShow() ---');
+                                buildDivShow(arrDataDivShow, indexColToBuild);
+                            } 
+                            
+                            return false;
                         }
-        
-                        arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                        //console.log('6343. arrDataDivShow: ',arrDataDivShow);
-        
-                        //si es ultimo elemento del array...
-                        if(countElementsInArray(arrDataDivShow) == arr_trans.length){
-                            //console.log('--- llamo buildDivShow() ---');
-                            buildDivShow(arrDataDivShow, indexColToBuild);
-                        } 
-                        
-                        return false;
-                    }
+    
+                        const response = await fetch(url);
+                        const bookModule = await response.text();
 
-
-                    fetch(url)
-                    .then((response) => response.text())
-                    .then((bookModule) => {
-                        
-                        //console.log(bookModule);
+                                                //console.log(bookModule);
                         //divShow.innerHTML = '';//IMPORTANTE! PARA QUE NO SE DUPLIQUE EL CONTENIDO DE UNA TRANS!
 
                         let nb = bookModule.split('<h4>');//делю файл на главы
@@ -8843,13 +8964,10 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 buildDivShow(arrDataDivShow, indexColToBuild);
                             }                        
                         }
-                    })
-                    .then(() => {
+
                         mySizeWindow();
                         mySizeVerse();
-                    })
-                    .then(() => {
-                        
+
                         if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                             //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -8910,8 +9028,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 }
                             }                
                         }
-                    })
-                    .then(() => {
+
                         //si hay versiculo marcado con amarillo...
                         if(verseNumber !== null &&  verseNumber != "" ){
                             //scroll to verse o verses activos
@@ -8927,19 +9044,18 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                                 //scroll to verseView
                                 scrollToVerseView(verseView);
                             }
-                        }                        
-                    })
-                    .then(() => {
+                        }
+
                         mySizeWindow();
                         mySizeVerse();
                         addListenerToPA();//listen links p > a
-                    })
-                    .catch(error => {
-                        // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                        console.error('error promesa en fetch() modo old. error: '+error);
-                    });
+                        
+                    } catch (error) {
+                        console.error('error try-catch en modo old. Error: ', error);
+                    }
 
                 }else{//si no está el id de book en el modulo...
+                    
                     document.querySelectorAll('.colsInner').forEach(el=>{
                         if(el.childElementCount == 0 || el.textContent == ''){
                             const p = document.createElement('p');
@@ -8951,11 +9067,12 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
                             //alert(' no vacio');
                         }
                     });
-                }            
-            })
-            .catch(error => {
-                console.error('14212. Error: ', error);
-            });
+
+                }
+                
+            } catch (error) {
+                console.error('14212. try-catch Error: ', error);
+            }
 
         }//fin - modo old
 
@@ -8972,7 +9089,7 @@ function viaByText_showChapterText4(Translation, divId, book, chapter, verseNumb
 
 
 
-function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
+async function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumber, to_verseNumber, verseView, indexColToBuild){
     //console.log('=== viaByJson_showChapterText4 === ');
 
     let divTrans = document.querySelector(divId+' .colsHead .colsHeadInner .partDesk .desk_trans');//ej: RST+
@@ -9000,7 +9117,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
     
     if(Translation != null){
 
-        //console.log('saco datos por json por fetch()');
+        //console.log('saco datos por json por await fetch()');
         
         let objTrans = arrFavTransObj.find(v => v.Translation === Translation);//para test
         
@@ -9025,52 +9142,53 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
         //if(parseInt(book) < bq.BookQty){//0-65 < 66 //antes
         if(typeof bq.Books[book] != 'undefined'){//0-65 < 66    
             
-            //url del libro necesario
-            url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
-
-            if(url.includes('no_disponible.htm')){
-                //console.log('url includes no_disponible.htm');
-                //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
-                //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+            try {
                 
-                window.iter_i++;
-                if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
-                    //console.log('iter_i: '+iter_i);
-                    showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
-                }
+                //url del libro necesario
+                let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//nrt_01.htm'; //new
 
-                arrDataDivShow.push([]);//añado array vacio ya que no hay verses
-                //console.log('7588. arrDataDivShow: ',arrDataDivShow);
+                if(url.includes('no_disponible.htm')){
+                    //console.log('url includes no_disponible.htm');
+                    //showTextInAllDivShow('<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>');
+                    //divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
+                    
+                    window.iter_i++;
+                    if(window.iter_i < window.arr_trans.length && indexColToBuild == null){//recargo todas las columnas 
+                        //console.log('iter_i: '+iter_i);
+                        showChapterText4(arr_trans[iter_i],'#'+arr_divShow[iter_i], book, chapter, verseNumber, to_verseNumber, verseView);
+                    }
 
-                //si es ultimo elemento del array...
-                if(countElementsInArray(arrDataDivShow) == arr_trans.length){
-                    //console.log('--- llamo buildDivShow() ---');
-                    buildDivShow(arrDataDivShow, indexColToBuild);
+                    arrDataDivShow.push([]);//añado array vacio ya que no hay verses
+                    //console.log('7588. arrDataDivShow: ',arrDataDivShow);
+
+                    //si es ultimo elemento del array...
+                    if(countElementsInArray(arrDataDivShow) == arr_trans.length){
+                        //console.log('--- llamo buildDivShow() ---');
+                        buildDivShow(arrDataDivShow, indexColToBuild);
+                    } 
+
+                    return false;
                 } 
 
-                return false;
-            } 
+                //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
+                let formData = new FormData();
+                formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
+                formData.append('base_ep', base_ep);
+                formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
+                if(book != null) formData.append('book', book);
+                formData.append('chapter', chapter);
+                //AKI NO HACE FALTA NI VERSENUMBER NI TO_VERSENUMBER YA QUE MUESTRO TODO EL CAPITULO Y ALLI VOY AL VERSE INDICADO!!!
+                //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
+                //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
+                if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
 
-            //Meto parametros para sacar datos por el fetch de solo un capitulo en vez de todo el fichero
-            let formData = new FormData();
-            formData.append('url', '../'+url);//importante dos puntos '../' delante de la url
-            formData.append('base_ep', base_ep);
-            formData.append('bq_EnglishPsalms', bq.EnglishPsalms);
-            if(book != null) formData.append('book', book);
-            formData.append('chapter', chapter);
-            //AKI NO HACE FALTA NI VERSENUMBER NI TO_VERSENUMBER YA QUE MUESTRO TODO EL CAPITULO Y ALLI VOY AL VERSE INDICADO!!!
-            //if(typeof verseNumber != 'undefined' && verseNumber != null) formData.append('verse', verseNumber);
-            //if(typeof to_verseNumber != 'undefined' && to_verseNumber != null) formData.append('to_verse', to_verseNumber);
-            if(typeof col1_p_length != 'undefined' && col1_p_length != null) formData.append('col1_p_length', col1_p_length);
+                //console.log('formData: ',[...formData]);
 
-            //console.log('formData: ',[...formData]);
-            
-            fetch('./php/read_file_to_json.php',{
-                method: 'POST',
-                body: formData
-            })
-            .then((response) => response.json())
-            .then((dataRead) => {
+                const response = await fetch('./php/read_file_to_json.php',{
+                    method: 'POST',
+                    body: formData
+                });
+                const dataRead = await response.json();
 
                 //console.log('10197. abajo dataRead');
                 //console.log(dataRead);
@@ -10171,6 +10289,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     }
 
                 }else{
+                    
                     //console.log(' no existe capítulo '+chapter+' del módulo '+book);
                     divShow.innerHTML = '<p class="prim">Текущий модуль Библии не содержит стихов для выбранной книги.</p>';
 
@@ -10187,16 +10306,13 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     if(countElementsInArray(arrDataDivShow) == arr_trans.length){
                         //console.log('--- llamo buildDivShow() ---');
                         buildDivShow(arrDataDivShow, indexColToBuild);
-                    }                    
+                    } 
+
                 }
 
-            })
-            .then(() => {
                 mySizeWindow();
                 mySizeVerse();
-            })
-            .then(() => {
-                
+
                 if(verseNumber !== null &&  verseNumber != "" && verseView == null){
                     //console.log('verseNumber !== null &&  verseNumber != "" && verseView == null');
 
@@ -10259,8 +10375,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         }
                     }                
                 }
-            })
-            .then(() => {
+
                 //si hay versiculo marcado con amarillo...
                 if(verseNumber !== null &&  verseNumber != "" ){
                     //scroll to verse o verses activos
@@ -10278,19 +10393,17 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                         scrollToVerseView(verseView);
                     }
                 }
-                
-            })
-            .then(() => {
+
                 mySizeWindow();
                 mySizeVerse();
                 addListenerToPA();//listen links p > a
-            })
-            .catch(error => {
-                // Manejar cualquier error que pueda ocurrir durante la solicitud o el procesamiento de la respuesta
-                console.error('error promesa en fetch() modo old. error: '+error);
-            });
+
+            } catch (error) {
+                console.error('error try-catch modo old. error: ', error);
+            }
 
         }else{//si no está el id de book en el modulo...
+            
             document.querySelectorAll('.colsInner').forEach(el=>{
                 if(el.childElementCount == 0 || el.textContent == ''){
                     const p = document.createElement('p');
@@ -10303,6 +10416,7 @@ function viaByJson_showChapterText4(Translation, divId, book, chapter, verseNumb
                     el.innerHTML = `<p class="prim_error_compare">Для сравнения текста переводов необходимо указать книги, имеющиеся в выбранных переводах Библии.</p>`;
                 }
             });
+
         }
 
     }//end --- typeof Translation
@@ -10845,22 +10959,7 @@ function parseVerse(Translation, bq, bookModule, book, chapter, verseNumber){
 }
 
 
-window.addEventListener('load',function(d){
-    //console.log('load - window.innerWidth: '+window.innerWidth);
-    mySizeWindow();
-    mySizeVerse();
-    mySizeVersesCompare();//si no hay verses , no hace nada
-    enableDisableResp1200();
-});
 
-window.addEventListener('resize',function(d){
-    //console.log('resize - window.innerWidth: '+window.innerWidth);
-    checkPositionShowForMob();
-    mySizeWindow();
-    mySizeVerse();
-    mySizeVersesCompare();//si no hay verses , no hace nada
-    enableDisableResp1200();
-});
 
 
 function resizeSidebar(par){
@@ -11002,7 +11101,7 @@ function getActTrans(){
     });
 }
 
-function changeTransNav(trans, idCol_trans){
+async function changeTransNav(trans, idCol_trans){
     //console.log('=== function changeTransNav ===');
     //console.log('trans to change en nav. trans: '+trans);
     //console.log('trans to change en nav. idCol_trans: '+idCol_trans);
@@ -11030,62 +11129,63 @@ function changeTransNav(trans, idCol_trans){
     chapter = (chapter != '') ? chapter : 1;//default si no hay
 
     let Translation = trans;
-    url_bq = `./modules/text/${Translation}/bibleqt.json`;
+    let url_bq = `./modules/text/${Translation}/bibleqt.json`;
 
-    fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
+    try {
 
+        const response = await fetch(url_bq);
+        const bq = await response.json();
 
-            if(document.querySelectorAll('.cols').length > 1){
-                let chapter = obj_nav.show_chapter;
-                let verse = obj_nav.show_verse; 
-                let to_verse = null;//todavia no está seleccionado
-                
-                let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
-
-                if(res_new_link){
-                    //asigno nuevo valor
-                    let bookNumber = res_new_link[0];
-                    let chapterNumber = res_new_link[1];
-                    let verseNumber = res_new_link[2];
-                    let to_verseNumber = res_new_link[3];
-                    let trans_BookShortName = res_new_link[4];
-                    
-                    //console.log('---despues---');
-                    //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
-                    //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
-                    //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
-                    //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
-                    //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);
-
-                    let new_ref_text = trans_BookShortName;
-                    if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
-                    if(verseNumber > 0) new_ref_text += ':' + verseNumber;
-                    if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
-                    eid_inpt_nav.value = new_ref_text;
-                }
-            }else{// un trans1
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[id_book].ShortNames[0]);
-                eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
-    
-                if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
-                if(typeof chapter == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_chapter > 0) eid_inpt_nav.value += ' ' + eid_inpt_nav.dataset.show_chapter;
-    
-                if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
-                if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_verse > 0) eid_inpt_nav.value += ':' + eid_inpt_nav.dataset.show_verse;
-    
-                if(parseInt(to_verseNumber) > parseInt(verseNumber)) eid_inpt_nav.value += '-' + to_verseNumber;
-                if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_to_verse > 0) eid_inpt_nav.value += '-' + eid_inpt_nav.dataset.show_to_verse;
-            }
+        if(document.querySelectorAll('.cols').length > 1){
+            let chapter = obj_nav.show_chapter;
+            let verse = obj_nav.show_verse; 
+            let to_verse = null;//todavia no está seleccionado
             
-            //modifico los nombres de libros de la biblia en nav.
-            sel(eid_s_book,'b',null,trans);
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            let res_new_link = checkRefNav(id_book, chapter, verse, to_verse);
+
+            if(res_new_link){
+                //asigno nuevo valor
+                let bookNumber = res_new_link[0];
+                let chapterNumber = res_new_link[1];
+                let verseNumber = res_new_link[2];
+                let to_verseNumber = res_new_link[3];
+                let trans_BookShortName = res_new_link[4];
+                
+                //console.log('---despues---');
+                //console.log('3.--- res_new_link --- ahora bookNumber: '+bookNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora chapterNumber: '+chapterNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora verseNumber: '+verseNumber);//empezando de 1
+                //console.log('3.--- res_new_link --- ahora to_verseNumber: '+to_verseNumber);//mayor que verseNumber
+                //console.log('3.--- res_new_link --- ahora trans_BookShortName: '+trans_BookShortName);
+
+                let new_ref_text = trans_BookShortName;
+                if(chapterNumber > 0) new_ref_text += ' ' + chapterNumber;
+                if(verseNumber > 0) new_ref_text += ':' + verseNumber;
+                if(to_verseNumber > 0 && parseInt(to_verseNumber) > parseInt(verseNumber)) new_ref_text += '-' + to_verseNumber;
+                eid_inpt_nav.value = new_ref_text;
+            }
+
+        }else{// un trans1
+            
+            eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[id_book].ShortNames[0]);
+            eid_inpt_nav.value = bq.Books[id_book].ShortNames[0];
+
+            if(chapter > 0) eid_inpt_nav.value += ' ' + chapter;
+            if(typeof chapter == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_chapter > 0) eid_inpt_nav.value += ' ' + eid_inpt_nav.dataset.show_chapter;
+
+            if(parseInt(verseNumber) > 0) eid_inpt_nav.value += ':' + verseNumber;
+            if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_verse > 0) eid_inpt_nav.value += ':' + eid_inpt_nav.dataset.show_verse;
+
+            if(parseInt(to_verseNumber) > parseInt(verseNumber)) eid_inpt_nav.value += '-' + to_verseNumber;
+            if(typeof verseNumber == 'undefined' && eid_inpt_nav.dataset.divtrans == 'trans1' && eid_inpt_nav.dataset.show_to_verse > 0) eid_inpt_nav.value += '-' + eid_inpt_nav.dataset.show_to_verse;
+        }
+        
+        //modifico los nombres de libros de la biblia en nav.
+        sel(eid_s_book,'b',null,trans);
+        
+    } catch (error) {
+        console.error('error try-catch. error: ',error);
+    }
 
 }
 
@@ -11465,6 +11565,7 @@ function checkNextPositionShow(){//solo mueve la imagen
     }
 }
 
+
 function mySizeWindow() {
     //console.log('mySizeWindow');
     
@@ -11472,7 +11573,9 @@ function mySizeWindow() {
     let window_h = window.innerHeight;
     let header_h = eid_header.offsetHeight;
     let footer_h = eid_footer.offsetHeight;
+    
     let headerContainer_h = eid_headerContainer.offsetHeight;
+    let modcont_header_h = eid_modcont_header.offsetHeight;
     
     let pantalla, marginSidebar;
     if(window_w < pantallaTabletMinPx){
@@ -11493,6 +11596,13 @@ function mySizeWindow() {
     //console.log('window_w: '+window_w);
     //console.log('pantalla: '+pantalla);
     //console.log('marginSidebar: '+marginSidebar);
+
+    let modcont_body_max_h = 
+      window_h 
+    - modcont_header_h 
+    - (10 * 2);//10 es margin top y bottom de class '.inner'
+
+    eid_modcont_body.style.maxHeight = modcont_body_max_h + 'px';
 
 
     let wrCols_h = 
@@ -11518,6 +11628,8 @@ function mySizeWindow() {
     eid_sidebar.style.height = sidebar_h + 'px';
     eid_container.style.height = container_h + 'px';
     eid_vert_line.style.height = vert_line_h + 'px';
+
+    mySizeGridSidebar();
 
     let colsAll = document.querySelectorAll('.cols');
     let colsHeadAll = document.querySelectorAll('.colsHead');
@@ -11549,7 +11661,8 @@ function mySizeWindow() {
         });
 
         colsHeadAll.forEach(el=>{
-            el.style.height =  trans_min_h +'px';
+            // el.style.height =  trans_min_h + 'px';//antes
+            el.style.height =  trans_max_h + 'px';//test en mobile
         });
         
         colsInnerAll.forEach((el,i)=>{
@@ -11698,8 +11811,9 @@ function mySizeNav(){
 }
 
 function mySizeFind(){
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+    
     let padding_find_body = 10;//antes 10// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
-
     // Get the height of the element, including margins
     const sidebarInner_margins_h = parseInt(computedStyle.marginTop) + parseInt(computedStyle.marginBottom);
 
@@ -11707,6 +11821,7 @@ function mySizeFind(){
     let sidebarInner_h = sidebar_h - sidebarInner_margins_h;
     let menuTabs_h = eid_menuTabs.offsetHeight;
     let wr_find_head_h = eid_wr_find_head.offsetHeight;
+    let wr_find_tabs_h = eid_wr_find_tabs.offsetHeight;
 
     let find_body_h = 
       sidebar_h
@@ -11717,9 +11832,16 @@ function mySizeFind(){
     ;
     eid_sidebarInner.style.height = sidebarInner_h + 'px';
     eid_find_body.style.height = find_body_h + 'px';
-    //console.log('find_body_h: '+find_body_h);
-}
+    //console.log('find_body_h: ',find_body_h);
 
+    let find_res_block_active_h = 
+      find_body_h
+    - wr_find_tabs_h
+    - 5
+    ;
+    ecl_find_res_block_active.style.height = find_res_block_active_h + 'px';
+    //console.log('find_res_block_active_h: ',find_res_block_active_h);
+}
 
 function mySizeTsk(){
     let padding_tsk_body = 15;// 10 si padding-top:5px y padding-bottom:5px // 15 si padding-top:5px y margin-bottom: 5px
@@ -11913,6 +12035,62 @@ function mySizeVerse(){
 
 }//end mySizeVerse()
 
+function mySizeGridSidebar(){
+    let sidebar_w = eid_sidebar.offsetWidth;
+
+    if(sidebar_w > 0){
+        
+        const ecl_wr_grid_ch = document.querySelector('.wr_grid_ch');
+        const ecl_wr_grid_v = document.querySelector('.wr_grid_v');
+    
+        if(sidebar_w <= 400){
+            
+            //console.log('[if] --- sidebar_w <= 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_5_columns')){
+                    //console.log('--- ecl_wr_grid_ch --- añado grid_max_5_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_5_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_10_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_5_columns')){
+                    //console.log('--- ecl_wr_grid_v --- añado grid_max_5_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_5_columns');
+                }
+            }        
+    
+        }else if(sidebar_w > 400){
+            
+            //console.log('[else] --- sidebar_w > 400. sidebar_w: ', sidebar_w);
+    
+            if(ecl_wr_grid_ch){
+                ecl_wr_grid_ch.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_ch.classList.contains('grid_max_10_columns')){
+                    //console.log('--- ecl_wr_grid_ch --- añado grid_max_10_columns');
+                    ecl_wr_grid_ch.classList.add('grid_max_10_columns');
+                }
+            }
+            
+            if(ecl_wr_grid_v){
+                ecl_wr_grid_v.classList.remove('grid_max_5_columns');
+    
+                if(!ecl_wr_grid_v.classList.contains('grid_max_10_columns')){
+                    //console.log('--- ecl_wr_grid_v --- añado grid_max_10_columns');
+                    ecl_wr_grid_v.classList.add('grid_max_10_columns');
+                }
+            }        
+    
+        }
+    
+    }
+}
 
 function addMarginTolastP(){
     let colsInnerAll = document.querySelectorAll('.colsInner');
@@ -12031,8 +12209,7 @@ function addTrans(addMode = null){
 
         const htmlBody = document.createElement("div");//Text of Bible
         htmlBody.className = 'colsInner';						
-        htmlBody.innerHTML =  `	<p class="prim">Выберите модуль Библии кликнув на '+' вверху.</p>
-                                `;
+        htmlBody.innerHTML =  `<p class="prim">Выберите модуль Библии кликнув на '+' вверху.</p>`;
                         
         htmlCol.appendChild(htmlTrans);
         htmlCol.appendChild(htmlBody);
@@ -12485,7 +12662,7 @@ async function insertarDatos(tabla, campo, arr) {
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes insertar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes insertar datos. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -12540,57 +12717,13 @@ async function insertarDatos(tabla, campo, arr) {
 }
 
 
-function insertarDatos_old(tabla, campo, arr) {
-    //const nombre = document.getElementById('nombre').value;
-    //const correo = document.getElementById('correo').value;
-
-    const datos = {
-        tabla: tabla,
-        campo: campo,
-        arr: arr
-    };
-    //console.log(datos);
-
-    fetch('./php/insertar_datos.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datos)
-    })
-    .then(response => response.json())
-    // .then(response => response.text())//test
-    .then(data => {
-
-        //console.log(data);
-        // Puedes realizar acciones adicionales después de la inserción, si es necesario
-        if(data.success){
-            let text_show = obj_lang[data.dic_code];
-            console.log(text_show);
-        }else{
-            let text_show = obj_lang[data.dic_code];
-            console.error(text_show);
-            if(data.conn_error){
-                let text_show2 = `${obj_lang[data.dic_code]} ${data.conn_error}`;
-                console.error(text_show2);
-            }
-        }
-
-    })
-    .catch(error => { 
-        console.error('Error: ', error)
-    });
-}
-
-
-
 async function obtenerDatosDeBD(tabla, campo){
     //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             //openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -12998,7 +13131,7 @@ async function verificarAutenticacion() {
     try {
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
-            let aviso_text = `Si no aceptas cookies no puedes verificar autenticación. <a onclick="showBlobkCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
+            let aviso_text = `Si no aceptas cookies no puedes verificar autenticación. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
             openModal('center','Cookies',aviso_text,'showAviso');
             return;
         }
@@ -13047,6 +13180,7 @@ function closeTab(el, ev = null){
         //busco index de el tab active en arrTabs
         let index_active = arrTabs.indexOf(arrTabs.find(v => v.className === 'tabs tab_active'));
         let index_active_new = 0;//por defecto
+        
         if(index_active > 0){
             index_active_new = index_active - 1;//prev
         }else{//index_active = 0
@@ -13372,7 +13506,7 @@ function selVerse(e){
 
 //Click sobre el botton li of book 'Gen.' o chapter '1...' or verse '1...' 
 //Construllo botones li de books, chapters, verses
-function sel(e, par, param_show_chapter = null, trans = null){
+async function sel(e, par, param_show_chapter = null, trans = null){
     //console.log('=== function sel() ===');
     
     let trans_base = eid_trans1.dataset.trans;
@@ -13431,18 +13565,11 @@ function sel(e, par, param_show_chapter = null, trans = null){
                         // Registra el tiempo de inicio
                         //const tiempoInicio_b = new Date().getTime();
 
-                        let myPromise_b = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
+                        try {
 
-                        myPromise_b
-                        .then(res => {
-
-                            if(res == 'ok'){
-                                window.arr_books = this_trans_obj.Books;
-                                if(typeof this_trans_obj.Books == 'undefined') alert('this_trans_obj.Books undefined');
-                                //console.log(arr_books);
-                            }
+                            window.arr_books = this_trans_obj.Books;
+                            if(typeof this_trans_obj.Books == 'undefined') alert('this_trans_obj.Books undefined');
+                            //console.log(arr_books);
                 
                             eid_v_book.innerHTML = '';//reset botones de books
                 
@@ -13586,10 +13713,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 });
                                 eid_v_book.append(block_APO);
                             }
-                            //console.log(eid_v_book);                
+                            //console.log(eid_v_book);
 
-                        })
-                        .then(()=>{
                             //si hay un boton li activo me muevo alli
                             if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13609,23 +13734,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                             //const tiempoFin_b = new Date().getTime();
                             //const tiempoEjecucion_b = (tiempoFin_b - tiempoInicio_b) / 1000;//
                             //console.log('myPromise_b --- tiempoEjecucion_b: '+tiempoEjecucion_b+' sec.');
-
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa myPromise_b: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch sel(b). error: ',error);
+                        }                       
 
                     }else{//modo old. no existe arrFavTransObj
 
                         alert('modo old al iniciar... ES NECESARIO!');
                         //console.log('modo old al iniciar... ES NECESARIO!');
 
-                        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-                        fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                
+
+                        try {
+                            
+                            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+
+                            const response = await fetch(url);
+                            const data = await response.json();
+
                             window.arr_books = data.Books;
                             //console.log(arr_books);
                             if(typeof data.Books == 'undefined') alert('data.Books undefined');
@@ -13772,10 +13898,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 });
                                 eid_v_book.append(block_APO);
                             }
-                            //console.log(eid_v_book);                
-                
-                        })
-                        .then(()=>{
+                            //console.log(eid_v_book);
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_book.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13787,11 +13911,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch. sel(b) modo old. error: ',error);
+                        }                       
 
                     }
 
@@ -13809,21 +13932,12 @@ function sel(e, par, param_show_chapter = null, trans = null){
                     
                     //modo new
                     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
-                        
                         //alert('function sel() --- case: ch (chapter) --- modo new. existe arrFavTransObj');
-            
-                        let myPromise_ch = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
-            
-                        myPromise_ch
-                        .then(res => {
-                            
-                            if(res == 'ok'){//siempre ok
-                                //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
-                            }
-                            if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
+                        
+                        try {
 
+                            //console.log('this_trans_obj.Books[id_book].ChapterQty: '+this_trans_obj.Books[id_book].ChapterQty);    
+                            if(typeof this_trans_obj.Books[id_book] == 'undefined') alert('this_trans_obj.Books[id_book] undefined');
 
                             let chapterNumber = show_chapter;//por defecto
                                             
@@ -13888,8 +14002,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 wr_grid_ch.append(li_ch);
                             }
                             eid_v_chapter.append(wr_grid_ch);
-                        })
-                        .then(()=>{
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_chapter.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -13901,11 +14014,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('error promesa chapter. error: '+error);
-                        });
+                            
+                        } catch (error) {
+                            console.error('error try-catch sel(ch) chapter. error: ',error);
+                        }
             
                     }else{//modo old. no existe arrFavTransObj
                         alert('chapter modo old. no salta nunca...');
@@ -13928,19 +14040,11 @@ function sel(e, par, param_show_chapter = null, trans = null){
             
                     //modo new
                     if(typeof arrFavTransObj != 'undefined' && arrFavTransObj != null && arrFavTransObj != ''){
-                        
-                        //alert('function sel() --- case: v (verse) --- modo new. existe arrFavTransObj');
+                        //alert('function sel() --- case: v (verse) --- modo new. existe arrFavTransObj');                        
             
-                        let myPromise_v = new Promise(function(resolve, reject){
-                            resolve('ok');
-                        });
-            
-                        myPromise_v
-                        .then(res => {
-            
-                            if(res == 'ok'){//siempre ok
-                                //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
-                            }
+                        try {
+
+                            //console.log('this_trans_obj.Books[id_book].PathName: '+this_trans_obj.Books[id_book].PathName);    
                             if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
 
                             //console.log('trans: '+trans)
@@ -14040,7 +14144,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
             
                                     }else{
                                         
-                                        let info = `no existe en objeto obj_bible_files en la trans ${trans} el Book indicado. id_book: ${id_book}. Saco cantidad de versiculos por_json if(modo_get_VerseQty == 'por_json') o cargo por fetch() el texto if(modo_get_VerseQty == 'por_text') del cual saco cantidad de versiculos y por el camino meto todo el texto en obj_bible_file si hace falta.`;
+                                        let info = `no existe en objeto obj_bible_files en la trans ${trans} el Book indicado. id_book: ${id_book}. Saco cantidad de versiculos por_json if(modo_get_VerseQty == 'por_json') o cargo por await fetch() el texto if(modo_get_VerseQty == 'por_text') del cual saco cantidad de versiculos y por el camino meto todo el texto en obj_bible_file si hace falta.`;
                                         //console.log(info);
                                         //alert(info);
 
@@ -14051,24 +14155,23 @@ function sel(e, par, param_show_chapter = null, trans = null){
 
 
                                         if(modo_get_VerseQty == 'por_json'){
-                                    
                                             //console.log('modo_get_VerseQty: por_json');
-                                            
-                                            let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+
+                                            try {
+
+                                                let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                         
-                                            let formData = new FormData();
-                                            formData.append('url', '../'+url);//importante '../' delante de la url
-                                            formData.append('book', id_book);
-                                            formData.append('chapter', show_chapter);
-            
-                                            fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                                method: 'POST',
-                                                body: formData
-                                            })
-                                            .then(response => response.json())
-                                            // .then(response => response.text())
-                                            .then(data => {
-                                                
+                                                let formData = new FormData();
+                                                formData.append('url', '../'+url);//importante '../' delante de la url
+                                                formData.append('book', id_book);
+                                                formData.append('chapter', show_chapter);
+
+                                                const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                                    method: 'POST',
+                                                    body: formData
+                                                });
+                                                const data = await response.json();
+
                                                 //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
                                                 //console.log(data);
         
@@ -14139,9 +14242,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     wr_grid_v.append(li_v);
                                                 }
                                                 eid_v_verse.append(wr_grid_v);
-                        
-                                            })
-                                            .then(()=>{
+
                                                 //si hay un boton li activo me muevo alli
                                                 if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                                     setTimeout(()=>{
@@ -14155,22 +14256,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     },100);
                                                 }
                                                 scrollToVkladkaActive();
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('error promesa: '+error);
-                                            });    
-        
-        
-                                        }else if(modo_get_VerseQty == 'por_text'){
-                                            
-                                            //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
-        
-                                            let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
-                                            fetch(url)
-                                            .then(response => response.text())
-                                            .then(data => {
                                                 
+                                            } catch (error) {
+                                                console.error('error try-catch. error: ',error);
+                                            }
+        
+                                        }
+                                        
+                                        
+                                        if(modo_get_VerseQty == 'por_text'){
+                                            //console.log('modo_get_VerseQty: por_text y await fetch() de todo el fichero');
+
+                                            try {
+                                                
+                                                let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
+
+                                                const response = await fetch(url);
+                                                const data = await response.text();
+
                                                 //console.log('abajo data');
                                                 //console.log(data); 
 
@@ -14268,10 +14371,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                                     wr_grid_v.append(li_v);
                                                 }
-                                                eid_v_verse.append(wr_grid_v);
-                        
-                                            })
-                                            .then(()=>{
+                                                eid_v_verse.append(wr_grid_v); 
+                                                
                                                 //si hay un boton li activo me muevo alli
                                                 if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                                     setTimeout(()=>{
@@ -14283,28 +14384,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                                     },100);
                                                 }
                                                 scrollToVkladkaActive();
-                                            })
-                                            .catch(error => { 
-                                                // Código a realizar cuando se rechaza la promesa
-                                                console.error('error promesa: '+error);
-                                            });    
+                                                
+                                            } catch (error) {
+                                                console.error('error try-catch. error: ', error);
+                                            }
         
                                         }
-        
-
-
-
 
 
                                     }
                                 }
                             }
+
             
-                            //si no existe objeto con Translation. hago fetch(). es necesario!
+                            //si no existe objeto con Translation. hago await fetch(). es necesario!
                             if(typeof obj_bible_files[trans] == 'undefined'){
             
-                                //alert('no existe objeto con Translation obj_bible_files[trans]. hago fetch()'); 
-                                //console.log('no existe objeto con Translation obj_bible_files[trans]. hago fetch()');
+                                //alert('no existe objeto con Translation obj_bible_files[trans]. hago await fetch()'); 
+                                //console.log('no existe objeto con Translation obj_bible_files[trans]. hago await fetch()');
             
                                 window.chapter_PathName = this_trans_obj.Books[id_book].PathName;
                                 //console.log('chapter_PathName: '+chapter_PathName);
@@ -14312,26 +14409,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 if(typeof this_trans_obj.Books[id_book].PathName == 'undefined') alert('this_trans_obj.Books[id_book].PathName undefined');
 
 
-                                
                                 if(modo_get_VerseQty == 'por_json'){
-                                    
                                     //console.log('modo_get_VerseQty: por_json');
                                     
-                                    let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
+                                    try {
+
+                                        let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                 
-                                    let formData = new FormData();
-                                    formData.append('url', '../'+url);//importante '../' delante de la url
-                                    formData.append('book', id_book);
-                                    formData.append('chapter', show_chapter);
-    
-                                    fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                        method: 'POST',
-                                        body: formData
-                                    })
-                                    .then(response => response.json())
-                                    // .then(response => response.text())
-                                    .then(data => {
-                                        
+                                        let formData = new FormData();
+                                        formData.append('url', '../'+url);//importante '../' delante de la url
+                                        formData.append('book', id_book);
+                                        formData.append('chapter', show_chapter);    
+        
+                                        const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                            method: 'POST',
+                                            body: formData
+                                        });
+                                        const data = await response.json();
+
                                         //console.log('file: read_file_get_VerseQty_to_json --- abajo data: ');
                                         //console.log(data);
 
@@ -14401,10 +14496,8 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             li_v.addEventListener('click',selVerse);//al click sobre boton de verse
                                             wr_grid_v.append(li_v);
                                         }
-                                        eid_v_verse.append(wr_grid_v);
-                
-                                    })
-                                    .then(()=>{
+                                        eid_v_verse.append(wr_grid_v);                                        
+
                                         //si hay un boton li activo me muevo alli
                                         if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
@@ -14418,22 +14511,24 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             },100);
                                         }
                                         scrollToVkladkaActive();
-                                    })
-                                    .catch(error => { 
-                                        // Código a realizar cuando se rechaza la promesa
-                                        console.error('error promesa: '+error);
-                                    });    
-
-
-                                }else if(modo_get_VerseQty == 'por_text'){
-                                    
-                                    //console.log('modo_get_VerseQty: por_text y fetch() de todo el fichero');
-
-                                    let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
-                                    fetch(url)
-                                    .then(response => response.text())
-                                    .then(data => {
                                         
+                                    } catch (error) {
+                                        console.error('error try-catch. error: ',error);
+                                    }
+
+                                }
+                                
+
+                                if(modo_get_VerseQty == 'por_text'){
+                                    //console.log('modo_get_VerseQty: por_text y await fetch() de todo el fichero');
+                                    
+                                    try {
+                                        
+                                        let url = `./modules/text/${trans}/${chapter_PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"
+                                        
+                                        const response = await fetch(url);
+                                        const data = await response.text();
+
                                         //console.log('abajo data');
                                         //console.log(data); 
                                         let chapterNumber,verseNumber;
@@ -14507,9 +14602,7 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             wr_grid_v.append(li_v);
                                         }
                                         eid_v_verse.append(wr_grid_v);
-                
-                                    })
-                                    .then(()=>{
+
                                         //si hay un boton li activo me muevo alli
                                         if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                             setTimeout(()=>{
@@ -14521,18 +14614,16 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                             },100);
                                         }
                                         scrollToVkladkaActive();
-                                    })
-                                    .catch(error => { 
-                                        // Código a realizar cuando se rechaza la promesa
-                                        console.error('error promesa: '+error);
-                                    });    
+
+                                    } catch (error) {
+                                        console.error('error try-catch. error: ', error);
+                                    }                                       
 
                                 }
             
                             }
-            
-                        })
-                        .then(()=>{
+
+
                             //si hay un boton li activo me muevo alli
                             if(eid_v_verse.getElementsByClassName('li_active').length > 0){
                                 setTimeout(()=>{
@@ -14546,11 +14637,10 @@ function sel(e, par, param_show_chapter = null, trans = null){
                                 },100);
                             }
                             scrollToVkladkaActive();
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('13536. error promesa: '+error);
-                        });//end myPromise_v
+                            
+                        } catch (error) {
+                            console.error('13536. error try-catch. error: ', error);
+                        }
             
                     }else{//modo old. no existe arrFavTransObj
                         alert('modo old verse. no salta nunca...');
@@ -14562,50 +14652,12 @@ function sel(e, par, param_show_chapter = null, trans = null){
             break;
     }
 
+    mySizeGridSidebar();
+
 }
 
-/*
-function getRefForTsk(Translation, bookShortName){
-    //console.log('Translation: '+Translation);
-    //console.log('bookShortName: '+bookShortName);
-    let bookNumber;
 
-    let url = `./modules/text/${Translation}/bibleqt.json`;//Ej.: rsti2
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data);
-
-        window.dataBooks2 = data.Books;
-
-        dataBooks2.forEach((el,i,arr) =>{
-            //console.log('arr['+i+']: '+arr[i].FullName + ' '+arr[i].ShortNames[0] );
-            arr[i].ShortNames.forEach( (e,j,arr_s) =>{
-                if(bookShortName.toLowerCase() == e.toLowerCase()){
-                    let n_book = arr[i].BookNumber;
-                    let short_name = arr_s[0];//siempre el primer nombre del array
-
-                    bookNumber = i;
-                    //console.log('bookNumber: '+bookNumber);
-
-                    //showTrans(n_book, chapter, verse, to_verse);
-                    //console.log('--- encontrado n_book: ' +n_book + '\n short_name: ' +short_name);
-
-                    //return bookNumber;
-                }
-            });
-        });
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa: '+error);
-    });
-    return bookNumber;
-}
-*/
-
-
-function getRef(trans = null, refLink = null, refText = null){
+async function getRef(trans = null, refLink = null, refText = null){
     //console.log('=== function getRef() ===');
 
     allowUseShowTrans = true;
@@ -14857,7 +14909,6 @@ function getRef(trans = null, refLink = null, refText = null){
                         //modo old. getting all file '01genesis.htmn' and showing only needed verses (with .split())
                         if(modo_fetch_verses_for_cols == 'by_text'){
                             //console.log('modo_fetch_verses_for_cols == by_text');
-
                                                         
                             //verse
                             if (verse != null && parseInt(verse) > 0) {
@@ -14875,8 +14926,6 @@ function getRef(trans = null, refLink = null, refText = null){
                                     allowUseShowTrans = true;
                                     selChapter(e_virtual, chapter);
                                 }, 50);
-
-
                             }
 
                             //hay to_verse
@@ -14993,20 +15042,21 @@ function getRef(trans = null, refLink = null, refText = null){
                             //hay capitulo y hay verse //funciona
                             if(chapter && verse != null && parseInt(verse) > 0){
                                                                
-                                let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
-                                
-                                let formData = new FormData();
-                                formData.append('url', '../'+url);//importante '../' delante de la url
-                                formData.append('book', n_book);
-                                formData.append('chapter', chapter);
-        
-                                fetch('./php/read_file_get_VerseQty_to_json.php',{
-                                    method: 'POST',
-                                    body: formData
-                                })
-                                .then(response => response.json())
-                                .then(data => {
+                                try {
+
+                                    let url = `./modules/text/${trans}/${dataBooksBtnOk[i].PathName}`;// "./modules/text/rstStrongRed/02_exodus.htm"                                
                                     
+                                    let formData = new FormData();
+                                    formData.append('url', '../'+url);//importante '../' delante de la url
+                                    formData.append('book', n_book);
+                                    formData.append('chapter', chapter);
+                                    
+                                    const response = await fetch('./php/read_file_get_VerseQty_to_json.php',{
+                                        method: 'POST',
+                                        body: formData
+                                    });
+                                    const data = await response.json();
+
                                     //console.log('data: ',data);
                                     //console.log('15047. VerseQty of chapter: ',data);
                                     
@@ -15069,13 +15119,12 @@ function getRef(trans = null, refLink = null, refText = null){
                                     //hay chapter, hay verse
                                     if(parseInt(chapter) > 0 && parseInt(verse) > 0){
                                         eid_s_verse.click();// se cargan verses del chapter indicado y se muestra el verse marcado
-                                    }
-            
-                                })
-                                .catch(error => { 
-                                    // Código a realizar cuando se rechaza la promesa
-                                    console.error('VerseQty. error promesa: '+error);
-                                });
+                                    } 
+
+                                } catch (error) {
+                                    console.error('VerseQty. error try-catch. error: ', error);
+                                }
+
                             }
 
                         }//end modo_fetch_verses_for_cols == 'by_json'
@@ -15093,11 +15142,11 @@ function getRef(trans = null, refLink = null, refText = null){
                 openModal('center','Aviso Error',text_aviso,'showAviso'); 
             }
 
-        }else{//modo old por fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
+        }else{//modo old por await fetch() cuando no hay objeto 'objTrans' desde 'arrFavTransObj'
             
             //console.log('modo old --- en getRef() ');
             //console.log('arrFavTrans: ',arrFavTrans);
-            //alert('14090. getRef() --- modo old por fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
+            //alert('14090. getRef() --- modo old por await fetch()');//no entra nunca ya que tengo objeto arrFavTransObj
             //alert(`No fue posible encontrar la traducción ${Translation}. Se te va a mostrar un módulo que existe.`);
             Translation = arrFavTrans[0];
             trans = arrFavTrans[0];
@@ -15237,8 +15286,9 @@ function getRefByCodeWithoutTrans(book, chapter, verse){
 }
 
 
-function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+async function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCode() ===');
+
     let act_trans = eid_trans1.dataset.trans;
 
     // let arr_code = code.split('__');//antes ok
@@ -15281,14 +15331,15 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
 
 
     if(book != null){
-        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-        fetch(url)
-        .then(response => {
-          return response.json(); // Devuelve una promesa
-        })
-        .then(data => {
+        
+        try {
+            
+            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+            
+            const response = await fetch(url);
+            const data = await response.json();
             //console.log(data);
-    
+
             let short_name = data.Books[book].ShortNames[0];                    
             eid_inpt_nav.setAttribute('data-book_short_name',short_name);
             eid_inpt_nav.setAttribute('data-id_book',book);
@@ -15327,19 +15378,19 @@ function getRefByCode(code, separador = '__', first_book_index = 0){//ej.: code:
             
             allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
-            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);
+
+        } catch (error) {
+            console.error('error try-catch. error: ',error);
+        }
+
     }else{
         //console.log('no existe book');
     }
 }
 
 
-function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
+async function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-14
     //console.log('=== function getRefByCodeForFind() ===');
     let act_trans = eid_trans1.dataset.trans;
 
@@ -15381,12 +15432,13 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
 
 
     if(book != null){
-        let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
-        fetch(url)
-        .then(response => {
-          return response.json(); // Devuelve una promesa
-        })
-        .then(data => {
+
+        try {
+
+            let url = `./modules/text/${trans}/bibleqt.json`;//rsti2
+
+            const response = await fetch(url);
+            const data = await response.json();
             //console.log(data);
     
             let short_name = data.Books[book].ShortNames[0];
@@ -15423,12 +15475,12 @@ function getRefByCodeForFind(code){//ej.: code: rv60__0__14__7 / rv60__0__14__7-
             
             allowUseShowTrans = true;
             showTrans(book, chapter, verse, to_verse);
-            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);   
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            //console.log('--- code of book: ' +book + ' --- and short_name: ' +short_name);
+    
+        } catch (error) {
+            console.error('error try-catch. error: ', error);
+        }
+
     }else{
         //console.log('no existe book');
     }
@@ -15506,14 +15558,24 @@ function selectModule2(htmlTrans){
     if(thisDiv.tagName === 'DIV'){
         eid_bl_modalFullInner.innerHTML = '';//reset
         
+        const div_donde_filtrar = eid_bl_modalFullInner;//el elemento donde colocar el input del filtro
+        const selector_items = '.cl_trans';//los elementos que se ocultarán si no cumplen con el filtro
+        const arr_spans = [
+            '.sh_n', //RST+r (nombre corto de traducción)
+            '.la_n'  //La Santa Biblia... (descripción larga)
+        ];//se buscará texto en cada elemento de estos span's
+        crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans);
+        
         let transSelected;
         transSelected = thisDiv.dataset.trans;//thisDiv = div#trans2colsHead {} //trans selected con el click on menu
         
         arrFavTransObj.forEach((el,i)=>{
             const p_cl_trans = document.createElement('p');
             p_cl_trans.className = (el.Translation == transSelected) ? 'cl_trans cl_trans_active' : 'cl_trans' ;
-            p_cl_trans.innerHTML = `<span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>`;
-            p_cl_trans.innerHTML += `<span class="la_n">${arrFavTransObj[i].BibleName}</span>`;
+            p_cl_trans.innerHTML = `
+                <span class="sh_n">${arrFavTransObj[i].BibleShortName}</span>
+                <span class="la_n">${arrFavTransObj[i].BibleName}</span>
+            `;
             p_cl_trans.onclick = (e) => {
                 
                 //thisDiv = (thisDiv.tagName === 'DIV') ? thisDiv : thisDiv.currentTarget ;  //no funciona...     
@@ -15703,7 +15765,7 @@ function hist(param){
 }
 
 
-function bookGo(dir){
+async function bookGo(dir){
     //console.log('=== function bookGo(dir) ===');
 
     allowUseShowTrans = true;
@@ -15731,20 +15793,9 @@ function bookGo(dir){
         //console.log('bookGo(dir) --- objTrans está creado. abajo objTrans: ');
         //console.log(objTrans);
 
-        let myPromise_b_go = new Promise(function(resolve, reject){
-            resolve('ok');
-        });
-
-        myPromise_b_go
-        .then((res) => {
+        try {
             
-            let bq;
-            if(res == 'ok'){//siempre ok
-                bq = objTrans;
-            }            
-            //console.log('abajo bq'); 
-            //console.log(bq); 
-
+            let bq = objTrans;
             //console.log('abajo bq'); 
             //console.log(bq); 
 
@@ -15812,25 +15863,24 @@ function bookGo(dir){
                 
                 allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
-            }            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            }
+
+        } catch (error) {
+            console.error('error try-catch. error: ', error); 
+        }
 
     }else{//MODO OLD. si hace falta!
 
-        //alert('bookGo(dir) --- modo old. fetch()');
-        //console.log('chapterGo(dir) --- modo old. fetch()');
+        //alert('bookGo(dir) --- modo old. await fetch()');
+        //console.log('chapterGo(dir) --- modo old. await fetch()');
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${Translation}/bibleqt.json`;
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-
-            //console.log('abajo bq'); 
+        try {
+            
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+            
+            const response = await fetch(url_bq);
+            const bq = await response.json();
             //console.log(bq); 
 
             if(dir == 'next'){
@@ -15897,12 +15947,11 @@ function bookGo(dir){
                 
                 allowUseShowTrans = true;
                 showTrans(prev_id_book, prev_show_chapter);
-            }            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+            }
+
+        } catch (error) {
+            console.error('error try-catch. error: ', error);
+        }
 
     }
 
@@ -15915,7 +15964,7 @@ function scrollTopCero(){
 }
 
 
-function chapterGo(dir){
+async function chapterGo(dir){
     //console.log('=== function chapterGo(dir) ===');
 
     allowUseShowTrans = true;
@@ -16027,136 +16076,25 @@ function chapterGo(dir){
             allowUseShowTrans = true;
             showTrans(prev_id_book, prev_show_chapter);
         }
-        
-        
-        /*
-        //modo old. al dar al botón pageUp() desde Otktovenie 1:1 al tener 2 trans la trans adicional se carga erroneamente (se carga trans1)
-        let myPromise_ch_go = new Promise(function(resolve, reject){
-            resolve('ok');
-        });
-
-        myPromise_ch_go
-        .then((res) => {
-
-            let bq;
-            if(res == 'ok'){//siempre ok
-                bq = objTrans;
-            }            
-            //console.log('abajo bq'); 
-            //console.log(bq); 
-
-            //if(act_id_book >= bq.BookQty){//REVISAR!!!
-            //    alert('No es posible pasar a siguiente capítulo ya que todos los módulos no tienen la misma cantidad de libros.Esto sucede cuando se quiere leer los librós apócrifos.');
-            //    return false;
-            //}
-
-
-            if(dir == 'next'){
-                let next_id_book = act_id_book;
-                let next_show_chapter = act_show_chapter; 
-
-                if(act_show_chapter == bq.Books[act_id_book].ChapterQty){
-                    if(act_id_book == parseInt(bq.BookQty) - 1){//Apocalipsis
-                        next_id_book = 0;//Génesis
-                    }else{
-                        next_id_book = parseInt(act_id_book) + 1;
-                    }
-                    next_show_chapter = 1;
-                }else{
-                    next_show_chapter = parseInt(act_show_chapter) + 1;
-                }
-
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[next_id_book].ShortNames[0]);
-                eid_inpt_nav.setAttribute('data-id_book', next_id_book);
-                eid_inpt_nav.setAttribute('data-show_chapter', next_show_chapter);
-                eid_inpt_nav.value = bq.Books[next_id_book].ShortNames[0] + ' ' + next_show_chapter;
-                
-                //meto Gen.1:1 en los head de cada trans
-                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefVisibleToHead(`00__${next_id_book}__${next_show_chapter}__1`, 0);//todos los heads de cols
-                });
-
-                obj_nav.book_short_name = bq.Books[next_id_book].ShortNames[0];
-                obj_nav.id_book = next_id_book;
-                obj_nav.show_chapter = next_show_chapter;
-
-                setTimeout(()=>{
-                    sel(eid_s_verse,'v',Translation);//verse
-                },50);
-
-                let ref = `${bq.Books[next_id_book].ShortNames[0]} ${next_show_chapter}`;
-                addRefToHistNav(Translation, ref, next_id_book, next_show_chapter, null, null);//patata
-                
-                allowUseShowTrans = true;
-                showTrans(next_id_book, next_show_chapter);
-            }
-
-            if(dir == 'prev'){
-                let prev_id_book = act_id_book;
-                let prev_show_chapter = act_show_chapter;
-
-                if(act_show_chapter == 1){
-                    if(act_id_book == 0){//Génesis
-                        prev_id_book = parseInt(bq.BookQty) - 1;//66 - 1 = 65 => Apocapipsis
-                    }else{
-                        prev_id_book = parseInt(act_id_book) - 1;
-                    }
-                    prev_show_chapter = parseInt(bq.Books[prev_id_book].ChapterQty);
-                }else{
-                    prev_show_chapter = parseInt(act_show_chapter) - 1;
-                }
-
-                eid_inpt_nav.setAttribute('data-book_short_name', bq.Books[prev_id_book].ShortNames[0]);
-                eid_inpt_nav.setAttribute('data-id_book', prev_id_book);
-                eid_inpt_nav.setAttribute('data-show_chapter', prev_show_chapter);
-                eid_inpt_nav.value = bq.Books[prev_id_book].ShortNames[0] + ' ' + prev_show_chapter;
-
-                //meto Gen.1:1 en los head de cada trans
-                document.querySelectorAll('.partMob .mob_sh_link').forEach(el=>{
-                    putRefVisibleToHead(`00__${prev_id_book}__${prev_show_chapter}__1`, 0);//todos los heads de cols
-                });
-
-                obj_nav.book_short_name = bq.Books[prev_id_book].ShortNames[0];
-                obj_nav.id_book = prev_id_book;
-                obj_nav.show_chapter = prev_show_chapter;
-
-                setTimeout(()=>{
-                    sel(eid_s_verse,'v',Translation);//verse
-                },50);
-
-                let ref = `${bq.Books[prev_id_book].ShortNames[0]} ${prev_show_chapter}`;
-                addRefToHistNav(Translation, ref, prev_id_book, prev_show_chapter, null, null);//patata
-                
-                allowUseShowTrans = true;
-                showTrans(prev_id_book, prev_show_chapter);
-            }
-
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
-        */
 
     }else{//MODO OLD. si hace falta!
         
-        //alert('chapterGo(dir) --- modo old. fetch()');
-        //console.log('chapterGo(dir) --- modo old. fetch()');
+        //alert('chapterGo(dir) --- modo old. await fetch()');
+        //console.log('chapterGo(dir) --- modo old. await fetch()');
 
-        //saco ajustes de este modulo en json
-        url_bq = `./modules/text/${Translation}/bibleqt.json`;
-        fetch(url_bq)
-        .then((response) => response.json())
-        .then((bq) => {
-
-            //console.log('abajo bq'); 
+        try {
+            
+            //saco ajustes de este modulo en json
+            let url_bq = `./modules/text/${Translation}/bibleqt.json`;
+            
+            const response = await fetch(url_bq);
+            const bq = await response.json();
             //console.log(bq); 
 
             //if(act_id_book >= bq.BookQty){//REVISAR!!!
             //    alert('No es posible pasar a siguiente capítulo ya que todos los módulos no tienen la misma cantidad de libros.Esto sucede cuando se quiere leer los librós apócrifos.');
             //    return false;
             //}
-
 
             if(dir == 'next'){
                 let next_id_book = act_id_book;
@@ -16235,12 +16173,9 @@ function chapterGo(dir){
                 showTrans(prev_id_book, prev_show_chapter);
             }
 
-            
-        })
-        .catch(error => { 
-            // Código a realizar cuando se rechaza la promesa
-            console.error('error promesa: '+error);
-        });
+        } catch (error) {
+            console.error('error try-cach. error: ', error);
+        }
 
     }
 }
@@ -16728,7 +16663,7 @@ function convertLinkFromEspToRus(book, chapter, verse, to_verse = null){
 }
 
 
-function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
+async function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null){
     
     let numberInt, numberStrShow, strongFile;
 
@@ -16761,12 +16696,14 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
     }
     //console.log('numberInt: '+numberInt);
     //console.log('numberStrShow: '+numberStrShow);
-    //console.log('strongFile: '+strongFile);  
-
-
-    fetch(`./modules/text/strongs/${strongFile}`)
-    .then((response) => response.text())
-    .then((strong) => {
+    //console.log('strongFile: '+strongFile);
+    
+    try {
+        
+        let url = `./modules/text/strongs/${strongFile}`;
+        
+        const response = await fetch(url);
+        const strong = await response.text();
         //console.log(strong);
 
         let arr_strong = strong.split('<h4>')[numberInt + 1].split('</h4>');//una linea 
@@ -16898,11 +16835,11 @@ function getStrongNumberVersion1(numberStr, lang = null, paramfirstLetter = null
             });
         }
         mySizeStrong();//altura de eid_strong_body despues de meter eid_strong_head
-    })
-    .catch(error => { 
-        // Código a realizar cuando se rechaza la promesa
-        console.error('error promesa strong: '+error);
-    });
+
+    } catch (error) {
+        console.error('error try-catch strong. error: ',error);
+    }
+
 }
 
 //general
@@ -16967,7 +16904,7 @@ function stopFindWords(){
     //console.log('--- window.stopFind ---: '+window.doFind);  
 }
 
-function guardWordsFind(words){
+async function guardWordsFind(words){//NO SE USA!!!
     //console.log('=== guardWordsFind(words) ===');
     //console.log('words: '+words);
 
@@ -16977,33 +16914,37 @@ function guardWordsFind(words){
 
     if(document.querySelectorAll('.pf').length == 0 || words != document.querySelectorAll('.pf')[0].innerText){
         //console.log('distinto');
-        let formData = new FormData();
-        formData.append('words', words);
-    
-        fetch('./app/guardWordsFind.php',{
-            method: 'POST',
-            body: formData                            
-        })
-        .then(response => response.text())//aki .text()
-        .then(data => {
-            //console.log(data);
+
+        try {
+        
+            let formData = new FormData();
+            formData.append('words', words);
+        
+            const response = await fetch('./app/guardWordsFind.php',{
+                method: 'POST',
+                body: formData                            
+            });
+            const data = await response.text();
+
             if(data){
                 //getGuardWordsFind();
             }
-        })
-        .catch(error => {
-            //console.log('error de guard: '+ error)
-        });    
+            
+        } catch (error) {
+            console.error('error try-catch de guard. error: ', error)
+        }    
     }
 }
 
 //getGuardWordsFind();//al cargar la web para mostrar
 
-function getGuardWordsFind(){
+async function getGuardWordsFind(){//NO SE USA!!!
 
-    fetch('./app/guardWordsFind_file.json')
-    .then(response => response.json())
-    .then(data=>{
+    try {
+        
+        const response = await fetch('./app/guardWordsFind_file.json');
+        const data = await response.json();
+
         //console.log(data);
         eid_wr_hist_find.innerHTML = '';
         if(data != ''){           
@@ -17023,12 +16964,17 @@ function getGuardWordsFind(){
                 eid_wr_hist_find.append(p);
             });
         }
-    });  
+        
+    } catch (error) {
+        console.error('error try-catch. error: ', error)
+    }
 }
 
 
-function findWords(words_input){
+async function findWords(words_input){
     //console.log('function findWords(). words_input: '+words_input);
+
+    const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
     eid_btn_ok_find.classList.remove('d-block');
     eid_btn_ok_find.classList.add('d-none');
 
@@ -17095,6 +17041,11 @@ function findWords(words_input){
             book_end = 38;
             break;
 
+        case 'EvOnly'://Евангелия
+            book_start = 39;
+            book_end = 42;
+            break;
+    
         case 'EvActs'://Евангелия и Деяния
             book_start = 39;
             book_end = 43;
@@ -17133,7 +17084,9 @@ function findWords(words_input){
 
 
     eid_find_result.innerHTML = '';//reset
-    eid_find_body.innerHTML = '';//reset
+    //eid_find_body.innerHTML = '';//reset
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+    ecl_find_res_block_active.innerHTML = '';//reset new
     window.res_show = '';//reset
      
     words_input = words_input.trim();
@@ -17204,7 +17157,30 @@ function findWords(words_input){
 
         const p_i = document.createElement('p');
         p_i.className = 'res_f';
-        p_i.innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(.)</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[.]</span>`;
+        let tooltip_value = `
+            Количество стихов: <span class='f_r'>0</span> <br>
+            Количество совпадений: <span class='f_r'>0</span>
+        `;
+        let sp_tooltip = `
+            <span 
+                class="tooltip" 
+                data-tooltip="${tooltip_value}" 
+                onmouseenter="showTooltip(this)" 
+                mouseleave="hideTooltip(this)"
+            >*</span> 
+        `;
+        p_i.innerHTML = `
+            "<b class="f_r-ed">${words_input}</b>" <span>(.)</span>
+            ${sp_tooltip}
+            <span class="res_m f_r">[.]</span>
+        `;
+
+        ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = '...';
+        ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+        ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+        ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+        scrollToFindTabActive();
+
         eid_find_head.append(p_i);
     }
 
@@ -17239,7 +17215,8 @@ function findWords(words_input){
     d_loader.innerHTML = `<span class="loader__element"></span>
                           <span class="loader__element"></span>
                           <span class="loader__element"></span>`;
-    eid_find_body.append(d_loader);
+    //eid_find_body.append(d_loader);//antes
+    ecl_find_res_block_active.append(d_loader);
 
 
     let result_finded = [];
@@ -17257,6 +17234,7 @@ function findWords(words_input){
 
         //MODO NEW. Cuando  ya está creado el objeto 'objTrans' desde 'arrFavTransObj'
         if(typeof objTrans != 'undefined' && objTrans != null && objTrans != ''){
+            
             //console.log('findWords() --- objTrans está creado. abajo objTrans: ');
             //console.log(objTrans);            
             
@@ -17281,6 +17259,7 @@ function findWords(words_input){
                         obj_bible_files[Translation].Books = [];
                     }
 
+
                     //si existe objeto con Translation. Saco datos del objeto
                     if(typeof obj_bible_files[Translation] != 'undefined'){
                         if(typeof obj_bible_files[Translation].Books != 'undefined'){
@@ -17291,26 +17270,16 @@ function findWords(words_input){
                                     obj_bible_files[Translation].Books[book].fileContent != ' '
                                 ){
 
-                                    //console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
-                                    //console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
-                                    
-                                    // Registra el tiempo de inicio
-                                    const tiempoInicio = new Date().getTime();
-                                    //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
+                                    try {
 
-                                    let myPromise_find = new Promise(function(resolve, reject){
-                                        resolve('ok');
-                                    });
+                                        //console.log(' --- SI EXISTE objeto obj_bible_files con Translation');
+                                        //console.log(`--- --- starting from myPromise --- Translation: ${Translation} `);
+                                        
+                                        // Registra el tiempo de inicio
+                                        const tiempoInicio = new Date().getTime();
+                                        //console.log('obj_bible_files --- tiempoInicio: '+tiempoInicio);
 
-                                    myPromise_find
-                                    .then((data) => {//data = ok
-                                        
-                                        //console.log(data);
-                                        
-                                        let bookModule;
-                                        if(data == 'ok'){
-                                            bookModule = obj_bible_files[Translation].Books[book].fileContent;
-                                        }
+                                        let bookModule = obj_bible_files[Translation].Books[book].fileContent;                                        
 
                                         if(window.doFind){
                                             //console.log(index+') hago doFind. window.doFind: '+window.doFind);
@@ -17503,12 +17472,12 @@ function findWords(words_input){
                                                                     is_match = false;
                                                                 }
                                                             }
-                                                            //=======================================================================//  
+                                                            //=======================================================================//
                                                             //end //0. por defecto - nada marcado //ok                                 
-                                                            //=======================================================================//                                    
+                                                            //=======================================================================//         
                                                             
                     
-                                                            //=======================================================================//                                    
+                                                            //=======================================================================//         
                                                             //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                             //=======================================================================//
                                                             if(eid_cbox1.checked){
@@ -18184,8 +18153,7 @@ function findWords(words_input){
                                         
                                         }else{
                                             //console.log(index+') stop doFind. window.doFind: '+window.doFind);
-                                        }//end else (window.doFind)
-                    
+                                        }//end else (window.doFind)                    
                     
                     
                                         //Formar links para resultados de búsqueda
@@ -18203,8 +18171,31 @@ function findWords(words_input){
                                                 })
                                             }                    
                     
-                                            //inserto resultado de búsqueda                        
-                                            document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
+                                            //inserto resultado de búsqueda  
+                                            let tooltip_value = `
+                                                Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                                Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                            `;
+                                            let sp_tooltip = `
+                                                <span 
+                                                    class="tooltip" 
+                                                    data-tooltip="${tooltip_value}" 
+                                                    onmouseenter="showTooltip(this)" 
+                                                    mouseleave="hideTooltip(this)"
+                                                >*</span> 
+                                            `;
+                                            document.querySelector('.res_f').innerHTML = `
+                                                "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                                ${sp_tooltip}
+                                                <span class="res_m f_r">[${count_m_total}]</span>
+                                            `;
+                                            
+                                            ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                            ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                            ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                            scrollToFindTabActive();
+
                                             mySizeFind();//altura de eid_find_body
                     
                                             let arr_l = [];
@@ -18250,12 +18241,9 @@ function findWords(words_input){
                                             }
                                         }
                                         
-
-                                    })                                
-                                    .catch(error => { 
-                                        // Código a realizar cuando se rechaza la promesa
-                                        console.error('2. error promesa find: '+error);
-                                    });
+                                    } catch (error) {
+                                        console.error('2. Error try-catch find: ', error);
+                                    }
 
                                 }else{
                                     //console.log('No coincide el nombre del fichero o fileContent está vacío');
@@ -18266,20 +18254,22 @@ function findWords(words_input){
                     }
 
 
-                    //si no existe objeto obj_bible_files con Translation. hago fetch()
+                    //si no existe objeto obj_bible_files con Translation. hago await fetch()
                     if(typeof obj_bible_files[Translation].Books[book] == 'undefined'){
 
-                        //console.log(' --- NO EXISTE objeto obj_bible_files con Translation. hago fetch() --- ');
-                        //console.log('abajo bq: ');
-                        //console.log(bq);
+                        try {
 
-                        //url del libro necesario
-                        url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
-                        //console.log('--- url: '+url);
-                        fetch(url)
-                        .then((response) => response.text())
-                        .then((bookModule) => {
+                            //console.log(' --- NO EXISTE objeto obj_bible_files con Translation. hago await fetch() --- ');
+                            //console.log('abajo bq: ');
+                            //console.log(bq);
+
+                            //url del libro necesario
+                            let url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
+                            //console.log('--- url: '+url); 
                             
+                            const response = await fetch(url);
+                            const bookModule = await response.text();
+
                             if(window.doFind){
                                 //console.log(index+') hago doFind. window.doFind: '+window.doFind);
                                 //console.log('Bible book: '+bq.Books[book].FullName);
@@ -18349,9 +18339,9 @@ function findWords(words_input){
                                             if(arr_words.length > 0){
                                                        
         
-                                                //=======================================================================//  
+                                                //=======================================================================//
                                                 //0. por defecto - nada marcado //ok
-                                                //=======================================================================//  
+                                                //=======================================================================//
                                                 if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
                                                     let arr_matches = [];  
                                                     //1. проверяю есть ли каждое слово из фразы в стихе                                      
@@ -18474,12 +18464,12 @@ function findWords(words_input){
                                                         is_match = false;
                                                     }
                                                 }
-                                                //=======================================================================//  
+                                                //=======================================================================//
                                                 //end //0. por defecto - nada marcado //ok                                 
-                                                //=======================================================================//                                    
+                                                //=======================================================================//
                                                 
         
-                                                //=======================================================================//                                    
+                                                //=======================================================================//
                                                 //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
                                                 //=======================================================================//
                                                 if(eid_cbox1.checked){
@@ -19153,8 +19143,7 @@ function findWords(words_input){
                             
                             }else{
                                 //console.log(index+') stop doFind. window.doFind: '+window.doFind);
-                            }//end else (window.doFind)
-        
+                            }//end else (window.doFind)        
         
         
                             //Formar links para resultados de búsqueda
@@ -19173,8 +19162,30 @@ function findWords(words_input){
                                 }                    
         
                                 //inserto resultado de búsqueda                        
-                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
+                                let tooltip_value = `
+                                    Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                    Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                `;
+                                let sp_tooltip = `
+                                    <span 
+                                        class="tooltip" 
+                                        data-tooltip="${tooltip_value}" 
+                                        onmouseenter="showTooltip(this)" 
+                                        mouseleave="hideTooltip(this)"
+                                    >*</span> 
+                                `;
+                                document.querySelector('.res_f').innerHTML = `
+                                    "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                    ${sp_tooltip}
+                                    <span class="res_m f_r">[${count_m_total}]</span>
+                                `;
+
+                                ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                scrollToFindTabActive();
+
                                 mySizeFind();//altura de eid_find_body
         
                                 let arr_l = [];
@@ -19218,32 +19229,27 @@ function findWords(words_input){
                                     mostrar_no_res();
                                     stopFindWords();//показываю кнопку 'Find'
                                 }
-                            }                    
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('2. error promesa find: '+error);
-                        }); 
-                        
-                        /*if(window.doFind){
-                            //console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
-                        }else{
-                            alert(index+') fin for. stop doFind. window.doFind: '+window.doFind);
-                            break;
-                        }*/
+                            }
 
+                        } catch (error) {
+                            console.error('2. Error try-catch find: ', error);
+                        }
+                        
                     }
+
     
                 }//end for
             }
 
         }else{//MODO OLD. como en Text3()
             
-            //console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
+            try {
+                
+                //console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
+                let url = `./modules/text/${Translation}/bibleqt.json`;
 
-            fetch(`./modules/text/${Translation}/bibleqt.json`)
-            .then((response) => response.json())
-            .then((bq) => {
+                const response = await fetch(url);
+                const bq = await response.json();
                 //console.log(bq);
 
                 //muestro trans en result de busqueda
@@ -19259,970 +19265,983 @@ function findWords(words_input){
                         //url del libro necesario
                         url = `./modules/text/${Translation}/${bq.Books[book].PathName}`;//01_genesis.htm;   
                         //console.log('--- url: '+url);
-        
-                        fetch(url)
-                        .then((response) => response.text())
-                        .then((bookModule) => {
-                            
-                            if(window.doFind){
-                                //console.log(index+') hago doFind. window.doFind: '+window.doFind);
-                                //console.log('Bible book: '+bq.Books[book].FullName);
-            
-                                //console.log(bookModule);
-                                //показываю в каких книгах ищу
-                                document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
-        
-                                let nb = bookModule.split('<h4>');//делю файл на главы
-                                //console.log(nb);
-                                
-                                nb = nb.filter(elem => elem);//удаляю пустые елементы массива
-                                //console.log(nb);
-        
-                                let arr_chapters = nb;
-                                //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
-        
-                                arr_chapters.forEach( (el_ch, i_ch) => {
-                                    //console.log(el_ch);
-                                    let chapter = i_ch;
-                                    let ChapterId = i_ch;
-                                    
-                                    if(el_ch.includes('<p>')){
-                                        let arr_verses = el_ch.split('<p>');
-                                        //console.log(arr_verses);
-                                        
-                                        //Recorrer todos los verses
-                                        arr_verses.forEach((el,i) => {
-                                            let p_Text = '';
-        
-                                            if(el.includes('</p>')){
-                                                let arr_p_text = el.split('</p>');
-                                                p_Text = arr_p_text[0];
-                                            }else{
-                                                p_Text = el;
-                                            }
-                                            //console.log('p_Text: '+p_Text); 
-        
-                                            let arr_p = p_Text.split(' ');
-                                            let VerseId = arr_p[0];
-                                            //console.log('VerseId: '+VerseId);
-        
-                                            let VerseText = '';
-                                            for(let index = 1; index < arr_p.length; index++){
-                                                VerseText += arr_p[index] + ' ';
-                                                //console.log('arr_p['+index+']: '+arr_p[index]);
-                                            }
-                                            //console.log('VerseText: '+VerseText);
-                                            
-                                            if(VerseText != ''){
-                                                //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
-                                                //console.log('sin tags --- VerseText: '+VerseText);
+                        
+                        fetchInner(url);
+                        async function fetchInner(url){
 
-                                                if(search_only_in_text_without_StrongTags){
-                                                    if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
-                                                        VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                            try {
+                                
+                                const response = await fetch(url);
+                                const bookModule = await response.text();
+
+                                if(window.doFind){
+                                    //console.log(index+') hago doFind. window.doFind: '+window.doFind);
+                                    //console.log('Bible book: '+bq.Books[book].FullName);
+                
+                                    //console.log(bookModule);
+                                    //показываю в каких книгах ищу
+                                    document.querySelector(".f_book .book_name").innerHTML = bq.Books[book].FullName;
+            
+                                    let nb = bookModule.split('<h4>');//делю файл на главы
+                                    //console.log(nb);
+                                    
+                                    nb = nb.filter(elem => elem);//удаляю пустые елементы массива
+                                    //console.log(nb);
+            
+                                    let arr_chapters = nb;
+                                    //arr_chapters.shift();//elimino index0 ('<h2></h2>\n')
+            
+                                    arr_chapters.forEach( (el_ch, i_ch) => {
+                                        //console.log(el_ch);
+                                        let chapter = i_ch;
+                                        let ChapterId = i_ch;
+                                        
+                                        if(el_ch.includes('<p>')){
+                                            let arr_verses = el_ch.split('<p>');
+                                            //console.log(arr_verses);
+                                            
+                                            //Recorrer todos los verses
+                                            arr_verses.forEach((el,i) => {
+                                                let p_Text = '';
+            
+                                                if(el.includes('</p>')){
+                                                    let arr_p_text = el.split('</p>');
+                                                    p_Text = arr_p_text[0];
+                                                }else{
+                                                    p_Text = el;
+                                                }
+                                                //console.log('p_Text: '+p_Text); 
+            
+                                                let arr_p = p_Text.split(' ');
+                                                let VerseId = arr_p[0];
+                                                //console.log('VerseId: '+VerseId);
+            
+                                                let VerseText = '';
+                                                for(let index = 1; index < arr_p.length; index++){
+                                                    VerseText += arr_p[index] + ' ';
+                                                    //console.log('arr_p['+index+']: '+arr_p[index]);
+                                                }
+                                                //console.log('VerseText: '+VerseText);
+                                                
+                                                if(VerseText != ''){
+                                                    //VerseText = removeTags(VerseText);//solo quita los tag's pero deja el contenido de tags pares. de '<S>H430</S>' => 'H430' 
+                                                    //console.log('sin tags --- VerseText: '+VerseText);
+    
+                                                    if(search_only_in_text_without_StrongTags){
+                                                        if(bq.StrongNumberTags == 'Y' && bq.StrongNumberTagStart != '' && bq.StrongNumberTagEnd != ''){
+                                                            VerseText = removeTagsWithStrongNumber(VerseText, bq.StrongNumberTagStart, bq.StrongNumberTagEnd);
+                                                        }
                                                     }
                                                 }
-                                            }
-        
-                                            //tipos de busqueda
-                                            let is_match = false;
-        
-                                            //Si hay palabras para buscar...
-                                            if(arr_words.length > 0){
-        
-                                                //=======================================================================//  
-                                                //0. por defecto - nada marcado //ok
-                                                //=======================================================================//  
-                                                if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
-                                                    let arr_matches = [];  
-                                                    //1. проверяю есть ли каждое слово из фразы в стихе                                      
-                                                    arr_words.forEach(w => {
-                                                        if(accent_match == 'Y'){//cbox6
-                                                            if(no_part_word == 'Y'){//cbox4
-                                                                let arr_no_part_word = [];
-                                                                w = "^" +w +"$";//entera palabra del array, no parte
-                                                                let regex_w = RegExp(w, tipo);
-                                                                VerseText.split(' ').filter(elem => elem).forEach(el=> {
-                                                                    if(removeSymbols(el).match(regex_w)){
-                                                                        //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
-                                                                        arr_no_part_word.push(1);
-                                                                    }else{
-                                                                        //console.log('--- el ('+el+') NO match regex_w: '+false);
-                                                                        arr_no_part_word.push(0);
-                                                                    } 
-                                                                });
-                                                                if(arr_no_part_word.includes(1)){
-                                                                    arr_matches.push(1);
-                                                                }else{
-                                                                    arr_matches.push(0);
-                                                                }
-                                                            }else if(no_part_word == 'N'){
-                                                                let regex_w = RegExp(w, tipo);
-                                                                arr_result_m = VerseText.match(regex_w);
-                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                                if(count_m > 0){
-                                                                    arr_matches.push(1);
-                                                                }else{
-                                                                    arr_matches.push(0);
-                                                                }
-                                                            }
-                                                        }else if(accent_match == 'N'){
-                                                            if(no_part_word == 'Y'){
-                                                                let arr_no_part_word = [];
-                                                                w = "^" +w +"$";//entera palabra del array, no parte
-                                                                let regex_w = RegExp(removeAccents(w), tipo);
-                                                                removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
-                                                                    if(removeSymbols(el).match(regex_w)){
-                                                                        //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
-                                                                        arr_no_part_word.push(1);
-                                                                    }else{
-                                                                        //console.log('--- removeSymbols(el) ('+removeSymbols(el)+') NO match regex_w: '+false);
-                                                                        arr_no_part_word.push(0);
-                                                                    } 
-                                                                });
-                                                                if(arr_no_part_word.includes(1)){
-                                                                    arr_matches.push(1);
-                                                                }else{
-                                                                    arr_matches.push(0);
-                                                                }
-                                                            }else if(no_part_word == 'N'){
-                                                                let regex_w = RegExp(removeAccents(w), tipo); 
-                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
-                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                                if(count_m > 0){
-                                                                    arr_matches.push(1);
-                                                                }else{
-                                                                    arr_matches.push(0);
-                                                                }
-                                                            }
-                                                        }
-                                                    });
-                                                    //console.log('Word. w: ', w);
-                                                    //console.log('VerseText: ', VerseText);
-                                                    if(!arr_matches.includes(0)){//когда все слова из фразы есть в стихе
-                                                        //2. в цикле отмечаю красным все совпадения, но уже не нужно arr_matches.push()
+            
+                                                //tipos de busqueda
+                                                let is_match = false;
+            
+                                                //Si hay palabras para buscar...
+                                                if(arr_words.length > 0){
+            
+                                                    //=======================================================================//  
+                                                    //0. por defecto - nada marcado //ok
+                                                    //=======================================================================//  
+                                                    if(!eid_cbox1.checked && !eid_cbox2.checked && !eid_cbox3.checked && !eid_cbox7.checked){
+                                                        let arr_matches = [];  
+                                                        //1. проверяю есть ли каждое слово из фразы в стихе                                      
                                                         arr_words.forEach(w => {
                                                             if(accent_match == 'Y'){//cbox6
                                                                 if(no_part_word == 'Y'){//cbox4
-                                                                    let arr_VerseText_red = [];
-                                                                    let regex_w = RegExp(w, tipo);                                                       
+                                                                    let arr_no_part_word = [];
+                                                                    w = "^" +w +"$";//entera palabra del array, no parte
+                                                                    let regex_w = RegExp(w, tipo);
                                                                     VerseText.split(' ').filter(elem => elem).forEach(el=> {
                                                                         if(removeSymbols(el).match(regex_w)){
                                                                             //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
-                                                                            el = el.replace(regex_w, function (x) {
-                                                                                return '<b class="f_red">' + x + '</b>';
-                                                                            });
-                                                                            arr_VerseText_red.push(el);
+                                                                            arr_no_part_word.push(1);
                                                                         }else{
                                                                             //console.log('--- el ('+el+') NO match regex_w: '+false);
-                                                                            arr_VerseText_red.push(el);
+                                                                            arr_no_part_word.push(0);
                                                                         } 
                                                                     });
-                                                                    VerseText = arr_VerseText_red.join(' ');
-                                                                    //console.log('VerseText: ', VerseText);
+                                                                    if(arr_no_part_word.includes(1)){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
                                                                 }else if(no_part_word == 'N'){
                                                                     let regex_w = RegExp(w, tipo);
                                                                     arr_result_m = VerseText.match(regex_w);
                                                                     count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
                                                                     if(count_m > 0){
-                                                                        VerseText = VerseText.replace(regex_w, function (x) {
-                                                                            return '<b class="f_red">' + x + '</b>';
-                                                                        });
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
                                                                     }
                                                                 }
                                                             }else if(accent_match == 'N'){
-                                                                let regex_w = RegExp(removeAccents(w), tipo); 
-                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
-                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                                if(count_m > 0){
-                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
-                                                                        return '{' + x + '}';
+                                                                if(no_part_word == 'Y'){
+                                                                    let arr_no_part_word = [];
+                                                                    w = "^" +w +"$";//entera palabra del array, no parte
+                                                                    let regex_w = RegExp(removeAccents(w), tipo);
+                                                                    removeAccents(VerseText).split(' ').filter(elem => elem).forEach(el=> {
+                                                                        if(removeSymbols(el).match(regex_w)){
+                                                                            //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                            arr_no_part_word.push(1);
+                                                                        }else{
+                                                                            //console.log('--- removeSymbols(el) ('+removeSymbols(el)+') NO match regex_w: '+false);
+                                                                            arr_no_part_word.push(0);
+                                                                        } 
                                                                     });
-                                                                    let text_original = VerseText;
-                                                                    text_marcas = prepararTextMarcas(text_marcas);
-                                                                    VerseText = markRed(text_original, text_marcas);
+                                                                    if(arr_no_part_word.includes(1)){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
+                                                                }else if(no_part_word == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                    }else{
+                                                                        arr_matches.push(0);
+                                                                    }
                                                                 }
                                                             }
                                                         });
-                                                        is_match = true;
-                                                        count_m_total += count_m;
-                                                        arr_result_m_total.push(arr_result_m);
-                                                        //console.log('count_m_total: ', count_m_total);
-                                                        //console.log('arr_result_m_total: ', arr_result_m_total);
+                                                        //console.log('Word. w: ', w);
                                                         //console.log('VerseText: ', VerseText);
-        
-                                                    }else{
-                                                        is_match = false;
-                                                    }
-                                                }
-                                                //=======================================================================//  
-                                                //end //0. por defecto - nada marcado //ok                                 
-                                                //=======================================================================//                                    
-                                                
-        
-                                                //=======================================================================//                                    
-                                                //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
-                                                //=======================================================================//
-                                                if(eid_cbox1.checked){
-                                                    let arr_matches = [];
-                                                    if(no_part_word == 'Y'){
-                                                        arr_words.forEach(w => {
-                                                            if(no_part_word == 'Y'){
-                                                                // w = "\\b" +w +"\\b";//palabras enteras// exacta coincidencia
-                                                                w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
-                                                            }
-                                                            if(accent_match == 'Y'){
-                                                                let regex_w = RegExp(w, tipo); 
-                                                                arr_result_m = VerseText.match(regex_w);
-                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                                if(count_m > 0){
-                                                                    arr_matches.push(1);
-                                                                    VerseText = VerseText.replace(regex_w, function (x) {
-                                                                        return '<b class="f_red">' + x + '</b>';
-                                                                    });
-                                                                    count_m_total += count_m;
-                                                                    arr_result_m_total.push(arr_result_m);
-                                                                }else{
-                                                                    arr_matches.push(0);
+                                                        if(!arr_matches.includes(0)){//когда все слова из фразы есть в стихе
+                                                            //2. в цикле отмечаю красным все совпадения, но уже не нужно arr_matches.push()
+                                                            arr_words.forEach(w => {
+                                                                if(accent_match == 'Y'){//cbox6
+                                                                    if(no_part_word == 'Y'){//cbox4
+                                                                        let arr_VerseText_red = [];
+                                                                        let regex_w = RegExp(w, tipo);                                                       
+                                                                        VerseText.split(' ').filter(elem => elem).forEach(el=> {
+                                                                            if(removeSymbols(el).match(regex_w)){
+                                                                                //console.log('removeSymbols(el) ('+removeSymbols(el)+') match regex_w: '+true);
+                                                                                el = el.replace(regex_w, function (x) {
+                                                                                    return '<b class="f_red">' + x + '</b>';
+                                                                                });
+                                                                                arr_VerseText_red.push(el);
+                                                                            }else{
+                                                                                //console.log('--- el ('+el+') NO match regex_w: '+false);
+                                                                                arr_VerseText_red.push(el);
+                                                                            } 
+                                                                        });
+                                                                        VerseText = arr_VerseText_red.join(' ');
+                                                                        //console.log('VerseText: ', VerseText);
+                                                                    }else if(no_part_word == 'N'){
+                                                                        let regex_w = RegExp(w, tipo);
+                                                                        arr_result_m = VerseText.match(regex_w);
+                                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                        if(count_m > 0){
+                                                                            VerseText = VerseText.replace(regex_w, function (x) {
+                                                                                return '<b class="f_red">' + x + '</b>';
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                }else if(accent_match == 'N'){
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            return '{' + x + '}';
+                                                                        });
+                                                                        let text_original = VerseText;
+                                                                        text_marcas = prepararTextMarcas(text_marcas);
+                                                                        VerseText = markRed(text_original, text_marcas);
+                                                                    }
                                                                 }
-                                                            }else if(accent_match == 'N'){
-                                                                let regex_w = RegExp(removeAccents(w), tipo); 
-                                                                arr_result_m = removeAccents(VerseText).match(regex_w);;
-                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                                if(count_m > 0){
-                                                                    arr_matches.push(1);
-                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
-                                                                        return '{' + x + '}';
-                                                                    });
-                                                                    let text_original = VerseText;
-                                                                    text_marcas = prepararTextMarcas(text_marcas);
-                                                                    VerseText = markRed(text_original, text_marcas);
-                                                                    count_m_total += count_m;
-                                                                    arr_result_m_total.push(arr_result_m);
-                                                                }else{
-                                                                    arr_matches.push(0);
-                                                                }
-                                                            }
-                                                        });
-                                                        if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                            });
                                                             is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
+                                                            //console.log('count_m_total: ', count_m_total);
+                                                            //console.log('arr_result_m_total: ', arr_result_m_total);
+                                                            //console.log('VerseText: ', VerseText);
+            
                                                         }else{
                                                             is_match = false;
                                                         }
-                                                    }else if(no_part_word == 'N'){
-                                                        if(accent_match == 'Y'){
-                                                            words = arr_words.join('|');
-                                                            let regex1 = RegExp(words, tipo);//buscar todo
-                                                            arr_result_m = VerseText.match(regex1);
-                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                            if(count_m > 0){
-                                                                is_match = true;
-                                                                count_m_total += count_m;
-                                                                arr_result_m_total.push(arr_result_m);
-                                                                VerseText = VerseText.replace(regex1, function (x) {
-                                                                    return '<b class="f_red">' + x + '</b>';
-                                                                });
-                                                            }else{
-                                                                is_match = false;
-                                                            } 
-                                                        }else if(accent_match == 'N'){
-                                                            words = arr_words.join('|');
-                                                            let regex_w = RegExp(removeAccents(words), tipo); 
-                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
-                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                            if(count_m > 0){
-                                                                arr_matches.push(1);
-                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
-                                                                    return '{' + x + '}';
-                                                                });
-                                                                let text_original = VerseText;
-                                                                text_marcas = prepararTextMarcas(text_marcas);
-                                                                VerseText = markRed(text_original, text_marcas);
-                                                                //console.log('VerseText: '+VerseText);
-                                                            }else{
-                                                                arr_matches.push(0);
-                                                            }
-                                                            if(arr_matches.includes(1)){//si por lo menos hay 1 match
-                                                                is_match = true;
-                                                                count_m_total += count_m;
-                                                                arr_result_m_total.push(arr_result_m);
-                                                            }else{
-                                                                is_match = false;
-                                                            }
-                                                        }
                                                     }
-                                                }
-                                                //=======================================================================//
-                                                //end //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
-                                                //=======================================================================//
-        
-        
-                                                //=======================================================================//
-                                                //2. - //cлова идут в заданном порядке //ok
-                                                //=======================================================================//
-                                                if(eid_cbox2.checked){
-                                                    //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
-                                                    let arr_matches = [];
-                                                    let arr_matches_w = [];//matches en words
-                                                    let arr_regex_w = [];
-                                                    let arr_regex_w_l = [];//для сравнения
-                                                    arr_words.forEach( (w,i,arr_w) => {
-                                                        if(accent_match == 'Y'){
-                                                            let regex_w = RegExp(w, tipo);
-                                                            arr_regex_w.push(regex_w);
-                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
-                                                            arr_regex_w_l.push(regex_w_l);
-                                                            arr_result_m = VerseText.match(regex_w);
-                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                            if(count_m > 0){
-                                                                //console.log('ok --- regex_w match arr_words. w: '+w);
-                                                                if(typeof arr_w[i+1] != 'undefined'){
-                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
-                                                                        if(index_first_w < index_next_w){
-                                                                            //console.log('VerseText: '+VerseText);
-                                                                            //console.log('caso2a. index_first_w: '+index_first_w);
-                                                                            //console.log('caso2a. index_next_w: '+index_next_w);
-                                                                            let arr_VerseText_a = VerseText.split(' ');
-                                                                            let arr_VerseText_a_ed = [];
-                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
-                                                                                let el_a = arr_VerseText_a[a];
-                                                                                let regex_aw,sovpad_word;
-                                                                                if(no_part_word == 'Y'){
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
-                                                                                }else{//no_part_word == 'N'
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
-                                                                                }
-                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
-                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
-                                                                                    el_a = el_a.replace(regex_aw, function (x) {
-                                                                                        return '<b class="f_red">' + x + '</b>';
-                                                                                    });
-                                                                                    sovpad++;
-                                                                                    arr_matches_w.push(1);
-                                                                                    count_m_total += 1;
-                                                                                    arr_result_m_total.push(arr_result_m);
-                                                                                }
-                                                                                if(sovpad == arr_words.length){
-                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
-                                                                                }
-                                                                                arr_VerseText_a_ed.push(el_a); 
-                                                                            }
-                                                                            VerseText = arr_VerseText_a_ed.join(' ');
-                                                                            //console.log(VerseText);
-                                                                        }else{
-                                                                            arr_matches.push(0);
-                                                                        }
-                                                                    }else if(case_sens == 'i'){//все равно какие буквы
-                                                                        //превращаю в мал. буквы только для сравнения.
-                                                                        let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
-                                                                        if(index_first_w < index_next_w){
-                                                                            //console.log('VerseText: '+VerseText);
-                                                                            //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
-                                                                            //console.log('caso2b. index_first_w: '+index_first_w);
-                                                                            //console.log('caso2b. index_next_w: '+index_next_w);
-                                                                            let arr_VerseText_a = VerseText.split(' ');
-                                                                            let arr_VerseText_a_ed = [];
-                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
-                                                                                let el_a = arr_VerseText_a[a];
-                                                                                let regex_aw,sovpad_word;
-                                                                                if(no_part_word == 'Y'){
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
-                                                                                }else{//no_part_word == 'N'
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
-                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
-                                                                                }
-                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
-                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
-                                                                                    el_a = el_a.replace(regex_aw, function (x) {
-                                                                                        return '<b class="f_red">' + x + '</b>';
-                                                                                    });
-                                                                                    sovpad++;
-                                                                                    arr_matches_w.push(1);
-                                                                                    count_m_total += 1;
-                                                                                    arr_result_m_total.push(arr_result_m);
-                                                                                }
-                                                                                if(sovpad == arr_words.length){
-                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
-                                                                                }
-                                                                                arr_VerseText_a_ed.push(el_a); 
-                                                                            }
-                                                                            VerseText = arr_VerseText_a_ed.join(' ');
-                                                                            //console.log(VerseText);
-                                                                        }else{
-                                                                            arr_matches.push(0);
-                                                                        }
-                                                                    }                                                    
+                                                    //=======================================================================//
+                                                    //end //0. por defecto - nada marcado //ok                                 
+                                                    //=======================================================================//
+                                                    
+            
+                                                    //=======================================================================//
+                                                    //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox1.checked){
+                                                        let arr_matches = [];
+                                                        if(no_part_word == 'Y'){
+                                                            arr_words.forEach(w => {
+                                                                if(no_part_word == 'Y'){
+                                                                    // w = "\\b" +w +"\\b";//palabras enteras// exacta coincidencia
+                                                                    w = "\\B" +w +"\\B";//marcar si 'w' está rodeada por otras letras dentro de 'aawaa'.//true
                                                                 }
-                                                            }    
-                                                        }else if(accent_match == 'N'){
-                                                            let regex_w = RegExp(removeAccents(w), tipo);
-                                                            arr_regex_w.push(regex_w);
-                                                            let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
-                                                            arr_regex_w_l.push(regex_w_l);
-                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
-                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                            if(count_m > 0){
-                                                                //console.log('ok --- regex_w match arr_words. w: '+w);
-                                                                if(typeof arr_w[i+1] != 'undefined'){
-                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
-                                                                        let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
-                                                                        if(index_first_w < index_next_w){
-                                                                            //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
-                                                                            //console.log('caso2a. index_first_w: '+index_first_w);
-                                                                            //console.log('caso2a. index_next_w: '+index_next_w);
-                                                                            let arr_VerseText_a = removeAccents(VerseText).split(' ');
-                                                                            let arr_VerseText_a_ed = [];
-                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
-                                                                                let el_a = arr_VerseText_a[a];
-                                                                                let regex_aw,sovpad_word;
-                                                                                if(no_part_word == 'Y'){
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
-                                                                                }else{//no_part_word == 'N'
-                                                                                    regex_aw = RegExp(arr_w[i+sovpad], tipo);
-                                                                                    sovpad_word = (el_a.match(regex_aw)) ? true : false ;
-                                                                                }
-                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
-                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
-                                                                                    el_a = removeAccents(el_a).replace(regex_aw, function (x) {
-                                                                                        return '{' + x + '}';
-                                                                                    });
-                                                                                    sovpad++;
-                                                                                    arr_matches_w.push(1);
-                                                                                    count_m_total += 1;
-                                                                                    arr_result_m_total.push(arr_result_m);
-                                                                                }
-                                                                                if(sovpad == arr_words.length){
-                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
-                                                                                }
-                                                                                arr_VerseText_a_ed.push(el_a); 
-                                                                            }
-                                                                            let text_original = VerseText;
-                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
-                                                                            VerseText = markRed(text_original, text_marcas);//FUNCIONA
-                                                                            //console.log('VerseText: '+VerseText); 
-                                                                        }else{
-                                                                            arr_matches.push(0);
-                                                                        }
-                                                                    }else if(case_sens == 'i'){//все равно какие буквы
-                                                                        //превращаю в мал. буквы только для сравнения.
-                                                                        let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
-                                                                        let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
-                                                                        if(index_first_w < index_next_w){
-                                                                            //console.log('VerseText: '+removeAccents(VerseText));
-                                                                            //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
-                                                                            //console.log('caso2b. index_first_w: '+index_first_w);
-                                                                            //console.log('caso2b. index_next_w: '+index_next_w);
-                                                                            let arr_VerseText_a = removeAccents(VerseText).split(' ');
-                                                                            let arr_VerseText_a_ed = [];
-                                                                            for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
-                                                                                let el_a = arr_VerseText_a[a];
-                                                                                let regex_aw,sovpad_word;
-                                                                                if(no_part_word == 'Y'){
-                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
-                                                                                    if(arr_w[i+sovpad] < arr_w.length){
-                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
-                                                                                    }else{
-                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
-                                                                                    }
-                                                                                }else{//no_part_word == 'N'
-                                                                                    regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
-                                                                                    sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
-                                                                                }
-                                                                                //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
-                                                                                if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
-                                                                                    el_a = el_a.replace(regex_aw, function (x) {
-                                                                                        return '{' + x + '}';
-                                                                                    });
-                                                                                    sovpad++;
-                                                                                    arr_matches_w.push(1);
-                                                                                    count_m_total += 1;
-                                                                                    arr_result_m_total.push(arr_result_m);
-                                                                                }
-                                                                                if(sovpad == arr_words.length){
-                                                                                    sovpad = 0;//reset para buscar otros maches en el mismo verso
-                                                                                }
-                                                                                arr_VerseText_a_ed.push(el_a); 
-                                                                            }
-                                                                            let text_original = VerseText;
-                                                                            let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
-                                                                            VerseText = markRed(text_original, text_marcas);//FUNCIONA
-                                                                            //console.log('VerseText: '+VerseText); 
-                                                                        }else{
-                                                                            arr_matches.push(0);
-                                                                        }
-                                                                    }                                                    
-                                                                }
-                                                            }
-                                                        }//end //else if(accent_match == 'N')
-                                                    });
-                                                    if(!arr_matches.includes(0)){//si todos ocurrencias hay
-                                                        for (let i = 0; i < arr_regex_w.length; i++) {
-                                                            if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
-                                                                let index_first_w,index_next_w;
                                                                 if(accent_match == 'Y'){
-                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        index_first_w = VerseText.indexOf(arr_words[i]);
-                                                                        index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
-                                                                    }if(case_sens == 'i'){//все равно какие буквы
-                                                                        index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                    let regex_w = RegExp(w, tipo); 
+                                                                    arr_result_m = VerseText.match(regex_w);
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                        VerseText = VerseText.replace(regex_w, function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        arr_matches.push(0);
                                                                     }
                                                                 }else if(accent_match == 'N'){
-                                                                    if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
-                                                                        index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
-                                                                        index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
-                                                                    }if(case_sens == 'i'){//все равно какие буквы
-                                                                        index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
-                                                                        index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                    let regex_w = RegExp(removeAccents(w), tipo); 
+                                                                    arr_result_m = removeAccents(VerseText).match(regex_w);;
+                                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                    if(count_m > 0){
+                                                                        arr_matches.push(1);
+                                                                        let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                            return '{' + x + '}';
+                                                                        });
+                                                                        let text_original = VerseText;
+                                                                        text_marcas = prepararTextMarcas(text_marcas);
+                                                                        VerseText = markRed(text_original, text_marcas);
+                                                                        count_m_total += count_m;
+                                                                        arr_result_m_total.push(arr_result_m);
+                                                                    }else{
+                                                                        arr_matches.push(0);
                                                                     }
                                                                 }
-                                                                if(index_first_w < index_next_w && arr_matches_w.includes(1)){
-                                                                    //console.log('VerseText: '+VerseText);
-                                                                    //console.log('VerseText: '+VerseText);
-                                                                    VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                            });
+                                                            if(arr_matches.includes(1)){//si por lo menos hay 1 match
+                                                                is_match = true;
+                                                            }else{
+                                                                is_match = false;
+                                                            }
+                                                        }else if(no_part_word == 'N'){
+                                                            if(accent_match == 'Y'){
+                                                                words = arr_words.join('|');
+                                                                let regex1 = RegExp(words, tipo);//buscar todo
+                                                                arr_result_m = VerseText.match(regex1);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
+                                                                    VerseText = VerseText.replace(regex1, function (x) {
                                                                         return '<b class="f_red">' + x + '</b>';
                                                                     });
-                                                                    //console.log(' con red --- VerseText: '+VerseText);
-                                                                    //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
-                                                                    //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
+                                                                }else{
+                                                                    is_match = false;
+                                                                } 
+                                                            }else if(accent_match == 'N'){
+                                                                words = arr_words.join('|');
+                                                                let regex_w = RegExp(removeAccents(words), tipo); 
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    arr_matches.push(1);
+                                                                    let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                        return '{' + x + '}';
+                                                                    });
+                                                                    let text_original = VerseText;
+                                                                    text_marcas = prepararTextMarcas(text_marcas);
+                                                                    VerseText = markRed(text_original, text_marcas);
+                                                                    //console.log('VerseText: '+VerseText);
+                                                                }else{
+                                                                    arr_matches.push(0);
+                                                                }
+                                                                if(arr_matches.includes(1)){//si por lo menos hay 1 match
                                                                     is_match = true;
+                                                                    count_m_total += count_m;
+                                                                    arr_result_m_total.push(arr_result_m);
                                                                 }else{
                                                                     is_match = false;
                                                                 }
                                                             }
-                                                        }//end for
-                                                        //quito tag's sobrantes de las coincidencias con for
-                                                        if(is_match){
-                                                            let tag_f_red_start = '';
-                                                            let tag_f_red_end = '';
-                                                            //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
-                                                            //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
-                                                            for (let index = 0; index < arr_words.length; index++) {
-                                                                tag_f_red_start += '<b class="f_red">';
-                                                                tag_f_red_end += '</b>';
-                                                                //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
-                                                                //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
-                                                                if(index > 0){
-                                                                    VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
-                                                                    VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
-                                                                    //console.log(' en for --- VerseText: '+VerseText);
-                                                                }                                                                        
-                                                            }
-                                                            //console.log(' despues de for --- VerseText: '+VerseText);
-                                                        }                                           
-                                                    }else{
-                                                        is_match = false;
+                                                        }
                                                     }
-                                                }
-                                                //=======================================================================//
-                                                //end //2. - //cлова идут в заданном порядке //ok
-                                                //=======================================================================//
-                                                
-        
-                                                //=======================================================================//
-                                                //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
-                                                //=======================================================================//
-                                                if(eid_cbox3.checked){
-                                                    let words = arr_words.join(' ');
-                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
-                                                    VerseText = arr_VerseText_or.join(' ');
-                                                    if(accent_match == 'Y'){
-                                                        let regex_w = RegExp(words, tipo);
-                                                        arr_result_m = VerseText.match(regex_w);
-                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                        if(count_m > 0){
-                                                            VerseText = VerseText.replace(regex_w, function (x) {
-                                                                return '<b class="f_red">' + x + '</b>';
-                                                            });
-                                                            is_match = true;
-                                                            count_m_total += count_m;
-                                                            arr_result_m_total.push(arr_result_m);
-                                                        }else{
-                                                            is_match = false;
-                                                        } 
-                                                    }else if(accent_match == 'N'){
-                                                        let regex_w = RegExp(removeAccents(words), tipo);
-                                                        arr_result_m = removeAccents(VerseText).match(regex_w);
-                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                        if(count_m > 0){
-                                                            let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
-                                                                return '{' + x + '}';
-                                                            });
-                                                            let text_original = VerseText;
-                                                            let arr_frases = prepararFrases(text_original,text_marcas);
-                                                            let frase_original = arr_frases[0];
-                                                            let frase_exacta = arr_frases[1];
-                                                            //console.log('frase_original: '+frase_original);
-                                                            //console.log('frase_exacta: '+frase_exacta);
-                                                            text_marcas = prepararTextMarcas(frase_exacta);                                                            
-                                                            VerseText = markRed(frase_original, text_marcas);//FUNCIONA
-                                                            //console.log('VerseText: '+VerseText);
-                                                            VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
-                                                            is_match = true;
-                                                            count_m_total += count_m;
-                                                            arr_result_m_total.push(arr_result_m);
+                                                    //=======================================================================//
+                                                    //end //1. - искомое содержит хотя бы одно слово ('Иисус Христос' или 'Иисус' или 'Христос') //ok
+                                                    //=======================================================================//
+            
+            
+                                                    //=======================================================================//
+                                                    //2. - //cлова идут в заданном порядке //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox2.checked){
+                                                        //console.log('//tipo búsqueda --- //2. - //cлова идут в заданном порядке');
+                                                        let arr_matches = [];
+                                                        let arr_matches_w = [];//matches en words
+                                                        let arr_regex_w = [];
+                                                        let arr_regex_w_l = [];//для сравнения
+                                                        arr_words.forEach( (w,i,arr_w) => {
+                                                            if(accent_match == 'Y'){
+                                                                let regex_w = RegExp(w, tipo);
+                                                                arr_regex_w.push(regex_w);
+                                                                let regex_w_l = (typeof w != 'undefined') ? RegExp(w.toLowerCase(), tipo) : RegExp(w, tipo);//для сравнения
+                                                                arr_regex_w_l.push(regex_w_l);
+                                                                arr_result_m = VerseText.match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                    if(typeof arr_w[i+1] != 'undefined'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            let index_first_w = VerseText.indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                            let index_next_w = VerseText.indexOf(arr_w[i+1], index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = VerseText.split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                //console.log(VerseText);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(case_sens == 'i'){//все равно какие буквы
+                                                                            //превращаю в мал. буквы только для сравнения.
+                                                                            let index_first_w = VerseText.toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                            let index_next_w = VerseText.toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+VerseText);
+                                                                                //console.log('VerseText.toLowerCase(): '+VerseText.toLowerCase());
+                                                                                //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = VerseText.split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                        sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad].toLowerCase(), tipo);
+                                                                                        sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                VerseText = arr_VerseText_a_ed.join(' ');
+                                                                                //console.log(VerseText);
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }                                                    
+                                                                    }
+                                                                }    
+                                                            }else if(accent_match == 'N'){
+                                                                let regex_w = RegExp(removeAccents(w), tipo);
+                                                                arr_regex_w.push(regex_w);
+                                                                let regex_w_l = (typeof w != 'undefined') ? RegExp(removeAccents(w).toLowerCase(), tipo) : RegExp(removeAccents(w), tipo);//для сравнения
+                                                                arr_regex_w_l.push(regex_w_l);
+                                                                arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                                count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                                if(count_m > 0){
+                                                                    //console.log('ok --- regex_w match arr_words. w: '+w);
+                                                                    if(typeof arr_w[i+1] != 'undefined'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            let index_first_w = removeAccents(VerseText).indexOf(arr_w[i]);//The indexOf() method is case sensitive.
+                                                                            let index_next_w = removeAccents(VerseText).indexOf(arr_w[i+1], index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('removeAccents(VerseText): '+removeAccents(VerseText));
+                                                                                //console.log('caso2a. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2a. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a == arr_w[i+sovpad]) ? true : false ;
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = RegExp(arr_w[i+sovpad], tipo);
+                                                                                        sovpad_word = (el_a.match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = removeAccents(el_a).replace(regex_aw, function (x) {
+                                                                                            return '{' + x + '}';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                //console.log('VerseText: '+VerseText); 
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }else if(case_sens == 'i'){//все равно какие буквы
+                                                                            //превращаю в мал. буквы только для сравнения.
+                                                                            let index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i].toLowerCase());//The indexOf() method is case sensitive.
+                                                                            let index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_w[i+1].toLowerCase(), index_first_w);
+                                                                            if(index_first_w < index_next_w){
+                                                                                //console.log('VerseText: '+removeAccents(VerseText));
+                                                                                //console.log('VerseText.toLowerCase(): '+removeAccents(VerseText).toLowerCase());
+                                                                                //console.log('caso2b. index_first_w: '+index_first_w);
+                                                                                //console.log('caso2b. index_next_w: '+index_next_w);
+                                                                                let arr_VerseText_a = removeAccents(VerseText).split(' ');
+                                                                                let arr_VerseText_a_ed = [];
+                                                                                for (let a = 0, sovpad = 0; a < arr_VerseText_a.length; a++) {
+                                                                                    let el_a = arr_VerseText_a[a];
+                                                                                    let regex_aw,sovpad_word;
+                                                                                    if(no_part_word == 'Y'){
+                                                                                        regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                        if(arr_w[i+sovpad] < arr_w.length){
+                                                                                            sovpad_word = (el_a.toLowerCase() == arr_w[i+sovpad].toLowerCase()) ? true : false ;
+                                                                                        }else{
+                                                                                            sovpad_word = (el_a.toLowerCase() == arr_w[arr_w.length-1].toLowerCase()) ? true : false ;
+                                                                                        }
+                                                                                    }else{//no_part_word == 'N'
+                                                                                        regex_aw = (arr_w[i+sovpad] < arr_w.length) ? RegExp(arr_w[i+sovpad].toLowerCase(), tipo) : RegExp(arr_w[arr_w.length-1].toLowerCase(), tipo) ;
+                                                                                        sovpad_word = (el_a.toLowerCase().match(regex_aw)) ? true : false ;
+                                                                                    }
+                                                                                    //si 'Иисус' es la última palabra de frase buscada 'Христос Иисус'
+                                                                                    if(sovpad_word && sovpad < arr_words.length && i+sovpad < arr_words.length){
+                                                                                        el_a = el_a.replace(regex_aw, function (x) {
+                                                                                            return '{' + x + '}';
+                                                                                        });
+                                                                                        sovpad++;
+                                                                                        arr_matches_w.push(1);
+                                                                                        count_m_total += 1;
+                                                                                        arr_result_m_total.push(arr_result_m);
+                                                                                    }
+                                                                                    if(sovpad == arr_words.length){
+                                                                                        sovpad = 0;//reset para buscar otros maches en el mismo verso
+                                                                                    }
+                                                                                    arr_VerseText_a_ed.push(el_a); 
+                                                                                }
+                                                                                let text_original = VerseText;
+                                                                                let text_marcas = prepararTextMarcas(arr_VerseText_a_ed.join(' '));
+                                                                                VerseText = markRed(text_original, text_marcas);//FUNCIONA
+                                                                                //console.log('VerseText: '+VerseText); 
+                                                                            }else{
+                                                                                arr_matches.push(0);
+                                                                            }
+                                                                        }                                                    
+                                                                    }
+                                                                }
+                                                            }//end //else if(accent_match == 'N')
+                                                        });
+                                                        if(!arr_matches.includes(0)){//si todos ocurrencias hay
+                                                            for (let i = 0; i < arr_regex_w.length; i++) {
+                                                                if(typeof arr_regex_w[i+1] != 'undefined' || typeof arr_regex_w_l[i+1] != 'undefined'){
+                                                                    let index_first_w,index_next_w;
+                                                                    if(accent_match == 'Y'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            index_first_w = VerseText.indexOf(arr_words[i]);
+                                                                            index_next_w = VerseText.indexOf(arr_words[i+1], index_first_w);    
+                                                                        }if(case_sens == 'i'){//все равно какие буквы
+                                                                            index_first_w = VerseText.toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                            index_next_w = VerseText.toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        }
+                                                                    }else if(accent_match == 'N'){
+                                                                        if(case_sens == ''){//различать маленькие и БОЛЬШИЕ буквы
+                                                                            index_first_w = removeAccents(VerseText).indexOf(arr_words[i]);
+                                                                            index_next_w = removeAccents(VerseText).indexOf(arr_words[i+1], index_first_w);    
+                                                                        }if(case_sens == 'i'){//все равно какие буквы
+                                                                            index_first_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i].toLowerCase());
+                                                                            index_next_w = removeAccents(VerseText).toLowerCase().indexOf(arr_words[i+1].toLowerCase(), index_first_w);    
+                                                                        }
+                                                                    }
+                                                                    if(index_first_w < index_next_w && arr_matches_w.includes(1)){
+                                                                        //console.log('VerseText: '+VerseText);
+                                                                        //console.log('VerseText: '+VerseText);
+                                                                        VerseText = VerseText.replace(arr_regex_w[i], function (x) {
+                                                                            return '<b class="f_red">' + x + '</b>';
+                                                                        });
+                                                                        //console.log(' con red --- VerseText: '+VerseText);
+                                                                        //console.log('first arr_regex_w['+i+']: '+arr_regex_w[i] + ' --- index_first_regex: '+index_first_regex);
+                                                                        //console.log('second arr_regex_w['+(i+1)+']: '+arr_regex_w[i+1]+ ' --- index_next_regex: '+index_next_regex);                                                        
+                                                                        is_match = true;
+                                                                    }else{
+                                                                        is_match = false;
+                                                                    }
+                                                                }
+                                                            }//end for
+                                                            //quito tag's sobrantes de las coincidencias con for
+                                                            if(is_match){
+                                                                let tag_f_red_start = '';
+                                                                let tag_f_red_end = '';
+                                                                //console.log(' inicio tag_f_red_start: '+tag_f_red_start);
+                                                                //console.log(' inicio tag_f_red_end: '+tag_f_red_end);
+                                                                for (let index = 0; index < arr_words.length; index++) {
+                                                                    tag_f_red_start += '<b class="f_red">';
+                                                                    tag_f_red_end += '</b>';
+                                                                    //console.log(' en for --- tag_f_red_start: '+tag_f_red_start);
+                                                                    //console.log(' en for --- tag_f_red_end: '+tag_f_red_end);
+                                                                    if(index > 0){
+                                                                        VerseText = VerseText.replace(tag_f_red_start,'<b class="f_red">');
+                                                                        VerseText = VerseText.replace(tag_f_red_end,'</b>'); 
+                                                                        //console.log(' en for --- VerseText: '+VerseText);
+                                                                    }                                                                        
+                                                                }
+                                                                //console.log(' despues de for --- VerseText: '+VerseText);
+                                                            }                                           
                                                         }else{
                                                             is_match = false;
                                                         }
                                                     }
-                                                }
-                                                //=======================================================================//
-                                                //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
-                                                //=======================================================================//
-                                                
-                                                
-                                                //=======================================================================//
-                                                //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
-                                                //=======================================================================//
-                                                if(eid_cbox7.checked){
-                                                    let words = arr_words.join(' ');
-                                                    VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
-                                                    let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
-                                                    VerseText = arr_VerseText_or.join(' ');
-                                                    let regex_w = RegExp(words, tipo);
-                                                    let arr_VerseText_con_sn = [];
-                                                    let arr_sn = [];//arr de strong numbers finded
-                                                    arr_VerseText_or.forEach(el=>{  
-                                                        if(el.includes('<S>') && el.includes('</S>')){//number strong 
-                                                            //console.log('el: '+el);
-                                                            let sNumber_sin_tags = removeTags(el); 
-                                                            //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
-                                                            if(sNumber_sin_tags == words){
-                                                                //console.log('sNumber_sin_tags == words');
-                                                                arr_sn.push(sNumber_sin_tags);
-                                                                let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                    //=======================================================================//
+                                                    //end //2. - //cлова идут в заданном порядке //ok
+                                                    //=======================================================================//
+                                                    
+            
+                                                    //=======================================================================//
+                                                    //3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                    //=======================================================================//
+                                                    if(eid_cbox3.checked){
+                                                        let words = arr_words.join(' ');
+                                                        VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                        let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                        VerseText = arr_VerseText_or.join(' ');
+                                                        if(accent_match == 'Y'){
+                                                            let regex_w = RegExp(words, tipo);
+                                                            arr_result_m = VerseText.match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                VerseText = VerseText.replace(regex_w, function (x) {
                                                                     return '<b class="f_red">' + x + '</b>';
-                                                                }); 
-                                                                el = sNumber_con_tags;
-                                                                //console.log('nuevo el: '+el);
-                                                                arr_VerseText_con_sn.push(el);//con sn red
+                                                                });
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                            }else{
+                                                                is_match = false;
+                                                            } 
+                                                        }else if(accent_match == 'N'){
+                                                            let regex_w = RegExp(removeAccents(words), tipo);
+                                                            arr_result_m = removeAccents(VerseText).match(regex_w);
+                                                            count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                            if(count_m > 0){
+                                                                let text_marcas = removeAccents(VerseText).replace(regex_w, function (x) {
+                                                                    return '{' + x + '}';
+                                                                });
+                                                                let text_original = VerseText;
+                                                                let arr_frases = prepararFrases(text_original,text_marcas);
+                                                                let frase_original = arr_frases[0];
+                                                                let frase_exacta = arr_frases[1];
+                                                                //console.log('frase_original: '+frase_original);
+                                                                //console.log('frase_exacta: '+frase_exacta);
+                                                                text_marcas = prepararTextMarcas(frase_exacta);                                                            
+                                                                VerseText = markRed(frase_original, text_marcas);//FUNCIONA
+                                                                //console.log('VerseText: '+VerseText);
+                                                                VerseText = VerseText.replace(/¬/g,' ');//quito lo puesto temporalmente
+                                                                is_match = true;
+                                                                count_m_total += count_m;
+                                                                arr_result_m_total.push(arr_result_m);
+                                                            }else{
+                                                                is_match = false;
+                                                            }
+                                                        }
+                                                    }
+                                                    //=======================================================================//
+                                                    //end 3. - //искать точную фразу  'Иисус Христос' как одно слово //ok
+                                                    //=======================================================================//
+                                                    
+                                                    
+                                                    //=======================================================================//
+                                                    //7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                    //=======================================================================//
+                                                    if(eid_cbox7.checked){
+                                                        let words = arr_words.join(' ');
+                                                        VerseText = VerseText.replace(/(\n|\t|\r)/g,'');
+                                                        let arr_VerseText_or = VerseText.split(' ').filter(e=>e);
+                                                        VerseText = arr_VerseText_or.join(' ');
+                                                        let regex_w = RegExp(words, tipo);
+                                                        let arr_VerseText_con_sn = [];
+                                                        let arr_sn = [];//arr de strong numbers finded
+                                                        arr_VerseText_or.forEach(el=>{  
+                                                            if(el.includes('<S>') && el.includes('</S>')){//number strong 
+                                                                //console.log('el: '+el);
+                                                                let sNumber_sin_tags = removeTags(el); 
+                                                                //console.log('sNumber_sin_tags: '+sNumber_sin_tags);
+                                                                if(sNumber_sin_tags == words){
+                                                                    //console.log('sNumber_sin_tags == words');
+                                                                    arr_sn.push(sNumber_sin_tags);
+                                                                    let sNumber_con_tags = el.replace(regex_w, function (x) {
+                                                                        return '<b class="f_red">' + x + '</b>';
+                                                                    }); 
+                                                                    el = sNumber_con_tags;
+                                                                    //console.log('nuevo el: '+el);
+                                                                    arr_VerseText_con_sn.push(el);//con sn red
+                                                                }else{
+                                                                    arr_VerseText_con_sn.push(el);
+                                                                }
                                                             }else{
                                                                 arr_VerseText_con_sn.push(el);
                                                             }
+                                                        });
+                                                        //console.log('arr_sn: '+arr_sn);
+                                                        VerseText = arr_VerseText_con_sn.join(' ');
+                                                        //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
+                                                        arr_result_m = arr_sn;
+                                                        count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
+                                                        if(count_m > 0){
+                                                            is_match = true;
+                                                            count_m_total += count_m;
+                                                            arr_result_m_total.push(arr_result_m);
                                                         }else{
-                                                            arr_VerseText_con_sn.push(el);
+                                                            is_match = false;
                                                         }
-                                                    });
-                                                    //console.log('arr_sn: '+arr_sn);
-                                                    VerseText = arr_VerseText_con_sn.join(' ');
-                                                    //console.log('------------- 2374 --- con StrongNumber --- VerseText: '+VerseText);
-                                                    arr_result_m = arr_sn;
-                                                    count_m = (arr_result_m != null) ? arr_result_m.length : 0 ;
-                                                    if(count_m > 0){
-                                                        is_match = true;
-                                                        count_m_total += count_m;
-                                                        arr_result_m_total.push(arr_result_m);
-                                                    }else{
-                                                        is_match = false;
                                                     }
-                                                }
-                                                //=======================================================================//
-                                                //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
-                                                //=======================================================================//
-        
-                                            }//end //if(arr_words.length > 0)
-        
-        
-        
-                                            //Matches
-                                            if(is_match){
-                                                //console.log('VerseText regex1: '+VerseText.match(regex1));
-                                                //console.log('VerseText: '+VerseText);
-        
-                                                const span_num_find = document.createElement('span');
-                                                span_num_find.className = 'sp_f';
-                                                count_f++;
-                                                span_num_find.innerText = count_f;
-        
-                                                const p = document.createElement('p');
-                                                p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
-                                
-                                                const a = document.createElement('a');
-                                                a.href = '#';
-                                                //let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
-                                                let aLink = `${bq.Books[book].ShortNames[0]} ${ChapterId}:${VerseId}`;
-                                                a.innerHTML = aLink;
-                                                a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
-                                                
-                                                p.append(span_num_find);
-                                                p.append(a);
-                                                p.append(' '); 
-                        
-                                                const span_vt = document.createElement('span');
-                                                span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
-                        
-                        
-                                                //Номера Стронга в стихах (RST+)
-                                                if(bq.StrongNumbers == "Y"){//OK
-                                                    let t = VerseText;
-                                                    let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
-                                                
-                                                    arr_t.forEach((el,i) => {    
-                                                        
-                                                        //element of string is Strong Number
-                                                        if(!isNaN(parseInt(el)) || el == '0'){//number                         
-                                                            const span_strong = document.createElement('span');
-                                                            if(btnStrongIsActive){
-                                                                span_strong.className = 'strong show strongActive'; 
-                                                            }else{
-                                                                span_strong.className = 'strong'; 
-                                                            }
-                                                            let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
-                                                
-                                                            //si ultimo carácter es string
-                                                            if(last_char != '' && isNaN(last_char)){
-                                                                let el_number = el.substring(0,el.length-1);
-                                                                let el_string = last_char;
-                                                                span_strong.innerHTML = el_number;
-                                                                span_vt.append(span_strong);
-                                                                span_vt.append(el_string);
-                                                            }else{//es number
-                                                                span_strong.innerHTML = el;
-                                                                span_vt.append(span_strong);
-                                                            }
-                                                
-                                                        }else{//is word
-                                                            span_vt.append(' ');
-                                                            if(btnStrongIsActive){
-                                                                if(el.includes('<S>')){
-                                                                    el = el.replace('<S>','<S class="show strongActive">');
+                                                    //=======================================================================//
+                                                    //end 7. - //Искать только номер Стронга (если есть) Пример: Искать толко номер Стронга <S>H430</S>.
+                                                    //=======================================================================//
+            
+                                                }//end //if(arr_words.length > 0)
+            
+            
+            
+                                                //Matches
+                                                if(is_match){
+                                                    //console.log('VerseText regex1: '+VerseText.match(regex1));
+                                                    //console.log('VerseText: '+VerseText);
+            
+                                                    const span_num_find = document.createElement('span');
+                                                    span_num_find.className = 'sp_f';
+                                                    count_f++;
+                                                    span_num_find.innerText = count_f;
+            
+                                                    const p = document.createElement('p');
+                                                    p.id = Translation +'__'+book + '__' + chapter + '__' + VerseId;
+                                    
+                                                    const a = document.createElement('a');
+                                                    a.href = '#';
+                                                    //let aLink = bq.Books[book].ShortNames[0] + ChapterId + ':' + VerseId;
+                                                    let aLink = `${bq.Books[book].ShortNames[0]} ${ChapterId}:${VerseId}`;
+                                                    a.innerHTML = aLink;
+                                                    a.setAttribute('onclick',`goToLinkFromFind('${Translation}', '${aLink}')`);//funciona
+                                                    
+                                                    p.append(span_num_find);
+                                                    p.append(a);
+                                                    p.append(' '); 
+                            
+                                                    const span_vt = document.createElement('span');
+                                                    span_vt.className = 'vt';//text de Verse para aplicar HTMLFilter si hay
+                            
+                            
+                                                    //Номера Стронга в стихах (RST+)
+                                                    if(bq.StrongNumbers == "Y"){//OK
+                                                        let t = VerseText;
+                                                        let arr_t = (t.includes(' ')) ? t.split(' ') : alert('error al hacer .split()');
+                                                    
+                                                        arr_t.forEach((el,i) => {    
+                                                            
+                                                            //element of string is Strong Number
+                                                            if(!isNaN(parseInt(el)) || el == '0'){//number                         
+                                                                const span_strong = document.createElement('span');
+                                                                if(btnStrongIsActive){
+                                                                    span_strong.className = 'strong show strongActive'; 
+                                                                }else{
+                                                                    span_strong.className = 'strong'; 
                                                                 }
+                                                                let last_char = (el.length > 1) ? el.charAt(el.length-1) : "" ;
+                                                    
+                                                                //si ultimo carácter es string
+                                                                if(last_char != '' && isNaN(last_char)){
+                                                                    let el_number = el.substring(0,el.length-1);
+                                                                    let el_string = last_char;
+                                                                    span_strong.innerHTML = el_number;
+                                                                    span_vt.append(span_strong);
+                                                                    span_vt.append(el_string);
+                                                                }else{//es number
+                                                                    span_strong.innerHTML = el;
+                                                                    span_vt.append(span_strong);
+                                                                }
+                                                    
+                                                            }else{//is word
+                                                                span_vt.append(' ');
+                                                                if(btnStrongIsActive){
+                                                                    if(el.includes('<S>')){
+                                                                        el = el.replace('<S>','<S class="show strongActive">');
+                                                                    }
+                                                                }
+                                                                span_vt.append(el);
                                                             }
-                                                            span_vt.append(el);
+                                                        });
+                                                        p.append(span_vt);
+                                                        p.innerHTML.trim();
+                                                    
+                                                        //console.log('antes: ' + p.innerHTML);
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
                                                         }
-                                                    });
-                                                    p.append(span_vt);
-                                                    p.innerHTML.trim();
-                                                
-                                                    //console.log('antes: ' + p.innerHTML);
-                                                    if(bq.HTMLFilter == 'Y'){
-                                                        p.innerHTML = htmlEntities(p.innerHTML);
+                                                        //console.log('despues: '+p.innerHTML);
+                                                    
+                                                        if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
+                                                            p.querySelectorAll('.strongActive').forEach((el)=>{
+                                                                el.addEventListener('click', ()=>{
+                                                                    //console.log('2. book: '+book);
+                                                                    //console.log('2. el.innerHTML: '+el.innerHTML);
+                                                                    if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
+                                                                        //getStrongNumber(el.innerHTML);
+                                                                        getStrongNumber(el.innerText);
+                                                                    }else{//rstStrong
+                                                                        lang = (book >= 39) ? 'Grk' : 'Heb' ;
+                                                                        //getStrongNumber(el.innerHTML, lang);
+                                                                        getStrongNumber(el.innerText, lang);
+                                                                    }
+                                                                });
+                                                            }); 
+                                                        }
                                                     }
-                                                    //console.log('despues: '+p.innerHTML);
-                                                
-                                                    if(btnStrongIsActive && p.innerHTML.includes('strongActive')){
-                                                        p.querySelectorAll('.strongActive').forEach((el)=>{
-                                                            el.addEventListener('click', ()=>{
-                                                                //console.log('2. book: '+book);
-                                                                //console.log('2. el.innerHTML: '+el.innerHTML);
-                                                                if(el.innerHTML.includes('H') || el.innerHTML.includes('G')){//rstStrongRed G3056 /H3056
-                                                                    //getStrongNumber(el.innerHTML);
-                                                                    getStrongNumber(el.innerText);
-                                                                }else{//rstStrong
-                                                                    lang = (book >= 39) ? 'Grk' : 'Heb' ;
-                                                                    //getStrongNumber(el.innerHTML, lang);
-                                                                    getStrongNumber(el.innerText, lang);
-                                                                }
-                                                            });
-                                                        }); 
-                                                    }
-                                                }
-                        
-                                                //Примечания редактора в стихах (RSTi2)
-                                                if(bq.Notes == 'Y'){//OK
-                                                    let t = VerseText;
-                        
-                                                    if(t.includes(bq.NoteSign)){// '*'
-                                                        let arr_t0 = t.split(bq.NoteSign);
-                                                        let before_Note = arr_t0[0];
-                                                                                
-                                                        if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
-                                                            p.className = 'with_notes';
-                                                            let arr_t1 = t.split(bq.StartNoteSign);//'[('
-                                                            let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
-                                                            let text_Note = arr_t2[0];
-                                                            let after_Note = arr_t2[1];
-
-                                                            const span_before = document.createElement('span');
-                                                            const span_after = document.createElement('span');                
+                            
+                                                    //Примечания редактора в стихах (RSTi2)
+                                                    if(bq.Notes == 'Y'){//OK
+                                                        let t = VerseText;
+                            
+                                                        if(t.includes(bq.NoteSign)){// '*'
+                                                            let arr_t0 = t.split(bq.NoteSign);
+                                                            let before_Note = arr_t0[0];
                                                                                     
-                                                            before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
-                                                                        
-                                                            if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
-                                                                const h6_text = document.createElement('h6');
-                                                                h6_text.className = 'prim_h6';
-                                                                let arr_bn = before_Note.split('<h6 class="prim_h6">');
-                                                                let arr_text_bn = arr_bn[1].split('</h6>');
-                                                                arr_text_bn = arr_text_bn.filter(elm => elm);
-                                                                h6_text.innerHTML = arr_text_bn[0];
-                                                                span_before.append(h6_text);
-                                                                span_vt.append(span_before);
-                                                            }else{
-                                                                span_before.innerHTML = before_Note;
-                                                                span_vt.append(span_before);
+                                                            if(t.includes(bq.StartNoteSign) && t.includes(bq.EndNoteSign)){
+                                                                p.className = 'with_notes';
+                                                                let arr_t1 = t.split(bq.StartNoteSign);//'[('
+                                                                let arr_t2 = arr_t1[1].split(bq.EndNoteSign);//')]'
+                                                                let text_Note = arr_t2[0];
+                                                                let after_Note = arr_t2[1];
+    
+                                                                const span_before = document.createElement('span');
+                                                                const span_after = document.createElement('span');                
+                                                                                        
+                                                                before_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(before_Note) : before_Note ;
+                                                                            
+                                                                if(before_Note.includes('<h6 class="prim_h6">') && before_Note.includes('</h6>')){
+                                                                    const h6_text = document.createElement('h6');
+                                                                    h6_text.className = 'prim_h6';
+                                                                    let arr_bn = before_Note.split('<h6 class="prim_h6">');
+                                                                    let arr_text_bn = arr_bn[1].split('</h6>');
+                                                                    arr_text_bn = arr_text_bn.filter(elm => elm);
+                                                                    h6_text.innerHTML = arr_text_bn[0];
+                                                                    span_before.append(h6_text);
+                                                                    span_vt.append(span_before);
+                                                                }else{
+                                                                    span_before.innerHTML = before_Note;
+                                                                    span_vt.append(span_before);
+                                                                }
+                                                
+                                                                span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
+                                                
+                                                                after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
+                                                                span_after.innerHTML = after_Note;
+                                                                span_vt.append(span_after);
+                                                                p.append(span_vt);
+    
+                                                                if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
+                                                                    p.innerHTML = htmlEntities(p.innerHTML);
+                                                                }
                                                             }
-                                            
-                                                            span_vt.append(buildWrTooltip(bq.NoteSign,text_Note,p.id,a.innerHTML));
-                                            
-                                                            after_Note = (bq.HTMLFilter == 'Y') ? htmlEntities(after_Note) : after_Note ;
-                                                            span_after.innerHTML = after_Note;
-                                                            span_vt.append(span_after);
+                                                        }else{
+                                                            span_vt.append(VerseText);
                                                             p.append(span_vt);
-
-                                                            if(bq.HTMLFilter == 'Y'){//aki en find si lo meto
+                            
+                                                            if(bq.HTMLFilter == 'Y'){
                                                                 p.innerHTML = htmlEntities(p.innerHTML);
                                                             }
                                                         }
-                                                    }else{
-                                                        span_vt.append(VerseText);
-                                                        p.append(span_vt);
-                        
+                                                        //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
+                                                    }
+                            
+                                                    //Оглавления в стихах (NRT)
+                                                    if(bq.Titles == 'Y'){//OK
+                                                        let t = VerseText;
+                                                    
+                                                        if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
+                                                            let arr_t1 = t.split(bq.StartTitleSign);//'[('
+                                                            let before_Title = arr_t1[0];
+                                                            let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
+                                                            let text_Title = arr_t2[0];
+                                                            let after_Title = arr_t2[1];
+                                                    
+                                                            const span_title = document.createElement('span');
+                                                            span_title.className = 'verse_title';
+                                                            span_title.innerHTML = text_Title;
+                                                    
+                                                            span_vt.append(before_Title);
+                                                            span_vt.append(span_title);
+                                                            span_vt.append(after_Title);
+                                                    
+                                                            p.append(span_vt);
+                                                        }else{
+                                                            span_vt.append(VerseText);
+                                                            p.append(span_vt);
+                                                        }
+                                                    
                                                         if(bq.HTMLFilter == 'Y'){
                                                             p.innerHTML = htmlEntities(p.innerHTML);
                                                         }
                                                     }
-                                                    //SIMULTANEAMENTE CON '*' Y '<' Y '> ' la función htmlEntities() DESHABILITA tooltip.
-                                                }
-                        
-                                                //Оглавления в стихах (NRT)
-                                                if(bq.Titles == 'Y'){//OK
-                                                    let t = VerseText;
-                                                
-                                                    if(t.includes(bq.StartTitleSign) && t.includes(bq.EndTitleSign)){
-                                                        let arr_t1 = t.split(bq.StartTitleSign);//'[('
-                                                        let before_Title = arr_t1[0];
-                                                        let arr_t2 = arr_t1[1].split(bq.EndTitleSign);//')]'
-                                                        let text_Title = arr_t2[0];
-                                                        let after_Title = arr_t2[1];
-                                                
-                                                        const span_title = document.createElement('span');
-                                                        span_title.className = 'verse_title';
-                                                        span_title.innerHTML = text_Title;
-                                                
-                                                        span_vt.append(before_Title);
-                                                        span_vt.append(span_title);
-                                                        span_vt.append(after_Title);
-                                                
-                                                        p.append(span_vt);
-                                                    }else{
+                            
+                                                    //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
+                                                    if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
                                                         span_vt.append(VerseText);
                                                         p.append(span_vt);
+                            
+                                                        if(bq.HTMLFilter == 'Y'){
+                                                            p.innerHTML = htmlEntities(p.innerHTML);
+                                                        }
                                                     }
-                                                
-                                                    if(bq.HTMLFilter == 'Y'){
-                                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                                    }
-                                                }
-                        
-                                                //Нет ни Номеров Стронга, ни Примечаний ни Оглавлений
-                                                if(bq.StrongNumbers == "N" && bq.Notes == 'N' && bq.Titles == 'N'){//OK
-                                                    span_vt.append(VerseText);
-                                                    p.append(span_vt);
-                        
-                                                    if(bq.HTMLFilter == 'Y'){
-                                                        p.innerHTML = htmlEntities(p.innerHTML);
-                                                    }
-                                                }
-        
-                                                result_finded.push(p);
-                                                
-                                            }      
-                                        });
+            
+                                                    result_finded.push(p);
+                                                    
+                                                }      
+                                            });
+                                        }
+                                    });
+                                
+                                }else{
+                                    //console.log(index+') stop doFind. window.doFind: '+window.doFind);
+                                }//end else (window.doFind)        
+            
+            
+                                //Formar links para resultados de búsqueda
+                                if(result_finded.length > 0){
+                                    
+                                    //console.log('2. abajo result_finded:');
+                                    //console.log(result_finded);
+            
+                                    //console.log('2. abajo arr_result_m_total:');
+                                    //console.log(arr_result_m_total);
+                                
+                                    if(document.querySelectorAll('.res_f').length > 0){
+                                        document.querySelectorAll('.res_f').forEach(el=>{
+                                           // el.remove();//elimino resultado anterior si lo hay
+                                        })
+                                    }                    
+            
+                                    //inserto resultado de búsqueda                        
+                                    let tooltip_value = `
+                                        Количество стихов: <span class='f_r'>${count_f}</span> <br>
+                                        Количество совпадений: <span class='f_r'>${count_m_total}</span>
+                                    `;
+                                    let sp_tooltip = `
+                                        <span 
+                                            class="tooltip" 
+                                            data-tooltip="${tooltip_value}" 
+                                            onmouseenter="showTooltip(this)" 
+                                            mouseleave="hideTooltip(this)"
+                                        >*</span> 
+                                    `;
+                                    document.querySelector('.res_f').innerHTML = `
+                                        "<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span>
+                                        ${sp_tooltip}
+                                        <span class="res_m f_r">[${count_m_total}]</span>
+                                    `;
+    
+                                    ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = bq.BibleShortName;
+                                    ecl_find_tab_active.querySelector('.find_tab_frase').textContent = words_input;
+                                    ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+                                    ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+                                    scrollToFindTabActive();
+    
+                                    mySizeFind();//altura de eid_find_body
+            
+                                    let arr_l = [];
+                                    let limit_n = limit_val;
+                                    for (let i = 0; i < result_finded.length; i++) {
+                                        const el = result_finded[i];
+                                        //console.log(el);
+            
+                                        if(i > limit_n - 2 || i == result_finded.length - 1){
+                                            arr_l.push(el);
+                                            result_show.push(arr_l); 
+                                            limit_n += limit_val;
+                                            arr_l = [];
+                                        }else{
+                                            arr_l.push(el);
+                                        }                            
                                     }
-                                });
-                            
-                            }else{
-                                //console.log(index+') stop doFind. window.doFind: '+window.doFind);
-                            }//end else (window.doFind)
-        
-        
-        
-                            //Formar links para resultados de búsqueda
-                            if(result_finded.length > 0){
-                                
-                                //console.log('2. abajo result_finded:');
-                                //console.log(result_finded);
-        
-                                //console.log('2. abajo arr_result_m_total:');
-                                //console.log(arr_result_m_total);
-                            
-                                if(document.querySelectorAll('.res_f').length > 0){
-                                    document.querySelectorAll('.res_f').forEach(el=>{
-                                       // el.remove();//elimino resultado anterior si lo hay
-                                    })
-                                }                    
-        
-                                //inserto resultado de búsqueda                        
-                                //document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span title="Стихов">(${count_f})</span> <span class="res_m f_r" title="Совпадений">[${count_m_total}]</span>`;
-                                document.querySelector('.res_f').innerHTML = `"<b class="f_r-ed">${words_input}</b>" <span>(${count_f})</span><span class="tooltip" data-tooltip="Количество стихов: <span class='f_r'>${count_f}</span> <br>Количество совпадений: ${count_m_total}" onmouseenter="showTooltip(this)" mouseleave="hideTooltip(this)">*</span> <span class="res_m f_r">[${count_m_total}]</span>`;
-                                mySizeFind();//altura de eid_find_body
-        
-                                let arr_l = [];
-                                let limit_n = limit_val;
-                                for (let i = 0; i < result_finded.length; i++) {
-                                    const el = result_finded[i];
-                                    //console.log(el);
-        
-                                    if(i > limit_n - 2 || i == result_finded.length - 1){
-                                        arr_l.push(el);
-                                        result_show.push(arr_l); 
-                                        limit_n += limit_val;
-                                        arr_l = [];
-                                    }else{
-                                        arr_l.push(el);
-                                    }                            
-                                }
-                                //console.log('result_show');
-                                //console.log(result_show);
-        
-                                window.res_show = result_show;
-                                //console.log('res_show');
-                                //console.log(res_show);
-        
-                                if(result_show != null){
+                                    //console.log('result_show');
+                                    //console.log(result_show);
+            
+                                    window.res_show = result_show;
+                                    //console.log('res_show');
+                                    //console.log(res_show);
+            
+                                    if(result_show != null){
+                                        if(index == book_end){
+                                            //añado el texto de búsqueda en el historial
+                                            addWordsToHistFind(Translation, words_input, count_f, count_m_total);
+                                            //console.log('3. con el ultimo book de find --- llamo mostrar_res_show(0)');
+                                            mostrar_res_show(0);//por defecto los primeros 50
+                                        } 
+                                    }
+                                    result_show = [];
+            
                                     if(index == book_end){
-                                        //añado el texto de búsqueda en el historial
-                                        addWordsToHistFind(Translation, words_input, count_f, count_m_total);
-                                        //console.log('3. con el ultimo book de find --- llamo mostrar_res_show(0)');
-                                        mostrar_res_show(0);//por defecto los primeros 50
-                                    } 
+                                        stopFindWords();//показываю кнопку 'Find'
+                                    }
+                                    
+                                }else{
+                                    if(index == book_end && result_finded.length == 0){
+                                        mostrar_no_res();
+                                        stopFindWords();//показываю кнопку 'Find'
+                                    }
                                 }
-                                result_show = [];
-        
-                                if(index == book_end){
-                                    stopFindWords();//показываю кнопку 'Find'
-                                }
-                                
-                            }else{
-                                if(index == book_end && result_finded.length == 0){
-                                    mostrar_no_res();
-                                    stopFindWords();//показываю кнопку 'Find'
-                                }
-                            }                    
-                        })
-                        .catch(error => { 
-                            // Código a realizar cuando se rechaza la promesa
-                            console.error('2. error promesa find: '+error);
-                        }); 
-                        
-                        /*if(window.doFind){
-                            //console.log(index+') fin for. hago doFind. window.doFind: '+window.doFind);
-                        }else{
-                            alert(index+') fin for. stop doFind. window.doFind: '+window.doFind);
-                            break;
-                        }*/
+
+                            } catch (error) {
+                                console.error('2. Error en fetchInner() find. Error: ', error);
+                            }
+
+                        }//end fetchInner()                         
         
                     }//end for
-                }        
-        
-            })
-            .then(()=>{
-                //console.log('res_show');
-                //console.log(res_show);
-            })
-            .catch(error => { 
-                // Código a realizar cuando se rechaza la promesa
-                console.error('error promesa find: '+error);
-            });
+                }
+                
+            } catch (error) {
+                console.error('Error try-catch MODO OLD. como en Text3(). Error: ', error);
+            }
 
         }
 
@@ -20235,8 +20254,10 @@ function findWords(words_input){
 
 function mostrar_res_show(index){
     //console.log('=== function mostrar_res_show() ===');
+    const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
 
-    eid_find_body.innerHTML = '';//reset
+    //eid_find_body.innerHTML = '';//reset antes
+    ecl_find_res_block_active.innerHTML = '';//reset new
     //console.log(' abajo window.res_show: ');
     //console.log(window.res_show);
 
@@ -20299,12 +20320,15 @@ function mostrar_res_show(index){
         }
 
         //добавляю стих в див 
-        eid_find_body.append(el);        
+        //eid_find_body.append(el);//antes        
+        ecl_find_res_block_active.append(el);        
     }
 
-    eid_find_body.append(p_footer); 
+    //eid_find_body.append(p_footer); //antes
+    ecl_find_res_block_active.append(p_footer); 
     document.querySelectorAll('.res_link')[index].classList.add('active');
-    eid_find_body.scrollTop = 0;
+    //eid_find_body.scrollTop = 0;//antes
+    ecl_find_res_block_active.scrollTop = 0;
 
     //cuando todo está añadido en eid_find_body, hago esto...
     if(ejecutar_1vez == true){//solo ejecuto 1 vez
@@ -20357,29 +20381,55 @@ function show_sn_finded(){
 function mostrar_no_res(){
         //console.log('=== function mostrar_no_res() ===');
 
+        const ecl_find_tab_active = eid_wr_find_tabs.querySelector('.find_tab_active');
+        const ecl_find_res_block_active = eid_wr_find_res_blocks.querySelector('.find_res_block_active');
+
         let count_words = eid_inpt_find.value.trim().split(' ').length;
         words_show = (count_words > 1) ? 'вводимую фразу' : 'вводимое слово' ;
 
         document.querySelector(".res_f b").innerHTML = `${eid_inpt_find.value.trim()}`;
         document.querySelector(".res_f span").innerHTML = '(0)';
-        document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: 0`);
+        document.querySelector(".res_f span.tooltip").setAttribute('data-tooltip',`Количество стихов: <span class='f_r'>0</span> <br>Количество совпадений: <span class='f_r'>0</span>`);
         document.querySelector(".res_f span.tooltip").setAttribute('onmouseenter',`showTooltip(this)`);
         document.querySelector(".res_f span.tooltip").setAttribute('onmouseleave',`hideTooltip(this)`);
         document.querySelector(".res_f span.tooltip").innerHTML = '*';
         document.querySelector(".res_m").innerHTML = '[0]';
 
-        eid_find_body.innerHTML = '';//reset
+        //eid_find_body.innerHTML = '';//reset
+        ecl_find_res_block_active.innerHTML = '';//reset new
+
         const p_footer = document.createElement('p');
         p_footer.className = 'wr_res_link';
 
         let trans_busqueda = document.querySelector('.trans_name').textContent;
     
         const p_f = document.createElement('p');
-        p_f.className = 'prim16 mr-5';
+        p_f.className = 'prim16';
         p_f.innerHTML = `<span class="trans_in_find">Поиск в переводе: <b>${trans_busqueda}</b> </span>`;
         p_f.innerHTML += `По запросу "<b class="f_red">${eid_inpt_find.value.trim()}</b>" ничего не найдено. Проверьте выбранный для поиска перевод Библии, ${words_show} или попробуйте изменить параметры.`;
+        
+        let tooltip_value = `
+            Количество стихов: <span class='f_r'>0</span> <br>
+            Количество совпадений: <span class='f_r'>0</span>
+        `;
+        let sp_tooltip = `
+            <span 
+                class="tooltip" 
+                data-tooltip="${tooltip_value}" 
+                onmouseenter="showTooltip(this)" 
+                mouseleave="hideTooltip(this)"
+            >*</span> 
+        `;
+
+        ecl_find_tab_active.querySelector('.find_tab_trans_name').textContent = trans_busqueda;
+        ecl_find_tab_active.querySelector('.find_tab_frase').textContent = eid_inpt_find.value.trim();
+        ecl_find_tab_active.querySelector('.find_tab_estrella').classList.remove('d-none');
+        ecl_find_tab_active.querySelector('.find_tab_estrella').innerHTML = sp_tooltip;
+        scrollToFindTabActive();        
+        
         //добавляю стих в див 
-        eid_find_body.append(p_f);    
+        //eid_find_body.append(p_f);//фтеуы   
+        ecl_find_res_block_active.append(p_f);    
 }
 
 
@@ -21862,30 +21912,31 @@ function bbb(n){
 
 
 
-async function obtenerDatosDeAPI() {
+async function obtenerDatosDeAPI(url) {
     try {
-      // Realiza una solicitud GET a una API
-      const respuesta = await fetch(`./modules/text/rv60/01_genesis.htm`);
-      
-      // Verifica si la solicitud fue exitosa
-      if (!respuesta.ok) {
-        throw new Error('Error al obtener datos de la API');
-      }
-      
-      // Convierte la respuesta a formato JSON
-      const datos = await respuesta.text();
-  
-      // Haz algo con los datos, por ejemplo, imprímelos en la consola
-      //console.log(datos);
-  
-      // Puedes realizar más acciones aquí con los datos obtenidos
-  
+        // Realiza una solicitud GET a una API
+        const respuesta = await fetch(url);
+
+        // Verifica si la solicitud fue exitosa
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener datos de la API');
+        }
+
+        // Convierte la respuesta a formato JSON
+        const datos = await respuesta.text();
+
+        // Haz algo con los datos, por ejemplo, imprímelos en la consola
+        //console.log(datos);
+
+        // Puedes realizar más acciones aquí con los datos obtenidos
+
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  }
-  // Llama a la función para obtener los datos
-  //obtenerDatosDeAPI();
+}
+
+// Llama a la función para obtener los datos
+//obtenerDatosDeAPI(`./modules/text/rv60/01_genesis.htm`);
 
 // doPageDownOnScroll();
 
@@ -22099,10 +22150,10 @@ function toggleSwitcher(id_switcher){
     const switcher = wr_switcher.querySelector('input');
 
     if(switcher.checked) {
-        console.log('switcher is ON lo pongo a OFF');
+        //console.log('switcher is ON lo pongo a OFF');
         disableSwitcher(switcher)//lo desmarco
     }else{
-        console.log('--- switcher is OFF lo pongo a ON');
+        //console.log('--- switcher is OFF lo pongo a ON');
         enableSwitcher(switcher)//lo marco
     }
 }
@@ -22240,9 +22291,10 @@ function validarPassword(password) {
 }
 
 
-function showBlobkCookies(){
+function showBlockCookies(){
     const cookieConsent = document.getElementById('cookie-consent');
     if(cookieConsent.classList.contains('hidden')){
         cookieConsent.classList.remove('hidden');
     }
 }
+

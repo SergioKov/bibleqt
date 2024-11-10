@@ -9,6 +9,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 */
 
+window.addEventListener('load',function(d){
+    //console.log('load - window.innerWidth: '+window.innerWidth);
+    mySizeWindow();
+    mySizeVerse();
+    mySizeGridSidebar();
+    mySizeVersesCompare();//si no hay verses , no hace nada
+    enableDisableResp1200();
+});
+
+window.addEventListener('resize',function(d){
+    //console.log('resize - window.innerWidth: '+window.innerWidth);
+    checkPositionShowForMob();
+    mySizeWindow();
+    mySizeVerse();
+    mySizeGridSidebar();
+    mySizeVersesCompare();//si no hay verses , no hace nada
+    enableDisableResp1200();
+});
+
 //listen links p > a
 function addListenerToPA(){
     setTimeout(()=>{

@@ -215,7 +215,7 @@ body{
 .tabs {
     display: inline-block;
     padding: 5px;
-    border-radius: 3px 3px 0 0;
+    border-radius: 10px 10px 0 0;
     background: #03a9f4;
     margin: 0 3px 0 0;
     cursor: pointer;
@@ -226,8 +226,24 @@ body{
     background: #44c0f9;
 }
 .tab_active{
-    background: red;
+    /* background: red; */
+    background: white;
 }
+.tab_ref {
+    /* background: #dddddd; */
+    /* min-width: 120px; */
+    color: white;
+    font-weight: bold;
+}
+.tab_active .tab_ref {
+    color: #ff1100;
+    min-width: 110px;
+}
+.tab_active .btn_sm {
+    background: white;
+    color: grey;
+}
+
 .tabs span {
     margin-top: 3px;
     display: inline-block;
@@ -259,8 +275,9 @@ body{
 .tabs button:hover{
     background: red;
 }
-.tab_active button:hover{
-    background: brown;
+.tab_active button:hover {
+    background: red;
+    color: white;
 }
 
 #header,
@@ -413,6 +430,7 @@ body{
     text-align: center;
     background: #1875bf;
     /* padding: 5px; */
+    /* padding: 2px; */
     outline: 1px solid #3484c3;
     /* border-bottom: none; */
     color: #bae0ff;
@@ -507,6 +525,10 @@ button{
     background: #5eb4f9;
     color: #fef287;
 }
+
+.vklads .btn{
+    min-height: 30px;
+}
 .dbtn.btn_active, 
 .btn_active {
     background: #ff0000!important;
@@ -557,9 +579,9 @@ button{
 }
 
 
-#headerMainInner h3 {
-    display: inline;
-    margin-left: 5px;
+
+#wr_bq{
+    background: transparent !important;
 }
 p a {
     color: #008dff;
@@ -575,6 +597,7 @@ p a:hover:not(.a_sn) {
 }
 
 
+/* VERTICAL START */
 /* width */
 #sidebarInner::-webkit-scrollbar {
     width: 5px;
@@ -603,7 +626,8 @@ p a:hover:not(.a_sn) {
 #tsk_head::-webkit-scrollbar, 
 #tsk_body::-webkit-scrollbar, 
 #find_head::-webkit-scrollbar, 
-#find_body::-webkit-scrollbar, 
+    /* #find_body::-webkit-scrollbar,  */
+    .find_res_block_active::-webkit-scrollbar, 
 #strong_head::-webkit-scrollbar, 
 #strong_body::-webkit-scrollbar, 
 .wr_bcv_uls::-webkit-scrollbar, 
@@ -623,7 +647,8 @@ p a:hover:not(.a_sn) {
 #tsk_head::-webkit-scrollbar-thumb,
 #tsk_body::-webkit-scrollbar-thumb,
 #find_head::-webkit-scrollbar-thumb,
-#find_body::-webkit-scrollbar-thumb,
+    /* #find_body::-webkit-scrollbar-thumb, */
+    .find_res_block_active::-webkit-scrollbar-thumb,
 #strong_head::-webkit-scrollbar-thumb,
 #strong_body::-webkit-scrollbar-thumb,
 .wr_bcv_uls::-webkit-scrollbar-thumb,
@@ -635,16 +660,20 @@ p a:hover:not(.a_sn) {
   
 /* Handle on hover */
 #tsk_body::-webkit-scrollbar-thumb:hover,
-#find_body::-webkit-scrollbar-thumb:hover,
+    /* #find_body::-webkit-scrollbar-thumb:hover, */
+    .find_res_block_active::-webkit-scrollbar-thumb:hover,
 #strong_body::-webkit-scrollbar-thumb:hover,
 .wr_bcv_uls::-webkit-scrollbar-thumb:hover,
 .colsInner::-webkit-scrollbar-thumb:hover 
 {
     background: #d80586; 
 }
+/* VERTICAL END */
 
 
+/* HORIZONTAL START */
 /* height */
+#partFindTabs::-webkit-scrollbar, 
 #partDeskTabs::-webkit-scrollbar, 
 #headerContainerInner::-webkit-scrollbar, 
 .wr_btns_scr::-webkit-scrollbar, 
@@ -664,6 +693,7 @@ p a:hover:not(.a_sn) {
 }
    
 /* Handle */
+#partFindTabs::-webkit-scrollbar-thumb, 
 #partDeskTabs::-webkit-scrollbar-thumb, 
 #headerContainerInner::-webkit-scrollbar-thumb, 
 .wr_btns_scr::-webkit-scrollbar-thumb, 
@@ -675,6 +705,7 @@ p a:hover:not(.a_sn) {
 }
   
 /* Handle on hover */
+#partFindTabs::-webkit-scrollbar-thumb:hover, 
 #partDeskTabs::-webkit-scrollbar-thumb:hover, 
 #headerContainerInner::-webkit-scrollbar-thumb:hover, 
 .wr_btns_scr::-webkit-scrollbar-thumb:hover, 
@@ -683,6 +714,9 @@ p a:hover:not(.a_sn) {
 {
     background: #0533d8; 
 }
+/* HORIZONTAL END */
+
+
 
 .active {
     background: yellow;
@@ -759,8 +793,11 @@ p a:hover:not(.a_sn) {
     color:grey;
     cursor: pointer;
 }
+.tooltiptext .text span.f_r {
+    margin-left: 5px;
+}
 /* .colsInner .tooltip */
-.tooltip:not(#find_head .tooltip) {
+.tooltip:not(#find_head .tooltip):not(.find_tab_estrella .tooltip) {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -1313,8 +1350,11 @@ span.h4_ch {
 {
     background: #373737;
     padding: 5px;
-    min-height: 200px;
+    min-height: 100px;
     overflow-y: auto;
+}
+#find_body{
+    /* padding-right: 0; */
 }
 #markers_body{
     background: #373737;
@@ -1392,10 +1432,12 @@ p.tsk_nolink {
     font-weight: bold;
 }
 /* p a::after, */
-.stij_numb::after
-{
-    content: '.';
+.stij_numb::after {
+    content: ' ';
     color: black;
+}
+.stij_text {
+    padding-left: 5px;
 }
 .ch_dir {
     position: relative;
@@ -1933,7 +1975,7 @@ select  optgroup option {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 27px;
+    height: 28px;
     width: 24px;
 }
 #hist_find:hover{
@@ -2238,12 +2280,16 @@ select  optgroup option {
     align-items: stretch;
 }
 .partMobInner button.btn_svg {
-    padding: 3px 4px 0;
+    /* padding: 3px 4px 0; */
     min-width: 24px;
 }
 .partMobInner button {
     background: transparent;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 }
 .partMobInner button:not(:last-child) {
     /* border-right: 1px solid #227ac1; */
@@ -2290,19 +2336,20 @@ select  optgroup option {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
+    /* box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4); */
 }
 
 /* The Close Button */
 .close {
+    /* background: red; */
+    /* outline: 1px solid white; */
     color: white;
     float: right;
     font-size: 23px;
     font-weight: bold;
     top: -5px;
     right: -5px;
-    /* background: red; */
     padding: 0px 0px 2px;
-    /* outline: 1px solid white; */
     transition: 0.3s;
     height: 28px;
     display: flex;
@@ -2315,12 +2362,14 @@ select  optgroup option {
     position: absolute;
     cursor: pointer;
     text-decoration: none;
+    opacity: 0.5;
 }
 
 .close:hover,
 .close:focus {
-  /* color: #000; */
-  /* background: red; */
+    opacity: 1;
+    /* color: #000; */
+    /* background: red; */
 }
 
 #modcont_header {
@@ -2338,6 +2387,7 @@ select  optgroup option {
 #modcont_body {
     /* background: #373737; */
     /* overflow: auto; */
+    height: auto;
 }
 #modcont_footer {
     background: #4d4d4d;
@@ -2371,6 +2421,8 @@ span.prim_tsk {
     display: block;
     /* margin-right: -3px; */
 }
+
+
 .modalContentTop {
     width: 100%;
     height: 100%;
@@ -2399,6 +2451,51 @@ span.prim_tsk {
     padding: 0;
     max-width: 768px;
 }
+
+
+
+
+.wr_modcont {
+    background: #1875bf;
+    position: fixed;
+    width: 100%;
+    transition: 0.3s;
+    overflow: hidden;
+    padding: 0px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+}
+
+
+.modalContentTop .wr_modcont {
+    top: 100%;
+    max-width: 425px;
+}
+.modalContentTop .wr_modcont.mooved {
+    top: 0;
+}
+
+.modalContentCenter .wr_modcont {
+    top: 120%;
+    min-width: 320px;
+    max-width: 425px;
+}
+.modalContentCenter .wr_modcont.mooved {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.modalContentFull .wr_modcont {
+    top: 100%;
+    max-width: 768px;
+}
+.modalContentFull .wr_modcont.mooved {
+    top: 0;
+}
+
+
+
+
+
 
 .theme_black {
     background-color: black;
@@ -2960,7 +3057,16 @@ pr {
     /* background-color: #2196F3; */
     padding: 0 0 5px;
     gap: 1px;
+    /* grid-template-columns: repeat(10, 1fr); */
 }
+
+.grid_max_5_columns{
+    grid-template-columns: repeat(5, 1fr);
+}
+.grid_max_10_columns{
+    grid-template-columns: repeat(10, 1fr);
+}
+
 .ch_count_v {
     position: absolute;
     bottom: 0px;
@@ -3377,8 +3483,10 @@ fieldset {
     text-align: center;
 }
 span.vt {
-    /* margin-right: 25px; */
     /* background: orange; */
+    /* margin-right: 25px; */
+    padding-right: 25px;
+    padding-left: 5px;
 }
 
 
@@ -3390,7 +3498,8 @@ span.vt {
 .tooltip .trik {
     position: absolute;
     left: 0;
-    bottom: -8px;
+    /* bottom: -8px; */
+    bottom: -18px;
     width: 10px;
     height: 10px;
     z-index: 3;
@@ -3693,23 +3802,23 @@ p .sp_svit a:hover{
 #btn_find img
 {
     position: relative;
-    top: 2px;
+    top: 0px;
 }
 
-#btn_tsk img{
+#btn_tsk img {
     position: relative;
-    top: 2px;
-    height: 21px;
-    width: 21px;
+    top: 0px;
+    height: 20px;
+    width: 20px;
 }
 #btn_strong span{
     font-size: 21px;
 }
-#btn_markers img{
+#btn_markers img {
     position: relative;
-    top: 1px;
-    height: 20px;
-    width: 20px;
+    top: 0px;
+    height: 18px;
+    width: 18px;
 }
 #btn_settings{
     display: block;
@@ -4099,7 +4208,137 @@ input:checked + .slider:before {
 
 
 
+#wr_find_tabs {
+    display: flex;
+    gap: 1px;
+    width: auto;
+    justify-content: flex-start;
+    white-space: nowrap;
+}
 
+#partFindTabs {
+    /* background: pink; */
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    gap: 1px;
+}
+
+#partFindPlus {
+    /* background: green; */
+    display: flex;
+    margin-left: 3px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#btnPlus_frb {
+    background: transparent;
+    font-size: 20px;
+    opacity: 0.5;
+    height: 24px;
+    width: 24px;
+    min-width: 24px!important;
+    position: relative;
+    top: 0px;
+    border: none;
+}
+
+#btnPlus_frb:hover {
+    background: #5eb4f9;
+    color: white;
+    opacity: 1;
+}
+
+
+.find_tabs {
+    background: #adadad;
+    padding: 5px 7px;
+    border-radius: 10px 10px 0 0;
+    /* color: grey; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    cursor: pointer;
+}
+.find_tab_active {
+    background: white;
+    color: #f10707;
+}
+.find_tab_trans_name {
+    background: black;
+    padding: 3px 4px;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 12px;
+    display: inline-block;
+    color: white;
+}
+.find_tabs .btn{
+    color: #000000;
+}
+.find_tabs .btn_sm{
+    padding: 0;
+}
+
+.find_tabs button:hover {
+    background: red;
+    color: white;
+}
+
+
+
+#wr_find_res_blocks {
+    /* background: #009688; */
+    padding-top: 5px;
+}
+.find_res_blocks {
+    /* background: #FF9800; */
+}
+.find_res_block_active{
+    /* background: darkred; */
+    min-height: 100px;
+    overflow-y: auto;
+}
+
+
+.wr_filter{
+    position:relative;
+    /* background: green; */
+    display: block;
+}
+
+.inpt_filter {
+    padding: 5px 15px 5px;
+    font-size: 20px;
+    font-family: 'Roboto Condensed';
+    border-radius: 5px;
+    width: 100%;
+    color: #1875bf;
+}
+.sp_x{
+    position: absolute;
+    top: 3px;
+    right: 9px;
+    font-size: 22px;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.sp_x:hover{
+    opacity: 1;
+}
+.filter_result {
+    /* background: grey; */
+    color: #9d9d9d;
+    display: block;
+    padding: 5px 2px 0;
+    margin-top: 5px;
+    font-size: 14px;
+}
 
 
 
