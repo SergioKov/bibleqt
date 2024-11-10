@@ -200,7 +200,9 @@ function getRefToCompare(ref){//NO SE USA !!!
     //console.log('=== function getRefToCompare(ref) ===');
     //console.log('ref: ',ref);
 
-    let act_trans = eid_trans1.dataset.trans;
+    let el_base_trans1 = document.querySelector('.tab_block_active .colsHead');
+
+    let act_trans = el_base_trans1.dataset.trans;
 
     let inpt_v = eid_inpt_nav.value.trim();
     let book = null;//por defecto
@@ -351,12 +353,12 @@ function getRefToCompare(ref){//NO SE USA !!!
                         if(window.innerWidth < pantallaTabletMinPx){//mobile
                             //checkRefNav(n_book, chapter, verse, to_verse);                        
                         
-                            if(document.querySelectorAll('.cols').length > 1){
+                            if(document.querySelectorAll('.tab_block_active .cols').length > 1){
 
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                let trans_base = el_base_trans1.dataset.trans;//la trans base de #trans1
                                 let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                 let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 
@@ -649,7 +651,9 @@ function getRefToCompare(ref){//NO SE USA !!!
 async function parseTextToArrRef(textRef, trans = null){//NO SE USA !!!
     //console.log('=== function parseTextToArrRef(text) ===');
 
-    let act_trans = eid_trans1.dataset.trans;
+    let el_base_trans1 = document.querySelector('.tab_block_active .colsHead');
+
+    let act_trans = el_base_trans1.dataset.trans;
     let trans_inpt = eid_inpt_nav.dataset.trans;
     const s_book = document.querySelector('#s_book');
 
@@ -823,12 +827,12 @@ async function parseTextToArrRef(textRef, trans = null){//NO SE USA !!!
                         if(window.innerWidth < pantallaTabletMinPx){//mobile
                             //checkRefNav(n_book, chapter, verse, to_verse);                        
                         
-                            if(document.querySelectorAll('.cols').length > 1){
+                            if(document.querySelectorAll('.tab_block_active .cols').length > 1){
 
                                 //si es trans2 y es trans con EnglishPsalms 'Y' se cliquea en el boton li de chapter Sal.23 español, convierto el chapter en el Пс 22 ruso 
                                 //console.log('clickeado trans: '+eid_inpt_nav.dataset.trans);
                                 
-                                let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+                                let trans_base = el_base_trans1.dataset.trans;//la trans base de #trans1
                                 let trans_inpt = eid_inpt_nav.dataset.trans;// trans desde input
                                 let divtrans_inpt = eid_inpt_nav.dataset.divtrans;// trans desde input
 

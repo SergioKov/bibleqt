@@ -431,7 +431,7 @@ function showMenu(htmlTrans){
     dbtn_moduli.dataset.fn = "openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')";
     dbtn_moduli.innerHTML = '<div>Модули</div>';
     dbtn_moduli.onclick = ()=>{
-        openModal('full','Избранныe модули Библии',eid_trans1,'showModules');
+        openModal('full','Избранныe модули Библии',document.querySelector('.tab_block_active .colsHead'),'showModules');
     };
 
     //<div class="dbtn" title="Вкладки" onclick="showTabs()" style="width:50%;">
@@ -1101,7 +1101,7 @@ function buildVersesToCompare(arr_p_id){//arr_p_id = ['rstStrongRed',0,1,1]
 
     async function makeArrVersesToCompare(iter_a, arr_p_id){//arr_p_id = ['rstStrongRed', 0, 2, 5]
         
-        let base_ep = eid_trans1.dataset.base_ep;
+        let base_ep = document.querySelector('.tab_block_active .colsHead').dataset.base_ep;
 
         let trans_ref = arr_p_id[0];//'rstStrongRed'
         let book = arr_p_id[1];
@@ -2437,7 +2437,7 @@ function updateArrTrans(){
             el.classList.remove('btn_active');
         }
         
-        if(el.value == eid_trans1.dataset.trans){
+        if(el.value == document.querySelector('.tab_block_active .colsHead').dataset.trans){
             el.classList.add('btn_active');
         }
     });
@@ -3284,14 +3284,14 @@ async function verseGo(dir, obj_to_send_string){
 
 
 function openModalForActTrans(){//trans del col1
-    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
+    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : document.querySelector('.tab_block_active .colsHead') ; 
     //console.log(divtrans_to_change);    
     openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
 }
 
 //trans seleccionado con el click de la col de una trans sin cambiar trans1 en col1del col1
 function openModalForSelectedTrans(){
-    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : eid_trans1 ; 
+    let divtrans_to_change = (eid_inpt_nav.dataset.divtrans != '') ? document.getElementById(eid_inpt_nav.dataset.divtrans) : document.querySelector('.tab_block_active .colsHead') ; 
     //console.log(divtrans_to_change);    
     openModal('full','Избранныe модули Библии',divtrans_to_change,'showModules');
 }

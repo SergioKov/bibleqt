@@ -29,9 +29,9 @@ const eid_vert_line = document.getElementById('vert_line');
 const eid_container = document.getElementById('container');
 const eid_containerInner = document.getElementById('containerInner');
 const eid_headerContainer = document.getElementById('headerContainer');
+
 const eid_wrCols = document.getElementById('wrCols');
-const eid_trans1 = document.getElementById('trans1');
-const eid_col1 = document.getElementById('col1');
+
 const eid_footer = document.getElementById('footer');
 const eid_footerInner = document.getElementById('footerInner');
 
@@ -438,7 +438,7 @@ let crear_objeto_obj_tsk_files = true;//true, false
 let crear_objeto_obj_bible_files = true;//true, false
 //console.log('crear_objeto_obj_bible_files: ',crear_objeto_obj_bible_files);
 
-let trans_base = eid_trans1.dataset.trans;//la trans base de #trans1
+let trans_base = document.querySelector('.tab_block_active .colsHead').dataset.trans;//la trans base de #trans1
 
 let allowUseShowTrans = true;//permitir o no usar function showTrans()
 //console.log('al iniciar --- allowUseShowTrans: ',allowUseShowTrans);

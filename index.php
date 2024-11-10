@@ -650,7 +650,7 @@ HERE;
                                 </button>
                                 
                                 <div class="centralPart">
-                                    <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('#trans1.colsHead'),'showModules')">
+                                    <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full','Избранныe модули Библии',document.querySelector('.tab_block_active .colsHead'),'showModules')">
                                         <span class="mob_trans">RST+r</span>
                                     </button>
                                     <div class="separ_line"></div>
@@ -671,7 +671,7 @@ HERE;
 
 
                     </div>
-                </div>
+                </div><!--/#headerContainer-->
 
                 <div id="wrPageBtns" style="position:relative;z-index: 1;">                                        
                     <button id="btn_pageUp" onclick="pageUp()"><img src="images/arrow_chevron_down_white.svg"></button>
@@ -680,150 +680,159 @@ HERE;
 
                                 
                 <div id="wrCols">
+
+                    <div id="tab1_block" class="tab_blocks tab_block_active">                    
                
-                    <div id="col1" class="cols">
-                        <div id="trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
-                            <div class="colsHeadInner">
+                        <div id="tab1_block_col1" class="cols">
+                            <div id="tab1_block_trans1" class="colsHead" data-trans="rstStrongRed" data-base_ep="N">
+                                <div class="colsHeadInner">
 
-                                <div class="partDesk">
+                                    <div class="partDesk">
 
-                                    <div class="wr_desk_trans">
+                                        <div class="wr_desk_trans">
 
-                                        <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
-                                            <img src="images/arrow_chevron_left_white.svg">
-                                        </button>
+                                            <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
+                                                <img src="images/arrow_chevron_left_white.svg">
+                                            </button>
 
-                                        <div class="centralPart" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
-                                            <div class="desk_trans">RST</div>
-                                            <div class="separ_line"></div>
-                                            <div class="desk_sh_link">Gn. 1:1</div>
+                                            <div class="centralPart" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('.tab_block_active .colsHead'),'showModules')">
+                                                <div class="desk_trans">RST</div>
+                                                <div class="separ_line"></div>
+                                                <div class="desk_sh_link">Gn. 1:1</div>
+                                            </div>
+
+                                            <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter">
+                                                <img src="images/arrow_chevron_right_white.svg">
+                                            </button>
+
                                         </div>
-
-                                        <button class="btn btn_svg" onclick="chapterGo('next')" title="Next Chapter">
-                                            <img src="images/arrow_chevron_right_white.svg">
-                                        </button>
 
                                     </div>
 
-                                </div>
+                                    <div class="partMob">
+                                        <div class="partMobInner">
 
-                                <div class="partMob">
-                                    <div class="partMobInner">
-
-                                        <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)">
-                                            <img src="images/menu_white.svg">
-                                        </button>
-                                        <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
-                                            <img src="images/arrow_chevron_left_white.svg">
-                                        </button>
-                                        
-                                        <div class="centralPart">
-                                            <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')">
-                                                <span class="mob_trans">RST+r</span>
+                                            <button class="btnMenu btn btn_svg" data-typebtn="transMenu" onclick="openSidebar(this)">
+                                                <img src="images/menu_white.svg">
                                             </button>
-                                            <div class="separ_line"></div>
-                                            <button class="btn" data-dic="d147_t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
-                                                <span class="mob_sh_link">Быт. 1:1</span>
+                                            <button class="btn btn_svg" data-dic="d9_t" onclick="chapterGo('prev')" title="Previous Chapter">
+                                                <img src="images/arrow_chevron_left_white.svg">
                                             </button>
+                                            
+                                            <div class="centralPart">
+                                                <button class="btn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('.tab_block_active .colsHead'),'showModules')">
+                                                    <span class="mob_trans">RST+r</span>
+                                                </button>
+                                                <div class="separ_line"></div>
+                                                <button class="btn" data-dic="d147_t" data-typebtn="transRef" onclick="showTabMob('#btn_nav','nav',this)" title="Навигация. Выбор книги, главы, стиха">
+                                                    <span class="mob_sh_link">Быт. 1:1</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <button class="btn btn_svg" data-dic="d10_t" onclick="chapterGo('next')" title="Next Chapter">
+                                                <img src="images/arrow_chevron_right_white.svg">
+                                            </button>
+                                            <button class="btn btn_svg" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')">
+                                                <img src="images/tres_puntos2_white.svg" style="width:24px;">
+                                            </button>
+                                            
                                         </div>
-                                        
-                                        <button class="btn btn_svg" data-dic="d10_t" onclick="chapterGo('next')" title="Next Chapter">
-                                            <img src="images/arrow_chevron_right_white.svg">
-                                        </button>
-                                        <button class="btn btn_svg" data-dic="d19_t" title="Меню" onclick="openModal('top',this.title,null,'showMenu')">
-                                            <img src="images/tres_puntos2_white.svg" style="width:24px;">
-                                        </button>
-                                        
                                     </div>
-                                </div>
-                            
-                            </div><!--/colsHeadInner-->
-                        </div><!--/colsHead-->
-                        <div class="colsInner">
-                            <p data-dic="d148">Cargando la Biblia... </p>                            
+                                
+                                </div><!--/colsHeadInner-->
+                            </div><!--/colsHead-->
+                            <div class="colsInner">
+                                <p data-dic="d148">Cargando la Biblia... </p>                            
 
-                            
-                            <!--testings start-->
-                                <p id="ukr_umts__0__1__2" data-verse="2" style="display: none;">
-                                    <a href="#">Бут.1:2</a> 
-                                    <span class="vt">
-                                        <span>земля була <button id="myButton">myButton</button> безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду. Дух Божий, неначе буря, носився над водами. </span>
-                                        
-                                        
-                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
-                                            <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
-                                                <span class="asterisco">*</span>
-                                                <span class="trik d-none"></span>
-                                            </span>
-                                            <span class="comment d-none">
-                                                <span class="commentInner">
-                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                    <span class="text">
-                                                        <em>морській безодні </em>Або «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </span>
-
-
-                                        <span> (продолжение) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
-
-
-                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
-
-                                            <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
-                                                <span class="asterisco">*</span>
-                                                <span class="trik d-none"></span>
-                                            </span>
+                                
+                                <!--testings start-->
+                                    <p id="ukr_umts__0__1__2" data-verse="2" style="display: none;">
+                                        <a href="#">Бут.1:2</a> 
+                                        <span class="vt">
+                                            <span>земля була <button id="myButton">myButton</button> безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду. Дух Божий, неначе буря, носився над водами. </span>
                                             
-                                            <span class="comment d-none">
-                                                <span class="commentInner">
-                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                    <span class="text" onclick="e.stopPropagation()">
-                                                        <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
-                                                    </span>
-                                                </span>
-                                            </span>
-
-                                        </span>
-
-
-                                        <span> (продолжение 2) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
-
-                                        <span class="wr_tooltip" onclick="hideShowComment(event)">
-
-                                            <span class="tooltip" data-tooltip="<em>морській безодні </em> ">
-                                                <span class="asterisco">*</span>
-                                                <span class="trik d-none"></span>
-                                            </span>
                                             
-                                            <span class="comment d-none">
-                                                <span class="commentInner">
-                                                    <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
-                                                    <span class="text" onclick="e.stopPropagation()">
-                                                        <em>морській безодні </em>
+                                            <span class="wr_tooltip" onclick="hideShowComment(event)">
+                                                <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+                                                    <span class="asterisco">*</span>
+                                                    <span class="trik d-none"></span>
+                                                </span>
+                                                <span class="comment d-none">
+                                                    <span class="commentInner">
+                                                        <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                        <span class="text">
+                                                            <em>морській безодні </em>Або «була вкрита глибоким океаном». <a href="#" onclick="getRefByBibleRef('Исх. 3 6')">Исх. 3 6 </a>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+                                                        </span>
                                                     </span>
                                                 </span>
                                             </span>
 
-                                        </span>
 
-                                    
-                                    
-                                    
-                                    </span>
+                                            <span> (продолжение) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду </span>
+
+
+                                            <span class="wr_tooltip" onclick="hideShowComment(event)">
+
+                                                <span class="tooltip" data-tooltip=" <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер». ">
+                                                    <span class="asterisco">*</span>
+                                                    <span class="trik d-none"></span>
+                                                </span>
+                                                
+                                                <span class="comment d-none">
+                                                    <span class="commentInner">
+                                                        <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                        <span class="text" onclick="e.stopPropagation()">
+                                                            <em>морській безодні </em>Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».Або «була вкрита глибоким океаном». <em>Дух Божий </em>Тут можливі також інші переклади «Вітер Божий» або «Потужний вітер».
+                                                        </span>
+                                                    </span>
+                                                </span>
+
+                                            </span>
+
+
+                                            <span>
+                                                (продолжение 2) земля була безформна та порожня. Земля знаходилася у морській безодні, а темрява огортала воду 
+                                            </span>
+
+                                            <span class="wr_tooltip" onclick="hideShowComment(event)">
+                                                <span class="tooltip" data-tooltip="<em>морській безодні </em> ">
+                                                    <span class="asterisco">*</span>
+                                                    <span class="trik d-none"></span>
+                                                </span>
+                                                
+                                                <span class="comment d-none">
+                                                    <span class="commentInner">
+                                                        <span class="close" onclick="close_comment_x(this.parentElement.parentElement.parentElement, event)">&#10005;</span><!--X-->
+                                                        <span class="text" onclick="e.stopPropagation()">
+                                                            <em>морській безодні </em>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </span>
+
                                         
+                                        
+                                        
+                                        </span>
+                                            
                                         <span class="btn_verse_menu"></span>
-                                </p>
-                            <!--testings end-->
+                                    </p>
+                                <!--testings end-->
 
-                        </div>
-                    </div>                
+                            </div>
+                        </div><!--/#tab1_block_col1-->
+                    
+                    </div><!--/.tab_block_vista-->
 
-                </div><!--/wrCols-->
 
-            </div>
-        </div>
+
+
+
+
+                </div><!--/#wrCols-->
+
+            </div><!--/#containerInner-->
+        </div><!--/#container-->
     
     
     </div>
@@ -1103,7 +1112,7 @@ HERE;
                                         <div>S#</div>
                                     </div>
 
-                                    <div class="dbtn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('#trans1.colsHead'),'showModules')" style="width:50%;">
+                                    <div class="dbtn" data-dic="d146_t" title="Избранныe модули Библии" onclick="openModal('full',this.title,document.querySelector('.tab_block_active .colsHead'),'showModules')" style="width:50%;">
                                         <div data-dic="d161">Модули</div>
                                     </div>
                                     <div class="dbtn" data-dic="d154_t" title="Вкладки" onclick="showTabs()" style="width:50%;">

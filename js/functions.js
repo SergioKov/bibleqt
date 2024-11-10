@@ -697,7 +697,7 @@ function buildDivShow(arrData, indexColToBuild = null){
 
     //si solo hay que construir una columna
     if(indexColToBuild != null){
-        let el = Array.from(eid_wrCols.children)[indexColToBuild];//eid_wrCols es constanta y está declarada al inicio
+        let el = Array.from(eid_wrCols.querySelector('.tab_block_active').children)[indexColToBuild];//eid_wrCols es constanta y está declarada al inicio
 
         let el_colsInner = el.querySelector('.colsInner');
         el_colsInner.innerHTML = '';
@@ -789,7 +789,7 @@ function buildDivShow(arrData, indexColToBuild = null){
     }else{//construir todas columnas
         
         //eid_wrCols es constanta y está declarada al inicio
-        Array.from(eid_wrCols.children).forEach((el,i)=>{
+        Array.from(eid_wrCols.querySelector('.tab_block_active').children).forEach((el,i)=>{
             let el_colsInner = el.querySelector('.colsInner');
             el_colsInner.innerHTML = '';
             let show_comments_in_col = false;//por defecto
@@ -1102,7 +1102,7 @@ function onclick_p_nav(el){
         obj_nav.show_to_verse = '';
     }
 
-    let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
+    let trans_base = arrFavTransObj.find(v => v.Translation === document.querySelector('.tab_block_active .colsHead').dataset.trans);
     let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
 
     let number_id_book,number_show_chapter;
@@ -1703,11 +1703,13 @@ function onclick_p_marker(el){
         eid_inpt_nav.dataset.show_to_verse = '';
     }
 
-    let trans_base = arrFavTransObj.find(v => v.Translation === eid_trans1.dataset.trans);
+    let el_base_trans1 = document.querySelector('.tab_block_active .colsHead');
+
+    let trans_base = arrFavTransObj.find(v => v.Translation === el_base_trans1.dataset.trans);
     let trans_item = arrFavTransObj.find(v => v.Translation === el.trans);
 
 
-    let thisDiv = eid_trans1;//test
+    let thisDiv = el_base_trans1;//test
     changeModule2(thisDiv, trans_item.Translation, trans_item.BibleShortName, trans_item.EnglishPsalms);    
 
     /*
@@ -2038,7 +2040,7 @@ function closeFindTab(button, event){
 }
 
 function addFindTab(act = null, tab_new = null){
-    //console.log('=== function addTab() ===');
+    //console.log('=== function addFindTab() ===');
     
     let find_tabsAll = document.querySelectorAll('.find_tabs');
     let countTabs = find_tabsAll.length;
