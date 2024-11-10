@@ -1991,7 +1991,7 @@ function init_scroll_in_colsInner(){
     //console.log(' ');
     //console.log('=== function init_scroll_in_colsInner() === START');
     
-    let colsInnerAll = document.querySelectorAll('.colsInner');
+    let colsInnerAll = document.querySelectorAll('.tab_block_active .colsInner');
 
     //si hay mas de 1 columna, anñado scroll listener. En caso contrario no hace falta
     if(colsInnerAll.length > 1){
@@ -12534,11 +12534,12 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         htmlTab.dataset.str_trans = str_trans;
         htmlTab.dataset.ref_trans = (eid_inpt_nav.dataset.trans != '') ? eid_inpt_nav.dataset.trans :  str_trans.split(',')[0] ;//la trans que se refleja en seleccion de book
         htmlTab.onclick = function(e){
-            getRefOfTab(htmlTab.id, htmlTab.querySelector('.tab_ref').innerHTML, htmlTab.dataset.str_trans);
-            setTimeout(()=>{
-                updateArrTabs();
-                updateActTransNavBlackBtn();
-            },150);
+            changeTabToTabActive(htmlTab);
+            //getRefOfTab(htmlTab.id, htmlTab.querySelector('.tab_ref').innerHTML, htmlTab.dataset.str_trans);
+            //setTimeout(()=>{
+            //    updateArrTabs();
+            //    updateActTransNavBlackBtn();
+            //},150);
         };
         if(act != null) htmlTab.classList.add('tab_active');//antes
 

@@ -1702,3 +1702,53 @@ function generarLangJson(n_start,n_end){
 
 
 
+
+
+
+
+
+
+
+
+
+function changeTabToTabActive(htmlTab_clicked){
+    console.log(htmlTab_clicked);
+
+    const id_tab_clicked = htmlTab_clicked.id;
+    const n = id_tab_clicked.split('tab')[1];// 'tab20' => '20'
+
+    let tabsAll = document.querySelectorAll('.tabs');
+    tabsAll.forEach(el=>{
+        el.classList.remove('tab_active');
+    });
+    if(htmlTab_clicked != null) htmlTab_clicked.classList.add('tab_active');
+
+    let tab_blocksAll = document.querySelectorAll('.tab_blocks');
+    tab_blocksAll.forEach(tab_block =>{
+        console.log(tab_block);
+
+        const tab_block_clicked = document.querySelector(`#tab${n}_block`);//=> 'tab1_block'
+
+        if(tab_block.id === tab_block_clicked.id /*&& !tab_block.classList.includes('tab_block_active')*/ ){
+            console.log('cambio a tab_block clicked');
+
+            tab_block.style.display = 'block';
+            tab_block.classList.add('tab_block_active');
+
+        }else{
+            
+            console.log('oculto el resto');
+
+            tab_block.style.display = 'none';
+            tab_block.classList.remove('tab_block_active');
+        }
+
+    });
+
+    mySizeWindow();
+    mySizeVerse();
+
+
+
+
+}
