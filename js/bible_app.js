@@ -22322,3 +22322,60 @@ function showBlockCookies(){
     }
 }
 
+
+function hideShowComment(ev){ 
+    let elem = ev.currentTarget;
+    //console.log(ev.target);
+
+    if(ev.target.className == 'tooltip' || ev.target.className == 'asterisco'){
+        let comment = elem.querySelector('.comment');
+
+        if(comment.classList.contains('d-none')){
+            let commentAll = document.querySelectorAll('.comment');
+            commentAll.forEach(el=>{
+                el.classList.remove('d-block');
+                el.classList.add('d-none');
+            });
+            let trikAll = document.querySelectorAll('.trik');
+            trikAll.forEach(el=>{
+                el.classList.remove('d-block');
+                el.classList.add('d-none');
+            });        
+            show_comment(elem);        
+        }else{
+            close_comment(elem);        
+        }
+    }
+}
+function show_comment(elem){
+    let trik = elem.querySelector('.trik');
+    let comment = elem.querySelector('.comment');
+
+    trik.classList.remove('d-none');
+    trik.classList.add('d-block');
+    comment.classList.remove('d-none');
+    comment.classList.add('d-block');
+
+    setTimeout(()=>{
+        trik.style.opacity = 1;
+        comment.style.opacity = 1;
+    },10);    
+}
+function close_comment(elem){
+    let trik = elem.querySelector('.trik');
+    let comment = elem.querySelector('.comment');
+
+    trik.style.opacity = 0;
+    comment.style.opacity = 0;
+
+    setTimeout(()=>{
+        trik.classList.remove('d-block');
+        trik.classList.add('d-none');
+        comment.classList.remove('d-block');
+        comment.classList.add('d-none');
+    },300);
+}
+function close_comment_x(elem, event){
+    event.stopPropagation();
+    close_comment(elem);
+}

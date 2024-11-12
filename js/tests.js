@@ -941,62 +941,7 @@ async function parseTextToArrRef(textRef, trans = null){//NO SE USA !!!
 
 
 
-function hideShowComment(ev){ 
-    let elem = ev.currentTarget;
-    //console.log(ev.target);
 
-    if(ev.target.className == 'tooltip' || ev.target.className == 'asterisco'){
-        let comment = elem.querySelector('.comment');
-
-        if(comment.classList.contains('d-none')){
-            let commentAll = document.querySelectorAll('.comment');
-            commentAll.forEach(el=>{
-                el.classList.remove('d-block');
-                el.classList.add('d-none');
-            });
-            let trikAll = document.querySelectorAll('.trik');
-            trikAll.forEach(el=>{
-                el.classList.remove('d-block');
-                el.classList.add('d-none');
-            });        
-            show_comment(elem);        
-        }else{
-            close_comment(elem);        
-        }
-    }
-}
-function show_comment(elem){
-    let trik = elem.querySelector('.trik');
-    let comment = elem.querySelector('.comment');
-
-    trik.classList.remove('d-none');
-    trik.classList.add('d-block');
-    comment.classList.remove('d-none');
-    comment.classList.add('d-block');
-
-    setTimeout(()=>{
-        trik.style.opacity = 1;
-        comment.style.opacity = 1;
-    },10);    
-}
-function close_comment(elem){
-    let trik = elem.querySelector('.trik');
-    let comment = elem.querySelector('.comment');
-
-    trik.style.opacity = 0;
-    comment.style.opacity = 0;
-
-    setTimeout(()=>{
-        trik.classList.remove('d-block');
-        trik.classList.add('d-none');
-        comment.classList.remove('d-block');
-        comment.classList.add('d-none');
-    },300);
-}
-function close_comment_x(elem, event){
-    event.stopPropagation();
-    close_comment(elem);
-}
 
 
 
@@ -1061,7 +1006,7 @@ myButton.addEventListener('touchend', stopPressMob);
 
 
 // Función que retorna una promesa
-async function retornarMiPromesa() {
+async function retornarMiPromesa() {//  NO SE USA. SOLO EN TEST
     //console.log('=== async function retornarMiPromesa() ===');
     
     // Crea una nueva promesa dentro de la función
@@ -1078,7 +1023,7 @@ async function retornarMiPromesa() {
 
 
 // Uso de async/await para manejar la promesa
-async function ejecutarMiPromesa(){
+async function ejecutarMiPromesa(){//  NO SE USA. SOLO EN TEST
     //console.log('=== async function ejecutarMiPromesa() ===');
 
     try {
@@ -1102,7 +1047,9 @@ setTimeout(()=>{
 let arr_refs = [];
 let add_condition = true; 
 
-function compare2modules(trans1, trans2){
+
+
+function compare2modules(trans1, trans2){//  NO SE USA. SOLO EN TEST
     //console.log('=== function compare2modules(modul1, module2) ===');
     
     arr_refs = [];//reset
@@ -1213,7 +1160,10 @@ function compare2modules(trans1, trans2){
 
 //getRefByBibleRef(arr_refs[0]);
 
-function recorrerArrRefs(arr_refs){
+
+
+
+function recorrerArrRefs(arr_refs){//  NO SE USA. SOLO EN TEST
 
     for (let index = 0; index < arr_refs.length; index++) {
         const ref = arr_refs[index];
@@ -1225,7 +1175,7 @@ function recorrerArrRefs(arr_refs){
 }
 
 //getIndexFromArrRefs(0);
-function getIndexFromArrRefs(index){
+function getIndexFromArrRefs(index){//  NO SE USA. SOLO EN TEST
     return getRefByBibleRef(arr_refs[index]);
 }
 
@@ -1233,10 +1183,8 @@ function getIndexFromArrRefs(index){
 /*
 let ukr_ogi = [];
 
-but.forEach((el,i)=>{ 
-  
-  
-                     
+but.forEach((el,i)=>{
+            
     if(el.chapter == 1 && el.verse == 1){
         //console.log('<h2>libro '  + el.book_number+ '</h2>');
         arr.push(`<h2>${ukr_ogi[i].FullName}</h2>`);
@@ -1250,24 +1198,18 @@ but.forEach((el,i)=>{
             arr.push(`<p>${el.verse} ${el.text}`);
         }else{
             arr.push(`<p>${el.verse} ${el.text}`);
-        }                      
-        
-
+        }
     }
 
-    
-    
-    
 });
-
 */
 
 
-function ejecutar_alert1(str){
+function ejecutar_alert1(str){//  NO SE USA. SOLO EN TEST
     alert(str);
 }
 
-function llamar_alert1(ev, f_number){
+function llamar_alert1(ev, f_number){//  NO SE USA. SOLO EN TEST
     let id_verse2 = ev.currentTarget.parentNode.parentNode.id;
 
     let str = 'onclick: ' + id_verse2 + ' f_number: ' + f_number;
@@ -1308,14 +1250,14 @@ setTimeout(()=>{
 },5000);
 */
 
-async function ejecutar_getVerseQty(url,book,chapter){
+async function ejecutar_getVerseQty(url,book,chapter){//  NO SE USA. SOLO EN TEST
     //console.log('Inicio de la tarea asíncrona --- ejecutar_getVerseQty()');
 
     let result_getVerseQty = await getVerseQty(url,book,chapter);
     //console.log('result_getVerseQty: ',result_getVerseQty);
 } 
 
-async function getVerseQty(url,book,chapter){
+async function getVerseQty(url,book,chapter){//  NO SE USA. SOLO EN TEST
     try {
         //console.log('=== async function getVerseQty() ===');
         //console.log('url: ', url);
@@ -1356,7 +1298,7 @@ var arrText = [];
 let url = 'https://bolls.life/static/translations/UMT.json';
 //makeBibleTextFromJson(url);
 
-async function makeBibleTextFromJson(url){
+async function makeBibleTextFromJson(url){//  NO SE USA. SOLO EN TEST
 
     try {
 
@@ -1403,8 +1345,6 @@ async function makeBibleTextFromJson(url){
                 }else{
                     arrText[el.book-1] += `<p>${el.verse} ${el.text}</p>`;
                 }
-
-
             }
             //console.log(arrBooks);        
         });
@@ -1425,7 +1365,7 @@ async function makeBibleTextFromJson(url){
 
 
 
-function sss(h = 0){
+function sss(h = 0){//  NO SE USA. SOLO EN TEST
     
     finishScrollInColsInner();//desabilito scroll en paralelo
 
@@ -1440,13 +1380,13 @@ function sss(h = 0){
     //init_scroll_in_colsInner();//desabilito scroll en paralelo
 }
 
-function addPaddingInColsInnerP(){
+function addPaddingInColsInnerP(){//  NO SE USA. SOLO EN TEST
     document.querySelectorAll('.colsInner p').forEach(el=>{
         el.classList.add('p10p5p0');
     })
 }
 
-function removePaddingInColsInnerP(){
+function removePaddingInColsInnerP(){//  NO SE USA. SOLO EN TEST
     document.querySelectorAll('.colsInner p').forEach(el=>{
         el.classList.remove('p10p5p0');
     })
@@ -1458,7 +1398,7 @@ function removePaddingInColsInnerP(){
 
 
 let start_copy = true;
-function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, ChapterContent_label, ChapterContent_content){
+function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, ChapterContent_label, ChapterContent_content){//  NO SE USA. SOLO EN TEST
 
     let textChapter = '';
 
@@ -1553,7 +1493,7 @@ function makeModuleFromYouVersion(ChapterContent_reader, ChapterContent_p, Chapt
 //1. copiar y pegar en la consola bibleqt.json de la traduccion deseada
 //2. lanzar esta funcion
 //3. copiar una string desde la consola y meterla en el campo 'Array de nombres...'
-function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65){
+function makeArrPathName(obj_bibleqt, start_index_book = 0, end_index_book = 65){//  NO SE USA. SOLO EN TEST Y 'cortar_y_guardar.html'
     let arr_books = obj_bibleqt.Books;//copiar y pegar en la consola bibleqt.json y lanzar esta funcion
     
     end_index_book = (end_index_book > arr_books.length) ? (arr_books.length - 1) : end_index_book ;
@@ -1659,7 +1599,7 @@ let arrImgSrc = [
 ];
 */
 
-function makeAllImgSrc(arr){
+function makeAllImgSrc(arr){//  NO SE USA. SOLO EN TEST
     if(arr.length == 0) return false;
     arr.forEach(el=>{
         console.warn(el[0]);
@@ -1675,18 +1615,9 @@ function makeAllImgSrc(arr){
 
 
 
-
-
-
-
-
-
-
-
-
 //generarLangJson(31,250);
 
-function generarLangJson(n_start,n_end){
+function generarLangJson(n_start,n_end){//  NO SE USA. SOLO EN TEST
     const obj = {};
     for (let i = n_start; i <= n_end; i++) {
         //console.log(`"d${i}" : "",`);
