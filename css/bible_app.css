@@ -231,13 +231,13 @@ body{
 }
 .tab_ref {
     /* background: #dddddd; */
-    /* min-width: 120px; */
+    min-width: 100px;
     color: white;
     font-weight: bold;
 }
 .tab_active .tab_ref {
     color: #ff1100;
-    min-width: 110px;
+    /* min-width: 110px; */
 }
 .tab_active .btn_sm {
     background: white;
@@ -2044,6 +2044,7 @@ select  optgroup option {
     /* margin-right: 10px; */
     margin-left: 3px;
     /* background: black; */
+    height: 30px;
 }
 .btnMenu img{
     width:20px;
@@ -2209,8 +2210,9 @@ select  optgroup option {
     min-width:90px;
 }
 .wr_desk_trans button.btn_svg {
-    padding: 2px 0 0;
+    padding: 0;
     min-width: 29px;
+    height: 29px;
     opacity: 0.6;
     border-radius: 0px;
     transition: 0.2s;
