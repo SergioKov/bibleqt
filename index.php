@@ -541,12 +541,14 @@ HERE;
                 </div><!--/vklad_find-->
 
                 <div id="vklad_tsk" class="vklads" style="display: none;">
+                    
                     <div id="tsk_head">
                         <h4 data-dic="d139">TSK - Перекрестные Ссылки</h4>
-                    </div>
+                    </div><!--/#tsk_head-->
                     <div id="tsk_body">
                         <span class="prim_tsk" data-dic="d140">Para ver pasajes paralelos del versículo, presiona la referencia. Por ejemplo: Gen.1:1</span>
-                    </div>
+                    </div><!--/#tsk_body-->
+                    
                 </div><!--/vklad_tsk-->
 
                 <div id="vklad_strong" class="vklads" style="display: none;">

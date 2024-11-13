@@ -2825,31 +2825,70 @@ async function getTsk(e){
                 
                             eid_tsk_head.innerHTML = '';//reset datos
                             eid_tsk_body.innerHTML = '';//reset datos
-                
-                            //Siempre muestro el verse clickeado en tsk
-                            const span_sm_trans = document.createElement('span');
-                            span_sm_trans.id = 'sm_trans';
-                            //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                
-                            const span_trans_tsk = document.createElement('span');
-                            span_trans_tsk.className = 'trans_tsk';
-                            span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                            span_sm_trans.append(span_trans_tsk);                            
+
+                            let ejemplo = `
+                                <div id="tsk_head_wr">                                
+                                    <div id="bl_trans_ref">
+                                        <span id="tsk_trans_name">MDRi</span> 
+                                        <span id="tsk_trans_ref">Лук. 18:14</span>
+                                    </div>
+                                    <span id="bl_tsk_count">
+                                        <span id="tsk_referencias">Referencias: </span>
+                                        <span id="tsk_count">--</span>
+                                    </span>
+                                </div>
+                                <div id="tsk_head_wr_verse"> 
+                                    <p>aki text...</p>
+                                </div>
+                            `;
+
+                            
+
+                            let tsk_trans_name_value = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;//MDRi
+                            let tsk_trans_ref_value = el.querySelector('a').textContent;//Лук. 18:14
+                            let tsk_trans_ref_text = removeWrTooltipFrom(el).querySelector('span.vt').innerHTML;//solo texto sin el link
+
+                            const div_tsk_head_wr = document.createElement('div');
+                            div_tsk_head_wr.id = 'tsk_head_wr';
+
+                            const div_bl_trans_ref = document.createElement('div');
+                            div_bl_trans_ref.id = 'bl_trans_ref';
+                            div_bl_trans_ref.innerHTML = `
+                                <span id="tsk_trans_name">${tsk_trans_name_value}</span> 
+                                <span id="tsk_trans_ref">${tsk_trans_ref_value}</span>
+                            `;
+                            div_bl_trans_ref.onclick = ()=>{
+                                goToLink(Translation, tsk_trans_ref_value);
+                            }
+
+                            const div_bl_tsk_count = document.createElement('div');
+                            div_bl_tsk_count.id = 'bl_tsk_count';
+                            div_bl_tsk_count.innerHTML = `
+                                <span id="tsk_referencias">Referencias: </span>
+                                <span id="tsk_count">--</span>
+                            `;
+                            div_bl_tsk_count.onclick = ()=>{
+                                //alert(888);
+                            }
+
+
+                            const div_tsk_head_wr_verse = document.createElement('div');
+                            div_tsk_head_wr_verse.id = 'tsk_head_wr_verse';
                 
                             const p = document.createElement('p');
                             p.id = el.id;
                             p.className = 'tsk tsk_verse';
                             p.setAttribute('data-verse',el.getAttribute('data-verse'));
                             p.dataset.trans = Translation;
-                            p.innerHTML = el.innerHTML;
-                            p.querySelector('a').addEventListener('click',() => {
-                                //console.log('click on tsk a');
-                                goToLink(Translation, p.querySelector('a').innerHTML);
-                            });
+                            p.innerHTML = tsk_trans_ref_text;
+                            //p.querySelector('a').addEventListener('click',() => {
+                            //    //console.log('click on tsk a');
+                            //    goToLink(Translation, p.querySelector('a').innerHTML);
+                            //});
                             //quito btn_verse_menu porque alli no hace falta
-                            if(p.innerHTML.includes('<span class="btn_verse_menu"></span>')){
-                                p.querySelector('.btn_verse_menu').remove();
-                            }
+                            //if(p.innerHTML.includes('<span class="btn_verse_menu"></span>')){
+                            //    p.querySelector('.btn_verse_menu').remove();
+                            //}
                             
 
                             if(p.innerHTML.includes('wr_tooltip')){
@@ -2861,8 +2900,14 @@ async function getTsk(e){
                                 });
                             }
                 
-                            eid_tsk_head.append(span_sm_trans);
-                            eid_tsk_head.append(p);
+                            
+
+                            eid_tsk_head.append(div_tsk_head_wr);
+                                div_tsk_head_wr.append(div_bl_trans_ref); 
+                                div_tsk_head_wr.append(div_bl_tsk_count);
+                            eid_tsk_head.append(div_tsk_head_wr_verse);
+                                div_tsk_head_wr_verse.append(p);
+
                             eid_tsk_head.scrollTop = 0;
                             
                             mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
@@ -3654,27 +3699,60 @@ async function getTsk(e){
     
                 eid_tsk_head.innerHTML = '';//reset datos
                 eid_tsk_body.innerHTML = '';//reset datos
-    
-                //Siempre muestro el verse clickeado en tsk
-                const span_sm_trans = document.createElement('span');
-                span_sm_trans.id = 'sm_trans';
-                //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-    
-                const span_trans_tsk = document.createElement('span');
-                span_trans_tsk.className = 'trans_tsk';
-                span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                span_sm_trans.append(span_trans_tsk);                
+
+
+
+
+
+
+
+
+
+
+
+
+
+                let tsk_trans_name_value = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;//MDRi
+                let tsk_trans_ref_value = el.querySelector('a').textContent;//Лук. 18:14
+                let tsk_trans_ref_text = removeWrTooltipFrom(el).querySelector('span.vt').innerHTML;//solo texto sin el link
+
+                const div_tsk_head_wr = document.createElement('div');
+                div_tsk_head_wr.id = 'tsk_head_wr';
+
+                const div_bl_trans_ref = document.createElement('div');
+                div_bl_trans_ref.id = 'bl_trans_ref';
+                div_bl_trans_ref.innerHTML = `
+                    <span id="tsk_trans_name">${tsk_trans_name_value}</span> 
+                    <span id="tsk_trans_ref">${tsk_trans_ref_value}</span>
+                `;
+                div_bl_trans_ref.onclick = ()=>{
+                    goToLink(Translation, tsk_trans_ref_value);
+                }
+
+                const div_bl_tsk_count = document.createElement('div');
+                div_bl_tsk_count.id = 'bl_tsk_count';
+                div_bl_tsk_count.innerHTML = `
+                    <span id="tsk_referencias">Referencias: </span>
+                    <span id="tsk_count">--</span>
+                `;
+                div_bl_tsk_count.onclick = ()=>{
+                    //alert(888);
+                }
+
+
+                const div_tsk_head_wr_verse = document.createElement('div');
+                div_tsk_head_wr_verse.id = 'tsk_head_wr_verse';
     
                 const p = document.createElement('p');
                 p.id = el.id;
                 p.className = 'tsk tsk_verse';
                 p.setAttribute('data-verse',el.getAttribute('data-verse'));
                 p.dataset.trans = Translation;
-                p.innerHTML = el.innerHTML;
-                p.querySelector('a').addEventListener('click',()=>{
-                    //console.log('click on tsk a');
-                    goToLink(Translation, p.querySelector('a').innerHTML);
-                });
+                p.innerHTML = tsk_trans_ref_text;
+                //p.querySelector('a').addEventListener('click',()=>{
+                //    //console.log('click on tsk a');
+                //    goToLink(Translation, p.querySelector('a').innerHTML);
+                //});
 
                 if(p.innerHTML.includes('wr_tooltip')){
                     p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
@@ -3685,8 +3763,12 @@ async function getTsk(e){
                     });
                 }
     
-                eid_tsk_head.append(span_sm_trans);
-                eid_tsk_head.append(p);
+                eid_tsk_head.append(div_tsk_head_wr);
+                    div_tsk_head_wr.append(div_bl_trans_ref); 
+                    div_tsk_head_wr.append(div_bl_tsk_count);
+                eid_tsk_head.append(div_tsk_head_wr_verse);
+                    div_tsk_head_wr_verse.append(p);
+
                 eid_tsk_head.scrollTop = 0;
                 
                 mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head
@@ -4832,28 +4914,49 @@ async function getTsk(e){
     
                     eid_tsk_head.innerHTML = '';//reset datos
                     eid_tsk_body.innerHTML = '';//reset datos
-    
+
+
                     //Siempre muestro el verse clickeado en tsk
-                    const span_sm_trans = document.createElement('span');
-                    span_sm_trans.id = 'sm_trans';
-                    //span_sm_trans.innerHTML = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-    
-                    const span_trans_tsk = document.createElement('span');
-                    span_trans_tsk.className = 'trans_tsk';
-                    span_trans_tsk.textContent = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;
-                    span_sm_trans.append(span_trans_tsk);
-                    
+                    let tsk_trans_name_value = document.querySelector('.colsHead[data-trans="' + Translation+ '"] .colsHeadInner .partDesk .desk_trans').innerHTML;//MDRi
+                    let tsk_trans_ref_value = el.querySelector('a').textContent;//Лук. 18:14
+                    let tsk_trans_ref_text = removeWrTooltipFrom(el).querySelector('span.vt').innerHTML;//solo texto sin el link
+
+                    const div_tsk_head_wr = document.createElement('div');
+                    div_tsk_head_wr.id = 'tsk_head_wr';
+
+                    const div_bl_trans_ref = document.createElement('div');
+                    div_bl_trans_ref.id = 'bl_trans_ref';
+                    div_bl_trans_ref.innerHTML = `
+                        <span id="tsk_trans_name">${tsk_trans_name_value}</span> 
+                        <span id="tsk_trans_ref">${tsk_trans_ref_value}</span>
+                    `;
+                    div_bl_trans_ref.onclick = ()=>{
+                        goToLink(Translation, tsk_trans_ref_value);
+                    }
+
+                    const div_bl_tsk_count = document.createElement('div');
+                    div_bl_tsk_count.id = 'bl_tsk_count';
+                    div_bl_tsk_count.innerHTML = `
+                        <span id="tsk_referencias">Referencias: </span>
+                        <span id="tsk_count">--</span>
+                    `;
+                    div_bl_tsk_count.onclick = ()=>{
+                        //alert(888);
+                    }
+
+                    const div_tsk_head_wr_verse = document.createElement('div');
+                    div_tsk_head_wr_verse.id = 'tsk_head_wr_verse';
     
                     const p = document.createElement('p');
                     p.id = el.id;
                     p.className = 'tsk tsk_verse';
                     p.setAttribute('data-verse',el.getAttribute('data-verse'));
                     p.dataset.trans = Translation;
-                    p.innerHTML = el.innerHTML;
-                    p.querySelector('a').addEventListener('click',()=>{
-                        //console.log('click on tsk a');
-                        goToLink(Translation, p.querySelector('a').innerHTML);
-                    });
+                    p.innerHTML = tsk_trans_ref_text;
+                    //p.querySelector('a').addEventListener('click',()=>{
+                    //    //console.log('click on tsk a');
+                    //    goToLink(Translation, p.querySelector('a').innerHTML);
+                    //});
     
                     if(p.innerHTML.includes('wr_tooltip')){
                         p.querySelector('.wr_tooltip').addEventListener('click',(event) => {
@@ -4864,8 +4967,12 @@ async function getTsk(e){
                         });
                     }
     
-                    eid_tsk_head.append(span_sm_trans);
-                    eid_tsk_head.append(p);
+                    eid_tsk_head.append(div_tsk_head_wr);
+                        div_tsk_head_wr.append(div_bl_trans_ref); 
+                        div_tsk_head_wr.append(div_bl_tsk_count);
+                    eid_tsk_head.append(div_tsk_head_wr_verse);
+                        div_tsk_head_wr_verse.append(p);
+
                     eid_tsk_head.scrollTop = 0;
                     
                     mySizeTsk();//altura de eid_tsk_body despues de meter eid_tsk_head

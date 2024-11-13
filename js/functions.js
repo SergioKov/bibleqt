@@ -640,7 +640,7 @@ function showHideDvor(){
 
 
 const buildVersesTsk = (arr_tsk_p, Translation) => {
-    const count_tsk = document.getElementById('count_tsk');
+    const eid_tsk_count = document.getElementById('tsk_count');
     eid_tsk_body.innerHTML = '';//reset 
     //console.log(arr_tsk_p);
     arr_tsk_p_filtered = arr_tsk_p.filter(elem => elem);
@@ -660,13 +660,12 @@ const buildVersesTsk = (arr_tsk_p, Translation) => {
     eid_tsk_body.addEventListener('click', handlerListenTsk);
     
 
-    if(count_tsk === null){
-        const span_count_tsk = document.createElement('span');
-        span_count_tsk.id = 'count_tsk';
-        span_count_tsk.textContent = arr_tsk_p_filtered.length;
-        document.getElementById('sm_trans').append(span_count_tsk);
+    if(eid_tsk_count){
+        eid_tsk_count.textContent = arr_tsk_p_filtered.length;
     }else{
-        count_tsk.textContent = arr_tsk_p_filtered.length;
+        let error = 'el elemento tsk_count no existe. No se puede actualizar el total de tsk versículos.';
+        alert(error);
+        console.error(error);
     }
 }
 
@@ -2270,4 +2269,17 @@ function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
     wr_filter.append(filter_result);
 
     div_donde_filtrar.append(p);
+}
+
+//para remover las etiquetas <span class="wr_tooltip"></span> desde un 'p' para meter el texto en tsk_head
+function removeWrTooltipFrom(element){
+    const element_clonado = element.cloneNode(true);
+    let wr_tooltipAll = element_clonado.querySelectorAll('.wr_tooltip');
+    if(wr_tooltipAll.length > 0){
+        wr_tooltipAll.forEach(el_tooltip =>{
+            el_tooltip.remove();
+            //console.log('el sig. el_tooltip será removido el tooltip:', el_tooltip);
+        })
+    }
+    return element_clonado;
 }

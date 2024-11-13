@@ -589,7 +589,9 @@ p a {
     transition: 0.2s;
     font-weight: bold;
 }
-p a:hover:not(.a_sn) {
+p a:hover:not(.a_sn),
+#bl_trans_ref:hover #tsk_trans_ref
+{
     color: #4761f6;
     background: orange;
     outline: 1px solid #bf7507;
@@ -1313,7 +1315,13 @@ span.h4_ch {
     outline: 1px solid #2c7fc1;
 }
  
-#tsk_head, 
+#tsk_head {
+    padding: 5px 5px 0;
+    margin-bottom: 5px;
+    color: white;
+    position: relative;
+}
+ 
 #markers_head {
     max-height: 100px;
     min-height: 10px;
@@ -1331,12 +1339,94 @@ span.h4_ch {
     background: #373737;
 }
 
+
+
 #tsk_head h4,
 #markers_head h4
  {
     color: white;
     padding: 0 5px;
 }
+
+#tsk_head_wr{
+    /* background: #3F51B5; */
+    /* padding: 5px; */
+    overflow: hidden;
+    /* margin-bottom: 5px; */
+    /* border-radius: 3px; */
+    display: flex;
+    align-content: flex-start;
+    justify-content: space-between;
+}
+
+#bl_trans_ref {
+    font-size: 20px;
+    background: #0070c9;
+    padding: 5px 10px 5px 8px;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#tsk_trans_name{
+    background: black;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: white;
+}
+
+#tsk_trans_ref{
+    padding: 1px 5px;
+    cursor: pointer;
+    outline: 1px solid #0070c9;
+    transition: 0.2s;
+}
+
+#bl_tsk_count {
+    /* background: #4CAF50; */
+    color: white;
+    border-radius: 0 0px 0px 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 28px;
+    white-space: nowrap;
+}
+
+
+#tsk_count {
+    background: black;
+    padding: 3px 5px;
+    border-radius: 3px;
+    height: 22px;
+    min-width: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#tsk_head_wr_verse{
+    /* background: red; */
+    overflow: hidden;
+    /* padding: 5px; */
+    overflow-y: scroll;
+    height: auto;
+    max-height: 100px;
+    background: yellow;
+    color: red;
+    border-radius: 0 0 3px 3px;
+    /* border: 1px solid red; */
+    overflow: auto;
+}
+
+
+
+
 #find_head {
 	min-height: 10px;
 	padding: 0px 10px 0 5px;
@@ -1459,18 +1549,7 @@ p.tsk_nolink {
 #ch_dir_r {
     border-left: 1px solid #3484c3;
 }
-#sm_trans {
-    background: #2196F3;
-    color: white;
-    padding: 3px 5px;
-    position: relative;
-    top: -5px;
-    right: -5px;
-    display: block;
-    float: right;
-    border-radius: 0 0px 0px 5px;
-    font-size: 14px;
-}
+
 button#btn_ok_find,
 button#btn_ok_stop
  {
@@ -3103,13 +3182,7 @@ pr {
     border-radius: 3px 3px 0 0;
     padding: 5px;
 }
-#count_tsk {
-    background: black;
-    display: inline-block;
-    padding: 1px 5px;
-    border-radius: 3px;
-    margin-left: 7px;
-}
+
 
 .sp_atras {
     float: left;
