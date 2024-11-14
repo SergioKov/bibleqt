@@ -14883,12 +14883,28 @@ async function getRef(trans = null, refLink = null, refText = null){
         let arr_v = inpt_v.split(',');
         verse = arr_v[1];
         //console.log('verse: '+verse);
+
+        if(verse.includes(';')){
+            verse = verse.split(';')[0]; 
+        }
         
         if(verse.includes('-')){
             let arr_verse = verse.split('-');
             verse = arr_verse[0];
             to_verse = arr_verse[1];
             //console.log('to_verse: '+to_verse);
+        }
+
+        if(verse.includes('.')){
+            let arr_verse = verse.split('.');
+            verse = parseInt(arr_verse[0]);
+            to_verse = parseInt(arr_verse[1]);
+            //console.log('to_verse: '+to_verse);
+        }
+
+        if(arr_v.length == 3){//Jn. 3,16,17
+            verse = parseInt(arr_v[1]);
+            to_verse = parseInt(arr_v[2]);
         }
 
         if(arr_v[0].includes('.')){
