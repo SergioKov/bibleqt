@@ -3215,7 +3215,9 @@ pr {
     margin-right: 40px;
     /* margin-right: 75px; */
     /* background: red; */
-    display: block;
+    /* display: block; */
+    display: flex;
+    justify-content: space-between;
 }
 .dbtn_inner {
     display: flex;
@@ -3557,11 +3559,14 @@ fieldset {
     color: red;
     text-align: center;
 }
-span.vt {
+.colsInner span.vt {
     /* background: orange; */
     /* margin-right: 25px; */
     padding-right: 25px;
     padding-left: 5px;
+}
+#myModalContent span.vt{
+    padding: 0;
 }
 
 
@@ -3892,7 +3897,7 @@ p .sp_svit a:hover{
 #btn_markers img {
     position: relative;
     top: 0px;
-    height: 18px;
+    /* height: 18px; */
     width: 18px;
 }
 #btn_settings{
