@@ -2514,8 +2514,51 @@ function showHideStrongNumbers(){
     let strongAll = document.querySelectorAll('.strong, .colsInner p S');
     //let strongAction = null;//antes
 
-    let eid_btnStrong = document.getElementById('btnStrong');
-    let eid_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
+    //let eid_btnStrong = document.getElementById('btnStrong');
+    //let eid_m_btnStrong = document.getElementById('m_btnStrong');//menu tres puntos en mobile
+
+    const col1 = document.querySelector('.colsInner');
+    let col1_scrollTop = col1.scrollTop;    
+    //console.log('col1_scrollTop: ', col1_scrollTop);
+
+    let verseNumber_to_scroll = null;//por defecto
+
+    const arr_col1_p_all = document.querySelectorAll('.colsInner p');
+
+    for (let i = 0; i < arr_col1_p_all.length; i++) {
+        const p = arr_col1_p_all[i];
+
+        let p_rect = p.getBoundingClientRect();
+
+        let p_top = p_rect.top;
+        //console.log('p_top: ', p_top);
+
+        let p_bottom = p_rect.bottom;
+        //console.log('p_bottom: ', p_bottom);
+
+        let p_h = p.offsetHeight;
+        //console.log('p_h: ', p_h);
+        
+        let p_top_relativo = obtenerScrollTopRelativo(p, col1);
+        //console.log('p_top_relativo: ', p_top_relativo);
+        
+        let p_bottom_relativo = p_top_relativo + p_h;
+        //console.log('p_bottom_relativo: ', p_bottom_relativo);
+
+        //console.log('col1_scrollTop: ', col1_scrollTop);
+
+        if(p_top_relativo < col1_scrollTop && p_bottom_relativo > col1_scrollTop){
+            //console.log(p);
+            verseNumber_to_scroll = p.dataset.verse;
+            break;
+        }
+
+        if( p_top_relativo == col1_scrollTop ){
+            //console.log(p);
+            verseNumber_to_scroll = p.dataset.verse;
+            break;
+        }               
+    }//end for
 
 
     if(strongAll.length != 0){
@@ -2576,6 +2619,33 @@ function showHideStrongNumbers(){
             },200);
         }    
     }//fin
+
+    if(verseNumber_to_scroll){   
+        const contenedorAll = document.querySelectorAll('.colsInner');
+
+        if(positionShow == 'col'){
+            contenedorAll.forEach(contenedor => {
+                contenedor.querySelector(`p[data-verse="${verseNumber_to_scroll}"]`).scrollIntoView({
+                    //behavior: "smooth",
+                    block: "start",//start,center,end
+                    inline: "nearest"
+                });
+            }); 
+                
+        }else{//row
+
+            let delay = 100; 
+            setTimeout(()=>{
+                contenedorAll.forEach(contenedor => {
+                    contenedor.querySelector(`p[data-verse="${verseNumber_to_scroll}"]`).scrollIntoView({
+                        //behavior: "smooth",
+                        block: "start",//start,center,end
+                        inline: "nearest"
+                    });
+                }); 
+            },delay);    
+        }
+    }
 }
 
 function getArrTransFromCols(){
@@ -22501,4 +22571,18 @@ function close_comment(elem){
 function close_comment_x(elem, event){
     event.stopPropagation();
     close_comment(elem);
+}
+
+
+
+function obtenerScrollTop(elemento) {
+    const rect = elemento.getBoundingClientRect(); // Posición relativa al viewport
+    const scrollTop = window.scrollY || document.documentElement.scrollTop; // Posición actual del scroll
+    return rect.top + scrollTop; // Distancia desde el inicio del documento
+}
+
+function obtenerScrollTopRelativo(elemento, contenedor) {
+    const rectElemento = elemento.getBoundingClientRect();
+    const rectContenedor = contenedor.getBoundingClientRect();
+    return rectElemento.top - rectContenedor.top + contenedor.scrollTop;
 }
