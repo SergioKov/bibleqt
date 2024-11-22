@@ -371,7 +371,8 @@ async function iniciarSesion(){//antes login() //username,password
                 setTimeout(()=>{
                     //localStorage.setItem('is_reloaded_from_login', true);
                     //window.location.reload(); // Recargar la página
-                    window.location.href = "?auth_ok";
+
+                    //window.location.href = "?auth_ok";//!obligatorio por ahora...
                 },510);                
 
             } else {
@@ -1308,7 +1309,7 @@ async function loadDefaultFunctions(){
         if(hay_get_data ){
             get_trans = (typeof get_trans != '') ? get_trans : arrFavTrans[0] ;
             
-            loadRefDefault(get_ref, get_trans);//first tab
+            loadRefDefault(get_ref, get_trans);//first tab //ej. Gn.1:1
         }else{
             let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
             loadRefDefault(`${trans_def.Books[0].ShortNames[0]} 1:1`, trans_def.Translation);//first tab en mi caso es 'rstStrongRed'
@@ -13343,7 +13344,7 @@ async function verificarAutenticacion() {
         });
 
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
 
         if(response.ok) {
             return true;

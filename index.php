@@ -1,19 +1,25 @@
 <?php 
-if(isset($_GET) && isset($_GET['auth_ok']) || isset($_COOKIE)){
+if( ( isset($_GET) && isset($_GET['auth_ok']) ) /*|| isset($_COOKIE)*/ ){
     session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
     //echo 'hay auth_ok';
-print<<<HERE
-    <script>
-        //console.log('hay auth_ok. pongo session_start()');
-    </script>
-HERE;
+    $hay_GET = isset($_GET) ? true : false ;
+    $hay_auth_ok = isset($_GET['auth_ok']) ? true : false ;
+    $hay_COOKIE = isset($_COOKIE) ? true : false ;
+    print"
+        <script>
+            console.log('hay auth_ok. pongo session_start()');
+            console.log('hay_GET: ', $hay_GET);
+            console.log('hay_auth_ok: ', $hay_auth_ok);
+            console.log('hay_COOKIE: ', $hay_COOKIE);
+        </script>
+    ";
 }else{
     //echo 'NO hay auth_ok';
-print<<<HERE
-    <script>
-        //console.log('NO hay auth_ok. NO pongo session_start()');
-    </script>
-HERE;
+    print"
+        <script>
+            console.log('NO hay auth_ok. NO pongo session_start()');
+        </script>
+    ";
 }
 ?>
 <!DOCTYPE html>
@@ -864,38 +870,36 @@ HERE;
 
                             <div id="topLogin" style="display:none;">
                                 <div id="topLoginInner">
-
 <?php
 
     if(isset($_GET['login'])){
-print<<<HERE
-    <script>
-        setTimeout(()=>{
-            openModal('top','Login',null,'showLogin');
-        },3000);
-    </script>
-HERE;
+        print"
+            <script>
+                setTimeout(()=>{
+                    openModal('top','Login',null,'showLogin');
+                },3000);
+            </script>
+        ";
     }
 
     if(isset($_GET['from_aviso'])){
-print<<<HERE
-    <script>
-        setTimeout(()=>{
-            openModal('top','Login',null,'showLogin');
-        },3000);
-    </script>
-HERE;
+        print"
+            <script>
+                setTimeout(()=>{
+                    openModal('top','Login',null,'showLogin');
+                },3000);
+            </script>
+        ";
     }
 
-
     if(isset($_GET['reset_pwd_ok'])){
-print<<<HERE
-    <script>
-        setTimeout(()=>{
-            openModal('top','Login',null,'showLogin');
-        },3000);
-    </script>
-HERE;
+        print"
+            <script>
+                setTimeout(()=>{
+                    openModal('top','Login',null,'showLogin');
+                },3000);
+            </script>
+        ";
     }
     
     
@@ -911,26 +915,30 @@ HERE;
         $mensaje = '<span class="clr_gr-een" data-dic="d149">Sesión iniciada correctamente. Se cargan tus ajustes personales.</span>';
         $login_img_src = './images/login2_white.svg';
         //echo "<script>alert('js session iniciada. Bienvenido, " . $_SESSION['username'] . ".')</script>";
-print<<<HERE
-<script>
-    let hay_sesion = true;
-    let username = '$_SESSION[username]';
-    let email = '$_SESSION[email]';
-    //console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
 
-    document.addEventListener("DOMContentLoaded", () => {
-        pintLoginImg(hay_sesion);
+        //OJO. EMPIEZA Y TERMINA CON COMILLA DOBLE. EL CODIGO JS NO DEBE CONTENER COMILLAS DOBLES!  
+        print"
+            <script>
+                let hay_sesion = true;
+                let username = '$_SESSION[username]';
+                let email = '$_SESSION[email]';
+                console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
 
-        (async ()=>{
-            //alert(111);
-            await obtenerDatosDeBD('fav_trans','arrFavTrans');           
-            //alert(222);
-        })();
-    });
+                document.addEventListener('DOMContentLoaded', () => {
+                    pintLoginImg(hay_sesion);
 
-</script>
-HERE;
+                    (async ()=>{
+                        //alert(111);
+                        await obtenerDatosDeBD('fav_trans','arrFavTrans');           
+                        //alert(222);
+                    })();
+                });
+
+            </script>
+        ";//end echo
+
     }else{
+        
         // El usuario no está logueado, muestra el formulario de inicio de sesión
         $st_bl_sesion_iniciada = 'none';
         $st_bl_login_form = 'block';
@@ -940,127 +948,125 @@ HERE;
         $frase_bienvenida = '<span data-dic="d152">No estás logueado.</span>';
         $mensaje = '<span data-dic="d150">Sesión no iniciada.</span>';
         $login_img_src = './images/login2_grey2.svg';
-        //echo "<script>alert('js session cerrada')</script>";
-print<<<HERE
-    <script>
-        let hay_sesion = false;        
-        //console.log('print js: session cerrada. hay que iniciar la sesión.');
+        //echo "<script>alert('js session cerrada')</script>";        
+        
+        //OJO. EMPIEZA Y TERMINA CON COMILLA DOBLE. EL CODIGO JS NO DEBE CONTENER COMILLAS DOBLES!  
+        print"
+            <script>
+                let hay_sesion = false;        
+                console.log('print js: session cerrada. hay que iniciar sesión.');
 
-        document.addEventListener("DOMContentLoaded", () => {
-            pintLoginImg(hay_sesion);
-        });   
-    
-    </script>
-HERE;
-    }
-
-print<<<HERE
-
-    <div class="login-page">
-        <div class="form">
-
-            <div id="bl_register_form" style="display:$st_bl_register_form;">
-                <form class="register-form">
-                    <h1 data-dic="d177">Crear cuenta</h1>
-                    <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
-                    <input id="reg_username" name="username" type="text" autocomplete="off" placeholder="Nombre" data-dic="d192_ph" />
-                    <input id="reg_email" name="email" type="email" autocomplete="on" placeholder="Email" required data-dic="d194_ph" />
-                    <input id="reg_password" name="password" class="type_password m_bot0" type="password" autocomplete="off" placeholder="Contraseña" data-dic="d193_ph" />
-                    <label class="ch_lab">
-                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
-                        <span class="ch_mostrar_sp">mostrar contraseña</span>
-                    </label>
-                    <button class="btn_wide" type="button" onclick="crearCuenta()" data-dic="d177">Crear cuenta</button>
-                    <p class="message"><span data-dic="d179">¿Ya estás registrado?</span> <a href="#" onclick="mostrarLoginForm()" data-dic="d180">Entrar</a></p>
-                </form>
-            </div>
-
-            <div id="bl_email_form" style="display:$st_bl_email_form;">
-                <form class="email-form">
-                    <h1 data-dic="d181">Recuperar contraseña</h1>
-                    <p class="mensaje" data-dic="d182">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
-                    <input id="rec_email" name="email" type="email" required autocomplete="on" placeholder="Email" data-dic="d194_ph" />
-                    <button class="btn_wide" type="button" onclick="enviarEmail()" data-dic="d183">Enviar</button>
-                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
-                </form>
-            </div>
-
-            <div id="bl_change_email_form" style="display:$st_bl_change_email_form;">
-                <form class="change-email-form">
-                    <h1 data-dic="d185">Cambiar contraseña</h1>
-                    <p class="mensaje" data-dic="d186">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
-                    <input id="act_email" name="email" type="email" required autocomplete="on" placeholder="Actual email" data-dic="d195_ph" />
-                    <input id="act_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196_ph" />
-                    <input id="new_password" name="password" class="type_password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197_ph" />
-                    <input id="new_password_rep" name="password" class="type_password m_bot0" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198_ph" />
-                    <label class="ch_lab">
-                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
-                        <span class="ch_mostrar_sp">mostrar contraseña</span>
-                    </label>
-                    <button class="btn_wide" type="button" onclick="enviarChangeEmail()" data-dic="d187">Cambiar</button>
-                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
-                </form>
-            </div>
+                document.addEventListener('DOMContentLoaded', () => {
+                    pintLoginImg(hay_sesion);
+                });   
             
-            <div id="bl_login_form" style="display:$st_bl_login_form;">
-                <form class="login-form">
-                    <h1 data-dic="d184">Iniciar sesión</h1>
-                    <p class="mensaje">
-                        <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
-                    </p>
-                    <input id="username_email" name="username_email" type="email" autocomplete="on" placeholder="Email" data-dic="d194_ph" required />
-                    <input id="password" name="password" class="type_password m_bot0" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
-                    <label class="ch_lab">
-                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
-                        <span class="ch_mostrar_sp">mostrar contraseña</span>
-                    </label>
-                    <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
-                    <p class="message">
-                        <span data-dic="d189">¿No estás registrado?</span> <a href="#" onclick="mostrarForm('bl_register_form')" data-dic="d177">Crear cuenta</a>
-                        <br><span data-dic="d190">¿Has olvidado la contraseña?</span> <a href="#" onclick="mostrarForm('bl_email_form')" data-dic="d181">Recuperar contraseña</a>
-                        <br><span data-dic="d191">¿Quieres cambiar la contraseña?</span> <a href="#" onclick="mostrarForm('bl_change_email_form')" data-dic="d185">Cambiar contraseña</a>
-                    </p>
-                </form>
-            </div>
-
-            <div id="bl_sesion_iniciada" style="display:$st_bl_sesion_iniciada;">
-                <h1>$frase_bienvenida!</h1>
-                <p class="mensaje">$mensaje</p>
-                <br>
-                <p class="p_svit">
-                    <span class="sp_svit">
-                        <span data-dic="d201">Исследуйте Писания, ибо вы думаете чрез них иметь жизнь вечную; а они свидетельствуют о Мне.</span>
-                        <a href="#" class="" onclick="getRefByCodeWithoutTrans(42,5,39);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
-                    </span>                    
-                    <img src="./images/svitok3.png">
-                </p>
-                <button class="cerr_ses" onclick="cerrarSesion()" style="display:none;" data-dic="d153">Cerrar Sesión</button>
-                <p class="p_cerr_ses">
-                    <a href="#" class="a_cerr_ses" onclick="cerrarSesion()" data-dic="d153">Cerrar sesión</a>
-                </p>
-            </div>
-
-        </div>
-
-  </div>
-HERE;
+            </script>
+        ";//end echo
+    }
 ?>
-                                </div>
+                                    <div class="login-page">
+                                        <div class="form">
+
+                                            <div id="bl_register_form" style="display:<?=$st_bl_register_form;?>">
+                                                <form class="register-form">
+                                                    <h1 data-dic="d177">Crear cuenta</h1>
+                                                    <p class="mensaje" data-dic="d178">Al crear la cuenta tendrás acceso a tus ajustes personales.</p>
+                                                    <input id="reg_username" name="username" type="text" autocomplete="off" placeholder="Nombre" data-dic="d192_ph" />
+                                                    <input id="reg_email" name="email" type="email" autocomplete="on" placeholder="Email" required data-dic="d194_ph" />
+                                                    <input id="reg_password" name="password" class="type_password m_bot0" type="password" autocomplete="off" placeholder="Contraseña" data-dic="d193_ph" />
+                                                    <label class="ch_lab">
+                                                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                                                        <span class="ch_mostrar_sp">mostrar contraseña</span>
+                                                    </label>
+                                                    <button class="btn_wide" type="button" onclick="crearCuenta()" data-dic="d177">Crear cuenta</button>
+                                                    <p class="message"><span data-dic="d179">¿Ya estás registrado?</span> <a href="#" onclick="mostrarLoginForm()" data-dic="d180">Entrar</a></p>
+                                                </form>
+                                            </div>
+
+                                            <div id="bl_email_form" style="display:<?=$st_bl_email_form;?>">
+                                                <form class="email-form">
+                                                    <h1 data-dic="d181">Recuperar contraseña</h1>
+                                                    <p class="mensaje" data-dic="d182">Introduce tu correo electrónico para recibir instrucciones sobre cómo establecer una nueva contraseña.</p>
+                                                    <input id="rec_email" name="email" type="email" required autocomplete="on" placeholder="Email" data-dic="d194_ph" />
+                                                    <button class="btn_wide" type="button" onclick="enviarEmail()" data-dic="d183">Enviar</button>
+                                                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
+                                                </form>
+                                            </div>
+
+                                            <div id="bl_change_email_form" style="display:<?=$st_bl_change_email_form;?>">
+                                                <form class="change-email-form">
+                                                    <h1 data-dic="d185">Cambiar contraseña</h1>
+                                                    <p class="mensaje" data-dic="d186">Introduce tu correo electrónico actual y las contraseñas, actual y nueva.</p>
+                                                    <input id="act_email" name="email" type="email" required autocomplete="on" placeholder="Actual email" data-dic="d195_ph" />
+                                                    <input id="act_password" name="password" class="type_password" type="password" autocomplete="on" placeholder="Actual contraseña" data-dic="d196_ph" />
+                                                    <input id="new_password" name="password" class="type_password" type="password" autocomplete="off" placeholder="Nueva contraseña" data-dic="d197_ph" />
+                                                    <input id="new_password_rep" name="password" class="type_password m_bot0" type="password" autocomplete="off" placeholder="Repite nueva contraseña" data-dic="d198_ph" />
+                                                    <label class="ch_lab">
+                                                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                                                        <span class="ch_mostrar_sp">mostrar contraseña</span>
+                                                    </label>
+                                                    <button class="btn_wide" type="button" onclick="enviarChangeEmail()" data-dic="d187">Cambiar</button>
+                                                    <p class="message"><a href="#" onclick="mostrarLoginForm()" data-dic="d184">Iniciar sesión</a></p>
+                                                </form>
+                                            </div>
+                                            
+                                            <div id="bl_login_form" style="display:<?=$st_bl_login_form;?>">
+                                                <form class="login-form">
+                                                    <h1 data-dic="d184">Iniciar sesión</h1>
+                                                    <p class="mensaje">
+                                                        <span data-dic="d188">Tendrás acceso a tus ajustes personales.</span>
+                                                    </p>
+                                                    <input id="username_email" name="username_email" type="email" autocomplete="on" placeholder="Email" data-dic="d194_ph" required />
+                                                    <input id="password" name="password" class="type_password m_bot0" type="password" autocomplete="on" placeholder="Contraseña" data-dic="d193_ph" required />
+                                                    <label class="ch_lab">
+                                                        <input class="ch_mostrar" type="checkbox" onchange="showHidePassword(this)">
+                                                        <span class="ch_mostrar_sp">mostrar contraseña</span>
+                                                    </label>
+                                                    <button class="btn_wide" type="button" onclick="iniciarSesion()" data-dic="d184">Iniciar Sesión</button>
+                                                    <p class="message">
+                                                        <span data-dic="d189">¿No estás registrado?</span> <a href="#" onclick="mostrarForm('bl_register_form')" data-dic="d177">Crear cuenta</a>
+                                                        <br><span data-dic="d190">¿Has olvidado la contraseña?</span> <a href="#" onclick="mostrarForm('bl_email_form')" data-dic="d181">Recuperar contraseña</a>
+                                                        <br><span data-dic="d191">¿Quieres cambiar la contraseña?</span> <a href="#" onclick="mostrarForm('bl_change_email_form')" data-dic="d185">Cambiar contraseña</a>
+                                                    </p>
+                                                </form>
+                                            </div>
+
+                                            <div id="bl_sesion_iniciada" style="display:<?=$st_bl_sesion_iniciada;?>">
+                                                <h1><?=$frase_bienvenida;?>!</h1>
+                                                <p class="mensaje"><?=$mensaje;?></p>
+                                                <br>
+                                                <p class="p_svit">
+                                                    <span class="sp_svit">
+                                                        <span data-dic="d201">Исследуйте Писания, ибо вы думаете чрез них иметь жизнь вечную; а они свидетельствуют о Мне.</span>
+                                                        <a href="#" class="" onclick="getRefByCodeWithoutTrans(42,5,39);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
+                                                    </span>                    
+                                                    <img src="./images/svitok3.png">
+                                                </p>
+                                                <button class="cerr_ses" onclick="cerrarSesion()" style="display:none;" data-dic="d153">Cerrar Sesión</button>
+                                                <p class="p_cerr_ses">
+                                                    <a href="#" class="a_cerr_ses" onclick="cerrarSesion()" data-dic="d153">Cerrar sesión</a>
+                                                </p>
+                                            </div>
+
+                                        </div><!--/.form-->
+
+                                    </div><!--/.login-page-->
+
+                                </div><!--/#topLoginInner-->
                             </div><!--/#topLogin-->
 
 
                             <div id="topMenu">
                                 <div id="topMenuInner">
-<?php
-print<<<HERE
+
+                                    <!-- Imagen de Login -->
                                     <div id="m_login_menu" class="dbtn" data-dic="d18_t" title="Login" onclick="openModal('top',this.title,null,'showLogin')" style="width:100%;">
                                         <div class="dbtn_inner">
-                                            <img src="$login_img_src">    
+                                            <img src="<?=$login_img_src;?>">    
                                             <span data-dic="d18_t">Login</span>
                                         </div>
                                     </div>
-HERE;
-?>
+
                                     <div class="dbtn" data-dic="d3_t" title="Remove Bible Translation" onclick="removeTrans()">
                                         <div>Tr -</div>
                                     </div>

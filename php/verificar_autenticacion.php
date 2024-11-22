@@ -7,7 +7,7 @@ if(verificarAutenticacion()){
     
     http_response_code(200); // OK
     echo json_encode([
-        'mensaje' => 'php -> El usuario está autenticado.'
+        'mensaje' => 'php -> El usuario está autenticado. $ _SESSION[id_user]: ' . isset($_SESSION['id_user'])
     ]);
 
 } else {

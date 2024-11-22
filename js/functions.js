@@ -944,11 +944,13 @@ function pushStateToHistNav(trans,ref){
 
 async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null, verseText = null){
     //console.log('=== async function addRefToHistNav() ===');
-
-    if(arr_hist_nav.length == 0){
-        await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-        //console.log(arr_hist_nav);
-    }
+    
+    if(await verificarAutenticacion()){
+        if(arr_hist_nav.length == 0){
+            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+            //console.log(arr_hist_nav);
+        }
+    }    
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
