@@ -944,13 +944,11 @@ function pushStateToHistNav(trans,ref){
 
 async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse = null, verseText = null){
     //console.log('=== async function addRefToHistNav() ===');
-    
-    if(await verificarAutenticacion()){
-        if(arr_hist_nav.length == 0){
-            await obtenerDatosDeBD('hist_nav','arr_hist_nav');
-            //console.log(arr_hist_nav);
-        }
-    }    
+
+    if(hay_sesion /*&& arr_hist_nav_is_loaded*/ && arr_hist_nav.length == 0){
+        await obtenerDatosDeBD('hist_nav','arr_hist_nav');
+        //console.log(arr_hist_nav);
+    }        
 
     //console.log('trans: ', trans);
     //console.log('ref: ', ref);
@@ -1001,7 +999,7 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
             arr_hist_nav.splice(arr_hist_nav_limit); 
         }
         
-        if(hay_sesion && arr_hist_nav_is_loaded){
+        if(hay_sesion){
             guardarEnBd('hist_nav','arr_hist_nav',arr_hist_nav);
         }
     }else{
@@ -1011,6 +1009,31 @@ async function addRefToHistNav(trans, ref, book, chapter, verse = null, to_verse
     buildHistoryNavDesktop();//from arr_hist_nav   
 
 }
+
+function resetArrTabs(){
+    eid_partDeskTabs.innerHTML = '';    
+}
+
+function resetHistoryNavDesktop(){
+    eid_wr_hist_nav_inner.innerHTML = '';
+    eid_hist_nav_regs.querySelector('.f_r').textContent = `.../${arr_hist_nav_limit}`;
+    close_hist_nav();
+}
+function resetHistoryFindDesktop(){
+    eid_wr_hist_find_inner.innerHTML = '';
+    eid_hist_find_regs.querySelector('.f_r').textContent = `0/${arr_hist_find_limit}`;
+    close_hist_find();
+}
+function resetHistoryStrongDesktop(){
+    eid_wr_hist_strong_inner.innerHTML = '';
+    eid_hist_strong_regs.querySelector('.f_r').textContent = `0/${arr_hist_strong_limit}`;
+    close_hist_strong();
+}
+function resetHistoryMarkersDesktop(){
+    eid_wr_markers_inner.innerHTML = '';
+    eid_markers_porcentaje.textContent = `0/${arr_markers_limit}`;
+}
+
 
 
 function buildHistoryNavDesktop(){
@@ -1159,7 +1182,7 @@ function onclick_p_nav(el){
 async function addWordsToHistFind(trans, words, count_verses, count_matches){
     //console.log('=== async function addWordsToHistFind() ===');
 
-    if(arr_hist_find.length == 0){
+    if(hay_sesion /*&& arr_hist_find_is_loaded*/ && arr_hist_find.length == 0){
         await obtenerDatosDeBD('hist_find','arr_hist_find');
         //console.log(arr_hist_find);
     }
@@ -1214,7 +1237,7 @@ async function addWordsToHistFind(trans, words, count_verses, count_matches){
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_find.splice(arr_hist_find_limit); 
         }
-        if(hay_sesion && arr_hist_find_is_loaded){
+        if(hay_sesion){
             guardarEnBd('hist_find','arr_hist_find',arr_hist_find);
         }
     }else{
@@ -1295,7 +1318,7 @@ function onclick_p_find(el){
 async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWordsShow){
     //console.log('=== const addStrongNumberToHistStrong ===');
     
-    if(arr_hist_strong.length == 0){
+    if(hay_sesion /*&& arr_hist_strong_is_loaded*/ && arr_hist_strong.length == 0){
         await obtenerDatosDeBD('hist_strong','arr_hist_strong');
         //console.log(arr_hist_strong);
     }
@@ -1350,7 +1373,7 @@ async function addStrongNumberToHistStrong(strongLang, strongIndex, strongTextWo
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_hist_strong.splice(arr_hist_strong_limit); 
         }
-        if(hay_sesion && arr_hist_strong_is_loaded){
+        if(hay_sesion){
             guardarEnBd('hist_strong','arr_hist_strong',arr_hist_strong);
         }
     }else{
@@ -1430,7 +1453,7 @@ function onclick_p_strong(el){
 async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse = null, verseText){
     //console.log('=== async function addRefToMarker() ===');
 
-    if(arr_markers.length == 0){
+    if(hay_sesion && arr_markers.length == 0){
         await obtenerDatosDeBD('markers','arr_markers');
         //console.log(arr_markers);
     }
@@ -1480,7 +1503,7 @@ async function addRefToMarker(trans, ref, book, chapter, verse = null, to_verse 
             // Elimina elementos a partir del índice 100 hasta el final del array
             arr_markers.splice(arr_markers_limit); 
         }
-        if(hay_sesion && arr_markers_is_loaded){
+        if(hay_sesion/* && arr_markers_is_loaded*/){
             guardarEnBd('markers','arr_markers',arr_markers);
         }
     }else{
@@ -1601,7 +1624,7 @@ function buildMarkersDesktop(){
                 //console.log(e.currentTarget.dataset.indexMarker);
                 //console.log('3. index de arr_markers. index: ',index);
                 arr_markers.splice(index, 1);//elimino elemento del array
-                if(hay_sesion && arr_markers_is_loaded){
+                if(hay_sesion/* && arr_markers_is_loaded*/){
                     guardarEnBd('markers','arr_markers',arr_markers);
                 }
                 buildMarkersDesktop();
@@ -1913,7 +1936,7 @@ async function changeLang(lang) {
     
     obj_ajustes.lang = lang;
     
-    if(hay_sesion && obj_ajustes_is_loaded){
+    if(hay_sesion/* && obj_ajustes_is_loaded*/){
         guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
     }
 }
@@ -2214,7 +2237,7 @@ function filtrarLista(el_input, selector_items, arr_spans) {
         }
     }//end for
 
-    const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+    const ecl_filter_result = el_input.parentElement.parentElement.querySelector('.filter_result');
     ecl_filter_result.style.display = 'block';    
     const ecl_f_num = ecl_filter_result.querySelector('.f_num');
     ecl_f_num.textContent = count_f_result;
@@ -2230,8 +2253,11 @@ function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
     const wr_filter = document.createElement('span');
     wr_filter.className = 'wr_filter';
 
+    const wr_input_con_x = document.createElement('span');
+    wr_input_con_x.className = 'wr_input_con_x';
+
     const el_input = document.createElement('input');
-    el_input.id = 'filter_modules';
+    //el_input.id = 'filter_modules';
     el_input.className = 'inpt_filter';
     el_input.placeholder = 'Filtrar';
     el_input.onkeyup = ()=>{
@@ -2248,7 +2274,7 @@ function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
         const el_input = e.target.parentElement.querySelector('input');
         el_input.value = '';//reset campo de input
 
-        const ecl_filter_result = el_input.parentElement.querySelector('.filter_result');
+        const ecl_filter_result = el_input.parentElement.parentElement.querySelector('.filter_result');
         ecl_filter_result.style.display = 'none';    
         const ecl_f_num = ecl_filter_result.querySelector('.f_num');
         ecl_f_num.textContent = '...';//reset
@@ -2266,8 +2292,9 @@ function crearInputFiltrar(div_donde_filtrar, selector_items, arr_spans){
     filter_result.style.display = 'none';//por defecto , luego al buscar se muestra
 
     p.append(wr_filter);
-    wr_filter.append(el_input);
-    wr_filter.append(sp_x);
+    wr_filter.append(wr_input_con_x);
+        wr_input_con_x.append(el_input);
+        wr_input_con_x.append(sp_x);
     wr_filter.append(filter_result);
 
     div_donde_filtrar.append(p);

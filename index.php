@@ -1,25 +1,66 @@
 <?php 
-if( ( isset($_GET) && isset($_GET['auth_ok']) ) /*|| isset($_COOKIE)*/ ){
-    session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
-    //echo 'hay auth_ok';
-    $hay_GET = isset($_GET) ? true : false ;
-    $hay_auth_ok = isset($_GET['auth_ok']) ? true : false ;
-    $hay_COOKIE = isset($_COOKIE) ? true : false ;
-    print"
-        <script>
-            console.log('hay auth_ok. pongo session_start()');
-            console.log('hay_GET: ', $hay_GET);
-            console.log('hay_auth_ok: ', $hay_auth_ok);
-            console.log('hay_COOKIE: ', $hay_COOKIE);
-        </script>
-    ";
+if( ( isset($_GET) && isset($_GET['auth_ok']) ) || (isset($_COOKIE) && !empty($_COOKIE)) ){
+    
+    // Verifica si hay cookies establecidas
+    /*
+    if (!empty($_COOKIE)) {
+        echo "
+            <script>
+                console.log('Nombres de las cookies:');
+            </script>
+        ";
+        foreach ($_COOKIE as $nombre => $valor) {
+            echo "
+                <script>
+                    console.log('Nombre: ', '" . htmlspecialchars($nombre) . "');
+                </script>
+            ";
+        }
+    } else {
+        echo "
+            <script>
+                console.log('No hay cookies establecidas.');
+            </script>
+        ";
+    }
+    */
+    
+
+    if(isset($_GET['cookieConsent']) && $_GET['cookieConsent'] == 'rejected' ){
+        //no pongo session_start() ya que el usuario ha rechazado el uso de cookies
+        //print"
+        //    <script>
+        //        console.log('NO PONGO session_start() ya que el usuario ha rechazado el uso de cookies');
+        //    </script>
+        //";  
+    }else{
+        //on otros casos pongo session_start()
+        //if $_GET['cookieConsent'] == 'accepted' o cualquier otra cosa se entiende que ha aceptado el uso de cookies
+        session_start();//importante aki, cuando me logueo y se hace location.reload() tiene que estar session_start()
+        //print"
+        //    <script>
+        //        console.log('PONGO session_start()');
+        //    </script>
+        //";  
+    }
+    
+    $isset_GET = isset($_GET) ? true : false ;
+    $isset_auth_ok = isset($_GET['auth_ok']) ? true : false ;
+    $isset_COOKIE_and_COOKIE_not_empty = (isset($_COOKIE) && !empty($_COOKIE)) ? true : false ;
+    //print"
+    //    <script>
+    //        console.log('isset_GET: ', $isset_GET);
+    //        console.log('isset_auth_ok: ', $isset_auth_ok);
+    //        console.log('isset_COOKIE_and_COOKIE_not_empty: ', $isset_COOKIE_and_COOKIE_not_empty);
+    //    </script>
+    //";
 }else{
     //echo 'NO hay auth_ok';
-    print"
-        <script>
-            console.log('NO hay auth_ok. NO pongo session_start()');
-        </script>
-    ";
+    //print"
+    //    <script>
+    //        console.log('NO PONGO session_start()');
+    //    </script>
+    //";
 }
 ?>
 <!DOCTYPE html>
@@ -922,15 +963,13 @@ if( ( isset($_GET) && isset($_GET['auth_ok']) ) /*|| isset($_COOKIE)*/ ){
                 let hay_sesion = true;
                 let username = '$_SESSION[username]';
                 let email = '$_SESSION[email]';
-                console.log('print js: session iniciada. Bienvenido, ' +  username + '.');
+                //console.log('print js: SESSION INICIADA. Bienvenido, ' +  username + '.');
 
                 document.addEventListener('DOMContentLoaded', () => {
                     pintLoginImg(hay_sesion);
 
                     (async ()=>{
-                        //alert(111);
                         await obtenerDatosDeBD('fav_trans','arrFavTrans');           
-                        //alert(222);
                     })();
                 });
 
@@ -954,7 +993,7 @@ if( ( isset($_GET) && isset($_GET['auth_ok']) ) /*|| isset($_COOKIE)*/ ){
         print"
             <script>
                 let hay_sesion = false;        
-                console.log('print js: session cerrada. hay que iniciar sesión.');
+                //console.log('print js: SESSION CERRADA. hay que iniciar sesión.');
 
                 document.addEventListener('DOMContentLoaded', () => {
                     pintLoginImg(hay_sesion);
@@ -1038,7 +1077,7 @@ if( ( isset($_GET) && isset($_GET['auth_ok']) ) /*|| isset($_COOKIE)*/ ){
                                                 <p class="p_svit">
                                                     <span class="sp_svit">
                                                         <span data-dic="d201">Исследуйте Писания, ибо вы думаете чрез них иметь жизнь вечную; а они свидетельствуют о Мне.</span>
-                                                        <a href="#" class="" onclick="getRefByCodeWithoutTrans(42,5,39);closeModal('Login');" data-dic="d202">Иоан. 5:39</a>
+                                                        <a href="#" class="" onclick="getRefByCodeWithoutTrans(42,5,39);closeModal('Login',true);" data-dic="d202">Иоан. 5:39</a>
                                                     </span>                    
                                                     <img src="./images/svitok3.png">
                                                 </p>

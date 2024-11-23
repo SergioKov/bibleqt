@@ -329,7 +329,7 @@ async function iniciarSesion(){//antes login() //username,password
     
         const data = await response.json();
         //const data = await response.text();//test
-        //console.log(data);
+        console.log(data);
     
         //llamo a una función asíncrona ya que dentro tiene llamadas a otras funciones asíncronas
         work_with_data(data);
@@ -366,8 +366,9 @@ async function iniciarSesion(){//antes login() //username,password
                 
                 //loadDefaultFunctions();//no trae todos los datos, hay que reload!
                 setTimeout(()=>{
-                    closeModal('Login');
-                },10);
+                    closeModal('Login',true);//login //true -> obligatorio para que se cierra bien!
+                },2000);//antes 10
+
                 setTimeout(()=>{
                     //localStorage.setItem('is_reloaded_from_login', true);
                     //window.location.reload(); // Recargar la página
@@ -421,7 +422,7 @@ async function cerrarSesion(){
 
         if (data.cerrada) {
                        
-            //mostrarForm('bl_login_form');
+            mostrarForm('bl_login_form');
             hay_sesion = false;
             pintLoginImg(hay_sesion);
 
@@ -440,16 +441,42 @@ async function cerrarSesion(){
             console.error('Error al cerrar sesión');
         }
 
+        //reseteo todos loa array que tienen datos del usuario que cierra cesión
         arrFavTrans = arrFavTransDef;
-        //console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);
+        //console.log('serrarSesion() ---> arrFavTrans: ', arrFavTrans);        
+
+        arr_hist_nav = [];
+        resetHistoryNavDesktop();
+
+        arr_hist_find = [];
+        resetHistoryFindDesktop();
+
+        arr_hist_strong = [];
+        resetHistoryStrongDesktop();
+
+        arr_markers = [];
+        resetHistoryMarkersDesktop();
+
         pushStateHome();
+
+        arrTabs = [];
+        resetArrTabs();
+
+        let trans_def = arrFavTransObj.find(v => v.Translation === arrFavTrans[0]);
+        loadRefDefault(`${trans_def.Books[0].ShortNames[0]} 1:1`, trans_def.Translation);//first tab en mi caso es 'rstStrongRed'
+        
+        makeFooterBtnsFromArrFavTransObj();
 
         let aviso_sesion = obj_lang.d208;//`Sesión cerrada correctamente`;
         openModal('center','Sesión',aviso_sesion,'showAviso'); 
 
         setTimeout(()=>{
+            closeModal('Sesión');
+        },2500);
+
+        setTimeout(()=>{
             //closeModal('Login');//no hace falta ya que al abrir openModal() se cierra automaticamente
-            location.reload();
+                    //location.reload(); //antes
             //crear_arrFavTransObj();//no hace falta ya que al reload se carga
         },2500);
 
@@ -1292,9 +1319,9 @@ async function loadDefaultFunctions(){
         
         await obtenerDatosDeBD('ajustes','obj_ajustes');//creo objeto obj_ajustes desde datos de usuario sacados de bd
         await obtenerDatosDeBD('vkladki','arrTabs');//creo array arrTabs desde datos de usuario sacados de bd        
-        await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arrTabs desde datos de usuario sacados de bd        
-        await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arrTabs desde datos de usuario sacados de bd        
-        await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arrTabs desde datos de usuario sacados de bd 
+        await obtenerDatosDeBD('hist_nav','arr_hist_nav');//creo array arr_hist_nav desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('hist_find','arr_hist_find');//creo array arr_hist_find desde datos de usuario sacados de bd        
+        await obtenerDatosDeBD('hist_strong','arr_hist_strong');//creo array arr_hist_strong desde datos de usuario sacados de bd 
         await obtenerDatosDeBD('markers','arr_markers');//creo array arr_markers desde datos de usuario sacados de bd 
         
         //console.log(arrTabs);
@@ -12740,6 +12767,10 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
         const obj_ref_trans = arrFavTransObj.find(v => v.Translation === ref_trans_to_find);
         //console.log('1. obj_ref_trans: ', obj_ref_trans);
 
+        const spanTabNumber = document.createElement("span");
+        spanTabNumber.className = 'tab_number';
+        spanTabNumber.innerHTML = next_n;
+
         let spanBibTransName = document.createElement("span");
         spanBibTransName.className = 'tab_trans_name';
         spanBibTransName.innerHTML = (typeof obj_ref_trans !== 'undefined' && Object.keys(obj_ref_trans).length > 0) ? obj_ref_trans.BibleShortName : '---' ;
@@ -12758,10 +12789,12 @@ function addTab(bibShortRef = null, str_trans = null, act = null, tab_new = null
             closeTab(ev.target, ev);
         }
         btn_close.innerHTML = '&#10005;';//<!--X-->
+        
         htmlTab.appendChild(btn_close);
-
+        htmlTab.appendChild(spanTabNumber);
         htmlTab.appendChild(spanBibTransName);
         htmlTab.appendChild(spanBibShortRef);
+
         eid_partDeskTabs.appendChild(htmlTab);
 
         let tabsAll = document.querySelectorAll('.tabs');
@@ -12828,7 +12861,7 @@ function updateArrTabs(){
     });
     //console.log(arrTabs);
 
-    if(hay_sesion && arrTabs_is_loaded){
+    if(hay_sesion/* && arrTabs_is_loaded*/){
         guardarEnBd('vkladki', 'arrTabs', arrTabs);
     }
 }
@@ -12923,6 +12956,12 @@ async function obtenerDatosDeBD(tabla, campo){
     //console.log('=== function obtenerDatosDeBD(tabla, campo) ===');
 
     try {
+
+        //if(await verificarAutenticacion()){
+        //    console.log('estoy LOGADO. solamente saco datos de bd si estoy logado.')
+        //}else{
+        //    console.log('NO estoy LOGADO. no saco datos de bd.')
+        //}    
         
         if(get_cookieConsent && get_cookieConsent === 'rejected'){
             //let aviso_text = `Si no aceptas cookies no puedes consultar datos. <a onclick="showBlockCookies(); closeModal(null,true);">Seleccionar Coockies</a>.`;
@@ -12977,6 +13016,7 @@ async function obtenerDatosDeBD(tabla, campo){
 
         switch (tabla) {
             case 'ajustes':
+                obj_ajustes_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     obj_ajustes = obj_ajustes_def;
@@ -12984,7 +13024,6 @@ async function obtenerDatosDeBD(tabla, campo){
                 }else{
                     //console.log('Si. obj_ajustes tiene_datos');
                     obj_ajustes = JSON.parse(data.valorCampo);
-                    obj_ajustes_is_loaded = true;
                     //console.log('1. obj_ajustes: ', obj_ajustes);
                 }
                 break;
@@ -13013,6 +13052,7 @@ async function obtenerDatosDeBD(tabla, campo){
                 break;
                                 
             case 'hist_nav':
+                arr_hist_nav_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_nav);
@@ -13020,12 +13060,12 @@ async function obtenerDatosDeBD(tabla, campo){
                     //console.log('Si. hist_nav tiene_datos');
                     arr_hist_nav = convertArrBdToArrOk('arr_hist_nav',data.valorCampo);
                     //console.log('editado arr_hist_nav: ', arr_hist_nav);
-                    arr_hist_nav_is_loaded = true;
                     buildHistoryNavDesktop();
                 }
                 break;
 
             case 'hist_find':
+                arr_hist_find_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_find);
@@ -13033,12 +13073,12 @@ async function obtenerDatosDeBD(tabla, campo){
                     //console.log('Si. hist_find tiene_datos');
                     arr_hist_find = convertArrBdToArrOk('arr_hist_find',data.valorCampo);
                     //console.log('editado arr_hist_nav: ', arr_hist_find);
-                    arr_hist_find_is_loaded = true;
                     buildHistoryFindDesktop();
                 }
                 break;
 
             case 'hist_strong':
+                arr_hist_strong_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_hist_strong);
@@ -13047,12 +13087,12 @@ async function obtenerDatosDeBD(tabla, campo){
                     //arr_hist_strong = JSON.parse(data.valorCampo);//antes
                     arr_hist_strong = convertArrBdToArrOk('arr_hist_strong',data.valorCampo);
                     //console.log('editado arr_hist_strong: ', arr_hist_strong);
-                    arr_hist_strong_is_loaded = true;
                     buildHistoryStrongDesktop();
                 }
                 break;
 
             case 'markers':
+                arr_markers_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //console.log(arr_markers);
@@ -13060,12 +13100,12 @@ async function obtenerDatosDeBD(tabla, campo){
                     //console.log('Si. markers tiene_datos');
                     arr_markers = convertArrBdToArrOk('arr_markers',data.valorCampo);
                     //console.log('editado arr_markers: ', arr_markers);
-                    arr_markers_is_loaded = true;
                     buildMarkersDesktop();
                 }
                 break;
 
             case 'vkladki':
+                arrTabs_is_loaded = true;//pongo esto para saber si se ha consultado a bd. da igual si es vacio o no
                 if(valorCampo_vacio){
                     //console.log('no_tiene_datos');
                     //arrTabs por defecto
@@ -13085,7 +13125,6 @@ async function obtenerDatosDeBD(tabla, campo){
                 }else{
                     //console.log('Si. tiene_vkladki');
                     arrTabs = convertArrBdToArrOk('arrTabs',data.valorCampo);
-                    arrTabs_is_loaded = true;
                     makeTabsFromDatosDeVkladki();
                 }
                 break;
@@ -13239,7 +13278,7 @@ function makeTabsFromDatosDeVkladki(){
 
         if(countTabs < maxTabs){
 
-            arrTabs.forEach(el=>{
+            arrTabs.forEach( (el,i)=>{
                                 
                 const htmlTab = document.createElement("div");
                 htmlTab.id = el.id;
@@ -13260,6 +13299,10 @@ function makeTabsFromDatosDeVkladki(){
                 const obj_ref_trans = arrFavTransObj.find(v => v.Translation === htmlTab.dataset.ref_trans);
                 //console.log('2. obj_ref_trans: ', obj_ref_trans);        
         
+                const spanTabNumber = document.createElement("span");
+                spanTabNumber.className = 'tab_number';
+                spanTabNumber.innerHTML = el.id.slice(3);//de 'tab1' => '1'
+
                 const spanBibTransName = document.createElement("span");
                 spanBibTransName.className = 'tab_trans_name';
                 spanBibTransName.innerHTML = (typeof obj_ref_trans !== 'undefined' && Object.keys(obj_ref_trans).length > 0) ? obj_ref_trans.BibleShortName : '---' ;
@@ -13279,6 +13322,7 @@ function makeTabsFromDatosDeVkladki(){
                 btn_close.innerHTML = '&#10005;';//<!--X-->
                 
                 htmlTab.appendChild(btn_close);        
+                htmlTab.appendChild(spanTabNumber);
                 htmlTab.appendChild(spanBibTransName);
                 htmlTab.appendChild(spanBibShortRef);
         
@@ -13344,7 +13388,7 @@ async function verificarAutenticacion() {
         });
 
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
         if(response.ok) {
             return true;
@@ -19462,6 +19506,8 @@ async function findWords(words_input){
         }else{//MODO OLD. como en Text3()
             
             try {
+
+                alert('function findWords() --- try-catch MODO OLD.');
                 
                 //console.log(`MODO OLD. no existe el objeto 'objTrans' desde 'arrFavTransObj' `);
                 let url = `./modules/text/${Translation}/bibleqt.json`;
@@ -20464,7 +20510,7 @@ async function findWords(words_input){
         }
 
     }else{
-        //console.log('Translation no está seleccionada');
+        console.error('Translation no está seleccionada');
     }
     
 }//end - findWords()

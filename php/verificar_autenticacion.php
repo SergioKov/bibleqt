@@ -6,18 +6,22 @@ session_start();
 if(verificarAutenticacion()){
     
     http_response_code(200); // OK
-    echo json_encode([
-        'mensaje' => 'php -> El usuario está autenticado. $ _SESSION[id_user]: ' . isset($_SESSION['id_user'])
-    ]);
+    $data = [
+        'mensaje' => 'php -> El usuario está autenticado.',
+        '$ _SESSION[id_user]' => $_SESSION['id_user'],//luego comentar
+        '$ _SESSION' => json_encode($_SESSION)//luego comentar
+    ];
 
 } else {
     
     http_response_code(401); // No autorizado
-    echo json_encode([
+    $data = [
         'mensaje' => 'php -> El usuario no está autenticado.'
-    ]);
+    ];
 
 }
+
+echo json_encode($data);//siempre devuelvo $data. esta linea es importante!
 
 //verificarAutenticacion();
 

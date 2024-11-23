@@ -249,6 +249,16 @@ body{
     display: inline-block;
     margin-left: 5px;
 }
+.tab_number {
+    background: #0e73c4;
+    margin: 0;
+    position: relative;
+    padding: 1px 4px;
+    border-radius: 3px;
+    top: -2px;
+    font-size: 12px;
+    display: inline-block;
+}
 .tab_trans_name{
     background: black;
     margin: 0px 5px 0px 0px;
@@ -4384,25 +4394,39 @@ input:checked + .slider:before {
     overflow-y: auto;
 }
 
+.wr_input_filter{
 
+}
 .wr_filter{
     position:relative;
     /* background: green; */
     display: block;
+    border-radius: 2px;
+}
+.wr_input_con_x {
+    display: block;
+    overflow: hidden;
+    padding: 5px 33px 5px 10px;
+    background: #ffffff;
+    border-radius: 2px;
 }
 
 .inpt_filter {
-    padding: 5px 15px 5px;
+    /* padding: 5px 15px 5px; */
     font-size: 20px;
     font-family: 'Roboto Condensed';
-    border-radius: 5px;
     width: 100%;
     color: #1875bf;
+    border: none;
 }
-.sp_x{
+.inpt_filter:focus {
+    /* background: pink; */
+    outline: none;
+}
+.sp_x {
     position: absolute;
-    top: 3px;
-    right: 9px;
+    top: 1px;
+    right: 8px;
     font-size: 22px;
     opacity: 0.5;
     transition: 0.3s;

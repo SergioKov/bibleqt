@@ -564,7 +564,7 @@ async function changeTema(id_tema_param) {
         changeTema(arr_temas[0].id_tema);//'1' por defecto
     }
    
-    //if(hay_sesion && obj_ajustes_is_loaded){
+    //if(hay_sesion/* && obj_ajustes_is_loaded*/){
     //    guardarEnBd('ajustes','obj_ajustes',obj_ajustes);
     //}
 }
